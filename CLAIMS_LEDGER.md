@@ -90,6 +90,27 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: This is only NO_PRIOR_FOUND under the dated queries, engines, screened hits, and coverage gaps in NOVELTY_SEARCH_LOG.md; it is not a proof of priority, novelty, or universal open status.
 - next rung blocked by: CITED -> COMPUTED_BOUNDED: computation with domain_checked + detection_floor + repro + artifact
 
+### C-0009@1 — theorem-attempt [mathematics]
+
+> MAX_11 is not in the real linear span of the fully S_11-symmetrized atoms from the registered 16,000-raw/9,804-class same-component family together with the 6,740 named beta2-common edge-multiset lifts.
+
+- disposition: **challenged** · trace:646e28e4
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0009@1`
+- falsifier: One exact coefficient mismatch in the registered graph-to-matrix semantics, an invalid rational left-dual identity, a failure of quotient transport or the common-edge multiset lemma, or explicit real coefficients representing the target in the declared finite family.
+- no-claim: Does not settle unrestricted MAX_11, prove completeness of the registered atoms, or exclude cross-component, multi-edge, other pair-atom, asymmetric, or arbitrary finite two-hidden-layer real-weight ReLU-network representations.
+- open gaps: G-0007
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0010@1 — implementation-claim [mathematics]
+
+> Bounded-theorem bundle verifier v1 is identified by the exact G-0017 verifier bytes, project toolchain environment manifest, and canonical bundle specification.
+
+- disposition: **open** · trace:4aeed740
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0010@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes no theorem or verifier behavior beyond the exact code, environment, and data/specification bytes.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -97,7 +118,12 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `H-0003` [active] A registered real-weight invariant may obstruct MAX_11 under two-layer composition.
 - `H-0004` [proposed] A normal-form theorem may reduce unrestricted MAX_n representations to finite certificates.
 
+## Dead ends
+
+- `D-0001` Reuse the current G-0011 rational left dual unchanged as a separator after adjoi · scope: Exactly G-0011 dual SHA fe6768c8..., G-0009 cross-family ser · retry_when: `data_changes(cross-component-family-serialization)` · trace:e415470a
+
 ## Experiments (multiplicity ledger)
 
 - `EXP-0001` [complete] family `bootstrap-toolchain-controls-v1` arm — prereg=False · trace:6c210206
 - `EXP-0002` [planned] family `known-max-cleanroom-v1` arm — prereg=True · trace:b9472094
+- `EXP-0003` [complete] family `max11-same-component-bounded-theorem-v1` arm — prereg=True · trace:edf220a0

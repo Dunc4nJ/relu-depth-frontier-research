@@ -19,5 +19,7 @@ items under `STATUS.md`'s `Next work queue`. Checked lines are history, not acti
 a `{BRACE_SLOT}` is ignored line by line until filled; a missing STATUS or QUEUE file is INFO because a
 partial/non-campaign workspace may not yet have both, but disagreement when both exist is SE-15.
 
-- [ ] EXP-0002 Fresh-context Stage A clean-room verifier implementation; no registered-subject runs before lead review. (claimed-by: unclaimed)
-- [ ] G-0004 Reconstruct and statement-match the complete skip-free indexed compiler. (claimed-by: research-lead/crimsonbirch)
+- [x] EXP-0002 Fresh-context Stage A clean-room verifier implementation. (dropped: superseded as the active priority by the direct bounded MAX11 theorem campaign; experiment remains planned)
+- [x] G-0004 Reconstruct and statement-match the complete skip-free indexed compiler. (dropped: deprioritized after the bounded theorem; gap remains open)
+- [ ] H-0001 Build a split-6 exact pricing oracle for cross-component columns and seek a new dual for the enlarged family. (claimed-by: research-lead/crimsonbirch)
+- [ ] G-0007 Obtain a genuinely different-family or human review of the frozen bounded theorem bundle. (claimed-by: unclaimed)

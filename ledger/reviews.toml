@@ -30,3 +30,21 @@
 # lowercase ASCII tokens. T1 requires neither transcript field.
 # Any review of an implementation-dependent claim requires the exact reachable
 # implementation_claim + code/data/environment tuple, including T0/T1.
+
+[[review]]
+id = "V-0001"
+target = "C-0009@1"
+reviewer = "referee/theorem-logic-adversary"
+tier = "T1"
+model_family = "same-family-codex"
+basis = ["edge-and-degenerate-cases", "every-nontrivial-inference", "hidden-assumptions", "quantifier-scope", "statement-match", "symbol-stability"]
+capable_of_failure = "Any mismatch in the G-0014 representative/row semantics, invalid dual scaling, failure of real-coefficient exclusion, quotient-action mismatch, simple-set interpretation of a duplicate beta edge, or competing broader theorem statement would have produced a narrowed, refuted, or cannot-verify result instead of holds."
+verdict = "holds"
+findings = "The exact final theorem bytes match the finite-family claim. Ordered-cone normal form, gradient-jump independence, selected projection, target scaling, rational separator over real coefficients, quotient transport, and beta2 multiset inclusion were re-derived; G-0012, G-0014, and G-0018 receipts were rechecked; no counterexample was found."
+residual_doubts = "Same-model-family and same-host lineage only; no T2 or human review, no independent rediscovery of adaptive direction selection, and no completeness bridge to arbitrary two-hidden-layer ReLU networks."
+expected_break = "The likeliest decisive break was one semantic mismatch between a regenerated registered atom column and the frozen matrix, especially in duplicate edge occurrences or target normalization; exhaustive replay found none."
+implementation_claim = "C-0010@1"
+code_hash = "sha256:163439612e88dc8ac89e16447f87e51113533c40b9b54388914c70f170cc365e"
+env_digest = "sha256:a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
+data_snapshot = "sha256:2e21734a26b12b0482c45d819ca54a1c04d769abe7d360cd0064d167c9a30d70"
+created = 2026-08-29T11:49:31Z

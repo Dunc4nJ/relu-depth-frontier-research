@@ -98,3 +98,31 @@ not_equivalent_to = ["MAX_11 is unpublished", "MAX_11 is universally known to be
 origin_round = "R-0001"
 author_path = "novelty-auditor/crimsonbirch"
 created = 2026-08-29T05:31:00Z
+
+[[claim]]
+id = "C-0009"
+version = 1
+statement = "MAX_11 is not in the real linear span of the fully S_11-symmetrized atoms from the registered 16,000-raw/9,804-class same-component family together with the 6,740 named beta2-common edge-multiset lifts."
+role = "theorem-attempt"
+domain = "mathematics"
+depends_on = ["C-0010@1"]
+falsifier = "One exact coefficient mismatch in the registered graph-to-matrix semantics, an invalid rational left-dual identity, a failure of quotient transport or the common-edge multiset lemma, or explicit real coefficients representing the target in the declared finite family."
+no_claim = "Does not settle unrestricted MAX_11, prove completeness of the registered atoms, or exclude cross-component, multi-edge, other pair-atom, asymmetric, or arbitrary finite two-hidden-layer real-weight ReLU-network representations."
+not_equivalent_to = ["an unrestricted two-hidden-layer ReLU lower bound for MAX_11", "nonmembership after adjoining the 9,200-raw cross-component family", "a width lower bound, approximation lower bound, or training result"]
+origin_round = "R-0001"
+author_path = "theorem-author/crimsonbirch"
+created = 2026-08-29T11:49:31Z
+
+[[claim]]
+id = "C-0010"
+version = 1
+statement = "Bounded-theorem bundle verifier v1 is identified by the exact G-0017 verifier bytes, project toolchain environment manifest, and canonical bundle specification."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this record establishes no theorem or verifier behavior beyond the exact code, environment, and data/specification bytes."
+origin_round = "R-0001"
+code_hash = "sha256:163439612e88dc8ac89e16447f87e51113533c40b9b54388914c70f170cc365e"
+env_digest = "sha256:a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
+data_snapshot = "sha256:2e21734a26b12b0482c45d819ca54a1c04d769abe7d360cd0064d167c9a30d70"
+author_path = "bundle-author/crimsonbirch"
+created = 2026-08-29T11:49:31Z

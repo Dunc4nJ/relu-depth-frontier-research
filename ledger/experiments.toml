@@ -21,3 +21,16 @@ claims = ["C-0003@1"]
 status = "planned"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-29T05:38:00Z
+
+[[experiment]]
+id = "EXP-0003"
+route = "H-0001"
+design = "After adaptive discovery of the bounded same-component obstruction, freeze the family, matrix, selected valid directions, exact rational dual, semantic-audit producer, beta2 mapping, target convention, and fail-closed claim boundary. Then run an exhaustive fresh-context graph-to-matrix regeneration over all 9,804 representatives and accept only zero exact discrepancies, stable inputs, successful small-n controls, rejected hostile mutations, exact dual replay, and exact claim/referee hash binding."
+family = "max11-same-component-bounded-theorem-v1"
+prereg = true
+result_summary = "PASS for the frozen finite family: 70,059,384 matrix entries and 51,667,080 dual-relation entries checked exactly, zero discrepancies, beta2 span-equivalence certified, 12 scope mutations rejected, and all 37 observed bundle files tracked and clean. The adaptive family/direction discovery remains same-lineage and outside the preregistered replay claim."
+evidence = ["E-0009"]
+claims = ["C-0009@1"]
+status = "complete"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-29T11:49:31Z

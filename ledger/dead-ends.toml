@@ -14,3 +14,13 @@
 # retry_when = "data_changes(population)"
 # author_path = "null-control-runner/a"
 # created   = 2026-08-23T00:00:00Z
+
+[[dead_end]]
+id = "D-0001"
+approach = "Reuse the current G-0011 rational left dual unchanged as a separator after adjoining the registered cross-component lift family."
+observed = "Exact evaluation on deterministic cross quotient class 0 gave a nonzero 12,580-bit dual value, with independent agreement modulo 2^61-1; therefore this functional does not annihilate the enlarged family."
+scope = "Exactly G-0011 dual SHA fe6768c8..., G-0009 cross-family serialization SHA c1a6c84e..., and cross class 0 only; artifact G-0018/cross_class0_omega_probe_v1.json SHA bb5ae019...."
+does_not_show = "Does not show that MAX_11 is or is not in the span after adjoining cross-component atoms, and does not assess any other enlarged family or newly optimized dual."
+retry_when = "data_changes(cross-component-family-serialization)"
+author_path = "dual-pricing-adversary/codex"
+created = 2026-08-29T11:49:31Z

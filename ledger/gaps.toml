@@ -45,3 +45,11 @@ obligation = "No theorem shows the current symmetric pairwise-comparison atom fa
 status = "open"
 author_path = "ledger-auditor/crimsonbirch"
 created = 2026-08-29T05:08:00Z
+
+[[gap]]
+id = "G-0007"
+claim = "C-0009@1"
+obligation = "No eligible different-family or human T2 reviewer has reproduced or refereed the exact bounded theorem bundle; current standing is capped at same-family T1."
+status = "open"
+author_path = "ledger-auditor/crimsonbirch"
+created = 2026-08-29T11:49:31Z
