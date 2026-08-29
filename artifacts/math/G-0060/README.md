@@ -90,6 +90,117 @@ arbitrary biased/asymmetric two-hidden networks whose first neurons are
 two-coordinate-local and whose second-neuron fan-in is at most five cannot
 represent `MAX11`, regardless of width elsewhere or coefficient field.
 
+## Exact strengthening for a separated low-rank core
+
+There is a stronger rank obstruction for one tractable arbitrary-weight
+family.  It is useful precisely because its extra wiring hypothesis is
+falsifiable.
+
+For `epsilon > 0`, define the full coordinate difference
+
+```text
+D_epsilon f(x)
+  = sum_{S subseteq [n]} (-1)^(n-|S|)
+      f(x + epsilon 1_S).                                    (8)
+```
+
+Let `A` be any real `q by n` matrix and suppose, with no regularity assumption
+on any summand, that
+
+```text
+MAX_n(x) = G(Ax) + sum_l H_l(x),                              (9)
+```
+
+where every `H_l` is independent of at least one input coordinate (the omitted
+coordinate may depend on `l`).  Then
+
+```text
+ker(A) subseteq span{(1,...,1)},
+rank(A) >= n-1.                                               (10)
+```
+
+To prove this, `(8)` annihilates every `H_l`.  If `v in ker(A)`, then for every
+subset `S`,
+
+```text
+G(A(v + epsilon 1_S)) = G(A(epsilon 1_S)),
+```
+
+so the remaining term gives
+`D_epsilon MAX_n(v)=D_epsilon MAX_n(0)`.  If `v` is nonconstant, let
+`M=max_i v_i` and `T={i:v_i=M}`.  The top set `T` is nonempty and proper.  Set
+
+```text
+g = M - max_{i notin T} v_i > 0
+```
+
+and choose `0<epsilon<g`.  At zero,
+
+```text
+D_epsilon MAX_n(0)=(-1)^(n+1) epsilon != 0.                  (11)
+```
+
+At `v`, every coordinate outside `T` remains below every coordinate in `T`
+throughout the epsilon cube.  In fact, at vertex `S` the maximum is
+`M+epsilon` when `S` meets `T` and `M` otherwise.  It is therefore independent
+of every coordinate outside `T`, so its full difference is zero.  This
+contradicts translation invariance through `ker(A)`.  Hence every kernel vector
+is constant, and rank-nullity proves `(10)`.
+
+The direct network corollary is as follows.  Choose a set `C` of first-layer
+neurons and let `A` contain their input-weight rows.  Assume every output-active
+second-layer neuron either
+
+1. has all active parents in `C`, or
+2. has a proper coordinate ancestor union `D_j` from `(3)`.
+
+For the first class, if `y=Ax`, define `G(y)` by evaluating those second-layer
+terms with first activations `ReLU(gamma_i+y_i)`.  This absorbs every arbitrary
+first- and second-layer bias and makes `A(x+v)=Ax` the exact equality used
+above, not a homogeneity assumption.  Every term in the second class omits a
+coordinate.  Exact `MAX_n` therefore forces `rank(A)>=n-1` and `|C|>=n-1`.  In
+particular, under this separated-core wiring, `MAX11` needs at least ten
+independent core directions: one through nine dense core ridges are impossible
+regardless of the widths, biases, real coefficients, or asymmetry elsewhere.
+
+The argument is elementary.  No close statement was found in the bounded
+local primary-corpus and arXiv searches, but novelty remains unknown and no
+novelty or priority is claimed.
+
+The rank bound is sharp for the functional decomposition.  For `n=2`, the
+exact network identity
+
+```text
+MAX2(x)=x2+ReLU(x1-x2)                                       (12)
+```
+
+uses a rank-one core.  For `n=3`, the formula in the next section factors
+through the rank-two map `(x1-x3,x2-x3)` plus the coordinate-local carrier
+`x3`.
+
+### Why the wiring hypothesis cannot be deleted
+
+One dense first ridge may be mixed by an outer ReLU with a local first neuron.
+For every `n>=2`, the valid second-neuron term
+
+```text
+Phi_n(x) = ReLU(ReLU(sum_i x_i - (n-2)) - 2 ReLU(x1))         (13)
+```
+
+has full coordinate support and Boolean charge `-1`.  On the Boolean cube it
+equals one only at `S=[n]-{1}`.  It is not a function of `sum_i x_i`: the two
+size-`n-1` subsets that respectively omit coordinate 1 and coordinate 2 give
+values one and zero.  Thus `(13)` is neither a local remainder nor a function
+of the one-dimensional dense core.  Multiplying it by output weight `-1`
+already gives the `+1` charge required by `MAX11`.
+
+This is an exact counterexample to any unqualified claim that the *number* of
+dense first rows alone controls the full Boolean charge.  The rank obstruction
+applies only when every globally supported second term factors through the
+declared core; dense--local mixing is the explicit escape route.  Consequently
+the useful next ansatz is the separated-core family above, not the family of
+all networks with a bounded count of dense first rows.
+
 ## Exact calibrations and the smallest counterexample
 
 The checker replays four discriminators.
@@ -98,7 +209,7 @@ The checker replays four discriminators.
 
    ```text
    MAX3(x) = x3 + ReLU(x2-x3)
-                   + ReLU(ReLU(x1-x3)-ReLU(x2-x3))             (8)
+                   + ReLU(ReLU(x1-x3)-ReLU(x2-x3))            (14)
    ```
 
    holds on all `5^3` integer points in `{-2,-1,0,1,2}^3`.  Its
@@ -107,7 +218,7 @@ The checker replays four discriminators.
 2. The biased valid second-neuron term
 
    ```text
-   psi_11(x)=ReLU(sum_i x_i - 10)                              (9)
+   psi_11(x)=ReLU(sum_i x_i - 10)                             (15)
    ```
 
    has charge `1` on the Boolean cube.  It compiles in (2) by writing each
@@ -124,7 +235,7 @@ The checker replays four discriminators.
    coefficient-weighted charges equal `(-1)^(n+1)`.  This is only a necessary
    calibration of those certificates, not another global verification.
 
-Replay:
+Replay of the ancestor-support controls:
 
 ```bash
 python -B artifacts/math/G-0060/boolean_mobius_ancestry.py
@@ -137,6 +248,13 @@ with:
 ```bash
 python -B artifacts/math/G-0060/boolean_mobius_ancestry.py \
   --check-report artifacts/math/G-0060/report_v1.json
+```
+
+Replay of the separated-core rank controls and its dense--local escape:
+
+```bash
+python -B artifacts/math/G-0060/core_bottleneck.py \
+  --check-report artifacts/math/G-0060/core_bottleneck_v1.json
 ```
 
 ## Relationship to the existing wall and pair-orbit results
@@ -172,10 +290,10 @@ As a research route, the invariant deserves a small implementation role: use
 the `2048`-point exact charge as a fail-fast filter and require at least one
 charged full-support atom in any new asymmetric/sparse MAX11 ansatz.  It does
 **not** justify another broad rank census by itself.  One dense first neuron
-makes `sk>=11` vacuous, and a full-support term can have charge zero, as the
-explicit counterexample above shows.  The next useful discriminator would
-parameterise a genuinely charged full-support arbitrary-weight atom family and
-test complete hinge cancellation; this artifact does not supply that family.
+makes `sk>=11` vacuous, and a full-support term can have charge zero.  The rank
+strengthening above recommends one bounded exact target: rule out separated
+cores of rank at most nine.  Formula `(13)` says not to extrapolate that result
+to arbitrary dense--local mixing.
 
 Nothing here constructs MAX11, excludes dense unrestricted networks, bounds
 total width, proves pair-atom completeness, rationalises real weights, or

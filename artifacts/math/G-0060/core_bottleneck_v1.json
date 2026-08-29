@@ -1,0 +1,91 @@
+{
+  "arithmetic": "integers and fractions.Fraction",
+  "claim_boundary": "The proof is elementary, novelty is unknown, and no novelty is claimed.  The controls do not cover second neurons that mix core and local parents, and do not exclude unrestricted two-hidden-layer MAX11 networks.",
+  "dense_local_escape_controls": {
+    "conclusion": "The separated-core rank theorem cannot be extended to arbitrary outer mixing merely by counting dense first-layer rows.",
+    "formula": "ReLU(ReLU(sum(x)-(n-2))-2*ReLU(x1))",
+    "full_boolean_charges_n2_through_n11": {
+      "10": "-1",
+      "11": "-1",
+      "2": "-1",
+      "3": "-1",
+      "4": "-1",
+      "5": "-1",
+      "6": "-1",
+      "7": "-1",
+      "8": "-1",
+      "9": "-1"
+    },
+    "full_coordinate_support_checked_n2_through_n11": true,
+    "max11_output_weight_minus_one_matches_target_charge": true,
+    "same_dense_projection_different_values_checked_n2_through_n11": true
+  },
+  "falsifier": "An exact separated-core MAX_n decomposition with rank(A)<=n-2, or a nonconstant v in ker(A) preserving the displayed MAX differences.",
+  "max11_minimum_core_rank": 10,
+  "one_dense_core_control": {
+    "contradiction_detected": true,
+    "epsilon": "1/2",
+    "kernel_vector": [
+      "1",
+      "-1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "matrix_rank": 1,
+    "n": 11,
+    "sample_core_differences_equal": true,
+    "target_difference_at_kernel_shift": "0",
+    "target_difference_at_zero": "1/2"
+  },
+  "rank_n_minus_two_control": {
+    "contradiction_detected": true,
+    "epsilon": "1/2",
+    "kernel_vector": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "1",
+      "0"
+    ],
+    "matrix_rank": 9,
+    "n": 11,
+    "target_difference_at_kernel_shift": "0",
+    "target_difference_at_zero": "1/2",
+    "theorem_minimum_rank": 10
+  },
+  "result": "PASS",
+  "schema": "g0060-separated-core-rank-controls-v1",
+  "sharp_small_n_controls": {
+    "max2_core_rank": 1,
+    "max2_rank_one_grid_points": 25,
+    "max3_core_rank": 2,
+    "max3_rank_two_grid_points": 125,
+    "scope": "finite calibration of displayed global identities"
+  },
+  "target_zero_cube_differences_n2_through_n11": {
+    "10": "-1/2",
+    "11": "1/2",
+    "2": "-1/2",
+    "3": "1/2",
+    "4": "-1/2",
+    "5": "1/2",
+    "6": "-1/2",
+    "7": "1/2",
+    "8": "-1/2",
+    "9": "1/2"
+  },
+  "theorem": "MAX_n=G(Ax)+sum_l H_l with every H_l omitting a coordinate implies ker(A) subset span(1) and rank(A)>=n-1."
+}
