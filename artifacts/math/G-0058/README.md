@@ -39,6 +39,49 @@ This atom had zero price under the frozen one-coordinate G-0053 dual, which
 exposes a blind spot in that scheduling discriminator. G-0055 already stated
 the correct boundary: zero price does not imply that a column is irrelevant.
 
+## Milestone 2: restricted H8 gain was already present
+
+An independent clean-room reconstruction of the `3,465 x 1,465` S0
+support-eight matrix gives the same rank tuple at both frozen primes:
+
+| Stage | `rank(H8)` | `rank([H8; lambda])` |
+|---|---:|---:|
+| S0 | 222 | 223 |
+| S0 + sequence 92,489 | 223 | 224 |
+
+Each value is backed by an explicit nonzero modular minor and a complete
+replayed right-kernel basis. The normalized gain witness at both primes is
+supported on S0 column zero, sequence **136,039**.
+
+This witness lifts without CRT: the integer H8 column for sequence 136,039 is
+exactly zero on all 3,465 support-eight rows, while its independently
+recomputed lambda value is **79,833,600**. In fact, S0 contains 430 zero H8
+columns, 321 of which have nonzero lambda. H8 is therefore far too coarse to
+serve by itself as a mass-four obstruction.
+
+The boundary is decisive. Sequence 136,039 has **1,326 nonzero hinges** in
+the complete 99,858-row degree-four matrix, with fingerprint
+`082d245e27f4559780dac68ccc0dfcf12f6166d5a0d14164e55116b353fa0be5`.
+Thus its unit vector fails complete hinge replay on 1,326 rows: it is an exact
+restricted-H8 witness, not a MAX11 circuit.
+
+Appending sequence 92,489 adds the constant column 6,912 on all H8 rows and
+lambda zero. It raises both restricted ranks by one and leaves the pre-existing
+gain unchanged.
+
+Rank-gate bindings:
+
+```text
+support8_rank_gate.py
+  27d2088cb255c5e4f546bc555cbba6c9fda736c2410e9de715c6a8d60eedfb25
+support8_rank_gate_v1.json.gz
+  5849c6c317949e438c47a7026c6df0f0abf09b532b39043399ab7d4e75bdf4c2
+canonical scientific payload
+  1e72c307e5c8e8dc8e5fe9f1aff50a1e21d42875b8560e4c98c419d50e00ec69
+canonical full report payload
+  ad80910ef23ecd8f549b93a6af8931bf49779b33ef176051cd5c2b37cbfb7742
+```
+
 ## Reproduce
 
 ```bash
@@ -46,6 +89,10 @@ python -B artifacts/math/G-0058/support8_proper_filtration.py --self-test
 python -B artifacts/math/G-0058/support8_proper_filtration.py \
   --workers 8 \
   --output artifacts/math/G-0058/support8_proper_filtration_replay.json.gz
+.venv/bin/python -B artifacts/math/G-0058/support8_rank_gate.py --self-test
+.venv/bin/python -B artifacts/math/G-0058/support8_rank_gate.py \
+  --workers 8 \
+  --output artifacts/math/G-0058/support8_rank_gate_replay.json.gz
 ```
 
 Frozen artifacts:
@@ -61,8 +108,9 @@ canonical report payload
 
 ## Claim boundary
 
-This exact counterexample refutes only the proposed proper-core support-eight
-vanishing filtration. It does not determine `rank(H8)`, produce a
-lambda-nonzero circuit, prove a mass-at-most-four construction, or decide
-unrestricted MAX11. The next G-0058 milestone treats support eight as a
-construction-oriented restricted matrix and adds proper columns explicitly.
+The first milestone refutes the proposed proper-core support-eight vanishing
+filtration. The second certifies an exact lambda-nonzero circuit only after
+restricting to H8; it explicitly fails complete 99,858-row hinge replay.
+Neither proves a mass-at-most-four construction or decides unrestricted
+MAX11. The finite-field rank integers are not asserted as exact rational
+ranks.
