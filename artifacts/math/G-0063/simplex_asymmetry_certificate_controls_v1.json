@@ -1,0 +1,244 @@
+{
+  "boundaries": [
+    "The bound is necessary, not sufficient for A or B to lie in P_{n,d}.",
+    "It does not obstruct arbitrarily large stabilizers.",
+    "The public controls validate the algebra but do not approach equality and do not establish sharpness."
+  ],
+  "claim": "necessary_condition_only",
+  "primary_source": {
+    "arxiv_id": "2607.03815",
+    "authors": [
+      "Egor Bakaev",
+      "Amir Yehudayoff"
+    ],
+    "locators": {
+      "depth_class_and_bound": "PDF pp. 6--7 and 25--27 (paper pp. 5--6 and 24--26), Theorems 7--10",
+      "lambda_and_rho_definitions": "PDF pp. 2--3 (paper pp. 1--2)",
+      "outer_additivity_and_simplex_characterization": "PDF pp. 6 and 20--24 (paper pp. 5 and 19--23), Definition and Theorem 6",
+      "virtual_polytope_neural_network_correspondence": "PDF p. 25 (paper p. 24), displayed Lemma in Section 6.1"
+    },
+    "pdf": "artifacts/math/G-0063/source/2607.03815.pdf",
+    "pdf_sha256": "4875ffd0fdc33624d8da00fa87709b88a6087587d27db21571f447aa23d2182b",
+    "title": "A simplex-based measure of symmetry",
+    "url": "https://arxiv.org/abs/2607.03815"
+  },
+  "public_certificate_controls": [
+    {
+      "N_coordinates": 5,
+      "certificate": "literature/repos/max-relu-certificates/certificates/certificate_5_2.json",
+      "certificate_sha256": "698f70d87ec6b2ef07cd1d0287447dd2361f4b6d0d98571cc7485182b194e694",
+      "depth_d": 2,
+      "identity_checks": {
+        "expected_lambda_Delta_of_Delta": "1",
+        "expected_lambda_minus_Delta_of_Delta": "4",
+        "lambda_Delta_B_minus_A": "1",
+        "lambda_minus_Delta_B_minus_A": "4"
+      },
+      "necessary_bound": {
+        "rho_specific_bound_slack": "10/3",
+        "rho_specific_lower_bound_on_lambda_Delta_A": "2/3",
+        "universal_bound_slack": "29/8",
+        "universal_lower_bound_on_lambda_Delta_A": "3/8"
+      },
+      "p_equals_2_to_d_minus_1": "3",
+      "sides": {
+        "A_negative": {
+          "lambda_Delta": "4",
+          "lambda_minus_Delta": "6",
+          "rho_Delta": "3/2",
+          "term_count": 1
+        },
+        "B_positive": {
+          "lambda_Delta": "5",
+          "lambda_minus_Delta": "10",
+          "rho_Delta": "2",
+          "term_count": 2
+        }
+      },
+      "simplex_dimension_n": 4
+    },
+    {
+      "N_coordinates": 6,
+      "certificate": "literature/repos/max-relu-certificates/certificates/certificate_6_2.json",
+      "certificate_sha256": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+      "depth_d": 2,
+      "identity_checks": {
+        "expected_lambda_Delta_of_Delta": "1",
+        "expected_lambda_minus_Delta_of_Delta": "5",
+        "lambda_Delta_B_minus_A": "1",
+        "lambda_minus_Delta_B_minus_A": "5"
+      },
+      "necessary_bound": {
+        "rho_specific_bound_slack": "5/2",
+        "rho_specific_lower_bound_on_lambda_Delta_A": "5/2",
+        "universal_bound_slack": "17/4",
+        "universal_lower_bound_on_lambda_Delta_A": "3/4"
+      },
+      "p_equals_2_to_d_minus_1": "3",
+      "sides": {
+        "A_negative": {
+          "lambda_Delta": "5",
+          "lambda_minus_Delta": "11",
+          "rho_Delta": "11/5",
+          "term_count": 2
+        },
+        "B_positive": {
+          "lambda_Delta": "6",
+          "lambda_minus_Delta": "16",
+          "rho_Delta": "8/3",
+          "term_count": 2
+        }
+      },
+      "simplex_dimension_n": 5
+    },
+    {
+      "N_coordinates": 7,
+      "certificate": "literature/repos/max-relu-certificates/certificates/certificate_7_3.json",
+      "certificate_sha256": "b79aaaf423187cf5aaa51c9272799bf36198759dd018a1a286716cce7b1b53be",
+      "depth_d": 2,
+      "identity_checks": {
+        "expected_lambda_Delta_of_Delta": "1",
+        "expected_lambda_minus_Delta_of_Delta": "6",
+        "lambda_Delta_B_minus_A": "1",
+        "lambda_minus_Delta_B_minus_A": "6"
+      },
+      "necessary_bound": {
+        "rho_specific_bound_slack": "14362/173",
+        "rho_specific_lower_bound_on_lambda_Delta_A": "516/173",
+        "universal_bound_slack": "679/8",
+        "universal_lower_bound_on_lambda_Delta_A": "9/8"
+      },
+      "p_equals_2_to_d_minus_1": "3",
+      "sides": {
+        "A_negative": {
+          "lambda_Delta": "86",
+          "lambda_minus_Delta": "343/2",
+          "rho_Delta": "343/172",
+          "term_count": 28
+        },
+        "B_positive": {
+          "lambda_Delta": "87",
+          "lambda_minus_Delta": "355/2",
+          "rho_Delta": "355/174",
+          "term_count": 29
+        }
+      },
+      "simplex_dimension_n": 6
+    },
+    {
+      "N_coordinates": 8,
+      "certificate": "literature/repos/max-relu-certificates/certificates/certificate_8_3.json",
+      "certificate_sha256": "68b2a2698ab13a85164a8a0c5635649a92c5c1059c6c058115ebe3af2f0171c3",
+      "depth_d": 2,
+      "identity_checks": {
+        "expected_lambda_Delta_of_Delta": "1",
+        "expected_lambda_minus_Delta_of_Delta": "7",
+        "lambda_Delta_B_minus_A": "1",
+        "lambda_minus_Delta_B_minus_A": "7"
+      },
+      "necessary_bound": {
+        "rho_specific_bound_slack": "1825336/10185",
+        "rho_specific_lower_bound_on_lambda_Delta_A": "2749/679",
+        "universal_bound_slack": "5453/30",
+        "universal_lower_bound_on_lambda_Delta_A": "3/2"
+      },
+      "p_equals_2_to_d_minus_1": "3",
+      "sides": {
+        "A_negative": {
+          "lambda_Delta": "2749/15",
+          "lambda_minus_Delta": "5531/15",
+          "rho_Delta": "5531/2749",
+          "term_count": 34
+        },
+        "B_positive": {
+          "lambda_Delta": "2764/15",
+          "lambda_minus_Delta": "5636/15",
+          "rho_Delta": "1409/691",
+          "term_count": 35
+        }
+      },
+      "simplex_dimension_n": 7
+    },
+    {
+      "N_coordinates": 9,
+      "certificate": "literature/repos/max-relu-certificates/certificates/certificate_9_4.json",
+      "certificate_sha256": "4eb96684d0ce02d324f2fa0f7f95adf5dbc8fb99d3e3e9362cb435b9b3c22d88",
+      "depth_d": 2,
+      "identity_checks": {
+        "expected_lambda_Delta_of_Delta": "1",
+        "expected_lambda_minus_Delta_of_Delta": "8",
+        "lambda_Delta_B_minus_A": "1",
+        "lambda_minus_Delta_B_minus_A": "8"
+      },
+      "necessary_bound": {
+        "rho_specific_bound_slack": "1853367919/589110",
+        "rho_specific_lower_bound_on_lambda_Delta_A": "236405/39274",
+        "universal_bound_slack": "378023/120",
+        "universal_lower_bound_on_lambda_Delta_A": "15/8"
+      },
+      "p_equals_2_to_d_minus_1": "3",
+      "sides": {
+        "A_negative": {
+          "lambda_Delta": "47281/15",
+          "lambda_minus_Delta": "102569/15",
+          "rho_Delta": "102569/47281",
+          "term_count": 172
+        },
+        "B_positive": {
+          "lambda_Delta": "47296/15",
+          "lambda_minus_Delta": "102689/15",
+          "rho_Delta": "102689/47296",
+          "term_count": 165
+        }
+      },
+      "simplex_dimension_n": 8
+    },
+    {
+      "N_coordinates": 10,
+      "certificate": "literature/repos/max-relu-certificates/certificates/certificate_10_4.json",
+      "certificate_sha256": "10f38b27fa555866eda7c3ee10d5da51f3cd1db810a74860d6ab8ef8a30982e4",
+      "depth_d": 2,
+      "identity_checks": {
+        "expected_lambda_Delta_of_Delta": "1",
+        "expected_lambda_minus_Delta_of_Delta": "9",
+        "lambda_Delta_B_minus_A": "1",
+        "lambda_minus_Delta_B_minus_A": "9"
+      },
+      "necessary_bound": {
+        "rho_specific_bound_slack": "1131507582/196357",
+        "rho_specific_lower_bound_on_lambda_Delta_A": "242388/28051",
+        "universal_bound_slack": "161529/28",
+        "universal_lower_bound_on_lambda_Delta_A": "9/4"
+      },
+      "p_equals_2_to_d_minus_1": "3",
+      "sides": {
+        "A_negative": {
+          "lambda_Delta": "40398/7",
+          "lambda_minus_Delta": "93143/7",
+          "rho_Delta": "93143/40398",
+          "term_count": 192
+        },
+        "B_positive": {
+          "lambda_Delta": "40405/7",
+          "lambda_minus_Delta": "93206/7",
+          "rho_Delta": "93206/40405",
+          "term_count": 210
+        }
+      },
+      "simplex_dimension_n": 9
+    }
+  ],
+  "schema": "maxrelu-g0063-simplex-asymmetry-bound-v1",
+  "status": "PASS",
+  "target_MAX11": {
+    "depth_d": 2,
+    "p_equals_2_to_d_minus_1": "3",
+    "rho_A_interval_from_depth_and_reflection": [
+      "1/3",
+      "3"
+    ],
+    "simplex_dimension_n": 10,
+    "universal_lower_bound_on_lambda_Delta_A": "21/8",
+    "zonotope_A_lower_bound_on_lambda_Delta_A": "7/2"
+  }
+}
