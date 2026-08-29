@@ -201,6 +201,68 @@ declared core; dense--local mixing is the explicit escape route.  Consequently
 the useful next ansatz is the separated-core family above, not the family of
 all networks with a bounded count of dense first rows.
 
+### Complete Boolean-cube no-go for mixed-term obstructions
+
+The escape is not isolated.  Dense--local mixed second neurons span *every*
+function on one Boolean cube.  Define one shared dense first neuron and two
+coordinate-local first neurons per input:
+
+```text
+d(x)       = ReLU(sum_i x_i - n),
+l_i,0(x)   = ReLU(x_i),
+l_i,1(x)   = ReLU(1-x_i).
+```
+
+For every Boolean vertex `v in {0,1}^n`, define the mixed second neuron
+
+```text
+H_v(x) = ReLU(1 + 2 d(x)
+                 - sum_{i:v_i=0} l_i,0(x)
+                 - sum_{i:v_i=1} l_i,1(x)).                  (14)
+```
+
+At a Boolean input `u`, the dense activation is zero and the local sum is the
+Hamming distance from `u` to `v`.  Therefore
+
+```text
+H_v(u) = 1 if u=v, and 0 otherwise.                           (15)
+```
+
+These are the standard basis vectors of the `2^n`-dimensional space of cube
+functions.  Hence every `F:{0,1}^n -> R` has the exact cube interpolation
+
+```text
+N_F(x) = sum_{v in {0,1}^n} F(v) H_v(x),
+N_F(u) = F(u) for every Boolean u.                            (16)
+```
+
+This is a valid no-skip two-hidden-layer ReLU network with shared first width
+`2n+1`, second width at most `2^n`, arbitrary real output weights, and second
+fan-in `n+1`.  Every `H_v` has a nonzero dense-parent coefficient and one
+nonzero local parent for every coordinate.  The dense parent is not merely a
+zero-labelled edge: at `x=2(1,...,1)`, including `2d(x)` changes every `H_v`
+relative to deleting that parent.
+
+In particular,
+
+```text
+Delta_[n] H_v = (-1)^(n-|v|),                                (17)
+```
+
+so mixed neurons realise both charge signs, and arbitrary output scaling gives
+arbitrary charge magnitude.  Taking `F(0)=0` and `F(v)=1` otherwise matches the
+entire Boolean restriction of `MAX_n` (but not necessarily `MAX_n` off-cube).
+
+Consequently, no nontrivial obstruction depending only on the values on one
+Boolean cube--including any collection of Boolean Möbius coefficients, signs,
+or ranks computed from those values--can exclude unrestricted dense--local
+mixed networks.  The falsifier is a single pair `(u,v)` violating `(15)` or a
+cube label vector not reconstructed by `(16)`.  The route decision is to stop
+strengthening the single-cube charge invariant for arbitrary mixing.  A viable
+next obstruction must couple multiple basepoints through shared parameters,
+control global walls, or impose a width/wiring restriction.  The translated
+difference rank theorem above does the first under separated-core wiring.
+
 ## Exact calibrations and the smallest counterexample
 
 The checker replays four discriminators.
@@ -209,7 +271,7 @@ The checker replays four discriminators.
 
    ```text
    MAX3(x) = x3 + ReLU(x2-x3)
-                   + ReLU(ReLU(x1-x3)-ReLU(x2-x3))            (14)
+                   + ReLU(ReLU(x1-x3)-ReLU(x2-x3))            (18)
    ```
 
    holds on all `5^3` integer points in `{-2,-1,0,1,2}^3`.  Its
@@ -218,7 +280,7 @@ The checker replays four discriminators.
 2. The biased valid second-neuron term
 
    ```text
-   psi_11(x)=ReLU(sum_i x_i - 10)                             (15)
+   psi_11(x)=ReLU(sum_i x_i - 10)                             (19)
    ```
 
    has charge `1` on the Boolean cube.  It compiles in (2) by writing each
@@ -255,6 +317,13 @@ Replay of the separated-core rank controls and its dense--local escape:
 ```bash
 python -B artifacts/math/G-0060/core_bottleneck.py \
   --check-report artifacts/math/G-0060/core_bottleneck_v1.json
+```
+
+Replay of the mixed-term Boolean-cube universality no-go:
+
+```bash
+python -B artifacts/math/G-0060/mixed_cube_universality.py \
+  --check-report artifacts/math/G-0060/mixed_cube_universality_v1.json
 ```
 
 ## Relationship to the existing wall and pair-orbit results
