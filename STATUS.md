@@ -7,7 +7,7 @@ commit, counts, and the last displayed verifier result are operator-maintained s
 them against ledger, `phases/ROUNDS.md`, and Git before acting.
 
 ## Where the campaign is
-- Phase: P4 · Round: R-0001 · Proof-core commit: `bc92a01`
+- Phase: P4 · Round: R-0001 · Proof-core commit: `bc92a01` · Latest math checkpoint: `249e280`
 - Ledger: 18 claims · 8 open gaps · 3 active routes · 2 dead ends · verify-ledger: green
 - Bounded result: `C-0009@1` is COMPUTED_BOUNDED with an exact same-family T1
   holds review.  G-0017 receipt SHA-256: `f539eb61ddf78272447ee40da3c37f4283ff56529aa0209af8ee0747f751350c`.
@@ -18,13 +18,18 @@ them against ledger, `phases/ROUNDS.md`, and Git before acting.
 - Refuted candidate: G-0049 replayed the favorable 7,100-active-atom G-0046
   relation globally and found 74,500 nonzero hinges at each prime despite a
   perfect 8,427-row fit.  Further same-support finite-row CEGIS is dead-ended.
-- Live frontier: G-0053 constructs an exact sparse dual for all 3,310
-  signed-mass-at-most-three columns, then shows that this particular dual
-  fails on 1,385 of the 1,465 full signed-mass-four atoms and on 60 of 470
-  stratified proper samples.  Mass four therefore supplies genuinely new
-  quotient directions, but no hinge circuit or construction is known yet.
-  G-0054 is running the exact full-seed rank-gain gate on the complete
-  99,858-direction semantics.
+- Exact mass-four boundary: G-0056 proves over Q that the 1,465 full seeds have
+  rank 867 and a 598-dimensional kernel on the complete 99,858-row semantics;
+  every kernel vector has zero Lambda.  G-0054's independent clean-room audit
+  hard-passes that bounded theorem.  This retires the seed-only route, not the
+  132,728 proper mass-four atoms.
+- Live frontier: G-0057 adds the exact 488-column low-mass proper basis and
+  three old full seeds to the 867-column S0 basis.  Both frozen primes give
+  rank 1,288, nullity 70, and zero augmented gain.  G-0058 exactly refutes a
+  proposed support-eight vanishing shortcut: proper atom 92,489 is the uniform
+  coefficient-6,912 column on all 3,465 support-eight rows.  The active gate is
+  a Schur-quotient test of that atom and the 328 mass-four atoms induced by the
+  exact public MAX10 certificate before any broad heuristic block sweep.
 - Unrestricted target: `C-0002@1` remains challenged and unproved; the bounded
   theorems supply no completeness bridge to arbitrary two-hidden-layer networks.
 - Clean-pass streak (P10 only): 0
@@ -40,9 +45,10 @@ exactly the same active IDs.
 
 ## Open blockers
 The degree-four system has 99,858 rows and about 137,500 columns, so a complete
-dense matrix would exceed 100 GiB.  Sparse/streaming rank or a structural dual
-extension is required.  T2 review remains unavailable but does not block this
-mathematical expansion.
+dense matrix would exceed 100 GiB.  The certified 1,288-dimensional baseline
+now permits Schur-quotient candidate tests, but a complete mass-four negative
+still requires sparse/streaming exact semantics and a rational dual.  T2 review
+remains unavailable but does not block this mathematical expansion.
 
 ## Standing reminders for the resuming agent
 - Do not re-derive settled state; challenge it through the ledger if it looks wrong.

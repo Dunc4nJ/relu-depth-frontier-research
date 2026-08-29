@@ -59,9 +59,16 @@ administrative ceremony.
   extends, needs a small correction space, or genuinely breaks at mass four.
 - [ ] Freeze a sparse CSC encoding for the complete 99,858-row semantics with
   deterministic row and column hashes and fail-closed escaping-hinge checks.
-- [ ] Run the seeds-only two-prime rank-gain gate with the Lambda row.
-- [ ] Add the exact 488-column proper basis and three old full seeds; rerun the
-  two-prime rank-gain gate on all 99,858 rows.
+- [x] Run the seeds-only two-prime rank-gain gate, lift its complete kernel over
+  Q, replay all 598 relations on all 99,858 rows, and obtain an independent
+  exact-rank/no-gain audit.
+- [x] Add the exact 488-column proper basis and three old full seeds; rerun the
+  two-prime rank-gain gate on all 99,858 rows.  The canonical 1,358-column S1
+  baseline has rank 1,288, nullity 70, and zero gain at both frozen primes.
+- [x] Falsify the proposed proper support-eight vanishing shortcut with the
+  lex-first counterexample 92,489 and certify its uniform 3,465-row embedding.
+- [ ] Build a two-prime Schur-quotient oracle for the rank-1,288 baseline; test
+  atom 92,489 and the 328 mass-four atoms induced by the public MAX10 identity.
 - [ ] Add nested, topology-stratified proper mass-four blocks; after every
   modular rank gain, extract a candidate and replay all 99,858 rows before
   accepting it as discovery evidence.
