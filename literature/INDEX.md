@@ -15,8 +15,8 @@
 | REF-0011 | Koutschan et al., Small-Arity Piecewise Linear Representation | n+1-arity decomposition and optimality | PDF, text, Atom metadata | L3 |
 | REF-0012 | Safran et al., Approximate the Maximum | approximation/width cousin | PDF, text, Atom metadata | L3 |
 | REF-0013 | Safran, Every Layer Counts | adjacent unrestricted-weight hierarchy; not MAX11 | PDF, text, Atom metadata | L3 |
+| REF-0014 | Jochemko & Ravichandran, Generalized Permutahedra | signed-simplex uniqueness and root-edge summands | PDF, text | L3 |
 | SRC-0001 | max-relu-certificates commit 2343f121... | code, exact certificates, verifier | archive and extracted tree | provenance only |
 | IMP-0001 | prior MAX11 ansatz audit/scripts, 2026-08-27 | quarantined route hints | three hash-bound files | import only |
 
 No work in this table is independently reconstructed or refereed by virtue of inclusion.
-

@@ -1,0 +1,1034 @@
+                                           GENERALIZED PERMUTAHEDRA: MINKOWSKI LINEAR FUNCTIONALS
+                                                           AND EHRHART POSITIVITY
+
+                                                                  KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+arXiv:1909.08448v4 [math.CO] 11 Aug 2021
+
+
+
+
+                                                   Abstract. We characterize all signed Minkowski sums that define generalized permutahedra,
+                                                   extending results of Ardila-Benedetti-Doker (2010). We use this characterization to give a com-
+                                                   plete classification of all positive, translation-invariant, symmetric Minkowski linear functionals
+                                                   on generalized permutahedra. We show that they form a simplicial cone and explicitly de-
+                                                   scribe their generators. We apply our results to prove that the linear coefficients of Ehrhart
+                                                   polynomials of generalized permutahedra, which include matroid polytopes, are non-negative,
+                                                   verifying conjectures of De Loera-Haws-Köppe (2009) and Castillo-Liu (2018) in this case. We
+                                                   also apply this technique to give an example of a solid angle polynomial of a generalized permu-
+                                                   tahedron that has negative linear term and obtain inequalities for beta invariants of contractions
+                                                   of matroids.
+
+
+
+                                                                                         1. Introduction
+
+                                           Generalized permutahedra form a combinatorially rich class of polytopes that naturally appear
+                                           in many areas of mathematics such as combinatorics, geometry, representation theory, optimiza-
+                                           tion, game theory and statistics (see, e.g., [3, 11, 16, 22, 24, 28, 37, 38, 41, 40]). They contain a
+                                           variety of interesting and significant classes of polytopes, in particular, matroid polytopes. Gen-
+                                           eralized permutahedra are sufficiently special to admit a thorough combinatorial description of
+                                           their geometry as witnessed for instance by the discovery of Aguiar-Ardila of a Hopf monoid
+                                           structure on generalized permutahedra [1], but also general enough to be widely applicable and
+                                           to serve as useful test cases for questions in polyhedral combinatorics. In recent years, differ-
+                                           ent groups of authors have explored generalizations of this class, leading to generalized nested
+                                           permutahedra [10] and generalized Coxeter permutahedra [4].
+
+                                           The name generalized permutahedra was introduced by Postnikov in his pioneering work on the
+                                           combinatorial aspects of this interesting class of polytopes [40]. It should however be noted
+                                           that generalized permutahedra are equivalent to polymatroids, a class of polyhedra that were
+                                           introduced by Edmonds [18] in 1970 as polyhedral generalization of matroids. Since then poly-
+                                           matroids have been intensively studied in optimization, game theory and statistics due to their
+                                           correspondence to submodular and supermodular functions (see [23, 39, 45].) For example, in
+                                           game theory, well-studied objects are cooperative games, to each of which a polytope called the
+                                           core of the game is associated, see [44, 49]. Generalized permutahedra turn out to be exactly
+                                           equal to cores of convex cooperative games [32]. In the theory of discrete convex analysis [39]
+                                           M -convex sets play a central role and there is a one to one correspondence between lattice
+
+                                              2010 Mathematics Subject Classification. 05A15, 52B12 (primary); 30C10, 52B15, 52B20, 52B40, 52B45
+                                           (secondary).
+                                              Key words and phrases. Generalized permutahedra; Minkowski linear functionals; lattice polytopes; Ehrhart
+                                           positivity.
+                                                                                                   1
+2                      KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+
+points of generalized permutahedra and M -convex sets. For a thorough discussion of the equiv-
+alence of these concepts as well as connections to further areas such a conditional independence
+structures, we refer the reader to [49].
+
+Recall that the (standard) permutahedron Πd ⊂ Rd is the (d − 1)-dimensional polytope
+                        Πd = conv{(σ(1), σ(2), . . . , σ(d)) : σ ∈ Sd } ⊂ Rd
+where Sd denotes the group of permutations on [d] = {1, 2, . . . , d}. There are many equivalent
+ways of defining generalized permutahedra, the most concise one being via Minkowski summands
+of the permutahedron. The Minkowski sum of two polytopes P, Q ⊂ Rd is the polytope defined
+as the vector sum
+                                P + Q = {p + q : p ∈ P, q ∈ Q}.
+
+A polytope R ⊂ Rd is called a Minkowski summand of another polytope Q ⊂ Rd if there is
+a polytope P ⊂ Rd such that P + R = Q. We also call R the Minkowski difference of Q
+and P and use the notation R = Q − P . Further, the polytope R is called a weak Minkowski
+summand of Q if it is a Minkowski summand of a dilate λQ for some λ > 0.
+Definition 1.1. A polytope P ⊂ Rd is called a generalized permutahedron if it is a weak
+Minkowski summand of the permutahedron Πd .
+
+In the following we denote the class of all generalized permutahedra in Rd by Pd . In particular,
+every generalized permutahedron P ∈ Pd is a polytope of dimension at most d − 1 and is
+                                     Pd
+contained in a hyperplane {x ∈ Rd :     i=1 xi = ℓ} for some ℓ ∈ R.
+
+In [40], Postnikov studied the subclass of generalized permutahedra consisting of Minkowski
+sums of dilated standard simplices. Let ∆∅ = {0} and for ∅ =
+                                                           6 I ⊆ [d] let
+                                            ∆I = conv{ei : i ∈ I}
+be the standard simplices where e1 , . . . , ed are the standard basis vectors in Rd . We will
+also use the notation ∆i to denote the (i − 1)-dimensional simplex ∆[i] for all 1 ≤ i ≤ d.
+Extending [40, Proposition 6.3], Ardila, Benedetti and Doker [3, Proposition 2.4] proved that
+every generalized permutahedron is a Minkowski difference of sums
+                                                              P of dilated standard simplices
+and can be uniquely represented as a signed Minkowski sum I⊆[d] yI ∆I . This representation
+was also considered in earlier works by Danilov and Koshevoy [16] where it was used to describe
+cores of cooperative games. Here, a signed Minkowski sum is a formal linear combination
+with coefficients yI ∈ R that describes a Minkowski difference:
+
+                         X                     X                        X
+                                 y I ∆I =                 y I ∆I −             (−yI )∆I .
+                         I⊆[d]              I⊆[d],yI ≥0              I⊆[d],yI <0
+
+
+Not every set of coefficients {yI }I⊆[d] defines a generalized permutahedron, though, as we will
+see, the set of all possible coefficients forms a polyhedral cone. In Theorem 2.4 we give an explicit
+inequality description of this cone, thereby characterizing all coefficients {yI }I⊆[d] that define
+generalized permutahedra. We moreover prove that this cone is equal to the cone of super-
+modular functions, up to a change of coordinates. Interestingly, Theorem 2.4 has appeared
+in a very different context and language within game theory: it can be seen as a reincarnation
+of a result by Kuipers, Vermeulen and Voorneveld [32, Theorem 9] who characterized all convex
+                                  GENERALIZED PERMUTAHEDRA                                        3
+
+games given as a linear combination in the so-called unanimity basis. We offer a geometric proof
+of this result.
+
+We then use the characterization obtained in Theorem 2.4 to investigate Minkowski linear
+functionals on generalized permutahedra. In Theorem 3.1 and Proposition 3.2 we explicitly
+describe the rays of the cone of positive Minkowski linear functionals and provide an explicit
+geometric construction of the ray functionals. We then consider Minkowski linear functionals
+that are symmetric, that is, invariant under permutations of the coordinates. Minkowski
+linear functionals are valuations and structural results on valuations under the action of a
+group have been a focal point of research in classical convex geometry ever since Hadwiger’s
+seminal classification of continuous, rigid-motion invariant valuations on convex bodies [26]. In
+Theorem 3.3 we provide a complete classification of all positive, translation-invariant, symmetric
+Minkowski linear functionals: they form a simplicial cone and we explicitly determine the rays
+of this cone. We then apply our results to Ehrhart polynomials of generalized permutahedra
+that are also lattice polytopes.
+
+The Ehrhart polynomial of a lattice polytope counts the number of lattice points in integer
+dilates of the polytope [19]. It is appealing to view Ehrhart polynomials as discrete analogues
+of the classical Minkowski volume polynomials of convex bodies [7, 30, 36], but unlike volume
+polynomials, the coefficients of Ehrhart polynomials need not be nonnegative. Understanding
+when we do have positivity is a fundamental question in Ehrhart theory (see, e.g., [5, 27]) and the
+study of Ehrhart positive [11] polytopes, namely those that have only nonnegative coefficients
+is of current particular interest.
+
+Known examples of Ehrhart positive polytopes include zonotopes [46] and integral cyclic poly-
+topes [33]. However, there are elementary examples of non-Ehrhart positive polytopes, the most
+classical being the Reeve tetrahedron [42]. In recent work, it has been shown that order poly-
+topes [2] and smooth polytopes [13] need not be Ehrhart positive. For a comprehensive survey
+on Ehrhart positivity see [34].
+
+In [11] Castillo and Liu conjectured Ehrhart positivity for generalized permutahedra expanding
+on a conjecture of De Loera, Haws and Koeppe on matroid polytopes [17]. The conjecture was
+known to hold for all sums of standard simplices by an explicit combinatorial formula given
+in [40]. Ferroni [20] showed that hypersimplices, that is, matroid polytopes of uniform matroids,
+are Ehrhart positive. Using a valuation theoretic approach Castillo and Liu [11] proved that
+generalized permutahedra are Ehrhart positive in up to six dimensions and moreover showed
+that the third and the fourth highest coefficient are nonnegative for generalized permutahedra
+of any dimension. However, despite this evidence, both of the aforementioned conjectures have
+very recently, while this article was under review, simultaneously been disproved by Ferroni [21]
+who was able to construct examples of matroid polytopes with negative quadratic coefficients
+for all ranks greater or equal to three.
+
+On the other hand, in [9, 11] strong computational evidence was given that the linear coefficient
+is always nonnegative by explicit calculations for d ≤ 500. Using the classification of positive,
+symmetric, translation-invariant Minkowski linear functionals obtained in Theorem 3.3 we are
+able to prove in Theorem 4.5 that the linear coefficient is indeed always nonnegative. This
+has independently also been shown by Castillo and Liu [12] using different techniques from
+those developed in the present article. As an application, we then obtain an inequality among
+beta invariants of contractions of any given matroid in Corollary 4.10 using a result of Ardila,
+4                         KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+
+Benedetti and Doker [3]. Further, we prove that the aforementioned formula for the number
+of lattice points in sums of standard simplices provided in [40] extends to arbitrary generalized
+permutahedra (Corollary 4.8). We conclude by applying our results to solid-angle polynomials
+and show the existence of a three dimensional generalized permutahedron whose solid-angle
+polynomial has negative linear term.
+
+
+                                    2. Signed Minkowski sums
+
+In the following we assume familiarity with the basics of polyhedral geometry and lattice poly-
+topes. For further reading we recommend [5, 25, 50].
+                                                                                P
+Let P1 , . . . , Pm be polytopes. A signed P Minkowski sum is a formal sum    P i yi Pi with real
+coefficients y1 , . . . , ym . We say that  i yi Pi defines a polytope if P =  i : yi <0 (−yi )Pi is a
+                                   P                           P
+Minkowski summand of Q = i : yi ≥0 yi Pi , in which case i yi Pi represents the Minkowski dif-
+ference Q−P . In [3], Ardila, Benedetti and Doker showed that every generalized permutahedron
+has a unique expression as a signed Minkowski sum of standard simplices. This decomposition
+was also considered in earlier works by Danilov and Koshevoy [16] where it was used to describe
+cores of cooperative games.
+Proposition 2.1 ([3, Proposition 2.4]). For every generalized permutahedron P ∈ Pd there are
+uniquely determined real numbers yI for all ∅ =
+                                              6 I ⊆ [d] and y∅ = 0 such that
+                                              X
+                                     P =           y I ∆I .
+                                                  ∅6=I⊆[d]
+
+                P                                                        P
+Equivalently,       I : yI <0 (−yI )∆I is a Minkowski summand of             I : yI ≥0 yI ∆I and
+                                        X                      X
+(1)                             P +           (−yI )∆I =                 y I ∆I .
+                                      I : yI <0              I : yI ≥0
+
+Not every choice of coefficients {yI }I⊆[d] yields a generalized permutahedron. The goal of this
+section is to complete
+                    P the picture and to give a complete characterization of all coefficients
+{yI }I⊆[d] for which I⊆[d] yI ∆I defines a generalized permutahedron.
+
+By a result of Shephard, Minkowski summands of polytopes can be characterized in terms of
+their edge directions and edge lengths (see [25, p. 318]). For any polytope P ⊂ Rd and any
+direction u ∈ Rd \ {0} let
+                                 P u = {x ∈ P | uT x = maxy∈P uT y}
+be the face of P in direction of u.
+Theorem 2.2 ([25, p. 318]). Let P, Q ⊂ Rd be polytopes. Then P is a Minkowski summand of
+Q if and only if the following two conditions hold for all u ∈ Rd \ {0}.
+
+       (i) If Qu is a vertex then so is P u .
+      (ii) If Qu = [p, q] is an edge with endpoints p and q then up to translation, P u = λ [p, q] for
+           some 0 ≤ λ ≤ 1.
+
+From Theorem 2.2 it follows that the possible edge directions of a Minkowski summand P of Q
+are given by the edge directions of Q. Since the permutahedron Πd equals, up to translation,
+                                    GENERALIZED PERMUTAHEDRA                                          5
+
+the Minkowski sum over all line segments [ei , ej ], i 6= j (See, e.g., [47, Exercises 4.63 and 4.64]),
+all edge directions of Πd are of the form ei − ej for i 6= j. This property characterizes generalized
+permutahedra as shown by Proposition 2.6 in [4], specialized to the permutohedron.
+Theorem 2.3 ([4, Proposition 2.6]). A polytope is a generalized permutahedron if and only if
+all edge directions are of the form ei − ej for i 6= j.
+
+The following theorem characterizes all signed Minkowski sums that define generalized permuta-
+hedra. It was brought to the authors’ attention by the anonymous referee that this theorem has
+appeared before in a different language in the game theory literature in an article by Kuipers-
+Vermuelen-Voorneveld [32]. There it yields a characterization of the class of convex games in
+terms of the unanimity basis introduced by Shapley in [44]. We offer two proofs: the second one,
+via supermodular functions, is similar in nature to the one given in [32]. Nevertheless, for rea-
+sons of completeness and to highlight the connection to supermodular functions, we have chosen
+to include it. Our first proof, in contrast, is, up to our knowledge, new and rather different in
+spirit, and offers a geometric perspective on this result.
+
+In the following let [d]
+                         
+                       2 denote the set of all subsets of [d] with 2 elements.
+
+Theorem 2.4. Let {yI }I⊆[d] be a vector of real numbers. Then the following are equivalent.
+                                       P
+      (i) The signed Minkowski sum         I⊆[d] yI ∆I defines a generalized permutahedron in Pd .
+                                           [d]
+                                               
+      (ii) For all 2-element subset E ∈     2 and all T ⊆ [d] such that E ⊆ T
+                                               X
+(2)                                                   yI ≥ 0 .
+                                              E⊆I⊆T
+                                                                                P
+          In particular, the collection of all coefficients {yI }I⊆[d] such that I⊆[d] yI ∆I defines a
+          generalized permutahedron is a polyhedral cone. The inequalities (2) are facet-defining.
+
+                                                              P                 P
+Proof. Let αI = − min{yI , 0} and βI = max{yI , 0} and let P = I αI ∆I and Q = I βI ∆I .
+Then, by (1), we need to show that P is a Minkowski summand of Q if and only if
+                                     X            X
+(3)                                       αI ≤         βI
+                                        E⊆I⊆T           E⊆I⊆T
+
+for all 2-element subsets E of [d] and all T ⊆ [d] such that E ⊆ T .
+
+We first prove the necessity of the inequality. Let E = {i, j} and let T ⊇ E. Let u ∈ Rd \ {0}
+be a vector such that
+
+       • ui = uj and uk 6= ul for k 6= l with {k, l} =
+                                                     6 {i, j}, and
+       • further,
+                               mink∈T/ uk > ui = uj > maxk∈T \E uk .
+
+
+A calculation shows that for such a vector u, the face ∆uI is either a point or an edge,
+                        
+                        [ei , ej ], if E ⊆ I ⊆ T,
+                  ∆uI = e ,          if otherwise, where k = argmax uT ek . .
+                         k
+                                                                     k∈I
+6                      KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+
+Therefore up to translation,
+                                      X                 X
+                               Pu =        αI ∆uI =            αI [ei , ej ],
+                                       I               E⊆I⊆T
+
+and
+                                      X                 X
+                               Qu =         βI ∆uI =           βI [ei , ej ].
+                                       I               E⊆I⊆T
+
+Thus the desired inequality follows from Theorem 2.4.
+
+For the converse direction, assume that u ∈ Rd \ {0} is a vector such that Qu is either a vertex
+or an edge. Let us first assume that Qu is a vertex. We claim that P u must also be a vertex.
+To see this, assume otherwise there is an I with αI > 0 and dim ∆uI > 0. Then [ei , ej ] ⊆ ∆uI for
+some i, j ∈ I, i 6= j. This further implies that [ei , ej ] ⊆ ∆uJ for all {i, j} ⊆ J ⊆ I. By (3),
+                                             X                   X
+                             0 < αI ≤                αI ≤               βI .
+                                           {i,j}⊆J⊆I        {i,j}⊆J⊆I
+
+Thus there must be a {i, j} ⊆ J ⊆ I with βJ > 0 and therefore dim Qu ≥ dim ∆uJ > 0, a
+contradiction.
+
+If Qu is an edge, by Theorem 2.3, we may assume that Qu = λ[ei , ej ] for some λ > 0, up to
+translation. Then necessarily, ui = uj . Let M be the subset of all 2-element subsets {k, l}
+for which uk = ul . For all F = {k, l} ∈ M let TF = {i ∈ [d] : ui ≤ uk = ul }. We observe
+that [ek , el ] ⊆ ∆uI if and only if F ⊆ I ⊆ TF . Therefore, for all F 6= E in M and all I with
+F ⊆ I ⊆ TF we must have βI = 0 since Qu = λ[ei , ej ]. Thus we also obtain
+                                           X
+                                                 βI = 0 ,
+                                           F ⊆I⊆TF
+
+and by (3) this equality P remains true if we replace all βI by αI . This, in                     u
+                                                                           P turn, implies that P
+equals µ[ei , ej ] with µ = E⊆I⊆TE αI which by (3) is smaller than λ = E⊆I⊆TE βI . Thus P is
+a Minkowski summand of Q by Theorem 2.2.
+
+Theorem 3.1 below together with its proof via cone duality imply that the inequalities (2) are
+facet-defining.                                                                             
+
+
+The previous proof of Theorem 2.4 made use of the characterization of the edge directions of
+generalized permutahedra given in Theorem 2.3. We now give a second proof that will display
+that the inequalities (2) given in Theorem 2.4 are exactly the defining inequalities of the cone
+of supermodular functions after a change of variables.
+
+In what follows, we use the notation 2[d] to denote the set of all subsets of [d]. A function
+2[d] → R, I 7→ zI is called supermodular if
+(4)                                   zI + zJ ≤ zI∪J + zI∩J
+for all subsets I, J ⊆ [d]. In particular, the set of all supermodular functions forms a polyhedral
+cone. This cone has been in the focus of research in game theory, statistics and optimization.
+In optimization, typically the equivalent perspective of submodular functions is taken: a func-
+tion f is submodular if and only if −f is supermodular. The facets of the pointed cone of
+                                        GENERALIZED PERMUTAHEDRA                                      7
+
+supermodular functions, normalized such that z∅ = 0, are well-understood and are given by all
+inequalities of the form
+(5)                                zK∪{i} + zK∪{j} ≤ zK∪{i,j} + zK
+for all K ⊆ [d] and all i, j ∈ [d] \ K, i 6= j, (see, e.g., [43, Theorem 44.1])). In contrast, the rays
+of the cone of supermodular functions are far less understood. In [45] Shapley gave an explicit
+description of the rays in the case d = 4. Also Edmonds [18] raised the question of determining
+the extreme submodular functions. In [48] operations preserving the rays are studied and in [49]
+necessary and sufficient conditions for extremality of a supermodular function are given. For
+further references on extreme supermodular/submodular functions as well as their significance
+in the pertaining areas we refer to [49].
+
+There is a one-to-one correspondence of supermodular functions and generalized permutahedra
+                                                             [d]
+via their facet description: for every vector {zI }I⊆[d] ∈ R2 with z∅ = 0 let
+                                        d
+                           (                                                        )
+                                      X               X
+              P ({zI }) = x ∈ Rd :        xi = z[d] ,    xi ≥ zI for all ∅ ⊆ I ⊂ [d] ,
+                                           i=1                  i∈I
+where we assume that all zI are chosen maximally, that is, all defining inequalities of the polytope
+P ({zI }) are tight. Every generalized permutahedra in Pd is a polytope of the form P ({zI }), but
+not every such polytope is a generalized permutahedra. The following theorem characterizes all
+vectors {zI } for which P ({zI }) is a generalized permutahedron. This characterization appeared
+in [41, Proposition 3.2]. The equivalence to Definition 1.1 follows from Lemma 9 and Corollary
+11 in [49].
+                                                          [d]
+Theorem 2.5. Let {zI }I⊆[d] be a vector in R2 with z∅ = 0. Then the polytope P ({zI }) is a
+generalized permutahedron if and only if the function 2[d] → R, I 7→ zI is supermodular.
+
+In [3], Ardila, Benedetti and Doker explicitly described the representation of P ({zI }) as signed
+Minkowski sum.
+Proposition 2.6 ([3, Proposition 2.4]). For every generalized permutahedron P ({zI }) ∈ Pd
+there are uniquely determined real numbers yI for all ∅ =6 I ⊆ [d] and y∅ = 0 such that
+                                                X
+                                    P ({zI }) =      y I ∆I ,
+                                                            I⊆[d]
+                          |I|−|J| z .
+              P
+namely yI =       J⊆I (−1)         J
+
+
+Second proof of Theorem 2.4. Let U be the linear transformation defined by
+                                          [d]       [d]
+                                  U : R2        −→ R2
+                                                           X
+                                          zI 7−→ yI =            (−1)|I|−|J| zJ .
+                                                           J⊆I
+
+Then, by Möbius inversion, U is a bijection with zI = U −1 (yI ) =
+                                                                            P
+                                                                               J⊆I yJ for all I. By
+Theorem 2.5, P ({zI }) is a generalized permutahedron if and only if {zI } satisfies  P the super-
+modularity condition (4). On the other hand, by Theorem 2.6, P ({zI }) =                yI ∆I where
+yI = J⊆I (−1)|I|−|J| zJ = U (zI ). In particular, a signed Minkowski sum
+      P                                                                       P
+                                                                                 yI ∆I defines a gen-
+eralized permutahedron if and only if {yI } = U ({zI }) where {zI } P satisfies the supermodularity
+condition (4). In other words, the set of all vectors {yI } such that    yI ∆I defines a generalized
+8                      KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+
+permutahedron is a polyhedral cone, namely the image of the cone of supermodular functions
+under the linear bijection U . By (5) {zI } defines a supermodular function if and only if for all
+K ⊆ [d] and all i, j ∈ [d] \ K, i 6= j,
+                               zK∪{i} + zK∪{j} ≤ zK∪{i,j} + zK .
+These inequalities are facet-defining and equivalent to
+                    X              X               X                    X
+(6)                        yJ +         yJ ≤                     yJ +         yJ   ⇔
+                  J⊆K∪{i}       J⊆K∪{j}              J⊆K∪{i,j}          J⊆K
+                                                     X
+(7)                                       0 ≤              yJ∪{i,j} .
+                                                     J⊆K
+
+We conclude by observing that the inequality (7) is equivalent to condition (2) when interchang-
+ing K with T \ {i, j}.                                                                        
+
+
+                             3. Minkowski linear functionals
+
+We call a function ϕ : Pd → R Minkowski linear if ϕ(∅) = 0 and
+                                ϕ(λP + µQ) = λϕ(P ) + µϕ(Q)
+for all P, Q ∈ Pd and all λ, µ ≥ 0. The function ϕ is positive if ϕ(P ) ≥ 0 for all P ∈ P and
+translation-invariant if ϕ(P + t) = ϕ(P ) for all P ∈ Pd and all t ∈ Rd . If ϕ : P → R is a
+Minkowski linear functional then by linearity we obtain
+                                              !
+                                    X             X
+                                ϕ      y I ∆I   =     yI ϕ(∆I )
+                                     I                     I
+
+and ϕ(∆∅ ) = 0. By Theorem 2.6,Pevery generalized permutahedron has a unique representa-
+tion as a signed Minkowski sum I yI ∆I given y∅ = 0. Consequently, we may identify every
+                                                                     [d]
+Minkowski linear map ϕ : Pd → R with the vector {ϕ(∆I )}∅6=I⊆[d] ∈ R2 \∅ .
+
+                                [d]                                    T
+For any 2-element subset E ∈     2 and any T ⊆ [d] such that E ⊆ T let vE be the Minkowski
+linear functional defined by
+                                             (
+                                 T               1    if E ⊆ I ⊆ T ,
+                                vE (∆I ) =
+                                                 0    otherwise.
+                     T (∆ ) = 0 for all 1 ≤ i ≤ d these functionals are translation-invariant.
+Since ∆{i} = ei and vE   {i}
+
+The following theorem characterizes all positive, translation-invariant Minkowski linear func-
+tionals on Pd .
+Theorem 3.1. Let ϕ : Pd → R be a Minkowski linear functional. Then ϕ is positive and
+translation-invariant if and only if there are nonnegative real numbers cTE such that
+                                             X X
+                                       ϕ=            cTE vE
+                                                          T
+                                                            .
+                                          E∈([d] T ⊇E
+                                              2)
+
+In particular, the family of positive, translation-invariant Minkowski linear functionals is a
+                           T.
+polyhedral cone with rays vE
+                                        GENERALIZED PERMUTAHEDRA                                              9
+
+                 [d]
+Proof. Let C ⊆ R2 \∅ be the set of all vectors {yI } such that
+                                                               P
+                                                                   yI ∆I defines a generalized
+permutahedron. Then, by Theorem 2.4, C is a polyhedral cone with inequality description
+                                \ \                 X
+                         C =              {{yI } :       yI ≥ 0} .
+                                         E∈([d] T ⊇E           E⊆I⊆T
+                                             2)
+
+                                                                                                            T T
+                                                                                     P            P
+Thus, by cone duality, a Minkowski functional ϕ is positive if and only if ϕ =           E∈([d]       T ⊇E cE vE
+                                                                                             2)
+for some nonnegative numbers cTE . Since vE  T (∆ ) = 0 for all 1-element subsets I ⊆ [d] the func-
+                                                  I
+tional ϕ is also translation-invariant in this case. To see that the functionals vE  T are rays of the
+
+cone of positive, translation-invariant Minkowski functionals we observe that none of P       them can
+                                                                                          T =        ′ T′
+be expressed as a positive linear combination of the others. For that assume that vE              λTE ′ vE ′
+                         T ′        T ′                   ′          ′                               T
+for some nonnegative λE ′ . Then λE ′ = 0 for all E 6= E and all T 6⊆ T . From evaluating vE at
+                                                                ′
+∆T it follows that λTE = 1. Then evaluating at ∆E yields λTE ′ = 0 for all (E ′ , T ′ ) 6= (E, T ). This
+finishes the proof.                                                                                      
+
+                                                                   T . Let E = {i, j} ∈ [d] and
+                                                                                           
+Next, we provide a geometric description of the ray generators vE                        2
+T ⊆ [d] such that E ⊆ T . We say that a vector u 6= 0 is compatible with (E, T ) if ui = uj , all
+other coordinates of u are different and distinct from each other, and
+                                        min uk > ui = uj > max uk .
+                                        k6∈T                     k∈T
+
+                                 [d]
+Proposition 3.2. Let E ∈ 2 and T ⊆ [d] such that E ⊆ T . Let u 6= 0 be compatible with
+(E, T ). Then for all P ∈ Pd , P u is one dimensional and
+                                                T
+(8)                                            vE (P ) = vol1 (P u ) ,
+where vol1 denotes the normalized volume where vol1 ([ei , ej ]) = 1.
+
+Proof. Let E = {i, j}. Since u is compatible we have that, up to translation, Πud = [ei , ej ]u =
+                                                                                          P
+[ei , ej ]. Since every generalized permutahedron is a weak Minkowski summand of Πd , by Theo-
+rem 2.3, P u = λ[ei , ej ], and vol1 (P u ) is therefore well-defined. Since (λP + µQ)u = λP u + µQu
+for all polytopes P, Q and all λ, µ ≥ 0, equation (8) defines a Minkowski linear functional on Pd .
+We observe that since u is compatible with (E, T ) we have ∆uI = [ei , ej ] if and only if E ⊆ I ⊆ T .
+In this case vol1 (∆uI ) = 1. Otherwise, ∆uI is a vertex and vol1 (∆uI ) = 0. Since every Minkowski
+linear function is uniquely defined by its values on ∆I for all I ⊆ [d] this finishes the proof. 
+
+3.1. Symmetric Minkowski linear functionals. We conclude this section by classifying all
+positive Minkowski linear functionals that are invariant under coordinate permutations. We
+call such functionals symmetric. The natural action of the symmetric group Sd on Rd which
+acts by permuting the coordinates induces an action on the class of generalized permutahedra
+which, in turn, induces an action on Minkowki linear functionals on generalized permutahedra
+by (σ ·ϕ)(P ) = ϕ(σ(P )) for all P ∈ Pd . Then every symmetric translation-invariant Minkowski
+linear functional ϕ can be identified with the (d − 1)-dimensional vector {ϕ(∆i+1 )}1≤i≤d−1 ∈
+Rd−1 . For all 1 ≤ k ≤ d − 1 let fk : Pd → R be the symmetric, translation-invariant Minkowski
+linear functional defined by
+                                                            
+                                                i+1 d−i−1
+(9)                            (fk )(∆i+1 ) =
+                                                 2       k−i
+for all 1 ≤ i ≤ d − 1.
+10                        KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+
+Theorem 3.3. Let ϕ : Pd → R be a Minkowski linear functional. Then ϕ is positive, translation-
+and symmetric if and only if there are real numbers c1 , . . . , cd−1 ≥ 0 such that
+                                                      d−1
+                                                      X
+                                             ϕ =             ck fk .
+                                                      k=1
+
+In particular, the family of all positive, symmetric and translation-invariant Minkowski linear
+functionals forms a simplicial cone of dimension d − 1.
+
+Proof. By Theorem 3.1, ϕP is a positive,
+                                   P Minkowski   linear and translation invariant linear func-
+                                         T T
+tional if and only if ϕ = E∈([d]) T ⊇E cE vE for nonnegative numbers vE  T . If ϕ is moreover
+                                  2
+invariant under permutation of the coordinates we obtain
+                                   X
+(10)                  d! · ϕ =         σ·ϕ
+                                      σ∈Sd
+                                       X X                   X
+(11)                             =                    cTE               T
+                                                                   σ · vE
+                                      E∈([d] T ⊇E           σ∈Sd
+                                          2)
+                                       X X                                         X
+(12)                             =                    cTE · | Stab(vE
+                                                                    T
+                                                                      )|               ψ,
+                                      E∈([d]
+                                          2  ) T ⊇E                               T)
+                                                                             ψ∈O(vE
+
+where Stab(vE  T ) = {σ ∈ S : σv T = v T } denotes the stabilizer and O(v T ) = {σ · v T : σ ∈ S }
+                             d   E     E                                  E            E        d
+denotes  the  orbit of v T . We observe that if |T | = k then O(v T ) = {v T : |T | = k}. Clearly,
+P                        E                                         E      E
+  ψ∈O(vET ) ψ is symmetric. Therefore, since
+
+                               X                     X X
+                                                                T
+                                   ψ(∆i+1 ) =                 vE  (∆i+1 )
+                                 T)                                  T ⊇E
+                            ψ∈O(vE                          E∈([d]
+                                                                2 ) |T |=k
+                                                             X          X
+                                                 =                             1
+                                                                [d] T ⊇[i+1]
+                                                            E∈  ( )
+                                                                 2   |T |=k
+                                                            E⊆[i+1]
+                                                                               
+                                                                i+1         d−i−1
+                                                 =
+                                                                 2          k−i−1
+                     P
+we see that fk−1 = ψ∈O(vT ) ψ whenever |T | = k. Thus, by (12), every symmetric translation-
+                             E
+invariant valuation is a nonnegative linear combination of the functionals f1 , . . . , fd−1 which are
+easily seen to be linearly independent and positive by Theorem 3.1. This finishes the proof. 
+
+
+                                         4. Applications
+
+4.1. Ehrhart positivity. A lattice polytope is a polytope in Rd with vertices in the integer
+lattice Zd . A famous result by Ehrhart states that the number of lattice points in integer dilates
+of a lattice polytope is given by a polynomial [19].
+Theorem 4.1 ([19]). Let P ⊂ Rd be a lattice polytope. Then there is a polynomial EP of degree
+dim P such that
+                                  EP (n) = |nP ∩ Zd |
+for all integers n ≥ 1.
+                                       GENERALIZED PERMUTAHEDRA                                           11
+
+The polynomial EP (n) = E0 (P ) + E1 (P )n + · · · + Edim P (P )ndim P is called the Ehrhart poly-
+nomial of P . In this section we show that the linear coefficient E1 (P ) of the Ehrhart polynomial
+of every generalized permutahedra P with vertices in the integer lattice is nonnegative. This
+has independently been proved by Castillo and Liu [12]. In [8], the authors make the use-
+ful observation that the linear coefficient is additive under taking Minkowski sums of lattice
+polytopes.
+
+Lemma 4.2 ([8, Corollary 23]). Let P and Q be lattice polytopes and k, ℓ ≥ 0 be integers. Then
+
+                                    E1 (kP + ℓQ) = kE1 (P ) + ℓE1 (Q) .
+
+
+Let E : Pd → R be the symmetric Minkowski linear functional defined by
+                                                         1          1
+                                    E(∆i+1 ) = 1 +         + · · · + =: hi
+                                                         2          i
+for all 1 ≤ i ≤ d − 1. Then E agrees with E1 on all generalized permutahedra that are lattice
+polytopes.
+
+Proposition 4.3. Let P ∈ Pd be a generalized permutahedron with vertices in the integer lattice.
+Then E(P ) = E1 (P ).
+
+
+Proof. We recall that for all 1 ≤ i ≤ d − 1
+                                                                 d
+                               (                                                )             
+                                           i+1       d−i−1
+                                                                 X                          n+i
+                   E∆i+1 (n) =       x∈R         × {0}       :         xk = n       =            .
+                                                                                             i
+                                                                 k=1
+
+In particular, E1 (∆i+1 ) = 1 + 21 + · · · + 1i = E(∆i+1 ). It follows from [3, Proposition 2.3]
+that every generalized permutahedron that is a lattice polytope is a signed Minkowski sum of
+standard simplices ∆I with integer coefficients. Furthermore, EP (n) and therefore E1 (n) is
+invariant under permutations of the coordinates. Thus, the claim follows from Lemma 4.2. 
+
+
+Thus, to prove that E1 (P ) is always nonnegative for any generalized permutahedron P , by
+Theorem 3.3, we are left to prove that E = d−1
+                                                P
+                                                   k=1 ck fk for nonnegative real numbers c1 , . . . , cd−1 .
+Let A = (aik ) = (f1 , . . . , fd−1 ) ∈ R d−1 ×R d−1 be the matrix with column vectors f1 , . . . , fd−1 .
+Then
+                                                 i+1 d−i−1
+                                                                
+                                        aik =
+                                                   2        k−i
+and
+                                                 c = A−1 h ,
+where h = (h1 , . . . , hd−1 )T .
+
+Lemma 4.4.
+                                        (−1)k+j d − k − 1
+                                                         
+                               A−1 =      j+1
+                                                            =: (bkj ) = B
+                                                  j − k
+                                             
+                                           2
+12                           KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+
+Proof. We calculate
+                                        d−1 
+                                              i + 1 d − i − 1 (−1)k+j d − k − 1
+                                        X                                       
+                    (AB)ij         =                               j+1
+                                                2       k−i         2
+                                                                              j −k
+                                        k=1
+                                              d−1
+                                         i+1 X
+                                                      k+j d − 1 − i     j −i
+                                                                          
+                                          2
+                                   =     j+1
+                                                  (−1)
+                                                            j−i         k−i
+                                            
+                                          2   k=1
+                                                          i+1 Xd−1              
+                                             j−i d − 1 − i   2            k−i j − i
+                                   =   (−1)                 j+1
+                                                                      (−1)
+                                                    j−i      2
+                                                                                k−i
+                                                                 k=1
+                                                          i+1
+                                                  d−1−i
+                                   =   (−1)j−i               2
+                                                            j+1
+                                                                 (1 − 1)j−i
+                                                    j−i      2
+                                       (
+                                          1 if j = i .
+                                   =
+                                          0 otherwise.
+That is, AB = Id−1 and thus A is invertible with inverse equal to B.                           
+Theorem 4.5. Let P ∈ Pd be a generalized permutahedron. Then E(P ) ≥ 0.
+
+
+Proof. We consider the polynomial
+                                                         d−1
+                                                         X
+                                                pk =           bkj tj
+                                                         j=k
+
+and observe that
+             Z 1                              d−1
+                                           Z 1X
+                    pk (1) − pk (t)
+                                                    bkj 1 + t + . . . + tj−1 dt = (Bh)k = ck
+                                                                            
+                                    dt =
+                0        1−t                0 j=k
+
+which we need to show is nonnegative. It therefore suffices to show that
+                                                    p′k (t) ≥ 0
+for all t ∈ [0, 1]. Let
+                                                  d−1
+                                      t2 p′k (t) X
+                                                                        j+1
+                                                          k+j d − k − 1 t
+                                                             
+                             qk (t) =           =     (−1)                   .
+                                          2                     j−k     j+1
+                                                 j=k
+
+Then
+                             d−1                        d−1−k
+                                     k+j d − k − 1 j              ℓ d − k − 1 ℓ+k
+                             X                         X                  
+                 qk′ (t) =       (−1)               t =       (−1)             t  .
+                                           j−k                          ℓ
+                             j=k                                   ℓ=0
+
+We conclude by observing that
+                                                         Z t
+                                              qk (t) =         qk′ (t)dt
+                                                          0
+and
+                                            qk′ (t) = tk (1 − t)d−k−1
+which is nonnegative for all t ∈ [0, 1].                                                       
+                                         GENERALIZED PERMUTAHEDRA                                                   13
+
+An important subclass of generalized permutahedra consists of polytopes that can be written
+as Minkowski sums of standard simplices. Postnikov [40, Theorem 11.3] gave a combinatorial
+formula for the number of lattice points in generalized permutahedra contained in this subclass
+that shows Ehrhart positivity in this case (see Equation (13) below). In the remainder of this
+section we will see that this formula extends to signed Minkowski sums and thus to arbitrary
+generalized permutahedra.
+
+A valuation on lattice polytopes is a function ϕ such that
+                                    ϕ(P ∪ Q) = ϕ(P ) + ϕ(Q) − ϕ(P ∩ Q)
+for all lattice polytopes P, Q such that P ∪ Q (and thus also P ∩ Q) are lattice polytopes. A
+valuation ϕ is called translation − invariant if ϕ(P + t) = ϕ(P ) for all lattice polytopes P and
+all t in the integer lattice. The volume and the number of lattice points in a lattice polytope
+present examples of such valuations. A multivariate version of Theorem 4.1 was proved by
+Bernstein [7] for the number of lattice points in Minkowski sums of lattice polytopes, and, more
+generally, by McMullen [36] for arbitrary translation-invariant valuations on lattice polytopes.
+The following result is often referred to as the Bernstein-McMullen theorem.
+Theorem 4.6 ([36, Theorem 6]). Let P1 , . . . , Pk be lattice polytopes and let ϕ be a translation-
+invariant valuation. Then ϕ(n1 P1 +n2 P2 +· · ·+nk Pk ) agrees with a polynomial ϕP1 ,...,Pk (n1 , . . . , nk )
+of total degree at most dim(P1 + · · · + Pk ) for all integers n1 , . . . , nk ≥ 0.
+
+The following extension of Theorem 4.6 complements results in [31, 29] where a multivariate
+Ehrhart-Macdonald reciprocity was established and generalizes results by Ardila, Benedetti
+and Doker [3, Proposition 3.2] from volumes to translation-invariant valuations using a similar
+argument.
+Proposition 4.7. Let P1 , . . . , Pk , Q1 , . . . , Qℓ be lattice polytopes and let n1 , . . . , nk , m1 , . . . , mℓ ≥
+0 be integers such that Q = m1 Q1 +· · ·+mℓ Qℓ is a Minkowski summand of P = n1 P1 +· · ·+nk Pk .
+Let ϕ be a translation-invariant valuation. Then
+                        ϕ(P − Q) = ϕP1 ,...,Pk ,Q1,...,Qℓ (n1 , . . . , nk , −m1 , . . . , −mℓ ) .
+
+Proof. By Theorem 4.6 the number of lattice points in (P −Q)+tQ agrees with a polynomial for
+all integers t ≥ 0. Let f (t) denote this polynomial. On the other hand, since (P − Q) + Q = P ,
+we obtain
+           ϕ((P − Q) + tQ) = ϕ(n1 P1 + · · · nk Pk + (t − 1)m1 Q1 + · · · + (t − 1)mℓ Qℓ )
+                           = ϕP1 ,...,Pk ,Q1 ,...,Qℓ (n1 , . . . , nk , (t − 1)m1 , . . . , (t − 1)mℓ )
+for all t ≥ 1, again by Theorem 4.6. Since two polynomials which agree infinitely many times
+must be equal we conclude
+                   ϕ(P − Q) = f (0) = ϕP1 ,...,Pk ,Q1,...,Qℓ (n1 , . . . , nk , −m1 , . . . , −mℓ ) ,
+as desired.                                                                                                         
+
+                                                                                     P
+The following expression for the number of lattice points in generalized permutahedra I⊆[d] yI ∆I
+has been proved by Postnikov [40, Theorem 11.3] in the case when all coefficients yI are non-
+negative integers. Proposition 4.7 allows us to extend formula (13) to signed Minkowski sums
+and thus to all generalized permutahedra.
+14                        KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+
+Corollary 4.8. For all integer vectors {yI }I⊆[d] that satisfy Equations (2) in Theorem 2.4
+
+                         X                           X y[d] + a[d]  Y yI + aI − 1
+                                             d
+(13)                            y I ∆I ∩ Z       =
+                                                             a[d]             aI
+                        I⊆[d]                         a               I⊂[d]
+                                                                                   P
+where the sum is over all non negative integer vectors {aI }I⊆[d] such that             I⊆[d] aI = d − 1 and
+for all M ⊆ 2[d] we have
+                                      [             X
+                                          J ≥1+         aJ .
+                                                 J∈M            J∈M
+
+                                                                                    P
+Proof. By the Bernstein-McMullen Theorem 4.6, the number of lattice points in I⊆[d] yI ∆I is
+given by a polynomial for all integers yI ≥ 0. Indeed, the right hand side of Equation (13), which
+was proved in [40, Theorem 11.3] in this case, is a polynomial in the coefficients yI , I ⊆ [d],
+since                          
+                                x
+                                   = 1/k! · x · (x − 1) · · · (x − k + 1)
+                                k
+for all nonnegative integers xP≥ 0. By Theorem 2.4, an integer vector {yI }I⊆[d] satisfies the
+Equations (2) if and only if I⊆[d] yI ∆I defines a generalized permutahedra and this holds if
+                  P                                                       P
+and only if Q := I : yI <0 (−yI )∆I is a Minkowski summand of P := I : yI ≥0 yI ∆I . Thus, by
+                                                                                P
+Proposition 4.7, the polynomial expression for the number of lattice points in I⊆[d] yI ∆I given
+by Equation (13) extends to all vectors {yI }I⊆[d] satisfying the Equations (2).                
+
+4.2. Matroid polytopes. In this section we apply our results to matroid polytopes and matroid
+independent set polytopes to obtain inequalities for the beta invariant of a matroid. Let M be a
+matroid on a groundset E with rank function r. The matroid polytope PM is a polytope that
+is defined as the convex hull of all indicator functions of bases of M . The beta invariant [15]
+of M is defined as                                 X
+                              β(M ) = (−1)r(M )        (−1)|X| r(X) .
+                                                             X⊆E
+In [3] a signed version, the signed beta invariant,
+                                        β̃(M ) = (−1)r(M )+1 β(M )
+was introduced in order to express the matroid polytope as a signed Minkowski sum of standard
+simplices
+Proposition 4.9 ([3]). Let M be a matroid of rank r on E and let PM be its matroid polytope.
+Then                                   X
+                               PM =        β̃(M/A)∆E−A .
+                                                       A⊆E
+
+
+As a consequence of Theorem 4.5 together with Proposition 4.9 and recalling that E1 (∆i ) =
+                  1
+1 + 21 + · · · + i−1 we obtain the following inequality for signed beta invariants of contractions.
+Corollary 4.10. Let M be a matroid with groundset E. Then
+                              X
+                                  h|E−A|−1 β̃(M/A) ≥ 0 ,
+                                        A⊆E
+
+where hi := 1 + 21 + · · · + 1i .
+                                         GENERALIZED PERMUTAHEDRA                                      15
+
+The independent set polytope IM of a matroid M is defined as the convex hull of indicator
+functions of all independent sets of M . For I ⊆ E let
+                                       DI = conv({0} ∪ {ei : i ∈ I}) .
+In [3] these simplices were used to express the matroid independence polytope as a signed
+Minkowski sum.
+Proposition 4.11 ([3]). Let M be a matroid of rank r on E and let IM be its independent set
+polytope. Then                        X
+                               IM =        β̃(M/A)DE−A .
+                                                   A⊆E
+
+Corollary 4.12. Let M be a matroid with groundset E. Then
+                               X
+                                   h|E−A| β̃(M/A) ≥ 0 ,
+                                           A⊆E
+
+where hi := 1 + 12 + · · · + 1i .
+
+Proof. After a lattice preserving affine transformation R|E| → R|E|+1 , ei 7→ ei , 0 7→ e|E|+1 , IM
+is a generalized permutahedron and DI are standard simplices. The proof follows then from
+Theorem 4.5.                                                                                      
+
+4.3. Solid angles. We conclude by applying our results of the previous chapters to a close
+relative of the Ehrhart polynomial, the solid angle polynomial of a lattice polytope. Let q ∈ Rd
+be a point, P ⊆ Rd be a polytope and let Bǫ (q) denote the ball with radius ǫ centered at q. The
+solid angle of q with respect to P is defined by
+                                                vol(P ∩ Bǫ (q))
+                                ωq (P ) = lim                   .
+                                            ǫ→0    vol Bǫ (q)
+We note that the function q 7→ ωq (P ) is constant on relative interiors of the faces of P . In
+particular, if q 6∈ P then ωq (P ) = 0, if q is in the interior of P then ωq (P ) = 1 and if q lies inside
+the relative interior of a facet then ωq (P ) = 21 . The solid angle sum of P is defined by
+                                                     X
+                                         A(P ) =          ωq (P ) .
+                                                          q∈Zd
+
+By an analog of Ehrhart’s Theorem (Theorem 4.1) for solid-angle sums due to Macdonald [35]
+A(P ) = A0 (P )+A1 (P )n+· · · +Ad (P )nd is a polynomial for all lattice polytopes P . This follows
+also from the Bernstein-McMullen Theorem 4.6 since A(P ) is a translation-invariant valuation
+(see, e.g., [6]). Indeed, since ωp (P ) is constant on relative interiors of faces
+                                X         X                  X
+(14)                A(nP ) =                     ωq (nP ) =      ωF (P )Erelint F (n) ,
+                                    F ⊆P q∈relint F ∩Zd          F ⊆P
+
+where the first sum is over all faces F of P , ωF (P ) is the solid angle of a point in the relative
+interior of F and Erelint F (n) = | relint nF ∩ Zd | is the Ehrhart polynomial of the relative interior
+of F (see [5, Lemma 13.2]). For lattice polygons P in R2 , the solid-angle sum A(P ) agrees with
+the area, area(P ), of the polygon [5, Corollary 13.11]. In particular, A(nP ) = area(P )n2 has
+only nonnegative coefficients. As in the case of Ehrhart polynomials, for polytopes P of higher
+dimension the coefficients Ai (P ) can be negative in general [6, Proposition 1], even in dimension
+3. We supplement this result by showing that for the class of generalized permutahedra, unlike
+the case of Ehrhart polynomials, the linear terms of solid angle polynomials can be negative.
+16                        KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+
+Here, we view generalized permutahedra in Pd as polytopes in {x ∈ Rd :
+                                                                                       P
+                                                                                           xi = ℓ} for some
+ℓ ∈ Z.
+Proposition 4.13. Let Q ∈ P4 be the 3-dimensional generalized permutahedron defined by
+                                        X
+                                   Q=      ∆I − ∆4 .
+                                                  I⊆[4]
+                                                  |I|=2
+
+Then A1 (Q) < 0. In particular, there is a 3-dimensional generalized permutahedron in R4 such
+that the linear term of its solid angle polynomial is negative.
+
+Proof. It is easy to check that the coefficients in the signed Minkowski sum by which Q is given
+satisfy the inequalities (2), and therefore, by Theorem 2.4, Q is a generalized permutahedron.
+Since the solid-angle sum is a translation-invariant valuation and by observing that Lemma 4.2
+and its proof in [8] via the Bernstein-McMullen Theorem 4.6 carries over verbatim to translation-
+invariant valuations we see that the linear term A1 (P ) is Minkowski additive. By definition,
+A(P ) = 0 whenever dim P < 3 and therefore A1 (∆I ) = 0 for all I ⊆ [4] with |I| < 4. In
+particular, by Minkowski additivity, we have A1 (Q) = −A1 (∆4 ). It thus suffices to prove
+A1 (∆4 ) > 0. By (14),
+(15)            A(n∆4 )     = αErelint ∆4 + 4βErelint ∆3 + 6γErelint ∆2 + 4δErelint ∆1
+                                                    
+                                  n−1            n−1
+(16)                      = α             + 4β           + 6γ(n − 1) + 4δ ,
+                                    3              2
+where α, β, γ, δ denote the solid angle of ∆4 at a lattice point in the interior, on a facet, on an
+                                                                                           cos−1 ( 13 )
+edge and at a vertex, respectively. Inserting the values α = 1, β = 12 and γ =                2π        (see, e.g.,
+[14]) we obtain
+                                     3        1    7
+                         A1 (P ) =     cos−1 ( ) − ∼ = 0.00881298... > 0
+                                    π         3    6
+as desired. This completes the proof.                                                                           
+
+Acknowledgements: The authors are grateful to the anonymous referees for their careful read-
+ing of the manuscript and many insightful remarks that improved this paper. Furthermore, they
+would like to thank the Simons Institute of the Theory of Computing, Berkeley, for hosting the
+semester program “Geometry of Polynomials” in spring 2019 during which this project evolved.
+The first author was funded by a Microsoft Research Fellowship during the semester program.
+She was also partially supported by the Wallenberg AI, Autonomous Systems and Software
+Program (WASP) funded by the Knut and Alice Wallenberg Foundation and by grant 2018-
+03968 from the Swedish Research Council. The second author was supported by BAP 2018-16
+from the Mimar Sinan Fine Arts University and a 2018-20 BAGEP award from Bilim Akademisi.
+
+
+
+                                               References
+
+ [1] M. Aguiar and F. Ardila. Hopf monoids and generalized permutahedra. arXiv preprint arXiv:1709.07504,
+     2017.
+ [2] P. Alexandersson. Polytopes and large counterexamples. Exp. Math., 28(1):115–120, 2019.
+ [3] F. Ardila, C. Benedetti, and J. Doker. Matroid polytopes and their volumes. Discrete Comput. Geom.,
+     43(4):841–854, 2010.
+ [4] F. Ardila, F. Castillo, C. Eur, and A. Postnikov. Coxeter submodular functions and deformations of Coxeter
+     permutahedra. Adv. Math., 365:107039, 36, 2020.
+                                        GENERALIZED PERMUTAHEDRA                                                  17
+
+ [5] M. Beck and S. Robins. Computing the continuous discretely. Undergraduate Texts in Mathematics. Springer,
+     New York, second edition, 2015. Integer-point enumeration in polyhedra, With illustrations by David Austin.
+ [6] M. Beck, S. Robins, and S. V. Sam. Positivity theorems for solid-angle polynomials. Beiträge Algebra Geom.,
+     51(2):493–507, 2010.
+ [7] D. N. Bernstein. The number of lattice points in integer polyhedra. Funkcional. Anal. i Priložen., 10(3):72–73,
+     1976.
+ [8] K. J. Böröczky and M. Ludwig. Minkowski valuations on lattice polytopes. J. Eur. Math. Soc. (JEMS),
+     21(1):163–197, 2019.
+ [9] F. Castillo. Local Ehrhart positivity. PhD thesis, 2017.
+[10] F. Castillo and F. Liu. Deformation cones of nested braid fans. arXiv preprint arXiv:1710.01899, 2017.
+[11] F. Castillo and F. Liu. Berline-Vergne valuation and generalized permutohedra. Discrete Comput. Geom.,
+     60(4):885–908, 2018.
+[12] F. Castillo and F. Liu. On the Todd class of the permutohedral variety. arXiv preprint arXiv:1909.09127,
+     2019.
+[13] F. Castillo, F. Liu, B. Nill, and A. Paffenholz. Smooth polytopes with negative Ehrhart coefficients. J.
+     Combin. Theory Ser. A, 160:316–331, 2018.
+[14] H. S. M. Coxeter. Regular polytopes. Dover Publications, Inc., New York, third edition, 1973.
+[15] H. H. Crapo. A higher invariant for matroids. J. Combinatorial Theory, 2:406–417, 1967.
+[16] V. I. Danilov and G. A. Koshevoy. Cores of cooperative games, superdifferentials of functions, and the
+     Minkowski difference of sets. J. Math. Anal. Appl., 247(1):1–14, 2000.
+[17] J. A. De Loera, D. C. Haws, and M. Köppe. Ehrhart polynomials of matroid polytopes and polymatroids.
+     Discrete Comput. Geom., 42(4):670–702, 2009.
+[18] J. Edmonds. Submodular functions, matroids, and certain polyhedra. In Combinatorial Structures and their
+     Applications (Proc. Calgary Internat. Conf., Calgary, Alta., 1969), pages 69–87. Gordon and Breach, New
+     York, 1970.
+[19] E. Ehrhart. Sur les polyèdres rationnels homothétiques à n dimensions. C. R. Acad. Sci. Paris, 254:616–618,
+     1962.
+[20] L. Ferroni. Hypersimplices are Ehrhart positive. J. Combin. Theory Ser. A, 178:105365, 13, 2021.
+[21] L. Ferroni. Matroids are not Ehrhart positive. arXiv preprint arXiv:2105.04465, 2021.
+[22] A. Fink, K. Mészáros, and A. S. Dizier. Schubert polynomials as integer point transforms of generalized
+     permutahedra. Adv. Math., 332:465–475, 2018.
+[23] S. Fujishige. Submodular functions and optimization, volume 58 of Annals of Discrete Mathematics. Elsevier
+     B. V., Amsterdam, second edition, 2005.
+[24] M. X. Goemans. Smallest compact formulation for the permutahedron. Math. Program., 153(1, Ser. B):5–11,
+     2015.
+[25] B. Grünbaum. Convex polytopes, volume 221 of Graduate Texts in Mathematics. Springer-Verlag, New York,
+     second edition, 2003. Prepared and with a preface by Volker Kaibel, Victor Klee and Günter M. Ziegler.
+[26] H. Hadwiger. Vorlesungen über Inhalt, Oberfläche und Isoperimetrie. Springer-Verlag, Berlin-Göttingen-
+     Heidelberg, 1957.
+[27] T. Hibi, A. Higashitani, A. Tsuchiya, and K. Yoshida. Ehrhart polynomials with negative coefficients. Graphs
+     Combin., 35(1):363–371, 2019.
+[28] C. Hohlweg, C. E. M. C. Lange, and H. Thomas. Permutahedra and generalized associahedra. Adv. Math.,
+     226(1):608–640, 2011.
+[29] K. Jochemko. On the combinatorics of valuations. PhD thesis, 2015.
+[30] K. Jochemko and R. Sanyal. Combinatorial mixed valuations. Adv. Math., 319:630–652, 2017.
+[31] K. Jochemko and R. Sanyal. Combinatorial positivity of translation-invariant valuations and a discrete Had-
+     wiger theorem. J. Eur. Math. Soc. (JEMS), 20(9):2181–2208, 2018.
+[32] J. Kuipers, D. Vermeulen, and M. Voorneveld. A generalization of the Shapley-Ichiishi result. Internat. J.
+     Game Theory, 39(4):585–602, 2010.
+[33] F. Liu. Ehrhart polynomials of cyclic polytopes. J. Combin. Theory Ser. A, 111(1):111–127, 2005.
+[34] F. Liu. On positivity of Ehrhart polynomials. In Recent Trends in Algebraic Combinatorics, pages 189–237.
+     Springer, 2019.
+[35] I. G. Macdonald. Polynomials associated with finite cell-complexes. J. London Math. Soc. (2), 4:181–192,
+     1971.
+[36] P. McMullen. Valuations and Euler-type relations on certain classes of convex polytopes. Proc. London Math.
+     Soc. (3), 35(1):113–135, 1977.
+18                         KATHARINA JOCHEMKO AND MOHAN RAVICHANDRAN
+
+[37] F. Mohammadi, C. Uhler, C. Wang, and J. Yu. Generalized permutohedra from probabilistic graphical
+     models. SIAM J. Discrete Math., 32(1):64–93, 2018.
+[38] J. Morton, L. Pachter, A. Shiu, B. Sturmfels, and O. Wienand. Convex rank tests and semigraphoids. SIAM
+     J. Discrete Math., 23(3):1117–1134, 2009.
+[39] K. Murota. Discrete convex analysis. SIAM Monographs on Discrete Mathematics and Applications. Society
+     for Industrial and Applied Mathematics (SIAM), Philadelphia, PA, 2003.
+[40] A. Postnikov. Permutohedra, associahedra, and beyond. Int. Math. Res. Not. IMRN, (6):1026–1106, 2009.
+[41] A. Postnikov, V. Reiner, and L. Williams. Faces of generalized permutohedra. Doc. Math., 13:207–273, 2008.
+[42] J. E. Reeve. On the volume of lattice polyhedra. Proc. London Math. Soc. (3), 7:378–395, 1957.
+[43] A. Schrijver. Combinatorial optimization. Polyhedra and efficiency. Vol. B, volume 24 of Algorithms and
+     Combinatorics. Springer-Verlag, Berlin, 2003. Matroids, trees, stable sets, Chapters 39–69.
+[44] L. Shapley. A value for n-person games. pages 307–317, 1953.
+[45] L. Shapley. Cores of convex games. Internat. J. Game Theory, 1:11–26; errata, ibid. 1 (1971/72), 199, 1971/72.
+[46] R. P. Stanley. A zonotope associated with graphical degree sequences. In Applied geometry and discrete
+     mathematics, volume 4 of DIMACS Ser. Discrete Math. Theoret. Comput. Sci., pages 555–570. Amer. Math.
+     Soc., Providence, RI, 1991.
+[47] R. P. Stanley. Enumerative combinatorics. Volume 1, volume 49 of Cambridge Studies in Advanced Mathe-
+     matics. Cambridge University Press, Cambridge, second edition, 2012.
+[48] M. Studený. Basic facts concerning extreme supermodular functions. 2016.
+[49] M. Studený and T. Kroupa. Core-based criterion for extreme supermodular functions. Discrete Appl. Math.,
+     206:122–151, 2016.
+[50] G. M. Ziegler. Lectures on polytopes, volume 152 of Graduate Texts in Mathematics. Springer-Verlag, New
+     York, 1995.
+
+
+Department of Mathematics, KTH Royal Institute of Technology, Sweden
+
+Email address: jochemko@kth.se
+
+
+Department of Mathematics, Bogazici University, Istanbul, Turkey
+
+Email address: mohan.ravichandran@boun.edu.tr
+

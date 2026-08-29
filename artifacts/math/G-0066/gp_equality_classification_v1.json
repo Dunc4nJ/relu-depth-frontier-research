@@ -1,0 +1,330 @@
+{
+  "D_m_controls": [
+    {
+      "ambient_coordinate_count": 5,
+      "coordinate_tetrahedron_nonnegative_sum_impossible": true,
+      "edge_count": 10,
+      "full_simplex_coefficient": "1",
+      "lambda_Delta": "3/2",
+      "lambda_minus_Delta": "9/2",
+      "mobius_nonzero_counts": {
+        "edges": 10,
+        "full_simplex": 1,
+        "other": 0
+      },
+      "rho": "3",
+      "t_m": "1/20"
+    },
+    {
+      "ambient_coordinate_count": 6,
+      "coordinate_tetrahedron_nonnegative_sum_impossible": true,
+      "edge_count": 15,
+      "full_simplex_coefficient": "1",
+      "lambda_Delta": "2",
+      "lambda_minus_Delta": "6",
+      "mobius_nonzero_counts": {
+        "edges": 15,
+        "full_simplex": 1,
+        "other": 0
+      },
+      "rho": "3",
+      "t_m": "1/15"
+    },
+    {
+      "ambient_coordinate_count": 7,
+      "coordinate_tetrahedron_nonnegative_sum_impossible": true,
+      "edge_count": 21,
+      "full_simplex_coefficient": "1",
+      "lambda_Delta": "5/2",
+      "lambda_minus_Delta": "15/2",
+      "mobius_nonzero_counts": {
+        "edges": 21,
+        "full_simplex": 1,
+        "other": 0
+      },
+      "rho": "3",
+      "t_m": "1/14"
+    },
+    {
+      "ambient_coordinate_count": 8,
+      "coordinate_tetrahedron_nonnegative_sum_impossible": true,
+      "edge_count": 28,
+      "full_simplex_coefficient": "1",
+      "lambda_Delta": "3",
+      "lambda_minus_Delta": "9",
+      "mobius_nonzero_counts": {
+        "edges": 28,
+        "full_simplex": 1,
+        "other": 0
+      },
+      "rho": "3",
+      "t_m": "1/14"
+    },
+    {
+      "ambient_coordinate_count": 9,
+      "coordinate_tetrahedron_nonnegative_sum_impossible": true,
+      "edge_count": 36,
+      "full_simplex_coefficient": "1",
+      "lambda_Delta": "7/2",
+      "lambda_minus_Delta": "21/2",
+      "mobius_nonzero_counts": {
+        "edges": 36,
+        "full_simplex": 1,
+        "other": 0
+      },
+      "rho": "3",
+      "t_m": "5/72"
+    },
+    {
+      "ambient_coordinate_count": 10,
+      "coordinate_tetrahedron_nonnegative_sum_impossible": true,
+      "edge_count": 45,
+      "full_simplex_coefficient": "1",
+      "lambda_Delta": "4",
+      "lambda_minus_Delta": "12",
+      "mobius_nonzero_counts": {
+        "edges": 45,
+        "full_simplex": 1,
+        "other": 0
+      },
+      "rho": "3",
+      "t_m": "1/15"
+    },
+    {
+      "ambient_coordinate_count": 11,
+      "coordinate_tetrahedron_nonnegative_sum_impossible": true,
+      "edge_count": 55,
+      "full_simplex_coefficient": "1",
+      "lambda_Delta": "9/2",
+      "lambda_minus_Delta": "27/2",
+      "mobius_nonzero_counts": {
+        "edges": 55,
+        "full_simplex": 1,
+        "other": 0
+      },
+      "rho": "3",
+      "t_m": "7/110"
+    }
+  ],
+  "bound_inputs": {
+    "bakaev_yehudayoff_pdf": {
+      "path": "artifacts/math/G-0063/source/2607.03815.pdf",
+      "sha256": "4875ffd0fdc33624d8da00fa87709b88a6087587d27db21571f447aa23d2182b"
+    },
+    "g0065_frozen_report": {
+      "path": "artifacts/math/G-0065/single_zonotope_face_bounds_v1.json",
+      "sha256": "863f95db4b06c6d07365a0b3ba850eae8659612acfe59f25c791eec9068ed485"
+    },
+    "g0065_readme": {
+      "path": "artifacts/math/G-0065/README.md",
+      "sha256": "7eb8ed94e48d3cbe3820f3534f465392551a6da3643aca8ff0828f38da260b13"
+    },
+    "jochemko_ravichandran_pdf": {
+      "path": "artifacts/math/G-0066/source/1909.08448.pdf",
+      "sha256": "3cfe31dda7b663e49e57b35ffa22eaa60346f5eb7eb15a744b779be3a1f734ba"
+    },
+    "jochemko_ravichandran_text": {
+      "path": "artifacts/math/G-0066/source/1909.08448.txt",
+      "sha256": "0ac4aa34f6fcf0ab553c8f6b904436f6df9bb5e12334e266b8889e954f06d24d"
+    }
+  },
+  "coordinate_simplex_central_symmetry_controls": [
+    {
+      "centrally_symmetric_subset_sizes": [
+        1
+      ],
+      "coordinate_vertex_count": 1,
+      "maximum_size": 1,
+      "nonempty_subsets_checked": 1
+    },
+    {
+      "centrally_symmetric_subset_sizes": [
+        1,
+        2
+      ],
+      "coordinate_vertex_count": 2,
+      "maximum_size": 2,
+      "nonempty_subsets_checked": 3
+    },
+    {
+      "centrally_symmetric_subset_sizes": [
+        1,
+        2
+      ],
+      "coordinate_vertex_count": 3,
+      "maximum_size": 2,
+      "nonempty_subsets_checked": 7
+    },
+    {
+      "centrally_symmetric_subset_sizes": [
+        1,
+        2
+      ],
+      "coordinate_vertex_count": 4,
+      "maximum_size": 2,
+      "nonempty_subsets_checked": 15
+    },
+    {
+      "centrally_symmetric_subset_sizes": [
+        1,
+        2
+      ],
+      "coordinate_vertex_count": 5,
+      "maximum_size": 2,
+      "nonempty_subsets_checked": 31
+    },
+    {
+      "centrally_symmetric_subset_sizes": [
+        1,
+        2
+      ],
+      "coordinate_vertex_count": 6,
+      "maximum_size": 2,
+      "nonempty_subsets_checked": 63
+    },
+    {
+      "centrally_symmetric_subset_sizes": [
+        1,
+        2
+      ],
+      "coordinate_vertex_count": 7,
+      "maximum_size": 2,
+      "nonempty_subsets_checked": 127
+    },
+    {
+      "centrally_symmetric_subset_sizes": [
+        1,
+        2
+      ],
+      "coordinate_vertex_count": 8,
+      "maximum_size": 2,
+      "nonempty_subsets_checked": 255
+    }
+  ],
+  "coordinate_tetrahedron_controls": [
+    {
+      "A": "12",
+      "B": "4",
+      "ambient_coordinate_count": 4,
+      "rho": "3",
+      "tetrahedra_checked": 1
+    },
+    {
+      "A": "15",
+      "B": "5",
+      "ambient_coordinate_count": 5,
+      "rho": "3",
+      "tetrahedra_checked": 5
+    },
+    {
+      "A": "18",
+      "B": "6",
+      "ambient_coordinate_count": 6,
+      "rho": "3",
+      "tetrahedra_checked": 15
+    },
+    {
+      "A": "21",
+      "B": "7",
+      "ambient_coordinate_count": 7,
+      "rho": "3",
+      "tetrahedra_checked": 35
+    },
+    {
+      "A": "24",
+      "B": "8",
+      "ambient_coordinate_count": 8,
+      "rho": "3",
+      "tetrahedra_checked": 70
+    },
+    {
+      "A": "27",
+      "B": "9",
+      "ambient_coordinate_count": 9,
+      "rho": "3",
+      "tetrahedra_checked": 126
+    },
+    {
+      "A": "30",
+      "B": "10",
+      "ambient_coordinate_count": 10,
+      "rho": "3",
+      "tetrahedra_checked": 210
+    },
+    {
+      "A": "33",
+      "B": "11",
+      "ambient_coordinate_count": 11,
+      "rho": "3",
+      "tetrahedra_checked": 330
+    }
+  ],
+  "hostile_non_braid_control": {
+    "A": "15",
+    "B": "5",
+    "P_vertices": [
+      [
+        "1/2",
+        "1/2",
+        "0",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "1",
+        "0",
+        "0"
+      ]
+    ],
+    "Q_vertices": [
+      [
+        "0",
+        "0",
+        "0",
+        "1",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ]
+    ],
+    "chosen_cross_direction": [
+      "-1/2",
+      "-1/2",
+      "0",
+      "1",
+      "0"
+    ],
+    "chosen_cross_direction_is_root_parallel": false,
+    "generalized_permutohedron": false,
+    "rho": "3"
+  },
+  "schema": "maxrelu-g0066-gp-equality-classification-v1",
+  "scope": {
+    "classification": "nonpoint generalized permutohedra in P^2 with ambient standard-simplex rho equal to 3",
+    "max11_consequence": "strict lower bound for the single-zonotope stabilizer subclass only",
+    "novelty_adjudicated": false,
+    "unrestricted_MAX11_settled": false
+  },
+  "single_zonotope_MAX11_consequence": {
+    "common_edge_coefficient": "1/14",
+    "conclusion": "lambda_Delta_10(Z) > 55/14",
+    "equality_candidate_faces_fail_P2": true,
+    "g0065_equality_candidate": "(1/14) * graphical_zonotope(K_11)",
+    "scope": "Z zonotope and Delta_10 + Z in P^2",
+    "tie_face_sizes": [
+      7,
+      8
+    ]
+  },
+  "source_locators": {
+    "bakaev_yehudayoff": "Theorems 9-10 and their proofs, physical PDF pages 6-11",
+    "jochemko_ravichandran": "Proposition 2.1 and Theorems 2.2-2.3, physical PDF pages 4-5"
+  }
+}
