@@ -1,0 +1,1329 @@
+{
+  "MAX11_arbitrary_zonotope_double_count": {
+    "equality_rigidity": {
+      "equality_zonotope_up_to_translation": "(1/14) * graphical_zonotope(K_11)",
+      "full_Q_column_rank_certified": true,
+      "reason": "at_size_7_every_support_size_greater_than_2_has_strictly_smaller_retention_multiplicity",
+      "seven_set_edge_incidence_rank_mod_1000003": 55,
+      "seven_set_edge_incidence_shape": [
+        330,
+        55
+      ],
+      "support_size_two_forced": true,
+      "unique_merged_edge_weight": "1/14"
+    },
+    "global_lambda_Delta_Z_lower_bound": "55/14",
+    "per_tie_size_double_counts": [
+      {
+        "global_lambda_Delta_Z_lower_bound": "11/4",
+        "pair_support_multiplicity": 84,
+        "per_tie_set_lambda_lower_bound": "1/2",
+        "support_multiplicities": [
+          {
+            "generator_support_size": 2,
+            "number_of_tie_sets_retaining_generator": 84
+          },
+          {
+            "generator_support_size": 3,
+            "number_of_tie_sets_retaining_generator": 28
+          },
+          {
+            "generator_support_size": 4,
+            "number_of_tie_sets_retaining_generator": 7
+          },
+          {
+            "generator_support_size": 5,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 6,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 7,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 8,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 9,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 10,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 11,
+            "number_of_tie_sets_retaining_generator": 0
+          }
+        ],
+        "tie_set_size": 5
+      },
+      {
+        "global_lambda_Delta_Z_lower_bound": "11/3",
+        "pair_support_multiplicity": 126,
+        "per_tie_set_lambda_lower_bound": "1",
+        "support_multiplicities": [
+          {
+            "generator_support_size": 2,
+            "number_of_tie_sets_retaining_generator": 126
+          },
+          {
+            "generator_support_size": 3,
+            "number_of_tie_sets_retaining_generator": 56
+          },
+          {
+            "generator_support_size": 4,
+            "number_of_tie_sets_retaining_generator": 21
+          },
+          {
+            "generator_support_size": 5,
+            "number_of_tie_sets_retaining_generator": 6
+          },
+          {
+            "generator_support_size": 6,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 7,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 8,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 9,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 10,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 11,
+            "number_of_tie_sets_retaining_generator": 0
+          }
+        ],
+        "tie_set_size": 6
+      },
+      {
+        "global_lambda_Delta_Z_lower_bound": "55/14",
+        "pair_support_multiplicity": 126,
+        "per_tie_set_lambda_lower_bound": "3/2",
+        "support_multiplicities": [
+          {
+            "generator_support_size": 2,
+            "number_of_tie_sets_retaining_generator": 126
+          },
+          {
+            "generator_support_size": 3,
+            "number_of_tie_sets_retaining_generator": 70
+          },
+          {
+            "generator_support_size": 4,
+            "number_of_tie_sets_retaining_generator": 35
+          },
+          {
+            "generator_support_size": 5,
+            "number_of_tie_sets_retaining_generator": 15
+          },
+          {
+            "generator_support_size": 6,
+            "number_of_tie_sets_retaining_generator": 5
+          },
+          {
+            "generator_support_size": 7,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 8,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 9,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 10,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 11,
+            "number_of_tie_sets_retaining_generator": 0
+          }
+        ],
+        "tie_set_size": 7
+      },
+      {
+        "global_lambda_Delta_Z_lower_bound": "55/14",
+        "pair_support_multiplicity": 84,
+        "per_tie_set_lambda_lower_bound": "2",
+        "support_multiplicities": [
+          {
+            "generator_support_size": 2,
+            "number_of_tie_sets_retaining_generator": 84
+          },
+          {
+            "generator_support_size": 3,
+            "number_of_tie_sets_retaining_generator": 56
+          },
+          {
+            "generator_support_size": 4,
+            "number_of_tie_sets_retaining_generator": 35
+          },
+          {
+            "generator_support_size": 5,
+            "number_of_tie_sets_retaining_generator": 20
+          },
+          {
+            "generator_support_size": 6,
+            "number_of_tie_sets_retaining_generator": 10
+          },
+          {
+            "generator_support_size": 7,
+            "number_of_tie_sets_retaining_generator": 4
+          },
+          {
+            "generator_support_size": 8,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 9,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 10,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 11,
+            "number_of_tie_sets_retaining_generator": 0
+          }
+        ],
+        "tie_set_size": 8
+      },
+      {
+        "global_lambda_Delta_Z_lower_bound": "275/72",
+        "pair_support_multiplicity": 36,
+        "per_tie_set_lambda_lower_bound": "5/2",
+        "support_multiplicities": [
+          {
+            "generator_support_size": 2,
+            "number_of_tie_sets_retaining_generator": 36
+          },
+          {
+            "generator_support_size": 3,
+            "number_of_tie_sets_retaining_generator": 28
+          },
+          {
+            "generator_support_size": 4,
+            "number_of_tie_sets_retaining_generator": 21
+          },
+          {
+            "generator_support_size": 5,
+            "number_of_tie_sets_retaining_generator": 15
+          },
+          {
+            "generator_support_size": 6,
+            "number_of_tie_sets_retaining_generator": 10
+          },
+          {
+            "generator_support_size": 7,
+            "number_of_tie_sets_retaining_generator": 6
+          },
+          {
+            "generator_support_size": 8,
+            "number_of_tie_sets_retaining_generator": 3
+          },
+          {
+            "generator_support_size": 9,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 10,
+            "number_of_tie_sets_retaining_generator": 0
+          },
+          {
+            "generator_support_size": 11,
+            "number_of_tie_sets_retaining_generator": 0
+          }
+        ],
+        "tie_set_size": 9
+      },
+      {
+        "global_lambda_Delta_Z_lower_bound": "11/3",
+        "pair_support_multiplicity": 9,
+        "per_tie_set_lambda_lower_bound": "3",
+        "support_multiplicities": [
+          {
+            "generator_support_size": 2,
+            "number_of_tie_sets_retaining_generator": 9
+          },
+          {
+            "generator_support_size": 3,
+            "number_of_tie_sets_retaining_generator": 8
+          },
+          {
+            "generator_support_size": 4,
+            "number_of_tie_sets_retaining_generator": 7
+          },
+          {
+            "generator_support_size": 5,
+            "number_of_tie_sets_retaining_generator": 6
+          },
+          {
+            "generator_support_size": 6,
+            "number_of_tie_sets_retaining_generator": 5
+          },
+          {
+            "generator_support_size": 7,
+            "number_of_tie_sets_retaining_generator": 4
+          },
+          {
+            "generator_support_size": 8,
+            "number_of_tie_sets_retaining_generator": 3
+          },
+          {
+            "generator_support_size": 9,
+            "number_of_tie_sets_retaining_generator": 2
+          },
+          {
+            "generator_support_size": 10,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 11,
+            "number_of_tie_sets_retaining_generator": 0
+          }
+        ],
+        "tie_set_size": 10
+      },
+      {
+        "global_lambda_Delta_Z_lower_bound": "7/2",
+        "pair_support_multiplicity": 1,
+        "per_tie_set_lambda_lower_bound": "7/2",
+        "support_multiplicities": [
+          {
+            "generator_support_size": 2,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 3,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 4,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 5,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 6,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 7,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 8,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 9,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 10,
+            "number_of_tie_sets_retaining_generator": 1
+          },
+          {
+            "generator_support_size": 11,
+            "number_of_tie_sets_retaining_generator": 1
+          }
+        ],
+        "tie_set_size": 11
+      }
+    ],
+    "scope": "all_finite_zonotopes_in_the_centered_MAX11_space",
+    "strongest_tie_set_sizes": [
+      7,
+      8
+    ]
+  },
+  "MAX11_delta_zonotope_no_go": {
+    "N_coordinates": 11,
+    "P2_bound": 3,
+    "exposed_stabilizer_face": "point",
+    "facet_simplex_rho": 9,
+    "generator_facet_pairings_checked": 121,
+    "rejected_by_face_closure": true,
+    "resulting_B_facet": "translate_of_Delta_9",
+    "zero_pairings": 0
+  },
+  "MAX11_weighted_graphical_constraints": {
+    "N_coordinates": 11,
+    "constraints": [
+      {
+        "each_edge_subset_multiplicity": 84,
+        "enumerated_edge_subset_incidences": 4620,
+        "per_subset_induced_edge_weight_lower_bound": "1/2",
+        "simplex_face_dimension": 4,
+        "subset_count": 462,
+        "tie_set_size": 5,
+        "total_edge_weight_lower_bound": "11/4"
+      },
+      {
+        "each_edge_subset_multiplicity": 126,
+        "enumerated_edge_subset_incidences": 6930,
+        "per_subset_induced_edge_weight_lower_bound": "1",
+        "simplex_face_dimension": 5,
+        "subset_count": 462,
+        "tie_set_size": 6,
+        "total_edge_weight_lower_bound": "11/3"
+      },
+      {
+        "each_edge_subset_multiplicity": 126,
+        "enumerated_edge_subset_incidences": 6930,
+        "per_subset_induced_edge_weight_lower_bound": "3/2",
+        "simplex_face_dimension": 6,
+        "subset_count": 330,
+        "tie_set_size": 7,
+        "total_edge_weight_lower_bound": "55/14"
+      },
+      {
+        "each_edge_subset_multiplicity": 84,
+        "enumerated_edge_subset_incidences": 4620,
+        "per_subset_induced_edge_weight_lower_bound": "2",
+        "simplex_face_dimension": 7,
+        "subset_count": 165,
+        "tie_set_size": 8,
+        "total_edge_weight_lower_bound": "55/14"
+      },
+      {
+        "each_edge_subset_multiplicity": 36,
+        "enumerated_edge_subset_incidences": 1980,
+        "per_subset_induced_edge_weight_lower_bound": "5/2",
+        "simplex_face_dimension": 8,
+        "subset_count": 55,
+        "tie_set_size": 9,
+        "total_edge_weight_lower_bound": "275/72"
+      },
+      {
+        "each_edge_subset_multiplicity": 9,
+        "enumerated_edge_subset_incidences": 495,
+        "per_subset_induced_edge_weight_lower_bound": "3",
+        "simplex_face_dimension": 9,
+        "subset_count": 11,
+        "tie_set_size": 10,
+        "total_edge_weight_lower_bound": "11/3"
+      },
+      {
+        "each_edge_subset_multiplicity": 1,
+        "enumerated_edge_subset_incidences": 55,
+        "per_subset_induced_edge_weight_lower_bound": "7/2",
+        "simplex_face_dimension": 10,
+        "subset_count": 1,
+        "tie_set_size": 11,
+        "total_edge_weight_lower_bound": "7/2"
+      }
+    ],
+    "strongest_tie_set_sizes": [
+      7,
+      8
+    ],
+    "strongest_total_edge_weight_lower_bound": "55/14",
+    "uniform_checks": [
+      {
+        "induced_edge_weight": "5/7",
+        "required": "1/2",
+        "slack": "3/14",
+        "tie_set_size": 5
+      },
+      {
+        "induced_edge_weight": "15/14",
+        "required": "1",
+        "slack": "1/14",
+        "tie_set_size": 6
+      },
+      {
+        "induced_edge_weight": "3/2",
+        "required": "3/2",
+        "slack": "0",
+        "tie_set_size": 7
+      },
+      {
+        "induced_edge_weight": "2",
+        "required": "2",
+        "slack": "0",
+        "tie_set_size": 8
+      },
+      {
+        "induced_edge_weight": "18/7",
+        "required": "5/2",
+        "slack": "1/14",
+        "tie_set_size": 9
+      },
+      {
+        "induced_edge_weight": "45/14",
+        "required": "3",
+        "slack": "3/14",
+        "tie_set_size": 10
+      },
+      {
+        "induced_edge_weight": "55/14",
+        "required": "7/2",
+        "slack": "3/7",
+        "tie_set_size": 11
+      }
+    ],
+    "uniform_edge_weight": "1/14"
+  },
+  "MAX4_through_MAX10_hostile_controls": {
+    "delta_zonotope_facet_thresholds": [
+      {
+        "N_coordinates": 4,
+        "P2_bound": 3,
+        "exposed_stabilizer_face": "point",
+        "facet_simplex_rho": 2,
+        "generator_facet_pairings_checked": 16,
+        "rejected_by_face_closure": false,
+        "resulting_B_facet": "translate_of_Delta_2",
+        "zero_pairings": 0
+      },
+      {
+        "N_coordinates": 5,
+        "P2_bound": 3,
+        "exposed_stabilizer_face": "point",
+        "facet_simplex_rho": 3,
+        "generator_facet_pairings_checked": 25,
+        "rejected_by_face_closure": false,
+        "resulting_B_facet": "translate_of_Delta_3",
+        "zero_pairings": 0
+      },
+      {
+        "N_coordinates": 6,
+        "P2_bound": 3,
+        "exposed_stabilizer_face": "point",
+        "facet_simplex_rho": 4,
+        "generator_facet_pairings_checked": 36,
+        "rejected_by_face_closure": true,
+        "resulting_B_facet": "translate_of_Delta_4",
+        "zero_pairings": 0
+      },
+      {
+        "N_coordinates": 7,
+        "P2_bound": 3,
+        "exposed_stabilizer_face": "point",
+        "facet_simplex_rho": 5,
+        "generator_facet_pairings_checked": 49,
+        "rejected_by_face_closure": true,
+        "resulting_B_facet": "translate_of_Delta_5",
+        "zero_pairings": 0
+      },
+      {
+        "N_coordinates": 8,
+        "P2_bound": 3,
+        "exposed_stabilizer_face": "point",
+        "facet_simplex_rho": 6,
+        "generator_facet_pairings_checked": 64,
+        "rejected_by_face_closure": true,
+        "resulting_B_facet": "translate_of_Delta_6",
+        "zero_pairings": 0
+      },
+      {
+        "N_coordinates": 9,
+        "P2_bound": 3,
+        "exposed_stabilizer_face": "point",
+        "facet_simplex_rho": 7,
+        "generator_facet_pairings_checked": 81,
+        "rejected_by_face_closure": true,
+        "resulting_B_facet": "translate_of_Delta_7",
+        "zero_pairings": 0
+      },
+      {
+        "N_coordinates": 10,
+        "P2_bound": 3,
+        "exposed_stabilizer_face": "point",
+        "facet_simplex_rho": 8,
+        "generator_facet_pairings_checked": 100,
+        "rejected_by_face_closure": true,
+        "resulting_B_facet": "translate_of_Delta_8",
+        "zero_pairings": 0
+      }
+    ],
+    "graphical_constraint_thresholds": [
+      {
+        "N_coordinates": 4,
+        "constraints": [],
+        "strongest_tie_set_sizes": [],
+        "strongest_total_edge_weight_lower_bound": "0",
+        "uniform_checks": [],
+        "uniform_edge_weight": "0"
+      },
+      {
+        "N_coordinates": 5,
+        "constraints": [
+          {
+            "each_edge_subset_multiplicity": 1,
+            "enumerated_edge_subset_incidences": 10,
+            "per_subset_induced_edge_weight_lower_bound": "1/2",
+            "simplex_face_dimension": 4,
+            "subset_count": 1,
+            "tie_set_size": 5,
+            "total_edge_weight_lower_bound": "1/2"
+          }
+        ],
+        "strongest_tie_set_sizes": [
+          5
+        ],
+        "strongest_total_edge_weight_lower_bound": "1/2",
+        "uniform_checks": [
+          {
+            "induced_edge_weight": "1/2",
+            "required": "1/2",
+            "slack": "0",
+            "tie_set_size": 5
+          }
+        ],
+        "uniform_edge_weight": "1/20"
+      },
+      {
+        "N_coordinates": 6,
+        "constraints": [
+          {
+            "each_edge_subset_multiplicity": 4,
+            "enumerated_edge_subset_incidences": 60,
+            "per_subset_induced_edge_weight_lower_bound": "1/2",
+            "simplex_face_dimension": 4,
+            "subset_count": 6,
+            "tie_set_size": 5,
+            "total_edge_weight_lower_bound": "3/4"
+          },
+          {
+            "each_edge_subset_multiplicity": 1,
+            "enumerated_edge_subset_incidences": 15,
+            "per_subset_induced_edge_weight_lower_bound": "1",
+            "simplex_face_dimension": 5,
+            "subset_count": 1,
+            "tie_set_size": 6,
+            "total_edge_weight_lower_bound": "1"
+          }
+        ],
+        "strongest_tie_set_sizes": [
+          6
+        ],
+        "strongest_total_edge_weight_lower_bound": "1",
+        "uniform_checks": [
+          {
+            "induced_edge_weight": "2/3",
+            "required": "1/2",
+            "slack": "1/6",
+            "tie_set_size": 5
+          },
+          {
+            "induced_edge_weight": "1",
+            "required": "1",
+            "slack": "0",
+            "tie_set_size": 6
+          }
+        ],
+        "uniform_edge_weight": "1/15"
+      },
+      {
+        "N_coordinates": 7,
+        "constraints": [
+          {
+            "each_edge_subset_multiplicity": 10,
+            "enumerated_edge_subset_incidences": 210,
+            "per_subset_induced_edge_weight_lower_bound": "1/2",
+            "simplex_face_dimension": 4,
+            "subset_count": 21,
+            "tie_set_size": 5,
+            "total_edge_weight_lower_bound": "21/20"
+          },
+          {
+            "each_edge_subset_multiplicity": 5,
+            "enumerated_edge_subset_incidences": 105,
+            "per_subset_induced_edge_weight_lower_bound": "1",
+            "simplex_face_dimension": 5,
+            "subset_count": 7,
+            "tie_set_size": 6,
+            "total_edge_weight_lower_bound": "7/5"
+          },
+          {
+            "each_edge_subset_multiplicity": 1,
+            "enumerated_edge_subset_incidences": 21,
+            "per_subset_induced_edge_weight_lower_bound": "3/2",
+            "simplex_face_dimension": 6,
+            "subset_count": 1,
+            "tie_set_size": 7,
+            "total_edge_weight_lower_bound": "3/2"
+          }
+        ],
+        "strongest_tie_set_sizes": [
+          7
+        ],
+        "strongest_total_edge_weight_lower_bound": "3/2",
+        "uniform_checks": [
+          {
+            "induced_edge_weight": "5/7",
+            "required": "1/2",
+            "slack": "3/14",
+            "tie_set_size": 5
+          },
+          {
+            "induced_edge_weight": "15/14",
+            "required": "1",
+            "slack": "1/14",
+            "tie_set_size": 6
+          },
+          {
+            "induced_edge_weight": "3/2",
+            "required": "3/2",
+            "slack": "0",
+            "tie_set_size": 7
+          }
+        ],
+        "uniform_edge_weight": "1/14"
+      },
+      {
+        "N_coordinates": 8,
+        "constraints": [
+          {
+            "each_edge_subset_multiplicity": 20,
+            "enumerated_edge_subset_incidences": 560,
+            "per_subset_induced_edge_weight_lower_bound": "1/2",
+            "simplex_face_dimension": 4,
+            "subset_count": 56,
+            "tie_set_size": 5,
+            "total_edge_weight_lower_bound": "7/5"
+          },
+          {
+            "each_edge_subset_multiplicity": 15,
+            "enumerated_edge_subset_incidences": 420,
+            "per_subset_induced_edge_weight_lower_bound": "1",
+            "simplex_face_dimension": 5,
+            "subset_count": 28,
+            "tie_set_size": 6,
+            "total_edge_weight_lower_bound": "28/15"
+          },
+          {
+            "each_edge_subset_multiplicity": 6,
+            "enumerated_edge_subset_incidences": 168,
+            "per_subset_induced_edge_weight_lower_bound": "3/2",
+            "simplex_face_dimension": 6,
+            "subset_count": 8,
+            "tie_set_size": 7,
+            "total_edge_weight_lower_bound": "2"
+          },
+          {
+            "each_edge_subset_multiplicity": 1,
+            "enumerated_edge_subset_incidences": 28,
+            "per_subset_induced_edge_weight_lower_bound": "2",
+            "simplex_face_dimension": 7,
+            "subset_count": 1,
+            "tie_set_size": 8,
+            "total_edge_weight_lower_bound": "2"
+          }
+        ],
+        "strongest_tie_set_sizes": [
+          7,
+          8
+        ],
+        "strongest_total_edge_weight_lower_bound": "2",
+        "uniform_checks": [
+          {
+            "induced_edge_weight": "5/7",
+            "required": "1/2",
+            "slack": "3/14",
+            "tie_set_size": 5
+          },
+          {
+            "induced_edge_weight": "15/14",
+            "required": "1",
+            "slack": "1/14",
+            "tie_set_size": 6
+          },
+          {
+            "induced_edge_weight": "3/2",
+            "required": "3/2",
+            "slack": "0",
+            "tie_set_size": 7
+          },
+          {
+            "induced_edge_weight": "2",
+            "required": "2",
+            "slack": "0",
+            "tie_set_size": 8
+          }
+        ],
+        "uniform_edge_weight": "1/14"
+      },
+      {
+        "N_coordinates": 9,
+        "constraints": [
+          {
+            "each_edge_subset_multiplicity": 35,
+            "enumerated_edge_subset_incidences": 1260,
+            "per_subset_induced_edge_weight_lower_bound": "1/2",
+            "simplex_face_dimension": 4,
+            "subset_count": 126,
+            "tie_set_size": 5,
+            "total_edge_weight_lower_bound": "9/5"
+          },
+          {
+            "each_edge_subset_multiplicity": 35,
+            "enumerated_edge_subset_incidences": 1260,
+            "per_subset_induced_edge_weight_lower_bound": "1",
+            "simplex_face_dimension": 5,
+            "subset_count": 84,
+            "tie_set_size": 6,
+            "total_edge_weight_lower_bound": "12/5"
+          },
+          {
+            "each_edge_subset_multiplicity": 21,
+            "enumerated_edge_subset_incidences": 756,
+            "per_subset_induced_edge_weight_lower_bound": "3/2",
+            "simplex_face_dimension": 6,
+            "subset_count": 36,
+            "tie_set_size": 7,
+            "total_edge_weight_lower_bound": "18/7"
+          },
+          {
+            "each_edge_subset_multiplicity": 7,
+            "enumerated_edge_subset_incidences": 252,
+            "per_subset_induced_edge_weight_lower_bound": "2",
+            "simplex_face_dimension": 7,
+            "subset_count": 9,
+            "tie_set_size": 8,
+            "total_edge_weight_lower_bound": "18/7"
+          },
+          {
+            "each_edge_subset_multiplicity": 1,
+            "enumerated_edge_subset_incidences": 36,
+            "per_subset_induced_edge_weight_lower_bound": "5/2",
+            "simplex_face_dimension": 8,
+            "subset_count": 1,
+            "tie_set_size": 9,
+            "total_edge_weight_lower_bound": "5/2"
+          }
+        ],
+        "strongest_tie_set_sizes": [
+          7,
+          8
+        ],
+        "strongest_total_edge_weight_lower_bound": "18/7",
+        "uniform_checks": [
+          {
+            "induced_edge_weight": "5/7",
+            "required": "1/2",
+            "slack": "3/14",
+            "tie_set_size": 5
+          },
+          {
+            "induced_edge_weight": "15/14",
+            "required": "1",
+            "slack": "1/14",
+            "tie_set_size": 6
+          },
+          {
+            "induced_edge_weight": "3/2",
+            "required": "3/2",
+            "slack": "0",
+            "tie_set_size": 7
+          },
+          {
+            "induced_edge_weight": "2",
+            "required": "2",
+            "slack": "0",
+            "tie_set_size": 8
+          },
+          {
+            "induced_edge_weight": "18/7",
+            "required": "5/2",
+            "slack": "1/14",
+            "tie_set_size": 9
+          }
+        ],
+        "uniform_edge_weight": "1/14"
+      },
+      {
+        "N_coordinates": 10,
+        "constraints": [
+          {
+            "each_edge_subset_multiplicity": 56,
+            "enumerated_edge_subset_incidences": 2520,
+            "per_subset_induced_edge_weight_lower_bound": "1/2",
+            "simplex_face_dimension": 4,
+            "subset_count": 252,
+            "tie_set_size": 5,
+            "total_edge_weight_lower_bound": "9/4"
+          },
+          {
+            "each_edge_subset_multiplicity": 70,
+            "enumerated_edge_subset_incidences": 3150,
+            "per_subset_induced_edge_weight_lower_bound": "1",
+            "simplex_face_dimension": 5,
+            "subset_count": 210,
+            "tie_set_size": 6,
+            "total_edge_weight_lower_bound": "3"
+          },
+          {
+            "each_edge_subset_multiplicity": 56,
+            "enumerated_edge_subset_incidences": 2520,
+            "per_subset_induced_edge_weight_lower_bound": "3/2",
+            "simplex_face_dimension": 6,
+            "subset_count": 120,
+            "tie_set_size": 7,
+            "total_edge_weight_lower_bound": "45/14"
+          },
+          {
+            "each_edge_subset_multiplicity": 28,
+            "enumerated_edge_subset_incidences": 1260,
+            "per_subset_induced_edge_weight_lower_bound": "2",
+            "simplex_face_dimension": 7,
+            "subset_count": 45,
+            "tie_set_size": 8,
+            "total_edge_weight_lower_bound": "45/14"
+          },
+          {
+            "each_edge_subset_multiplicity": 8,
+            "enumerated_edge_subset_incidences": 360,
+            "per_subset_induced_edge_weight_lower_bound": "5/2",
+            "simplex_face_dimension": 8,
+            "subset_count": 10,
+            "tie_set_size": 9,
+            "total_edge_weight_lower_bound": "25/8"
+          },
+          {
+            "each_edge_subset_multiplicity": 1,
+            "enumerated_edge_subset_incidences": 45,
+            "per_subset_induced_edge_weight_lower_bound": "3",
+            "simplex_face_dimension": 9,
+            "subset_count": 1,
+            "tie_set_size": 10,
+            "total_edge_weight_lower_bound": "3"
+          }
+        ],
+        "strongest_tie_set_sizes": [
+          7,
+          8
+        ],
+        "strongest_total_edge_weight_lower_bound": "45/14",
+        "uniform_checks": [
+          {
+            "induced_edge_weight": "5/7",
+            "required": "1/2",
+            "slack": "3/14",
+            "tie_set_size": 5
+          },
+          {
+            "induced_edge_weight": "15/14",
+            "required": "1",
+            "slack": "1/14",
+            "tie_set_size": 6
+          },
+          {
+            "induced_edge_weight": "3/2",
+            "required": "3/2",
+            "slack": "0",
+            "tie_set_size": 7
+          },
+          {
+            "induced_edge_weight": "2",
+            "required": "2",
+            "slack": "0",
+            "tie_set_size": 8
+          },
+          {
+            "induced_edge_weight": "18/7",
+            "required": "5/2",
+            "slack": "1/14",
+            "tie_set_size": 9
+          },
+          {
+            "induced_edge_weight": "45/14",
+            "required": "3",
+            "slack": "3/14",
+            "tie_set_size": 10
+          }
+        ],
+        "uniform_edge_weight": "1/14"
+      }
+    ],
+    "scope": {
+      "MAX4_positive_control": {
+        "constraint_triggered": false,
+        "identity": "Delta_3 + point = conv([e1,e2] union [e3,e4])",
+        "target": "MAX4/Delta_3",
+        "two_zonotope_branches": [
+          "segment_[e1,e2]",
+          "segment_[e3,e4]"
+        ]
+      },
+      "MAX5_through_MAX10_scope_controls": [
+        {
+          "N_coordinates": 5,
+          "negative_side_rho_Delta": "3/2",
+          "rho_not_one": true,
+          "scope_adjudication": "general_P2_stabilizer_not_a_zonotope;_G0065_does_not_apply"
+        },
+        {
+          "N_coordinates": 6,
+          "negative_side_rho_Delta": "11/5",
+          "rho_not_one": true,
+          "scope_adjudication": "general_P2_stabilizer_not_a_zonotope;_G0065_does_not_apply"
+        },
+        {
+          "N_coordinates": 7,
+          "negative_side_rho_Delta": "343/172",
+          "rho_not_one": true,
+          "scope_adjudication": "general_P2_stabilizer_not_a_zonotope;_G0065_does_not_apply"
+        },
+        {
+          "N_coordinates": 8,
+          "negative_side_rho_Delta": "5531/2749",
+          "rho_not_one": true,
+          "scope_adjudication": "general_P2_stabilizer_not_a_zonotope;_G0065_does_not_apply"
+        },
+        {
+          "N_coordinates": 9,
+          "negative_side_rho_Delta": "102569/47281",
+          "rho_not_one": true,
+          "scope_adjudication": "general_P2_stabilizer_not_a_zonotope;_G0065_does_not_apply"
+        },
+        {
+          "N_coordinates": 10,
+          "negative_side_rho_Delta": "93143/40398",
+          "rho_not_one": true,
+          "scope_adjudication": "general_P2_stabilizer_not_a_zonotope;_G0065_does_not_apply"
+        }
+      ]
+    }
+  },
+  "boundaries": [
+    "No condition here is sufficient for Delta_10+Z to lie in P^2.",
+    "The result does not apply when the negative stabilizer A is a non-zonotopal P^2 polytope.",
+    "The 55/14 bound applies to every finite zonotope, but still only in the single-zonotope-stabilizer scope.",
+    "No unrestricted MAX11 representation or impossibility theorem is proved."
+  ],
+  "claim": "necessary_conditions_for_single_zonotope_stabilizer_only",
+  "converse_hostile_controls": {
+    "total_weight_bound_is_not_sufficient": {
+      "all_weight_on_edge": [
+        0,
+        1
+      ],
+      "global_total_weight": "55/14",
+      "induced_weight": "0",
+      "required": "3/2",
+      "violating_seven_set": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "uniform_weight_below_one_fourteenth_is_rejected": {
+      "mutant_uniform_weight": "493/7000",
+      "required": "3/2",
+      "seven_set_induced_weight": "1479/1000"
+    }
+  },
+  "general_MAX11_single_zonotope_facet_condition": {
+    "facet_i_retained_generators": "{g : g_i=0} in centered coordinates",
+    "identity_scope": "Delta_10 + Z = B with Z a zonotope and B in P^2",
+    "required_on_each_of_11_facets": "lambda_Delta9(F_i(Z)) >= 3"
+  },
+  "general_centered_segment_lambda_controls": [
+    {
+      "ambient_coordinate_count": 3,
+      "l1_norm_over_two": "1",
+      "lambda_Delta": "1",
+      "positive_coordinate_mass": "1",
+      "support_size": 2
+    },
+    {
+      "ambient_coordinate_count": 3,
+      "l1_norm_over_two": "2",
+      "lambda_Delta": "2",
+      "positive_coordinate_mass": "2",
+      "support_size": 3
+    },
+    {
+      "ambient_coordinate_count": 4,
+      "l1_norm_over_two": "1",
+      "lambda_Delta": "1",
+      "positive_coordinate_mass": "1",
+      "support_size": 2
+    },
+    {
+      "ambient_coordinate_count": 4,
+      "l1_norm_over_two": "2",
+      "lambda_Delta": "2",
+      "positive_coordinate_mass": "2",
+      "support_size": 3
+    },
+    {
+      "ambient_coordinate_count": 4,
+      "l1_norm_over_two": "6",
+      "lambda_Delta": "6",
+      "positive_coordinate_mass": "6",
+      "support_size": 4
+    },
+    {
+      "ambient_coordinate_count": 5,
+      "l1_norm_over_two": "1",
+      "lambda_Delta": "1",
+      "positive_coordinate_mass": "1",
+      "support_size": 2
+    },
+    {
+      "ambient_coordinate_count": 5,
+      "l1_norm_over_two": "2",
+      "lambda_Delta": "2",
+      "positive_coordinate_mass": "2",
+      "support_size": 3
+    },
+    {
+      "ambient_coordinate_count": 5,
+      "l1_norm_over_two": "6",
+      "lambda_Delta": "6",
+      "positive_coordinate_mass": "6",
+      "support_size": 4
+    },
+    {
+      "ambient_coordinate_count": 6,
+      "l1_norm_over_two": "1",
+      "lambda_Delta": "1",
+      "positive_coordinate_mass": "1",
+      "support_size": 2
+    },
+    {
+      "ambient_coordinate_count": 6,
+      "l1_norm_over_two": "2",
+      "lambda_Delta": "2",
+      "positive_coordinate_mass": "2",
+      "support_size": 3
+    },
+    {
+      "ambient_coordinate_count": 6,
+      "l1_norm_over_two": "6",
+      "lambda_Delta": "6",
+      "positive_coordinate_mass": "6",
+      "support_size": 4
+    },
+    {
+      "ambient_coordinate_count": 7,
+      "l1_norm_over_two": "1",
+      "lambda_Delta": "1",
+      "positive_coordinate_mass": "1",
+      "support_size": 2
+    },
+    {
+      "ambient_coordinate_count": 7,
+      "l1_norm_over_two": "2",
+      "lambda_Delta": "2",
+      "positive_coordinate_mass": "2",
+      "support_size": 3
+    },
+    {
+      "ambient_coordinate_count": 7,
+      "l1_norm_over_two": "6",
+      "lambda_Delta": "6",
+      "positive_coordinate_mass": "6",
+      "support_size": 4
+    },
+    {
+      "ambient_coordinate_count": 8,
+      "l1_norm_over_two": "1",
+      "lambda_Delta": "1",
+      "positive_coordinate_mass": "1",
+      "support_size": 2
+    },
+    {
+      "ambient_coordinate_count": 8,
+      "l1_norm_over_two": "2",
+      "lambda_Delta": "2",
+      "positive_coordinate_mass": "2",
+      "support_size": 3
+    },
+    {
+      "ambient_coordinate_count": 8,
+      "l1_norm_over_two": "6",
+      "lambda_Delta": "6",
+      "positive_coordinate_mass": "6",
+      "support_size": 4
+    },
+    {
+      "ambient_coordinate_count": 9,
+      "l1_norm_over_two": "1",
+      "lambda_Delta": "1",
+      "positive_coordinate_mass": "1",
+      "support_size": 2
+    },
+    {
+      "ambient_coordinate_count": 9,
+      "l1_norm_over_two": "2",
+      "lambda_Delta": "2",
+      "positive_coordinate_mass": "2",
+      "support_size": 3
+    },
+    {
+      "ambient_coordinate_count": 9,
+      "l1_norm_over_two": "6",
+      "lambda_Delta": "6",
+      "positive_coordinate_mass": "6",
+      "support_size": 4
+    },
+    {
+      "ambient_coordinate_count": 10,
+      "l1_norm_over_two": "1",
+      "lambda_Delta": "1",
+      "positive_coordinate_mass": "1",
+      "support_size": 2
+    },
+    {
+      "ambient_coordinate_count": 10,
+      "l1_norm_over_two": "2",
+      "lambda_Delta": "2",
+      "positive_coordinate_mass": "2",
+      "support_size": 3
+    },
+    {
+      "ambient_coordinate_count": 10,
+      "l1_norm_over_two": "6",
+      "lambda_Delta": "6",
+      "positive_coordinate_mass": "6",
+      "support_size": 4
+    },
+    {
+      "ambient_coordinate_count": 11,
+      "l1_norm_over_two": "1",
+      "lambda_Delta": "1",
+      "positive_coordinate_mass": "1",
+      "support_size": 2
+    },
+    {
+      "ambient_coordinate_count": 11,
+      "l1_norm_over_two": "2",
+      "lambda_Delta": "2",
+      "positive_coordinate_mass": "2",
+      "support_size": 3
+    },
+    {
+      "ambient_coordinate_count": 11,
+      "l1_norm_over_two": "6",
+      "lambda_Delta": "6",
+      "positive_coordinate_mass": "6",
+      "support_size": 4
+    }
+  ],
+  "generic_tie_retention_controls": [
+    {
+      "N_coordinates": 11,
+      "expected_induced_edge_count": 10,
+      "retained_edge_count": 10,
+      "tie_set_size": 5
+    },
+    {
+      "N_coordinates": 11,
+      "expected_induced_edge_count": 15,
+      "retained_edge_count": 15,
+      "tie_set_size": 6
+    },
+    {
+      "N_coordinates": 11,
+      "expected_induced_edge_count": 21,
+      "retained_edge_count": 21,
+      "tie_set_size": 7
+    },
+    {
+      "N_coordinates": 11,
+      "expected_induced_edge_count": 28,
+      "retained_edge_count": 28,
+      "tie_set_size": 8
+    },
+    {
+      "N_coordinates": 11,
+      "expected_induced_edge_count": 36,
+      "retained_edge_count": 36,
+      "tie_set_size": 9
+    },
+    {
+      "N_coordinates": 11,
+      "expected_induced_edge_count": 45,
+      "retained_edge_count": 45,
+      "tie_set_size": 10
+    }
+  ],
+  "input_bindings": {
+    "artifacts/math/G-0063/README.md": "6b0541b537956e2d720111911f04ad8787a7129570886d96371de282b2523dc1",
+    "artifacts/math/G-0063/simplex_asymmetry_certificate_controls_v1.json": "c0309de77923802be53b40799679bc31e6125e8e8a832fdb047b2c111f2abb91",
+    "artifacts/math/G-0064/README.md": "cd3ffe8a51e4722b92b82a7fc1a4a34072a315d0152edc3f45cf42957b0914e8"
+  },
+  "root_segment_lambda_controls": [
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 1,
+      "simplex_vertex_count": 2
+    },
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 3,
+      "simplex_vertex_count": 3
+    },
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 6,
+      "simplex_vertex_count": 4
+    },
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 10,
+      "simplex_vertex_count": 5
+    },
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 15,
+      "simplex_vertex_count": 6
+    },
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 21,
+      "simplex_vertex_count": 7
+    },
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 28,
+      "simplex_vertex_count": 8
+    },
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 36,
+      "simplex_vertex_count": 9
+    },
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 45,
+      "simplex_vertex_count": 10
+    },
+    {
+      "lambda_Delta": "1",
+      "root_segments_checked": 55,
+      "simplex_vertex_count": 11
+    }
+  ],
+  "schema": "maxrelu-g0065-single-zonotope-face-bounds-v1",
+  "status": "PASS"
+}
