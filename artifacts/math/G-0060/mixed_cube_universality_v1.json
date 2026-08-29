@@ -1,146 +1,62 @@
 {
   "arbitrary_label_control": {
     "coefficient_field": "fractions.Fraction",
-    "cube_vertices_checked": 16,
-    "distinct_labels": 16,
+    "cube_vertices_checked": 256,
+    "distinct_labels": 29,
     "exact_reconstruction": true,
-    "n": 4
+    "mobius_inversion_terms": 6305,
+    "n": 8,
+    "reconstruction_terms": 6305
   },
   "arithmetic": "integers and fractions.Fraction",
-  "claim_boundary": "This is exact finite-set interpolation, not a global MAX_n identity, an unrestricted width lower bound, or a novelty claim.",
-  "dense_parent_controls": {
-    "basis_neurons_checked_n2_through_n11": 4092,
-    "dense_parent_changes_every_basis_neuron": true,
-    "ray_point": "2*(1,...,1)"
-  },
-  "exhaustive_basis_controls": {
-    "basis_pairs_exhausted_n2_through_n11": 5592400,
-    "charge_histograms": {
-      "10": {
-        "-1": 512,
-        "1": 512
-      },
-      "11": {
-        "-1": 1024,
-        "1": 1024
-      },
-      "2": {
-        "-1": 2,
-        "1": 2
-      },
-      "3": {
-        "-1": 4,
-        "1": 4
-      },
-      "4": {
-        "-1": 8,
-        "1": 8
-      },
-      "5": {
-        "-1": 16,
-        "1": 16
-      },
-      "6": {
-        "-1": 32,
-        "1": 32
-      },
-      "7": {
-        "-1": 64,
-        "1": 64
-      },
-      "8": {
-        "-1": 128,
-        "1": 128
-      },
-      "9": {
-        "-1": 256,
-        "1": 256
-      }
+  "claim_boundary": "This is exact cube interpolation, not a global MAX_n identity, a bounded-width result, a bounded-dense-row result, or a novelty claim.",
+  "evaluation_formula_controls": {
+    "all_biases_zero": true,
+    "full_pairs_exhausted_n2_through_n8": 86868,
+    "identity_second_relu_checked": true,
+    "max11_determinant_decimal_digits": 1469,
+    "max11_determinant_decimal_sha256": "5de88cf6f296f1473ecea1e76a73dc3e12633f22a1265ea080c35fc6a60a450d",
+    "max11_determinant_factor_multiplicities": {
+      "1": 11,
+      "10": 11,
+      "11": 1,
+      "2": 55,
+      "3": 165,
+      "4": 330,
+      "5": 462,
+      "6": 462,
+      "7": 330,
+      "8": 165,
+      "9": 55
     },
-    "dimension_summaries": [
-      {
-        "basis_second_width": 4,
-        "cube_dimension": 4,
-        "first_width": 5,
-        "n": 2,
-        "second_fan_in": 3
-      },
-      {
-        "basis_second_width": 8,
-        "cube_dimension": 8,
-        "first_width": 7,
-        "n": 3,
-        "second_fan_in": 4
-      },
-      {
-        "basis_second_width": 16,
-        "cube_dimension": 16,
-        "first_width": 9,
-        "n": 4,
-        "second_fan_in": 5
-      },
-      {
-        "basis_second_width": 32,
-        "cube_dimension": 32,
-        "first_width": 11,
-        "n": 5,
-        "second_fan_in": 6
-      },
-      {
-        "basis_second_width": 64,
-        "cube_dimension": 64,
-        "first_width": 13,
-        "n": 6,
-        "second_fan_in": 7
-      },
-      {
-        "basis_second_width": 128,
-        "cube_dimension": 128,
-        "first_width": 15,
-        "n": 7,
-        "second_fan_in": 8
-      },
-      {
-        "basis_second_width": 256,
-        "cube_dimension": 256,
-        "first_width": 17,
-        "n": 8,
-        "second_fan_in": 9
-      },
-      {
-        "basis_second_width": 512,
-        "cube_dimension": 512,
-        "first_width": 19,
-        "n": 9,
-        "second_fan_in": 10
-      },
-      {
-        "basis_second_width": 1024,
-        "cube_dimension": 1024,
-        "first_width": 21,
-        "n": 10,
-        "second_fan_in": 11
-      },
-      {
-        "basis_second_width": 2048,
-        "cube_dimension": 2048,
-        "first_width": 23,
-        "n": 11,
-        "second_fan_in": 12
-      }
-    ]
+    "max11_determinant_nonzero": true,
+    "max11_spot_checks": 6141,
+    "triangular_entries_checked_n2_through_n8": 86367
   },
-  "falsifier": "A Boolean pair (u,v) with H_v(u) different from the Kronecker delta, or a cube label vector not reconstructed by the displayed basis.",
-  "max11_cube_control": {
-    "basis_term_evaluations": 4192256,
+  "falsifier": "A nonempty pair (U,T) violating g_T(1_U)=|U|*1{U subset T}, a zero scaled-zeta determinant, or an unreconstructed label with F(0)=0.",
+  "hostile_control": {
+    "mutated_off_support_weight_minus_n_plus_2_value": 1,
+    "mutation_rejected": true,
+    "off_support_weight_minus_n_value": 0
+  },
+  "max11_control": {
+    "closed_coefficient": "1/(|T|*binom(11,|T|))",
+    "closed_positive_coefficient_checks": 2047,
     "cube_vertices_checked": 2048,
     "exact_cube_reconstruction": true,
+    "first_hidden_width": 2047,
     "global_max11_claim": false,
-    "nonzero_vertex_second_neurons": 2047,
-    "target_full_charge": 1
+    "identity_second_hidden_width": 2047,
+    "mobius_inversion_terms": 175099,
+    "nonempty_bias_free_ridges": 2047,
+    "nonempty_vertex_value": "1",
+    "origin_value": "0",
+    "reconstruction_terms": 175099,
+    "second_neuron_fan_in": 1,
+    "target_full_charge": "1"
   },
   "result": "PASS",
-  "route_decision": "Single-cube values and Mobius coefficients cannot obstruct unrestricted dense-local mixing; use cross-basepoint, wall, or width/wiring structure.",
-  "schema": "g0060-mixed-cube-universality-controls-v1",
-  "theorem": "One shared dense first neuron plus 2n coordinate-local first neurons and dense-local mixed second neurons span every function on {0,1}^n."
+  "route_decision": "Even after bias-free recession reduction, output values on the standard Boolean cube cannot obstruct unrestricted width; use cross-basepoint, wall, weight, or width/wiring information.",
+  "schema": "g0060-bias-free-subset-zeta-controls-v1",
+  "theorem": "Bias-free dense ReLU ridges indexed by nonempty subsets span exactly all standard Boolean-cube label vectors whose origin value is zero."
 }

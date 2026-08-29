@@ -194,74 +194,94 @@ values one and zero.  Thus `(13)` is neither a local remainder nor a function
 of the one-dimensional dense core.  Multiplying it by output weight `-1`
 already gives the `+1` charge required by `MAX11`.
 
-This is an exact counterexample to any unqualified claim that the *number* of
-dense first rows alone controls the full Boolean charge.  The rank obstruction
-applies only when every globally supported second term factors through the
-declared core; dense--local mixing is the explicit escape route.  Consequently
-the useful next ansatz is the separated-core family above, not the family of
-all networks with a bounded count of dense first rows.
+Formula `(13)` uses the first-layer bias `-(n-2)`.  It is therefore an exact
+counterexample to a dense-row count law for the **biased parameterisation**, but
+by itself it says nothing after G-0020's lossless recession reduction of the
+homogeneous MAX target to a bias-free network.  The rank obstruction applies
+whenever every globally supported second term factors through the declared
+core; `(13)` is only the explicit biased escape from that wiring hypothesis.
 
-### Complete Boolean-cube no-go for mixed-term obstructions
+### Complete bias-free Boolean-cube no-go
 
-The escape is not isolated.  Dense--local mixed second neurons span *every*
-function on one Boolean cube.  Define one shared dense first neuron and two
-coordinate-local first neurons per input:
-
-```text
-d(x)       = ReLU(sum_i x_i - n),
-l_i,0(x)   = ReLU(x_i),
-l_i,1(x)   = ReLU(1-x_i).
-```
-
-For every Boolean vertex `v in {0,1}^n`, define the mixed second neuron
+The bias-free gap has a simpler exact solution that does not require
+dense--local mixing.  For every nonempty subset `T subseteq [n]`, define the
+full-support integer weight
 
 ```text
-H_v(x) = ReLU(1 + 2 d(x)
-                 - sum_{i:v_i=0} l_i,0(x)
-                 - sum_{i:v_i=1} l_i,1(x)).                  (14)
+(w_T)_i = 1  if i in T,
+          -n if i notin T,
+g_T(x) = ReLU(w_T . x).                                      (14)
 ```
 
-At a Boolean input `u`, the dense activation is zero and the local sum is the
-Hamming distance from `u` to `v`.  Therefore
+For every nonempty `U subseteq [n]`, direct evaluation gives
 
 ```text
-H_v(u) = 1 if u=v, and 0 otherwise.                           (15)
+g_T(1_U) = |U|  if U subseteq T,
+           0    otherwise.                                   (15)
 ```
 
-These are the standard basis vectors of the `2^n`-dimensional space of cube
-functions.  Hence every `F:{0,1}^n -> R` has the exact cube interpolation
+Indeed, if `U` is not contained in `T`, at least one selected coordinate has
+weight `-n`, while the other at most `n-1` selected coordinates contribute at
+most one each; hence `w_T.1_U <= -1`.  If `U subseteq T`, the dot product is
+exactly `|U|`.
+
+Index rows and columns by nonempty subsets in nondecreasing cardinality.  The
+evaluation matrix is
 
 ```text
-N_F(x) = sum_{v in {0,1}^n} F(v) H_v(x),
-N_F(u) = F(u) for every Boolean u.                            (16)
+M[U,T] = |U| 1{U subseteq T}
+       = diag(|U|) Z[U,T],
+det(M) = product_{empty != U subseteq [n]} |U| != 0,          (16)
 ```
 
-This is a valid no-skip two-hidden-layer ReLU network with shared first width
-`2n+1`, second width at most `2^n`, arbitrary real output weights, and second
-fan-in `n+1`.  Every `H_v` has a nonzero dense-parent coefficient and one
-nonzero local parent for every coordinate.  The dense parent is not merely a
-zero-labelled edge: at `x=2(1,...,1)`, including `2d(x)` changes every `H_v`
-relative to deleting that parent.
-
-In particular,
+where `Z` is the upper-triangular subset-zeta matrix with unit diagonal.  Thus
+the restrictions of the `g_T` form a basis for all cube label vectors that
+vanish at the origin.  Explicitly, for any `F:{0,1}^n -> R` with `F(0)=0`, set
 
 ```text
-Delta_[n] H_v = (-1)^(n-|v|),                                (17)
+q(U) = F(1_U)/|U|,
+c_T  = sum_{V superset T} (-1)^(|V|-|T|) q(V),
+N_F(x) = sum_{empty != T subseteq [n]} c_T ReLU(g_T(x)).      (17)
 ```
 
-so mixed neurons realise both charge signs, and arbitrary output scaling gives
-arbitrary charge magnitude.  Taking `F(0)=0` and `F(v)=1` otherwise matches the
-entire Boolean restriction of `MAX_n` (but not necessarily `MAX_n` off-cube).
+Superset Möbius inversion yields `N_F(1_U)=F(1_U)`.  Equation `(17)` is an
+exact no-skip two-hidden-layer ReLU network: the first layer computes `g_T`,
+the second layer is the bias-free identity pass-through
+`ReLU(g_T)=g_T`, and the output weights are `c_T`.  Every bias and the output
+constant are zero, every first row has full support, and the whole network is
+positively homogeneous.  Widths are `2^n-1` in both hidden layers and every
+second neuron has fan-in one.
 
-Consequently, no nontrivial obstruction depending only on the values on one
-Boolean cube--including any collection of Boolean Möbius coefficients, signs,
-or ranks computed from those values--can exclude unrestricted dense--local
-mixed networks.  The falsifier is a single pair `(u,v)` violating `(15)` or a
-cube label vector not reconstructed by `(16)`.  The route decision is to stop
-strengthening the single-cube charge invariant for arbitrary mixing.  A viable
-next obstruction must couple multiple basepoints through shared parameters,
-control global walls, or impose a width/wiring restriction.  The translated
-difference rank theorem above does the first under separated-core wiring.
+For the Boolean restriction of `MAX_n`, `F(0)=0` and `F(1_U)=1`.  The
+coefficients simplify to
+
+```text
+c_T = 1 / (|T| binom(n,|T|)) > 0.                            (18)
+```
+
+For `t=|T|`, this follows from
+`sum_j (-1)^j binom(n-t,j)/(t+j)=(t-1)!(n-t)!/n!`, equivalently the
+elementary beta integral of `x^(t-1)(1-x)^(n-t)`.
+
+This matches every Boolean value of `MAX_n` using a completely bias-free
+network, but it is not a global representation away from the cube.
+
+Consequently, even after the G-0020 recession reduction, no nontrivial
+obstruction that is a function only of the output values on the standard cube
+`{0,1}^n` can exclude unrestricted-width bias-free networks: those restrictions
+are exactly all vectors with value zero at the origin.  This includes every
+Boolean Möbius coefficient, sign pattern, and rank computed solely from that
+value vector.  It does **not** rule out invariants that also inspect width,
+weights, walls, multiple translated cubes, or a bounded number of dense rows.
+The falsifier is one nonempty pair `(U,T)` violating `(15)`, a zero determinant
+in `(16)`, or a label vector with `F(0)=0` not reconstructed by `(17)`.
+
+The route decision is therefore to stop strengthening a standard-cube output
+invariant for unrestricted networks.  A viable next obstruction must couple
+multiple basepoints through shared parameters, control global walls, or impose
+a width/wiring restriction.  The translated-difference theorem above does the
+first under separated-core wiring.  The construction is elementary; novelty
+is unknown and no novelty or priority is claimed.
 
 ## Exact calibrations and the smallest counterexample
 
@@ -271,7 +291,7 @@ The checker replays four discriminators.
 
    ```text
    MAX3(x) = x3 + ReLU(x2-x3)
-                   + ReLU(ReLU(x1-x3)-ReLU(x2-x3))            (18)
+                   + ReLU(ReLU(x1-x3)-ReLU(x2-x3))            (19)
    ```
 
    holds on all `5^3` integer points in `{-2,-1,0,1,2}^3`.  Its
@@ -280,7 +300,7 @@ The checker replays four discriminators.
 2. The biased valid second-neuron term
 
    ```text
-   psi_11(x)=ReLU(sum_i x_i - 10)                             (19)
+   psi_11(x)=ReLU(sum_i x_i - 10)                             (20)
    ```
 
    has charge `1` on the Boolean cube.  It compiles in (2) by writing each
@@ -319,7 +339,7 @@ python -B artifacts/math/G-0060/core_bottleneck.py \
   --check-report artifacts/math/G-0060/core_bottleneck_v1.json
 ```
 
-Replay of the mixed-term Boolean-cube universality no-go:
+Replay of the bias-free Boolean-cube universality no-go:
 
 ```bash
 python -B artifacts/math/G-0060/mixed_cube_universality.py \
@@ -362,7 +382,10 @@ charged full-support atom in any new asymmetric/sparse MAX11 ansatz.  It does
 makes `sk>=11` vacuous, and a full-support term can have charge zero.  The rank
 strengthening above recommends one bounded exact target: rule out separated
 cores of rank at most nine.  Formula `(13)` says not to extrapolate that result
-to arbitrary dense--local mixing.
+to arbitrary dense--local mixing in the biased parameterisation.  The
+bias-free subset-zeta basis separately rules out value-only single-cube
+obstructions at unrestricted width, but does not settle bounded dense-row
+counts.
 
 Nothing here constructs MAX11, excludes dense unrestricted networks, bounds
 total width, proves pair-atom completeness, rationalises real weights, or
