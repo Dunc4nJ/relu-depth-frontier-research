@@ -1,0 +1,90 @@
+{
+  "arithmetic": "fractions.Fraction plus exact Z3 QF_LRA",
+  "d7_unsat_proof_sha256": "4d2a91030333bd9414028ab689998afcd7f03f54a65736213e1b39d629d9db95",
+  "parametric_one_branch_three_axis_queries": {
+    "3": "unsat",
+    "4": "unsat",
+    "5": "unsat",
+    "6": "unsat",
+    "7": "unsat"
+  },
+  "ray_vertex_controls": {
+    "2": {
+      "ray_count": 2,
+      "vertices_per_ray": 3
+    },
+    "3": {
+      "ray_count": 3,
+      "vertices_per_ray": 5
+    },
+    "4": {
+      "ray_count": 4,
+      "vertices_per_ray": 9
+    },
+    "5": {
+      "ray_count": 5,
+      "vertices_per_ray": 17
+    },
+    "6": {
+      "ray_count": 6,
+      "vertices_per_ray": 33
+    },
+    "7": {
+      "ray_count": 7,
+      "vertices_per_ray": 65
+    }
+  },
+  "result": "PASS",
+  "schema": "g0067-pair-subdivision-type-cone-nogo-v1",
+  "scientific_payload_sha256": "84e8c8da58bfcf3a8198438b28d88b12b893e6d10a820e55389310b71d039e5b",
+  "scope": "D_d is not in P2 for d>=5; unrestricted MAX11 remains open",
+  "sharp_obstruction_boundary": {
+    "d4": "SAT",
+    "d5": "UNSAT"
+  },
+  "source_sha256": "8466ba36b2dc10b5142d94469ff70211ba1c64524d9daed99a6a0bd83b602fa5",
+  "target_two_branch_axis_cover": {
+    "4": {
+      "colorings_checked_until_decision": 2,
+      "result": "sat",
+      "witness_partition": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    "5": {
+      "colorings_checked_until_decision": 16,
+      "result": "unsat",
+      "witness_partition": null
+    },
+    "6": {
+      "colorings_checked_until_decision": 32,
+      "result": "unsat",
+      "witness_partition": null
+    },
+    "7": {
+      "colorings_checked_until_decision": 64,
+      "result": "unsat",
+      "witness_partition": null
+    }
+  },
+  "type_cone_compressed_inequalities": "(d+1)c_i >= sum_j c_j",
+  "type_cone_equivalence_dimensions": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "z3_version": "5.1.0"
+}
