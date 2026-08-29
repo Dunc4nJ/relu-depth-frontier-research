@@ -212,6 +212,7 @@ def dense_local_escape_controls() -> dict[str, Any]:
     """Disprove a rank law based only on the count of dense first rows."""
 
     charges: dict[str, str] = {}
+    boolean_vertices_checked = 0
     for n in range(2, 12):
 
         def mixed_term(x: tuple[Fraction, ...], n: int = n) -> Fraction:
@@ -227,6 +228,13 @@ def dense_local_escape_controls() -> dict[str, Any]:
         require(sum(omit_first) == sum(omit_second), "escape pair has unequal dense coordinate")
         require(mixed_term(omit_first) == 1, "escape value at omit-first point drift")
         require(mixed_term(omit_second) == 0, "escape value at omit-second point drift")
+
+        full_vertex = (Fraction(1),) * n
+        require(mixed_term(full_vertex) == 0, "escape value at full vertex drift")
+        require(
+            mixed_term(full_vertex) != mixed_term(omit_first),
+            "escape term lost dependence on coordinate 1",
+        )
         for coordinate in range(1, n):
             missing_two = list(omit_first)
             missing_two[coordinate] = Fraction(0)
@@ -234,10 +242,22 @@ def dense_local_escape_controls() -> dict[str, Any]:
                 mixed_term(tuple(missing_two)) == 0,
                 f"escape term lost dependence on coordinate {coordinate + 1}",
             )
+
+        unique_one_mask = ((1 << n) - 1) ^ 1
+        for mask in range(1 << n):
+            x = tuple(Fraction((mask >> coordinate) & 1) for coordinate in range(n))
+            expected = Fraction(mask == unique_one_mask)
+            require(
+                mixed_term(x) == expected,
+                f"escape Boolean truth table drift at n={n}, mask={mask}",
+            )
+            boolean_vertices_checked += 1
         charges[str(n)] = str(charge)
 
     return {
         "formula": "ReLU(ReLU(sum(x)-(n-2))-2*ReLU(x1))",
+        "boolean_vertices_exhausted_n2_through_n11": boolean_vertices_checked,
+        "coordinate1_single_flip_checked_n2_through_n11": True,
         "full_boolean_charges_n2_through_n11": charges,
         "full_coordinate_support_checked_n2_through_n11": True,
         "same_dense_projection_different_values_checked_n2_through_n11": True,

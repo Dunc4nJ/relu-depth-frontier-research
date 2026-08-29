@@ -2,7 +2,9 @@
   "arithmetic": "integers and fractions.Fraction",
   "claim_boundary": "The proof is elementary, novelty is unknown, and no novelty is claimed.  The controls do not cover second neurons that mix core and local parents, and do not exclude unrestricted two-hidden-layer MAX11 networks.",
   "dense_local_escape_controls": {
+    "boolean_vertices_exhausted_n2_through_n11": 4092,
     "conclusion": "The separated-core rank theorem cannot be extended to arbitrary outer mixing merely by counting dense first-layer rows.",
+    "coordinate1_single_flip_checked_n2_through_n11": true,
     "formula": "ReLU(ReLU(sum(x)-(n-2))-2*ReLU(x1))",
     "full_boolean_charges_n2_through_n11": {
       "10": "-1",
