@@ -1,0 +1,130 @@
+G-0007 authoritative post-hardening replay
+Date: 2026-08-29
+Repository: /data/projects/relu-depth-frontier-research
+Observed repository HEAD: 91b8a96958d19f6709ccf6c1d4526c32996ff6b6
+Fresh run directory: /tmp/g0007-replay.LP7pQj
+Run-directory mode: 0700
+
+ENVIRONMENT
+system-python 3.13.7
+networkx 3.6.1
+venv-python 3.13.7
+python-flint 0.9.0
+tqdm 4.70.0
+
+PINNED SOURCE HASHES
+d6da3030b719735b10a197dc79d7e311ecc90f70314ed748de81087f94f039a7  verify_certificate.py
+68b2a2698ab13a85164a8a0c5635649a92c5c1059c6c058115ebe3af2f0171c3  certificate_8_3.json
+4eb96684d0ce02d324f2fa0f7f95adf5dbc8fb99d3e3e9362cb435b9b3c22d88  certificate_9_4.json
+10f38b27fa555866eda7c3ee10d5da51f3cd1db810a74860d6ab8ef8a30982e4  certificate_10_4.json
+
+STRUCTURAL CENSUS
+n 9 terms 337 active {5: 1, 6: 6, 7: 31, 8: 44, 9: 255} beta {0: 151, 1: 123, 2: 53, 3: 9, 4: 1} loop_occurrences 0
+n 10 terms 402 active {5: 1, 6: 5, 7: 15, 8: 37, 9: 63, 10: 281} beta {0: 252, 1: 104, 2: 37, 3: 8, 4: 1} loop_occurrences 0
+
+N9/N10 TYPE MATCHING
+matched n9 types 119 of 337 ambiguous 0 matched pairs 119
+active matched Counter({9: 63, 8: 35, 7: 15, 6: 5, 5: 1})
+raw coefficient ratios: 71 distinct
+injection-normalized coefficient ratios: 77 distinct
+unmatched9 active Counter({9: 192, 7: 16, 8: 9, 6: 1})
+unmatched10 active Counter({10: 281, 8: 2})
+
+FINAL COLORED-TREE GENERATION
+closure 8 -> 9 source_forests 25 raw 5778 unique 710
+universe N 9 unique colored trees 739
+coverage universe 710 / 739 0.9607577807848444
+coverage actual full trees 149 / 151 closure extras 561
+closure 10 -> 11 source_forests 252 raw 101200 unique 11072
+universe N 11 unique colored trees 12459
+coverage universe 11072 / 12459 0.8886748535195441
+tree_manifest_sha256 33e44cc0923966b0e0fe70fa3129ca581db642cc29a19f0d7d3e6ac042d855d3
+
+FINAL RUN-ISOLATED CACHE CUSTODY
+Both producers regenerated from pinned inputs; legacy /tmp caches were ignored.
+cache_index_sha256 34592ef4a62438f64bb32ecee3d310ea083a70445aa017076817028ba8d75b95
+n9 published cache:
+  bytes 11437479
+  sha256 f46d416304c17b0123feeb55e6f1e3a8f490b4fcef9128bb810924ce18dce604
+  columns 337
+n9 bridge cache:
+  bytes 29763145
+  sha256 18e03f65df5684daee80d463812b75fe7f2d6e5008a5b4a710780960e1304663
+  columns 710
+Each downstream result record binds the same final cache-index and
+tree-manifest hashes. The cache loader hashes secure-read bytes before
+unpickling.
+
+PUBLISHED MAX9 CACHED EXACT VERIFICATION
+published_MAX9_linear ['0', '0', '0', '0', '0', '0', '0', '0', '1']
+published_MAX9_nonzero_hinges 0
+published_MAX9_cached_exact_verification OK
+
+FINAL EXACT BRIDGE-TREE RANK
+candidate_count 710
+coordinate_count 3038
+rank_Q 360
+rank_aug_Q 361
+target_in_span False
+
+FINAL EXACT ALL-TREE RANK
+candidate_count 739
+hinge_directions 3029
+coordinate_count 3038
+rank_Q 360
+rank_aug_Q 361
+target_in_span False
+
+FINAL EXACT HYBRID-FAMILY RANK
+candidate_count 896
+hinge_directions 4713
+coordinate_count 4722
+rank_Q 505
+rank_aug_Q 505
+target_in_span True
+
+MOD-1,000,003 PUBLISHED SUPPORT UNIQUENESS CHECK
+removed [] ncols 337 rank 337 rank+target 337 target_in_span True
+removed [46] ncols 336 rank 336 rank+target 337 target_in_span False
+removed [171] ncols 336 rank 336 rank+target 337 target_in_span False
+removed [46, 171] ncols 335 rank 335 rank+target 336 target_in_span False
+
+FINAL EXACT HYBRID SOLVE
+candidate_count 896
+rank 505
+generator basis selected
+target coordinate present in selected pivots
+exact square solve completed
+exact all-coordinate verification OK
+nonzero terms 391
+solution bytes 49754
+certificate bytes 35133
+834bacdf69a1b19ba65f27d85df1947aa2c99221db59e202278f4b52a6a49d2c  n9_hybrid_solution.json
+308378e362201f6ef97d5963f107af14748e38dc21556c31134f936eaa58ed42  n9_hybrid_certificate.json
+Both generated files compared byte-for-byte equal to the frozen copies.
+
+FROZEN REPLAY ATTESTATION
+The attester revalidated current tree sources/generator, the exact two
+expected cache entries and payload hashes, all six result producer hashes,
+the shared cache-index/tree-manifest binding, and generated/frozen output
+equality.
+0b4aeb0e9929fc4528827fc4a513f6e285e56c615d5f4884e53eda8420b0e9a8  replay_attestation.json
+
+DIRECT UPSTREAM VERIFIER
+The pinned verifier was run on the frozen certificate with SHA-256
+308378e362201f6ef97d5963f107af14748e38dc21556c31134f936eaa58ed42.
+certificate file: artifacts/math/G-0007/data/n9_hybrid_certificate.json
+n: 9
+#terms: 391
+391/391 terms checked in 13:06 wall time
+OK
+
+ADVERSARIAL CACHE CONTROL
+An independent auditor used a fresh 0700 run directory, completed a
+synthetic cache round-trip, flipped one payload byte, and observed
+"cache byte-hash mismatch" before unpickling.
+
+EPISTEMIC BOUNDARY
+This is a custody-hardened replay against the pinned upstream expansion
+kernel. It is not implementation-independent validation of that kernel or
+of the single-route tree-orbit enumeration.
