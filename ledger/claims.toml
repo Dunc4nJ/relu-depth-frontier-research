@@ -126,3 +126,115 @@ env_digest = "sha256:a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d627
 data_snapshot = "sha256:2e21734a26b12b0482c45d819ca54a1c04d769abe7d360cd0064d167c9a30d70"
 author_path = "bundle-author/crimsonbirch"
 created = 2026-08-29T11:49:31Z
+
+[[claim]]
+id = "C-0011"
+version = 1
+statement = "Within the frozen fully S_11-symmetrized degree-five pair-atom semantics, every atom whose branch-difference signed core uses fewer than all 11 labels has zero pairing with the eleventh alternating finite-difference functional; consequently any certificate for MAX_11 in this semantics must use at least one full-support signed core."
+role = "theorem-attempt"
+domain = "mathematics"
+depends_on = ["C-0012@1"]
+falsifier = "One frozen pair atom with proper signed-core support and nonzero eleventh finite difference, or one error in the support-to-U-statistic reduction."
+no_claim = "This does not exclude full-support atoms, prove that the pair-atom semantics is complete, or constrain arbitrary asymmetric or real-inner-weight two-hidden-layer networks."
+not_equivalent_to = ["an unrestricted lower bound for MAX_11", "a no-go theorem for full-support pair atoms", "a statement about signed mass four or five"]
+origin_round = "R-0001"
+author_path = "theorem-author/crimsonbirch"
+created = 2026-08-29T19:53:55Z
+
+[[claim]]
+id = "C-0012"
+version = 1
+statement = "Proper-signed-core obstruction implementation v1 is identified by the G-0047 theorem script, pinned subject environment, and frozen G-0038 signed-orbit stream."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this record establishes no theorem beyond the exact implementation, environment, and input bytes."
+origin_round = "R-0001"
+code_hash = "sha256:29754d4a301b87fafa96677a2a857d1040d56867a1f147936636e45b409ea88d"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd"
+author_path = "implementation-author/max11-structural-construction"
+created = 2026-08-29T19:53:55Z
+
+[[claim]]
+id = "C-0013"
+version = 1
+statement = "Within the complete frozen fully S_11-symmetrized signed-mass-one-through-three degree-five pair-atom census, no real linear combination can cancel every ordered-cone hinge while retaining nonzero eleventh finite difference; hence this finite family cannot represent MAX_11."
+role = "theorem-attempt"
+domain = "mathematics"
+depends_on = ["C-0014@1"]
+falsifier = "One omitted signed-mass-at-most-three orbit, one omitted primitive degree-three hinge, a rank or rational-replay mismatch, or explicit real coefficients producing a hinge-free vector with nonzero eleventh finite difference."
+no_claim = "This does not cover signed mass at least four, atoms outside the frozen pair-orbit census, arbitrary continuous inner weights, nonsymmetric networks, or unrestricted two-hidden-layer MAX_11."
+not_equivalent_to = ["an unrestricted two-hidden-layer lower bound", "a signed-mass-four obstruction", "nonrepresentability with arbitrary pair atoms"]
+origin_round = "R-0001"
+author_path = "theorem-author/crimsonbirch"
+created = 2026-08-29T19:53:55Z
+
+[[claim]]
+id = "C-0014"
+version = 1
+statement = "Signed-mass-at-most-three exact-rank verifier v1 is identified by the G-0050 exact-Q bridge script, pinned subject environment, and frozen G-0050 raw modular-rank input."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this record establishes no bounded theorem beyond the exact implementation, environment, and input bytes."
+origin_round = "R-0001"
+code_hash = "sha256:549de6670326c7086ce62611cfd9facf5d484a9ddc1b5eb0c4f6cdea307dd5df"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:c588e92b236dd1bbdfefda9304e936d4ded72bc46e030346dc9548b24ad03251"
+author_path = "implementation-author/max11-structural-construction"
+created = 2026-08-29T19:53:55Z
+
+[[claim]]
+id = "C-0015"
+version = 1
+statement = "G-0046 candidate global-normal-form verifier v1 is identified by the G-0049 verifier script, pinned subject environment, and frozen G-0046 candidate report."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this record establishes no global identity or refutation beyond the exact implementation, environment, and candidate bytes."
+origin_round = "R-0001"
+code_hash = "sha256:427e6210eca67e8bfc4f577930467a4bfcd85dfbc4c196bfd84b8c08994cee60"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:924ecdb9dfdbf8e445fa1c46d0e3ac96d0cf2435227a18bd6a635cdda898cf2b"
+author_path = "implementation-author/exact-lift-architect"
+created = 2026-08-29T19:53:55Z
+
+[[claim]]
+id = "C-0016"
+version = 1
+statement = "Signed-mass-four full-core census implementation v1 is identified by the G-0052 census script, pinned subject environment, and frozen G-0038 signed-orbit stream."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this record establishes neither a signed-mass-four construction nor an obstruction."
+origin_round = "R-0001"
+code_hash = "sha256:0070be14148b171adbf5e0847b6a0b562beaee39d76f97c8a5015d9ae7d7c219"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd"
+author_path = "implementation-author/max11-structural-construction"
+created = 2026-08-29T19:53:55Z
+
+[[claim]]
+id = "C-0017"
+version = 1
+statement = "The frozen G-0046 rank-7,302 two-prime relation is not a global identity for 11!*MAX_11 in the declared loopless registered pair-atom semantics."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0015@1"]
+falsifier = "An exact replay showing zero complete primitive hinge and linear residuals for the frozen coefficient vectors at both registered primes."
+no_claim = "This refutes only the displayed modular relation, not every relation on the same family, signed-mass-four atoms, other atom families, or unrestricted MAX_11."
+not_equivalent_to = ["nonmembership of MAX_11 in the whole registered span", "an unrestricted lower bound", "a rational or real impossibility theorem"]
+origin_round = "R-0001"
+author_path = "falsification-author/crimsonbirch"
+created = 2026-08-29T19:53:55Z
+
+[[claim]]
+id = "C-0018"
+version = 1
+statement = "The frozen signed-mass-four full-support census contains exactly 1,465 distinct orbit atoms; their complete ordered-cone semantics uses a 99,858-direction degree-four universe, 1,111 atoms have nonzero eleventh finite difference, and 354 have zero eleventh finite difference."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0016@1"]
+falsifier = "One missing or duplicate frozen full-support orbit, one escaping primitive direction, or one exact invariant/count mismatch."
+no_claim = "The census alone establishes neither a signed-mass-four construction nor an obstruction, and says nothing about unrestricted networks."
+not_equivalent_to = ["rank gain of the mass-four family", "a MAX_11 certificate", "a mass-four lower bound"]
+origin_round = "R-0001"
+author_path = "census-author/crimsonbirch"
+created = 2026-08-29T19:53:55Z

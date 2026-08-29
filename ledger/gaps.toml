@@ -53,3 +53,11 @@ obligation = "No eligible different-family or human T2 reviewer has reproduced o
 status = "open"
 author_path = "ledger-auditor/crimsonbirch"
 created = 2026-08-29T11:49:31Z
+
+[[gap]]
+id = "G-0008"
+claim = "C-0002@1"
+obligation = "No complete degree-four hinge-span test has determined whether the 1,465 full-support signed-mass-four atoms can form a hinge-free nonzero-Lambda circuit with the 132,728 proper-support signed-mass-four atoms and the exact lower-mass basis."
+status = "open"
+author_path = "ledger-auditor/crimsonbirch"
+created = 2026-08-29T19:53:55Z

@@ -1,0 +1,277 @@
+{
+  "MAX10_structure": {
+    "active_vertex_histogram": {
+      "10": 281,
+      "5": 1,
+      "6": 5,
+      "7": 15,
+      "8": 37,
+      "9": 63
+    },
+    "coefficient_denominator_lcm": 304819200,
+    "coefficient_signs": {
+      "negative": 192,
+      "positive": 210
+    },
+    "common_edge_multiplicity_histogram": {
+      "0": 328,
+      "1": 63,
+      "2": 8,
+      "3": 2,
+      "4": 1
+    },
+    "distinct_coefficients": 126,
+    "terms": 402
+  },
+  "audit_script_sha256": "7e0d1a1b93670dd2e3a22785a1185d93f28fdc2b29aa4c8cb86ec08040f81481",
+  "base_template_order": [
+    "MAX5-term-0",
+    "MAX5-term-1",
+    "MAX5-term-2",
+    "MAX6-term-0",
+    "MAX6-term-1",
+    "MAX6-term-2",
+    "MAX6-term-3"
+  ],
+  "combined_operator_columns": [
+    "common_edge_padding",
+    "strict_leaf_padding",
+    "general_leaf_padding",
+    "strict_edge_subdivision",
+    "lower_atom_convolution",
+    "uniform_edge_extension"
+  ],
+  "combined_operator_result": {
+    "augmented_rank_Q": 24,
+    "candidate_rank_Q": 23,
+    "columns": 63,
+    "rows": 402,
+    "support_rows_covered": 402,
+    "target_in_column_span": false
+  },
+  "controls": {
+    "direct_value_grid_MAX5": {
+      "known_certificate": "PASS",
+      "mutant_nonzero_points": 117,
+      "scope": "potency control only; finite grid is not a universal identity proof",
+      "sorted_points": 126,
+      "value_alphabet": [
+        -2,
+        -1,
+        0,
+        1,
+        2
+      ]
+    },
+    "direct_value_grid_MAX6": {
+      "known_certificate": "PASS",
+      "mutant_nonzero_points": 204,
+      "scope": "potency control only; finite grid is not a universal identity proof",
+      "sorted_points": 210,
+      "value_alphabet": [
+        -2,
+        -1,
+        0,
+        1,
+        2
+      ]
+    },
+    "known_answer_MAX5": "PASS",
+    "known_answer_MAX6": "PASS",
+    "malformed_endpoint_parser_control": "REJECTED",
+    "one_coefficient_mutants": [
+      {
+        "bad_hinge_count": 1,
+        "bad_linear_count": 3,
+        "mutated": "-1/120",
+        "n": 5,
+        "original": "-1/60",
+        "residual_sha256": "667fdc9dbff4adcbe1c426f98c2d6f7fe3cd5f7116f20aa94cc6454159c6c1a5",
+        "result": "REJECTED",
+        "term_index": 1
+      },
+      {
+        "bad_hinge_count": 7,
+        "bad_linear_count": 4,
+        "mutated": "1/240",
+        "n": 6,
+        "original": "1/360",
+        "residual_sha256": "81147cdc309444a20ec5ad7f1bc39097d577249e16898f9979786e20964dc319",
+        "result": "REJECTED",
+        "term_index": 1
+      }
+    ],
+    "small_template_automorphism_crosscheck": "PASS"
+  },
+  "environment": {
+    "networkx": "3.6.1",
+    "platform": "Linux-6.17.0-14-generic-x86_64-with-glibc2.42",
+    "pynauty": "2.8.8.1",
+    "python": "3.13.7",
+    "sympy": "1.14.0"
+  },
+  "exact_decodes": {
+    "MAX5": {
+      "atom_variable_hinge_counts": [
+        0,
+        1,
+        1
+      ],
+      "bad_hinge_count": 0,
+      "bad_linear_count": 0,
+      "permutations_per_term": 120,
+      "residual_sha256": "668aeefca94f6cbabc8c8eb410f28ebea5352a98e23b7f461dd83516d0e5edc3",
+      "result": "EXACT_IDENTITY",
+      "terms": 3
+    },
+    "MAX6": {
+      "atom_variable_hinge_counts": [
+        0,
+        7,
+        5,
+        4
+      ],
+      "bad_hinge_count": 0,
+      "bad_linear_count": 0,
+      "permutations_per_term": 720,
+      "residual_sha256": "668aeefca94f6cbabc8c8eb410f28ebea5352a98e23b7f461dd83516d0e5edc3",
+      "result": "EXACT_IDENTITY",
+      "terms": 4
+    }
+  },
+  "functional_obstruction": {
+    "proof_file": "artifacts/cleanroom/G-0047-lift-audit/OBSTRUCTION.md",
+    "statement": "isolated-variable orbit sums of lower MAX identities, even with common-edge padding, lie in the linear span of proper-subset maxima and cannot equal MAX10"
+  },
+  "inputs_sha256": {
+    "certificate_10_4.json": "10f38b27fa555866eda7c3ee10d5da51f3cd1db810a74860d6ab8ef8a30982e4",
+    "certificate_5_2.json": "698f70d87ec6b2ef07cd1d0287447dd2361f4b6d0d98571cc7485182b194e694",
+    "certificate_6_2.json": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+    "verify_certificate.py": "d6da3030b719735b10a197dc79d7e311ecc90f70314ed748de81087f94f039a7"
+  },
+  "mode": "independent bounded structural audit; no import of public verifier",
+  "no_claim": "This audit rejects only the explicitly defined recurrence language for the frozen 402-term public MAX10 coefficient vector. It does not prove that no other MAX10 certificate has an inductive form, does not prove that no exact MAX11 pair-atom certificate exists, and says nothing by itself about unrestricted arbitrary-real-weight two-hidden-layer ReLU representations. Agreement on sampled chambers or quotient rows would not prove MAX11; none is used here.",
+  "operator_definitions": {
+    "common_edge_padding": "uniform edge extension restricted to identical deleted two-edge multisets on both colours",
+    "general_leaf_padding": "every deleted edge contains a vertex outside the retained base and every such outside vertex has total deleted-edge degree one",
+    "lower_atom_convolution": "partition both four-edge colour multisets into two 2+2 templates, each isomorphic up to its own global colour swap to a lower-certificate support atom",
+    "strict_edge_subdivision": "reverse two subdivisions per colour by suppressing four distinct vertices, each exclusive to one colour and of degree two there",
+    "strict_leaf_padding": "each of four deleted edges attaches exactly one distinct new degree-one vertex to the retained base",
+    "uniform_edge_extension": "choose two retained edge occurrences on each colour; the retained 2+2 template must be one of the seven lower-certificate atoms; all completions have one coefficient per source atom"
+  },
+  "operator_results": {
+    "common_edge_padding": {
+      "augmented_rank_Q": 3,
+      "candidate_rank_Q": 2,
+      "columns": 7,
+      "rows": 402,
+      "support_rows_covered": 2,
+      "target_in_column_span": false
+    },
+    "general_leaf_padding": {
+      "augmented_rank_Q": 5,
+      "candidate_rank_Q": 4,
+      "columns": 7,
+      "rows": 402,
+      "support_rows_covered": 133,
+      "target_in_column_span": false
+    },
+    "lower_atom_convolution": {
+      "augmented_rank_Q": 11,
+      "candidate_rank_Q": 10,
+      "columns": 28,
+      "rows": 402,
+      "support_rows_covered": 203,
+      "target_in_column_span": false
+    },
+    "strict_edge_subdivision": {
+      "augmented_rank_Q": 4,
+      "candidate_rank_Q": 3,
+      "columns": 7,
+      "rows": 402,
+      "support_rows_covered": 8,
+      "target_in_column_span": false
+    },
+    "strict_leaf_padding": {
+      "augmented_rank_Q": 4,
+      "candidate_rank_Q": 3,
+      "columns": 7,
+      "rows": 402,
+      "support_rows_covered": 128,
+      "target_in_column_span": false
+    },
+    "uniform_edge_extension": {
+      "augmented_rank_Q": 5,
+      "candidate_rank_Q": 4,
+      "columns": 7,
+      "rows": 402,
+      "support_rows_covered": 402,
+      "target_in_column_span": false
+    }
+  },
+  "positive_observable": {
+    "observed": false,
+    "required": "an explicit coefficient-level recurrence reconstructing every MAX10 term and inducing an exact arbitrary-chamber MAX11 identity"
+  },
+  "result": "NO_EXACT_RECURRENCE_IN_TESTED_OPERATOR_LANGUAGE",
+  "retry_predicate": "Retry this route only after specifying an equivariant operator outside the tested language (for example topology-dependent extension weights or a nonlinear identity), producing its complete orbit-incidence matrix including absent MAX10 templates, and passing exact Q span plus complete hinge replay. A support-only match or finite chamber sample does not fire the predicate.",
+  "schema": "max11-g0047-lower-certificate-lift-audit-v1",
+  "symbolic_identities": {
+    "MAX10_terms_rendered": 402,
+    "definition": "MAX_n = sum_t coefficient_t * sum_{sigma in S_n} Phi[A_t,B_t](sigma x)",
+    "path": "artifacts/cleanroom/G-0047-lift-audit/DECODED_IDENTITIES.md",
+    "sha256": "38d3030da926a168e6fde65275b666fb069225995d071da8a90e52c33bcf0252"
+  },
+  "uniform_extension_exact_separator": {
+    "matrix_relation": "row_1 - 2*row_0 = 0",
+    "row_0": [
+      0,
+      0,
+      6,
+      0,
+      0,
+      0,
+      0
+    ],
+    "row_1": [
+      0,
+      0,
+      12,
+      0,
+      0,
+      0,
+      0
+    ],
+    "row_indices_zero_based": [
+      0,
+      1
+    ],
+    "target_residual": "29/10886400"
+  },
+  "uniform_extension_normalization_sensitivity": {
+    "divided_by_F_basis_multiplicity": {
+      "augmented_rank_Q": 5,
+      "candidate_rank_Q": 4,
+      "columns": 7,
+      "rows": 402,
+      "support_rows_covered": 402,
+      "target_in_column_span": false
+    },
+    "raw_certificate_coefficients": {
+      "augmented_rank_Q": 5,
+      "candidate_rank_Q": 4,
+      "columns": 7,
+      "rows": 402,
+      "support_rows_covered": 402,
+      "target_in_column_span": false
+    },
+    "times_F_basis_multiplicity": {
+      "augmented_rank_Q": 5,
+      "candidate_rank_Q": 4,
+      "columns": 7,
+      "rows": 402,
+      "support_rows_covered": 402,
+      "target_in_column_span": false
+    }
+  }
+}

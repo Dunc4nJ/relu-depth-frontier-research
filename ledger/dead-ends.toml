@@ -24,3 +24,14 @@ does_not_show = "Does not show that MAX_11 is or is not in the span after adjoin
 retry_when = "data_changes(cross-component-family-serialization)"
 author_path = "dual-pricing-adversary/codex"
 created = 2026-08-29T11:49:31Z
+
+[[dead_end]]
+id = "D-0002"
+approach = "Continue repairing the frozen G-0046 registered-only modular relation by adding more sampled hinge rows to the same finite-row CEGIS loop."
+observed = "The relation fit all 8,427 selected rows at two primes but its independently reconstructed complete normal form retained 74,500 nonzero hinges at each prime, 11.3253 percent of the 657,822-direction universe; the failure is broad rather than a sparse missed constraint."
+scope = "Exactly the G-0046 rank-7,302 serialized support and its 7,100 active registered loopless atoms, report SHA 924ecdb9..., under the G-0049 verifier/report SHA 0b0a11a8.../77f3d68c...."
+does_not_show = "This does not refute other coefficient supports, signed-mass-four or larger atoms, asymmetric atoms, arbitrary inner weights, or unrestricted two-hidden-layer representations."
+evidence = ["E-0011"]
+retry_when = "regime_boundary(pair-orbit-family-enlarged-beyond-g0046)"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-29T19:53:55Z

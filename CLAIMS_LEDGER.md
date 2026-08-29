@@ -25,7 +25,7 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0002@1`
 - falsifier: An unconditional proof that no finite two-hidden-layer ReLU network over arbitrary real weights equals MAX_11 globally.
 - no-claim: A positive witness settles only n=11; failure of a rational, symmetric, pairwise-comparison, or bounded-width search does not refute this claim.
-- open gaps: G-0002, G-0005, G-0006
+- open gaps: G-0002, G-0005, G-0006, G-0008
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
 ### C-0003@1 — construction [mathematics]
@@ -111,6 +111,86 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only; this record establishes no theorem or verifier behavior beyond the exact code, environment, and data/specification bytes.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0011@1 — theorem-attempt [mathematics]
+
+> Within the frozen fully S_11-symmetrized degree-five pair-atom semantics, every atom whose branch-difference signed core uses fewer than all 11 labels has zero pairing with the eleventh alternating finite-difference functional; consequently any certificate for MAX_11 in this semantics must use at least one full-support signed core.
+
+- disposition: **open** · facets: UNCHALLENGED · trace:67799fa9
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0011@1`
+- falsifier: One frozen pair atom with proper signed-core support and nonzero eleventh finite difference, or one error in the support-to-U-statistic reduction.
+- no-claim: This does not exclude full-support atoms, prove that the pair-atom semantics is complete, or constrain arbitrary asymmetric or real-inner-weight two-hidden-layer networks.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0012@1 — implementation-claim [mathematics]
+
+> Proper-signed-core obstruction implementation v1 is identified by the G-0047 theorem script, pinned subject environment, and frozen G-0038 signed-orbit stream.
+
+- disposition: **open** · trace:462394e0
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0012@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes no theorem beyond the exact implementation, environment, and input bytes.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0013@1 — theorem-attempt [mathematics]
+
+> Within the complete frozen fully S_11-symmetrized signed-mass-one-through-three degree-five pair-atom census, no real linear combination can cancel every ordered-cone hinge while retaining nonzero eleventh finite difference; hence this finite family cannot represent MAX_11.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:7868ca76
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0013@1`
+- falsifier: One omitted signed-mass-at-most-three orbit, one omitted primitive degree-three hinge, a rank or rational-replay mismatch, or explicit real coefficients producing a hinge-free vector with nonzero eleventh finite difference.
+- no-claim: This does not cover signed mass at least four, atoms outside the frozen pair-orbit census, arbitrary continuous inner weights, nonsymmetric networks, or unrestricted two-hidden-layer MAX_11.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0014@1 — implementation-claim [mathematics]
+
+> Signed-mass-at-most-three exact-rank verifier v1 is identified by the G-0050 exact-Q bridge script, pinned subject environment, and frozen G-0050 raw modular-rank input.
+
+- disposition: **open** · trace:78fb9798
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0014@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes no bounded theorem beyond the exact implementation, environment, and input bytes.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0015@1 — implementation-claim [mathematics]
+
+> G-0046 candidate global-normal-form verifier v1 is identified by the G-0049 verifier script, pinned subject environment, and frozen G-0046 candidate report.
+
+- disposition: **open** · trace:495d9f21
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0015@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes no global identity or refutation beyond the exact implementation, environment, and candidate bytes.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0016@1 — implementation-claim [mathematics]
+
+> Signed-mass-four full-core census implementation v1 is identified by the G-0052 census script, pinned subject environment, and frozen G-0038 signed-orbit stream.
+
+- disposition: **open** · trace:57f5695c
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0016@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes neither a signed-mass-four construction nor an obstruction.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0017@1 — boundary-claim [mathematics]
+
+> The frozen G-0046 rank-7,302 two-prime relation is not a global identity for 11!*MAX_11 in the declared loopless registered pair-atom semantics.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:6e142a34
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0017@1`
+- falsifier: An exact replay showing zero complete primitive hinge and linear residuals for the frozen coefficient vectors at both registered primes.
+- no-claim: This refutes only the displayed modular relation, not every relation on the same family, signed-mass-four atoms, other atom families, or unrestricted MAX_11.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0018@1 — boundary-claim [mathematics]
+
+> The frozen signed-mass-four full-support census contains exactly 1,465 distinct orbit atoms; their complete ordered-cone semantics uses a 99,858-direction degree-four universe, 1,111 atoms have nonzero eleventh finite difference, and 354 have zero eleventh finite difference.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:9d201825
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0018@1`
+- falsifier: One missing or duplicate frozen full-support orbit, one escaping primitive direction, or one exact invariant/count mismatch.
+- no-claim: The census alone establishes neither a signed-mass-four construction nor an obstruction, and says nothing about unrestricted networks.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -121,9 +201,14 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 ## Dead ends
 
 - `D-0001` Reuse the current G-0011 rational left dual unchanged as a separator after adjoi · scope: Exactly G-0011 dual SHA fe6768c8..., G-0009 cross-family ser · retry_when: `data_changes(cross-component-family-serialization)` · trace:e415470a
+- `D-0002` Continue repairing the frozen G-0046 registered-only modular relation by adding  · scope: Exactly the G-0046 rank-7,302 serialized support and its 7,1 · retry_when: `regime_boundary(pair-orbit-family-enlarged-beyond-g0046)` · trace:e0b4a9d2
 
 ## Experiments (multiplicity ledger)
 
 - `EXP-0001` [complete] family `bootstrap-toolchain-controls-v1` arm — prereg=False · trace:6c210206
 - `EXP-0002` [planned] family `known-max-cleanroom-v1` arm — prereg=True · trace:b9472094
 - `EXP-0003` [complete] family `max11-same-component-bounded-theorem-v1` arm — prereg=True · trace:edf220a0
+- `EXP-0004` [complete] family `max11-proper-signed-core-obstruction-v1` arm — prereg=False · trace:add27c4c
+- `EXP-0005` [complete] family `max11-g0046-global-normal-form-falsification-v1` arm — prereg=True · trace:183cb157
+- `EXP-0006` [complete] family `max11-signed-mass-at-most-three-exact-q-obstruction-v1` arm — prereg=True · trace:fa9efa60
+- `EXP-0007` [complete] family `max11-signed-mass-four-full-core-census-v1` arm — prereg=True · trace:d2fb7ef9

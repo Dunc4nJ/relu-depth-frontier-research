@@ -1,0 +1,72 @@
+{
+  "schema": "g0050-exact-q-bridge-adversarial-audit-v1",
+  "result": "PASS_EXACT_Q_BRIDGE_WITH_BOUNDED_SCOPE",
+  "subject": {
+    "path": "artifacts/math/G-0050/exact_q_bridge.py",
+    "sha256": "b82fbb6df487b0e76a4bbefc695960b9f1a87ef25a9e8e33b26f07d02433f27b"
+  },
+  "subject_report": {
+    "path": "artifacts/math/G-0050/exact_q_bridge_v1.json.gz",
+    "sha256": "64d49d39595842187d90caf114d7940f830cb5287e518adbb52110a983dce73b",
+    "canonical_payload_sha256_valid": true
+  },
+  "row_universe": {
+    "count": 10065,
+    "row_order_sha256": "174f16165606b4fcc61df57ccf3f1ff404873e1b844e3c7aab1c1cfdd91206c2",
+    "independent_stars_and_bars_universe_matches": true,
+    "all_generated_hinges_covered": true
+  },
+  "matrix": {
+    "shape": [10065, 3310],
+    "sha256": "6c20fc728582ea454f8741eae1b1e81b4f4625d606c7a6b267a9ed7f22fa41ea"
+  },
+  "proper_span": {
+    "proper_columns": 3307,
+    "basis_columns": 488,
+    "solve_rows": 488,
+    "independent_pivot_extraction_matches": true,
+    "minor_rank_mod_1000003": 488,
+    "minor_rank_mod_1000033": 488,
+    "columns_exactly_replayed_over_Q": 3307,
+    "rows_checked_per_column": 10065,
+    "coordinate_matrix_column_major_sha256": "3be09668f1eb895bfbf16ec9c32cd9e9f89e45d484e31cec64d1c0da1a41a58f",
+    "maximum_numerator_bit_length": 9,
+    "maximum_denominator_bit_length": 6,
+    "nonunit_denominator_entry_count": 10071,
+    "exact_rank": 488
+  },
+  "seed_quotient": {
+    "seed_columns": [3307, 3308, 3309],
+    "residual_nonzero_counts": [660, 1320, 660],
+    "witness_rows": [1276, 5872, 6241],
+    "witness_minor": [
+      ["-384", "-768", "-768"],
+      ["0", "2304", "0"],
+      ["-36864", "-52992", "-59904"]
+    ],
+    "witness_determinant": "-12230590464",
+    "exact_quotient_rank": 3,
+    "exact_full_rank": 491
+  },
+  "invariant": {
+    "proper_record_count_at_zero": 3307,
+    "seed_record_count_at_239500800": 3,
+    "seed_value": 239500800,
+    "seed_value_equals_6_times_11_factorial": true,
+    "MAX11_value": 1,
+    "common_padding_value": 0,
+    "normalization_mismatch_found": false
+  },
+  "bounded_conclusion": "No hinge-free characteristic-zero linear combination of the frozen 3310 signed-mass<=3 columns can equal a nonzero normalization of MAX11.",
+  "scope_exclusions": [
+    "signed mass >= 4",
+    "atoms outside the frozen orbit stream",
+    "arbitrary or continuous inner weights",
+    "nonsymmetric constructions",
+    "unrestricted two-hidden-layer networks"
+  ],
+  "hardening_findings": [
+    "The producer column worker silently ignores a direction absent from its selected-row map; independent exhaustive coverage shows zero omissions for the frozen census.",
+    "Producer inputs are hash-checked before but not after computation; independent post hoc replay reproduces the frozen report."
+  ]
+}

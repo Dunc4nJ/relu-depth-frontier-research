@@ -1,0 +1,349 @@
+{
+  "adversarial_verdict": "No counterexample was found. The lower-MAX/common-padding obstruction is exact. More strongly, the Nth binary finite difference annihilates arbitrary proper-support local kernels, so any degree-five pair-orbit MAX11 certificate must contain at least one atom whose signed core (after common-edge cancellation) uses all 11 coordinates.",
+  "alternating_and_proper_core_theorem": {
+    "Lambda_equals_eleventh_difference_basis_checks": [
+      1,
+      -10,
+      45,
+      -120,
+      210,
+      -252,
+      210,
+      -120,
+      45,
+      -10,
+      1
+    ],
+    "MAX11_eleventh_binary_finite_difference": 1,
+    "MAX11_pairing": 1,
+    "N": 11,
+    "alternating_vector": [
+      1,
+      -10,
+      45,
+      -120,
+      210,
+      -252,
+      210,
+      -120,
+      45,
+      -10,
+      1
+    ],
+    "counterexample_found": false,
+    "explicit_degree_five_controls": [
+      {
+        "binary_profile": [
+          0,
+          36288000,
+          72576000,
+          106444800,
+          134628480,
+          157161600,
+          175305600,
+          189060480,
+          197164800,
+          199584000,
+          199584000,
+          199584000
+        ],
+        "eleventh_finite_difference": 0,
+        "expected_zero": true,
+        "full_pair_active_vertices": 10,
+        "label": "proper_core_active10_no_common",
+        "pair": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              8,
+              9
+            ]
+          ],
+          [
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              7,
+              9
+            ]
+          ]
+        ],
+        "signed_core_active_vertices": 10
+      },
+      {
+        "binary_profile": [
+          0,
+          39916800,
+          74753280,
+          103057920,
+          127491840,
+          147916800,
+          164937600,
+          178416000,
+          187246080,
+          192326400,
+          195955200,
+          199584000
+        ],
+        "eleventh_finite_difference": 0,
+        "expected_zero": true,
+        "full_pair_active_vertices": 11,
+        "label": "pair_active11_but_signed_core_active10",
+        "pair": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              10,
+              10
+            ]
+          ],
+          [
+            [
+              0,
+              8
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              10,
+              10
+            ]
+          ]
+        ],
+        "signed_core_active_vertices": 10
+      },
+      {
+        "binary_profile": [
+          0,
+          65318400,
+          100154880,
+          130878720,
+          154344960,
+          172713600,
+          186105600,
+          195229440,
+          199100160,
+          199584000,
+          199584000,
+          199584000
+        ],
+        "eleventh_finite_difference": 239500800,
+        "expected_zero": false,
+        "full_pair_active_vertices": 11,
+        "label": "full_signed_core_tree_potency_control",
+        "pair": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          [
+            [
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              9,
+              10
+            ]
+          ]
+        ],
+        "signed_core_active_vertices": 11
+      }
+    ],
+    "lower_subset_max_pairings": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "proper_core_counts_by_mass": {
+      "1": 5,
+      "2": 107,
+      "3": 3195
+    },
+    "proper_core_mass_1_through_3_atoms_checked": 3307,
+    "proper_kernel_theorem": "For every h:R^r->R with r<N, the binary profile of its unnormalised full S_N permutation symmetrisation is (N-r)! sum_{U subset [r]} (t)_{|U|}(N-t)_{r-|U|} h(1_U), a polynomial of degree at most r; therefore its Nth finite difference and Lambda pairing vanish.",
+    "signed_core_corollary": "After cancelling common branch edges, every degree-five pair orbit with signed-core support <N is a proper-kernel U-statistic plus common F1/F2 terms. Any signed linear combination of such orbits has zero Nth binary finite difference and cannot equal MAX_N.",
+    "ustatistic_multiplicity_vs_direct_S6": "PASS"
+  },
+  "audit_script_sha256": "0053221ce827483ddf7320fd2e6a24be11bf99e2a8ffd21a90739fc815c7928f",
+  "environment": {
+    "platform": "Linux-6.17.0-14-generic-x86_64-with-glibc2.42",
+    "python": "3.13.7",
+    "workers": 8
+  },
+  "independent_certificate_replays": [
+    {
+      "combined_linear_vector": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "combined_nonzero_active_hinges": 0,
+      "mutant_nonzero_active_hinges": 1,
+      "mutant_nonzero_linear_coordinates": 3,
+      "n": 5,
+      "nonlinear_mutation_term_index": 1,
+      "result": "EXACT_IDENTITY",
+      "terms": 3,
+      "union_active_hinge_directions": 1
+    },
+    {
+      "combined_linear_vector": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "combined_nonzero_active_hinges": 0,
+      "mutant_nonzero_active_hinges": 7,
+      "mutant_nonzero_linear_coordinates": 4,
+      "n": 6,
+      "nonlinear_mutation_term_index": 1,
+      "result": "EXACT_IDENTITY",
+      "terms": 4,
+      "union_active_hinge_directions": 7
+    },
+    {
+      "combined_linear_vector": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "combined_nonzero_active_hinges": 0,
+      "mutant_nonzero_active_hinges": 0,
+      "mutant_nonzero_linear_coordinates": 9,
+      "n": 10,
+      "nonlinear_mutation_term_index": 1,
+      "result": "EXACT_IDENTITY",
+      "terms": 402,
+      "union_active_hinge_directions": 13834
+    }
+  ],
+  "inputs_sha256_before_and_after": {
+    "certificate_10": "10f38b27fa555866eda7c3ee10d5da51f3cd1db810a74860d6ab8ef8a30982e4",
+    "certificate_5": "698f70d87ec6b2ef07cd1d0287447dd2361f4b6d0d98571cc7485182b194e694",
+    "certificate_6": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+    "producer": "0906a834e4f4ee7635a25b8a5c4ab17bfd1ca34d65004e17a64d4eaccdd1ad2d",
+    "producer_report": "47f02e125c4010e50d943c31ef4278f9d8679b0e54d26d86ea5414ac12ebf83a",
+    "signed_stream": "e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd",
+    "tree_universe": "7dc597d7cefd514ca3d0b49887846cc7bb53a3fc12096217f70887ad12c4dfa3"
+  },
+  "no_claim": "A proper-core null is not an unrestricted MAX11 lower bound. The finite mass<=3 scan is a potency/control sample; the universal proper-kernel conclusion comes from the exact U-statistic polynomial proof, not from that scan. Re-running G-0047 is not independent proof; this audit instead uses a different signed-word DP and binary reconstruction.",
+  "normalization_audit": {
+    "G0047_five_loop_factor": 18144000,
+    "G0047_five_nonloop_factor": 3628800,
+    "already_symmetric_function_full_sym_factor_for_m5_to_N11": 86400,
+    "certificate_template_lift_factor_for_m5_to_N11": 720,
+    "common_loop_per_occurrence_factor": 3628800,
+    "common_nonloop_per_occurrence_factor": 725760,
+    "formula_already_symmetric_function": "m!(N-m)! F_m^(N)",
+    "formula_certificate_template_lift": "(N-m)! F_m^(N)",
+    "small_N_direct_normalization_control": "PASS",
+    "wording_caveat": "G-0047's (N-m)! formula is correct for lifting every unsymmetrised certificate template and retaining its coefficient. Calling this Ind(MAX_m) without defining the orbit-basis convention is ambiguous; directly full-symmetrising the already symmetric MAX_m function has an additional m! factor. The obstruction is unchanged."
+  },
+  "remaining_boundary": "The theorem is only a necessary full-signed-core-support condition. Full-core atoms can have nonzero finite difference but also non-braid hinges; it neither constructs the required hinge-cancelling signed circuit nor excludes one, and it does not cover unrestricted arbitrary-real first-layer weights.",
+  "result": "CONSISTENT_WITH_WORDING_CAVEAT_AND_STRONGER_PROPER_CORE_THEOREM",
+  "schema": "max11-g0047-independent-theorem-audit-v1"
+}

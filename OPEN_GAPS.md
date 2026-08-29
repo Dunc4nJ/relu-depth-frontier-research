@@ -17,6 +17,7 @@ the generated markers; never hand-edit the generated table.
 | `G-0005` | `C-0002@1` | No eligible different-family or human T2 reviewer is bound; same-family Codex review cannot promote the claim. |
 | `G-0006` | `C-0002@1` | No theorem shows the current symmetric pairwise-comparison atom family is complete for unrestricted two-hidden-layer real-weight MAX_11 representations. |
 | `G-0007` | `C-0009@1` | No eligible different-family or human T2 reviewer has reproduced or refereed the exact bounded theorem bundle; current standing is capped at same-family T1. |
+| `G-0008` | `C-0002@1` | No complete degree-four hinge-span test has determined whether the 1,465 full-support signed-mass-four atoms can form a hinge-free nonzero-Lambda circuit with the 132,728 proper-support signed-mass-four atoms and the exact lower-mass basis. |
 
 <!-- GENERATED:OPEN-GAPS:END -->
 

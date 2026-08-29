@@ -48,3 +48,21 @@ code_hash = "sha256:163439612e88dc8ac89e16447f87e51113533c40b9b54388914c70f170cc
 env_digest = "sha256:a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
 data_snapshot = "sha256:2e21734a26b12b0482c45d819ca54a1c04d769abe7d360cd0064d167c9a30d70"
 created = 2026-08-29T11:49:31Z
+
+[[review]]
+id = "V-0002"
+target = "C-0013@1"
+reviewer = "referee/g0050-exact-q-adversary"
+tier = "T1"
+model_family = "same-family-codex"
+basis = ["complete-row-regeneration", "exact-rational-replay", "orbit-and-direction-census", "quotient-rank-witness", "statement-match"]
+capable_of_failure = "Any omitted primitive direction or orbit, matrix-hash mismatch, divergence in any of the 3,307 exact proper-column replays, zero seed witness determinant, or normalization escape would have produced refuted or narrowed rather than holds."
+verdict = "holds"
+findings = "Independently regenerated all 10,065 degree-three rows and 3,310 columns with zero omitted directions; reproduced matrix and coordinate hashes, exact proper rank 488, seed residual counts, witness minor, and determinant -12230590464. Integer-matrix rank makes the bounded no-go valid for real output coefficients as well as rational ones."
+residual_doubts = "Upstream G-0038 orbit exhaustiveness remains hash-bound; the theorem excludes neither signed mass at least four nor arbitrary inner weights, other atom families, nonsymmetry, or unrestricted networks."
+expected_break = "The likeliest break was a silently omitted hinge direction or a rational span replay that held only on pivot rows; exhaustive independent regeneration and all-row replay found neither."
+implementation_claim = "C-0014@1"
+code_hash = "sha256:549de6670326c7086ce62611cfd9facf5d484a9ddc1b5eb0c4f6cdea307dd5df"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:c588e92b236dd1bbdfefda9304e936d4ded72bc46e030346dc9548b24ad03251"
+created = 2026-08-29T19:53:55Z

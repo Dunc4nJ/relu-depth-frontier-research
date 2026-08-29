@@ -28,28 +28,70 @@ administrative ceremony.
 - [x] Record the result as bounded claim `C-0009@1` without changing the
   challenged status of unrestricted `C-0002@1`.
 
-## Next mathematical expansion
+## Completed structural and falsification expansion
 
-- [ ] Implement a memory-bounded split-6 pricing oracle that evaluates the
-  exact current or candidate dual on cross-component quotient columns.
-- [ ] Use the oracle to search for a separator annihilating the union of the
-  9,804 same-component classes and the registered cross-component classes.
-- [ ] If the present support cannot be repaired, optimize a new modular dual,
-  lift it across multiple primes, and replay the exact rational identity.
-- [ ] If pricing finds a negative reduced-cost column, add it and iterate
-  column generation with an exact termination/falsification rule.
-- [ ] State-match any enlarged-family result and keep it separate from
-  unrestricted two-hidden-layer completeness.
-- [ ] Continue the structural route: seek a normal-form or symmetrization
-  theorem that would connect a finite atom family to arbitrary real-weight
-  two-hidden-layer representations.
+- [x] Enumerate and hash-bind the loop-inclusive signed degree-five orbit
+  universe through signed mass five.
+- [x] Derive the eleventh alternating finite-difference functional and prove
+  that every proper-support symmetrized core has zero pairing.
+- [x] Formalize the coefficient-space alternating functional, kernel pairings,
+  and MAX11 span exclusion in Lean; build with no `sorry`, `admit`, or new axiom.
+- [x] Identify the only three full-support signed-mass-at-most-three cores.
+- [x] Replay all 3,307 proper low-mass columns on all 10,065 degree-three rows
+  and certify exact rational rank 488.
+- [x] Prove the three low-mass full-core seed cosets have exact rank three via
+  a nonzero 3 by 3 witness determinant.
+- [x] Fit the 7,100-active-atom G-0046 relation on 8,427 rows at both primes.
+- [x] Independently reconstruct its complete degree-five normal form and
+  refute it on 74,500 hinges at each prime; stop same-support CEGIS repair.
+- [x] Enumerate the complete 99,858-direction degree-four universe.
+- [x] Reconstruct all 1,465 full-support signed-mass-four atoms exactly; freeze
+  Lambda, hinge-support, distinctness, and topology statistics.
+
+## Highest-leverage signed-mass-four program
+
+- [x] Extract an exact sparse dual for the signed-mass-at-most-three theorem:
+  solve on the 488 proper basis rows plus three seed witness rows, then replay
+  it on all 3,310 low-mass columns.
+- [x] Embed that dual into the degree-four universe and compute
+  `Lambda - y*hinges` on every one of the 1,465 full cores.
+- [x] Use the discrepancy distribution to decide whether the old obstruction
+  extends, needs a small correction space, or genuinely breaks at mass four.
+- [ ] Freeze a sparse CSC encoding for the complete 99,858-row semantics with
+  deterministic row and column hashes and fail-closed escaping-hinge checks.
+- [ ] Run the seeds-only two-prime rank-gain gate with the Lambda row.
+- [ ] Add the exact 488-column proper basis and three old full seeds; rerun the
+  two-prime rank-gain gate on all 99,858 rows.
+- [ ] Add nested, topology-stratified proper mass-four blocks; after every
+  modular rank gain, extract a candidate and replay all 99,858 rows before
+  accepting it as discovery evidence.
+- [ ] Benchmark a known-answer sparse finite-field backend before trusting a
+  complete 137,503-column rank.  Reject any backend that fails rank, solve,
+  transpose, or mutation controls.
+- [ ] If augmented rank gains by one, extract a nonzero-Lambda hinge circuit at
+  two primes, find common support/pivots, and attempt exact-Q lifting.
+- [ ] Replay any lifted circuit exactly on the complete degree-four normal form,
+  correct its linear chamber vector with F1 through F10, compile the explicit
+  two-hidden-layer network, and formalize the identity in Lean.
+- [ ] If the complete augmented rank never gains, extract an exact rational
+  dual and promote only the bounded signed-mass-at-most-four obstruction.
+
+## Stop and pivot rules
+
+- [ ] Never treat a degree-three-row mass-four test as global; 99,858 rows are
+  required for completeness.
+- [ ] Never repair G-0046 with more sampled rows unless the atom family itself
+  changes materially.
+- [ ] If the complete mass-four family is exactly obstructed, stop extending
+  the same machinery automatically; reassess asymmetric constructions and the
+  unrestricted normal-form theorem before entering signed mass five.
 
 ## Independent scrutiny and deferred work
 
 - [ ] Obtain a genuinely different-family or human T2 review of the frozen
   G-0015/G-0017 bundle.
-- [ ] Formalize the stable analytic lemmas in Lean only after the broader-family
-  statement stops moving.
+- [ ] Extend the Lean development from the coefficient-space obstruction to the
+  proper-support U-statistic theorem after the exact statement-parity audit.
 - [ ] Resume the MAX5–MAX10 clean-room compiler reproduction when it becomes
   load-bearing for the unrestricted construction or completeness route.
 - [ ] Reconstruct the skip-free indexed CPWL compiler bridge tracked by

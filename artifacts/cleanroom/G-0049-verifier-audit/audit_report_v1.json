@@ -1,0 +1,48 @@
+{
+  "schema": "g0049-verifier-adversarial-audit-v1",
+  "result": "PASS_FROZEN_LOOPLESS_SCOPE_WITH_NONIMPACTING_GENERIC_LOOP_BUG",
+  "subject": {
+    "path": "artifacts/math/G-0049/verify_g0046_relation.py",
+    "sha256": "0b0a11a8c7883174dd895024d71d580c36005edd28c75c29e96f46ab8d246d04"
+  },
+  "area_verdicts": {
+    "subset_DP_loopless": "PASS",
+    "subset_DP_with_signed_loops": "FAIL",
+    "ordered_cone_orientation_and_elimination": "PASS",
+    "fixed_degree_loopless_signed_W_cache": "PASS",
+    "generic_mixed_loop_nonloop_signed_W_cache": "FAIL",
+    "CRT_aggregation_projection": "PASS",
+    "normal_form_completeness_for_fully_symmetrized_equal_size_loopless_pairs": "PASS",
+    "two_prime_pass_implies_Q_or_R_identity": "FAIL_NOT_CLAIMED"
+  },
+  "tiny_n_controls": {
+    "exhaustive_loopless_pair_cases": 523,
+    "random_n5_pair_cases": 120,
+    "random_n6_pair_cases": 40,
+    "random_n7_pair_cases": 12,
+    "orientation_directions": 230,
+    "CRT_weighted_coordinates": 10000
+  },
+  "frozen_active_support": {
+    "pairs": 7100,
+    "branch_sizes": [5, 5],
+    "loop_occurrences": 0,
+    "pairs_with_one_common_loopless_edge": 167,
+    "sides_with_repeated_edge_occurrences": 0,
+    "exact_labelled_signed_W_keys": 7100,
+    "cache_merges": 0
+  },
+  "counterexample": {
+    "n": 3,
+    "pair": [[[1, 1]], [[2, 2]]],
+    "ordered_probe": [0, 1, 3],
+    "subject_histogram": {"(0, 0, 0)": 6},
+    "subject_normal_form_value": 8,
+    "literal_symmetrized_atom_value": 14
+  },
+  "claim_boundary": "Audits verifier correctness. It neither records nor predicts the long global replay outcome. Any pass is two-prime congruence to 11!*MAX11 for the displayed support, not an exact Q/R identity or unrestricted theorem.",
+  "harness": {
+    "path": "artifacts/cleanroom/G-0049-verifier-audit/tiny_n_differential.py",
+    "sha256": "ed705eb4159dd280679127f0b59046f907a2971c7c74b34994f97e0211919e97"
+  }
+}
