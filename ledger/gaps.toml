@@ -1,11 +1,47 @@
-# gaps.toml — named obligations. Schema: references/CLAIMS-LEDGER-SPEC.md §5.3 (closed).
-# "It follows" is not a step. An open gap blocks promotion past its rung.
-#
-# Worked example (uncomment to adapt):
-# [[gap]]
-# id         = "G-0001"
-# claim      = "C-0001@1"
-# obligation = "P&L reconciliation under the designated null has not been run for the dev-OOS window."
-# status     = "open"
-# author_path = "ledger-auditor/a"
-# created    = 2026-08-23T00:00:00Z
+[[gap]]
+id = "G-0001"
+claim = "C-0003@1"
+obligation = "The retrieved MAX5–MAX10 certificates and verifier have not been clean-room reproduced with all six exact campaign controls."
+status = "open"
+author_path = "ledger-auditor/crimsonbirch"
+created = 2026-08-29T05:08:00Z
+
+[[gap]]
+id = "G-0002"
+claim = "C-0002@1"
+obligation = "No exact MAX_11 witness or unconditional unrestricted refutation has been produced."
+status = "open"
+author_path = "ledger-auditor/crimsonbirch"
+created = 2026-08-29T05:08:00Z
+
+[[gap]]
+id = "G-0003"
+claim = "C-0001@1"
+obligation = "No scalable all-n two-hidden-layer construction or unconditional explicit obstruction is known to this campaign."
+status = "open"
+author_path = "ledger-auditor/crimsonbirch"
+created = 2026-08-29T05:08:00Z
+
+[[gap]]
+id = "G-0004"
+claim = "C-0004@1"
+obligation = "The small-arity decomposition in retrieved REF-0011 and its skip-free compilation into the campaign's exact two-hidden-layer architecture have not been independently reconstructed and statement-matched; Wang–Sun 2005 full text remains unavailable but is not the sole bridge."
+status = "open"
+author_path = "ledger-auditor/crimsonbirch"
+created = 2026-08-29T05:08:00Z
+
+[[gap]]
+id = "G-0005"
+claim = "C-0002@1"
+obligation = "No eligible different-family or human T2 reviewer is bound; same-family Codex review cannot promote the claim."
+status = "open"
+author_path = "ledger-auditor/crimsonbirch"
+created = 2026-08-29T05:08:00Z
+
+[[gap]]
+id = "G-0006"
+claim = "C-0002@1"
+obligation = "No theorem shows the current symmetric pairwise-comparison atom family is complete for unrestricted two-hidden-layer real-weight MAX_11 representations."
+status = "open"
+author_path = "ledger-auditor/crimsonbirch"
+created = 2026-08-29T05:08:00Z

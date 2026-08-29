@@ -1,0 +1,18 @@
+Title:           Shallower ReLU Network Representations via Exact Linear Algebra
+Author:          Kilian Rueß; Gennadiy Averkov; Florestan Brunck; Moritz Grillo; Christoph Hertrich; Georg Loho; Jack Stade; Moritz Stargalla; Matthew Sun; Martin Winter
+Creator:         arXiv GenPDF (tex2pdf:8def8d8)
+Producer:        pikepdf 8.15.1
+Custom Metadata: yes
+Metadata Stream: yes
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           13
+Encrypted:       no
+Page size:       595.276 x 841.89 pts (A4)
+Page rot:        0
+File size:       366882 bytes
+Optimized:       no
+PDF version:     1.7

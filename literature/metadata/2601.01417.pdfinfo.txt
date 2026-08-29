@@ -1,0 +1,18 @@
+Title:           A Depth Hierarchy for Computing the Maximum in ReLU Networks via Extremal Graph Theory
+Author:          Itay Safran
+Creator:         arXiv GenPDF (tex2pdf:57610bf)
+Producer:        pikepdf 8.15.1
+Custom Metadata: yes
+Metadata Stream: yes
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           21
+Encrypted:       no
+Page size:       612 x 792 pts (letter)
+Page rot:        0
+File size:       522376 bytes
+Optimized:       no
+PDF version:     1.7

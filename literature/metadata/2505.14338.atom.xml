@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/fk8njnz76nnCrfWkyoWAgDTbnII</id>
+  <title>arXiv Query: search_query=&amp;id_list=2505.14338&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-29T04:58:25Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2505.14338" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2505.14338v3</id>
+    <title>Better Neural Network Expressivity: Subdividing the Simplex</title>
+    <updated>2026-02-19T23:17:42Z</updated>
+    <link href="https://arxiv.org/abs/2505.14338v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2505.14338v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This work studies the expressivity of ReLU neural networks with a focus on their depth. A sequence of previous works showed that $\lceil \log_2(n+1) \rceil$ hidden layers are sufficient to compute all continuous piecewise linear (CPWL) functions on $\mathbb{R}^n$. Hertrich, Basu, Di Summa, and Skutella (NeurIPS'21 / SIDMA'23) conjectured that this result is optimal in the sense that there are CPWL functions on $\mathbb{R}^n$, like the maximum function, that require this depth. We disprove the conjecture and show that $\lceil\log_3(n-1)\rceil+1$ hidden layers are sufficient to compute all CPWL functions on $\mathbb{R}^n$.
+  A key step in the proof is that ReLU neural networks with two hidden layers can exactly represent the maximum function of five inputs. More generally, we show that $\lceil\log_3(n-2)\rceil+1$ hidden layers are sufficient to compute the maximum of $n\geq 4$ numbers. Our constructions almost match the $\lceil\log_3(n)\rceil$ lower bound of Averkov, Hojny, and Merkert (ICLR'25) in the special case of ReLU networks with weights that are decimal fractions. The constructions have a geometric interpretation via polyhedral subdivisions of the simplex into ``easier'' polytopes.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DM" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.NE" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-05-20T13:23:57Z</published>
+    <arxiv:comment>12 pages, 2 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Egor Bakaev</name>
+    </author>
+    <author>
+      <name>Florestan Brunck</name>
+    </author>
+    <author>
+      <name>Christoph Hertrich</name>
+    </author>
+    <author>
+      <name>Jack Stade</name>
+    </author>
+    <author>
+      <name>Amir Yehudayoff</name>
+    </author>
+  </entry>
+</feed>

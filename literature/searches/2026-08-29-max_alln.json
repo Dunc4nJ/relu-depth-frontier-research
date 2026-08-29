@@ -1,0 +1,739 @@
+[
+  {
+    "title": "Learning Activation Functions to Improve Deep Neural Networks",
+    "authors": [
+      "Forest Agostinelli",
+      "Matthew D. Hoffman",
+      "Peter Sadowski",
+      "Pierre Baldi"
+    ],
+    "year": 2014,
+    "abstract": "Artificial neural networks typically have a fixed, non-linear activation function at each neuron. We have designed a novel form of piecewise linear activation function that is learned independently for each neuron using gradient descent. With this adaptive activation function, we are able to improve upon deep neural network architectures composed of static rectified linear units, achieving state-of-the-art performance on CIFAR-10 (7.51%), CIFAR-100 (30.83%), and a benchmark from high-energy physics involving Higgs boson decay modes.",
+    "arxiv_id": "",
+    "doi": "10.48550/arxiv.1412.6830",
+    "url": "https://doi.org/10.48550/arxiv.1412.6830",
+    "citation_count": 350,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "An introduction to deep learning in medical physics: advantages, potential, and challenges",
+    "authors": [
+      "Chenyang Shen",
+      "Dan Nguyen",
+      "Zhiguo Zhou",
+      "Steve Jiang",
+      "Bin Dong",
+      "Xun Jia"
+    ],
+    "year": 2020,
+    "abstract": "As one of the most popular approaches in artificial intelligence, deep learning (DL) has attracted a lot of attention in the medical physics field over the past few years. The goals of this topical review article are twofold. First, we will provide an overview of the method to medical physics researchers interested in DL to help them start the endeavor. Second, we will give in-depth discussions on the DL technology to make researchers aware of its potential challenges and possible solutions. As such, we divide the article into two major parts. The first part introduces general concepts and principles of DL and summarizes major research resources, such as computational tools and databases. The second part discusses challenges faced by DL, present available methods to mitigate some of these challenges, as well as our recommendations.",
+    "arxiv_id": "",
+    "doi": "10.1088/1361-6560/ab6f51",
+    "url": "https://doi.org/10.1088/1361-6560/ab6f51",
+    "citation_count": 189,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Structured Training for Neural Network Transition-Based Parsing",
+    "authors": [
+      "David J. Weiss",
+      "Chris Alberti",
+      "Michael Collins",
+      "Slav Petrov"
+    ],
+    "year": 2015,
+    "abstract": "David Weiss, Chris Alberti, Michael Collins, Slav Petrov. Proceedings of the 53rd Annual Meeting of the Association for Computational Linguistics and the 7th International Joint Conference on Natural Language Processing (Volume 1: Long Papers). 2015.",
+    "arxiv_id": "",
+    "doi": "10.3115/v1/p15-1032",
+    "url": "https://doi.org/10.3115/v1/p15-1032",
+    "citation_count": 182,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Learning One-hidden-layer ReLU Networks via Gradient Descent",
+    "authors": [
+      "Xiao Zhang",
+      "Yaodong Yu",
+      "Lingxiao Wang",
+      "Quanquan Gu"
+    ],
+    "year": 2018,
+    "abstract": "We study the problem of learning one-hidden-layer neural networks with Rectified Linear Unit (ReLU) activation function, where the inputs are sampled from standard Gaussian distribution and the outputs are generated from a noisy teacher network. We analyze the performance of gradient descent for training such kind of neural networks based on empirical risk minimization, and provide algorithm-dependent guarantees. In particular, we prove that tensor initialization followed by gradient descent can converge to the ground-truth parameters at a linear rate up to some statistical error. To the best of our knowledge, this is the first work characterizing the recovery guarantee for practical learning of one-hidden-layer ReLU networks with multiple neurons. Numerical experiments verify our theoretical findings.",
+    "arxiv_id": "1806.07808",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/397d70c77e3c8e16cd6d556472207fffdaa28564",
+    "citation_count": 140,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Deep Learning: A Bayesian Perspective",
+    "authors": [
+      "Nicholas G. Polson",
+      "Vadim Sokolov"
+    ],
+    "year": 2017,
+    "abstract": "Deep learning is a form of machine learning for nonlinear high dimensional pattern matching and prediction. By taking a Bayesian probabilistic perspective, we provide a number of insights into more efficient algorithms for optimisation and hyper-parameter tuning. Traditional high-dimensional data reduction techniques, such as principal component analysis (PCA), partial least squares (PLS), reduced rank regression (RRR), projection pursuit regression (PPR) are all shown to be shallow learners. Their deep learning counterparts exploit multiple deep layers of data reduction which provide predictive performance gains. Stochastic gradient descent (SGD) training optimisation and Dropout (DO) regularization provide estimation and variable selection. Bayesian regularization is central to finding weights and connections in networks to optimize the predictive bias-variance trade-off. To illustrate our methodology, we provide an analysis of international bookings on Airbnb. Finally, we conclude with directions for future research.",
+    "arxiv_id": "",
+    "doi": "10.1214/17-ba1082",
+    "url": "https://doi.org/10.1214/17-ba1082",
+    "citation_count": 124,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Deep Learning-Based Autoscaling Using Bidirectional Long Short-Term Memory for Kubernetes",
+    "authors": [
+      "Nhat-Minh Dang-Quang",
+      "Myungsik Yoo"
+    ],
+    "year": 2021,
+    "abstract": "Presently, the cloud computing environment attracts many application developers to deploy their web applications on cloud data centers. Kubernetes, a well-known container orchestration for deploying web applications on cloud systems, offers an automatic scaling feature to meet clients\u2019 ever-changing demands with the reactive approach. This paper proposes a system architecture based on Kubernetes with a proactive custom autoscaler using a deep neural network model to handle the workload during run time dynamically. The proposed system architecture is designed based on the Monitor\u2013Analyze\u2013Plan\u2013Execute (MAPE) loop. The main contribution of this paper is the proactive custom autoscaler, which focuses on the analysis and planning phases. In analysis phase, Bidirectional Long Short-term Memory (Bi-LSTM) is applied to predict the number of HTTP workloads in the future. In the planning phase, a cooling-down time period is implemented to mitigate the oscillation problem. In addition, a resource removal strategy is proposed to remove a part of the resources when the workload decreases, so that the autoscaler can handle it faster when the burst of workload happens. Through experiments with two different realistic workloads, the Bi-LSTM model achieves better accuracy not only than the Long Short-Term Memory model but also than the state-of-the-art statistical auto-regression integrated moving average model in terms of short- and long-term forecasting. Moreover, it offers 530 to 600 times faster prediction speed than ARIMA models with different workloads. Furthermore, as compared to the LSTM model, the Bi-LSTM model performs better in terms of resource provision accuracy and elastic speedup. Finally, it is shown that the proposed proactive custom autoscaler outperforms the default horizontal pod autoscaler (HPA) of the Kubernetes in terms of accuracy and speed when provisioning and de-provisioning resources.",
+    "arxiv_id": "",
+    "doi": "10.3390/app11093835",
+    "url": "https://doi.org/10.3390/app11093835",
+    "citation_count": 83,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Algorithms and SQ Lower Bounds for PAC Learning One-Hidden-Layer ReLU Networks",
+    "authors": [
+      "Ilias Diakonikolas",
+      "D. Kane",
+      "Vasilis Kontonis",
+      "Nikos Zarifis"
+    ],
+    "year": 2020,
+    "abstract": "We study the problem of PAC learning one-hidden-layer ReLU networks with $k$ hidden units on $\\mathbb{R}^d$ under Gaussian marginals in the presence of additive label noise. For the case of positive coefficients, we give the first polynomial-time algorithm for this learning problem for $k$ up to $\\tilde{O}(\\sqrt{\\log d})$. Previously, no polynomial time algorithm was known, even for $k=3$. This answers an open question posed by~\\cite{Kliv17}. Importantly, our algorithm does not require any assumptions about the rank of the weight matrix and its complexity is independent of its condition number. On the negative side, for the more general task of PAC learning one-hidden-layer ReLU networks with arbitrary real coefficients, we prove a Statistical Query lower bound of $d^{\\Omega(k)}$. Thus, we provide a separation between the two classes in terms of efficient learnability. Our upper and lower bounds are general, extending to broader families of activation functions.",
+    "arxiv_id": "2006.12476",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/ae89d2c48ad15b2d29de51d67a381451d1f3a356",
+    "citation_count": 73,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "A Novel Early Detection and Prevention of Coronary Heart Disease Framework Using Hybrid Deep Learning Model and Neural Fuzzy Inference System",
+    "authors": [
+      "B. Ramesh",
+      "Kuruva Lakshmanna"
+    ],
+    "year": 2024,
+    "abstract": "Diabetes is the \u201cmother of all diseases\u201d as it affects multiple organs of body of an individual in some way. Its timely detection and management are critically important. Otherwise, the long run, it can cause several complications in a diabetic. Heart disease is one of the major complications of diabetes.This work proposed an Optimal Scrutiny Boosted Graph Convolutional LSTM (O-SBGC-LSTM), SBGC-LSTM enhanced by Eurygaster Optimization Algorithm (EOA) to tune hyperparameters for early prevention and detection of diabetes disease. This work proposed an Optimal Scrutiny Boosted Graph Convolutional LSTM (O-SBGC-LSTM), SBGC-LSTM enhanced by Eurygaster Optimization Algorithm (EOA) to tune hyperparameters for early prevention and detection of diabetes disease. This method not only captures discriminative features in spatial configuration and temporal dynamics but also explore the co-occurrence relationship between spatial and temporal domains. This method also presents a temporal hierarchical architecture to increase temporal receptive fields of top SBGC-LSTM layer, which boosts the ability to learn high-level semantic representation and significantly reduces computation cost. The performance of O-SBGC-LSTM was found overall to be satisfactory, reaching >98% accuracy in most studies. In comparison with classic machine learning approaches, proposed hybrid DL was found to achieve better performance in almost all studies that reported such comparison outcomes. Furthermore, prevention is better than cure. Additionally, employed fuzzy based inference techniques to enhance the prevention procedure using suggestion table.",
+    "arxiv_id": "",
+    "doi": "10.1109/access.2024.3366537",
+    "url": "https://doi.org/10.1109/access.2024.3366537",
+    "citation_count": 71,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Indicator Patterns of Forced Change Learned by an Artificial Neural Network",
+    "authors": [
+      "Elizabeth A. Barnes",
+      "Benjamin Toms",
+      "James W. Hurrell",
+      "Imme Ebert\u2010Uphoff",
+      "Chuck Anderson",
+      "David Anderson"
+    ],
+    "year": 2020,
+    "abstract": "Abstract Many problems in climate science require the identification of signals obscured by both the \u201cnoise\u201d of internal climate variability and differences across models. Following previous work, we train an artificial neural network (ANN) to predict the year of a given map of annual\u2010mean temperature (or precipitation) from forced climate model simulations. This prediction task requires the ANN to learn forced patterns of change amidst a background of climate noise and model differences. We then apply a neural network visualization technique (layerwise relevance propagation) to visualize the spatial patterns that lead the ANN to successfully predict the year. These spatial patterns thus serve as \u201creliable indicators\u201d of the forced change. The architecture of the ANN is chosen such that these indicators vary in time, thus capturing the evolving nature of regional signals of change. Results are compared to those of more standard approaches like signal\u2010to\u2010noise ratios and multilinear regression in order to gain intuition about the reliable indicators identified by the ANN. We then apply an additional visualization tool (backward optimization) to highlight where disagreements in simulated and observed patterns of change are most important for the prediction of the year. This work demonstrates that ANNs and their visualization tools make a powerful pair for extracting climate patterns of forced change.",
+    "arxiv_id": "",
+    "doi": "10.1029/2020ms002195",
+    "url": "https://doi.org/10.1029/2020ms002195",
+    "citation_count": 71,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Deep learning for predicting human strategic behavior",
+    "authors": [
+      "Jason Hartford"
+    ],
+    "year": 2016,
+    "abstract": "Predicting the behavior of human participants in strategic settings is an important problem for applications that rely on game theoretic reasoning to design mechanisms or allocate resources. Most existing work either assumes that participants are perfectly rational, or attempts to directly model each participant's cognitive processes based on insights from cognitive psychology and experimental economics. In this work, we present an alternative, a deep learning-based approach that automatically performs cognitive modeling without relying on such expert knowledge. We introduce a novel architecture that allows a single network to generalize across normal form games with varying numbers of actions. We show that the architecture generalists the most successful existing models and that its performance significantly improves upon that of the previous state of the art, which relies on expert-constructed features.",
+    "arxiv_id": "",
+    "doi": "10.14288/1.0319323",
+    "url": "https://doi.org/10.14288/1.0319323",
+    "citation_count": 64,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Equivariant energy flow networks for jet tagging",
+    "authors": [
+      "Matthew J. Dolan",
+      "Ayodele Ore"
+    ],
+    "year": 2021,
+    "abstract": "Jet tagging techniques that make use of deep learning show great potential for improving physics analyses at colliders. One such method is the energy flow network (EFN)---a recently introduced neural network architecture that represents jets as permutation-invariant sets of particle momenta while maintaining infrared and collinear safety. We develop a variant of the EFN architecture based on the deep sets formalism, incorporating permutation-equivariant layers. We derive conditions under which infrared and collinear safety can be maintained, and study the performance of these networks on the canonical example of $W$-boson tagging. We find that equivariant EFNs have similar performance to particle flow networks, which are superior to standard EFNs. Due to convergence and generalization issues, the same improvement was not observed when extending particle flow networks with equivariant layers. Finally, we study how equivariant networks sculpt the jet mass and provide some initial results on decorrelation using planing.",
+    "arxiv_id": "",
+    "doi": "10.1103/physrevd.103.074022",
+    "url": "https://doi.org/10.1103/physrevd.103.074022",
+    "citation_count": 47,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Fast Convex Optimization for Two-Layer ReLU Networks: Equivalent Model Classes and Cone Decompositions",
+    "authors": [
+      "Aaron Mishkin",
+      "Arda Sahiner",
+      "Mert Pilanci"
+    ],
+    "year": 2022,
+    "abstract": "We develop fast algorithms and robust software for convex optimization of two-layer neural networks with ReLU activation functions. Our work leverages a convex reformulation of the standard weight-decay penalized training problem as a set of group-$\\ell_1$-regularized data-local models, where locality is enforced by polyhedral cone constraints. In the special case of zero-regularization, we show that this problem is exactly equivalent to unconstrained optimization of a convex\"gated ReLU\"network with non-singular gates. For problems with non-zero regularization, we show that convex gated ReLU models obtain data-dependent approximation bounds for the ReLU training problem. To optimize the convex reformulations, we develop an accelerated proximal gradient method and a practical augmented Lagrangian solver. We show that these approaches are faster than standard training heuristics for the non-convex problem, such as SGD, and outperform commercial interior-point solvers. Experimentally, we verify our theoretical results, explore the group-$\\ell_1$ regularization path, and scale convex optimization for neural networks to image classification on MNIST and CIFAR-10.",
+    "arxiv_id": "2202.01331",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/10a24023707e5e307856bde478385f4e1d6f5b9a",
+    "citation_count": 38,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "An Ultra-Low Energy Human Activity Recognition Accelerator for Wearable Health Applications",
+    "authors": [
+      "Ganapati Bhat",
+      "Yi\u011fit Tuncel",
+      "Sizhe An",
+      "Hyung Gyu Lee",
+      "\u00dcmit Y. Ogras"
+    ],
+    "year": 2019,
+    "abstract": "Human activity recognition (HAR) has recently received significant attention due to its wide range of applications in health and activity monitoring. The nature of these applications requires mobile or wearable devices with limited battery capacity. User surveys show that charging requirement is one of the leading reasons for abandoning these devices. Hence, practical solutions must offer ultra-low power capabilities that enable operation on harvested energy. To address this need, we present the first fully integrated custom hardware accelerator (HAR engine) that consumes 22.4 \u03bcJ per operation using a commercial 65 nm technology. We present a complete solution that integrates all steps of HAR , i.e., reading the raw sensor data, generating features, and activity classification using a deep neural network (DNN). It achieves 95% accuracy in recognizing 8 common human activities while providing three orders of magnitude higher energy efficiency compared to existing solutions.",
+    "arxiv_id": "",
+    "doi": "10.1145/3358175",
+    "url": "https://doi.org/10.1145/3358175",
+    "citation_count": 37,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Energy-weighted message passing: an infra-red and collinear safe graph neural network algorithm",
+    "authors": [
+      "Partha Konar",
+      "Vishal S. Ngairangbam",
+      "Michael Spannowsky"
+    ],
+    "year": 2022,
+    "abstract": "Abstract Hadronic signals of new-physics origin at the Large Hadron Collider can remain hidden within the copiously produced hadronic jets. Unveiling such signatures require highly performant deep-learning algorithms. We construct a class of Graph Neural Networks (GNN) in the message-passing formalism that makes the network output infra-red and collinear (IRC) safe, an important criterion satisfied within perturbative QCD calculations. Including IRC safety of the network output as a requirement in the construction of the GNN improves its explainability and robustness against theoretical uncertainties in the data. We generalise Energy Flow Networks (EFN), an IRC safe deep-learning algorithm on a point cloud, defining energy weighted local and global readouts on GNNs. Applying the simplest of such networks to identify top quarks, W bosons and quark/gluon jets, we find that it outperforms state-of-the-art EFNs. Additionally, we obtain a general class of graph construction algorithms that give structurally invariant graphs in the IRC limit, a necessary criterion for the IRC safety of the GNN output.",
+    "arxiv_id": "",
+    "doi": "10.1007/jhep02(2022)060",
+    "url": "https://doi.org/10.1007/jhep02(2022)060",
+    "citation_count": 36,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Hardness of Noise-Free Learning for Two-Hidden-Layer Neural Networks",
+    "authors": [
+      "Sitan Chen",
+      "Aravind Gollakota",
+      "Adam R. Klivans",
+      "Raghu Meka"
+    ],
+    "year": 2022,
+    "abstract": "We give superpolynomial statistical query (SQ) lower bounds for learning two-hidden-layer ReLU networks with respect to Gaussian inputs in the standard (noise-free) model. No general SQ lower bounds were known for learning ReLU networks of any depth in this setting: previous SQ lower bounds held only for adversarial noise models (agnostic learning) or restricted models such as correlational SQ. Prior work hinted at the impossibility of our result: Vempala and Wilmes showed that general SQ lower bounds cannot apply to any real-valued family of functions that satisfies a simple non-degeneracy condition. To circumvent their result, we refine a lifting procedure due to Daniely and Vardi that reduces Boolean PAC learning problems to Gaussian ones. We show how to extend their technique to other learning models and, in many well-studied cases, obtain a more efficient reduction. As such, we also prove new cryptographic hardness results for PAC learning two-hidden-layer ReLU networks, as well as new lower bounds for learning constant-depth ReLU networks from label queries.",
+    "arxiv_id": "2202.05258",
+    "doi": "10.52202/068431-0778",
+    "url": "https://www.semanticscholar.org/paper/2271253f72106a2b019973e76ab627f1213f318d",
+    "citation_count": 36,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Adaptive Two-Layer ReLU Neural Network: I. Best Least-squares Approximation",
+    "authors": [
+      "Min Liu",
+      "Z. Cai",
+      "Jingshuang Chen"
+    ],
+    "year": 2021,
+    "abstract": "In this paper, we introduce adaptive neuron enhancement (ANE) method for the best least-squares approximation using two-layer ReLU neural networks (NNs). For a given function f(x), the ANE method generates a two-layer ReLU NN and a numerical integration mesh such that the approximation accuracy is within the prescribed tolerance. The ANE method provides a natural process for obtaining a good initialization which is crucial for training nonlinear optimization problems. Numerical results of the ANE method are presented for functions of two variables exhibiting either intersecting interface singularities or sharp interior layers.",
+    "arxiv_id": "2107.08935",
+    "doi": "10.1016/j.camwa.2022.03.005",
+    "url": "https://www.semanticscholar.org/paper/dd4663843d9c8121e673ca0e7c28813d03645623",
+    "citation_count": 36,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "The Hidden Convex Optimization Landscape of Regularized Two-Layer ReLU Networks: an Exact Characterization of Optimal Solutions",
+    "authors": [
+      "Yifei Wang",
+      "Jonathan Lacotte",
+      "Mert Pilanci"
+    ],
+    "year": 2020,
+    "abstract": "We prove that finding all globally optimal two-layer ReLU neural networks can be performed by solving a convex optimization program with cone constraints. Our analysis is novel, characterizes all optimal solutions, and does not leverage duality-based analysis which was recently used to lift neural network training into convex spaces. Given the set of solutions of our convex optimization program, we show how to construct exactly the entire set of optimal neural networks. We provide a detailed characterization of this optimal set and its invariant transformations. As additional consequences of our convex perspective, (i) we establish that Clarke stationary points found by stochastic gradient descent correspond to the global optimum of a subsampled convex problem (ii) we provide a polynomial-time algorithm for checking if a neural network is a global minimum of the training loss (iii) we provide an explicit construction of a continuous path between any neural network and the global minimum of its sublevel set and (iv) characterize the minimal size of the hidden layer so that the neural network optimization landscape has no spurious valleys. Overall, we provide a rich framework for studying the landscape of neural network training loss through convexity.",
+    "arxiv_id": "2006.05900",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/aa607c6535e3e1953e5bd48f36efc432a0c167f8",
+    "citation_count": 34,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Benign Overfitting in Two-layer ReLU Convolutional Neural Networks",
+    "authors": [
+      "Y. Kou",
+      "Zi-Yuan Chen",
+      "Yuanzhou Chen",
+      "Quanquan Gu"
+    ],
+    "year": 2023,
+    "abstract": "Modern deep learning models with great expressive power can be trained to overfit the training data but still generalize well. This phenomenon is referred to as \\textit{benign overfitting}. Recently, a few studies have attempted to theoretically understand benign overfitting in neural networks. However, these works are either limited to neural networks with smooth activation functions or to the neural tangent kernel regime. How and when benign overfitting can occur in ReLU neural networks remains an open problem. In this work, we seek to answer this question by establishing algorithm-dependent risk bounds for learning two-layer ReLU convolutional neural networks with label-flipping noise. We show that, under mild conditions, the neural network trained by gradient descent can achieve near-zero training loss and Bayes optimal test risk. Our result also reveals a sharp transition between benign and harmful overfitting under different conditions on data distribution in terms of test risk. Experiments on synthetic data back up our theory.",
+    "arxiv_id": "2303.04145",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/5ea64e7233c502f07d15300c7059c569dfc9a4dd",
+    "citation_count": 33,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Convex Geometry of Two-Layer ReLU Networks: Implicit Autoencoding and Interpretable Models",
+    "authors": [
+      "Tolga Ergen",
+      "Mert Pilanci"
+    ],
+    "year": 2020,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/fb90622c70019de741fcba8020c2cd278ce3260b",
+    "citation_count": 33,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Large-Scale Location-Aware Services in Access: Hierarchical Building/Floor Classification and Location Estimation Using Wi-Fi Fingerprinting Based on Deep Neural Networks",
+    "authors": [
+      "Kyeong Soo Kim",
+      "Ruihao Wang",
+      "Zhenghang Zhong",
+      "Zikun Tan",
+      "Haowei Song",
+      "Jaehoon Cha",
+      "Sanghyuk Lee"
+    ],
+    "year": 2018,
+    "abstract": "We report the results of our investigation on the use of deep neural networks (DNNs) for building/floor classification and floor-level location estimation based on Wi-Fi fingerprinting. We propose a new DNN architecture based on a stacked autoencoder for feature space dimension reduction and a feed-forward classifier for multi-label classification with arg max functions to convert multi-label classification results into multi-class classification ones. We also demonstrate a prototype system for floor-level location estimation using received signal strengths measured on XJTLU campus. Our results show the strengths of DNN-based approaches, providing near state-of-the-art performance with less parameter tuning and higher scalability.",
+    "arxiv_id": "",
+    "doi": "10.1080/01468030.2018.1467515",
+    "url": "https://doi.org/10.1080/01468030.2018.1467515",
+    "citation_count": 33,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Stability Analysis and Controller Synthesis Using Single-Hidden-Layer ReLU Neural Networks",
+    "authors": [
+      "Pouya Samanipour",
+      "Hasan A. Poonawala"
+    ],
+    "year": 2024,
+    "abstract": "This article presents algorithms to solve analysis and controller synthesis problems for dynamical systems modeled as a recurrent single-hidden-layer rectified linear unit neural network (ReLU NN), or equivalently, a piecewise affine dynamical system. Such models are interesting since they may arise through the use of modern machine learning methods for system identification, or as closed-loop solutions in certain classes of model predictive control (MPC) problems. A key idea in the proposed approach is to use piecewise affine Lyapunov functions parametrized as ReLU NNs, and similarly parameterized controllers. This compatible representation between the Lyapunov function and the dynamics simplifies the automation of analysis of and controller synthesis for learned models. Our method of verifying a candidate Lyapunov function is faster than methods based on mixed integer programming. We \u201clearn\u201d controllers and Lyapunov functions using both weight updates and network architecture search, without gradients. We demonstrate the proposed algorithm on examples involving learned models, explicit MPC controllers, and constrained controller synthesis.",
+    "arxiv_id": "",
+    "doi": "10.1109/TAC.2023.3270219",
+    "url": "https://www.semanticscholar.org/paper/6049aab10a1a94e0c0195b99f87b92ba9b590133",
+    "citation_count": 31,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Deep convolutional neural network and IoT technology for healthcare",
+    "authors": [
+      "Sobia Wassan",
+      "Hu Dongyan",
+      "Beenish Suhail",
+      "N. Z. Jhanjhi",
+      "Guanghua Xiao",
+      "Suhail Ahmed",
+      "Raja Kumar Murugesan"
+    ],
+    "year": 2024,
+    "abstract": "Background: Deep Learning is an AI technology that trains computers to analyze data in an approach similar to the human brain. Deep learning algorithms can find complex patterns in images, text, audio, and other data types to provide accurate predictions and conclusions. Neuronal networks are another name for Deep Learning. These layers are the input, the hidden, and the output of a deep learning model. First, data is taken in by the input layer, and then it is processed by the output layer. Deep Learning has many advantages over traditional machine learning algorithms like a KA-nearest neighbor, support vector algorithms, and regression approaches. Deep learning models can read more complex data than traditional machine learning methods. Objectives: This research aims to find the ideal number of best-hidden layers for the neural network and different activation function variations. The article also thoroughly analyzes how various frameworks can be used to create a comparison or fast neural networks. The final goal of the article is to investigate all such innovative techniques that allow us to speed up the training of neural networks without losing accuracy. Methods: A sample data Set from 2001 was collected by www.Kaggle.com. We can reduce the total number of layers in the deep learning model. This will enable us to use our time. To perform the ReLU activation, we will make use of two layers that are completely connected. If the value being supplied is larger than zero, the ReLU activation will return 0, and else it will output the value being input directly. Results: We use multiple parameters to determine the most effective method to test how well our method works. In the next paragraph, we'll discuss how the calculation changes secret-shared Values. By adopting 19 train set features, we train our reliable model to predict healthcare cost's (numerical) target feature. We found that 0.89503 was the best choice because it gave us a good fit (R2) and let us set enough coefficients to 0. To develop our stable model with this Set of parameters, we require 26 iterations. We use an R2 of 0.89503, an MSE of 0.01094, an RMSE of 0.10458, a mean residual deviance of 0.01094, a mean absolute error of 0.07452, and a root mean squared log error of 0.07207. After training the model on the train set, we applied the same parameters to the test set and obtained an R2 of 0.90707, MSE of 0.01045, RMSE of 0.10224, mean residual deviation of 0.01045, MAE of 0.06954, and RMSE of 0.07051, validating our solution approach. The objective value of our secured model is higher than that of the scikit-learn model, although the former performs better on goodness-of-fit criteria. As a result, our protected model performs quite well, marginally outperforming the (very optimized) scikit-learn model. Using a backpropagation algorithm and stochastic gradient descent, deep Learning develops artificial neural systems with several interconnected layers. There may be hidden layers of neurons in the network that have the tanh, rectification, and max-out hyperparameters. Modern features like momentum training, dropout, active learning rate, rate annealed, and L1 or L2 regularization provide exceptional prediction performance. The worldwide model's parameters are multi-threadedly (asynchronously) trained on the data from that node, and the model-based data is then gradually augmented by model averaging over the entire network. The method is executed on a single-node, direct H2O cluster initiated by the operator. The operation is parallel despite there just being a single node involved. The number of threads may be adjusted in the settings menu under Preferences and General. The optimal number of threads for the system is used automatically. Successful predictions in the healthcare data sets are made using the H2O Deep Learning operator. There will be a classification done since its label is binomial. The Splitting Validation operator creates test and training datasets to evaluate the model. By default, the settings of the Deep Learning activator are used. To put it another way, we'll construct two hidden layers, each containing 50 neurons. The Accuracy measure is computed by linking the annotated Sample Set with a Performer (Binominal Classification) operator. Table 3 displays the Deep Learning Model, the labeled data, and the Performance Vector that resulted from the technique. Conclusions: Deep learning algorithms can be used to design systems that report data on patients and deliver warnings to medical applications or electronic health information if there are changes in the patient's health. These systems could be created using deep Learning. This helps verify that patients get the proper effective care at the proper time for each specific patient. A healthcare decision support system was presented using the Internet of Things and deep learning methods. In the proposed system, we examined the capability of integrating deep learning technology into automatic diagnosis and IoT capabilities for faster message exchange over the Internet. We have selected the suitable Neural Network structure (number of best-hidden layers and activation function classes) to construct the e-health system. In addition, the e-health system relied on data from doctors to understand the Neural Network. In the validation method, the total evaluation of the proposed healthcare system for diagnostics provides dependability under various patient conditions. Based on evaluation and simulation findings, a dual hidden layer of feed-forward NN and its neurons store the tanh function more effectively than other NN. To overcome challenges, this study will integrate artificial intelligence with IoT. This study aims to determine the NN's optimal layer counts and activation function variations.",
+    "arxiv_id": "",
+    "doi": "10.1177/20552076231220123",
+    "url": "https://doi.org/10.1177/20552076231220123",
+    "citation_count": 24,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Implicit Bias of Gradient Descent for Two-layer ReLU and Leaky ReLU Networks on Nearly-orthogonal Data",
+    "authors": [
+      "Y. Kou",
+      "Zixiang Chen",
+      "Quanquan Gu"
+    ],
+    "year": 2023,
+    "abstract": "The implicit bias towards solutions with favorable properties is believed to be a key reason why neural networks trained by gradient-based optimization can generalize well. While the implicit bias of gradient flow has been widely studied for homogeneous neural networks (including ReLU and leaky ReLU networks), the implicit bias of gradient descent is currently only understood for smooth neural networks. Therefore, implicit bias in non-smooth neural networks trained by gradient descent remains an open question. In this paper, we aim to answer this question by studying the implicit bias of gradient descent for training two-layer fully connected (leaky) ReLU neural networks. We showed that when the training data are nearly-orthogonal, for leaky ReLU activation function, gradient descent will find a network with a stable rank that converges to $1$, whereas for ReLU activation function, gradient descent will find a neural network with a stable rank that is upper bounded by a constant. Additionally, we show that gradient descent will find a neural network such that all the training data points have the same normalized margin asymptotically. Experiments on both synthetic and real data backup our theoretical findings.",
+    "arxiv_id": "2310.18935",
+    "doi": "10.48550/arXiv.2310.18935",
+    "url": "https://www.semanticscholar.org/paper/95f5b6d14d5f7f96aa794dd929c5f0d0bf9ec78c",
+    "citation_count": 24,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "All Local Minima are Global for Two-Layer ReLU Neural Networks: The Hidden Convex Optimization Landscape",
+    "authors": [
+      "Jonathan Lacotte",
+      "Mert Pilanci"
+    ],
+    "year": 2020,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/79972c93d02d1a37f72b3d9a85c23ab55d438b9b",
+    "citation_count": 23,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Remote Sensing Inversion of Saline and Alkaline Land Based on an Improved Seagull Optimization Algorithm and the Two-Hidden-Layer Extreme Learning Machine",
+    "authors": [
+      "Dong Xiao",
+      "Lushan Wan"
+    ],
+    "year": 2021,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "10.1007/s11053-021-09876-8",
+    "url": "https://www.semanticscholar.org/paper/c1ba162ef31391e924cda2403858b0f3b0c27647",
+    "citation_count": 20,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Modeling design and control problems involving neural network surrogates",
+    "authors": [
+      "Dominic Yang",
+      "Prasanna Balaprakash",
+      "Sven Leyffer"
+    ],
+    "year": 2022,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "10.1007/s10589-022-00404-9",
+    "url": "https://doi.org/10.1007/s10589-022-00404-9",
+    "citation_count": 16,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Secure Multilayer Perceptron Based on Homomorphic Encryption",
+    "authors": [
+      "Reda Bellafqira",
+      "Gouenou Coatrieux",
+      "Emmanuelle G\u00e9nin",
+      "Michel Cozic"
+    ],
+    "year": 2019,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "10.1007/978-3-030-11389-6_24",
+    "url": "https://doi.org/10.1007/978-3-030-11389-6_24",
+    "citation_count": 16,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Mitigation of model error effects in neural network-based structural damage detection",
+    "authors": [
+      "Federico Ponsi",
+      "Elisa Bassoli",
+      "Loris Vincenzi"
+    ],
+    "year": 2023,
+    "abstract": "This paper proposes a damage detection procedure based on neural networks that is able to account for the model error in the network training. Vibration-based damage detection procedures relied on machine learning techniques hold great promises for the identification of structural damage thanks to their efficiency even in presence of noise-corrupted data. However, it is rarely possible in the context of civil engineering to have large amount of data related to the damaged condition of a structure to train a neural network. Numerical models are then necessary to simulate damaged scenarios. However, even if a finite element model is accurately calibrated, experimental results and model predictions will never exactly match and their difference represents the model error. Being the neural network tested and trained with respect to the data generated from the numerical model, the model error can significantly compromise the effectiveness of the damage detection procedure. The paper presents a procedure aimed at mitigating the effect of model errors when using models associated to the neural network. The proposed procedure is applied to two case studies, namely a numerical case represented by a steel railway bridge and a real structure. The real case study is a steel braced frame widely adopted as a benchmark structure for structural health monitoring purposes. Although in the first case the procedure is carried out considering simulated data, we have taken into account some key aspects to make results representative of real applications, namely the stochastic modelling of measurement errors and the use of two different numerical models to account for the model error. Different networks are investigated that stand out for the preprocessing of the dynamic features given as input. Results show the importance of accounting for the model error in the network calibration to efficiently identify damage.",
+    "arxiv_id": "",
+    "doi": "10.3389/fbuil.2022.1109995",
+    "url": "https://doi.org/10.3389/fbuil.2022.1109995",
+    "citation_count": 12,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Benign Overfitting for Two-layer ReLU Networks",
+    "authors": [
+      "Y. Kou",
+      "Zixiang Chen",
+      "Yuanzhou Chen",
+      "Quanquan Gu"
+    ],
+    "year": 2023,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "10.48550/arXiv.2303.04145",
+    "url": "https://www.semanticscholar.org/paper/9f80388dfaf98192afdeaf18238c5ff3406f2eaa",
+    "citation_count": 12,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Towards Lower Bounds on the Depth of ReLU Neural Networks",
+    "authors": [
+      "Christoph Hertrich",
+      "Amitabh Basu",
+      "Marco Di Summa",
+      "Martin Skutella"
+    ],
+    "year": 2021,
+    "abstract": "We contribute to a better understanding of the class of functions that is represented by a neural network with ReLU activations and a given architecture. Using techniques from mixed-integer optimization, polyhedral theory, and tropical geometry, we provide a mathematical counterbalance to the universal approximation theorems which suggest that a single hidden layer is sufficient for learning tasks. In particular, we investigate whether the class of exactly representable functions strictly increases by adding more layers (with no restrictions on size). This problem has potential impact on algorithmic and statistical aspects because of the insight it provides into the class of functions represented by neural hypothesis classes. However, to the best of our knowledge, this question has not been investigated in the neural network literature. We also present upper bounds on the sizes of neural networks required to represent functions in these neural hypothesis classes.",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://openalex.org/W3211910768",
+    "citation_count": 12,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Sampling-Free Variational Inference of Bayesian Neural Networks by Variance Backpropagation",
+    "authors": [
+      "Manuel Hau\u00dfmann",
+      "Fred A. Hamprecht",
+      "Melih Kandemir"
+    ],
+    "year": 2018,
+    "abstract": "We propose a new Bayesian Neural Net formulation that affords variational inference for which the evidence lower bound is analytically tractable subject to a tight approximation. We achieve this tractability by (i) decomposing ReLU nonlinearities into the product of an identity and a Heaviside step function, (ii) introducing a separate path that decomposes the neural net expectation from its variance. We demonstrate formally that introducing separate latent binary variables to the activations allows representing the neural network likelihood as a chain of linear operations. Performing variational inference on this construction enables a sampling-free computation of the evidence lower bound which is a more effective approximation than the widely applied Monte Carlo sampling and CLT related techniques. We evaluate the model on a range of regression and classification tasks against BNN inference alternatives, showing competitive or improved performance over the current state-of-the-art.",
+    "arxiv_id": "",
+    "doi": "10.48550/arxiv.1805.07654",
+    "url": "https://doi.org/10.48550/arxiv.1805.07654",
+    "citation_count": 10,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Expressive Numbers of Two or More Hidden Layer ReLU Neural Networks",
+    "authors": [
+      "Kenta Inoue"
+    ],
+    "year": 2019,
+    "abstract": "One of the reasons why neural networks are used in machine learning is their high expressive power, that is, the ability to express functions. Expressive power of neural networks depends on its structures and is measured by some indices. In this paper, we focus on one of these measures named \"expressive number\", which is based on the number of data that can be expressed. Expressive numbers enable us to see whether the size of a neural network is suitable for the given training data before we conduct machine learning. However, existing works on expressive numbers mainly target single hidden layer neural networks, and little is known about those with two or more hidden layers. In this paper, we give a lower bound of the maximum expressive number of two hidden layer neural networks and an upper bound of that of multilayer neural networks with ReLU activation function. This result shows the expressive number of two hidden layer neural networks is proportional to the product of the numbers of each hidden layer's neurons.",
+    "arxiv_id": "",
+    "doi": "10.1109/CANDARW.2019.00031",
+    "url": "https://www.semanticscholar.org/paper/7a451c57ac85bbbc1cad17f2b654af39fedaaa6e",
+    "citation_count": 9,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Efficiently Learning One-Hidden-Layer ReLU Networks via Schur Polynomials",
+    "authors": [
+      "Ilias Diakonikolas",
+      "D. Kane"
+    ],
+    "year": 2023,
+    "abstract": "We study the problem of PAC learning a linear combination of $k$ ReLU activations under the standard Gaussian distribution on $\\mathbb{R}^d$ with respect to the square loss. Our main result is an efficient algorithm for this learning task with sample and computational complexity $(dk/\\epsilon)^{O(k)}$, where $\\epsilon>0$ is the target accuracy. Prior work had given an algorithm for this problem with complexity $(dk/\\epsilon)^{h(k)}$, where the function $h(k)$ scales super-polynomially in $k$. Interestingly, the complexity of our algorithm is near-optimal within the class of Correlational Statistical Query algorithms. At a high-level, our algorithm uses tensor decomposition to identify a subspace such that all the $O(k)$-order moments are small in the orthogonal directions. Its analysis makes essential use of the theory of Schur polynomials to show that the higher-moment error tensors are small given that the lower-order ones are.",
+    "arxiv_id": "2307.12840",
+    "doi": "10.48550/arXiv.2307.12840",
+    "url": "https://www.semanticscholar.org/paper/d6204770a740591ada6805787f22bfa1985f617f",
+    "citation_count": 8,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "The Hidden Convex Optimization Landscape of Two-Layer ReLU Neural Networks: an Exact Characterization of the Optimal Solutions",
+    "authors": [
+      "Yifei Wang",
+      "Jonathan Lacotte",
+      "Mert Pilanci"
+    ],
+    "year": 2021,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/2eea8b4f84ffe970d390a529648e739ebddfa84b",
+    "citation_count": 7,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Two-hidden-layer ReLU neural networks and finite elements",
+    "authors": [
+      "Pengzhan Jin"
+    ],
+    "year": 2024,
+    "abstract": "We point out that (continuous or discontinuous) piecewise linear functions on a convex polytope mesh can be represented by two-hidden-layer ReLU neural networks in a weak sense. In addition, the numbers of neurons of the two hidden layers required to weakly represent are accurately given based on the numbers of polytopes and hyperplanes involved in this mesh. The results naturally hold for constant and linear finite element functions. Such weak representation establishes a bridge between two-hidden-layer ReLU neural networks and finite element functions, and leads to a perspective for analyzing approximation capability of ReLU neural networks in Lp norm via finite element functions. Moreover, we discuss the strict representation for tensor finite element functions via the recent tensor neural networks.",
+    "arxiv_id": "2403.05809",
+    "doi": "10.1016/j.neunet.2026.108559",
+    "url": "https://www.semanticscholar.org/paper/dd2306f526f000776f3706507b2ead45a337e700",
+    "citation_count": 4,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "SHE-MTJ based ReLU-max\u00a0pooling functions for on-chip training of neural networks",
+    "authors": [
+      "Venkatesh Vadde",
+      "B. Muralidharan",
+      "Abhishek Sharma"
+    ],
+    "year": 2024,
+    "abstract": "We present a detailed investigation of various routes to optimize the power consumption of the spintronic-based devices for implementing rectified linear activation (ReLU) and max-pooling functions. We examine the influence of various spin Hall effect layers, and their input resistances on the power consumption of the ReLU-max\u00a0pooling functions, we also access the impact of the thermal stability factor of the free-ferromagnet layer on the power consumption and accuracy of the device. The design for ReLU-max\u00a0pooling relies on the continuous rotation of magnetization, which is accomplished by applying orthogonal spin current to the free-FM layer. We also demonstrate the non-trivial power-resistance relation, where the power consumption decreases with an increase in SHE resistance. We utilize the hybrid spintronic-CMOS simulation platform that combines Keldysh non-equilibrium Green\u2019s function (NEGF) with Landau-Lifshitz-Gilbert-Slonzewski (LLGS) equations and the HSPICE circuit simulator to evaluate our network. Our design takes 0.343\u00a0\u03bcW of power for ReLU emulation and 17.86\u00a0\u03bcW of power for ReLU-max\u00a0pooling network implementation at a thermal stability factor of 4.58, all while maintaining reliable results. We validate the efficiency of our design by implementing a convolutional neural network that classifies the handwritten-MNIST and fashion-MNIST datasets. This implementation illustrates that the classification accuracies achieved are on par with those attained using the ideal software ReLU-max\u00a0pooling functions, with an energy consumption of 167.31\u00a0pJ per sample.",
+    "arxiv_id": "",
+    "doi": "10.1063/9.0000685",
+    "url": "https://www.semanticscholar.org/paper/eeee83fb5f8296380c5927ca760a53a59d66fbfd",
+    "citation_count": 3,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Hidden Minima in Two-Layer ReLU Networks",
+    "authors": [
+      "Yossi Arjevani"
+    ],
+    "year": 2023,
+    "abstract": "We consider the optimization problem associated with training two-layer ReLU networks with \\(d\\) inputs under the squared loss, where the labels are generated by a target network. Recent work has identified two distinct classes of infinite families of minima: one whose training loss vanishes in the high-dimensional limit, and another whose loss remains bounded away from zero. The latter family is empirically avoided by stochastic gradient descent, hence \\emph{hidden}, motivating the search for analytic criteria that distinguish hidden from non-hidden minima. A key challenge is that prior analyses have shown the Hessian spectra at hidden and non-hidden minima to coincide up to terms of order \\(O(d^{-1/2})\\), seemingly limiting the discriminative power of spectral methods. We therefore take a different route, studying instead certain curves along which the loss is locally minimized. Our main result shows that arcs emanating from hidden minima exhibit distinctive structural and symmetry properties, arising precisely from \\(\\Omega(d^{-1/2})\\) eigenvalue contributions that are absent from earlier analyses.",
+    "arxiv_id": "2312.16819",
+    "doi": "10.48550/arXiv.2312.16819",
+    "url": "https://www.semanticscholar.org/paper/3e6f88b1410af114892a01bdfff25a5350bd81bc",
+    "citation_count": 3,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Convex Approximation of Two-Layer ReLU Networks for Hidden State Differential Privacy",
+    "authors": [
+      "R. Romijnders",
+      "A. Koskela"
+    ],
+    "year": 2024,
+    "abstract": "The hidden state threat model of differential privacy (DP) assumes that the adversary has access only to the final trained machine learning (ML) model, without seeing intermediate states during training. However, the current privacy analyses under this model are restricted to convex optimization problems, reducing their applicability to multi-layer neural networks, which are essential in modern deep learning applications. Notably, the most successful applications of the hidden state privacy analyses in classification tasks have only been for logistic regression models. We demonstrate that it is possible to privately train convex problems with privacy-utility trade-offs comparable to those of 2-layer ReLU networks trained with DP stochastic gradient descent (DP-SGD). This is achieved through a stochastic approximation of a dual formulation of the ReLU minimization problem, resulting in a strongly convex problem. This enables the use of existing hidden state privacy analyses and provides accurate privacy bounds also for the noisy cyclic mini-batch gradient descent (NoisyCGD) method with fixed disjoint mini-batches. Empirical results on benchmark classification tasks demonstrate that NoisyCGD can achieve privacy-utility trade-offs on par with DP-SGD applied to 2-layer ReLU networks.",
+    "arxiv_id": "2407.04884",
+    "doi": "10.52202/085713-2424",
+    "url": "https://www.semanticscholar.org/paper/9a12c7c5717b7d6cc1521fefcfe808c1ea5e2d02",
+    "citation_count": 2,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Initialization Matters: On the Benign Overfitting of Two-Layer ReLU CNN with Fully Trainable Layers",
+    "authors": [
+      "Shuning Shang",
+      "Xuran Meng",
+      "Yuan Cao",
+      "Difan Zou"
+    ],
+    "year": 2024,
+    "abstract": "Benign overfitting refers to how over-parameterized neural networks can fit training data perfectly and generalize well to unseen data. While this has been widely investigated theoretically, existing works are limited to two-layer networks with fixed output layers, where only the hidden weights are trained. We extend the analysis to two-layer ReLU convolutional neural networks (CNNs) with fully trainable layers, which is closer to the practice. Our results show that the initialization scaling of the output layer is crucial to the training dynamics: large scales make the model training behave similarly to that with the fixed output, the hidden layer grows rapidly while the output layer remains largely unchanged; in contrast, small scales result in more complex layer interactions, the hidden layer initially grows to a specific ratio relative to the output layer, after which both layers jointly grow and maintain that ratio throughout training. Furthermore, in both settings, we provide nearly matching upper and lower bounds on the test errors, identifying the sharp conditions on the initialization scaling and signal-to-noise ratio (SNR) in which the benign overfitting can be achieved or not. Numerical experiments back up the theoretical results.",
+    "arxiv_id": "2410.19139",
+    "doi": "10.48550/arXiv.2410.19139",
+    "url": "https://www.semanticscholar.org/paper/1caf869916059addff866582613ac6f082106414",
+    "citation_count": 2,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "NP-Hardness of Minimizing Neurons in Two-Hidden-Layer ReLU Neural Networks.",
+    "authors": [
+      "Sangrock Lee"
+    ],
+    "year": 2026,
+    "abstract": "Identifying the minimum number of neurons required to achieve a specified accuracy in neural networks is a significant challenge. This paper explores the complexity of designing feedforward neural networks with ReLU activation functions and demonstrates that it is NP-hard to determine the minimum number of neurons needed to approximate an $L^{p}$ function with a two-hidden-layer ReLU network. A polynomial-time reduction from the Geometric Set Cover Problem is used to prove the NP-hardness of the ReLU network structure minimization. The results offer theoretical justification for employing heuristic approximation methods in the design of ReLU neural networks, illustrating that attaining a minimal configuration within polynomial time is computationally unachievable.",
+    "arxiv_id": "",
+    "doi": "10.1109/TPAMI.2026.3711513",
+    "url": "https://www.semanticscholar.org/paper/d4e051fa9913aa235e6db4b7553dc9d48432cf44",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Depth-Bounds for Neural Networks via the Braid Arrangement",
+    "authors": [
+      "Moritz Grillo",
+      "Christoph Hertrich",
+      "Georg Loho"
+    ],
+    "year": 2025,
+    "abstract": "We contribute towards resolving the open question of how many hidden layers are required in ReLU networks for exactly representing all continuous and piecewise linear functions on $\\mathbb{R}^d$. While the question has been resolved in special cases, the best known lower bound in general is still 2. We focus on neural networks that are compatible with certain polyhedral complexes, more precisely with the braid fan. For such neural networks, we prove a non-constant lower bound of $\u03a9(\\log\\log d)$ hidden layers required to exactly represent the maximum of $d$ numbers. Additionally, under our assumption, we provide a combinatorial proof that 3 hidden layers are necessary to compute the maximum of 5 numbers; this had only been verified with an excessive computation so far. Finally, we show that a natural generalization of the best known upper bound to maxout networks is not tight, by demonstrating that a rank-3 maxout layer followed by a rank-2 maxout layer is sufficient to represent the maximum of 7 numbers.",
+    "arxiv_id": "",
+    "doi": "10.52202/085713-4257",
+    "url": "https://doi.org/10.52202/085713-4257",
+    "citation_count": 1,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Deep-ICE: the first globally optimal algorithm for minimizing 0-1 loss in two-layer ReLU and maxout networks",
+    "authors": [
+      "Xi He",
+      "Y. Miao",
+      "Max A. Little"
+    ],
+    "year": 2025,
+    "abstract": "This paper introduces the first globally optimal algorithm for the empirical risk minimization problem of two-layer maxout and ReLU networks, i.e., minimizing the number of misclassifications. The algorithm has a worst-case time complexity of $O\\left(N^{DK+1}\\right)$, where $K$ denotes the number of hidden neurons and $D$ represents the number of features. It can be can be generalized to accommodate arbitrary computable loss functions without affecting its computational complexity. Our experiments demonstrate that the proposed algorithm provides provably exact solutions for small-scale datasets. To handle larger datasets, we introduce a novel coreset selection method that reduces the data size to a manageable scale, making it feasible for our algorithm. This extension enables efficient processing of large-scale datasets and achieves significantly improved performance, with a 20-30\\% reduction in misclassifications for both training and prediction, compared to state-of-the-art approaches (neural networks trained using gradient descent and support vector machines), when applied to the same models (two-layer networks with fixed hidden nodes and linear models). The artifacts of the Deep-ICE algorithm can be found in https://github.com/XiHegrt/DeepICE-algorithm-artifacts.",
+    "arxiv_id": "2505.05740",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/4c3b9a38be5ae487bab2d3e221ddda3ca6a49147",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "On the Principles of ReLU Networks with One Hidden Layer",
+    "authors": [
+      "Changcun Huang"
+    ],
+    "year": 2024,
+    "abstract": "A neural network with one hidden layer or a two-layer network (regardless of the input layer) is the simplest feedforward neural network, whose mechanism may be the basis of more general network architectures. However, even to this type of simple architecture, it is also a ``black box''; that is, it remains unclear how to interpret the mechanism of its solutions obtained by the back-propagation algorithm and how to control the training process through a deterministic way. This paper systematically studies the first problem by constructing universal function-approximation solutions. It is shown that, both theoretically and experimentally, the training solution for the one-dimensional input could be completely understood, and that for a higher-dimensional input can also be well interpreted to some extent. Those results pave the way for thoroughly revealing the black box of two-layer ReLU networks and advance the understanding of deep ReLU networks.",
+    "arxiv_id": "2411.06728",
+    "doi": "10.48550/arXiv.2411.06728",
+    "url": "https://www.semanticscholar.org/paper/e4b2abefb24e22d78c5d3378b308067ab1be9006",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Contributions to Deep Learning Models",
+    "authors": [
+      "Jorge Mansanet Sand\u00edn"
+    ],
+    "year": 2016,
+    "abstract": "1.1 Interpreting an image by extracting several intermediate representations. 2.1 Graphical representation of DNN model with two hidden layers. . . . 2.2 The Backpropagation algorithm for a neural network with two hidden layers. Note that bias terms have been ommited for simplicity. . . . . 2.3 Architecture of LeNet-5, a convolutional neural network for handwritten digits recognition. . . . . . . . . . . . . . . . . . . . . . . . . . . . 2.4 Graphical representation of the RBM model. The grey and the white units correspond to the hidden and the visible layers, respectively. . . 2.5 Representation of the Markov chain used by the Gibbs sampling in the CD algorithm. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2.6 The sum of infinite copies of a sigmoid function with different bias can be approximated with the closed form function log (1 + e x ) denoted by the black line. The blue line represents the transfer function of a rectified linear unit. . . . . . . . . . . . .",
+    "arxiv_id": "",
+    "doi": "10.4995/thesis/10251/61296",
+    "url": "https://doi.org/10.4995/thesis/10251/61296",
+    "citation_count": 1,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Representing MAX functions using two-hidden-layer ReLU networks",
+    "authors": [
+      "Zhimao Wang",
+      "Amitabh Basu"
+    ],
+    "year": 2026,
+    "abstract": "We study exact representations of $\\mathrm{MAX}_N(x)=\\max{x_1,\\ldots,x_N}$ using two-hidden-layer ReLU neural networks. This problem has been studied in recent years in an attempt to characterize the exact number of hidden layers required to represent continuous piecewise linear functions. The best lower bound is 2, while the current upper bound is logarithmic in $N$. It remains completely open if the right answer is a constant number of hidden layers (possibly even 2!) or not. In fact, a recent breakthrough was the representation of $\\mathrm{MAX}_5$ as a two-hidden-layer ReLU function obtained in [Bakaev et al., 2026], and the case of $\\mathrm{MAX}_N$ was stated as open for $N\\geq 6$ in that paper. Using a careful computer assisted search, we obtain two-hidden-layer ReLU representations of $\\mathrm{MAX}_5, \\mathrm{MAX}_6, \\mathrm{MAX}_7$, and $\\mathrm{MAX}_8$. We obtain these by considering rational linear combinations of terms of the form $\\max\\{\\sum_{r=1}^{s}\\max(x_{a_r},x_{b_r}),\\sum_{r=1}^{s}\\max(x_{c_r},x_{d_r})\\}$, where $a_r,b_r,c_r,d_r\\in\\{1,\\ldots,N\\}$. Each inner maximum of two coordinates can be computed in a first hidden layer, and the outer maximum of the two side-sums can be computed in a second hidden layer. Consequently, every finite linear combination of these terms has a two-hidden-layer ReLU realization. An identity for $\\mathrm{MAX}_N$ in this form therefore gives an exact two-hidden-layer ReLU representation of $\\mathrm{MAX}_N$. Very recently, two-hidden-layer representations of $\\mathrm{MAX}_N$ of the above form were obtained for all $N\\leq 10$ in [Ruess et al., 2026]. Our representations are different and were developed independently. While our techniques share most of the high-level ideas presented in [Ruess et al., 2026], there are also some minor differences which may be of interest for future research on this problem.",
+    "arxiv_id": "",
+    "doi": "10.48550/arxiv.2608.25221",
+    "url": "https://doi.org/10.48550/arxiv.2608.25221",
+    "citation_count": 0,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "A descent algorithm for the optimal control of ReLU neural network informed PDEs based on approximate directional derivatives",
+    "authors": [
+      "Guozhi Dong",
+      "Michael Hinterm\u00fcller",
+      "Kostas Papafitsoros"
+    ],
+    "year": 2022,
+    "abstract": "We propose and analyze a numerical algorithm for solving a class of optimal control problems for learning-informed semilinear partial differential equations. The latter is a class of PDEs with constituents that are in principle unknown and are approximated by nonsmooth ReLU neural networks. We first show that a direct smoothing of the ReLU network with the aim to make use of classical numerical solvers can have certain disadvantages, namely potentially introducing multiple solutions for the corresponding state equation. This motivates us to devise a numerical algorithm that treats directly the nonsmooth optimal control problem, by employing a descent algorithm inspired by a bundle-free method. Several numerical examples are provided and the efficiency of the algorithm is shown.",
+    "arxiv_id": "",
+    "doi": "10.48550/arxiv.2210.07900",
+    "url": "https://doi.org/10.48550/arxiv.2210.07900",
+    "citation_count": 0,
+    "source": "openalex",
+    "hf_metadata": null
+  }
+]

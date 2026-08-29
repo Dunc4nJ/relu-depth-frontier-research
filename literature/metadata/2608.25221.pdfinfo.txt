@@ -1,0 +1,18 @@
+Title:           Representing MAX functions using two-hidden-layer ReLU networks
+Author:          Zhimao Wang; Amitabh Basu
+Creator:         arXiv GenPDF (tex2pdf:4af3385)
+Producer:        pikepdf 8.15.1
+Custom Metadata: yes
+Metadata Stream: yes
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           24
+Encrypted:       no
+Page size:       612 x 792 pts (letter)
+Page rot:        0
+File size:       390447 bytes
+Optimized:       no
+PDF version:     1.7

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/zwt+zu5KwSc2uMyMQXJjr/Mgv7E</id>
+  <title>arXiv Query: search_query=&amp;id_list=2607.21651&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-29T04:58:25Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2607.21651" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2607.21651v1</id>
+    <title>Shallower ReLU Network Representations via Exact Linear Algebra</title>
+    <updated>2026-07-22T16:58:02Z</updated>
+    <link href="https://arxiv.org/abs/2607.21651v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.21651v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We prove that the maximum of $n$ real numbers is exactly representable by a ReLU network with two hidden layers for every $n\le 10$. The constructions are obtained by reducing the problem to exact rational linear algebra: after a symmetry reduction, the necessary cancellations are encoded in finite linear systems over $\mathbb{Q}$, which we solve and verify computationally. The representation of $\max_{10}$ has a structured first hidden layer consisting only of pairwise maxima, a feature that allows it to be recursively substituted into larger networks. We use this to show that for every $n&gt;10$, the maximum $\max_{n}$ can be exactly represented with $\lceil{\log_5 (n / 2)\rceil}+1 &lt; \log_5(n) +1.5694$ hidden layers. Via the generalized hinging-hyperplane representation [Wang, Sun, IEEE Trans. Inf. Theory 2005], the same depth bound holds for all continuous piecewise-linear functions on $\mathbb{R}^d$, with $d+1$ in place of $n$. In particular, every continuous piecewise-linear function on $\mathbb{R}^d$ for $d\le 9$ admits a two-hidden-layer ReLU representation. Our results improve on [Bakaev, Brunck, Hertrich, Stade, Yehudayoff, STOC'26]. In that work, the authors established a two-hidden-layer representation for $\max_{5}$ and an upper bound of $\lceil{\log_3 (n-2)\rceil}+1$ hidden layers for $\max_{n}$.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.NE" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-22T16:58:02Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Kilian Rueß</name>
+    </author>
+    <author>
+      <name>Gennadiy Averkov</name>
+    </author>
+    <author>
+      <name>Florestan Brunck</name>
+    </author>
+    <author>
+      <name>Moritz Grillo</name>
+    </author>
+    <author>
+      <name>Christoph Hertrich</name>
+    </author>
+    <author>
+      <name>Georg Loho</name>
+    </author>
+    <author>
+      <name>Jack Stade</name>
+    </author>
+    <author>
+      <name>Moritz Stargalla</name>
+    </author>
+    <author>
+      <name>Matthew Sun</name>
+    </author>
+    <author>
+      <name>Martin Winter</name>
+    </author>
+  </entry>
+</feed>

@@ -1,34 +1,51 @@
-# routes.toml — attack routes (strategies), distinct from claims (content).
-# Schema: references/CLAIMS-LEDGER-SPEC.md §5.5. Every route carries falsifier + expected_evidence +
-# spike + kill_predicate at creation; candidates render HEURISTIC until evidence exists; kills cite
-# their killer. Killed routes are preserved — negative knowledge is first-class.
-#
-# Two worked examples, one per shipped domain pack. Adapt ONE; both define H-0001.
-#
-# ---- Worked example A — quantitative-trading (uncomment to adapt) ----
-# [[route]]
-# id        = "H-0001"
-# mechanism = "post-earnings drift concentrates in low-coverage names because information diffuses through fewer channels"
-# falsifier = "drift expectancy in the low-coverage tercile <= the full-universe baseline, cost-aware, on dev-OOS"
-# expected_evidence = "monotone expectancy across coverage terciles, surviving the time-index control"
-# spike     = "single pre-registered tercile split on dev-OOS, both arms, full costs"
-# kill_predicate = "spike shows no monotonicity, or the random-walk control profits"
-# status    = "active"
-# track     = "prove"
-# author_path = "route-author/a"
-# created   = 2026-08-23T00:00:00Z
-#
-# ---- Worked example B — mathematics (uncomment to adapt) ----
-# Same five mandatory fields, same meaning: `mechanism` is a structural reason, not an analogy or a
-# plan. On W1 the refute track runs the mirror route with track = "refute".
-# [[route]]
-# id        = "H-0001"
-# mechanism = "in a 3-connected cubic planar graph the face boundaries already double-cover every edge, so the face count bounds the cover size structurally"
-# falsifier = "an enumerated graph in the bounded range whose minimum cover exceeds the face bound"
-# expected_evidence = "exhaustive search to n = 32 returns no violating graph, plus an exact cover certificate for the extremal cases"
-# spike     = "enumerate n <= 20 first and check the bound on every graph with an exact cover solver"
-# kill_predicate = "one violating graph, or the solver cannot certify covers at n = 20 within the compute budget"
-# status    = "active"
-# track     = "prove"
-# author_path = "route-author/a"
-# created   = 2026-08-23T00:00:00Z
+[[route]]
+id = "H-0001"
+mechanism = "MAX_11 may lie in the exact rational span of the frozen pairwise-atom family."
+falsifier = "A verified exact dual certificate for the fully enumerated frozen atom family places the MAX_11 target outside its span."
+expected_evidence = "A sparse rational coefficient vector whose compiled two-hidden-layer network passes chamber identities, corruptions, permutations, scaling, and clean-room replay."
+spike = "Reproduce n=5,...,10 first, then implement streamed row/orbit and column generation on an n<=10 withheld control before any MAX_11 solve. Timeout, OOM, or budget exhaustion is an aborted bounded run; retry only after a hash-bound work reduction, optimized enumerator, or explicitly enlarged budget."
+kill_predicate = "A complete exact dual certificate, independently replayed against the fully enumerated frozen atom family, excludes MAX_11 from that family. Implementation/control failure blocks the experiment but does not kill the mathematical route."
+status = "active"
+track = "prove"
+claims = ["C-0002@1"]
+author_path = "route-author/prove-atoms"
+created = 2026-08-29T05:07:00Z
+
+[[route]]
+id = "H-0002"
+mechanism = "A registered lift, orbit law, or simplex subdivision may extend arity without added depth."
+falsifier = "For each registered family separately, its preregistered law fails exact withheld reconstruction on n=9 or n=10, or its compiler necessarily adds a hidden layer."
+expected_evidence = "A parameterized identity with explicit finite widths and coefficients, proved for an infinite family and compiled to the target architecture."
+spike = "Normalize known certificates, infer F1/F2 only from n=5,...,8, preregister the F3 cell rules without n=9,10 fitting, and test exact predictions on withheld n=9,10."
+kill_predicate = "All three registered families F1-F3 fail their exact withheld tests or add depth. This retires H-0002 only; it does not exclude unregistered recurrences or the universal conjecture."
+status = "active"
+track = "prove"
+claims = ["C-0001@1", "C-0002@1"]
+author_path = "route-author/prove-structure"
+created = 2026-08-29T05:07:00Z
+
+[[route]]
+id = "H-0003"
+mechanism = "A registered real-weight invariant may obstruct MAX_11 under two-layer composition."
+falsifier = "For a registered family, every candidate either excludes a certified n <= 10 witness, depends on integer/rational weights, braid compatibility, or bounded width, or lacks the required monotonicity under unrestricted layer composition."
+expected_evidence = "A theorem applying to every finite two-hidden-layer real-weight network, consistent with n <= 10, that is violated by MAX_n for an explicit n."
+spike = "Build a hypothesis matrix for REF-0005 through REF-0009 and test each load-bearing invariant against the exact n=5,...,10 certificates."
+kill_predicate = "All candidates in the three registered invariant families fail on known witnesses or retain a cousin restriction with no transport lemma. This retires H-0003 only and leaves other invariant programs unjudged."
+status = "active"
+track = "refute"
+claims = ["C-0001@1", "C-0002@1"]
+author_path = "route-author/refute-invariant"
+created = 2026-08-29T05:07:00Z
+
+[[route]]
+id = "H-0004"
+mechanism = "A normal-form theorem may reduce unrestricted MAX_n representations to finite certificates."
+falsifier = "The two-hidden-layer function class is not closed under the required symmetrization without width/depth changes, or an explicit asymmetric witness escapes the proposed normal form."
+expected_evidence = "A proved normal-form theorem with an audited two-way conversion preserving exact depth and arbitrary real weights."
+spike = "Attempt the symmetrization argument on n=3 and n=5 and locate the precise closure step; search for asymmetric counterexamples."
+kill_predicate = "A valid known witness or elementary closure counterexample violates the proposed normal form."
+status = "proposed"
+track = "refute"
+claims = ["C-0002@1"]
+author_path = "route-author/refute-completeness"
+created = 2026-08-29T05:07:00Z

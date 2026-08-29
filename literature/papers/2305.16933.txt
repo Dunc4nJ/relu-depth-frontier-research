@@ -1,0 +1,768 @@
+                                              Representing Piecewise Linear Functions by
+                                                     Functions with Small Arity∗
+arXiv:2305.16933v1 [cs.SC] 26 May 2023
+
+
+
+
+                                                                 Christoph Koutschan, RICAM
+                                                                    Bernhard Moser, SCCH
+                                                                 Anton Ponomarchuk, RICAM
+                                                                   Josef Schicho, RISC JKU
+                                                                             May 29, 2023
+
+
+                                                                                 Abstract
+                                                   A piecewise linear function can be described in different forms: as an
+                                               arbitrarily nested expression of min- and max-functions, as a difference
+                                               of two convex piecewise linear functions, or as a linear combination of
+                                               maxima of affine-linear functions. In this paper, we provide two main
+                                               results: first, we show that for every piecewise linear function there exists
+                                               a linear combination of max-functions with at most n + 1 arguments, and
+                                               give an algorithm for its computation. Moreover, these arguments are
+                                               contained in the finite set of affine-linear functions that coincide with the
+                                               given function in some open set. Second, we prove that the piecewise linear
+                                               function max(0, x1 , . . . , xn ) cannot be represented as a linear combination
+                                               of maxima of less than n+1 affine-linear arguments. This was conjectured
+                                               by Wang and Sun in 2005 in a paper on representations of piecewise linear
+                                               functions as linear combination of maxima.
+
+
+                                         1    Introduction
+                                         The mathematical model of a neural network is a directed graph without cy-
+                                         cles [GBC16], where each vertex with in-degree 0 stands for an input parameter
+                                         ranging over R, and vertices with out-degree 0 stand for the output values.
+                                         Each vertex with positive in-degree is called a neuron. Each neuron has finitely
+                                         many input values corresponding to the incoming edges. The neuron applies an
+                                         affine-linear function to the vector of these input values, followed by a non-linear
+                                         activation function. We assume that the activation function is the function
+                                         x 7→ max(x, 0), also known as the ReLU function (Rectified Linear Unit, see
+                                         [NH10]). The output of one neuron may be the input for another neuron, which
+                                            ∗ The research reported in this paper has been partly funded by BMK, BMDW, and the
+
+                                         Province of Upper Austria in the frame of the COMET Programme managed by FFG in the
+                                         COMET Module S3AI.
+
+
+                                                                                     1
+is indicated by a directed edge between the two vertices in the graph. Figure 1
+shows a ReLU network that computes a bivariate piecewise linear function.
+
+                                         2
+                            −1
+
+                                                        4
+         x1
+                        2
+
+                                                        −5
+                                        −3                              8
+                    3
+
+                                                        6
+         x2
+                            5
+
+                                         1
+
+Figure 1: A neural network computing the piecewise linear function (x1 , x2 ) 7→
+4 max(−x1 +3x2 +2, 0)−5 max(2x1 −3, 0)+6 max(5x2 +1, 0)+8. The activation
+function for each neuron is the ReLU function x 7→ max(0, x). The network has
+depth 2.
+
+
+    Algebraically, the depth of a ReLU network corresponds to the depth of nest-
+ings of ReLU functions in the expression determined by the network. The func-
+tion max(x1 , . . . , xn ) can be written as a composition of binary max-function
+with nesting depth equal to ⌈log2 (n)⌉, and every binary max can be written in
+terms of a ReLU function by the identity max(x, y) = x + max(y − x, 0). This
+shows that any piecewise linear function that can be written as a linear combi-
+nation of maxima of at most n affine-linear functions can be realized by a ReLU
+network of depth at most ⌈log2 (n)⌉. This was already observed in [WS05].
+    It is well-known [KS87] that every piecewise linear function is the difference
+of two convex piecewise linear functions; see also [SD20] for a more efficient
+decomposition algorithm. It follows that every piecewise linear function is a lin-
+ear combination of maxima of affine-linear functions, see [CD88, TM99, Ovc02,
+ABMM18]. The paper [WS05] addresses the problem of minimizing the largest
+number of arguments of the maxima appearing in such a linear combination.
+The authors show that every piecewise linear function defined on Rn can be
+written as a linear combination of maxima of at most n + 1 affine-linear func-
+tions. The authors also express their conviction that this bound is optimal.
+In their own words, “it seems impossible” that the function max(0, x1 , . . . , xn )
+has an expression as a linear combination of maxima of at most n affine-linear
+functions.
+
+
+                                         2
+    This paper is structured as follows. In Section 2 we show that for any
+piecewise linear function f : Rn → R there exists an integral linear combination
+of maxima of at most n + 1 affine-linear functions. Note that in the case n = 1
+this corresponds to the fundamental theorem of tropical algebra. In Section 3
+we give an algorithm for finding such linear integral combination of maxima
+with examples. In Section 4 we recall some notions about Minkowski-addition,
+duality between the set of non-empty convex polytopes in Rn and the set of
+convex and positively homogeneous piecewise linear functions of degree 1. In
+Section 5 we give a proof for the conjecture in [WS05], thereby showing that
+their bound for the number of max-arguments is indeed optimal. The proof is
+based on properties of the Minkowski-addition of convex polytopes.
+
+
+2    An Upper Bound for the Height
+For a given piecewise linear function f : Rn → R, we define the height H(f ) as
+the smallest integer k such that f is a linear combination of maxima of at most
+k + 1 affine-linear functions. In this section we give a new proof for the bound
+H(f ) ≤ n that was first shown in [WS05]. We also show that the arguments for
+the maxima can be chosen among the constituents of f . These are defined as
+the affine-linear functions that coincide with f in some open subset of Rn .
+Lemma 2.1. Let R be a finite set of affine-linear functions on Rn such that
+|R| ≥ n + 2. Then there exists a decomposition into two non-empty disjoint
+subsets, R = S ⊎ T , such that for all points x ∈ Rn , we have
+
+                              max g(x) ≥ min g(x).
+                              g∈T             g∈S
+
+Proof. The derivative of every function in R is a linear function in (Rn )∗ . The
+vector space (Rn )∗ has dimension n. Therefore the set of derivatives {g ′ | g ∈ R}
+is affinely dependent, i.e., there exist real numbers αg , g ∈ R, not all equal to
+zero, such that             X                X
+                                αg g ′ = 0,     αg = 0.
+                           g∈R                g∈R
+
+We set T := {g P | αg > 0} and S :=P{g | αg ≤ 0}. Without loss of generality,
+we may assume g∈T αg = 1 and g∈S αg = −1 – if not, we multiply all αg
+by a suitable P
+              positive constant.
+                           P     We also set βg := −αg for g ∈ S. Then the
+function h := g∈T αg g − g∈S βg g has derivative zero and therefore h equals
+to a constant c. Let us assume c ≥ 0. Then we get
+                    X            X                X
+       max g(x) ≥      αg g(x) =    βg g(x) + c ≥   βg g(x) ≥ min g(x)
+       g∈T                                                        g∈S
+                   g∈T              g∈S             g∈S
+
+for all x ∈ Rn .
+    If c < 0, then we redefine T := {g | αg < 0} and S := {g | αg ≥ 0} and get
+a similar chain of inequalities.
+
+
+                                          3
+Lemma 2.2. Let A be a finite non-empty set. Then
+                             X
+                                (−1)|T | = 0.
+                                          T ⊆A
+
+Proof.
+                                         |A|     
+                   X
+                              |T |
+                                         X     |A|
+                          (−1)       =                   (−1)i = (1 − 1)|A| = 0.
+                                                 i
+                   T ⊆A                  i=0
+
+Lemma 2.3. With S, T as above, we have the equality
+                      X
+                          (−1)|M | max g(x) = 0
+                                                     g∈M ∪T
+                                 M ⊆S
+
+for all x ∈ Rn .
+
+Proof. For all x ∈ Rn except those in a finite union of hyperplanes, the values
+g(x), g ∈ R are pairwise distinct. We only need to prove the equality for x
+under this assumption; then it follows for the remaining places by continuity.
+So, let us fix x such that the values g(x), g ∈ R are pairwise distinct. Then
+                                                                  
+
+         X                                     X               X                  
+                (−1)|M | max g(x) =                                       (−1)|M | 
+                                                                                  
+                                                                                    u(x)
+                                                   
+                          g∈M ∪T                   
+         M ⊆S                                  u∈R            M ⊆S                
+                                                             u∈M ∪T
+                                                         ∀g∈M ∪T :g(x)≤u(x)
+
+We claim the inside sum is 0, for each u ∈ R. We distinguish three cases.
+   Case 1: u ∈ T and ∃g ∈ T : g(x) > u(x). Then there is no M such that the
+conditions under the sum sign are fulfilled. Then the inner sum is the sum over
+the empty set which is 0 by definition.
+   Case 2: u ∈ S. We define Su as the set of all g ∈ S such that g(x) ≤ u(x).
+Note that Su is non-empty, since it contains u. Then
+                       X                      X
+                                  (−1)|M | =       (−1)|M | = 0
+                          M ⊆S                               M ⊆Su
+                        u∈M ∪T
+                    ∀g∈M ∪T :g(x)≤u(x)
+
+by Lemma 2.2.
+   Case 3: u ∈ T and ∀g ∈ T : g(x) ≤ u(x). We define Su as the set of all
+g ∈ S such that g(x) ≤ u(x). The set Su is non-empty because of Lemma 2.1.
+As in the previous case, we get
+                       X                    X
+                                (−1)|M | =      (−1)|M | = 0.
+                          M ⊆S                              M ⊆Su
+                        u∈M ∪T
+                    ∀g∈M ∪T :g(x)≤u(x)
+
+
+
+
+                                                     4
+Theorem 2.4. Every piecewise linear function f : Rn → R can be written as an
+integral linear combination of maxima of at most n + 1 affine-linear functions.
+Moreover, the affine-linear functions can be chosen among the constituents of f .
+Proof. By [TM99, Ovc02], the function f can be written as maximum of minima
+of constituents. Using the first identity in [WS05, Lemma 1], namely
+
+             max(a, min(b, c)) = max(a, b) + max(a, c) − max(a, b, c),
+
+we can rewrite this expression as a linear combination of maxima of constituents.
+By Lemma 2.3 and Lemma 2.1, we may replace any maximum of more than n+1
+constituents by a linear combination of maxima of fewer constituents.
+Remark 2.5. The proof in this section shows a slightly stronger statement: f
+can be written as an integral linear combination of maxima of constituents whose
+derivatives are affinely independent. We will see in Section 5 that the maximum
+of affine-linear functions that are affinely independent cannot be expressed as
+linear combination of maxima of fewer affine-linear functions.
+
+Example 2.6. Let g1 (x1 , x2 ) = c1 x1 + c2 x2 for some constants c1 , c2 (not both
+zero) and let gi = g1 + i for i = 2, 3, 4. Then clearly max(g1 , g2 , g3 , g4 ) =
+g4 . However, this simplest-possible answer cannot be found by our algorithm.
+If we choose α = (−1, 0, 0, 1), then we get S = {g1 , g2 , g3 }, T = {g4 } and
+hence max(g1 , g2 , g3 , g4 ) = max(g1 , g2 , g4 ) + max(g1 , g3 , g4 ) + max(g2 , g3 , g4 ) −
+max(g1 , g4 ) − max(g2 , g4 ) − max(g3 , g4 ) + g4 . In contrast, if we choose α =
+(−3, 1, 1, 1), then S = {g1 }, T = {g2 , g3 , g4 } and we obtain max(g1 , g2 , g3 , g4 ) =
+max(g2 , g3 , g4 ) as the final result. However, this weakness can easily be cured by
+ignoring the condition |R| ≥ n+2 in Lemma 2.1: now the existence of a vector α
+is not guaranteed any more, but if it exists, we perform the corresponding
+decomposition, otherwise we leave that term unchanged.
+
+
+3     Reducing the Height
+In this section, we give an algorithm for writing the maximum of any number
+of affine-linear functions from Rn → R as a linear combination of maxima of at
+most n + 1 of these functions.
+    Algorithm 2 implements the method reduceMax that takes the size of the
+input space n and a maximum function f (x) := max(h1 (x), . . . , hk (x)) with
+more than n + 1 constituents, i.e. R := {h1 , . . . , hk } and |R| > n + 1. It returns
+a linear combination of maxima:
+                                    l
+                                    X
+                             g :=         ci · max(hi1 , . . . , hiki ),
+                                    i=1
+
+where {hi1 , . . . , hiki } ⊂ R and ki ≤ n + 1 for all i ∈ {1, . . . , l}. The combination
+is constructed in the following way.
+
+
+                                                  5
+         m12345                                                                m12345
+      (4,1,−21,13,3)                                                        (3,−1,−9,4,3)
+
+
+
+
+         m1245                                                                 m1245                    m1345
+                                                           −m145
+      (9,−10,−11,12)                                                       (9,−10,−11,12)          (7,−30,17,6)
+
+
+
+
+−m15      m125     m145                                               −m15      m125     m145           m145
+
+                                                   m12345
+                                               (7,−7,−3,−6,9)
+
+
+
+
+                                                   m1235                        m1245                   m1345
+m15      −m125         −m135     −m145
+                                               (23,−17,−33,27)              (9,−10,−11,12)         (7,−30,17,6)
+
+
+
+
+                                          −m15      m125     m135      −m15      m125       m145        m145
+
+         Figure 2: Application of our Algorithm 2 “reduceMax” to the input function
+         max(g1 , g2 , g3 , g4 , g5 ) where g1 (x1 , x2 ) = 3x1 −4x2 +1, g2 (x1 , x2 ) = −3x1 −x2 −2,
+         g3 (x1 , x2 ) = 2x1 +x2 −1, g4 (x1 , x2 ) = 3x1 +2x2 +2, g5 (x1 , x2 ) = −2x1 +4x2 +3.
+         We use the abbreviation mij... for max(gi , gj , . . . ) and for those maxima that
+         get expanded, we also display the vector α that determines the sets S and T .
+         We show three different executions of the algorithm, which however all yield the
+         same final result (combining equal terms is not shown explicitly here).
+
+
+
+
+                                                      6
+    Firstly, one extracts the linear constituents h1 , . . . , hk from the input max-
+imum f and forms the set R. Then the set R is split into two disjoint subsets
+S, T ⊂ R such that R = S ⊎ T . The split operation is the implementation of
+Lemma 2.1 and is described in Algorithm 1. More details about the split oper-
+ation can be found in the second part of the chapter. After splitting the set R
+into the pair of subsets S, T , the linear combination of maxima g is generated.
+The linear combination of maxima g has the following form:
+                                       X
+                    g(x) = (−1)|S|+1       (−1)|M | max h(x),
+                                                    h∈M ∪T
+                                      M ⊂S
+
+where the sum runs over all proper subsets of S including the empty set. By
+Lemma 2.3, g(x) is equal to the input function f (x), and every maximum in
+g(x) contains at most |R| − 1 constituents, where the set R contains all con-
+stituents of the input function f (x). If any summand of g(x) contains affinely
+dependent subset of constituents, one replaces it with the corresponding linear
+combination of maximum by applying the reduceMax method recursively. One
+repeats this simplification procedure until all the summands contain at most
+n + 1 constituents.
+    The termination of Algorithm 2 follows from the fact that after every call on
+the input maximum with k constituents, reduceMax returns a finite combination
+of maxima where each maximum contains at most k − 1 constituents.
+    Algorithm 2 uses the method split for dividing a set of constituents R into
+two disjoint sets S, T . The method split is described in Algorithm 1 and it is an
+implementation of Lemma 2.1. The algorithm splits the input set of constituents
+R based on the sign of the vector α ∈ R|R| that is a solution of the system of
+equalities:
+                             |R|             |R|
+                            X                X
+                                 αi h′i = 0,     αi = 0,
+                            i=1              i=1
+                             T
+                ∂hi       ∂hi
+where h′i :=        ,...,         and hi ∈ R for all i ∈ {1, . . . , |R|}. Due to the
+                ∂x1       ∂xn
+fact, that all constituents are linear, it implies that the system of equations is
+linear:
+                                     W α = 0,
+where α ∈ R|R| and W ∈ R(n+1)×|R| such that:
+                           ′
+                            h11 h′21 . . . h′|R|1
+                                                  
+                           ..                .. 
+                     W :=  .                  . .
+                          
+                          h′1n h′2n . . . h′ 
+                                             |R|n
+                             1     1    ...   1
+
+Solving the given system of linear equations is equivalent to finding the null
+space ker(W ). If the null space is trivial, one does not need to divide the
+input set R because Lemma 2.1 is not applicable. Otherwise, the vector α can
+
+
+                                         7
+be picked as any vector from ker(W ). By iterating through the entries of the
+vector α, depending on the sign of the entry αi , the corresponding constituent
+hi is assigned either to T or S. Note that the condition k ≥ n + 2 in Lemma 2.1
+ensures the existence of a non-trivial null space ker(W ).
+Example 3.1. Let us take the following function:
+      g(x1 , x2 ) := max(x1 , x1 + x2 , x2 + max(x1 + x2 − 7, x1 + 6x2 + 4)
+                         + 3 min(4x2 , x1 − 9, x1 − x2 )).
+After applying the function expansion by the rules explained in [WS05] on g, one
+receives a linear combination of maxima with 49 summands, where 40 of them
+contain 5 or more constituents. After applying Algorithm 2 on the expanded
+version of g, the given sum transforms into a new one with only 7 summands:
+      ĝ(x1 , x2 ) := max(x1 , x1 + 19x2 + 4)
+                   − max(x1 + x2 , 4x1 + 4x2 + 4, 4x1 + 7x2 − 23)
+                   − max(x1 + 19x2 + 4, 4x1 + 4x2 + 4)
+                   + max(x1 , x1 + x2 , 4x1 + 7x2 − 23)
+                   − max(x1 , x1 + 19x2 + 4, 4x1 + 7x2 − 23)
+                   + max(x1 + x2 , 4x1 + 4x2 + 4)
+                   + max(x1 + 19x2 + 4, 4x1 + 4x2 + 4, 4x1 + 7x2 − 23).
+The function ĝ contains maxima with at most 3 constituents, in accordance with
+Theorem 2.4. However, an example can be found where the number of maxima
+increases after applying Algorithm 2, compared to the output after applying the
+rules from [WS05]. For instance, it holds for the function:
+     f (x1 , x2 ) := max(6x1 + 5x2 − 3, 8x2 − 2, −3x1 − 5x2 − 4,
+                        max(12x1 − 4x2 + 1, −7x1 + 8x2 + 12) + 3x1 − 10,
+                        min(−3x1 + 4x2 − 5, 8x1 + 2)).
+After repeating two transformations, we receive two linear combinations with
+the number of maxima 3 and 5, respectively, with the final form:
+     fˆ(x1 , x2 ) := − max(−4x1 + 8x2 + 2, 15x1 − 4x2 − 9)
+                 + max(8x2 − 2, −4x1 + 8x2 + 2, 6x1 + 5x2 − 3)
+                 + max(−4x1 + 8x2 + 2, −3x1 − 5x2 − 4, 15x1 − 4x2 − 9)
+                 + max(−4x1 + 8x2 + 2, 6x1 + 5x2 − 3, 15x1 − 4x2 − 9)
+                 − max(−4x1 + 8x2 + 2, 6x1 + 5x2 − 3).
+    Although Algorithm 2 can either reduce the number of summands in the
+final linear combination of maxima or increase it, the final combination seems
+to be invariant, not depending on the outcome of Algorithm 1. More precisely,
+we conjecture that the output of Algorithm 2 is independent of how the set of
+constituents is split by Algorithm 1, as illustrated in Figure 2.
+
+
+                                         8
+ Algorithm 1: split (Lemma 2.1)
+   Input: {h1 , . . . , hk } – set of linear constituents, where
+             hi : Rn → R, ∀i ∈ {1, . . . , k}
+   Output: (S,  T ) – disjoint
+                            ′  decomposition of R
+              h′1           h
+ 1 W :=              ,..., k
+               1             1
+ 2 K := ker(W )
+ 3 if K is zero then
+       Return: ∅, {h1 , . . . , hk }
+ 4 α := pick a non-zero vector from K
+ 5 v := constant terms of h1 , . . . , hk
+ 6 S := ∅
+ 7 T := ∅
+          T
+ 8 c := v α
+ 9 for i ∈ {1, . . . , k} do
+10     if αi > 0 then
+11          T := T ∪ {hi }
+12      else
+13         S := S ∪ {hi }
+14   if c > 0 then
+         Return: S, T
+     Return: T, S
+
+
+
+
+ Algorithm 2: reduceMax (Lemma 2.3)
+   Input: g := max(h1 , . . . , hk ) – max function, where g : Rn → R.
+   Output: Linear combination of max functions.
+ 1 R := {h1 , . . . , hk }
+ 2 (S, T ) := split(R)
+ 3 A := max(T )
+ 4 if S = ∅ then
+       Return: A
+ 5 if |T | > 1 then
+ 6     A := reduceMax(A)
+ 7 for all proper subsets M of S do
+ 8    P := M ∪ T
+ 9    A := A + (−1)|M | reduceMax(max(P ))
+     Return: (−1)|S|+1 A
+
+
+
+
+                                          9
+4     Duality and Convex Polyhedra
+Let n be a positive integer. Instead of all piecewise linear functions on Rn ,
+we consider in this section the subset of convex and positively homogeneous
+piecewise linear functions of degree 1, i.e., all functions f : Rn → R that are
+convex and satisfy f (λx) = λf (x) for all x ∈ Rn and λ ≥ 0. We denote this
+subset by Fn . There is a useful bijective correspondence τ : Fn → Pn , where we
+define Pn as the set of all non-empty convex polytopes in Rn . For each f ∈ Fn ,
+we define τ (f ) as the subset of all vectors h ∈ Rn such that ⟨h, x⟩ ≤ f (x)
+for all x ∈ Rn . Conversely, if P ∈ Pn , then τ −1 (P ) is the support function
+x 7→ sup{⟨h, x⟩ | h ∈ P }. By compactness, the supremum is a maximum.
+    For two polytopes P, Q ∈ Pn , the Minkowski sum P + Q is defined as the
+convex polytope {a+b | a ∈ P, b ∈ Q} as illustrated in Figure 3. Let d ∈ Rn \{0}
+be a vector (d stands for “direction”). For any polytope P ∈ Pn , we define the
+face
+                     Sd (P ) = {x ∈ P | ⟨x, d⟩ = max ⟨y, d⟩}.
+                                                  y∈P
+
+Proposition 4.1. Let P, Q ∈ Pn be polytopes. Let d ∈ Rn \ {0} be a direction
+vector. Then
+    a) The map τ is an isomorphism of semigroups:
+
+                           τ −1 (P ) + τ −1 (Q) = τ −1 (P + Q).
+
+    b) Taking faces is an endomorphism of semigroups:
+
+                             Sd (P + Q) = Sd (P ) + Sd (Q).
+
+Proof. See [GS93, Lemma 2.1.4].
+Proposition 4.2. Minkowski addition is cancellable: if A + C = B + C, then
+A = B.
+Proof. This is well-known, and we can prove it easily by translation to functions.
+Assume A + C = B + C. Then
+
+      τ −1 (A) + τ −1 (C) = τ −1 (A + C) = τ −1 (B + C) = τ −1 (B) + τ −1 (C),
+
+hence τ −1 (A) = τ −1 (B) and therefore A = B.
+    The face Sd (P ) is contained in the hyperplane Hd,c = {x | ⟨x, d⟩ = c},
+where c := maxy∈P ⟨y, d⟩. For the induction proof in the next section, we need
+to identify Hd,c with Rn−1 . To this end, we translate the hyperplane to Hd,0
+by a translation vector cv that satisfies ⟨d, v⟩ = −1, and then we apply an
+isomorphism ϕ : Hd,0 → Rn−1 . The face ϕ(Sd (P ) + cv) is denoted by Fd (P ). It
+depends not only on d, but also on the choice of v and ϕ; but we may choose
+vd and ϕd for every d once and for all, subject to the condition v−d = −vd and
+ϕd = ϕ−d .
+
+
+                                        10
+                                               y
+                              1.0
+
+
+                                                                               2
+                              0.5
+
+                                                                               1
+
+                              0.0                               x
+
+                                                                    -2   -1        1   2   3
+
+                             -0.5
+                                                                              -1
+
+
+                             -1.0                                             -2
+                                -1.0   -0.5   0.0   0.5   1.0
+
+
+
+
+                                               y
+                              1.0
+
+
+                                                                               2
+                              0.5
+
+                                                                               1
+
+                              0.0                               x
+
+                                                                    -2   -1        1   2   3
+
+                             -0.5
+                                                                              -1
+
+
+                             -1.0                                             -2
+                                -1.0   -0.5   0.0   0.5   1.0
+
+
+
+
+                                               y
+                              1.0
+
+
+                                                                               2
+                              0.5
+
+                                                                               1
+
+                              0.0                               x
+
+                                                                    -2   -1        1   2   3
+
+                             -0.5
+                                                                              -1
+
+
+                             -1.0                                             -2
+                                -1.0   -0.5   0.0   0.5   1.0
+
+
+
+
+Figure 3: Two positively homogeneous piecewise linear functions, f (x, y) =
+max(x − y, 3x + y, −x + 2y) (first row) and g(x, y) = max(0, −x − y) (second
+row), as well as their sum h = f + g (third row). Each row shows the function
+R2 → R as a three-dimensional plot (first column) and as a contour plot (second
+column). The third column shows the corresponding polygon τ (f ) etc. in Pn .
+One clearly sees how h(x, y) = max(−2y, −2x + y, 3x + y, −x + 2y) produces the
+Minkowski sum τ (h) = τ (f ) + τ (g) of polygons.
+
+
+
+
+                                              11
+                     +       +                     =                  P
+
+
+
+Figure 4: The polytope P is a zero-summand, since it can be written as a
+Minkowski sum of three line segments.
+
+
+
+5     A Lower Bound for the Height
+Recall that an n-simplex is a polytope which is the convex hull of n + 1 points
+that are affinely independent. The faces of simplices are again simplices.
+    A polytope P ∈ Pn is called a zero volume polytope if and only if it has no
+interior points; this is the case if and only if it is contained in a hyperplane. If P
+has zero volume and d ∈ Rn \ {0} is a direction vector, then one of the following
+two cases holds:
+    • either Sd (P ) = S−d (P ) = P ,
+    • or both faces Fd (P ) and F−d (P ) have zero volume as polytopes in Pn−1 .
+      We say that a polytope P ∈ Pn is a zero-summand if and only if there are
+convex polytopes P1 , . . . , Pr , Q1 , . . . , Qs ∈ Pn of zero volume such that P + P1 +
+· · · + Pr = Q1 + · · · + Qs , as illustrated in Figure 4.
+Lemma 5.1. Let P ∈ Pn be a zero-summand. Let d ∈ Rn \ {0} be a direction
+vector such that F−d (P ) ∈ Pn−1 has zero volume. Then Fd (P ) is also a zero-
+summand.
+Proof. Since P ∈ Pn is a zero summand, there exist convex polytopes P1 , . . . , Pr ,
+Q1 , . . . , Qs ∈ Pn of zero volume such that
+
+                         P + P1 + · · · + Pr = Q1 + · · · + Qs .
+
+We may assume, without loss of generality, that the zero volume polytopes
+Pi or Qj that have a face Fd (Pi ) = F−d (Pi ) of nonzero volume – or similarly
+with Qj – are P1 , . . . , Pk and Q1 , . . . , Ql , for some k ≤ r and l ≤ s. Set
+A := P + P1 + . . . + Pr ; therefore also A = Q1 + · · · + Qs . We apply Fd to A
+and neglect all polytopes of zero volume. This yields
+
+                     Fd (A) = Fd (P ) + Fd (P1 ) + · · · + Fd (Pk )
+
+plus polytopes of zero volume, and
+
+                           Fd (A) = Fd (Q1 ) + . . . + Fd (Ql )
+
+plus polytopes of zero volume. Now we apply F−d to A and neglect all poly-
+topes of zero volume, taking into account the equations Fd (Pi ) = F−d (Pi ) for
+
+
+                                           12
+i = 1, . . . , k and Fd (Qj ) = F−d (Qj ) for j = 1, . . . , l, and the assumption that
+F−d (P ) ∈ Pn−1 has zero volume. This yields
+
+                          F−d (A) = Fd (P1 ) + · · · + Fd (Pk )
+
+plus polytopes of zero volume, and
+
+                          F−d (A) = Fd (Q1 ) + · · · + Fd (Ql )
+
+plus polytopes of zero volume. Summing up, we get that Fd (A) + F−d (A) is
+equal to both sides of the equation
+
+            Fd (P ) + Fd (P1 ) + · · · + Fd (Pk ) + Fd (Q1 ) + · · · + Fd (Ql )
+
+                = Fd (P1 ) + · · · + Fd (Pk ) + Fd (Q1 ) + · · · + Fd (Ql )
+modulo polytopes of zero volume. By Proposition 4.2, it follows that Fd (P ) is
+a zero summand.
+Corollary 5.2. An n-simplex in Pn is not a zero summand.
+Proof. Induction on n: if n = 1, then the zero volume polytopes are single
+points, and therefore the zero summands are also single points. But a 1-simplex
+is a line segment of positive length and not a single point.
+    If ∆ ∈ Pn is an n-simplex for some n > 1, then there is a direction vector
+d such that F−d (∆) is a point and Fd (∆) is an (n − 1)-simplex in Pn−1 . By
+the induction hypothesis, Fd (∆) is not a zero summand. Also, F−d (∆) has zero
+volume. By Lemma 5.1, applied in contraposition, it follows that ∆ is not a
+zero summand.
+
+Lemma 5.3. Let g0 , . . . , gn : Rn → R be linear functions whose derivatives are
+affinely independent. Then the positively homogeneous function max(g0 , . . . , gn )
+is not a linear combination of maxima of at most n linear functions.
+Proof. Assume, indirectly, that max(g0 , . . . , gn ) = α1 f1 + · · · + αk fk , where
+f1 , . . . , fk are maxima of at most n linear functions. Without loss of generality,
+we may assume that the αi are either 1 or −1. Let us assume that α1 = · · · =
+αl = 1 and αl+1 = · · · = αk = −1. Hence max(g0 , . . . , gn ) + fl+1 + · · · + fk =
+f1 + · · · + fl . By Proposition 4.1, we obtain
+
+              τ (max(g0 , . . . , gn )) + Pl+1 + · · · + Pk = P1 + · · · + Pl .
+
+For i = 1, . . . , k, the function fi is in Fn , and Pi := τ (fi ) is a zero volume
+polytope because it is the convex hull of at most n points. This shows that
+τ (max(g0 , . . . , gn )) is a zero summand. But this contradicts Corollary 5.2, be-
+cause τ (max(g0 , . . . , gn )) is an n-simplex.
+Theorem 5.4. The function f := max(0, x1 , . . . , xn ) : Rn → R is not a linear
+combination of maxima of less than n + 1 affine-linear functions.
+
+
+                                             13
+Proof. By Lemma 5.3, the function f is not a linear combination of maxima
+of less than n + 1 linear functions: Assume, indirectly, that there are integers
+s, k1 , . . . , ks with ki ≤ n for i = 1, . . . , s, real numbers α1 , . . . , αs and linear
+functions gi,j : Rn → R, i = 1, . . . , s, j = 1, . . . , ki such that
+                                                             s
+                                                             X
+                       mi :=        max (gi,j ) and f =            αi mi .
+                                j=1,...,ki
+                                                             i=1
+
+We will then construct a representation of f as a linear combination of maxima
+of less than n + 1 linear functions, giving a contradiction.
+     For i = 1, . . . , s, we proceed as follows. We define ci := mi (⃗0). We may
+assume without loss of generality that there exists ri ≤ ki such that gi,j (⃗0) = ci
+if j ≤ ri and gi,j (⃗0) if j > ri . For j = 1, . . . , ri , we set hi,j := gi,j − ci . Then
+hi,j (⃗0) = 0, which implies that the functions hi,j are all linear. Now we set
+                                                             s
+                                                             X
+                        ni := max (hi,j ) and e =                  α i ni .
+                                j=1,...,ri
+                                                             i=1
+
+Then e is a linear combination of maxima of less than n + 1 linear functions.
+We will prove that e = f , which will finish the indirect proof.
+   Let U be a small neighborhood of ⃗0 such that for each i, we have
+
+                                                                                         
+        max gi,j = max gi,j = max (hi,j + ci ) =                               max hi,j       + ci
+      j=1,...,ki       j=1,...,ri           j=1,...,ri                      j=1,...,ri
+
+
+inside U . Then we have mi = ni − ci inside U and therefore
+                                    X                             s
+                                                                  X
+                         f=                 αi (ni + ci ) = e +         ci .
+                                i=1,...,s                         i=1
+
+          Ps
+However, i=1 ci = f (⃗0) = 0, and therefore f = e inside U . Both functions f
+and e are positively homogeneous; so, if they coincide in U , then they coincide
+everywhere.
+
+
+6     Conclusion
+It has been shown that any piecewise linear function f : Rn → R can be repre-
+sented as a linear combination of maxima with at most n + 1 arguments, where
+the linear arguments of each maximum are picked from the set of affine-linear
+parts of the function f . We develop an algorithm for calculating this represen-
+tation. It is an open question, whether the derived representation is invariant
+under certain choices that can be made inside Algorithm 2. After running a se-
+ries of experiments, as illustrated in Example 3.1, we conjecture that this is the
+case. Proving this conjecture could be a possible direction for future research.
+
+
+                                                  14
+    By proving that the function max(0, x1 , . . . , xn ) is not a linear combination
+of maxima of less than n+1 affine-linear functions, we confirm the optimal repre-
+sentation conjecture formulated by Shuning Wang and Xusheng Sun in [WS05].
+Using these two contributions, we can state that every piecewise linear func-
+tion f can be expressed as a ReLU neural network with at most ⌈log2 (n+1)⌉+1
+layers. This network can be derived from the function representation provided
+by Algorithm 2. Each hidden layer of this neural network contains less than
+or equal to 2n + N neurons, where n is the dimension of the input space, and
+where N is the number of maxima in the obtained representation.
+
+
+References
+[ABMM18] R. Arora, A. Basu, P. Mianjy, and A. Mukherjee, Understanding
+         deep neural networks with rectified linear units, Poster at ICLR,
+         2018, arXiv:1611.01491.
+[CD88]       L.O. Chua and A.-C. Deng, Canonical piecewise-linear representa-
+             tion, IEEE Transactions on Circuits and Systems 35 (1988), no. 1,
+             101–111.
+[GBC16]      I. Goodfellow, Y. Bengio, and A. Courville, Deep learning, pp. 164–
+             172, MIT Press, 2016.
+
+[GS93]       P. Gritzmann and B. Sturmfels, Minkowski addition of polytopes:
+             computational complexity and applications to Gröbner bases, SIAM
+             J. Discrete Math. 6 (1993), no. 2, 246–269.
+[KS87]       A. Kripfganz and R. Schulze, Piecewise affine functions as a differ-
+             ence of two convex functions, Optimization 18 (1987), no. 1, 23–29.
+
+[NH10]       V. Nair and G. E. Hinton, Rectified linear units improve restricted
+             Boltzmann machines, In ICML (2010), 807–814.
+[Ovc02]      S. Ovchinnikov, Max-min representation of piecewise linear func-
+             tions., Beitr. Algebra Geom. 43 (2002), no. 1, 297–302.
+
+[SD20]       N. Schlüter and M. Schulze Darup, Novel convex decomposition of
+             piecewise affine functions, Proc. 21th IFAC World Congress, 2020,
+             arXiV: 2108.03950.
+[TM99]       J.M. Tarela and M.V. Martinez, Region configurations for realiz-
+             ability of lattice piecewise-linear models, Math. Comput. Model. 30
+             (1999), no. 11, 17–27.
+[WS05]       S. Wang and X. Sun, Generalization of hinging hyperplanes, IEEE
+             Trans. Inf. Theory 51 (2005), 4425–4431.
+
+
+
+
+                                         15
+

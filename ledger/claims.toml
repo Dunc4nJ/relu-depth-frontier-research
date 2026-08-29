@@ -1,84 +1,100 @@
-# claims.toml — canonical claim records. Schema: references/CLAIMS-LEDGER-SPEC.md §5.1 (closed).
-# NO disposition/evidence_class/confidence/verified/status fields exist — standing is computed.
-# Edits to statement/falsifier/no_claim mint version n+1; nothing is deleted.
-#
-# Two worked examples, one per shipped domain pack. Adapt ONE; both define C-0001/C-0002.
-#
-# ---- Worked example A — quantitative-trading (uncomment to adapt) ----
-# [[claim]]
-# id        = "C-0001"
-# version   = 1
-# statement = "For universe U(vintage 2026-06-30), signal S with horizon 21d and monthly rebalance has positive cost-aware expectancy under the declared execution model."
-# role      = "signal-claim"
-# domain    = "quantitative-trading"
-# depends_on = ["C-0002@1"]          # exact implementation subject used below
-# falsifier = "Cost-aware expectancy <= 0 on the dev-OOS window, or the bare time-index control matches it."
-# no_claim  = "Says nothing beyond U/vintage/horizon; not a lockbox, replication, or live result."
-# not_equivalent_to = ["the same signal on the full unfiltered universe"]
-# signal = "{exact signal definition and inputs}"
-# universe = "{decision population the conclusions are about}" # exact [population].declared
-# horizon = "{declared holding interval}"                       # exact [scope].holding_period
-# rebalance_rule = "{decision clock and rebalance rule}"
-# data_vintage = "{YYYY-MM-DD frozen knowledge date}"           # exact [lineage].vintage
-# intended_decision = "{decision this claim would inform}"
-# regime_boundary = "{conditions outside which the claim does not travel}"
-# origin_round = "R-0001"
-# author_path  = "quant-hypothesis-author/a"
-# created   = 2026-08-23T00:00:00Z
-#
-# [[claim]]
-# id        = "C-0002"
-# version   = 1
-# statement = "Implementation v1 is identified by the declared code, data, and environment anchor."
-# role      = "implementation-claim"
-# domain    = "quantitative-trading"
-# # Identity-only leaf: never add depends_on here; put premises on C-0001.
-# no_claim  = "No behavior outside these exact subject identities."
-# origin_round = "R-0001"
-# code_hash = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# env_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# data_snapshot = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# # Or replace data_snapshot with one canonical, non-placeholder dataset_id.
-# author_path = "implementation/a"
-# created   = 2026-08-23T00:00:00Z
-#
-# ---- Worked example B — mathematics (uncomment to adapt) ----
-# The shape differs from A in ways that do not survive transposition: no signal/universe/
-# horizon/rebalance_rule/data_vintage/intended_decision/regime_boundary fields (those are the
-# quantitative subject vocabulary), and the implementation subject anchors a GENERATED instance
-# corpus rather than a market-data vintage. Everything else — computed standing, the
-# implementation-claim leaf, exact version pins — is identical.
-# [[claim]]
-# id        = "C-0001"
-# version   = 1
-# statement = "Every 3-connected cubic planar graph on n <= 32 vertices has a cycle double cover using at most n/2 + 2 cycles."
-# role      = "conjecture"                # falsifier is REQUIRED for conjecture roles
-# domain    = "mathematics"
-# depends_on = ["C-0002@1"]               # exact implementation subject used by the search
-# falsifier = "one 3-connected cubic planar graph on n <= 32 whose minimum cycle double cover needs more than n/2 + 2 cycles"
-# no_claim  = "Says nothing for n > 32, for non-planar or non-cubic graphs, or about any polynomial-time construction."
-# not_equivalent_to = ["the unrestricted cycle double cover conjecture"]
-# origin_round = "R-0001"
-# author_path  = "route-author/a"
-# created   = 2026-08-23T00:00:00Z
-#
-# [[claim]]
-# id        = "C-0002"
-# version   = 1
-# statement = "Enumeration implementation v1 is identified by the declared code, generated graph corpus, and environment anchor."
-# role      = "implementation-claim"
-# domain    = "mathematics"
-# # Identity-only leaf: never add depends_on here; put premises on C-0001.
-# no_claim  = "No behavior outside these exact subject identities."
-# origin_round = "R-0001"
-# code_hash = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# env_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# data_snapshot = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# # In mathematics data_snapshot digests the GENERATED corpus the search actually ran over
-# # (or the generator's exact output); there is no data vendor and no vintage to cite.
-# author_path = "implementation/a"
-# created   = 2026-08-23T00:00:00Z
-#
-# A pure paper proof with no machine step needs neither C-0002 nor any subject binding: record the
-# argument as evidence with kind = "construction" or "statement". The implementation-claim leaf
-# exists because a COMPUTATION was run — it binds the exact code that ran.
+[[claim]]
+id = "C-0001"
+version = 1
+statement = "For every integer n >= 1, MAX_n(x)=max{x_1,...,x_n} on R^n is exactly representable by a finite feed-forward ReLU network with exactly two hidden ReLU layers, affine biases allowed, unrestricted finite widths, and arbitrary real weights."
+role = "conjecture"
+domain = "mathematics"
+falsifier = "One explicit integer n together with an unconditional proof that no finite network of the declared architecture over real weights equals MAX_n on all of R^n."
+no_claim = "Says nothing about width efficiency, trainability, approximation, bounded domains, generalization, optimization, or non-ReLU architectures."
+not_equivalent_to = ["the same statement with rational or integer weights", "the same statement under a bounded width or structured first-layer ansatz", "approximation of MAX_n on a distribution or compact set"]
+origin_round = "R-0001"
+author_path = "campaign-bootstrap/crimsonbirch"
+created = 2026-08-29T05:05:00Z
+
+[[claim]]
+id = "C-0002"
+version = 1
+statement = "MAX_11 on R^11 is exactly representable by a finite feed-forward ReLU network with exactly two hidden ReLU layers, affine biases allowed, unrestricted finite widths, and arbitrary real weights."
+role = "conjecture"
+domain = "mathematics"
+falsifier = "An unconditional proof that no finite two-hidden-layer ReLU network over arbitrary real weights equals MAX_11 globally."
+no_claim = "A positive witness settles only n=11; failure of a rational, symmetric, pairwise-comparison, or bounded-width search does not refute this claim."
+not_equivalent_to = ["MAX_11 in the Rueß pairwise-comparison ansatz", "MAX_11 with rational weights", "approximate MAX_11 on a cube", "MAX_n for every n"]
+origin_round = "R-0001"
+author_path = "campaign-bootstrap/crimsonbirch"
+created = 2026-08-29T05:05:00Z
+
+[[claim]]
+id = "C-0003"
+version = 1
+statement = "For each integer n with 1 <= n <= 10, MAX_n has an exact finite two-hidden-layer ReLU representation under the campaign's architecture convention."
+role = "construction"
+domain = "mathematics"
+no_claim = "This retrieved construction claim has not yet been clean-room replayed here and says nothing for n >= 11."
+not_equivalent_to = ["a campaign-verified certificate", "the universal all-n conjecture"]
+origin_round = "R-0001"
+author_path = "literature-curator/crimsonbirch"
+created = 2026-08-29T05:05:00Z
+
+[[claim]]
+id = "C-0004"
+version = 1
+statement = "If MAX_(d+1) has an exact two-hidden-layer ReLU realization and every CPWL function on R^d has the cited signed decomposition into maxima of d+1 affine forms, then every CPWL function on R^d has an exact two-hidden-layer ReLU realization by parallel composition and a final affine combination."
+role = "reduction"
+domain = "mathematics"
+no_claim = "The implication is dimension- and hypothesis-sensitive; it neither proves the decomposition from metadata nor extends a MAX_11 result beyond d=10."
+not_equivalent_to = ["MAX_11 alone settles CPWL functions in all dimensions"]
+origin_round = "R-0001"
+author_path = "literature-curator/crimsonbirch"
+created = 2026-08-29T05:05:00Z
+
+[[claim]]
+id = "C-0005"
+version = 1
+statement = "The imported 2026-08-27 audit reported 12179657 symmetry-reduced template columns and 657822 retained hinge rows (657833 total rows after adding 11 linear rows) for the n=11, k=5 pairwise-max/outer-max certificate family under its sorted-cone hinge reduction."
+role = "boundary-claim"
+domain = "mathematics"
+no_claim = "The imported counts are quarantined, not independently regenerated, and do not describe unrestricted two-hidden-layer networks or exact feasibility."
+not_equivalent_to = ["the size of the unrestricted MAX_11 problem", "a proof that the restricted system is feasible or infeasible"]
+origin_round = "R-0001"
+author_path = "import/target-selection-2026-08-27"
+created = 2026-08-29T05:05:00Z
+
+[[claim]]
+id = "C-0006"
+version = 1
+statement = "Toolchain-control implementation v1 is identified by the declared control-code manifest, exact environment manifest, and synthetic control-input snapshot."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; it establishes no behavior beyond these exact subject bytes."
+origin_round = "R-0001"
+code_hash = "sha256:f5ae741118d7713bdb366c4eb84684d8a9034b5e4526eabd34cc68da007ec4f9"
+env_digest = "sha256:a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
+data_snapshot = "sha256:d69807cff2d19c9cda512372bd2c3e0f5d4cd1e8145d43acd22231258a2f4879"
+author_path = "campaign-bootstrap/crimsonbirch"
+created = 2026-08-29T05:05:00Z
+
+[[claim]]
+id = "C-0007"
+version = 1
+statement = "The pinned project-local toolchain passes the declared exact SAT, UNSAT, rational-arithmetic, floating-LP, and Lean/Mathlib known-answer smoke controls."
+role = "method"
+domain = "mathematics"
+depends_on = ["C-0006@1"]
+no_claim = "These smoke controls do not validate a future neural-network encoding, prove solver soundness generally, or support MAX_11."
+not_equivalent_to = ["the six campaign controls on max-relu-certificates", "formalization of the frontier target"]
+origin_round = "R-0001"
+author_path = "campaign-bootstrap/crimsonbirch"
+created = 2026-08-29T05:05:00Z
+
+[[claim]]
+id = "C-0008"
+version = 1
+statement = "Within the searches logged on 2026-08-29 and the retained primary-source corpus, the campaign found no work settling whether MAX_11 has an exact global finite two-hidden-layer ReLU representation over arbitrary real weights; the closest retrieved construction reaches n <= 10."
+role = "novelty-claim"
+domain = "mathematics"
+no_claim = "This is only NO_PRIOR_FOUND under the dated queries, engines, screened hits, and coverage gaps in NOVELTY_SEARCH_LOG.md; it is not a proof of priority, novelty, or universal open status."
+not_equivalent_to = ["MAX_11 is unpublished", "MAX_11 is universally known to be open", "the campaign has proved or refuted MAX_11"]
+origin_round = "R-0001"
+author_path = "novelty-auditor/crimsonbirch"
+created = 2026-08-29T05:31:00Z

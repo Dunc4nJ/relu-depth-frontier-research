@@ -1,0 +1,18 @@
+Title:           Better Neural Network Expressivity: Subdividing the Simplex
+Author:          Egor Bakaev; Florestan Brunck; Christoph Hertrich; Jack Stade; Amir Yehudayoff
+Creator:         arXiv GenPDF (tex2pdf:57610bf)
+Producer:        pikepdf 8.15.1
+Custom Metadata: yes
+Metadata Stream: yes
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           12
+Encrypted:       no
+Page size:       612 x 792 pts (letter)
+Page rot:        0
+File size:       562540 bytes
+Optimized:       no
+PDF version:     1.7

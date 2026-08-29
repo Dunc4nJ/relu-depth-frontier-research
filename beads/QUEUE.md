@@ -19,4 +19,5 @@ items under `STATUS.md`'s `Next work queue`. Checked lines are history, not acti
 a `{BRACE_SLOT}` is ignored line by line until filled; a missing STATUS or QUEUE file is INFO because a
 partial/non-campaign workspace may not yet have both, but disagreement when both exist is SE-15.
 
-- [ ] {OBJECT_ID} {FIRST_WORK_ITEM} (claimed-by: unclaimed)
+- [ ] EXP-0002 Fresh-context Stage A clean-room verifier implementation; no registered-subject runs before lead review. (claimed-by: unclaimed)
+- [ ] G-0004 Reconstruct and statement-match the complete skip-free indexed compiler. (claimed-by: research-lead/crimsonbirch)

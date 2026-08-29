@@ -1,70 +1,112 @@
-# evidence.toml — canonical evidence records. Schema: references/CLAIMS-LEDGER-SPEC.md §5.2 (closed).
-# Class/eligibility is COMPUTED from shape (references/EVIDENCE-HIERARCHY.md); coercions are recorded.
-#
-# Two worked examples, one per shipped domain pack. Adapt ONE; both define E-0001.
-#
-# ---- Worked example A — quantitative-trading (uncomment to adapt) ----
-# [[evidence]]
-# id        = "E-0001"
-# bears_on  = "C-0001@1"
-# direction = "supports"
-# kind      = "computation"
-# method    = "cost-model-application" # exact for COST_AWARE_DEV
-# source    = "generated"
-# mode      = "confirmatory"
-# artifact  = "experiments/e0001/report.json"
-# implementation_claim = "C-0002@1"
-# code_hash = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# env_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# data_snapshot = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# artifact_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# quant_contract_sha256 = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# cost_facets = ["commissions", "spread", "slippage", "impact", "capacity", "borrow", "financing", "dividends", "execution", "sensitivity"]
-# central_cost_outcome = "SURVIVES"
-# stress_cost_outcome = "FAILS" # reporting a stress failure is allowed; omission is not
-# cost_floor_outcome = "SURVIVES"
-# repro     = "python experiments/e0001/run.py --seed 7"
-# domain_checked  = "U(2026-06-30), 2019-01..2024-12 dev-OOS window, central costs"
-# detection_floor = "expectancy effects < 0.5 bps/trade indistinguishable at this sample size"
-# seeds     = [7]
-# experiment = "EXP-0001"
-# author_path = "quant-hypothesis-author/a"
-# created   = 2026-08-23T00:00:00Z
-#
-# A qualifying sealed result instead uses exact method = "lockbox-evaluation", result = "CONSISTENT",
-# consumed experiment = "EXP-####", and lockbox_event = "L-####"; its created time is at/after open.
-#
-# ---- Worked example B — mathematics (uncomment to adapt) ----
-# What does NOT transpose from A: no cost fields at all (quant_contract_sha256, cost_facets,
-# central/stress/cost_floor outcomes are the cost-model contract, absent here), and
-# detection_floor means something different — for an exact computation it is the boundary of what
-# the search could have SEEN, not a statistical resolution. `experiment` is still mandatory in
-# practice: a confirmatory computation with no registered EXP-#### is a hidden trial (SE-16),
-# whatever the domain.
-# [[evidence]]
-# id        = "E-0001"
-# bears_on  = "C-0001@1"
-# direction = "supports"
-# kind      = "computation"
-# method    = "exhaustive enumeration with exact cover certificates"
-# source    = "generated"
-# mode      = "confirmatory"
-# artifact  = "computations/e0001/summary.json"
-# implementation_claim = "C-0002@1"
-# code_hash = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# env_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# data_snapshot = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# artifact_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-# repro     = "python computations/e0001/run.py --max-n 32"
-# domain_checked  = "every 3-connected cubic planar graph with n <= 32 (complete generation, 2314967 graphs)"
-# detection_floor = "exact integer comparison, so one violating graph is decisive; nothing above n = 32 is searched, and a counterexample first appearing at n = 34 is invisible here"
-# # seeds = [7] only if the search is randomized; an exhaustive deterministic run omits it.
-# experiment = "EXP-0001"
-# author_path = "route-author/a"
-# created   = 2026-08-23T00:00:00Z
-#
-# This example is verified: uncommented alongside the matching claims/routes/experiments examples
-# it validates with zero findings and computes to class COMPUTED_BOUNDED, blocked on clean-room
-# replay by a different author. A machine-checked proof instead uses kind = "formal-artifact" with
-# a formalization manifest (references/FORMALIZATION.md); a paper argument uses kind =
-# "construction" or "statement" and carries no subject binding.
+[[evidence]]
+id = "E-0001"
+bears_on = "C-0003@1"
+direction = "supports"
+kind = "citation"
+method = "primary-source statement trace"
+source = "retrieved"
+mode = "confirmatory"
+locator = "REF-0001, abstract, PDF physical page 1"
+excerpt = "exactly representable by a ReLU network with two hidden layers for every n <= 10"
+author_path = "literature-curator/crimsonbirch"
+created = 2026-08-29T05:06:00Z
+
+[[evidence]]
+id = "E-0002"
+bears_on = "C-0003@1"
+direction = "supports"
+kind = "citation"
+method = "independent-primary-source statement trace"
+source = "retrieved"
+mode = "confirmatory"
+locator = "REF-0002, abstract, PDF physical page 1"
+excerpt = "two-hidden-layer ReLU representations of MAX5, MAX6, MAX7, and MAX8"
+author_path = "literature-curator/crimsonbirch"
+created = 2026-08-29T05:06:00Z
+
+[[evidence]]
+id = "E-0003"
+bears_on = "C-0008@1"
+direction = "qualifies"
+kind = "citation"
+method = "frontier-status statement trace"
+source = "retrieved"
+mode = "confirmatory"
+locator = "REF-0002, abstract, PDF physical page 1"
+excerpt = "It remains completely open if the right answer is a constant number of hidden layers"
+author_path = "literature-curator/crimsonbirch"
+created = 2026-08-29T05:06:00Z
+
+[[evidence]]
+id = "E-0004"
+bears_on = "C-0004@1"
+direction = "supports"
+kind = "citation"
+method = "primary-source reduction trace"
+source = "retrieved"
+mode = "confirmatory"
+locator = "REF-0011, Theorem 2.4, PDF physical page 5"
+excerpt = "integral linear combination of maxima of at most n + 1 affine-linear functions"
+author_path = "literature-curator/crimsonbirch"
+created = 2026-08-29T05:06:00Z
+
+[[evidence]]
+id = "E-0005"
+bears_on = "C-0001@1"
+direction = "bounds"
+kind = "citation"
+method = "restricted-weight lower-bound trace"
+source = "retrieved"
+mode = "confirmatory"
+locator = "REF-0007, abstract, PDF physical page 1"
+excerpt = "within ReLU networks whose weights are decimal fractions"
+author_path = "literature-curator/crimsonbirch"
+created = 2026-08-29T05:06:00Z
+
+[[evidence]]
+id = "E-0006"
+bears_on = "C-0001@1"
+direction = "bounds"
+kind = "citation"
+method = "integral-weight lower-bound trace"
+source = "retrieved"
+mode = "confirmatory"
+locator = "REF-0008, abstract, PDF physical page 1"
+excerpt = "with integer weights strictly increases with the network depth"
+author_path = "literature-curator/crimsonbirch"
+created = 2026-08-29T05:06:00Z
+
+[[evidence]]
+id = "E-0007"
+bears_on = "C-0007@1"
+direction = "supports"
+kind = "control-run"
+method = "known-answer"
+source = "generated"
+mode = "exploratory"
+artifact = "artifacts/toolchain/e0007-toolchain-controls.txt"
+implementation_claim = "C-0006@1"
+code_hash = "sha256:f5ae741118d7713bdb366c4eb84684d8a9034b5e4526eabd34cc68da007ec4f9"
+env_digest = "sha256:a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
+data_snapshot = "sha256:d69807cff2d19c9cda512372bd2c3e0f5d4cd1e8145d43acd22231258a2f4879"
+artifact_digest = "sha256:ed48e767013ef0dda23ac95955e740812d6df4cbb44f3b430e37191cf25ca93e"
+repro = "scripts/verify-toolchain.sh"
+domain_checked = "one exact SAT and UNSAT formula in Z3, cvc5 Python, and the official cvc5 CLI; FLINT/SymPy rational identities; one HiGHS LP; tqdm version pin; affine-skip and skip-free Lean real-max identities"
+detection_floor = "only these named smoke instances; no neural-network encoding or completeness property is exercised"
+result = "CONSISTENT"
+experiment = "EXP-0001"
+author_path = "campaign-bootstrap/crimsonbirch"
+created = 2026-08-29T05:06:00Z
+
+[[evidence]]
+id = "E-0008"
+bears_on = "C-0001@1"
+direction = "bounds"
+kind = "citation"
+method = "unconditional-width lower-bound trace"
+source = "retrieved"
+mode = "confirmatory"
+locator = "REF-0006, Theorem 1.1, PDF physical page 2"
+excerpt = "Then, N has width at least"
+author_path = "literature-curator/crimsonbirch"
+created = 2026-08-29T05:06:00Z

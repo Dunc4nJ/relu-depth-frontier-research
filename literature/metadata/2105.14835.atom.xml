@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/6IawTdhBl+ZTQBHCRLmbHWGTvwI</id>
+  <title>arXiv Query: search_query=&amp;id_list=2105.14835&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-29T04:58:25Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2105.14835" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2105.14835v5</id>
+    <title>Towards Lower Bounds on the Depth of ReLU Neural Networks</title>
+    <updated>2024-07-17T16:15:49Z</updated>
+    <link href="https://arxiv.org/abs/2105.14835v5" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2105.14835v5" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We contribute to a better understanding of the class of functions that can be represented by a neural network with ReLU activations and a given architecture. Using techniques from mixed-integer optimization, polyhedral theory, and tropical geometry, we provide a mathematical counterbalance to the universal approximation theorems which suggest that a single hidden layer is sufficient for learning any function. In particular, we investigate whether the class of exactly representable functions strictly increases by adding more layers (with no restrictions on size). As a by-product of our investigations, we settle an old conjecture about piecewise linear functions by Wang and Sun (2005) in the affirmative. We also present upper bounds on the sizes of neural networks required to represent functions with logarithmic depth.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DM" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.NE" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-05-31T09:49:14Z</published>
+    <arxiv:comment>Authors' accepted manuscript for SIAM Journal on Discrete Mathematics. A preliminary conference version appeared at NeurIPS 2021</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <arxiv:journal_ref>SIAM Journal on Discrete Mathematics 2023 37:2, 997-1029</arxiv:journal_ref>
+    <author>
+      <name>Christoph Hertrich</name>
+    </author>
+    <author>
+      <name>Amitabh Basu</name>
+    </author>
+    <author>
+      <name>Marco Di Summa</name>
+    </author>
+    <author>
+      <name>Martin Skutella</name>
+    </author>
+    <arxiv:doi>10.1137/22M1489332</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1137/22M1489332" title="doi"/>
+  </entry>
+</feed>

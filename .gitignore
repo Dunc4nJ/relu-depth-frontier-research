@@ -1,6 +1,7 @@
-.venv*/
+.venv/
+.toolchains/
+.paper_research_cache/
 __pycache__/
-*.pyc
+*.py[cod]
 .DS_Store
-.research-state.lock
-.*.txn-*
+.env

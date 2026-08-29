@@ -10,7 +10,12 @@ the generated markers; never hand-edit the generated table.
 
 | Gap | Claim | Exact missing obligation |
 |---|---|---|
-| *(none)* | — | No open gaps. |
+| `G-0001` | `C-0003@1` | The retrieved MAX5–MAX10 certificates and verifier have not been clean-room reproduced with all six exact campaign controls. |
+| `G-0002` | `C-0002@1` | No exact MAX_11 witness or unconditional unrestricted refutation has been produced. |
+| `G-0003` | `C-0001@1` | No scalable all-n two-hidden-layer construction or unconditional explicit obstruction is known to this campaign. |
+| `G-0004` | `C-0004@1` | The small-arity decomposition in retrieved REF-0011 and its skip-free compilation into the campaign's exact two-hidden-layer architecture have not been independently reconstructed and statement-matched; Wang–Sun 2005 full text remains unavailable but is not the sole bridge. |
+| `G-0005` | `C-0002@1` | No eligible different-family or human T2 reviewer is bound; same-family Codex review cannot promote the claim. |
+| `G-0006` | `C-0002@1` | No theorem shows the current symmetric pairwise-comparison atom family is complete for unrestricted two-hidden-layer real-weight MAX_11 representations. |
 
 <!-- GENERATED:OPEN-GAPS:END -->
 

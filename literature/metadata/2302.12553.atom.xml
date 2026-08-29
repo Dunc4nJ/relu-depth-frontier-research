@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/lieVvzoAd6Z6tcMTcjsdHJdoEDk</id>
+  <title>arXiv Query: search_query=&amp;id_list=2302.12553&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-29T04:58:26Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2302.12553" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2302.12553v1</id>
+    <title>Lower Bounds on the Depth of Integral ReLU Neural Networks via Lattice Polytopes</title>
+    <updated>2023-02-24T10:14:53Z</updated>
+    <link href="https://arxiv.org/abs/2302.12553v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2302.12553v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We prove that the set of functions representable by ReLU neural networks with integer weights strictly increases with the network depth while allowing arbitrary width. More precisely, we show that $\lceil\log_2(n)\rceil$ hidden layers are indeed necessary to compute the maximum of $n$ numbers, matching known upper bounds. Our results are based on the known duality between neural networks and Newton polytopes via tropical geometry. The integrality assumption implies that these Newton polytopes are lattice polytopes. Then, our depth lower bounds follow from a parity argument on the normalized volume of faces of such polytopes.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DM" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.NE" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-02-24T10:14:53Z</published>
+    <arxiv:comment>ICLR 2023 conference paper</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Christian Haase</name>
+    </author>
+    <author>
+      <name>Christoph Hertrich</name>
+    </author>
+    <author>
+      <name>Georg Loho</name>
+    </author>
+  </entry>
+</feed>

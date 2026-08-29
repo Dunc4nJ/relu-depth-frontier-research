@@ -13,8 +13,8 @@ workspace (`references/THREAT-MODEL.md` RR-01); it makes forging a pass delibera
 one-line table edit.
 
 ```
-rounds_recorded: 0
-substantive_rounds: 0
+rounds_recorded: 1
+substantive_rounds: 1
 last_two_rounds_low_yield: false
 clean_pass_streak: 0
 ```
@@ -28,3 +28,4 @@ clean_pass_streak: 0
 Yield qualifies as `substantive` ONLY if the round produced at least one of: a new obstruction · a
 closed gap · a certified bound · an eliminated route · a stronger discriminator · a meaningful retry
 predicate. More agents, tokens, documents, or confidence do not qualify (`references/CONVERGENCE.md`).
+| R-0001 | P3 | substantive | C-0008 bounded novelty; H-0001..H-0003 falsifiers narrowed; EXP-0002 freezes a withheld MAX5-MAX10 identity/compiler/control discriminator with bounded abort and retry semantics. | — |

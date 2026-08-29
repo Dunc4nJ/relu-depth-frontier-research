@@ -1,0 +1,18 @@
+Title:           Every Layer Counts: An Exponential L_2 Depth Hierarchy for ReLU Networks
+Author:          Itay Safran
+Creator:         arXiv GenPDF (tex2pdf:4af3385)
+Producer:        pikepdf 8.15.1
+Custom Metadata: yes
+Metadata Stream: yes
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           33
+Encrypted:       no
+Page size:       612 x 792 pts (letter)
+Page rot:        0
+File size:       546029 bytes
+Optimized:       no
+PDF version:     1.7

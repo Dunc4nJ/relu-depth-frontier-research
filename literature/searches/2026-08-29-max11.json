@@ -1,0 +1,396 @@
+[
+  {
+    "title": "Global Optimality Beyond Two Layers: Training Deep ReLU Networks via Convex Programs",
+    "authors": [
+      "Tolga Ergen",
+      "Mert Pilanci"
+    ],
+    "year": 2021,
+    "abstract": "Understanding the fundamental mechanism behind the success of deep neural networks is one of the key challenges in the modern machine learning literature. Despite numerous attempts, a solid theoretical analysis is yet to be developed. In this paper, we develop a novel unified framework to reveal a hidden regularization mechanism through the lens of convex optimization. We first show that the training of multiple three-layer ReLU sub-networks with weight decay regularization can be equivalently cast as a convex optimization problem in a higher dimensional space, where sparsity is enforced via a group $\\ell_1$-norm regularization. Consequently, ReLU networks can be interpreted as high dimensional feature selection methods. More importantly, we then prove that the equivalent convex problem can be globally optimized by a standard convex optimization solver with a polynomial-time complexity with respect to the number of samples and data dimension when the width of the network is fixed. Finally, we numerically validate our theoretical results via experiments involving both synthetic and real datasets.",
+    "arxiv_id": "2110.05518",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/621bfee510b99059e394c857d954158c814c6385",
+    "citation_count": 38,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Hardness of Noise-Free Learning for Two-Hidden-Layer Neural Networks",
+    "authors": [
+      "Sitan Chen",
+      "Aravind Gollakota",
+      "Adam R. Klivans",
+      "Raghu Meka"
+    ],
+    "year": 2022,
+    "abstract": "We give superpolynomial statistical query (SQ) lower bounds for learning two-hidden-layer ReLU networks with respect to Gaussian inputs in the standard (noise-free) model. No general SQ lower bounds were known for learning ReLU networks of any depth in this setting: previous SQ lower bounds held only for adversarial noise models (agnostic learning) or restricted models such as correlational SQ. Prior work hinted at the impossibility of our result: Vempala and Wilmes showed that general SQ lower bounds cannot apply to any real-valued family of functions that satisfies a simple non-degeneracy condition. To circumvent their result, we refine a lifting procedure due to Daniely and Vardi that reduces Boolean PAC learning problems to Gaussian ones. We show how to extend their technique to other learning models and, in many well-studied cases, obtain a more efficient reduction. As such, we also prove new cryptographic hardness results for PAC learning two-hidden-layer ReLU networks, as well as new lower bounds for learning constant-depth ReLU networks from label queries.",
+    "arxiv_id": "2202.05258",
+    "doi": "10.52202/068431-0778",
+    "url": "https://www.semanticscholar.org/paper/2271253f72106a2b019973e76ab627f1213f318d",
+    "citation_count": 36,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "The Hidden Convex Optimization Landscape of Regularized Two-Layer ReLU Networks: an Exact Characterization of Optimal Solutions",
+    "authors": [
+      "Yifei Wang",
+      "Jonathan Lacotte",
+      "Mert Pilanci"
+    ],
+    "year": 2020,
+    "abstract": "We prove that finding all globally optimal two-layer ReLU neural networks can be performed by solving a convex optimization program with cone constraints. Our analysis is novel, characterizes all optimal solutions, and does not leverage duality-based analysis which was recently used to lift neural network training into convex spaces. Given the set of solutions of our convex optimization program, we show how to construct exactly the entire set of optimal neural networks. We provide a detailed characterization of this optimal set and its invariant transformations. As additional consequences of our convex perspective, (i) we establish that Clarke stationary points found by stochastic gradient descent correspond to the global optimum of a subsampled convex problem (ii) we provide a polynomial-time algorithm for checking if a neural network is a global minimum of the training loss (iii) we provide an explicit construction of a continuous path between any neural network and the global minimum of its sublevel set and (iv) characterize the minimal size of the hidden layer so that the neural network optimization landscape has no spurious valleys. Overall, we provide a rich framework for studying the landscape of neural network training loss through convexity.",
+    "arxiv_id": "2006.05900",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/aa607c6535e3e1953e5bd48f36efc432a0c167f8",
+    "citation_count": 34,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Synthesizing ReLU neural networks with two hidden layers as barrier certificates for hybrid systems",
+    "authors": [
+      "Qingye Zhao",
+      "Xin Chen",
+      "Yifan Zhang",
+      "Meng Sha",
+      "Zhengfeng Yang",
+      "Wang Lin",
+      "Enyi Tang",
+      "Qiguang Chen",
+      "Xuandong Li"
+    ],
+    "year": 2021,
+    "abstract": "Barrier certificates provide safety guarantees for hybrid systems. In this paper, we propose a novel approach to synthesizing neural networks as barrier certificates. Candidate networks are trained from a special structure: ReLU neural networks consisting of two hidden layers. Then, the problem of identifying real barrier certificates from candidates is transformed into a group of mixed integer linear programming problems and a mixed integer quadratically constrained problem. Taking full advantage of the recent advance in optimization, barrier certificates validation can be performed effectively. We implement the tool SyntheBC and evaluate its performance over 3 hybrid systems and 8 continuous systems up to 12-dimensional state space. The experimental results show that our method is more scalable and effective than the classical polynomial barrier certificate method and the existing neural network based method.",
+    "arxiv_id": "",
+    "doi": "10.1145/3447928.3456638",
+    "url": "https://www.semanticscholar.org/paper/785ca7410b58e70eb3d2884aa00cb095f9c3744b",
+    "citation_count": 23,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "All Local Minima are Global for Two-Layer ReLU Neural Networks: The Hidden Convex Optimization Landscape",
+    "authors": [
+      "Jonathan Lacotte",
+      "Mert Pilanci"
+    ],
+    "year": 2020,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/79972c93d02d1a37f72b3d9a85c23ab55d438b9b",
+    "citation_count": 23,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Expressive Numbers of Two or More Hidden Layer ReLU Neural Networks",
+    "authors": [
+      "Kenta Inoue"
+    ],
+    "year": 2019,
+    "abstract": "One of the reasons why neural networks are used in machine learning is their high expressive power, that is, the ability to express functions. Expressive power of neural networks depends on its structures and is measured by some indices. In this paper, we focus on one of these measures named \"expressive number\", which is based on the number of data that can be expressed. Expressive numbers enable us to see whether the size of a neural network is suitable for the given training data before we conduct machine learning. However, existing works on expressive numbers mainly target single hidden layer neural networks, and little is known about those with two or more hidden layers. In this paper, we give a lower bound of the maximum expressive number of two hidden layer neural networks and an upper bound of that of multilayer neural networks with ReLU activation function. This result shows the expressive number of two hidden layer neural networks is proportional to the product of the numbers of each hidden layer's neurons.",
+    "arxiv_id": "",
+    "doi": "10.1109/CANDARW.2019.00031",
+    "url": "https://www.semanticscholar.org/paper/7a451c57ac85bbbc1cad17f2b654af39fedaaa6e",
+    "citation_count": 9,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Most ReLU Networks Admit Identifiable Parameters",
+    "authors": [
+      "Moritz Grillo",
+      "Guido Mont\u00fafar"
+    ],
+    "year": 2026,
+    "abstract": "We study the realization map of deep ReLU networks, focusing on when a function determines its parameters up to scaling and permutation. To analyze hidden redundancies beyond these standard symmetries, we introduce a framework based on weighted polyhedral complexes. Our main result shows that for every architecture whose input and hidden layers have width at least two, there exists an open set of identifiable parameters. This implies that the functional dimension of every such architecture is exactly the number of parameters minus the number of hidden neurons. We further show that minimal functional representations can still have non-trivial parameter redundancies. Finally, we establish a generic depth hierarchy, whereby for an open set of parameters the realized function cannot be represented generically by any shallower network.",
+    "arxiv_id": "2605.03601",
+    "doi": "10.48550/arXiv.2605.03601",
+    "url": "https://www.semanticscholar.org/paper/82b97be918eb070ae982416855b6291db0cc6731",
+    "citation_count": 8,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "The Computational Complexity of Counting Linear Regions in ReLU Neural Networks",
+    "authors": [
+      "Moritz Stargalla",
+      "Christoph Hertrich",
+      "Daniel Reichman"
+    ],
+    "year": 2025,
+    "abstract": "An established measure of the expressive power of a given ReLU neural network is the number of linear regions into which it partitions the input space. There exist many different, non-equivalent definitions of what a linear region actually is. We systematically assess which papers use which definitions and discuss how they relate to each other. We then analyze the computational complexity of counting the number of such regions for the various definitions. Generally, this turns out to be an intractable problem. We prove NP- and #P-hardness results already for networks with one hidden layer and strong hardness of approximation results for two or more hidden layers. Finally, on the algorithmic side, we demonstrate that counting linear regions can at least be achieved in polynomial space for some common definitions.",
+    "arxiv_id": "2505.16716",
+    "doi": "10.48550/arXiv.2505.16716",
+    "url": "https://www.semanticscholar.org/paper/3cbc6d07471cc98c13f155b820b6295cb4a604a4",
+    "citation_count": 8,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "The Hidden Convex Optimization Landscape of Two-Layer ReLU Neural Networks: an Exact Characterization of the Optimal Solutions",
+    "authors": [
+      "Yifei Wang",
+      "Jonathan Lacotte",
+      "Mert Pilanci"
+    ],
+    "year": 2021,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/2eea8b4f84ffe970d390a529648e739ebddfa84b",
+    "citation_count": 7,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "How Implicit Regularization of ReLU Neural Networks Characterizes the Learned Function -- Part I: the 1-D Case of Two Layers with Random First Layer",
+    "authors": [
+      "Jakob Heiss",
+      "J. Teichmann",
+      "Hanna Wutte"
+    ],
+    "year": 2019,
+    "abstract": "In this paper, we consider one dimensional (shallow) ReLU neural networks in which weights are chosen randomly and only the terminal layer is trained. First, we mathematically show that for such networks L2-regularized regression corresponds in function space to regularizing the estimate's second derivative for fairly general loss functionals. For least squares regression, we show that the trained network converges to the smooth spline interpolation of the training data as the number of hidden nodes tends to infinity. Moreover, we derive a novel correspondence between the early stopped gradient descent (without any explicit regularization of the weights) and the smoothing spline regression.",
+    "arxiv_id": "1911.02903",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/fbb50a2a9137dd54b0bfdcef65d266ee91d47e93",
+    "citation_count": 5,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Two-hidden-layer ReLU neural networks and finite elements",
+    "authors": [
+      "Pengzhan Jin"
+    ],
+    "year": 2024,
+    "abstract": "We point out that (continuous or discontinuous) piecewise linear functions on a convex polytope mesh can be represented by two-hidden-layer ReLU neural networks in a weak sense. In addition, the numbers of neurons of the two hidden layers required to weakly represent are accurately given based on the numbers of polytopes and hyperplanes involved in this mesh. The results naturally hold for constant and linear finite element functions. Such weak representation establishes a bridge between two-hidden-layer ReLU neural networks and finite element functions, and leads to a perspective for analyzing approximation capability of ReLU neural networks in Lp norm via finite element functions. Moreover, we discuss the strict representation for tensor finite element functions via the recent tensor neural networks.",
+    "arxiv_id": "2403.05809",
+    "doi": "10.1016/j.neunet.2026.108559",
+    "url": "https://www.semanticscholar.org/paper/dd2306f526f000776f3706507b2ead45a337e700",
+    "citation_count": 4,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Hidden Minima in Two-Layer ReLU Networks",
+    "authors": [
+      "Yossi Arjevani"
+    ],
+    "year": 2023,
+    "abstract": "We consider the optimization problem associated with training two-layer ReLU networks with \\(d\\) inputs under the squared loss, where the labels are generated by a target network. Recent work has identified two distinct classes of infinite families of minima: one whose training loss vanishes in the high-dimensional limit, and another whose loss remains bounded away from zero. The latter family is empirically avoided by stochastic gradient descent, hence \\emph{hidden}, motivating the search for analytic criteria that distinguish hidden from non-hidden minima. A key challenge is that prior analyses have shown the Hessian spectra at hidden and non-hidden minima to coincide up to terms of order \\(O(d^{-1/2})\\), seemingly limiting the discriminative power of spectral methods. We therefore take a different route, studying instead certain curves along which the loss is locally minimized. Our main result shows that arcs emanating from hidden minima exhibit distinctive structural and symmetry properties, arising precisely from \\(\\Omega(d^{-1/2})\\) eigenvalue contributions that are absent from earlier analyses.",
+    "arxiv_id": "2312.16819",
+    "doi": "10.48550/arXiv.2312.16819",
+    "url": "https://www.semanticscholar.org/paper/3e6f88b1410af114892a01bdfff25a5350bd81bc",
+    "citation_count": 3,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Shallower ReLU Network Representations via Exact Linear Algebra",
+    "authors": [
+      "Kilian Ruess",
+      "G. Averkov",
+      "Florestan Brunck",
+      "Moritz Grillo",
+      "Christoph Hertrich",
+      "Georg Loho",
+      "Jack Stade",
+      "Moritz Stargalla",
+      "Matthew Sun",
+      "Martin Winter"
+    ],
+    "year": 2026,
+    "abstract": "We prove that the maximum of $n$ real numbers is exactly representable by a ReLU network with two hidden layers for every $n\\le 10$. The constructions are obtained by reducing the problem to exact rational linear algebra: after a symmetry reduction, the necessary cancellations are encoded in finite linear systems over $\\mathbb{Q}$, which we solve and verify computationally. The representation of $\\max_{10}$ has a structured first hidden layer consisting only of pairwise maxima, a feature that allows it to be recursively substituted into larger networks. We use this to show that for every $n>10$, the maximum $\\max_{n}$ can be exactly represented with $\\lceil{\\log_5 (n / 2)\\rceil}+1<\\log_5(n) +1.5694$ hidden layers. Via the generalized hinging-hyperplane representation [Wang, Sun, IEEE Trans. Inf. Theory 2005], the same depth bound holds for all continuous piecewise-linear functions on $\\mathbb{R}^d$, with $d+1$ in place of $n$. In particular, every continuous piecewise-linear function on $\\mathbb{R}^d$ for $d\\le 9$ admits a two-hidden-layer ReLU representation. Our results improve on [Bakaev, Brunck, Hertrich, Stade, Yehudayoff, STOC'26]. In that work, the authors established a two-hidden-layer representation for $\\max_{5}$ and an upper bound of $\\lceil{\\log_3 (n-2)\\rceil}+1$ hidden layers for $\\max_{n}$.",
+    "arxiv_id": "2607.21651",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/e79ee791bc41f21b7e35c1779a7e2ef2b49862db",
+    "citation_count": 2,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Initialization Matters: On the Benign Overfitting of Two-Layer ReLU CNN with Fully Trainable Layers",
+    "authors": [
+      "Shuning Shang",
+      "Xuran Meng",
+      "Yuan Cao",
+      "Difan Zou"
+    ],
+    "year": 2024,
+    "abstract": "Benign overfitting refers to how over-parameterized neural networks can fit training data perfectly and generalize well to unseen data. While this has been widely investigated theoretically, existing works are limited to two-layer networks with fixed output layers, where only the hidden weights are trained. We extend the analysis to two-layer ReLU convolutional neural networks (CNNs) with fully trainable layers, which is closer to the practice. Our results show that the initialization scaling of the output layer is crucial to the training dynamics: large scales make the model training behave similarly to that with the fixed output, the hidden layer grows rapidly while the output layer remains largely unchanged; in contrast, small scales result in more complex layer interactions, the hidden layer initially grows to a specific ratio relative to the output layer, after which both layers jointly grow and maintain that ratio throughout training. Furthermore, in both settings, we provide nearly matching upper and lower bounds on the test errors, identifying the sharp conditions on the initialization scaling and signal-to-noise ratio (SNR) in which the benign overfitting can be achieved or not. Numerical experiments back up the theoretical results.",
+    "arxiv_id": "2410.19139",
+    "doi": "10.48550/arXiv.2410.19139",
+    "url": "https://www.semanticscholar.org/paper/1caf869916059addff866582613ac6f082106414",
+    "citation_count": 2,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Convex Approximation of Two-Layer ReLU Networks for Hidden State Differential Privacy",
+    "authors": [
+      "R. Romijnders",
+      "A. Koskela"
+    ],
+    "year": 2024,
+    "abstract": "The hidden state threat model of differential privacy (DP) assumes that the adversary has access only to the final trained machine learning (ML) model, without seeing intermediate states during training. However, the current privacy analyses under this model are restricted to convex optimization problems, reducing their applicability to multi-layer neural networks, which are essential in modern deep learning applications. Notably, the most successful applications of the hidden state privacy analyses in classification tasks have only been for logistic regression models. We demonstrate that it is possible to privately train convex problems with privacy-utility trade-offs comparable to those of 2-layer ReLU networks trained with DP stochastic gradient descent (DP-SGD). This is achieved through a stochastic approximation of a dual formulation of the ReLU minimization problem, resulting in a strongly convex problem. This enables the use of existing hidden state privacy analyses and provides accurate privacy bounds also for the noisy cyclic mini-batch gradient descent (NoisyCGD) method with fixed disjoint mini-batches. Empirical results on benchmark classification tasks demonstrate that NoisyCGD can achieve privacy-utility trade-offs on par with DP-SGD applied to 2-layer ReLU networks.",
+    "arxiv_id": "2407.04884",
+    "doi": "10.52202/085713-2424",
+    "url": "https://www.semanticscholar.org/paper/9a12c7c5717b7d6cc1521fefcfe808c1ea5e2d02",
+    "citation_count": 2,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Risk Bounds on MDL Estimators for Linear Regression Models with Application to Simple ReLU Neural Networks",
+    "authors": [
+      "Yoshinari Takeishi",
+      "Jun'ichi Takeuchi"
+    ],
+    "year": 2024,
+    "abstract": "To investigate the theoretical foundations of deep learning from the viewpoint of the minimum description length (MDL) principle, we analyse risk bounds of MDL estimators based on two-stage codes for simple two-layers neural networks (NNs) with ReLU activation. For that purpose, we propose a method to design two-stage codes for linear regression models and establish an upper bound on the risk of the corresponding MDL estimators based on the theory of MDL estimators originated by Barron and Cover (1991). Then, we apply this result to the simple two-layers NNs with ReLU activation which consist of $d$ nodes in the input layer, $m$ nodes in the hidden layer and one output node. Since the object of estimation is only the $m$ weights from the hidden layer to the output node in our setting, this is an example of linear regression models. As a result, we show that the redundancy of the obtained two-stage codes is small owing to the fact that the eigenvalue distribution of the Fisher information matrix of the NNs is strongly biased, which was shown by Takeishi et al. (2023) and has been refined in this paper. That is, we establish a tight upper bound on the risk of our MDL estimators. Note that our risk bound for the simple ReLU networks, of which the leading term is $O(d^2 \\log n /n)$, is independent of the number of parameters $m$.",
+    "arxiv_id": "2407.03854",
+    "doi": "10.48550/arXiv.2407.03854",
+    "url": "https://www.semanticscholar.org/paper/ece60a44cddcabd372b6b7fff82d1cb704e065ee",
+    "citation_count": 2,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "NP-Hardness of Minimizing Neurons in Two-Hidden-Layer ReLU Neural Networks.",
+    "authors": [
+      "Sangrock Lee"
+    ],
+    "year": 2026,
+    "abstract": "Identifying the minimum number of neurons required to achieve a specified accuracy in neural networks is a significant challenge. This paper explores the complexity of designing feedforward neural networks with ReLU activation functions and demonstrates that it is NP-hard to determine the minimum number of neurons needed to approximate an $L^{p}$ function with a two-hidden-layer ReLU network. A polynomial-time reduction from the Geometric Set Cover Problem is used to prove the NP-hardness of the ReLU network structure minimization. The results offer theoretical justification for employing heuristic approximation methods in the design of ReLU neural networks, illustrating that attaining a minimal configuration within polynomial time is computationally unachievable.",
+    "arxiv_id": "",
+    "doi": "10.1109/TPAMI.2026.3711513",
+    "url": "https://www.semanticscholar.org/paper/d4e051fa9913aa235e6db4b7553dc9d48432cf44",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Deep-ICE: the first globally optimal algorithm for minimizing 0-1 loss in two-layer ReLU and maxout networks",
+    "authors": [
+      "Xi He",
+      "Y. Miao",
+      "Max A. Little"
+    ],
+    "year": 2025,
+    "abstract": "This paper introduces the first globally optimal algorithm for the empirical risk minimization problem of two-layer maxout and ReLU networks, i.e., minimizing the number of misclassifications. The algorithm has a worst-case time complexity of $O\\left(N^{DK+1}\\right)$, where $K$ denotes the number of hidden neurons and $D$ represents the number of features. It can be can be generalized to accommodate arbitrary computable loss functions without affecting its computational complexity. Our experiments demonstrate that the proposed algorithm provides provably exact solutions for small-scale datasets. To handle larger datasets, we introduce a novel coreset selection method that reduces the data size to a manageable scale, making it feasible for our algorithm. This extension enables efficient processing of large-scale datasets and achieves significantly improved performance, with a 20-30\\% reduction in misclassifications for both training and prediction, compared to state-of-the-art approaches (neural networks trained using gradient descent and support vector machines), when applied to the same models (two-layer networks with fixed hidden nodes and linear models). The artifacts of the Deep-ICE algorithm can be found in https://github.com/XiHegrt/DeepICE-algorithm-artifacts.",
+    "arxiv_id": "2505.05740",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/4c3b9a38be5ae487bab2d3e221ddda3ca6a49147",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "On the Principles of ReLU Networks with One Hidden Layer",
+    "authors": [
+      "Changcun Huang"
+    ],
+    "year": 2024,
+    "abstract": "A neural network with one hidden layer or a two-layer network (regardless of the input layer) is the simplest feedforward neural network, whose mechanism may be the basis of more general network architectures. However, even to this type of simple architecture, it is also a ``black box''; that is, it remains unclear how to interpret the mechanism of its solutions obtained by the back-propagation algorithm and how to control the training process through a deterministic way. This paper systematically studies the first problem by constructing universal function-approximation solutions. It is shown that, both theoretically and experimentally, the training solution for the one-dimensional input could be completely understood, and that for a higher-dimensional input can also be well interpreted to some extent. Those results pave the way for thoroughly revealing the black box of two-layer ReLU networks and advance the understanding of deep ReLU networks.",
+    "arxiv_id": "2411.06728",
+    "doi": "10.48550/arXiv.2411.06728",
+    "url": "https://www.semanticscholar.org/paper/e4b2abefb24e22d78c5d3378b308067ab1be9006",
+    "citation_count": 1,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Geometric separation and constructive universal approximation with two hidden layers",
+    "authors": [
+      "Chanyoung Sung"
+    ],
+    "year": 2026,
+    "abstract": "We give a geometric construction of neural networks that separate disjoint compact subsets of $\\Bbb R^n$, and use it to obtain a constructive universal approximation theorem. Specifically, we show that networks with two hidden layers and either a sigmoidal activation (i.e., strictly monotone bounded continuous) or the ReLU activation can approximate any real-valued continuous function on an arbitrary compact set $K\\subset\\Bbb R^n$ to any prescribed accuracy in the uniform norm. For finite $K$, the construction simplifies and yields a sharp depth-2 (single hidden layer) approximation result.",
+    "arxiv_id": "2602.12482",
+    "doi": "10.48550/arXiv.2602.12482",
+    "url": "https://www.semanticscholar.org/paper/1440229e0b083f1fe26b9a3aaf7c3765091923ee",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Representing MAX functions using two-hidden-layer ReLU networks",
+    "authors": [
+      "Zhi-Mao Wang",
+      "A. Basu"
+    ],
+    "year": 2026,
+    "abstract": "We study exact representations of $\\mathrm{MAX}_N(x)=\\max{x_1,\\ldots,x_N}$ using two-hidden-layer ReLU neural networks. This problem has been studied in recent years in an attempt to characterize the exact number of hidden layers required to represent continuous piecewise linear functions. The best lower bound is 2, while the current upper bound is logarithmic in $N$. It remains completely open if the right answer is a constant number of hidden layers (possibly even 2!) or not. In fact, a recent breakthrough was the representation of $\\mathrm{MAX}_5$ as a two-hidden-layer ReLU function obtained in [Bakaev et al., 2026], and the case of $\\mathrm{MAX}_N$ was stated as open for $N\\geq 6$ in that paper. Using a careful computer assisted search, we obtain two-hidden-layer ReLU representations of $\\mathrm{MAX}_5, \\mathrm{MAX}_6, \\mathrm{MAX}_7$, and $\\mathrm{MAX}_8$. We obtain these by considering rational linear combinations of terms of the form $\\max\\{\\sum_{r=1}^{s}\\max(x_{a_r},x_{b_r}),\\sum_{r=1}^{s}\\max(x_{c_r},x_{d_r})\\}$, where $a_r,b_r,c_r,d_r\\in\\{1,\\ldots,N\\}$. Each inner maximum of two coordinates can be computed in a first hidden layer, and the outer maximum of the two side-sums can be computed in a second hidden layer. Consequently, every finite linear combination of these terms has a two-hidden-layer ReLU realization. An identity for $\\mathrm{MAX}_N$ in this form therefore gives an exact two-hidden-layer ReLU representation of $\\mathrm{MAX}_N$. Very recently, two-hidden-layer representations of $\\mathrm{MAX}_N$ of the above form were obtained for all $N\\leq 10$ in [Ruess et al., 2026]. Our representations are different and were developed independently. While our techniques share most of the high-level ideas presented in [Ruess et al., 2026], there are also some minor differences which may be of interest for future research on this problem.",
+    "arxiv_id": "2608.25221",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/1c0197dad787f8aab1af4a4c147e8cc568eb46b4",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "On the Principles of Deep Feedforward ReLU Networks",
+    "authors": [
+      "Changcun Huang"
+    ],
+    "year": 2026,
+    "abstract": "The architecture of deep feedforward neural networks is ubiquitous in deep learning, either as a whole system or as a subnetwork of other architectures, and thus its mechanism is a key ingredient of the black box of neural networks. On the basis of the simplest two-layer ReLU network, this paper systematically studies the mechanism of deep feedforward ReLU networks with multiple hidden layers and successfully explains the training solution obtained by the back-propagation algorithm. The concept of a path, especially in terms of the relationships between paths, plays a central role in uncovering the mystery of the black box. It is shown that a unit of a deep ReLU network can form a piecewise linear manifold to divide the input space, instead of a hyperplane of the two-layer case. How to efficiently use the hidden-layer units to produce both linear functions and partitions of the input space is also a central problem. The principles of a two-layer ReLU network can be generalized to the deeper case to a large extent, such as multiple strict partial orders and continuity restriction. The combination of the basic and simple principles proposed can yield complicated instantiations including the training solutions, and in this sense the black box of deep feedforward ReLU networks is revealed.",
+    "arxiv_id": "2607.07035",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/fddbf8be4ec7edc04e6323fc32550c071930154a",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "On the Hardness of Learning One Hidden Layer Neural Networks",
+    "authors": [
+      "Shuchen Li",
+      "Ilias Zadik",
+      "M. Zampetakis"
+    ],
+    "year": 2025,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/20a8136a0441001cfc7356845ac5862b4186c769",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Convergence Analysis of Training Two-Hidden-Layer Partially Over-Parameterized ReLU Networks via Gradient Descent",
+    "authors": [
+      "Zhifeng Kong"
+    ],
+    "year": 2020,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://www.semanticscholar.org/paper/7b2ce629394d82ef8877d41a344624cc899c6507",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  },
+  {
+    "title": "Investigation on the Use of Hidden Layers, Different Numbers of Neurons and Different Activation Functions to Detect Pupil Dilation Responses to Stress",
+    "authors": [
+      "Abdullah Nuri Somuncuo\u011flu",
+      "V. Purut\u00e7uo\u011flu",
+      "F. Ar\u0131",
+      "D. G\u00f6k\u00e7ay"
+    ],
+    "year": 2020,
+    "abstract": "Stress is an important problem for people that causes health problems and economic losses. When it becomes chronic, it paves the way for many diseases. Studies in this area have made significant progress in measuring stress levels with the help of data from wearable devices and sensors. In this study, using supervised deep learning methods, we worked on the detection of pupil dilation, which is accepted as one of the stress indicators. In our experiment, two different films containing positive and funny scenes and negative and stressful scenes were shown to the participants. Meanwhile, the pupil diameter was measured continuously. After the obtained signals were cleared of noises, deep learning studies were carried out on them. With these experiments, the effect of different activation functions used in hidden layers along with the different number of hidden layers and neuron numbers on learning were examined. After the trials with Hyperbolic Tangent, ReLU and Swish activation functions, the highest accuracy for classifying the stress of the participants from their pupil responses was obtained with the Swish activation function with 90.79%.",
+    "arxiv_id": "",
+    "doi": "10.1109/TIPTEKNO50054.2020.9299221",
+    "url": "https://www.semanticscholar.org/paper/919f713b8ca91a910d61b8c7abf1dbf2b6a78d2f",
+    "citation_count": 0,
+    "source": "semantic_scholar",
+    "hf_metadata": null
+  }
+]

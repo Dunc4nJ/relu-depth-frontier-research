@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/9PV10xf4ni4fcenEAEJyiir6x5U</id>
+  <title>arXiv Query: search_query=&amp;id_list=2601.01417&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-29T04:58:26Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2601.01417" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2601.01417v1</id>
+    <title>A Depth Hierarchy for Computing the Maximum in ReLU Networks via Extremal Graph Theory</title>
+    <updated>2026-01-04T07:40:42Z</updated>
+    <link href="https://arxiv.org/abs/2601.01417v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2601.01417v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We consider the problem of exact computation of the maximum function over $d$ real inputs using ReLU neural networks. We prove a depth hierarchy, wherein width $Ω\big(d^{1+\frac{1}{2^{k-2}-1}}\big)$ is necessary to represent the maximum for any depth $3\le k\le \log_2(\log_2(d))$. This is the first unconditional super-linear lower bound for this fundamental operator at depths $k\ge3$, and it holds even if the depth scales with $d$. Our proof technique is based on a combinatorial argument and associates the non-differentiable ridges of the maximum with cliques in a graph induced by the first hidden layer of the computing network, utilizing Turán's theorem from extremal graph theory to show that a sufficiently narrow network cannot capture the non-linearities of the maximum. This suggests that despite its simple nature, the maximum function possesses an inherent complexity that stems from the geometric structure of its non-differentiable hyperplanes, and provides a novel approach for proving lower bounds for deep neural networks.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-01-04T07:40:42Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Itay Safran</name>
+    </author>
+  </entry>
+</feed>

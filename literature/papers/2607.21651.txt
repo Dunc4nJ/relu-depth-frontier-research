@@ -1,0 +1,726 @@
+                                                                 Shallower ReLU Network Representations
+                                                                         via Exact Linear Algebra
+                                              Kilian Rueß∗1 , Gennadiy Averkov2 , Florestan Brunck3 , Moritz Grillo4 , Christoph
+                                             Hertrich1 , Georg Loho5 , Jack Stade3 , Moritz Stargalla1 , Matthew Sun6 , and Martin
+                                                                                     Winter4
+                                                  1
+                                                   University of Technology Nuremberg, {kilian.ruess, christoph.hertrich,
+                                                                             moritz.stargalla}@utn.de
+                                                 2
+                                                   Brandenburg University of Technology Cottbus–Senftenberg, averkov@b-tu.de
+                                                                3
+                                                                  University of Copenhagen, {flbr, jast}@di.ku.dk
+                                                     4
+                                                       Max Planck Institute for Mathematics in the Sciences, {moritz.grillo,
+                                                                             martin.winter}@mis.mpg.de
+                                                            5
+                                                              Freie Universität Berlin, georg.loho@math.fu-berlin.de
+                                                                                  6
+arXiv:2607.21651v1 [cs.LG] 22 Jul 2026
+
+
+
+
+                                                                                    mattsun1@mit.edu
+
+                                                                                            July 27, 2026
+
+                                                                                               Abstract
+                                                   We prove that the maximum of n real numbers is exactly representable by a ReLU network with
+                                                   two hidden layers for every n ≤ 10. The constructions are obtained by reducing the problem
+                                                   to exact rational linear algebra: after a symmetry reduction, the necessary cancellations
+                                                   are encoded in finite linear systems over Q, which we solve and verify computationally.
+                                                   The representation of max10 has a structured first hidden layer consisting only of pairwise
+                                                   maxima, a feature that allows it to be recursively substituted into larger networks. We use
+                                                   this to show that for every n > 10, the maximum maxn can be exactly represented with
+                                                   ⌈log5 (n/2)⌉ + 1 < log5 (n) + 1.5694 hidden layers. Via the generalized hinging-hyperplane
+                                                   representation [14], the same depth bound holds for all continuous piecewise-linear functions
+                                                   on Rd , with d + 1 in place of n. In particular, every continuous piecewise-linear function
+                                                   on Rd for d ≤ 9 admits a two-hidden-layer ReLU representation. Our results improve on [3,
+                                                   STOC’26]. In that work, the authors established a two-hidden-layer representation for max5
+                                                   and an upper bound of ⌈log3 (n − 2)⌉ + 1 hidden layers for maxn .
+
+
+                                         1        Introduction
+                                         A ReLU network with D hidden layers is specified by affine transformations T (i) : Rni−1 → Rni ,
+                                         for i = 1, . . . , D + 1, and computes
+
+                                                                              f = T (D+1) ◦ ReLU ◦ · · · ◦ ReLU ◦T (1) ,
+
+                                         where the activation function ReLU(x) := max{0, x} is applied coordinate-wise. With this
+                                         convention, the first D affine maps, together with the following applications of ReLU, form the
+                                         D hidden layers, and T (D+1) is the output map.
+                                         Every such network computes a continuous piecewise-linear function (CPWL) with finitely many
+                                         affine pieces, and conversely every CPWL function can be represented by a ReLU network [1].
+                                         Exact representation by ReLU networks therefore leads to quantitative questions about CPWL
+                                             ∗
+                                                 Lead author; all other authors ordered alphabetically.
+
+
+                                                                                                    1
+functions: how many neurons are required, and how many hidden layers are required, to represent
+a given function? This paper concerns the second question when the width is unrestricted. We
+study it through the maximum function
+
+                                   maxn (x) := max{x1 , . . . , xn }.
+
+The reason for this reduction is the generalized hinging-hyperplane representation of Wang and
+Sun [14]. Let CPWLd denote the space of CPWL functions f : Rd → R. Every f ∈ CPWLd can
+be written as a signed linear combination of maxima of d + 1 affine functions: there are signs
+σi ∈ {±1} and affine maps Ai : Rd → Rd+1 , for i = 1, . . . , s, such that
+                                          s
+                                          X
+                                     f=         σi maxd+1 (Ai (x)).                                 (1)
+                                          i=1
+
+Conversely, a lower bound on the depth for representing maxd+1 implies the same lower bound
+for representing max{0, x1 , . . . , xd }, and therefore for the worst-case depth required to represent
+arbitrary functions in CPWLd , compare the discussion in [7]. In that sense, the maximum
+function can be thought of as being the “hardest” function to represent for neural networks with
+fixed depth and arbitrary width.
+
+1.1   Known bounds
+The starting point is the elementary identity
+
+                                max{x1 , x2 } = x1 + ReLU(x2 − x1 )
+
+which gives a one-hidden-layer representation of max2 . Iterating this identity in a balanced
+binary tree gives maxn in ⌈log2 n⌉ hidden layers, and hence gives every function in CPWLd in
+⌈log2 (d + 1)⌉ hidden layers [1].
+The corresponding lower-bound problem is open in general. Hertrich, Basu, Di Summa, and
+Skutella [7] formulated the unrestricted-width depth question and connected it with polyhedral
+and tropical methods. Their work motivated the conjecture that the binary-tree depth is optimal
+for the maximum function. This conjectured ⌈log2 n⌉ lower bound was proved by Haase, Hertrich,
+and Loho [6] for integral-weight ReLU networks. For networks with decimal-fraction weights
+Averkov, Hojny, and Merkert [2] proved the weaker lower bound ⌈log3 n⌉. Further lower bounds
+are known under braid-fan compatibility assumptions [5] and under width restrictions at fixed
+depth [12].
+For unrestricted real weights, however, the binary-tree construction is not optimal. Bakaev,
+Brunck, Hertrich, Stade, and Yehudayoff [3] constructed a two-hidden-layer representation of
+max5 and used it to represent maxn , for n ≥ 4, with ⌈log3 (n−2)⌉+1 hidden layers. Together with
+the Wang–Sun decomposition, this gives ⌈log3 (d−1)⌉+1 hidden layers for all functions in CPWLd ,
+for d ≥ 3. Thus, over the real numbers, the problem is not only to prove lower bounds. One
+must also determine which higher-arity maximum functions admit shallow representations, and
+which structural features of such representations allow them to be composed recursively.
+Because ReLU is a nonpolynomial activation function, neural networks with a single hidden
+layer and affine hidden units can approximate any continuous function on a compact domain
+to arbitrary accuracy [9]. The problem of approximating maxn using ReLU neural networks
+has been studied previously [13]. Here, in contrast, we focus on the exact representation of
+piecewise-linear functions by ReLU neural networks over the entire space Rd .
+
+
+
+
+                                                    2
+1.2    Our results
+We record the three main representation results of this paper below. They will be restated in
+their appropriate settings and proved in the subsequent sections.
+Theorem 1.1. For every n ≤ 10, the function
+
+                               maxn (x1 , . . . , xn ) = max{x1 , . . . , xn }
+
+admits an exact ReLU representation with two hidden layers. This representation can be chosen
+such that the first hidden layer only consists of groups of neurons, each group collectively computing
+a pairwise maximum of coordinates, that is, max{xi , xj }.
+The structured first layer in the maxn representation is preserved by the recursive substitution
+introduced in Section 5. More precisely, a first-layer comparison between two intermediate
+maxima can be replaced by a copy of the max10 block. Each such substitution increases the
+number of hidden layers by one while multiplying the number of input variables represented by
+five. This yields the following general bound.
+Corollary 1.2. For every integer n ≥ 3, the function maxn has an exact ReLU representation
+whose number of hidden layers is bounded by
+                                 n l      n mo l        n m
+                        2 + max 0, log5           = log5        + 1.
+                                           10              2
+
+Combining this construction with (1) gives the corresponding result for arbitrary continuous
+piecewise-linear functions.
+Corollary 1.3. For d ≥ 2, every function in CPWLd is exactly representable by a ReLU network
+with at most                                   
+                                             d+1
+                                      log5          +1
+                                              2
+hidden layers. In particular, every function in CPWLd with d ≤ 9 admits an exact representation
+with two hidden layers.
+
+1.3    Idea of the construction
+In describing the construction, it is convenient to allow binary maximum gates with affine inputs.
+Such gates are also known as rank-2 maxout units [4] and have been used in previous work; see,
+for example, [1, 5]. This does not change the number of hidden layers, since
+                                                                                       
+         max{L1 (x), L2 (x)} = ReLU(L1 (x)) − ReLU(−L1 (x)) + ReLU L2 (x) − L1 (x) ,
+
+at the cost of increasing the width of the network by at most a constant factor of 3. Thus, for the
+depth bounds considered here, this max-gate model is equivalent to the usual ReLU model.
+Even though it is not necessary for the formal correctness of our construction, for understanding
+the intuition and some theoretical statements guiding our practical computations, it is useful
+to take a geometric perspective that relates CPWL functions to polytopes. This perspective
+has been used in several previous works on this problem, see [7, 6, 2, 3]. A polytope is the
+convex hull of finitely many points. For a convex, positively homogeneous CPWL function
+x 7→ maxni=1 {a⊤
+               i x}, the corresponding Newton polytope is defined as conv{ai : i = 1, . . . , n}.
+Conversely, for a given polytope P ⊂ Rn , its support function is
+
+                                          hP (u) = max⟨u, p⟩.
+                                                      p∈P
+
+
+
+
+                                                     3
+Taking the Newton polytope and taking support functions are inverse operations of each other,
+inducing a duality between CPWL functions and polytopes. This duality is compatible with
+several operations, namely, function addition corresponds to Minkowski addition of polytopes,
+taking maxima corresponds to convex hulls, and multiplication with a positive scalar corresponds
+to dilation of polytopes; effectively turning the duality into an isomorphism with respect to
+those operations. This correspondence now allows us to freely switch between the perspectives of
+CPWL functions and polytopes, thereby enabling proofs about neural network expressivity using
+polyhedral geometry.
+The target maxn is the support function of the simplex conv{e1 , . . . , en }, while each pairwise
+maximum max{xi , xj } is the support function of the segment [ei , ej ]. Thus, sums of pairwise
+maxima and maxima of such sums correspond, respectively, to Minkowski sums and convex hulls.
+This motivates our ansatz in terms of support functions of explicit polytopes.
+Based on the Sn -symmetry of the simplex, one can symmetrize any solution, that is, combine
+all solutions in the orbit of permuting variables. Therefore, it suffices to establish the resulting
+identities on the sorted cone
+
+                                  C = {x ∈ Rn | x1 ≤ · · · ≤ xn }.
+
+There, each pairwise maximum reduces to a coordinate projection, and the search becomes a
+finite linear-algebra problem over Q: find a signed combination of the symmetrized functions
+equal to xn = maxn (x). The resulting rational identities are verified exactly and extend to all of
+Rn by symmetry.
+
+1.4   Organization
+Section 2 explains the support-function linear algebra used to certify identities. Section 3 proves
+the reduction from symmetric identities to the sorted cone. Section 4 defines the finite ansatz,
+gives the exact verification method, and states the two-hidden-layer result for n ≤ 10. Section 5
+proves the recursive substitution theorem and derives the base-five depth bound.
+
+
+2     Signed Minkowski identities as linear algebra
+Even though our construction developed later in the paper does not explicitly use the perspective
+of Newton polytopes, our approach is nevertheless inspired by it. The purpose of this section is
+to explain this geometric intuition and how it relates to previous work on the problem.
+In [3], the authors construct neural networks computing the maximum function by showing that
+a subdivision of the simplex into structured cells makes it possible to express the simplex as
+a weighted Minkowski difference of polytopes whose support functions are representable with
+two hidden layers. This makes it possible to conclude that the maximum function itself can be
+expressed with two hidden layers.
+We follow this idea, but avoid constructing a subdivision explicitly and instead work directly
+with the weighted Minkowski difference. The basic problem is the following. Given a finite set of
+promising polytopes Q1 , . . . , Qr , for which we already know that they are representable with two
+hidden layers, we want to find coefficients ci ∈ R such that the formal Minkowski identity
+                                                 r
+                                                 X
+                                           P =         ci Qi
+                                                 i=1
+
+holds, allowing the conclusion that P is also representable with two hidden layers. Note that, in
+this equation, some of coefficients ci can be negative. By definition, such a weighted Minkowski
+
+
+                                                 4
+sum with potentially negative weights, means the following equality of ordinary Minkowski
+sums:                               X             X
+                               P+      (−ci )Qi =     ci Qi .
+                                        ci <0                  ci >0
+
+Passing to support functions translates this into the identity of functions Rd → R
+                                                    r
+                                                    X
+                                             hP =          ci hQi .
+                                                    i=1
+
+Since all support functions involved are piecewise linear, this identity can be reduced to a finite
+linear system by evaluating it on a suitable finite set of points. This reduction is justified by the
+following proposition. A complete polyhedral fan in Rn is a finite collection of polyhedral cones
+with apex at the origin, closed under taking faces, such that the intersection of any two cones is
+a face of each, and whose union is all of Rn .
+Proposition 2.1. Let Σ be a complete polyhedral fan and consider polytopes P, Q1 , . . . , Qr such
+that each of the support functions hP , hQ1 , . . . , hQr is linear on every individual cone of Σ. For
+each cone τ ∈ Σ, let Uτ be a set of generators of its extreme rays. Let
+                                                      [
+                                           U=            Uτ .
+                                                       τ ∈Σ
+
+Define
+                            Aui = hQi (u),        bu = hP (u)             (u ∈ U ).
+Then
+                                        r
+                                        X
+                                 hP =         ci hQi       ⇐⇒         Ac = b.
+                                        i=1
+                             P
+Proof. The function hP − i ci hQi is linear on every cone of Σ. A linear function on a cone
+vanishes identically if and only if it vanishes on the extreme rays of that cone. Since Σ covers Rd ,
+the global identity is therefore equivalent to the finite system Ac = b.
+
+Proposition 2.1 suggests the following procedure to find a neural network representation of
+maxn . Let P be the standard simplex conv{e1 , . . . , en }, which is the Newton polytope of maxn .
+Select promising candidate polytopes Q1 , . . . , Qr , for which we already know that they admit
+two-hidden-layer representations. Use Proposition 2.1 to reduce the signed Minkowski identity
+to a finite linear system and check with exact rational arithmetic if it has a solution. If we find
+a solution, this implies a representation of maxn with two hidden layers. If the system has no
+solution, this means that the set of candidate polytopes is not sufficient to represent maxn .
+Remark 2.2. The subdivision used in the max5 construction in [3] can also be interpreted in this
+framework. Given its cells and their nonempty intersections, we take the corresponding polytopes
+as the candidate summands Qi . Evaluating their support functions on a common refinement of
+their normal fans and solving the resulting system Ac = b determines the signed coefficients. In
+this way, the same Minkowski identity can be recovered directly from the pieces, rather than
+derived during the construction of the subdivision.
+
+
+3      Symmetrization
+Let the symmetric group Sn act on Rn by permuting coordinates. Explicitly, for x ∈ Rn and
+σ ∈ Sn , define
+                          (σx)i := xσ−1 (i) for i ∈ {1, . . . , n}.
+
+
+                                                       5
+For any function f : Rn → R, define its symmetrization by
+                                                 1 X
+                                   f sym (x) =       f (σx).
+                                                 n!
+                                                     σ∈Sn
+
+We call a function f : Rn → R symmetric if f sym = f .
+                                                                  Pn
+Proposition 3.1. Let g : Rn → R be symmetric. If g =                 i=1 ci fi , then
+                                              n
+                                                    ci fisym .
+                                              X
+                                         g=
+                                              i=1
+
+Moreover, if f, h : Rn → R are symmetric, then f = h on Rn if and only if f = h on
+
+                              C = {x ∈ Rn : x1 ≤ x2 ≤ · · · ≤ xn }.
+
+Proof. Symmetrization is linear and fixes symmetric functions, giving the first claim. For the
+second, every point of Rn is carried into C by a coordinate permutation.
+
+Thus, in order to check whether a symmetric candidate equals maxn , it is sufficient to check
+whether it equals xn on C. Note that C is one cell of the braid arrangement, see [5].
+
+
+4     Exact search for two-hidden-layer identities
+This section describes the finite search space used to find the two-hidden-layer representations.
+The search has three steps. First we choose a restricted family of two-hidden-layer ReLU blocks
+whose first hidden layer consists only of pairwise maxima. Then we average these blocks over
+all coordinate permutations, so that it is enough to test them on the sorted cone. Finally we
+expand the resulting functions into linear terms and hinge terms and solve the resulting rational
+linear system.
+
+4.1   The two-layer ansatz
+Let
+                                  En := {(i, j) | 1 ≤ i ≤ j ≤ n}
+denote the set of unordered pairs of indices, represented by listing the smaller index first. By
+definition, diagonal elements (i, i) are included. For (i, j) ∈ En define
+
+                                     mij (x) = max{xi , xj }.
+
+Fix k ∈ N, and let Mn,k denote the set of multisets of cardinality k with elements in En . Thus,
+an element A ∈ Mn,k is a collection of k pairs from En , counted with multiplicity, so the same
+pair may occur several times. Since En is finite, the set Mn,k , and hence the set of pairs
+
+                                         Mn,k × Mn,k
+
+is finite. For each (A, B) ∈ Mn,k × Mn,k , define
+                                                                  
+                                         X               X        
+                         ΦA,B (x) = max          mij (x),   mij (x) ,
+                                                                  
+                                          (i,j)∈A                (i,j)∈B
+
+where each sum is taken with multiplicity. This is representable with a two-hidden-layer network:
+the first hidden layer computes the pairwise maxima mij , and the second hidden layer computes
+the maximum of the two displayed linear combinations.
+
+                                                 6
+We ask whether maxn lies in the linear span of all symmetrized functions
+
+            FA,B (x) = n! Φsym
+                                      X
+                           A,B (x) =      ΦA,B (σx),    (A, B) ∈ Mn,k × Mn,k .
+                                           σ∈Sn
+
+The factor 1/n! appearing in the corresponding group average is omitted, since it merely rescales
+the solution coefficients.
+For computational or structural purposes, one may restrict the system to a chosen subfamily of
+pairs (A, B); unless stated otherwise, however, the ansatz includes all pairs in
+
+                                               Mn,k × Mn,k .
+
+By Proposition 3.1, it suffices to work on the sorted cone
+
+                                 C = {x ∈ Rn | x1 ≤ x2 ≤ · · · ≤ xn }.
+
+On C, the first-layer functions mij collapse to coordinate projections onto the variable with the
+larger index: namely,
+
+                    mij (σx) = mij (xσ−1 (1) , . . . , xσ−1 (n) ) = xmax{σ−1 (i),σ−1 (j)} .
+
+Thus, after restriction to C, the first layer is linear and introduces no additional breakpoints. For
+a multiset A ∈ Mn,k and σ ∈ Sn , put
+                                                X
+                                 ℓσ,A (x) :=             xmax{σ−1 (i),σ−1 (j)} .
+                                               (i,j)∈A
+
+Then, on C,                                    X
+                               FA,B (x) =           max{ℓσ,A (x), ℓσ,B (x)}.
+                                             σ∈Sn
+
+Using
+                                     max{u, v} = u + ReLU(v − u)
+and collecting identical difference vectors, we obtain
+                                                 X                   
+                        FA,B (x) = LA,B (x) +         cA,B,d ReLU d⊤ x ,
+                                                    d∈DA,B
+
+                                n
+       P is linear, DA,B ⊂ Z is finite, and cA,B,d ∈ Z. Consequently, a representation
+where LA,B
+maxn = A,B λA,B FA,B is certified by the exact equations
+
+
+                                  X                                         [
+                                        λA,B cA,B,d = 0       for all d ∈          DA,B           (2)
+                                  A,B                                       A,B
+                               X
+                                     λA,B LA,B (x) = xn .                                         (3)
+                               A,B
+
+The first set of equations (2) says that every nonlinear hinge term cancels. The second (3) says
+that the remaining linear function is xn , which equals maxn on the sorted cone C.
+
+
+
+
+                                                         7
+4.1.1    Enumeration modulo permutations
+The function FA,B is invariant under interchanging A and B, as well as under simultaneously
+relabelling all indices in both multisets. Hence it suffices to consider pairs (A, B) modulo the
+equivalence relation
+
+                       (A, B) ∼ (B, A) ∼ (τ A, τ B) ∼ (τ B, τ A),       τ ∈ Sn .
+
+We use {{· · ·}} to denote multisets, so repetitions indicate multiplicity. Here,
+                                                                    
+                      τ A := {{ min{τ (i), τ (j)}, max{τ (i), τ (j)} : (i, j) ∈ A}}
+
+with multiplicities retained. We refer to an equivalence class under this relation as a tem-
+plate.
+Equivalently, a pair (A, B) may be regarded as a two-edge-colored multigraph on the vertex
+set {1, . . . , n}. The pairs in A form the edges of one color, those in B form the edges of the
+other color, and all edge multiplicities are retained. If diagonal pairs are permitted in the ansatz,
+they are represented by loops. Interchanging A and B corresponds to exchanging the two edge
+colors, while simultaneous permutation of the indices corresponds to relabelling the vertices.
+Template enumeration is therefore a colored-multigraph isomorphism problem, with the two
+colors themselves regarded as interchangeable.
+In the implementation, each isomorphism class is replaced by a canonical labelled representative.
+All certificate coefficients are then aggregated according to this canonical unordered pair before
+the finite linear system is assembled. The required isomorphism classes can be enumerated
+efficiently using standard graph-isomorphism software, such as nauty [10].
+Remark 4.1. Several elementary linear dependencies can be eliminated to reduce the number of
+constraints in the resulting linear system. For instance, suppose that d⊤ x has a fixed sign on C.
+If d⊤ x ≤ 0 throughout C, then
+                                         ReLU(d⊤ x) = 0
+on C. If instead d⊤ x ≥ 0 throughout C, then
+                                             
+                                     ReLU d⊤ x = d⊤ x
+
+on C. Hence, in either case, the corresponding hinge direction may be omitted. Moreover, the
+hinge directions d and −d can be identified using the identity
+                                                       
+                             ReLU −d⊤ x = ReLU d⊤ x − d⊤ x.
+
+Finally, by positive homogeneity,
+                                                  
+                        ReLU q · d⊤ x = q · ReLU d⊤ x ,               q > 0.
+
+Thus, hinge directions that differ by a positive scalar multiple may also be identified.
+
+4.2     The smallest useful value of k
+The parameter k controls the expressive power and the size of the computational ansatz. Each
+argument of ΦA,B does contain the sum of k pairwise maxima, so increasing k enlarges the class
+of functions that the ansatz can represent. At the same time, the number of pairs of multisets
+(A, B) grows rapidly with k. It is therefore natural to ask for the smallest value of k that is not
+ruled out by theoretical obstructions.
+
+
+                                                  8
+Proposition 4.2. Let ∆k = conv{0, e1 , . . . , ek }. There do not exist polytopes P1 , . . . , Pm with
+dim Pr < k and coefficients cr ∈ R such that
+                                                       m
+                                                       X
+                                              h∆ k =         cr hPr .
+                                                       r=1
+
+Equivalently, a k-simplex is not a signed Minkowski combination of lower-dimensional polytopes.
+
+Proof. This is precisely [8, Corollary 5.2], translated into support-function language. In the
+terminology of that paper, the assertion is that a simplex is not a zero summand.
+
+Corollary 4.3. The exact systems assembled from the ansatz above are solvable only if
+                                                   
+                                                n−1
+                                  k ≥ kmin :=         .
+                                                 2
+
+Thus, kmin is the smallest value of k not ruled out by Proposition 4.2.
+
+Proof. For each (i, j), mij = h[ei ,ej ] . Hence
+                               X                                        X
+                                        mij = hZA ,        ZA :=            [ei , ej ],
+                              (i,j)∈A                               (i,j)∈A
+
+where dim ZA ≤ k. Therefore
+
+                               ΦA,B = max{hZA , hZB } = hconv(ZA ∪ZB ) .
+
+The convex hull of two polytopes of dimensions at most k has dimension at most 2k+1. Expanding
+each symmetrized block into its summands, any solution of the exact system would therefore
+express maxn = hconv{e1 ,...,en } , the support function of an (n − 1)-simplex, as a signed Minkowski
+combination of polytopes of dimension at most 2k + 1. If 2k + 1 < n − 1, this contradicts
+Proposition 4.2. Thus one must have 2k + 1 ≥ n − 1, equivalently k ≥ ⌊(n − 1)/2⌋.
+
+4.3    Computational results
+Theorem 1.1. For every n ≤ 10, the function
+
+                                maxn (x1 , . . . , xn ) = max{x1 , . . . , xn }
+
+admits an exact ReLU representation with two hidden layers. This representation can be chosen
+such that the first hidden layer only consists of groups of neurons, each group collectively computing
+a pairwise maximum of coordinates, that is, max{xi , xj }.
+
+Proof. The cases n ≤ 4 are immediate. For each 5 ≤ n ≤ 10, let
+
+                                              k = ⌊(n − 1)/2⌋.
+
+As described in Section 4.1, we form the linear system indexed by all pairs
+
+                                          (A, B) ∈ Mn,k × Mn,k .
+
+We then apply the reduction from Remark 4.1. We solve this system exactly over Q using an
+optimized implementation. The resulting solution provides rational coefficients λA,B such that
+all hinge coefficients vanish and the remaining linear part equals xn on the sorted cone. By
+Proposition 3.1, this implies equality on all of Rn as both functions are symmetric.
+
+                                                       9
+Since each block FA,B is constructed from pairwise maxima in the first hidden layer and one
+further maximum in the second hidden layer, this identity gives a two-hidden-layer ReLU
+representation.
+The resulting certificates can be verified using the conceptually simpler Python verifier provided
+in the accompanying GitHub repository. This verifier performs all computations using exact
+rational arithmetic. Although it is substantially slower than the optimized implementation
+used to obtain the certificates, it provides a transparent and directly reproducible check of the
+identities.
+
+As a concrete example, take n = 6 and k = 2. Let
+
+                                   i     Ai                   Bi
+                                   1     {{(1, 2), (1, 2)}}   {{(3, 4), (3, 4)}}
+                                   2     {{(1, 2), (1, 3)}}   {{(1, 4), (5, 6)}}
+                                   3     {{(1, 2), (1, 3)}}   {{(4, 5), (4, 6)}}
+                                   4     {{(1, 2), (3, 4)}}   {{(1, 3), (5, 6)}}
+
+Then one certificate is
+                                         1             1             1              1
+              max{x1 , . . . , x6 } =       FA1 ,B1 +     FA2 ,B2 −      FA3 ,B3 −    FA ,B .
+                                        720           360           1440           360 4 4
+Here FA,B is the symmetrized block defined above.
+The certificates for n = 7, . . . , 10 are much larger and are therefore not reproduced in the body
+of the paper. They are provided with the accompanying online material1 .
+
+Width of the construction. The constructions above are designed to make the search for two-
+hidden-layer representations computationally tractable, rather than to minimize network width.
+Suppose that the certificate is supported on s templates. Symmetrizing each template produces
+at most n! labelled blocks, so the total number Q of rank-2 maxout neurons satisfies
+
+                                                     Q ≤ sn!.
+
+By sharing the required pairwise maxima, the rank-2 maxout realization has first-layer width at
+most                                       
+                                       n+1
+                                               = O(n2 )
+                                         2
+and second-layer width at most Q ≤ sn!. The construction can also be converted directly into a
+standard ReLU network without skip connections. This yields first-layer width at most
+                                     
+                                      n
+                                         + 2n = O(n2 )
+                                      2
+
+and second-layer width at most 3Q ≤ 3sn!. Thus the direct symmetrized realization has quadratic
+width in the first hidden layer and, in the worst case, factorial width in the second. We do not
+attempt to optimize this crude upper bound, which remains far above the quadratic lower bound
+for two-hidden-layer representations established in [12].
+Remark 4.4. It is known [11, Proposition 2.2] that for n ≥ 3, one hidden layer is not sufficient to
+represent maxn . Therefore, together with Theorem 1.1, we obtain that the minimum number of
+hidden layers to represent maxn for n ∈ {3, . . . , 10} is exactly two.
+  1
+      https://github.com/kilianar/max-relu-certificates
+
+
+
+                                                        10
+5    Recursive composition and depth bounds
+There is a standard way to bootstrap any exact network representation of maxl without imposing
+assumptions on its internal structure. Given n > l inputs, partition them into groups of size at
+most l, apply the network to all groups in parallel, and repeat the procedure on the resulting
+group maxima. If the original network has D hidden layers, this tournament-style construction,
+together with repeated-coordinate padding for incomplete groups, represents maxn with D⌈logl n⌉
+hidden layers.
+The representations constructed in this paper carry additional structure: their first hidden
+layer consists entirely of pairwise comparisons. Exploiting this structure gives a more efficient
+bootstrap. Each such comparison can be replaced by a copy of the original two-hidden-layer
+representation, increasing the number of hidden layers by only one while multiplying the input
+arity by ⌊l/2⌋. The following theorem formalizes this substitution and its iteration.
+Theorem 5.1. Assume that maxl has a two-hidden-layer representation Bl whose first hidden
+layer consists only of pairwise comparisons max{xi , xj }, and let r = ⌊l/2⌋ ≥ 2. Then, for every
+integer s ≥ 0, the function maxlrs has an exact representation with 2 + s hidden layers whose
+first hidden layer again consists only of pairwise comparisons. Consequently, for every n ≥ 1,
+the function maxn has an exact representation with at most
+                                              n l       n mo
+                                     2 + max 0, logr
+                                                        l
+hidden layers.
+
+Proof. We construct the representations by induction on s, keeping the form of the first hidden
+layer as an invariant. For s = 0, the required representation is Bl .
+Suppose that the claim holds for some s ≥ 0, and set M = lrs . Partition rM inputs into disjoint
+blocks S1 , . . . , SM , each of size r, and set
+
+                                           yp = max xi .
+                                                 i∈Sp
+
+Evaluating the representation of maxM at (y1 , . . . , yM ) gives maxp yp = maxi xi . In this evalua-
+tion, each first-layer comparison becomes
+
+                                     max{yp , yq } = max xi ,
+                                                      i∈Sp ∪Sq
+
+a maximum of 2r ≤ l inputs. Replace every such comparison by a copy of Bl , using repeated-
+coordinate padding when 2r < l or p = q, and absorb the output affine maps of these copies into
+the affine map preceding the next hidden layer. Thus the first hidden layer is replaced by two
+hidden layers, giving a representation of maxrM = maxlrs+1 with 3 + s hidden layers. Its first
+hidden layer consists only of the pairwise comparisons from the copies of Bl , so the invariant is
+preserved. This is the substitution illustrated in Figure 1 and completes the induction.
+Finally, given n ≥ 1, take                  n l      n mo
+                                   s = max 0, logr        .
+                                                      l
+Then lrs ≥ n, so repeating one input coordinate as necessary turns the representation of maxlrs
+into one of maxn without changing its depth.
+
+Corollary 1.2. For every integer n ≥ 3, the function maxn has an exact ReLU representation
+whose number of hidden layers is bounded by
+                                 n l      n mo l        n m
+                        2 + max 0, log5           = log5        + 1.
+                                           10              2
+
+                                                 11
+                                                                         Sl
+                    max{x1 , . . . , xl }                          max    i=1 Si
+
+
+
+
+                                                                   max(Si ∪ Sj )
+
+
+                      max{xi , xj }
+
+
+
+
+         x1          xi             xj      xl          S1         Si         Sj        Sl
+
+
+Figure 1: The first bootstrap step. Starting from the two-hidden-layer network Bl computing
+maxl , replace each first-layer comparison max{xi , xj } by a copy of Bl computing max(Si ∪ Sj ),
+where |Si | = |Sj | = r = ⌊l/2⌋ (using repeated-coordinate padding when 2r < l). The resulting
+three-hidden-layer network computes maxlr = maxl⌊l/2⌋ .
+
+
+Proof. Use the two-hidden-layer representation from Theorem 1.1 for max10 and apply Theo-
+rem 5.1 with l = 10 and r = 5.
+
+Corollary 1.3. For d ≥ 2, every function in CPWLd is exactly representable by a ReLU network
+with at most                                   
+                                             d+1
+                                      log5          +1
+                                              2
+hidden layers. In particular, every function in CPWLd with d ≤ 9 admits an exact representation
+with two hidden layers.
+
+Proof. By (1), every f ∈ CPWLd is a signed linear combination of maxima of d + 1 affine forms.
+Apply Corollary 1.2 to these maxima in parallel and implement their signed linear combination
+in the final affine layer. This does not increase the number of hidden layers and gives the stated
+bound.
+
+
+Acknowledgments
+The authors thank the members of the Neural Polytopes Zulip community and the participants
+of the Workshop on Polyhedral Geometry for Neural Networks2 , held in Nuremberg in March
+2026, for inspiring exchange.
+
+
+References
+ [1] R. Arora, A. Basu, P. Mianjy, and A. Mukherjee. “Understanding Deep Neural Networks
+     with Rectified Linear Units”. In: International Conference on Learning Representations.
+     2018.
+ [2] G. Averkov, C. Hojny, and M. Merkert. “On the Expressiveness of Rational ReLU Neural
+     Networks With Bounded Depth”. In: The Thirteenth International Conference on Learning
+     Representations. 2025.
+  2
+      https://neuralpolytopes.gitlab.io/workshop2026/
+
+
+
+
+                                                 12
+ [3] E. Bakaev, F. Brunck, C. Hertrich, J. Stade, and A. Yehudayoff. “Better Neural Network
+     Expressivity: Subdividing the Simplex”. In: Proceedings of the 58th Annual ACM Symposium
+     on Theory of Computing. STOC ’26: 58th Annual ACM Symposium on Theory of Computing.
+     Salt Lake City UT USA: ACM, 2026, pp. 500–507. isbn: 979-8-4007-2536-4. doi: 10.1145/
+     3798129.3800768.
+ [4] I. Goodfellow, D. Warde-Farley, M. Mirza, A. Courville, and Y. Bengio. “Maxout Networks”.
+     In: Proceedings of the 30th International Conference on Machine Learning. International
+     Conference on Machine Learning. PMLR, 2013, pp. 1319–1327.
+ [5] M. Grillo, C. Hertrich, and G. Loho. “Depth-Bounds for Neural Networks via the Braid
+     Arrangement”. In: Advances in Neural Information Processing Systems. Vol. 38. Curran
+     Associates, Inc., 2025, pp. 127800–127818.
+ [6] C. A. Haase, C. Hertrich, and G. Loho. “Lower Bounds on the Depth of Integral ReLU
+     Neural Networks via Lattice Polytopes”. In: The Eleventh International Conference on
+     Learning Representations. 2023.
+ [7] C. Hertrich, A. Basu, M. Di Summa, and M. Skutella. “Towards Lower Bounds on the
+     Depth of ReLU Neural Networks”. In: SIAM Journal on Discrete Mathematics 37.2 (2023),
+     pp. 997–1029. issn: 0895-4801, 1095-7146. doi: 10.1137/22M1489332.
+ [8] C. Koutschan, B. Moser, A. Ponomarchuk, and J. Schicho. “Representing Piecewise
+     Linear Functions by Functions with Small Arity”. In: Applicable Algebra in Engineering,
+     Communication and Computing 36.4 (2025), pp. 595–610. issn: 0938-1279, 1432-0622. doi:
+     10.1007/s00200-023-00627-1.
+ [9] M. Leshno, V. Y. Lin, A. Pinkus, and S. Schocken. “Multilayer Feedforward Networks
+     with a Nonpolynomial Activation Function Can Approximate Any Function”. In: Neural
+     Networks 6.6 (1993), pp. 861–867. issn: 08936080. doi: 10.1016/S0893-6080(05)80131-5.
+[10] B. D. McKay and A. Piperno. “Practical Graph Isomorphism, II”. In: Journal of Symbolic
+     Computation 60 (2014), pp. 94–112. issn: 07477171. doi: 10.1016/j.jsc.2013.09.003.
+[11] A. Mukherjee and A. Basu. Lower Bounds over Boolean Inputs for Deep Neural Networks
+     with ReLU Gates. TR17-190. Rehovot, Israel, 2017.
+[12] I. Safran. “A Depth Hierarchy for Computing the Maximum in ReLU Networks via Extremal
+     Graph Theory”. In: Proceedings of Thirty Ninth Conference on Learning Theory. Vol. 336.
+     PMLR, 2026, pp. 5721–5742.
+[13] I. Safran, D. Reichman, and P. Valiant. “How Many Neurons Does It Take to Approximate
+     the Maximum?” In: Proceedings of the 2024 ACM-SIAM Symposium on Discrete Algorithms,
+     SODA 2024, Alexandria, VA, USA, January 7-10, 2024. Ed. by D. P. Woodruff. SIAM,
+     2024, pp. 3156–3183. doi: 10.1137/1.9781611977912.113.
+[14] S. Wang and X. Sun. “Generalization of Hinging Hyperplanes”. In: IEEE Transactions
+     on Information Theory 51.12 (2005), pp. 4425–4431. issn: 0018-9448. doi: 10.1109/TIT.
+     2005.859246.
+
+
+
+
+                                             13
+

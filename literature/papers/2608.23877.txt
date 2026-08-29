@@ -1,0 +1,1784 @@
+                                                                 Every Layer Counts:
+                                                 An Exponential L2 Depth Hierarchy for ReLU Networks
+                                                                                  Itay Safran
+                                             Stein Faculty of Computer and Information Science, Ben-Gurion University of the Negev
+                                                                            safrani@bgu.ac.il
+arXiv:2608.23877v1 [cs.LG] 24 Aug 2026
+
+
+
+
+                                                                                              Abstract
+                                                    We prove a depth hierarchy for ReLU neural networks in which every additional ReLU layer can
+                                               save exponentially many neurons. For every ℓ ≥ 3, a globally [0, 1]-valued, 1-Lipschitz function is
+                                               realized by a depth-ℓ network of width O(d4 ), whereas every depth-(ℓ − 1) network with unrestricted
+                                                                                2d
+                                               weights and width at most 2d(ℓ−2)     has squared L2 error at least 1/24 under an absolutely continuous
+                                               distribution. To the best of our knowledge, this is the first exponential separation for ReLU networks
+                                               between two fixed depths whose shallower depth is at least 3, and the first exponential hierarchy across
+                                               all adjacent fixed depths. The lower bound also immediately yields the corresponding hierarchy for exact
+                                               computation. Moreover, the case ℓ = 3 gives a compactly supported depth-3-versus-depth-2 separation
+                                               with unrestricted shallow-network weights, answering a question raised by Safran et al. [23, Sec. 2.3].
+                                               The corresponding distribution nevertheless has all its mass at exponential radius, so the construction
+                                               falls outside the regularity regime in which such a separation would imply major threshold-circuit lower
+                                               bounds.
+                                                    We also prove an exact separation for a more benign function. It is computed by a polynomial-
+                                               width depth-4 network, whereas every depth-3 network agreeing with it on the unit hypercube requires
+                                               exponentially many neurons in its first hidden
+                                                                                         √     layer, again without any restriction on the weights. The
+                                               function is globally [0, 1]-valued and O( d)-Lipschitz, and maps the unit hypercube onto [0, 1].
+
+
+                                         1   Introduction
+                                         Depth is a defining feature of modern neural-network architectures. Beyond its empirical importance, depth
+                                         can fundamentally increase representational efficiency: a function admitting a compact deep representation
+                                         may require a polynomially or even exponentially larger network at a smaller depth. Two seminal works es-
+                                         tablished complementary forms of this phenomenon. Eldan and Shamir [6] proved an exponential separation
+                                         of depth 3 from depth 2, whereas Telgarsky [26] constructed highly compositional functions separating net-
+                                         works whose depth grows with the problem parameters from substantially shallower networks. Subsequent
+                                         work broadened these two regimes and progressively clarified the roles played by the dimension, approxi-
+                                         mation accuracy, target regularity, approximation domain, and weight magnitude [5, 22, 14, 30, 23, 25]. The
+                                         resulting literature nevertheless remained divided between two regimes: exponential separations of depth 3
+                                         from depth 2, and exponential separations between a fixed shallow depth and a deeper architecture whose
+                                         depth grows with the dimension or the desired accuracy. Recent work established a superlinear depth hier-
+                                         archy for the exact computation of the maximum function [20], but did not yield an exponential separation.
+                                         Prior to this work, no exponential separation was known between any two fixed depths k ′ > k ≥ 3 for ReLU
+                                         networks or, to the best of our knowledge, for networks using any other standard nonpolynomial activation.
+
+
+                                                                                                  1
+     The analogous question has long been central in circuit complexity. Threshold circuits are essentially
+feedforward neural networks with threshold activations, operating on Boolean inputs and producing Boolean
+outputs. A central goal in this setting is a full depth hierarchy: for every constant k, one would like to exhibit
+an explicit function computable by a polynomial-size depth-(k + 1) threshold circuit but requiring exponen-
+tial size at depth k. Even substantially weaker goals remain open. A separation of depth 3 from depth 2 is
+known when the weights of the depth-2 circuit are polynomially bounded [10], but the corresponding result
+for arbitrary weights is unknown. Separating any larger constant depth from depth 3 is likewise a long-
+standing open problem. Starting at depth 4, candidate pseudorandom functions computable by threshold
+circuits also place sufficiently general lower-bound techniques within the scope of the natural-proofs barrier
+[18, 27].
+     The contrast between the two models is particularly striking because neural networks already admit
+separations whose threshold-circuit analogues remain open. The construction of Telgarsky [26] separates
+networks of polynomially growing depth from constant-depth networks, whereas the corresponding sepa-
+ration of polynomial-depth threshold circuits from constant-depth threshold circuits is unknown. Similarly,
+the depth-3-versus-depth-2 lower bound of Eldan and Shamir [6] places no restriction on the weights of the
+depth-2 network, while the corresponding arbitrary-weight separation for threshold circuits remains open.
+Nevertheless, the central fixed-depth gap was shared by both models. For a decade following the results of
+Eldan and Shamir [6] and Telgarsky [26], no exponential separation was known once the shallower depth
+was at least 3, even when the two depths were allowed to differ by more than one layer.
+     Vardi and Shamir [27] formalized the connection between this gap and the corresponding circuit-
+complexity barriers. Under certain boundedness and regularity assumptions on the target function and
+input distribution, they showed that, for every k ≥ 4, an exponential separation of some larger constant
+ReLU depth from depth k would imply a separation of some larger constant threshold-circuit depth from
+depth k − 2. Thus, the case k = 4 would resolve the arbitrary-weight depth-2 threshold-circuit problem;
+the case k = 5 would separate a larger constant depth from depth 3; and the cases k ≥ 6 would enter
+the regime governed by the natural-proofs barrier [18]. These implications serve both as motivation and
+as a boundary marker: a sufficiently regular constant-depth hierarchy for ReLU networks would resolve
+problems extending far beyond neural-network approximation.
+     Our main result resolves the fixed-depth gap for ReLU networks and, more strongly, establishes a com-
+plete exponential hierarchy across all adjacent depths.
+
+Theorem 1.1 (Informal main theorem). For every fixed depth ℓ ≥ 3, there is a family of functions repre-
+sented by polynomial-width depth-ℓ ReLU networks such that approximating them with error below a fixed
+constant at depth ℓ − 1 requires width exponential in the input dimension, even with unrestricted weights.
+
+    To compare the normalizations of different L2 separation results, suppose that the approximation dis-
+tribution is supported in a ball of radius R, the target is L-Lipschitz there, and the lower bound on the
+root-mean-square error is ε, namely,
+                                         r h                    i
+                                      inf E (N (x) − f (x))2 ≥ ε.
+                                        N     x
+
+Multiplying the target by a scalar trades the Lipschitz constant against ε, while dilating the input trades the
+Lipschitz constant against the support radius [23, Theorem 9]. Both operations leave the quantity
+                                                       RL
+                                                        ε
+
+
+                                                        2
+unchanged. We call its growth the normalization scale of the separation. This coarse measure records
+whether the hardness is accompanied by a large domain, rapid variation of the target, or a demand for
+unusually fine approximation, without depending on the units chosen for the input or output.
+                                                                                     √
+   For the formal construction used to prove our main result, we have L = 1, ε = 1/ 24, and
+                                                              3
+                                               R = 2Θ((ℓ−2)d ) ,
+
+so the normalization scale is exponential. This is precisely the feature that places our hierarchy outside the
+barrier of Vardi and Shamir [27]; the large support radius is part of the complexity profile of the result rather
+than an incidental artifact. Classical depth-3-versus-depth-2 constructions exhibit polynomial dependence
+in the analogous Lipschitz, radius, or accuracy scales, whereas Safran et al. [25] keeps all three constant.
+The arbitrary-weight lower bound of Eldan and Shamir [6] instead uses a heavy-tailed distribution and hence
+has no finite support radius. That construction nevertheless places non-negligible approximation  √ mass at a
+polynomial distance from the origin. Indeed, its hard target is supported in a ball of radius O( d), whereas
+all the mass in our construction lies at exponential radius; see Remark 1.2. By contrast, Telgarsky [26] works
+on the unit interval but uses a target whose Lipschitz constant grows exponentially with the composition
+depth. Thus, different separation results place their normalization scale in different parameters.
+     It remains open whether the normalization scale of our L2 hierarchy can be reduced to a polynomial,
+or even a constant, while retaining the unrestricted-weight lower bound. Since the Lipschitz and accuracy
+scales in our theorem are already constant and the other relevant regularity properties are retained, reducing
+its support radius to a polynomial would bring the result into the regime of the Vardi–Shamir reduction. Any
+such improvement would therefore either have to overcome the corresponding circuit-complexity barrier or
+relax a different assumption.
+Remark 1.2 (Compact support and unrestricted weights). The case ℓ = 3 answers the question, raised
+by Safran et al. [23, Sec. 2.3] and restated by Safran et al. [25], of whether an exponential depth-3-versus-
+depth-2 separation can hold with respect to a compactly supported distribution without any restriction on the
+shallow network’s weights. The latter work obtained a separation on the unit ball with constant Lipschitz
+and accuracy scales, but under an exponential upper bound on the shallow network’s weights. Thus, it
+achieved optimal normalization while leaving open the simultaneous combination of compact support and
+unrestricted weights. Our hierarchy imposes no restriction on the weights at any depth, and its ℓ = 3
+specialization gives such an exponential lower bound under an absolutely continuous, compactly supported
+distribution.
+    This conclusion cannot be obtained by simply truncating the heavy-tailed distribution of Eldan and
+Shamir [6]: its tail probability decreases only polynomially with the truncation radius, while an unrestricted
+ReLU network may have arbitrarily large linear growth. Its squared error may therefore be concentrated
+entirely in the discarded tail. Establishing hardness directly under compact support is consequently a gen-
+uine strengthening, rather than a truncation of the earlier result. At the same time, the distinction between
+compactness and scale is important. The hard target of Eldan and Shamir [6] is supported at polynomial ra-
+dius, whereas the compact support in our construction lies at exponential radius. Thus, our result resolves
+the compact-support and unrestricted-weight requirements simultaneously, but leaves open the quantita-
+tively stronger goal of obtaining the same separation with radius polynomial in d, or ideally bounded by an
+absolute constant.
+    Exact computation provides an alternative setting for studying the expressiveness of neural networks.
+In this setting, the approximation scale is absent. The maximum function is a central benchmark for this
+question, as it is easily computed by a logarithmic-depth tournament [1]. Its exact representation, and
+
+                                                       3
+that of more general continuous piecewise-linear (CPWL) functions, has motivated a growing line of work
+[16, 11, 9, 3, 2, 8, 4]. Recent work established a superlinear depth hierarchy for the exact computation of
+the maximum [20], but no exponential fixed-depth lower bound. Our second result gives an exponential
+separation between depths 4 and 3 for a different, globally bounded CPWL target with controlled geometry.
+Theorem 1.3 (Informal exact-computation theorem). There is a family of functions, one in each dimension,
+that can be computed exactly by polynomial-width depth-4 ReLU networks, but for which every depth-3 net-
+work agreeing with the target on the unit hypercube requires first-layer width exponential in the dimension,
+even with unrestricted weights.
+    For comparison across exact-computation results, let Ω be contained in a ball of radius R, let the target
+be L-Lipschitz on Ω, and suppose that its image on Ω is an interval of length I > 0. Input dilation trades R
+against L, while output scaling changes L and I by the same factor. Hence the corresponding scale-invariant
+normalization is
+                                                        RL
+                                                           .
+                                                         I
+                                                           √         √
+    In our exact-computation result, we may take R = d, L = 2 d, and I = 1, so the exact-computation
+normalization scale is at most 2d. Thus, unlike the approximation hierarchy, this result simultaneously keeps
+the domain radius and Lipschitz constant polynomially bounded and the image interval non-degenerate. To
+the best of our knowledge, it is the first exponential lower bound on the width required by depth-3 ReLU net-
+works for exact computation in this regime. It remains open whether every CPWL function in d dimensions
+can be represented by a depth-3 ReLU network. Our result shows that, even if the answer is affirmative, this
+simple family has polynomial-width depth-4 representations while every depth-3 representation requires
+exponential first-layer width.
+    The remainder of the paper is organized as follows. After reviewing related work below, we introduce
+notation and conventions in Section 2. Section 3 proves the adjacent-depth L2 hierarchy, and Section 4
+proves the exact depth-4-versus-depth-3 separation. Section 5 summarizes our results and discusses direc-
+tions for future work. The formal proofs are deferred to the appendices.
+
+1.1   Related work
+Separating depth 3 from depth 2 The continuous L2 literature contains several depth-3-from-depth-2
+separations, distinguished by the geometry of the target, the approximation distribution and normalization,
+and whether the shallow network’s weights are restricted. Eldan and Shamir [6] proved the first exponential
+separation using an approximately radial, oscillatory target and a Fourier analysis argument. Their lower
+bound permits unrestricted weights, but uses a heavy-tailed distribution and, when expressed with con-
+stant Lipschitz and radius scales, an inverse-polynomial accuracy. Venturi et al. [29] extended this Fourier-
+analytic approach beyond radial functions to product targets and distributions, with analogous heavy-tail
+and normalization costs. Daniely [5] instead used spherical harmonics to obtain a compactly supported
+separation on a product of spheres, under an exponential upper bound on the shallow network’s weights
+and again with an inverse-polynomial accuracy after normalization. Reductions and refinements of these
+analytic methods yielded lower bounds for ball and ellipsoid indicators, other non-oscillatory radial targets,
+and targets that can be learned by deeper networks [22, 23, 21, 17]. Most recently, Safran et al. [25] ob-
+tained an exponential separation on the unit ball with constant Lipschitz and accuracy scales, also under
+an exponential bound on the shallow network’s weights. Complementarily, Hsu et al. [12] showed that,
+under the uniform distribution on [−1, 1]d , every O(1)-Lipschitz target admits a polynomial-width depth-2
+approximation at any fixed constant accuracy, underscoring the role of the approximation distribution. The
+
+                                                      4
+ℓ = 3 case of Theorem 3.1 instead permits unrestricted weights and retains compact support, at the cost of
+placing that support at exponential radius and concentrating the mass on a union of widely separated cubes.
+    Despite their different settings, the preceding exponential lower bounds are all tailored to ruling out a
+single hidden nonlinear layer, and none has yielded an exponential lower bound once the shallower network
+has depth greater than 2. Our proof instead introduces a new recursive mechanism that reduces hardness at
+one depth to a hard instance at the preceding depth. Because the same reduction can be applied once per
+layer, it yields separations at every pair of adjacent depths rather than only between depths 3 and 2.
+
+Deeper separations A second line of work obtains exponential benefits from depth by allowing the depth
+of the efficient network to vary with the problem parameters. The iterated-sawtooth construction of Tel-
+garsky [26] is computable by constant-width networks with Θ(k 3 ) layers, but cannot be approximated
+at substantially smaller depth O(k) without Ω(2k ) neurons. Related region-counting and approximation-
+theoretic arguments show that depth can efficiently generate the linear pieces needed to approximate smooth
+or piecewise-smooth functions. Concurrent work by Liang and Srikant [14], Yarotsky [30], and Safran and
+Shamir [22] established related depth advantages for smooth, piecewise-smooth, and other natural targets,
+contrasting fixed-depth networks with networks whose depth grows with the desired accuracy and obtaining
+improved dependence on the inverse accuracy. Further growing-depth separations and approximation-rate
+results were obtained by Arora et al. [1] and Yarotsky [31], respectively. These results provide strong sepa-
+rations between fixed-depth and growing-depth regimes, but not exponential separations between two fixed
+depths.
+    Most recently, Krishnan and Mossel [13] obtained an all-depth tradeoff for exact computation on
+Boolean inputs. Their product-map family is computed by a constant-width ReLU network of depth
+n + 1, whereas every depth-r, width-w network computing it exactly satisfies wr = Ω(2n ). Consequently,
+polynomial width is ruled out when r = o(n/ log n). This result is again fundamentally a growing-depth
+separation and, moreover, concerns exact, infinite-accuracy computation on a Boolean domain rather than
+average-case approximation under a continuous distribution. At the adjacent depth r = n, the displayed
+tradeoff gives only a constant lower bound on the width, and it does not separate any two fixed depths. Thus,
+neither this result nor the earlier constructions discussed here supply an exponential separation between
+fixed depths k ′ > k ≥ 3. Theorem 3.1 fills precisely this gap, and does so simultaneously for every adjacent
+pair.
+
+Exact computation Exact representation of CPWL functions removes the approximation parameter, but
+unconditional depth lower bounds remain elusive when the width and the real-valued weights are unre-
+stricted. Mukherjee and Basu [16] showed that the maximum of three coordinates cannot be represented at
+depth 2, while Hertrich et al. [11] initiated a systematic study of whether the classes of CPWL functions
+representable with unrestricted width strictly grow with depth. Subsequent lower bounds for the maximum
+and for general CPWL functions have required additional assumptions, such as integral or rational weights,
+monotonicity or input-convexity, or compatibility with a prescribed polyhedral fan [9, 2, 3, 8]. On the upper-
+bound side, the conjecture of Hertrich et al. [11] that the maximum of five coordinates is not representable
+at depth 3 was refuted by Bakaev et al. [4], who constructed such a representation and improved the general
+depth bound for the maximum of d coordinates.
+     Very recent work pushes this upper-bound frontier considerably further. Rueß et al. [19] proved that the
+maximum of d coordinates is representable with two hidden layers for every d ≤ 10 and, through the gen-
+eralized hinging-hyperplane representation, that every CPWL function on Rd has such a representation for
+d ≤ 9. Their structured representation of the maximum of ten coordinates also yields a recursive construc-
+
+
+                                                      5
+tion with fewer layers in arbitrary dimension. This progress makes an unrestricted incomputability result
+at depth 3 still more delicate and directly motivates a quantitative alternative: even if depth-3 networks
+can represent every CPWL function, how wide must they be? Theorem 4.1 answers this question expo-
+nentially for an explicit, benign target; and Theorem 3.1 implies an exponential separation for all adjacent
+depths under its exponential-radius normalization. These complement the superlinear exact hierarchy for the
+maximum in Safran [20], which applies through depths of order log log d but does not give an exponential
+separation. Grillo and Montúfar [7] established a generic depth hierarchy: for an open set of parameters,
+the realized functions admit no shallower representation with generic parameters, regardless of width. This
+does not exclude nongeneric shallower representations and therefore yields neither an unconditional depth
+separation nor a quantitative size lower bound. Our proof builds on a first-layer-collapse principle first used
+by Safran et al. [24] for approximation of the maximum and subsequently refined by Safran [20] for exact
+computation. Here we deploy the principle differently: local depth-2 hardness forces first-layer activation
+hyperplanes through exponentially many perturbed hard points, whose affine general position then yields
+the width lower bound.
+
+Relations to circuit complexity Several works transfer ideas between neural-network lower bounds and
+Boolean or communication complexity. An early circuit-simulation viewpoint appears in Martens et al.
+[15], who used simulations by better-understood circuit models to prove a weight-bounded exponential
+representational lower bound for restricted Boltzmann machines. For ReLU networks on Boolean inputs,
+Mukherjee and Basu [16] used random restrictions to obtain an almost-linear lower bound for unrestricted-
+weight networks consisting of one ReLU layer followed by a threshold output, and sign rank to obtain
+exponential lower bounds for deeper networks with a threshold output under restrictions on their bottom-
+layer weights. Vardi et al. [28] subsequently used Boolean and communication complexity to prove nearly
+linear size lower bounds for benign real-valued functions. In the other direction, Safran et al. [25] combined
+a depth-2 threshold-circuit lower bound with a worst-to-average-case reduction to obtain a continuous L2
+depth separation on the unit ball, under an exponential bound on the shallow network’s weights.
+    The results of Vardi and Shamir [27] explain why our separations do not immediately resolve open
+problems in circuit complexity. Under their boundedness and regularity assumptions, a strong separation
+between fixed ReLU depths can be converted into a new lower bound for threshold circuits. Although Kr-
+ishnan and Mossel [13] use Boolean inputs, their lower bound requires exact, infinite-precision real outputs;
+exponentially precise truncations are computable by polynomial-size TC0 circuits and therefore do not yield
+a threshold-circuit lower bound. Our results fall outside the circuit reductions for two different reasons: the
+approximation hierarchy uses a distribution supported at exponential radius, violating an assumption of the
+Vardi–Shamir reduction, while the exact separation requires exact equality with a continuous real-valued
+function. Thus, neither result implies the currently unknown lower bounds for threshold circuits.
+
+
+2    Preliminaries and Notation
+Conventions. For a positive integer n, let [n] := {1, . . . , n}. We denote vectors using bold-faced letters
+(e.g. x). We write ⟨x, z⟩ for the Euclidean inner product, ∥x∥p for the ℓp norm, and ∥x∥ for the Euclidean
+norm. Functions and maps are written in ordinary italic type, while matrices and linear operators are denoted
+by capital letters. The notation Lip(f ) denotes the Euclidean-to-Euclidean Lipschitz constant of f . For
+x = (x1 , . . . , xm ) ∈ Rm , we write
+                                          MAXm (x) := max xi .
+                                                           i∈[m]
+
+
+
+                                                      6
+We use continuous piecewise-linear (CPWL) for a continuous map that is affine on each cell of some finite
+polyhedral partition of its domain. A genuine activation hyperplane is the zero set of a non-constant affine
+preactivation. A finite subset of Rd is in affine general position if every subfamily of size at most d + 1 is
+affinely independent. Constants hidden by O(·) are universal unless stated otherwise.
+
+Neural Networks.     For t ∈ R, the rectified linear unit (ReLU) is
+                                              [t]+ := max{0, t},
+and is applied coordinatewise to vector arguments. We consider fully connected, feedforward networks. A
+depth-ℓ ReLU network N : Rn0 → Rnℓ has the form
+                                  N = Aℓ ◦ [·]+ ◦ Aℓ−1 ◦ · · · ◦ [·]+ ◦ A1 ,
+where each Aj (z) = Wj z + bj is affine. Thus depth counts affine maps, and a depth-2 network has one
+hidden ReLU layer. The hidden layer widths are n1 , . . . , nℓ−1 ; the width of the network is their maximum,
+and its size is their sum. Unless stated otherwise, all weights and biases are arbitrary real numbers.
+
+Approximation and exact computation. For a probability distribution D on Rd and scalar-valued func-
+tions f, N : Rd → R, their squared L2 (D) error is
+                                                    h               i
+                               ∥N − f ∥2L2 (D) := E (N (x) − f (x))2 .
+                                                   x∼D
+
+Throughout the paper, L2 error refers to this squared quantity. For a set Ω ⊆ Rd , a network N computes f
+exactly on Ω if N (x) = f (x) for every x ∈ Ω, and it computes f globally if this holds on all of Rd . In the
+exact-computation setting, we use computes, represents, and realizes interchangeably. For a measurable set
+A of positive finite volume, U(A) denotes the uniform probability distribution on A.
+
+
+3    Adjacent-Depth L2 Separation
+In this section, we introduce the main result of the paper. It establishes a depth hierarchy for all adja-
+cent depths: at every fixed depth, adding one ReLU layer can reduce the width required for constant-error
+approximation from exponential to polynomial in the dimension.
+Theorem 3.1. There is a universal constant C > 0 such that, for all d ≥ 2 and ℓ ≥ 3, there exist a globally
+defined CPWL function
+                                           fℓ,d : Rd → [0, 1]
+and an absolutely continuous probability distribution Dℓd such that the following hold.
+    1. The function fℓ,d is computed globally by a depth-ℓ ReLU network of width at most Cd4 .
+    2. If a depth-(ℓ − 1) ReLU network N has width at most
+                                                       2d
+                                                              ,
+                                                    2d(ℓ − 2)
+       then                                   h                   i 1
+                                          E    (N (x) − fℓ,d (x))2 ≥ .
+                                        x∼Dℓd                       24
+
+                                                      7
+     For universal constants c, C > 0, the construction given in Appendix C has the following additional
+properties. The target is globally 1-Lipschitz. The distribution is uniform on the union of 2d(ℓ−2) pairwise
+disjoint axis-aligned open cubes, each of side length 2 · 4ℓ−2 . Its support lies outside a Euclidean ball of
+                3                                                       3
+radius 2c(ℓ−2)d and is contained in a Euclidean ball of radius 2C(ℓ−2)d .
+     Previously, no exponential lower bound separated two fixed depths k ′ > k ≥ 3 for ReLU networks or,
+to the best of our knowledge, for networks using any other standard nonpolynomial activation. Theorem 3.1
+gives such a separation at every pair of adjacent depths, and therefore a complete adjacent-depth hierarchy
+for ReLU networks.
+
+Relation to the Vardi–Shamir barrier. For the adjacent depths covered by the reduction of Vardi and
+Shamir [27], the assumption violated by our construction is almost-bounded support. Their reduction re-
+quires that, for every inverse-polynomial δ, all but δ of the probability mass lie in a box [−R, R]d for some
+R = poly(d). By contrast, for every fixed ℓ ≥ 3, the entire support of Dℓd lies outside a Euclidean ball of
+radius
+                                                           3
+                                                  2c(ℓ−2)d .
+Consequently, for sufficiently large d, no box of polynomial radius contains any mass, and their reduction
+to threshold-circuit lower bounds does not apply. This is the precise reason our hierarchy avoids the Vardi–
+Shamir barrier. For completeness, the other relevant conditions are satisfied: the target is [0, 1]-valued, and,
+for almost every fixed value of all but one coordinate, the conditional density of the remaining coordinate is
+at most 12 .
+
+3.1   Construction and proof technique
+At a high level, our proof idea is based on recursively creating 2d exact translated-and-rescaled copies of
+the preceding hard function. A polynomial-width perturbation places their centers in quantitative affine
+general position, and the copies are made sufficiently small that every affine hyperplane intersects at most
+d of them. Consequently, the first hidden layer of a narrow network intersects only a small fraction of the
+copies. On every remaining copy, that layer has a fixed activation pattern and can be merged with the next
+layer, exposing the preceding hard instance. Iterating this argument yields the hierarchy. After the recursion,
+a final input rescaling expands all the copies to normalize the target’s Lipschitz constant; this expansion is
+what moves the resulting approximation domain to exponential radius.
+     The proof has three main steps.
+
+Step 1: Perturbing the Boolean hypercube. Lemma A.1, which will also be used for the exact separation,
+constructs a uniformly small CPWL displacement ∆ and perturbed vertices
+                                                                          d
+                                                                     1 1
+                                   q s = s + ∆(s),         s∈       − ,         .
+                                                                     2 2
+
+The map ∆ is computed by a single-hidden-layer ReLU network of width O(d4 ), while the affine deter-
+                                                                         3
+minant of every d + 1 perturbed vertices has magnitude at least 2−O(d ) . This quantitative form of affine
+general position allows us to place sufficiently small cubes around the vertices so that no affine hyperplane
+intersects more than d of them. The geometric role of this perturbation is illustrated in Figure 1.
+
+
+
+
+                                                       8
+                                        H+
+         H−                                                                                          H
+
+
+
+
+                                                                                                           missed
+                                                                                                         fourth cube
+
+
+
+
+    (a) Each of H− and H+ meets 4 = 23−1 cubes.           (b) The closest plane meeting the three blue cubes still
+                                                          misses the fourth.
+
+Figure 1: The role of the quantitative perturbation in dimension 3. The Boolean cube is rescaled to {−1, 1}3 ,
+the vertex neighborhoods are enlarged, and the perturbation is exaggerated so that it remains visible at this
+scale. Before perturbation, each coordinate hyperplane H± intersects 23−1 = 4 cubes. In the displayed
+perturbed configuration, no affine plane can intersect more than d = 3 cubes. The blue plane attains this
+bound, the missed fourth cube is red, and cubes irrelevant to this plane are gray. Best viewed in color.
+
+
+Step 2: Copying a given hard function. Proposition C.2 turns this protected collection of cubes into a
+                     3
+copier. For r = 2−O(d ) , it constructs a depth-2, width-O(d4 ) map S satisfying
+
+                                                          1 1 d
+                                                             
+                      S(q s + ru) = u        for all s ∈ − ,    and u ∈ [−1, 1]d .
+                                                          2 2
+
+Consequently, precomposing any function h with S creates 2d exact translated-and-rescaled copies of h, one
+inside each protected cube. Indeed,
+                                                                          d
+                                                                     1 1
+                 (h ◦ S)(q s + ru) = h(u)         for all s ∈       − ,         and u ∈ [−1, 1]d .
+                                                                     2 2
+
+As u ranges over [−1, 1]d , the point q s + ru ranges over the protected cube centered at q s , while S
+recovers the original coordinate u exactly. Thus h ◦ S restricts to an exact translated-and-rescaled copy
+of h on every protected cube. Figure 2 illustrates this identity in dimension 2 for the affine base function
+h0 (u) = [1 − |u1 |]+ used in the induction.
+
+
+
+
+                                                      9
+            1                                                             1
+
+
+
+
+                                                                h0 ◦ S
+  h0 (u)
+
+
+
+
+           0.5                                                           0.5
+
+
+
+           0                                                             0
+           −1                                        −1                  −1                                         −1
+                      0                     0                                       0                     0
+                              1     1                                                       1 1
+                 u2                             u1                             x2                             x1
+
+  (a) The affine base function h0 (u) = [1 − |u1 |]+ .         (b) Four perturbed copies of h0 , joined by affine pieces.
+
+Figure 2: The one-layer copier in dimension 2. The colored patches in Subfigure (b) are the four protected
+squares q s + r[−1, 1]2 . On each square, the copier identity makes the surface an exact translated-and-
+rescaled copy of Subfigure (a); the grayscale surface shows the piecewise-affine interpolation outside them.
+The four centers have been perturbed from the grid {− 21 , 21 }2 . The copy size and the perturbation are
+exaggerated for visibility. Best viewed in color.
+
+    When h is computed by a ReLU network, the affine output of S merges into the first affine map com-
+puting h. Thus the composition h ◦ S adds exactly one hidden layer and only O(d4 ) width.
+
+Step 3: Iterating the separation. The induction begins with the base function h0 (x) = 1 − |x1 | on
+(−1, 1)d , shown in Figure 2a. Lemma C.1 shows that its squared error under the uniform distribution is at
+least 1/12 for every affine approximant. After j applications of the copier, the target and its distribution
+consist of equally weighted copies of the preceding hard instance. Figure 3 gives a bird’s-eye view of this
+recursion in dimension 2. If a depth-(j + 1) network has width w, its first-layer activation hyperplanes
+intersect at most wd of the 2d outer copies. On every missed copy, the first layer has a fixed activation
+pattern and can be merged into the next layer. Applying the induction hypothesis on those copies yields the
+lower bound
+                                                      wd j
+                                                         
+                                              1
+                                                  1− d        .
+                                             12        2
+Taking j = ℓ − 2 and the width from Theorem 3.1 makes this quantity at least 1/24. A final input dilation
+makes the target globally 1-Lipschitz without changing its network complexity or squared approximation
+error; this dilation is also what moves the support to exponential radius.
+
+
+
+
+                                                          10
+                                          ◦S                                ◦S
+
+
+
+
+            (a) supp(D02 ): 1 square            (b) supp(D12 ): 4 squares          (c) supp(D22 ): 16 squares
+
+Figure 3: Iterating the copier in dimension 2. Red marks the support, on which the distribution is uniform.
+Each application replaces every square by four shrunken, perturbed copies, so one square becomes four and
+then sixteen. The dashed boxes in Subfigure (c) show the parents from Subfigure (b). Sizes and perturbations
+are exaggerated for visibility. Best viewed in color.
+
+
+4    An Exact Depth-4-versus-Depth-3 Separation
+The hierarchy theorem already implies exact separations, but its 1-Lipschitz normalization places the cor-
+responding hard distribution at exponential radius. We now show that, at adjacent depths 4 and 3, an exact
+separation is possible while keeping the computation domain, Lipschitz constant, and image scale polyno-
+mially controlled.
+
+Theorem 4.1. There is a universal constant C > 0 such that, for all d ≥ 3, there exists a globally defined
+CPWL function
+                                           gd : Rd → [0, 1]
+such that                                          √
+                                       Lip(gd ) ≤ 2 d,       gd ([−1, 1]d ) = [0, 1],
+and the following hold.
+
+    1. The function gd is computed globally by a depth-4 ReLU network whose hidden-layer widths are at
+       most Cd4 , 2d, and 1.
+
+    2. Every depth-3 ReLU network agreeing with gd throughout (−1, 1)d has first hidden-layer width at
+       least
+                                                  2d−1
+                                                       .
+                                                    d
+     Recall from the introduction that, when the computation domain lies in a ball of radius R, the target
+is L-Lipschitz there, and its image is an interval of length I > 0, we use the scale-invariant normalization
+RL/I. For the construction below, the computation
+                                                √        domain is the unit√hypercube [−1, 1]d . The cube is
+contained in the Euclidean ball of radius R = d, the target is at most 2 d-Lipschitz, and its image is the
+full interval [0, 1]. Thus I = 1 and              √       √
+                                           RL        d (2 d)
+                                               ≤              = 2d,
+                                            I           1
+so this normalization is linear in d.
+
+
+
+
+                                                           11
+    To the best of our knowledge, this is the first exponential lower bound for exact computation in a regime
+where the domain radius and Lipschitz constant are polynomially bounded while the target image has con-
+stant length.1 The significance of this result is that, even if every CPWL function in d dimensions can
+be represented by a depth-3 ReLU network, this simple, benign family admits polynomial-width depth-4
+representations, whereas every depth-3 representation requires exponential first-layer width.
+
+4.1    Construction and proof technique
+The lower-bound mechanism has two ingredients. First, suppose a target has a point at which its restriction
+to every neighborhood cannot be computed by a depth-2 network. If a depth-3 network computes the target,
+then a first-layer activation hyperplane must pass through that point. Indeed, if no such hyperplane passes
+through it, every first-layer ReLU has a fixed activation state on some neighborhood of the point. The first
+layer is therefore affine on that neighborhood and can be absorbed into the next layer, yielding the forbidden
+local depth-2 representation. We refer to such a point as a depth-2 hard point.
+     Second, we construct a target with exponentially many depth-2 hard points in affine general position.
+A hyperplane can contain at most d points in affine general position in Rd . Consequently, covering all the
+hard points requires exponentially many first-layer activation hyperplanes, and hence exponentially many
+first-layer neurons.
+     The construction begins with the simple ℓ1 function
+
+                                                  td (x) := [1 − ∥x∥1 ]+ ,
+
+which has 2d−1 depth-2 hard points on its boundary. We then construct a CPWL map U : Rd → Rd that
+is uniformly close to the identity, moves these points into affine general position, and preserves the local
+function around every one of them. The separating target is
+
+                                                        gd := td ◦ U.
+
+Figure 4 illustrates the mechanism in dimension 2. The perturbation moves the hard points, while acting as
+a translation on a neighborhood of each one. Thus the target’s behavior around every transported hard point
+agrees, after a translation of coordinates, with td on a neighborhood of the corresponding original depth-2
+hard point.
+   1
+     One can normalize the exponentially growing Lipschitz constant in Telgarsky’s iterated sawtooth construction by dilating its
+input, without affecting exact representability. The required dilation, however, makes the domain radius exponential in the depth
+parameter, just as the final dilation in Section 3 moves our approximation distribution to exponential radius. Scaling the output
+instead
+  √ keeps the domain fixed but √     shrinks the image interval exponentially. Theorem 4.1 simultaneously keeps the domain radius
+at d, the Lipschitz constant at O( d), and the image equal to [0, 1].
+
+
+
+
+                                                              12
+              1                                                               1
+
+
+
+
+                                                                    t2 ◦ U
+    t2 (x)
+
+
+
+
+             0.5                                                             0.5
+                                          p−                                                                  p−
+
+              0                                                               0
+                   −1        p+                      −1                            −1            p+                         −1
+                             0              0                                                0                     0
+                                  1   1                                                               1   1
+                        x2                      x1                                      x2                             x1
+
+(a) The base function t2 . Red curves outline its non-            (b) The perturbed target t2 ◦U , with its transported non-
+differentiability set, and its two depth-2 hard points are        differentiability set outlined. The transported p+ and
+marked in red.                                                    p− are both marked in red.
+
+Figure 4: A two-dimensional illustration of the exact construction. Subfigure (a) shows the base function
+with both hard points marked. The red curves outline its non-differentiability set: the boundary |x1 |+|x2 | =
+1 together with the two interior ridges. Subfigure (b) traces the transported boundary and interior ridges in
+red. Around each marked point, the perturbation acts as a translation, so the function’s local behavior is
+unchanged. Any additional minor creases created by the illustrative CPWL interpolation for U are omitted
+from Subfigure (b). The displacement is enlarged for visibility. Best viewed in color.
+
+    The figure isolates the role of the perturbation: it moves each hard point while leaving the function
+unchanged up to translation on a full neighborhood of that point. In dimension d, the 2d−1 transported hard
+points are in affine general position. The first ingredient above forces a first-layer hyperplane through every
+one of them, while the second allows each hyperplane to cover at most d of them. This gives the lower
+bound 2d−1 /d. For the upper bound, one hidden layer computes U , after which two further hidden layers
+compute td ; together these form the claimed depth-4 network.
+
+
+5            Conclusions and Future Work
+We established a complete exponential hierarchy for ReLU networks across all adjacent depths. For every
+ℓ ≥ 3, our construction gives a globally bounded and Lipschitz target that is computed by a polynomial-
+width depth-ℓ network, but whose constant-error approximation at depth ℓ − 1 requires exponential width,
+even when the shallower network has unrestricted weights. We also obtained a complementary exact-
+computation separation between depths 4 and 3 on the unit hypercube, while keeping the target globally
+bounded and its Lipschitz constant polynomially controlled.
+    At the level of architectural resources, the approximation hierarchy has the strongest form one could
+seek: the compared depths are adjacent, and every additional layer yields an exponential reduction in width.
+The main remaining opportunity is therefore to strengthen the regularity of the separation rather than its
+depth or width dependence. In our construction, the approximation distribution is compactly supported and
+otherwise regular, but its support lies at exponential radius. This places the result outside the polynomial-
+radius, or almost-bounded-support, regime underlying the barrier of Vardi and Shamir [27]. Whether a
+comparable hierarchy can be established within that regime remains a major open problem.
+    A particularly natural first step is an exponential L2 separation of depth 4 from depth 3 satisfying the
+Vardi–Shamir assumptions. To the best of our knowledge, such a result would not by itself imply any ma-
+jor new threshold-circuit lower bound, unlike analogous separations in which the shallower ReLU network
+
+                                                             13
+has depth at least 4. The depth-4-from-depth-3 case may therefore be the most plausible setting in which
+to determine whether the exponential support radius used here is essential or can be replaced by a poly-
+nomially bounded, or even constant-radius, approximation domain. Resolving this case would provide the
+first exponential fixed-depth separation beyond depth 3 versus depth 2 within the full regularity regime,
+and would clarify how far an adjacent-depth hierarchy can be pushed before the known circuit-complexity
+barriers become unavoidable.
+
+Acknowledgments
+This research is supported by Israel Science Foundation Grant 1753/25.
+
+
+References
+ [1] Raman Arora, Amitabh Basu, Poorya Mianjy, and Anirbit Mukherjee. Understanding deep neural
+     networks with rectified linear units. In International Conference on Learning Representations, 2018.
+     URL https://openreview.net/forum?id=B1J_rgWRW.
+
+ [2] Gennadiy Averkov, Christopher Hojny, and Maximilian Merkert. On the expressiveness of rational
+     ReLU neural networks with bounded depth. In International Conference on Learning Representa-
+     tions, 2025. URL https://proceedings.iclr.cc/paper_files/paper/2025/hash/
+     a961dea42c23c3c0d01b79918701fb6e-Abstract-Conference.html.
+
+ [3] Egor Bakaev, Florestan Brunck, Christoph Hertrich, Daniel Reichman, and Amir Yehudayoff. On the
+     depth of monotone ReLU neural networks and ICNNs, 2025. URL https://arxiv.org/abs/
+     2505.06169.
+
+ [4] Egor Bakaev, Florestan Brunck, Christoph Hertrich, Jack Stade, and Amir Yehudayoff. Better neural
+     network expressivity: Subdividing the simplex. In Proceedings of the 58th Annual ACM Symposium
+     on Theory of Computing, pages 500–507. Association for Computing Machinery, 2026. doi: 10.1145/
+     3798129.3800768. URL https://doi.org/10.1145/3798129.3800768.
+
+ [5] Amit Daniely. Depth separation for neural networks. In Proceedings of the 30th Annual Conference on
+     Learning Theory, volume 65 of Proceedings of Machine Learning Research, pages 690–696. PMLR,
+     2017. URL https://proceedings.mlr.press/v65/daniely17a.html.
+
+ [6] Ronen Eldan and Ohad Shamir. The power of depth for feedforward neural networks. In Proceedings
+     of the 29th Annual Conference on Learning Theory, volume 49 of Proceedings of Machine Learn-
+     ing Research, pages 907–940. PMLR, 2016. URL https://proceedings.mlr.press/v49/
+     eldan16.html.
+
+ [7] Moritz Grillo and Guido Montúfar. Most ReLU networks admit identifiable parameters, 2026. URL
+     https://arxiv.org/abs/2605.03601.
+
+ [8] Moritz Grillo, Christoph Hertrich, and Georg Loho.      Depth-bounds for neural net-
+     works via the braid arrangement.    In Advances in Neural Information Processing Sys-
+     tems, volume 38, pages 141727–141745, 2025.       doi: 10.52202/085713-4257.     URL
+     https://proceedings.neurips.cc/paper_files/paper/2025/hash/
+     b98d5883da07b3b3b8afd3fd654dc57a-Abstract-Conference.html.
+
+                                                   14
+ [9] Christian Haase, Christoph Hertrich, and Georg Loho. Lower bounds on the depth of integral ReLU
+     neural networks via lattice polytopes. In International Conference on Learning Representations, 2023.
+     URL https://openreview.net/forum?id=2mvALOAWaxY.
+
+[10] András Hajnal, Wolfgang Maass, Pavel Pudlák, Márió Szegedy, and György Turán. Threshold circuits
+     of bounded depth. Journal of Computer and System Sciences, 46(2):129–154, 1993. doi: 10.1016/
+     0022-0000(93)90001-D. URL https://doi.org/10.1016/0022-0000(93)90001-D.
+
+[11] Christoph Hertrich, Amitabh Basu, Marco Di Summa, and Martin Skutella. Towards lower bounds
+     on the depth of ReLU neural networks. In Advances in Neural Information Processing Sys-
+     tems, volume 34, 2021. URL https://proceedings.neurips.cc/paper/2021/hash/
+     1b9812b99fe2672af746cefda86be5f9-Abstract.html.
+
+[12] Daniel Hsu, Clayton H. Sanford, Rocco A. Servedio, and Emmanouil Vasileios Vlatakis-
+     Gkaragkounis. On the approximation power of two-layer networks of random ReLUs. In Proceedings
+     of the 34th Annual Conference on Learning Theory, volume 134 of Proceedings of Machine Learning
+     Research, pages 2423–2461. PMLR, 2021. URL https://proceedings.mlr.press/v134/
+     hsu21a.html.
+
+[13] Neil Krishnan and Elchanan Mossel. Depth lower bounds for ReLU networks with binary inputs, 2026.
+     URL https://arxiv.org/abs/2606.18540.
+
+[14] Shiyu Liang and R. Srikant. Why deep neural networks for function approximation? In Interna-
+     tional Conference on Learning Representations, 2017. URL https://arxiv.org/abs/1610.
+     04161.
+
+[15] James Martens, Arkadev Chattopadhya, Toniann Pitassi, and Richard Zemel.  On the rep-
+     resentational efficiency of restricted Boltzmann machines.  In Advances in Neural In-
+     formation Processing Systems, volume 26, pages 2877–2885. Curran Associates, Inc.,
+     2013.           URL     https://papers.nips.cc/paper_files/paper/2013/hash/
+     7bb060764a818184ebb1cc0d43d382aa-Abstract.html.
+
+[16] Anirbit Mukherjee and Amitabh Basu. Lower bounds over boolean inputs for deep neural networks
+     with ReLU gates, 2017. URL https://arxiv.org/abs/1711.03073.
+
+[17] Eshaan Nichani, Alex Damian, and Jason D. Lee.          Provable guarantees for nonlin-
+     ear feature learning in three-layer neural networks.    In Advances in Neural Infor-
+     mation Processing Systems, volume 36, 2023.        doi: 10.52202/075280-0477.     URL
+     https://proceedings.neurips.cc/paper_files/paper/2023/hash/
+     236b6a814a1d2c0ff504ca7bf380f7ff-Abstract-Conference.html.
+
+[18] Alexander A. Razborov and Steven Rudich. Natural proofs. Journal of Computer and System Sciences,
+     55(1):24–35, 1997. doi: 10.1006/jcss.1997.1494. URL https://doi.org/10.1006/jcss.
+     1997.1494.
+
+[19] Kilian Rueß, Gennadiy Averkov, Florestan Brunck, Moritz Grillo, Christoph Hertrich, Georg Loho,
+     Jack Stade, Moritz Stargalla, Matthew Sun, and Martin Winter. Shallower ReLU network representa-
+     tions via exact linear algebra, 2026. URL https://arxiv.org/abs/2607.21651.
+
+
+
+                                                    15
+[20] Itay Safran. A depth hierarchy for computing the maximum in ReLU networks via extremal graph
+     theory. In Proceedings of the 39th Annual Conference on Learning Theory, volume 336 of Proceedings
+     of Machine Learning Research, pages 5721–5742. PMLR, 2026. URL https://proceedings.
+     mlr.press/v336/safran26a.html.
+
+[21] Itay Safran and Jason D. Lee. Optimization-based separations for neural networks. In Proceedings
+     of the 35th Annual Conference on Learning Theory, volume 178 of Proceedings of Machine Learn-
+     ing Research, pages 3–64. PMLR, 2022. URL https://proceedings.mlr.press/v178/
+     safran22a.html.
+
+[22] Itay Safran and Ohad Shamir. Depth-width tradeoffs in approximating natural functions with neural
+     networks. In Proceedings of the 34th International Conference on Machine Learning, volume 70
+     of Proceedings of Machine Learning Research, pages 2979–2987. PMLR, 2017. URL https://
+     proceedings.mlr.press/v70/safran17a.html.
+
+[23] Itay Safran, Ronen Eldan, and Ohad Shamir. Depth separations in neural networks: What is ac-
+     tually being separated? In Proceedings of the 32nd Annual Conference on Learning Theory, vol-
+     ume 99 of Proceedings of Machine Learning Research, pages 2664–2666. PMLR, 2019. URL
+     https://proceedings.mlr.press/v99/safran19a.html. Full version available as
+     arXiv:1904.06984.
+
+[24] Itay Safran, Daniel Reichman, and Paul Valiant. How many neurons does it take to approximate the
+     maximum? In Proceedings of the 2024 Annual ACM–SIAM Symposium on Discrete Algorithms, pages
+     3156–3183. SIAM, 2024. doi: 10.1137/1.9781611977912.113. URL https://doi.org/10.
+     1137/1.9781611977912.113.
+
+[25] Itay Safran, Daniel Reichman, and Paul Valiant. Depth separations in neural networks: Separating
+     the dimension from the accuracy. In Proceedings of the 38th Annual Conference on Learning Theory,
+     volume 291 of Proceedings of Machine Learning Research, pages 5108–5142. PMLR, 2025. URL
+     https://proceedings.mlr.press/v291/safran25a.html.
+
+[26] Matus Telgarsky. Benefits of depth in neural networks. In Proceedings of the 29th Annual Conference
+     on Learning Theory, volume 49 of Proceedings of Machine Learning Research, pages 1517–1539.
+     PMLR, 2016. URL https://proceedings.mlr.press/v49/telgarsky16.html.
+
+[27] Gal Vardi and Ohad Shamir. Neural networks with small weights and depth-separation barriers.
+     In Advances in Neural Information Processing Systems, volume 33, pages 19433–19442. Curran
+     Associates, Inc., 2020. URL https://proceedings.neurips.cc/paper/2020/hash/
+     e1fe6165cad3f7f3f57d409f78e4415f-Abstract.html.
+
+[28] Gal Vardi, Daniel Reichman, Toniann Pitassi, and Ohad Shamir. Size and depth separation in ap-
+     proximating benign functions with neural networks. In Proceedings of the 34th Annual Conference
+     on Learning Theory, volume 134 of Proceedings of Machine Learning Research, pages 4195–4223.
+     PMLR, 2021. URL https://proceedings.mlr.press/v134/vardi21a.html.
+
+[29] Luca Venturi, Samy Jelassi, Tristan Ozuch, and Joan Bruna. Depth separation beyond radial functions.
+     Journal of Machine Learning Research, 23(122):1–56, 2022. URL https://www.jmlr.org/
+     papers/v23/21-1109.html.
+
+
+                                                   16
+[30] Dmitry Yarotsky. Error bounds for approximations with deep ReLU networks. Neural Networks,
+     94:103–114, 2017. doi: 10.1016/j.neunet.2017.07.002. URL https://doi.org/10.1016/j.
+     neunet.2017.07.002.
+
+[31] Dmitry Yarotsky. Optimal approximation of continuous functions by very deep ReLU networks. In
+     Proceedings of the 31st Annual Conference on Learning Theory, volume 75 of Proceedings of Machine
+     Learning Research, pages 639–649. PMLR, 2018. URL https://proceedings.mlr.press/
+     v75/yarotsky18a.html.
+
+
+
+A     Perturbing hypercube vertices into general position
+                                                         d
+We index the Boolean-cube vertices directly by − 12 , 12 ; the sign of coordinate si is therefore 2si . The
+                                              
+
+following lemma produces a small, polynomial-width displacement field whose perturbed sign vertices have
+a quantitative affine-determinant margin.
+Lemma A.1 (Quantitatively independent perturbations of hypercube vertices). There is a universal constant
+                                                                                                   d
+C > 0 with the following property. Let d ≥ 2. There are points q s ∈ Rd , indexed by s ∈ − 12 , 12 , and a
+                                                                                        
+
+globally defined CPWL map ∆ : Rd → Rd such that:
+    1. ∆ is computed by a vector-valued depth-2 ReLU network of width at most Cd4 , and
+
+                                                    q s := s + ∆(s);
+
+    2. globally,
+                                                           1                      1
+                                      sup ∥∆(x)∥∞ ≤           ,      Lip(∆) ≤        ;
+                                     x∈Rd                 64d                     16
+
+    3. the displacement is locally constant at every perturbed vertex:
+                                                                                     1
+                                   ∆(q s + u) = ∆(s)          whenever ∥u∥∞ ≤          ;
+                                                                                    8d
+                                                                   d
+   4. for all d + 1 distinct indices s0 , . . . , sd ∈ − 12 , 12 , let Q(s0 , . . . , sd ) ∈ Rd×d be the matrix whose
+                                                        
+
+      ith column is q si − q s0 . Then
+                                                                               3
+                                               |det Q(s0 , . . . , sd )| ≥ 2−Cd .
+                         n                           o
+                                                   d
+In particular, the points q s : s ∈ − 21 , 21
+                                     
+                                                       are in affine general position.
+
+Proof. We first construct a polynomial-size collection of sign vectors such that every d + 1 of them are
+                                                    d
+linearly independent. For A ⊆ [d] and s ∈ − 12 , 12 , define
+                                          
+
+                                                      Y
+                                           χA (s) :=     (2si ).
+                                                           i∈A
+
+                                                                                                    d
+Independently sample each of A1 , . . . , AM uniformly from the power set of [d]. For s ∈ − 12 , 21 , define
+                                                                                         
+
+
+                                  z s := (χA1 (s), . . . , χAM (s)) ∈ {−1, 1}M .
+
+                                                         17
+Fix v ∈ {−1,Q   1}d \ {1} before drawing the subsets, and choose a coordinate i0 with vi0 = −1. For each j,
+set Yj (v) := i∈Aj vi . Conditional on all membership choices for Aj except whether i0 ∈ Aj , including i0
+flips the sign of Yj (v). A uniformly random subset includes i0 with probability 21 , independently of all other
+membership choices. Thus Yj (v) is an unbiased sign, and the variables Y1 (v), . . . , YM (v) are independent
+because the subsets are drawn independently.   For each fixed  v, Hoeffding’s inequality bounds each of the
+                                           M
+upper- and lower-tail events by exp − 8d2 . There are 2 − 1 admissible vectors v ∈ {−1, 1}d \ {1}. A
+                                                            d
+
+union bound over both tails and all such vectors therefore gives
+                                                                 
+                                                 M                                        
+                                               1 X              1      d+1            M
+                         P        max              Y j (v)  >      ≤ 2     exp    −         .
+                    A1 ,...,AM v∈{−1,1}d \{1} M                2d                      8d2
+                                                   j=1
+
+
+Take M := ⌈C1 d3 ⌉ for a sufficiently large universal constant C1 . The displayed probability bound is then
+strictly below one. By the probabilistic method, there exists a realization of A1 , . . . , AM such that
+
+                                                              M
+                                                    1 X           1
+                                         max            Yj (v) ≤    .                                       (1)
+                                     v∈{−1,1}d \{1} M            2d
+                                                              j=1
+
+                                        d
+For any two distinct s, s′ ∈ − 12 , 21 , define v ∈ {−1, 1}d by vi := 4si s′i . Then v ̸= 1 since s, s′ are
+                              
+
+distinct, and                              Y         Y           Y
+                        χAj (s)χAj (s′ ) =    (2si )   (2s′i ) =    4si s′i = Yj (v)
+                                            i∈Aj            i∈Aj             i∈Aj
+
+for all j. Therefore,
+                                                                       M
+                                        1                 1 X
+                                          ⟨z s , z s′ ⟩ =     Yj (v).
+                                        M                 M
+                                                                       j=1
+                                                                   1
+Thus, by Equation (1), distinct normalized vectors M − 2 z s have inner product of magnitude at most 2d
+                                                                                                      1
+                                                                                                        .
+The Gram matrix of any k ≤ d + 1 of them is strictly diagonally dominant, since
+
+                                                k−1   d   1
+                                                    ≤    = .
+                                                 2d   2d  2
+Hence every d + 1 distinct vectors among the z s are linearly independent.
+    We next realize these signs by a CPWL map that is constant near every sign vertex. Choose a continuous
+piecewise-linear function g : R → [−1, 1] which equals (−1)j on
+
+                                      [j − 14 , j + 14 ],          j = 0, . . . , d,
+
+interpolates linearly between consecutive plateaus, and is constant on its two unbounded tails.
+    The function g has exactly 2d breakpoints and can therefore be represented by an affine combination of
+exactly 2d scalar ReLUs. For A ⊆ [d], consider the function
+
+                                                 X 1           !
+                                        x 7→ g             − xi     .
+                                                        2
+                                                      i∈A
+
+
+
+
+                                                            18
+                                        g(t)
+                                       1
+                                                                                                       t
+                                           0            1              2                 3
+                                    −1
+
+Figure 5: The plateau function g, shown for d = 3. Around each integer j ∈ {0, . . . , d}, it is constant and
+equal to (−1)j . Hence a small perturbation of the input to g preserves the parity encoded at that integer; this
+is what makes the feature map below locally constant around every Boolean-cube vertex.
+
+                     d
+At x = s ∈ − 12 , 12 , the sum in the argument is i∈A 12 − si , the number of negative coordinates of s
+                                                P              
+
+in A. Consequently,
+
+                         X 1         !
+                                                       1
+                                          = (−1) i∈A ( 2 −si ) =
+                                                 P               Y
+                      g          − si                              (2si ) = χA (s).
+                               2
+                            i∈A                                                        i∈A
+
+Define the vector-valued map ze : Rd → RM directly from these plateau functions by
+                                                                                     M
+                                                             X 1                  
+                                       ze(x) := g                        − xi                  .
+                                                                       2
+                                                             i∈Aj
+                                                                                             j=1
+
+               1
+If ∥x − s∥∞ < 4d , then both points fall on the same plateau:
+
+                             X 1                     X 1                       X                 1
+                                       − xi        −              − si         ≤         |xi − si | < .
+                                   2                          2                                      4
+                             i∈A                       i∈A                         i∈A
+
+                     1
+Thus, if ∥x − s∥∞ < 4d , we have
+                                                         ze(x) = z s .                                      (2)
+Each coordinate of ze is an affine combination of exactly 2d scalar ReLUs. Thus all M coordinates are
+computed by one depth-2 vector-valued ReLU network with at most 2dM = O(dM ) = O(d4 ) hidden         √
+neurons and an affine output map. Every coordinate is bounded by one. Moreover, each coordinate is 4 d-
+     √ because g has slopes of magnitude at most 4 and the affine function inside it has gradient norm at
+Lipschitz,
+most d. Summing the squared coordinatewise bounds gives
+                                                       √
+                                           Lip(ez ) ≤ 4 M d.                                          (3)
+
+      At this point, ze maps the d-dimensional input into RM and is locally constant around every s ∈
+              d
+    − 12 , 21 , with value z s . It remains to map these feature vectors back to Rd by a fixed linear map whose
+
+
+norm is small and for which the perturbed points become quantitatively affinely independent.
+   Fix one ordering of each (d + 1)-subset, write it as I = (s0 , . . . , sd ). Define XI ∈ Rd×d to be the
+matrix whose ith column is si − s0 , and define ZI ∈ RM ×d to be the matrix whose ith column is z si − z s0 .
+The linear independence just proved implies that ZI has rank d. Choose a left inverse LI ∈ Rd×M , so that
+
+                                                         LI ZI = Id .                                       (4)
+
+                                                                  19
+    A well-chosen matrix B ∈ Rd×M maps the plateau features back to Rd and produces the candidate
+perturbations Bz s . We will choose one small rational matrix B below. For a fixed tuple I, the difference
+matrix of the resulting points s + Bz s is XI + BZI . We regard the dM entries of B as scalar variables.
+For i, j ∈ [d], the corresponding entry of this difference matrix is
+                                                              M
+                                                              X
+                                 (XI + BZI )ij = (XI )ij +          Bik (ZI )kj ,
+                                                              k=1
+
+which is an affine polynomial in those variables. Accordingly, define
+
+                                        DI (B) := det(XI + BZI ).
+
+By the determinant expansion, DI is a polynomial in the entries of B. Its total degree is at most d, because
+every term in the determinant expansion is a product of d entries of XI + BZI . This polynomial is not
+identically zero. Indeed, substituting B = (Id − XI )LI and using Equation (4) gives
+
+                                 XI + BZI = XI + (Id − XI )LI ZI = Id ,
+
+and hence DI ((Id − XI )LI ) = 1.
+    Our goal is to choose one rational matrix B for which DI (B) ̸= 0 simultaneously for all (d + 1)-tuples
+I. This makes every d + 1 of the perturbed points s + Bz s affinely independent. Two additional quantitative
+requirements are important. The entries of B must be small enough that the resulting displacement field
+satisfies the uniform and Lipschitz bounds asserted in the lemma, while their common denominator must
+be controlled so that a non-zero determinant cannot be arbitrarily small. The latter will yield the inverse-
+exponential determinant margin in the lemma.
+    We enforce all the non-vanishing requirements simultaneously by considering the polynomial
+                                                     Y
+                                           Π(B) :=      DI (B).                                          (5)
+                                                       I
+
+We then find a rational grid point where Π is non-zero; the range of the grid controls the size of B, while its
+common denominator gives the quantitative determinant lower bound.
+                2d
+                   
+   There are d+1     possible choices of I. Each determinant DI is a non-zero polynomial of total degree at
+most d. Therefore, Π is a non-zero polynomial of total degree at most
+                                 d 
+                                    2
+                               d          ≤ d(2d )d+1 < 2d 2d(d+1) = 2d(d+2) .
+                                  d+1
+
+Here the first inequality bounds the number of (d + 1)-subsets by the number of ordered (d + 1)-tuples, and
+the strict inequality uses d < 2d . The polynomial Π is non-zero because a finite product of non-zero real
+polynomials is itself non-zero.
+    Let
+                                              L := ⌈64dM ⌉.                                              (6)
+
+
+
+
+                                                      20
+ A non-zero polynomial of total degree at most D cannot vanish on a Cartesian grid S n when |S| > D. We
+prove this by induction on n. For n = 1, this is the elementary univariate root bound: a non-zero polynomial
+of degree at most D has at most D distinct roots. For n > 1, write the polynomial uniquely as
+                                                          r
+                                                          X
+                                 F (x1 , . . . , xn ) =         ck (x1 , . . . , xn−1 )xkn .
+                                                          k=0
+
+Because F is not the zero polynomial, its coefficient polynomials c0 , . . . , cr cannot all be zero. Choose
+an index k for which ck is non-zero. The polynomial ck need not depend on every one of the first n − 1
+variables; it is simply a polynomial in x1 , . . . , xn−1 , and its total degree is at most D. By the induction
+hypothesis, choose (x1 , . . . , xn−1 ) ∈ S n−1 at which ck is non-zero. After this substitution, the monomial
+xkn has a non-zero coefficient, so xn 7→ F (x1 , . . . , xn−1 , xn ) is a non-zero univariate polynomial in xn of
+degree at most D. It vanishes on at most D elements of S, so some choice of xn ∈ S makes F non-zero.
+    Apply this fact to the polynomial Π defined in Equation (5), with a grid having 2d(d+2) + 1 values in
+each of its dM coordinates. It follows that some matrix
+                                                                    1 d×M
+                                                                      
+                                                       1
+                                         B ∈ 0, d(d+2) , . . . ,
+                                                  L2                L
+satisfies Π(B) ̸= 0. If some factor DI (B) were zero, then Π(B) would be zero; hence every factor DI (B)
+is non-zero. Thus this single matrix B makes the difference matrix of every (d + 1)-tuple non-singular,
+which is precisely the simultaneous affine-independence property sought above. Define
+                             ∆(x) := Be
+                                      z (x),              q s := s + Bz s = s + ∆(s).
+
+                                        1  are q si − q s0 is XI + BZI and therefore has determinant
+For all tuples I, the matrix whose columns
+DI (B) ̸= 0. Every entry of B lies in 0, L , while every coordinate of ze(x) has magnitude at most one.
+Thus, for all i ∈ [d] and all x ∈ Rd ,
+                                    M                      M                           M
+                                    X                      X                           X 1             M
+                       |∆i (x)| =         Bij zej (x) ≤          |Bij | |e
+                                                                         zj (x)| ≤                 =     .
+                                                                                               L       L
+                                    j=1                    j=1                         j=1
+
+Consequently,
+                                                         M        1
+                                          sup ∥∆(x)∥∞ ≤      ≤      ,
+                                         x                L     64d
+where the final inequality follows directly from Equation (6). Moreover, the operator norm of a matrix is at
+most its Frobenius norm, so
+                                                                      √
+                                                   v
+                                                   u d M
+                                                   uX X
+                                                                2       dM
+                                ∥B∥op ≤ ∥B∥F =     t          Bij ≤        .
+                                                                        L
+                                                             i=1 j=1
+
+Combining this estimate with Equation (3) gives a global Lipschitz bound on Rd . Indeed, for all x1 , x2 ∈
+Rd ,
+                     ∥∆(x1 ) − ∆(x2 )∥2 ≤ ∥B∥op ∥e   z (x1 ) − ze(x2 )∥2
+                                             √
+                                               dM √
+                                          ≤         4 M d ∥x1 − x2 ∥2
+                                               L
+                                             4dM                     1
+                                          ≤        ∥x1 − x2 ∥2 ≤        ∥x1 − x2 ∥2 .
+                                              L                     16
+
+                                                           21
+                                                                  1
+The last inequality again uses Equation (6). Therefore, Lip(∆) ≤ 16 on all of Rd .
+   Set R := 2L2d(d+2) . Every coordinate of every q s is an integer divided by R. Since M = ⌈C1 d3 ⌉ =
+O(d3 ), Equation (6) gives L = O(d4 ) and hence
+                                                                          2
+                               R = 2L2d(d+2) ≤ 2d(d+2)+O(log d) = 2O(d ) .
+
+Consequently, for all tuples I, the non-zero determinant DI (B) is an integer divided by Rd and therefore
+has magnitude at least
+                                                           3
+                                              R−d ≥ 2−C2 d
+for a sufficiently large universal constant C2 > 0. Enlarging the universal constant in the lemma statement
+proves its determinant bound, which also gives affine general position.
+                          1
+    Finally, if ∥u∥∞ ≤ 8d   , then
+
+                                 ∥q s + u − s∥∞ = ∥(q s − s) + u∥∞
+                                                    ≤ ∥q s − s∥∞ + ∥u∥∞
+                                                    = ∥∆(s)∥∞ + ∥u∥∞
+                                                       1    1     1
+                                                    ≤    +    <     .
+                                                      64d 8d     4d
+The plateau identity in Equation (2) now gives
+
+                                       ∆(q s + u) = Bz s = ∆(s),
+
+as claimed.
+
+
+B    Proof of Theorem 4.1
+Lemma B.1 (Local depth-2 hardness of td ). Let d ≥ 3, and define
+                                                                                           d−1
+                                                         2s                             1 1
+          td (x) := [1 − ∥x∥1 ]+     and       ps :=          ,0 ,            s∈       − ,           .
+                                                        d−1                             2 2
+No finite depth-2 ReLU network agrees with td on a neighborhood of any ps .
+Proof. Each ps lies on the boundary of the unit ℓ1 ball because
+                                                    d−1
+                                                    X   2|si |
+                                         ∥ps ∥1 =                = 1.
+                                                          d−1
+                                                    i=1
+
+Fix s. Starting at ps , consider moving in a direction (v, z) ∈ Rd−1 × R and evaluating td at ps + (v, z). If
+           1
+∥v∥∞ < d−1    , then, for every i ∈ [d − 1],
+                                                               
+                                       2si                    2si
+                               sign          + vi = sign            = sign(si ),
+                                      d−1                    d−1
+because |2si /(d − 1)| = 1/(d − 1) > |vi |. Hence
+                    2si                2si         4s2i             1
+                        + vi = |2si |      + vi =       + 2si vi =     + 2si vi .
+                   d−1                d−1         d−1              d−1
+
+                                                     22
+It follows that
+                                                              d−1
+                                                              X       2si
+                                       ∥ps + (v, z)∥1 =                   + vi + |z|
+                                                                     d−1
+                                                              i=1
+                                                          = 1 + 2 ⟨s, v⟩ + |z|,
+                                1
+and therefore, whenever ∥v∥∞ < d−1 ,
+                                                       
+                                         td ps + (v, z) = [−2 ⟨s, v⟩ − |z|]+ .                                               (7)
+
+       Now restrict td to the two-dimensional affine plane through ps parameterized by t, z ∈ R by setting
+                                                                 2t
+                                                       v := −       s.
+                                                                d−1
+
+Since ⟨s, s⟩ = d−1
+                 4 , the restriction of Equation (7) to this plane is [t − |z|]+ . Under the invertible linear
+change of variables
+                                             x+y              x−y
+                                        t :=       ,     z :=        ,
+                                               2                 2
+we have
+                                             x + y − |x − y|
+                                  t − |z| =                  = min{x, y}.
+                                                    2
+Thus a depth-2 representation of td on a neighborhood of ps would give a local depth-2 representation for
+[min{x, y}]+ . Adding the two ReLU neurons [x]+ and [y]+ would then give a local depth-2 representation
+of
+                               [x]+ + [y]+ − [min{x, y}]+ = max{0, x, y}.
+This contradicts the two-dimensional max{0, x, y} obstruction in the proof of Proposition A.2 of Safran
+[20].2 This proves the lemma.
+
+Proof of Theorem 4.1. Around each marked point in Lemma B.1, the function td has a local form that no
+finite depth-2 network can represent. These points do not yet have the geometric independence needed for
+the counting argument. We perturb them into affine general position while preserving the function exactly
+on a neighborhood of every point.
+     Apply Lemma A.1 in dimension d. Denote its displacement map by ∆   b and its perturbed sign vertices by
+                                                                           d
+                                                                      1 1
+                                                q
+                                                bσ ,       σ∈        − ,         ,
+                                                                      2 2
+
+whose unperturbed locations are σ.
+                                                                  d−1
+    We use only the face indexed by s, − 12 , where s ∈ − 12 , 12     . Translation by e2d sends this face to
+                                                       
+                                       2
+the hyperplane xd = 0, and scaling by d−1 sends its unperturbed vertices to the hard points:
+                                                                 
+                                    2             1     ed      2s
+                                             s, −     +     =      , 0 = ps .
+                                   d−1            2     2      d−1
+   2
+     Proposition A.2 is stated as an impossibility result for computing MAX3 by a depth-2 ReLU network. Its proof establishes the
+stronger local fact used here: no finite depth-2 ReLU network agrees with max{0, x, y} on any neighborhood of the origin.
+
+
+
+                                                              23
+Apply the same affine transformation to the perturbed vertices and conjugate the displacement map by this
+transformation:
+                                              2                ed 
+                                     qs  :=         q     1 +        ,
+                                            d − 1 (s,− 2 )
+                                                    b
+                                                                2 
+                                                                                                      (8)
+                                              2 b d−1             ed
+                                  ∆(x)   :=       ∆          x−        .
+                                            d−1          2         2
+Item 1 of Lemma A.1 and the same change of coordinates also give
+
+                                             q s = ps + ∆(ps ).                                            (9)
+
+   The points q
+              b(s,− 1 ) form a subset of the affinely general-position family supplied by the lemma. A
+                      2
+common translation and non-zero scaling preserve affine general position, so the 2d−1 points q s are also
+in affine general position. The definition of ∆ in Equation (8) preserves the network depth and width and,
+together with Item 2 of Lemma A.1, gives
+                                                    1                        1
+                             sup ∥∆(x)∥∞ ≤                 ,      Lip(∆) ≤      .                        (10)
+                            x∈Rd                32d(d − 1)                   16
+                                                                                         1
+   Most importantly, Item 3 of Lemma A.1 preserves this local form exactly. If ∥u∥∞ ≤ 4d(d−1) , then
+
+                   d−1             ed              d−1                  d−1        1
+                       (q s + u) −     b(s,− 1 ) +
+                                      =q               u,                   u   ≤    .
+                    2              2         2      2                    2    ∞   8d
+
+Using the definition of ∆ in Equation (8), the above displayed equation, and Item 3 of Lemma A.1, we
+obtain                                                                 
+                                               2 b                d−1
+                             ∆(q s + u) =         ∆ q b(s,− 1 ) +     u
+                                             d−1            2      2
+                                                             
+                                               2 b           1                                  (11)
+                                         =        ∆     s, −
+                                             d−1             2
+                                         = ∆(ps ).
+The first and final equalities in Equation (11) use Equation (8); the middle equality uses the local-constancy
+item of the shared lemma.
+    Define
+                                    U (x) := x − ∆(x),        gd := td ◦ U.                               (12)
+Equations (9) and (11), together with the definition of U in Equation (12), imply
+                                                                             
+                                                                        1
+                           U (q s + u) = ps + u           ∥u∥∞ ≤                .                        (13)
+                                                                   4d(d − 1)
+
+Consequently, Equations (12) and (13) give
+
+                                         gd (q s + u) = td (ps + u)                                      (14)
+
+for all u in this neighborhood of 0. Thus the entire local form of td around ps is reproduced around q s , so
+no finite depth-2 ReLU network agrees with gd on a neighborhood of q s : otherwise, translating its input and
+using Equation (14) would contradict Lemma B.1.
+
+
+                                                     24
+    All marked points lie in the open unit hypercube. Indeed, Equations (9) and (10) give
+                                                                   1       1
+                          ∥q s ∥∞ ≤ ∥ps ∥∞ + ∥∆(ps )∥∞ ≤              +           < 1.
+                                                                 d − 1 32d(d − 1)
+    Suppose now that a depth-3 ReLU network N agrees with gd throughout (−1, 1)d . Fix one marked
+point q s . If no genuine first-layer activation hyperplane of N contained this point, then a sufficiently small
+neighborhood of it would avoid every such hyperplane. After discarding identically zero preactivations,
+every first-layer neuron would have a fixed activation state there. The first hidden layer would therefore be
+affine on that neighborhood and could be absorbed into the next affine map. This would produce a local
+depth-2 representation of gd , contradicting Lemma B.1 through Equation (14).
+    Thus every one of the 2d−1 marked points lies on a first-layer activation hyperplane. Affine general
+position permits one hyperplane to contain at most d marked points. If the first hidden width is w, then
+                                                     dw ≥ 2d−1 .
+Consequently,
+                                                           2d−1
+                                                      w≥        .
+                                                             d
+This proves the shallow lower bound.
+    It remains to verify the realization and regularity claims. Item 1 of Lemma A.1 and Equation (8) show
+that the first hidden layer computes the ReLU features whose appropriate affine combinations give the
+coordinates of ∆. Adding the 2d neurons [xi ]+ , [−xi ]+ allows the next affine map to recover each input
+coordinate as xi = [xi ]+ − [−xi ]+ . Hence the second hidden layer computes
+                               [(U (x))i ]+ ,       [−(U (x))i ]+ ,    i = 1, . . . , d,
+and the third hidden layer consists of the single neuron computing
+                  d
+           "                                         #
+                 X                                 
+             1−       [(U (x))i ]+ + [−(U (x))i ]+      = [1 − ∥U (x)∥1 ]+ = td (U (x)) = gd (x).
+                   i=1                                    +
+
+Here the first equality uses |a| = [a]+ + [−a]+ , the second uses the definition td (x) = [1 − ∥x∥1 ]+ , and
+the final equality uses Equation (12). After increasing the universal constant, the three hidden widths are at
+most Cd4 , 2d, 1. Since ∆ is globally CPWL, so is U ; the displayed network computes gd globally, so gd is
+also CPWL. This proves the deep upper bound.
+    The Lipschitz estimate in Equation (10) and the definition of U in Equation (12) give
+                                                                1   17
+                                                Lip(U ) ≤ 1 +      = .
+                                                                16  16
+                   √
+Since Lip(td ) =       d, the above displayed equation and Equation (12) give
+                                                          √
+                                                        17 d     √
+                                            Lip(gd ) ≤       < 2 d.
+                                                         16
+    Finally, Equation (10) shows that ∆ is a contraction on the complete metric space Rd , since its Lipschitz
+constant is strictly below 1. The Banach fixed-point theorem therefore gives a unique point x0 ∈ Rd
+satisfying ∆(x0 ) = x0 . By Equation (12), U (x0 ) = 0. Equation (10) also gives
+                                                                    1
+                                   ∥x0 ∥∞ = ∥∆(x0 )∥∞ ≤                    < 1.
+                                                                32d(d − 1)
+
+                                                          25
+Thus x0 lies in (−1, 1)d , and Equation (12) yields
+                                   gd (x0 ) = td (U (x0 )) = td (0) = 1.                                   (15)
+           √                                      √
+Set y := 1/ d, so that y ∈ [−1, 1]d and ∥y∥1 = d. Equations (12) and (10) give
+                                       √                   √          1
+                         ∥U (y)∥1 ≥ d − ∥∆(y)∥1 ≥ d −                       > 1,
+                                                                  32(d − 1)
+and hence
+                                   gd (y) = td (U (y)) = [1 − ∥U (y)∥1 ]+ = 0.                             (16)
+Equation (12) and the definition td (x) = [1 − ∥x∥1 ]+ show that gd (Rd ) ⊆ [0, 1]. Moreover, gd is contin-
+uous, so the image of the connected cube [−1, 1]d is an interval. By Equations (15) and (16), this interval
+contains both endpoints of [0, 1]. Therefore,
+                                             gd ([−1, 1]d ) = [0, 1].
+
+
+
+
+C    Proof of Theorem 3.1
+Lemma C.1 (The affine base-function gap). Let
+                   h0 (x) := [x1 + 1]+ − 2 [x1 ]+ + [x1 − 1]+ ,               D0d := U((−1, 1)d ).
+
+Then the constant function x 7→ 21 is an optimal affine approximation to h0 in L2 (D0d ), and
+                                                h               2 i   1
+                                    inf     E     h0 (x) − A(x)      = .
+                                  A affine x∼Dd
+                                              0
+                                                                      12
+
+Proof. On (−1, 1)d ,
+                                               h0 (x) = 1 − |x1 |.
+Globally, h0 (x) = [1 − |x1 |]+ , so h0 takes values in [0, 1] and vanishes whenever |x1 | ≥ 1. Its graph is
+shown in Figure 2a; it is a triangular ridge that is constant in every direction perpendicular to x1 .
+    Let X ∼ D01 . We first reduce the d-dimensional optimization to its one-dimensional counterpart. For
+an arbitrary affine function A : Rd → R, write x′ := (x2 , . . . , xd ). Under D0d , the first coordinate and x′
+are independent, with respective laws D01 and D0d−1 . For fixed x′ , the restriction x 7→ A(x, x′ ) is affine.
+Therefore, for any affine A,
+                                 "                                   #
+                                         h                        i
+                                                                ′ 2
+                           E        E      1 − |X| − A(X, x )
+                       x′ ∼D0d−1   X∼D01
+                                                                     h                      2 i
+                                                ≥ inf        E           1 − |X| − aX − b          .
+                                                   a,b∈R X∼D1
+                                                                 0
+
+Taking the infimum over A gives the lower-bound direction. Conversely, for all a, b ∈ R, the affine function
+x 7→ ax1 + b has loss equal to the corresponding one-dimensional expectation. Taking the infimum over
+a, b gives the reverse direction. Hence
+                               h                2 i          h                       2 i
+                    inf    E      h0 (x) − A(x)      = inf E    1 − |X| − aX − b           .            (17)
+                 A affine x∼Dd                          a,b∈R X∼D1
+                             0                                            0
+
+
+
+                                                        26
+    It remains to evaluate this one-dimensional infimum. For arbitrary a, b ∈ R, expanding the squared error
+gives
+                                   2                    2                                2
+                                                                                          2
+          E (1 − |X| − aX − b) = E (1 − |X| − b) − 2a E [X(1 − |X| − b)] + a E X
+                                       = E (1 − |X| − b)2 + a2 E X 2 .
+                                                                  
+
+
+The second equality holds because 1 − |X| − b is even in X, whereas X is odd, so the mixed expectation
+vanishes by symmetry. Thus the optimal slope is a = 0, while the optimal constant is
+
+                                         1 1
+                                          Z                    Z 1
+                                                                                1
+                      b = E [1 − |X|] =        (1 − |x|) dx =      (1 − x) dx = .
+                                         2 −1                   0               2
+
+Its one-dimensional squared error is
+                               "                 2 #                      2
+                                                           1 1 1
+                                                             Z 
+                                              1
+                              E     1 − |X| −            =            − |x|    dx
+                                              2            2 −1 2
+                                                           Z 1         2
+                                                                1
+                                                         =         −x      dx
+                                                            0   2
+                                                                   3 1
+                                                            x − 12          1
+                                                         =              = .
+                                                              3            12
+                                                                     0
+
+Together with Equation (17), this proves the claimed error, and the constant function 21 attains it.
+
+Proposition C.2 (The one-layer copier). There are universal constants C, C0 > 0 such that, for all d ≥ 2,
+with
+                                                           3
+                                                r := 2−C0 d ,
+                 n                      o
+                                      d
+there are centers q s : s ∈ − 21 , 12     and a vector-valued depth-2 ReLU map S : Rd → Rd of width at
+                           
+
+most Cd4 such that:
+
+   1.
+                                                                  1
+                                                ∥q s − s∥∞ ≤         ;
+                                                                 64d
+   2. the cubes q s + [−r, r]d are pairwise disjoint and contained in (−1, 1)d , and every affine hyperplane
+      intersects at most d of them;
+                           d
+   3. for all s ∈ − 21 , 21 and u ∈ [−1, 1]d ,
+                  
+
+
+                                                  S(q s + ru) = u;                                     (18)
+
+   4. Lip(S) < 4r .
+                                                              d
+Consequently, for all functions h : Rd → R, all s ∈ − 12 , 12 , and all u ∈ [−1, 1]d ,
+                                                   
+
+
+                                         (h ◦ S)(q s + ru) = h(u).
+
+
+
+                                                         27
+    The final identity is the central conclusion: precomposition by one depth-2 ReLU map creates 2d exact,
+geometrically protected translated-and-rescaled copies of h. If h is computed by a ReLU network, the affine
+output of S merges into its first affine map, so this precomposition adds exactly one hidden layer.
+
+Proof. Invoke Lemma A.1 in dimension d to obtain the small displacement map that will perturb the cube
+centers into quantitative affine general position. More precisely, Item 1 supplies a map ∆ and defines the
+centers by
+                                                                  1 1 d
+                                                                     
+                                   q s := s + ∆(s),      s∈ − ,          .
+                                                                  2 2
+We first choose the side length r so that no affine hyperplane can meet more than d of the centered cubes,
+and then construct S so that it maps every such cube, after rescaling, onto [−1, 1]d . Define the unperturbing
+map
+                                            U (x) := x − ∆(x).
+The subtraction reverses the local displacement: near q s , the map ∆ still equals ∆(s), so subtracting it
+recovers the corresponding unperturbed point. Item 2 gives
+                                                                              17
+                                           Lip(U ) ≤ 1 + Lip(∆) ≤                .
+                                                                              16
+                                             d
+For all distinct s0 , . . . , sd ∈ − 21 , 12 , Item 4 gives
+                                  
+
+                                                                                3
+                                           |det Q(s0 , . . . , sd )| ≥ 2−C1 d ,
+
+for a universal constant C1 > 0, where Q(s0 , . . . , sd ) is the d × d matrix whose ith column is q si − q s0 .
+    There is a universal constant C2 > 0 such that, for all d ≥ 2,
+                                       √     √
+                                     2d d (2 d)d−1 ≤ 2C2 d log2 (d+1) .
+
+Choose
+                                                                    3
+                                                     r := 2−C0 d ,
+                                                  1
+where C0 > C1 + C2 is also large enough that r < 8d . Since d log2 (d + 1) ≤ d3 for d ≥ 2, this choice
+gives                           √     √                     3          3
+                           d(2r d)(2 d)d−1 ≤ 2−(C0 −C2 )d < 2−C1 d .                              (19)
+The cubes                                                                         d
+                                                      d                      1 1
+                                       q s + [−r, r] ,             s∈       − ,         ,
+                                                                             2 2
+are pairwise disjoint and contained in (−1, 1)d . Indeed, distinct unperturbed vertices differ by one in some
+                                                        1
+coordinate, whereas each center moves by at most 64d      in that coordinate. Thus the centers q s of any two
+                                                          3               1
+distinct perturbed cubes are at ℓ∞ -distance greater than 4 , while r < 8d  . The same bounds put each of these
+cubes inside (−1, 1) .d
+
+    We now argue that no affine hyperplane intersects more than d of these cubes. Suppose by contradiction
+that one hyperplane meets cubes indexed by distinct s0 , . . . , sd . Choose intersection points
+                                                                       √
+                   v i := q si + ξ i ,   ∥ξi ∥∞ ≤ r,       ∥ξi ∥2 ≤ r d,         i = 0, . . . , d,
+
+
+
+                                                              28
+and let V ∈ Rd×d be the matrix whose ith column is v i − v 0 . Since all the v i lie on one affine hyperplane,
+                                                      det V = 0.
+Let Q := Q(s0 , . . . , sd ). The displacement bound and ∥ξ i ∥∞ ≤ r give
+                                      1    1                       1     1
+                          ∥q s ∥∞ ≤     +      < 1,     ∥v i ∥∞ ≤ +         + r < 1.
+                                      2 64d                        2 64d
+Every column of Q or V is therefore the difference of√two vectors whose coordinates have absolute value
+less than one, and hence has Euclidean norm at most 2 d.
+    For i = 0, . . . , d, let Q(i) be the matrix whose first i columns are those of V and whose remaining
+columns are those of Q. Thus Q(0) = Q and Q(d) = V , so the triangle inequality gives
+                                                       d
+                                                       X
+                                | det Q − det V | ≤             det Q(i−1) − det Q(i) .
+                                                        i=1
+
+For each i, the only changed column is
+                                                                                          √
+                        (v i − v 0 ) − (q si − q s0 ) = ξi − ξ 0 ,       ∥ξi − ξ 0 ∥2 ≤ 2r d.
+By multilinearity,
+                                 h                                                                                i
+      det Q(i) − det Q(i−1) = det v 1 − v 0 , . . . , v i−1 − v 0 , ξi − ξ 0 , q si+1 − q s0 , . . . , q sd − q s0 .
+                               √
+Hadamard’s inequality and the 2 d bound on every other column now give
+                                                          √    √
+                              det Q(i−1) − det Q(i) ≤ (2r d)(2 d)d−1 .
+
+Combining these estimates with Item 4, det V = 0, and Equation (19), we obtain the contradiction
+                      3                                      √     √                 3
+                2−C1 d ≤ | det Q| = | det Q − det V | ≤ d(2r d)(2 d)d−1 < 2−C1 d .
+   We now define the copier. Let
+                                                                
+                                              1        1         1
+                                    τ (t) := − + 2 t +     −2 t−     ,
+                                              2        4 +       4 +
+and use the same symbol for its coordinatewise application to vectors.
+
+                                                           τ (t)
+
+                                                           1
+                                                           2
+
+
+                                                                           t
+                                                    − 14            1
+                                                                    4
+                                                      − 12
+
+
+Figure 6: The scalar clipping function τ . It equals − 12 on −∞, − 41 , equals 12 on 14 , ∞ , and interpolates
+                                                                                         
+
+linearly between the two plateaus. The two axes use the same scale.
+
+
+                                                               29
+    Set
+                                                           U (x) − τ (x)
+                                              S(x) :=                    .
+                                                                 r
+                     d
+For all s ∈ − 12 , 21 and u ∈ [−1, 1]d , Item 3 of Lemma A.1 gives
+           
+
+                                                ∆(q s + ru) = ∆(s),
+                     1
+because ∥ru∥∞ ≤ r < 8d . Moreover,
+
+                                                             1   1     1
+                                         |(q s + ru)i | ≥      −   −r > ,
+                                                             2 64d     4
+and its sign is the sign of si . Hence
+                                                      τ (q s + ru) = s.
+Using Item 1 once more, we obtain
+
+                                    U (q s + ru) = q s + ru − ∆(q s + ru)
+                                                       = s + ∆(s) + ru − ∆(s)
+                                                       = s + ru.
+
+Consequently,
+                                          U (q s + ru) − τ (q s + ru)   s + ru − s
+                       S(q s + ru) =                                  =            = u.
+                                                       r                     r
+It follows that, for all functions h,
+                                             (h ◦ S)(q s + ru) = h(u).
+    It remains to verify that the claimed architecture can be implemented using a single hidden layer with
+the claimed width. In one common hidden layer, concatenate three feature blocks: the O(d4 ) ReLU features
+used by the depth-2 realization of ∆; the 2d neurons
+                                                        
+                                         1               1
+                                    xi +      ,     xi −     ,     i ∈ [d],
+                                         4 +             4 +
+
+that compute the d coordinates of τ (x); and the 2d identity carriers
+
+                                           [xi ]+ ,     [−xi ]+ ,     i ∈ [d],
+
+from which the affine output recovers xi = [xi ]+ − [−xi ]+ . Every neuron in these three blocks applies a
+ReLU to an affine function of the same input x, so all blocks are evaluated in parallel by this single hidden
+layer. Its affine output computes, for all i ∈ [d],
+
+                                                        xi − ∆i (x) − τ (xi )
+                                           Si (x) =                           .
+                                                                 r
+The total width is O(d4 ) + 4d = O(d4 ). Finally, the coordinatewise map τ is 2-Lipschitz, and therefore
+
+                                                        Lip(U ) + Lip(τ )  4
+                                         Lip(S) ≤                         < .
+                                                                r          r
+
+
+
+                                                             30
+Proof of Theorem 3.1. Fix r, {q s }, and S supplied by Proposition C.2, and let h0 and D0d be the affine base
+pair from Lemma C.1. Let X 0 ∼ D0d . For j = 1, . . . , ℓ − 2, set
+
+                                                    hj := hj−1 ◦ S.
+
+Define the matching random vector X j recursively: at each step, independently of X j−1 , choose s uni-
+                     d
+formly from − 12 , 21 and set X j := q s + rX j−1 . Equivalently, for all bounded measurable functions
+            
+
+F,                                             X
+                                         −d
+                          E[F (X j )] = 2              E [F (q s + rX j−1 )] .                     (20)
+                                                                      d
+                                                     s∈{− 12 , 12 }
+
+Here j counts copier layers: hj is the target after j copying steps, while X j makes the same j choices of
+copies. Item 3 of Proposition C.2 gives, for all u ∈ [−1, 1]d ,
+                                                                 
+                              hj (q s + ru) = hj−1 S(q s + ru) = hj−1 (u).                            (21)
+
+Thus each recursion step replaces the preceding target-distribution pair by 2d exact, equally weighted copies
+of it that are slightly perturbed.
+     We first prove the separation for these undilated pairs whose support is inside the unit hypercube. We
+claim that, for all j = 0, . . . , ℓ − 2, all depth-(j + 1) networks N of width at most w, where wd ≤ 2d , satisfy
+
+                                                                                wd j
+                                                                                  
+                                     h                       2 i   1
+                                 E       N (X j ) − hj (X j )     ≥           1− d   .                       (22)
+                                                                    12          2
+
+At j = 0, the competitor has depth 1 and is therefore affine, so the claim is exactly Lemma C.1.
+    For the induction step, suppose the claim holds at j − 1 and let N have depth j + 1. Its first layer has at
+most w genuine activation hyperplanes. By Item 2 of Proposition C.2, each such hyperplane meets at most
+d of the 2d protected cubes. Consequently, at least 2d − wd of the outer cubes q s + r(−1, 1)d , each carrying
+one copy of hj−1 , are missed by every first-layer hyperplane.
+    On a missed cube, every non-constant first-layer preactivation has a fixed sign. A constant preactivation
+also has an affine ReLU output: it is either a constant or identically zero. Hence every first-layer neuron is
+affine throughout that cube, and the entire first hidden layer can be absorbed into the next affine map. For
+the corresponding s, the function
+                                             u 7−→ N (q s + ru)
+therefore agrees on (−1, 1)d with a depth-j, width-at-most-w network. The induction hypothesis and Equa-
+tion (21) imply that its conditional squared error is at least
+
+                                                          wd j−1
+                                                            
+                                                  1
+                                                        1− d     .
+                                                  12      2
+
+The distribution in Equation (20) gives each outer copy mass 2−d . Keeping the errors on the missed copies
+and discarding the non-negative errors on all other copies yields
+
+                                          2 i 2d − wd 1                     wd j−1         wd j
+                                                                                            
+                  h                                                                   1
+              E       N (X j ) − hj (X j )    ≥       ·                    1− d     =     1− d   .
+                                                  2d    12                   2        12    2
+
+This proves Equation (22).
+
+
+                                                             31
+   We now dilate the undilated pair to obtain the pair stated in the theorem. Since h0 has depth 2, width 3,
+and Lipschitz constant one, hℓ−2 has depth ℓ, width O(d4 ), size O(ℓd4 ), and
+                                                         ℓ−2
+                                                          4
+                                         Lip(hℓ−2 ) ≤             .
+                                                          r
+Let                                                                            x
+                                α := 4ℓ−2 r−(ℓ−2) ,         fℓ,d (x) := hℓ−2   .
+                                                                           α
+We now specify the distribution Dℓd appearing in Theorem 3.1: sample X ℓ−2 as above and output αX ℓ−2 .
+The input dilation changes neither the depth, width, nor size of the realizing network. Since h0 takes values
+in [0, 1], so does every hj and hence fℓ,d . Moreover,
+                                                             ℓ−2
+                                                        1    4
+                                         Lip(fℓ,d ) ≤              = 1.
+                                                        α    r
+    The same dilation leaves squared approximation error unchanged; this is also the input-dilation principle
+in [23, Theorem 9]. Explicitly, for all networks N ,
+                          h                  2 i    h                             2 i
+                     E      N (x) − fℓ,d (x)      = E N (αX ℓ−2 ) − hℓ−2 (X ℓ−2 )       .                (23)
+                     x∼Dℓd
+
+    Let N now be a depth-(ℓ − 1) network satisfying the width bound in the theorem. Bernoulli’s inequality
+gives
+                                      wd ℓ−2
+                                         
+                                                               wd     1
+                                  1− d          ≥ 1 − (ℓ − 2) d ≥ .
+                                       2                       2      2
+The network u 7→ N (αu) has the same depth and width as N . Equations (22) and (23) therefore give
+                                        h                 2 i  1
+                                   E      N (x) − fℓ,d (x)     ≥ .
+                                  x∼Dℓd                         24
+
+This proves the two depth-separation claims.
+    We finish by verifying the additional distributional properties stated after the theorem. None of them
+is used in the lower-bound induction above. The number, size, and location of the supporting cubes make
+the geometry and exponential spread of the distribution explicit. The conditional-density bound is recorded
+specifically for comparison with the Vardi–Shamir barrier [27].
+    Induction in Equation (20) shows that the law of X j is uniform on 2dj pairwise disjoint open cubes of
+side length 2rj , all contained in (−1, 1)d . Indeed, at the next step the map x 7→ q s + rx shrinks every old
+cube by r; branches with different s lie in the disjoint protected cubes q s + r(−1, 1)d , while cubes within
+one branch remain disjoint. The equal branch weights and equal Jacobians preserve uniformity.
+    To locate these cubes relative to the origin, unroll the recursion. For j ≥ 1, all x in the support of the
+law of X j have the form
+                                       x = q s1 + rq s2 + · · · + rj−1 q sj + rj u
+                                     d
+for some s1 , . . . , sj ∈ − 21 , 21 and u ∈ [−1, 1]d . Every coordinate of q s1 has magnitude at least 12 − 64d
+                                                                                                              1
+                           
+                                                                                                                 ,
+                         5              1     1       j
+whereas q sk ∞ < 8 . Since r < 8d ≤ 16 and r ≤ r,
+
+                               1   1    5r          1  1   1   1  1
+                     ∥x∥∞ ≥      −   −        − rj > −   −   −   > .
+                               2 64d 8(1 − r)       2 128 24 16   8
+
+                                                        32
+    The final dilation turns each cube supporting the law of X ℓ−2 into a cube of side length
+
+                                                2αrℓ−2 = 2 · 4ℓ−2 .
+
+Because the undilated support lies in [−1, 1]d and outside [− 81 , 18 ]d , the support of Dℓd satisfies
+                                                     α                              √
+                                 inf        ∥x∥2 ≥     ,        sup        ∥x∥2 ≤       d α.
+                             x∈supp(Dℓd )            8      x∈supp(Dℓd )
+
+                                                                                3               3
+After adjusting universal constants, these bounds are respectively 2c(ℓ−2)d and 2C(ℓ−2)d . For almost every
+fixed value of the other d − 1 coordinates, a coordinate fiber meets some k ≥ 1 supporting cubes in disjoint
+intervals, each of length 2 · 4ℓ−2 . Its conditional law is uniform on that union, so its density is
+                                                        1    1
+                                                        ℓ−2
+                                                            ≤ .
+                                                     2·4 k   2
+This completes the proof.
+
+
+
+
+                                                           33
+

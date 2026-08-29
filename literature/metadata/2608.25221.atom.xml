@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/w0LwZftoclc9hA1rlxgkjuzb6BA</id>
+  <title>arXiv Query: search_query=&amp;id_list=2608.25221&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-29T04:58:25Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2608.25221" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2608.25221v1</id>
+    <title>Representing MAX functions using two-hidden-layer ReLU networks</title>
+    <updated>2026-08-25T23:22:33Z</updated>
+    <link href="https://arxiv.org/abs/2608.25221v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.25221v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We study exact representations of $\mathrm{MAX}_N(x)=\max{x_1,\ldots,x_N}$ using two-hidden-layer ReLU neural networks. This problem has been studied in recent years in an attempt to characterize the exact number of hidden layers required to represent continuous piecewise linear functions. The best lower bound is 2, while the current upper bound is logarithmic in $N$. It remains completely open if the right answer is a constant number of hidden layers (possibly even 2!) or not. In fact, a recent breakthrough was the representation of $\mathrm{MAX}_5$ as a two-hidden-layer ReLU function obtained in [Bakaev et al., 2026], and the case of $\mathrm{MAX}_N$ was stated as open for $N\geq 6$ in that paper.
+  Using a careful computer assisted search, we obtain two-hidden-layer ReLU representations of $\mathrm{MAX}_5, \mathrm{MAX}_6, \mathrm{MAX}_7$, and $\mathrm{MAX}_8$. We obtain these by considering rational linear combinations of terms of the form $\max\{\sum_{r=1}^{s}\max(x_{a_r},x_{b_r}),\sum_{r=1}^{s}\max(x_{c_r},x_{d_r})\}$, where $a_r,b_r,c_r,d_r\in\{1,\ldots,N\}$. Each inner maximum of two coordinates can be computed in a first hidden layer, and the outer maximum of the two side-sums can be computed in a second hidden layer. Consequently, every finite linear combination of these terms has a two-hidden-layer ReLU realization. An identity for $\mathrm{MAX}_N$ in this form therefore gives an exact two-hidden-layer ReLU representation of $\mathrm{MAX}_N$.
+  Very recently, two-hidden-layer representations of $\mathrm{MAX}_N$ of the above form were obtained for all $N\leq 10$ in [Ruess et al., 2026]. Our representations are different and were developed independently. While our techniques share most of the high-level ideas presented in [Ruess et al., 2026], there are also some minor differences which may be of interest for future research on this problem.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.OC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-25T23:22:33Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Zhimao Wang</name>
+    </author>
+    <author>
+      <name>Amitabh Basu</name>
+    </author>
+  </entry>
+</feed>

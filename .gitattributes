@@ -1,0 +1,7 @@
+*.pdf binary
+*.tar.gz binary
+literature/metadata/*.pdfinfo.txt binary
+literature/searches/*.html binary
+literature/*.md whitespace=-blank-at-eof
+literature/source-cards/*.md whitespace=-blank-at-eof
+imports/target-selection-2026-08-27/max11-ansatz-audit-2026-08-27.md whitespace=-trailing-space

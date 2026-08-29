@@ -1,0 +1,308 @@
+[
+  {
+    "title": "Classification with costly features as a sequential decision-making problem",
+    "authors": [
+      "Jarom\u00edr Janisch",
+      "Tom\u00e1\u0161 Pevn\u00fd",
+      "Viliam Lis\u00fd"
+    ],
+    "year": 2020,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "10.1007/s10994-020-05874-8",
+    "url": "https://doi.org/10.1007/s10994-020-05874-8",
+    "citation_count": 29,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Adaptation supports short-term memory in a visual change detection task",
+    "authors": [
+      "Brian Hu",
+      "Marina Garrett",
+      "Peter A. Groblewski",
+      "Douglas R. Ollerenshaw",
+      "Jiaqi Shang",
+      "Kate Roll",
+      "Sahar Manavi",
+      "Christof Koch",
+      "Shawn R. Olsen",
+      "\u015etefan Mihala\u015f"
+    ],
+    "year": 2021,
+    "abstract": "The maintenance of short-term memories is critical for survival in a dynamically changing world. Previous studies suggest that this memory can be stored in the form of persistent neural activity or using a synaptic mechanism, such as with short-term plasticity. Here, we compare the predictions of these two mechanisms to neural and behavioral measurements in a visual change detection task. Mice were trained to respond to changes in a repeated sequence of natural images while neural activity was recorded using two-photon calcium imaging. We also trained two types of artificial neural networks on the same change detection task as the mice. Following fixed pre-processing using a pretrained convolutional neural network, either a recurrent neural network (RNN) or a feedforward neural network with short-term synaptic depression (STPNet) was trained to the same level of performance as the mice. While both networks are able to learn the task, the STPNet model contains units whose activity are more similar to the in vivo data and produces errors which are more similar to the mice. When images are omitted, an unexpected perturbation which was absent during training, mice often do not respond to the omission but are more likely to respond to the subsequent image. Unlike the RNN model, STPNet produces a similar pattern of behavior. These results suggest that simple neural adaptation mechanisms may serve as an important bottom-up memory signal in this task, which can be used by downstream areas in the decision-making process.",
+    "arxiv_id": "",
+    "doi": "10.1371/journal.pcbi.1009246",
+    "url": "https://doi.org/10.1371/journal.pcbi.1009246",
+    "citation_count": 22,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Mitigation of model error effects in neural network-based structural damage detection",
+    "authors": [
+      "Federico Ponsi",
+      "Elisa Bassoli",
+      "Loris Vincenzi"
+    ],
+    "year": 2023,
+    "abstract": "This paper proposes a damage detection procedure based on neural networks that is able to account for the model error in the network training. Vibration-based damage detection procedures relied on machine learning techniques hold great promises for the identification of structural damage thanks to their efficiency even in presence of noise-corrupted data. However, it is rarely possible in the context of civil engineering to have large amount of data related to the damaged condition of a structure to train a neural network. Numerical models are then necessary to simulate damaged scenarios. However, even if a finite element model is accurately calibrated, experimental results and model predictions will never exactly match and their difference represents the model error. Being the neural network tested and trained with respect to the data generated from the numerical model, the model error can significantly compromise the effectiveness of the damage detection procedure. The paper presents a procedure aimed at mitigating the effect of model errors when using models associated to the neural network. The proposed procedure is applied to two case studies, namely a numerical case represented by a steel railway bridge and a real structure. The real case study is a steel braced frame widely adopted as a benchmark structure for structural health monitoring purposes. Although in the first case the procedure is carried out considering simulated data, we have taken into account some key aspects to make results representative of real applications, namely the stochastic modelling of measurement errors and the use of two different numerical models to account for the model error. Different networks are investigated that stand out for the preprocessing of the dynamic features given as input. Results show the importance of accounting for the model error in the network calibration to efficiently identify damage.",
+    "arxiv_id": "",
+    "doi": "10.3389/fbuil.2022.1109995",
+    "url": "https://doi.org/10.3389/fbuil.2022.1109995",
+    "citation_count": 12,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Data-Driven Solutions for Backcalculating Elastic Moduli of Flexible Pavements from FWD Test",
+    "authors": [
+      "Barami Phulsawat",
+      "Teerapong Senjuntichai",
+      "Angsumalin Senjuntichai",
+      "Wichirat Kaewjuea"
+    ],
+    "year": 2025,
+    "abstract": "Traditional methods for calculating pavement layers elastic moduli from falling weight deflectometer (FWD) tests often rely on computationally intensive iterative processes and lack struggle to capture complex variable relationships.This article highlights the utilization of machine learning (ML) algorithms, which include artificial neural networks (ANN), long-short-term memory (LSTM), and random forests (RF), to predict the elastic moduli of multi-layered flexible pavement based on FWD test.All ML algorithms were developed using synthetic databases derived from the exact stiffness matrix scheme, which was employed for the analysis of multi-layered pavements under axisymmetric surface loading.The development of ML models involves preprocessing of data, hyperparameter optimization, and performance evaluation.The input variables consist of the FWD surface deflections, the magnitude of applied loading, and the layer thicknesses, while the output variables represent the predicted layered elastic moduli of the pavement structure.The ANN and LSTM models capture complicated relations more effectively than the RF model in the backcalculation of the layered elastic modulus based on the FWD test.Among the two, LSTM achieves higher accuracy, with the average values across all layer moduli of R 2 and MAPE being 99.04% and 2.41%, respectively, in the test set.The applicability of LSTM model is further demonstrated by comparing with the backcalculated elastic modulus based on the FWD field experiments performed on the infrastructure of roads in Thailand.Furthermore, a sensitivity analysis reveals that deflections near the center of loading predominantly impact the predictions of upper layer moduli, while the moduli of lower layers are influenced by deflections across all geophones.",
+    "arxiv_id": "",
+    "doi": "10.4186/ej.2025.29.3.27",
+    "url": "https://doi.org/10.4186/ej.2025.29.3.27",
+    "citation_count": 7,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "The Impact of Data Preparation and Model Complexity on the Natural Language Classification of Chinese News Headlines",
+    "authors": [
+      "Torrey Wagner",
+      "Dennis Guhl",
+      "Brent Langhals"
+    ],
+    "year": 2024,
+    "abstract": "Given the emergence of China as a political and economic power in the 21st century, there is increased interest in analyzing Chinese news articles to better understand developing trends in China. Because of the volume of the material, automating the categorization of Chinese-language news articles by headline text or titles can be an effective way to sort the articles into categories for efficient review. A 383,000-headline dataset labeled with 15 categories from the Toutiao website was evaluated via natural language processing to predict topic categories. The influence of six data preparation variations on the predictive accuracy of four algorithms was studied. The simplest model (Na\u00efve Bayes) achieved 85.1% accuracy on a holdout dataset, while the most complex model (Neural Network using BERT) demonstrated 89.3% accuracy. The most useful data preparation steps were identified, and another goal examined the underlying complexity and computational costs of automating the categorization process. It was discovered the BERT model required 170x more time to train, was slower to predict by a factor of 18,600, and required 27x more disk space to save, indicating it may be the best choice for low-volume applications when the highest accuracy is needed. However, for larger-scale operations where a slight performance degradation is tolerated, the Na\u00efve Bayes algorithm could be the best choice. Nearly one in four records in the Toutiao dataset are duplicates, and this is the first published analysis with duplicates removed.",
+    "arxiv_id": "",
+    "doi": "10.3390/a17040132",
+    "url": "https://doi.org/10.3390/a17040132",
+    "citation_count": 3,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Dynamic Power Management in Large Manycore Systems: A Learning-to-Search Framework",
+    "authors": [
+      "Gaurav Narang",
+      "Aryan Deshwal",
+      "Raid Ayoub",
+      "Michael Kishinevsky",
+      "Janardhan Rao Doppa",
+      "Partha Pratim Pande"
+    ],
+    "year": 2023,
+    "abstract": "The complexity of manycore System-on-chips (SoCs) is growing faster than our ability to manage them to reduce the overall energy consumption. Further, as SoC design moves toward three-dimensional (3D) architectures, the core's power density increases leading to unacceptable high peak chip temperatures. In this article, we consider the optimization problem of dynamic power management (DPM) in manycore SoCs for an allowable performance penalty (say, 5%) and admissible peak chip temperature. We employ a machine learning\u2013 (ML) based DPM policy, which selects the voltage/frequency levels for different cluster of cores as a function of the application workload features such as core computation and inter-core traffic, and so on. We propose a novel learning-to-search (L2S) framework to automatically identify an optimized sequence of DPM decisions from a large combinatorial space for joint energy-thermal optimization for one or more given applications. The optimized DPM decisions are given to a supervised learning algorithm to train a DPM policy, which mimics the corresponding decision-making behavior. Our experiments on two different manycore architectures designed using wireless interconnect and monolithic 3D demonstrate that principles behind the L2S framework are applicable for more than one configuration. Moreover, L2S-based DPM policies achieve up to 30% energy-delay product savings and reduce the peak chip temperature by up to 17 \u00b0C compared to the state-of-the-art ML methods for an allowable performance overhead of only 5%.",
+    "arxiv_id": "",
+    "doi": "10.1145/3603501",
+    "url": "https://doi.org/10.1145/3603501",
+    "citation_count": 2,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "RoMA: Robust Model Adaptation for Offline Model-based Optimization",
+    "authors": [
+      "Sihyun Yu",
+      "Sungsoo Ahn",
+      "Le Song",
+      "Jinwoo Shin"
+    ],
+    "year": 2021,
+    "abstract": "We consider the problem of searching an input maximizing a black-box objective function given a static dataset of input-output queries. A popular approach to solving this problem is maintaining a proxy model, e.g., a deep neural network (DNN), that approximates the true objective function. Here, the main challenge is how to avoid adversarially optimized inputs during the search, i.e., the inputs where the DNN highly overestimates the true objective function. To handle the issue, we propose a new framework, coined robust model adaptation (RoMA), based on gradient-based optimization of inputs over the DNN. Specifically, it consists of two steps: (a) a pre-training strategy to robustly train the proxy model and (b) a novel adaptation procedure of the proxy model to have robust estimates for a specific set of candidate solutions. At a high level, our scheme utilizes the local smoothness prior to overcome the brittleness of the DNN. Experiments under various tasks show the effectiveness of RoMA compared with previous methods, obtaining state-of-the-art results, e.g., RoMA outperforms all at 4 out of 6 tasks and achieves runner-up results at the remaining tasks.",
+    "arxiv_id": "",
+    "doi": "10.48550/arxiv.2110.14188",
+    "url": "https://doi.org/10.48550/arxiv.2110.14188",
+    "citation_count": 2,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Multimodal brain tumor segmentation and classification based on optimized DeepLabV3 + and fused fire module with self-attention",
+    "authors": [
+      "Muhammad Sami Ullah",
+      "Muhammad Abdullah Khan",
+      "Yunyoung Nam",
+      "Nouf Abdullah Almujally",
+      "Areej Alasiry",
+      "Mehrez Marzougui",
+      "Juan M. G\u00f3rriz",
+      "Amir Hussain"
+    ],
+    "year": 2026,
+    "abstract": "In this work, we propose a novel deep learning architecture for brain tumor segmentation and classification, SMDeepNet, which is based on an optimized DeepLabV3 + + and a Fused Fire Module with Self-Attention. The segmentation framework comprises down- and up-sampling based on a DeepLabV3 + neural network and is optimized by dynamically initializing hyperparameters for training the backbone ResNet-50 architecture. During the down-sampling or encoder stage, the Atrous Spatial Pyramid Pooling (ASPP) module extracted features using convolutional layers with various filter sizes and dilations. These features are then passed to the up-sampling or decoder section for final segmentation. The classification framework comprises two sub-frameworks: a fire-residual bottleneck (Fire-RB) and a Hybrid Efficient Attention (Hybrid-EA). The Fire-RB framework comprises several parallel blocks: one side implements squeeze-and-expand behavior in the fire mechanism, and the other implements residual bottlenecks. The two parallel blocks are concatenated, and features are extracted from Fire-RB. The Hybrid-EA model is a custom variant of the pre-trained EfficientNetB0 model that incorporates a self-attention mechanism. The self-attention mechanism enhanced the functionality of the EfficientNetB0 model. Features from Fire-RB and Hybrid-EA are concatenated channel-wise, and the final modality classification is performed. The BraTS 2023 dataset is used in this work to evaluate the proposed methodologies. Segmentation results indicate that accuracy, Dice Score, and Intersection over Union (IOU) are 0.9871, 0.9420, and 0.8951, respectively. Modality classification results indicate an accuracy of 0.9920, which is improved over the recent state-of-the-art techniques.",
+    "arxiv_id": "",
+    "doi": "10.1186/s40001-026-04161-x",
+    "url": "https://doi.org/10.1186/s40001-026-04161-x",
+    "citation_count": 1,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "A Systematic Literature Review of Machine Learning Techniques for Observational Constraints in Cosmology",
+    "authors": [
+      "Luis Rojas",
+      "Sebasti\u00e1n Espinoza",
+      "Esteban Gonz\u00e1lez",
+      "Carlos Maldonado",
+      "Fei Luo"
+    ],
+    "year": 2025,
+    "abstract": "This paper presents a systematic literature review focusing on the application of machine learning techniques for deriving observational constraints in cosmology. The goal is to evaluate and synthesize existing research to identify effective methodologies, highlight gaps, and propose future research directions. Our review identifies several key findings: (1) Various machine learning techniques, including Bayesian neural networks, Gaussian processes, and deep learning models, have been applied to cosmological data analysis, improving parameter estimation and handling large datasets. However, models achieving significant computational speedups often exhibit worse confidence regions compared to traditional methods, emphasizing the need for future research to enhance both efficiency and measurement precision. (2) Traditional cosmological methods, such as those using Type Ia Supernovae, baryon acoustic oscillations, and cosmic microwave background data, remain fundamental, but most studies focus narrowly on specific datasets. We recommend broader dataset usage to fully validate alternative cosmological models. (3) The reviewed studies mainly address the H0 tension, leaving other cosmological challenges\u2014such as the cosmological constant problem, warm dark matter, phantom dark energy, and others\u2014unexplored. (4) Hybrid methodologies combining machine learning with Markov chain Monte Carlo offer promising results, particularly when machine learning techniques are used to solve differential equations, such as Einstein Boltzmann solvers, prior to Markov chain Monte Carlo models, accelerating computations while maintaining precision. (5) There is a significant need for standardized evaluation criteria and methodologies, as variability in training processes and experimental setups complicates result comparability and reproducibility. (6) Our findings confirm that deep learning models outperform traditional machine learning methods for complex, high-dimensional datasets, underscoring the importance of clear guidelines to determine when the added complexity of learning models is warranted.",
+    "arxiv_id": "",
+    "doi": "10.3390/galaxies13050114",
+    "url": "https://doi.org/10.3390/galaxies13050114",
+    "citation_count": 1,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Transport mode detection and classification from smartphone sensor data using Convolutional Neural Networks",
+    "authors": [
+      "Adam Bako"
+    ],
+    "year": 2020,
+    "abstract": "Transportation is a significant component of human lives and understanding how individuals travel is an essential task in many fields. Understanding the modes of transport individuals use can lead to improvements in urban planning, traffic control, human health, and environmental sciences. The goal of transport mode detection and classification is to use smartphone devices as human behavioural sensors, to detect and classify individuals movement continuously. Smartphone devices are suitable for transport mode detection, as they are proliferated in modern societies and contain sensors that are suitable for transport mode detection. These sensors include GPS, accelerometers, gyroscopes, magnetometers, barometers, or microphones. The research in this thesis will focus on transport mode detection and classification using data from motions sensors; accelerometers, gyroscopes, magnetometers, and barometers as they do not contain the sensitive private data that is collected when using GPS or microphones. Currently, there are two approaches in state of the art in transport mode detection. In the first approach, time and frequency domain features are extracted from the signals of the motion sensors and used as input to decision tree or neural network machine learning models. In the second approach, Convolutional Neural Networks extract features by finding spatial relations in the signal data and using these for classification. This thesis investigates the use of Convolutional Neural Networks, as they have shown to outperform models trained using time and frequency domain features extracted from the data in the state of the art research. This research studies the effect of different model architectures on the accuracy of Convolutional Neural Network models when using multiple different sensors as input, as well as focusing on which combinations of sensors produce optimal results. Furthermore, the focus will be evaluating the models on real-world data in order to evaluate the feasibility of deploying applications utilizing transport mode detection. This research compares an optimized model architecture along with preprocessing techniques to state of the art Convolutional Neural Network architectures on realworld data. The best baseline algorithm achieved an overall F1 score of 0.57, while the final optimized achieved an overall F1 score of 0.72 on the testing dataset. The optimal combination of motion sensors is with the accelerometer, gyroscope, and barometer.",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://openalex.org/W3128634711",
+    "citation_count": 1,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Medir la paz y el desarrollo: nuevas miradas sobre la realidad",
+    "authors": [
+      "Manuela Mesa"
+    ],
+    "year": 2011,
+    "abstract": "",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://openalex.org/W34534203",
+    "citation_count": 1,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Approximating SPR Distance Between Phylogenetic Trees with Graph Neural Networks",
+    "authors": [
+      "Renata Martins Castanheira",
+      "Miguel Bugalho",
+      "C\u00e1tia Vaz"
+    ],
+    "year": 2026,
+    "abstract": "Comparing phylogenetic tree topologies is essential for understanding epidemic dynamics, yet biologically meaningful distances such as the Subtree Prune and Regraft (SPR) distance are NP-hard to compute and intractable on large datasets. We investigate whether a Graph Neural Network (GNN) can approximate SPR distances in near-constant time per comparison after training. Our contributions are fourfold. First, we build and publicly release a dataset of 864 phylogenetic trees inferred with UPGMA and Neighbor-Joining over four bacterial species, spanning up to 9{,}500 isolates, together with 388 labelled tree pairs. Second, we establish a reproducible pre-processing pipeline including midpoint re-rooting, which reduces tree depth and supplies the rooting required for exact distance computation and for the model's root-based features. Third, we validate the supervision target: on small trees, where exact SPR is tractable, the unrooted phangorn::SPR.dist heuristic correlates almost perfectly with the exact rooted distance computed by rspr (Pearson $0.98$--$0.99$), making it an excellent monotonic surrogate. Lastly, we train a Siamese Graph Isomorphism Network (GIN) regressor. In-distribution, i.e., held-out trees from the same species and size range as training, it explains roughly 87--90% of the variance ($R^2 \\approx 0.87$ on a held-out split; $0.90 \\pm 0.19$ under stratified cross-validation), with about four times lower error than a mean-predictor baseline, and shows partial transfer to unseen species ($R^2 \\approx 0.37$). Its main limitation is extrapolation to trees larger than those seen in training, where accuracy collapses. The released dataset and the validated heuristic versus exact relationship provide a reproducible basis for scaling learned SPR approximation.",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://openalex.org/W7170224976",
+    "citation_count": 0,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "A Low-Complexity Framework for Multi-access Coded Caching Systems with Arbitrary User-cache Access Topology",
+    "authors": [
+      "Ting Yang",
+      "Kai Wan",
+      "Minquan Cheng",
+      "Xinping Yi",
+      "Robert C. Qiu",
+      "Giuseppe Caire"
+    ],
+    "year": 2026,
+    "abstract": "This paper studies the multi-access coded caching (MACC) problem with arbitrary user-cache access topology, which extends existing MACC models that rely on highly structured and combinatorially designed topologies. We consider a MACC system consisting of a single server, $\u039b$ cache-nodes, and $K$ user-nodes. The server stores $N$ equal-size files, each cache-node has a storage capacity of $M$ files, and each user-node $k\\in[K]$ can access an arbitrary subset of cache-nodes $\\mathcal{A}_k\\subseteq[\u039b]$ and retrieve the cached content stored in cache-nodes $\\mathcal{A}_k$. The objective is to design a universal framework for the MACC delivery problem. Decoding conflicts among the requested packets are captured by a conflict graph, and the design of the delivery is reduced to a graph coloring problem, where achieving a lower transmission load corresponds to coloring the graph using fewer colors. Under this formulation, the classical DSatur algorithm achieves a transmission load close to the index-coding (IC) converse bound, thereby providing a practical benchmark. However, its computational complexity becomes prohibitive for large-scale graphs. To overcome this limitation, we develop a learning-driven approach using graph neural networks (GNNs) that efficiently constructs coded multicast transmissions with performance close to the theoretical bounds and generalizes across different user-cache access topologies and numbers of users. In addition, we extend the IC converse bound to MACC systems with arbitrary access topology and propose a low-complexity greedy approximation that closely matches the IC converse bound. Numerical results demonstrate that the proposed approach achieves performance close to the DSatur algorithm and the IC converse bound, while significantly reducing computational complexity, making it well-suited for large-scale MACC systems.",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://openalex.org/W7124513871",
+    "citation_count": 0,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "\u041c\u041e\u0414\u0415\u041b\u0418\u0420\u0410\u041d\u0415 \u041d\u0410 \u0419\u0415\u0420\u0410\u0420\u0425\u0418\u0427\u041d\u0410 \u0421\u0422\u0420\u0423\u041a\u0422\u0423\u0420\u0410 \u0417\u0410 \u041d\u041e\u0420\u041c\u0410\u0422\u0418\u0412\u041d\u0410 \u0423\u0420\u0415\u0414\u0411\u0410 \u041f\u041e \u0418\u041d\u0424\u041e\u0420\u041c\u0410\u0426\u0418\u041e\u041d\u041d\u041e \u0418 \u041a\u041e\u041c\u0423\u041d\u0418\u041a\u0410\u0426\u0418\u041e\u041d\u041d\u041e \u041e\u0421\u0418\u0413\u0423\u0420\u042f\u0412\u0410\u041d\u0415",
+    "authors": [
+      "\u0413\u0435\u043e\u0440\u0433\u0438 \u0411. \u041d\u0438\u043a\u043e\u043b\u043e\u0432"
+    ],
+    "year": 2024,
+    "abstract": "\u0421\u0442\u0430\u0442\u0438\u044f\u0442\u0430 \u043e\u0431\u0440\u044a\u0449\u0430 \u0432\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u0432\u044a\u0440\u0445\u0443 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 \u043f\u043e \u043f\u0440\u0438\u043e\u0440\u0438\u0442\u0435\u0442\u043d\u043e\u0442\u043e \u043f\u043e\u0441\u0442\u0438\u0433\u0430\u043d\u0435 \u043d\u0430 \u0446\u0435\u043b\u0438, \u0437\u0430\u0441\u044f\u0433\u0430\u0449\u0438 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u043e\u0441\u0442\u0442\u0430 \u043e\u0442 \u043f\u043e\u0437\u043d\u0430\u0432\u0430\u043d\u0435\u0442\u043e, \u0431\u044a\u0440\u0437\u043e\u0442\u043e \u043e\u0440\u0438\u0435\u043d\u0442\u0438\u0440\u0430\u043d\u0435 \u0438 \u0442\u043e\u0447\u043d\u043e\u0442\u043e \u0441\u043f\u0430\u0437\u0432\u0430\u043d\u0435 \u043d\u0430 \u043c\u0438\u043d\u0438\u043c\u0443\u043c\u0430 \u043e\u0442 \u043f\u0443\u0431\u043b\u0438\u0447\u043d\u043e-\u0434\u043e\u0441\u0442\u044a\u043f\u043d\u0430\u0442\u0430 \u043d\u043e\u0440\u043c\u0430\u0442\u0438\u0432\u043d\u0430 \u0443\u0440\u0435\u0434\u0431\u0430 \u043d\u0430 \u043c\u0435\u0436\u0434\u0443\u043d\u0430\u0440\u043e\u0434\u043d\u043e\u0442\u043e, \u043d\u0430\u0446\u0438\u043e\u043d\u0430\u043b\u043d\u043e\u0442\u043e \u0438 \u0441\u0435\u043a\u0442\u043e\u0440\u043d\u043e-\u043e\u0440\u0438\u0435\u043d\u0442\u0438\u0440\u0430\u043d\u043e \u0440\u0430\u0432\u043d\u0438\u0449\u0430.",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://openalex.org/W7132494397",
+    "citation_count": 0,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Error bounds for maxout neural network approximations of model predictive control",
+    "authors": [
+      "Dieter Teichrib",
+      "Moritz Schulze Darup"
+    ],
+    "year": 2023,
+    "abstract": "Neural network (NN) approximations of model predictive control (MPC) are a versatile approach if the online solution of the underlying optimal control problem (OCP) is too demanding and if an exact computation of the explicit MPC law is intractable. The drawback of such approximations is that they typically do not preserve stability and performance guarantees of the original MPC. However, such guarantees can be recovered if the maximum error with respect to the optimal control law and the Lipschitz constant of that error are known. We show in this work how to compute both values exactly when the control law is approximated by a maxout NN. We build upon related results for ReLU NN approximations and derive mixed-integer (MI) linear constraints that allow a computation of the output and the local gain of a maxout NN by solving an MI feasibility problem. Furthermore, we show theoretically and experimentally that maxout NN exist for which the maximum error is zero.",
+    "arxiv_id": "",
+    "doi": "10.48550/arxiv.2304.08779",
+    "url": "https://doi.org/10.48550/arxiv.2304.08779",
+    "citation_count": 0,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "DConvLSTM: An Autotuning Distributed CNN Model in Cloud Environment for Optimized Accuracy, Scaling, and Execution Time",
+    "authors": [
+      "Harini Srira",
+      "S. Lokesh",
+      "Jitendra Sai"
+    ],
+    "year": 2022,
+    "abstract": "Abstract Artificial Intelligence (AI) and deep learning have altered the digital landscape. Data grows in lockstep with technological advancements. The training procedure for Deep Learning algorithms is becoming increasingly complex as the amount of data available grows. In the deep learning process, having superior technology to speed up the training and testing time is critical. CNN (Convolutional Neural Networks) is a deep learning algorithm for image processing that is widely utilized. In this paper, a novel distributed CNN with LSTM is proposed to optimize accuracy, execution time, and scalability. Different methodologies and tactics for improving CNN training time through distributed models are studied. To comprehend the neural network structure of parallelizing and spreading the execution, each layer of the CNN is investigated and analyzed. Computations on the CPU, GPU, and TPU are also investigated, as well as settings like Google Colab, AWS SageMaker, and others. According to the analysis, the use of an L2 regularization, dropout layer, and a ConvLSTM for autotuning of hyperparameters improves speed in all settings, The final CNN, with these additional layers for performance acceleration, is subsequently deployed in Google Cloud Platform Virtual Machine (VM) instances. This makes it easier to investigate the performance of the proposed distributed deep learning model at scale. Due to the communication between multiple nodes involved in distributing a deep learning model, the model's accuracy usually suffers. But in this proposed work utilizing an autotuning LSTM and Distributed CNN algorithm that distributes optimally and balances accuracy and speed-up is proposed in this proposed work. The proposed models achieved a 2.206 percent boost in speed with respect to data parallel DConvLSTM and a 1.4 percent improvement in model parallel training time of DConvLSTM. The maximum accuracy achieved was 93.3825 and 89.59 percent in data-parallel and model-parallel executions respectively.",
+    "arxiv_id": "",
+    "doi": "10.21203/rs.3.rs-1924139/v1",
+    "url": "https://doi.org/10.21203/rs.3.rs-1924139/v1",
+    "citation_count": 0,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Pattern-Based Prediction of Population Outbreaks",
+    "authors": [
+      "Gabriel Rodrigues Palma",
+      "Wesley Augusto Conde Godoy",
+      "Eduardo Engel",
+      "Douglas Lau",
+      "Edgar Galv\u00e1n",
+      "Oliver Mason",
+      "Charles H. Markham",
+      "Rafael de Andrade Moral"
+    ],
+    "year": 2022,
+    "abstract": "Insect outbreaks are biotic disturbances in forests and agroecosystems that cause economic and ecological damage. This phenomenon depends on a variety of biological and physical factors. The complexity and practical importance of the issue have made the problem of predicting outbreaks a focus of recent research. Here, we propose the Pattern-Based Prediction (PBP) method for predicting population outbreaks. It is based on the Alert Zone Procedure, combined with elements from machine learning. It uses information on previous time series values that precede an outbreak event as predictors of future outbreaks, which can be useful when monitoring pest species. We illustrate the methodology using simulated datasets and real time series data obtained by monitoring aphids in wheat crops in Southern Brazil. We obtained an average test accuracy of $84.6\\%$ in the simulation studies implemented with stochastic models, and $95.0\\%$ for predicting outbreaks using the real dataset. This shows the feasibility of the PBP method in predicting outbreaks in population dynamics. We benchmarked our results against established state-of-the-art machine learning methods, namely Support Vector Machines, Deep Neural Networks, Long Short Term Memory and Random Forests. The PBP method yielded a competitive performance, associated with higher true-positive rates in most comparisons, while being able to provide interpretability rather than being a black-box method. This is an improvement over current state-of-the-art machine learning tools, especially when being used by non-specialists, such as ecologists aiming to use a quantitative approach for pest monitoring. We provide open-source code to implement the PBP method in Python, through the \\texttt{pypbp} package, which may be directly downloaded from the Python Package Index server or accessed through \\url{https://pypbp-documentation.readthedocs.io}",
+    "arxiv_id": "",
+    "doi": "10.48550/arxiv.2209.02346",
+    "url": "https://doi.org/10.48550/arxiv.2209.02346",
+    "citation_count": 0,
+    "source": "openalex",
+    "hf_metadata": null
+  },
+  {
+    "title": "Design of a Graph Neural Network: to predict the optimal resolution of the Sonar Performance Model",
+    "authors": [
+      "Jakub Pietrak"
+    ],
+    "year": 2020,
+    "abstract": "Graph Neural Networks are a unique type of Deep Learning models that have a capability to exploit an explicitly stated structure of data representation. By design they carry a strong relational inductive bias, which is a set of assumptions that makes the algorithm prioritize some solutions over another, independent of observed data. This makes the method especially interesting for applications to problems, that are naturally relation-centric, or in which local interactions between features are the main value of interest. The presented research case, aims to explore GNN potential in application to an Ocean Acoustics problem. Using the geometric ray-tracing algorithm, BELLHOP, a large number of underwater sound propagation scenarios was simulated. Each scenario is described by a limited set of parameters and a Sound Speed Profile function. The latter, acting as a guideline for estimating paths of rays travelling through a water column, has a critical impact on sound propagation mode. For the data-driven model to effectively capture the acoustic phenomena, requires a mean of representing interactions in very scarce feature space and especially with respect to the nonlinear function representation of the sound speed. First, the solution of the problem is approached with a traditional Machine Learning model, a decision-tree algorithm XGBoost. In effect, some important characteristics of the collected data sample are revealed. Moreover, by testing inference capacity of the database with a reliable algorithm, gives an estimate of the properties of the Sound Speed Profile that have the biggest impact on sound propagation. It is proven, that with carefully engineered features, that include a degree of added expert knowledge, a standard model can achieve good accuracy of prediction. Secondly, a Knowledge Graph is designed to represent the whole context of explicitly stated expert knowledge, using concepts from Hydroacoustics. They are encoded in a form of relational structure connecting actual features of the data into logical categories. In this representation it can be used by the Knowledge Graph Convolutional Network model designed for the problem. A range of tests performed on KGCN proves that using a Graph Neural Network can be feasible to solve the problem, however it also reveals a range of issues regarding model's capability to handle the complexity of problem statement.",
+    "arxiv_id": "",
+    "doi": "",
+    "url": "https://openalex.org/W3136404701",
+    "citation_count": 0,
+    "source": "openalex",
+    "hf_metadata": null
+  }
+]

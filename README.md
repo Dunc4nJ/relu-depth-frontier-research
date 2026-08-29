@@ -1,30 +1,31 @@
-# Research workspace — what this directory is
+# Exact shallow-ReLU frontier campaign
 
-This tree seeds a **campaign workspace**: the durable state of ONE research engagement. The skill
-package is the reusable method; the workspace is where that method's artifacts live. The two never
-mix — the package carries no campaign state, and a campaign never edits the package.
+This repository is the durable, Git-backed workspace for one question:
 
-**Bootstrap.** From the installed skill package, run its `bootstrap-research-workspace.sh` with
-`<target-statement-or-path> <workspace-dir> [--resume-ok]`. It creates the workspace as a sibling
-**git repository** — the campaign's source of truth — copies these seeds, records the canonical package
-root/version/content digest in `.skill-runtime.toml`, generates the small `./skill-runtime` dispatcher,
-and fills `{CURLY_SLOTS}` where it can. `--resume-ok` verifies that binding, then resumes from `STATUS.md`
-without silently rebinding. `--self-test` exercises the literal cold-runbook commands in a throwaway
-directory.
+> Can every finite maximum `MAX_n(x) = max_i x_i` be represented exactly by a finite ReLU network with exactly two hidden ReLU layers and unrestricted real weights?
 
-**Lazy creation.** Only the files here are created up front. Working directories
-(`proofs/ counterexamples/ experiments/ computations/ formalization/ witnesses/ certificates/
-artifacts/ reviews/referee/ exploration/ literature/ logs/ scripts/ lockbox/`) are created
-the first time something real lands in them — an empty scaffold is noise.
+The first unresolved rung in this campaign's retrieved frontier is `n = 11`: the dated searches in `NOVELTY_SEARCH_LOG.md` found constructions through `n = 10` and no MAX11 settlement. That is a bounded search result, not a universal priority claim. The campaign runs prove and refute routes in parallel. A result about a restricted ansatz, rational weights, bounded width, approximation, or a bounded domain is a cousin—not a settlement.
 
-**The rhythm.** Every round closes with: ledger updated → `./skill-runtime view` →
-`phases/ROUNDS.md` updated → next work dual-written to `STATUS.md` and the queue file
-`beads/QUEUE.md` (format defined in that file; an external beads-style tracker MAY mirror it, but
-the file is canonical and no external tool is required) → `./skill-runtime verify-quick` green →
-one git commit naming the round. The verifying step comes last on purpose: it then covers every
-canonical mutation the round made, and never reports a stale-view SE-15 the round itself caused.
-A fresh session resumes from `STATUS.md` and the runbook without re-deriving settled state.
+## Cold start
 
-**The rules that bind everything here** are the package's `references/KERNEL.md` and
-`references/CLAIMS-LEDGER-SPEC.md`. The one to remember: `CLAIMS_LEDGER.md` is GENERATED — edit the
-TOML under `ledger/`, never the view.
+1. Read `AGENTS.md`, `START_HERE.md`, `RESEARCH_RUNBOOK.md`, `RESEARCH_CHARTER.md`, and `PROBLEM_SPECIFICATION.md`.
+2. Run `source scripts/activate-toolchain.sh`.
+3. Run `scripts/verify-toolchain.sh` and `./skill-runtime verify-quick`.
+4. Reconcile `STATUS.md`, `beads/QUEUE.md`, the ledger, `phases/ROUNDS.md`, and Git before claiming work.
+5. Work only on a named route/gap and close every round with the skill runtime, ledger, queue, verifier, and one commit.
+
+## What “certified literature” means here
+
+Each retained source is bound to primary retrieval metadata, immutable local bytes, SHA-256, extraction checks, a source card, and an exact locator/short excerpt. That certifies provenance and statement traceability; it does **not** certify that a theorem is correct. Correctness is promoted separately through reconstruction, independent replay, referee review, and formalization.
+
+## Main entry points
+
+- `STATUS.md` — current resume pointer
+- `RESEARCH_CHARTER.md` — frozen scope, review bar, and budget
+- `PROBLEM_SPECIFICATION.md` — exact mathematical object and cousin register
+- `NEURAL_REPRESENTATION_EPISTEMICS.md` — binding field translation
+- `literature/INDEX.md` — admitted corpus and certification status
+- `CLAIMS_LEDGER.md` — generated standing view; edit only `ledger/*.toml`
+- `TASKS.md` — human-readable campaign roadmap
+- `handoff/README.md` — bounded native-subagent dispatch and contamination rules
+- `reviews/README.md` — research-lead adjudication and long-run checkpoint protocol

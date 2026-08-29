@@ -1,0 +1,611 @@
+                                                              BETTER NEURAL NETWORK EXPRESSIVITY:
+                                                                    SUBDIVIDING THE SIMPLEX
+
+                                         EGOR BAKAEV, FLORESTAN BRUNCK, CHRISTOPH HERTRICH, JACK STADE, AND AMIR YEHUDAYOFF
+
+
+                                                Abstract. This work studies the expressivity of ReLU neural networks with a focus on their depth.
+                                                A sequence of previous works showed that ⌈log2 (n + 1)⌉ hidden layers are sufficient to compute
+                                                all continuous piecewise linear (CPWL) functions on Rn . Hertrich, Basu, Di Summa, and Skutella
+                                                (NeurIPS ’21 / SIDMA ’23) conjectured that this result is optimal in the sense that there are CPWL
+                                                functions on Rn , like the maximum function, that require this depth. We disprove the conjecture
+arXiv:2505.14338v3 [cs.LG] 19 Feb 2026
+
+
+
+
+                                                and show that ⌈log3 (n − 1)⌉ + 1 hidden layers are sufficient to compute all CPWL functions on Rn .
+                                                    A key step in the proof is that ReLU neural networks with two hidden layers can exactly represent
+                                                the maximum function of five inputs. More generally, we show that ⌈log3 (n − 2)⌉ + 1 hidden layers
+                                                are sufficient to compute the maximum of n ≥ 4 numbers. Our constructions almost match the
+                                                ⌈log3 (n)⌉ lower bound of Averkov, Hojny, and Merkert (ICLR ’25) in the special case of ReLU
+                                                networks with weights that are decimal fractions. The constructions have a geometric interpretation
+                                                via polyhedral subdivisions of the simplex into “easier” polytopes.
+
+
+
+
+                                                                                       1. Introduction
+                                            Neural networks with rectified linear unit (ReLU) activations are among the most common
+                                         models in modern machine learning. A ReLU network with depth k + 1 is defined via k + 1 affine
+                                         transformations T (i) : Rni−1 → Rni for i = 1, . . . , k + 1. It computes the function defined as
+                                         alternating composition
+                                                                    T (k+1) ◦ ReLU ◦T (k) ◦ · · · ◦ ReLU ◦T (2) ◦ ReLU ◦T (1)
+                                         of the affine transformations with component-wise applications of the ReLU function ReLU(x) =
+                                         max{0, x}. We say that the network has k hidden layers. Alternatively, ReLU networks can be
+                                                                                                                                  P defined
+                                                                                                                                         
+                                         as directed acyclic graphs of neurons, each of which computes a function x 7→ ReLU b + i ai xi .
+                                            Functions represented by ReLU networks are continuous and piecewise linear (CPWL), and every
+                                         such function on Rn can be computed by a ReLU network [ABMM18]. This naturally leads to
+                                         complexity-theoretic questions, such as: what are the minimal size (i.e., number of neurons) and
+                                         depth needed to represent specific CPWL functions? Such questions have been extensively studied
+                                         recently (see [ABMM18, Wil18, HBDSS23, HHL23, Val24, HMST23, HL24] and references within), but
+                                         many major questions are still open, such as the minimum number of layers required to represent all
+                                         CPWL functions, which is the topic of this paper.
+                                            Denote by CPWLn the space of CPWL functions f : Rn → R and by ReLUn,k the subset of CPWLn
+                                         representable with k hidden layers. An important CPWL function for understanding neural network
+                                         depth is the MAXn function defined by
+                                                                    MAXn (x) = MAXn (x1 , . . . , xn ) = max{x1 , . . . , xn }.
+                                         Wang and Sun [WS05] showed that every function in CPWLn can be written as a linear combination
+                                         of MAXn+1 functions applied to some affine functions: for every f ∈ CPWLn , there are affine maps
+                                         A1 , . . . , As from Rn to Rn+1 and σ1 , . . . , σs ∈ {±1} so that
+                                                                                          s
+                                                                                          X
+                                         (1)                                    f (x) =         σi MAXn+1 (Ai (x)).
+                                                                                          i=1
+                                                                                                   1
+2                            BAKAEV, BRUNCK, HERTRICH, STADE, AND YEHUDAYOFF
+
+
+As observed by Arora, Basu, Mianjy, and Mukherjee [ABMM18], this fact implies that
+                                            CPWLn ⊆ ReLUn,⌈log2 (n+1)⌉ .
+In words, every CPWL function on Rn can be represented with ⌈log2 (n + 1)⌉ hidden layers. The
+reason is that pairwise maxima can be represented with one hidden layer via MAX2 (x1 , x2 ) =
+ReLU(x2 − x1 ) + x1 . Then, MAXn+1 —and therefore also the representation (1)—can be realized
+with ⌈log2 (n + 1)⌉ hidden layers by implementing it in a binary tree manner.
+   From this discussion, it follows that the depth complexity of CPWLn is essentially equal to the
+depth complexity of MAXn+1 .1 This highlights the importance of MAXn , and motivates the study of
+its depth complexity.
+   Summarizing, every CPWL function on Rn can be realized with at most ⌈log2 (n + 1)⌉ hidden
+layers, leading to the natural question of whether this upper bound is sharp. In fact, to the best of
+our knowledge, the best lower bound is 2, meaning that there is no function known that provably
+requires more than two hidden layers.
+   Hertrich, Basu, Di Summa, and Skutella [HBDSS23] conjectured that the ⌈log2 (n)⌉ upper bound
+on the required number of hidden layers for MAXn is sharp. This conjecture led to a sequence
+of works that proved it in a variety of special cases. Mukherjee and Basu [MB17] are the first
+to prove the conjecture for the case n = 3, i.e., showing that two hidden layers are necessary
+for MAX3 . Haase, Hertrich, and Loho [HHL23] proved the conjecture for general n when the
+ReLU network is allowed to use only integer weights. The techniques from [HHL23] were extended
+by Averkov, Hojny, and Merkert [AHM25], who proved logarithmic lower bounds for the case
+of fractional weights whose denominators do not have some fixed prime factor. The results of
+Valerdi [Val24] imply that the conjecture holds for the input convex neural networks (ICNNs)
+model, which was defined by Amos, Xu and Kolter [AXK17] and studied in subsequent works
+(e.g. [BSA+ 21, CSZ19, CSZ20, BSG+ 23, HL24]). Stronger lower bounds for ICNNs and monotone
+ReLU networks were shown by Bakaev, Brunck, Hertrich, Reichman, and Yehudayoff [BBH+ 25].
+Grillo, Hertrich, and Loho proved an Ω(log log n) lower bound for ReLU networks that “respect the
+singularities of MAXn ” (see [GHL25] for a formal definition). Their proof also implies the conjecture
+for n = 5 for networks that “respect the singularities of MAXn ”, a statement that was already shown
+in a computer-aided manner in [HBDSS23].
+1.1. Our Contribution. Our main result is that the conjecture is false. More precisely, we prove
+that the maximum of n numbers can be computed with ⌈log3 (n − 2)⌉ + 1 hidden layers.
+Theorem 1. For n ≥ 1, we have MAX3n +2 ∈ ReLUn+1 .
+  By the discussion above, this implies that every CPWL function defined on Rn can be represented
+with ⌈log3 (n − 1)⌉ + 1 hidden layers.
+Theorem 2. For n ≥ 3, we have CPWLn = ReLUn,⌈log3 (n−1)⌉+1 .
+  Compared to the previous upper bound [ABMM18], we improve the asymptotically required
+depth by a constant factor of ln(2)/ ln(3) ≈ 0.63. This surprising result shows that computing
+the maximum of n numbers can be done in faster parallel time than log2 (n) even when all “max
+operations” have fan-in two. The summation operation allows to boost the parallel running time.
+  Naturally, our construction does not fall into any of the special cases under which the conjecture
+has been proven before. However, interestingly, as we only use weights with denominators that are a
+power of two, our construction falls into the setting of Averkov, Hojny, and Merkert [AHM25], who
+proved a ⌈log3 (n)⌉ lower bound on the number of hidden layers required for MAXn in the special
+    1MAX                         n+1
+                                      rather than Rn , but this can be fixed by setting one coordinate to zero and considering
+           n+1 is defined on R
+max{0, x1 , . . . , xn } instead, which has the same depth complexity as MAXn+1 , see [HBDSS23]. We nevertheless stick
+to our definition for symmetry reasons.
+                              BETTER NEURAL NETWORK EXPRESSIVITY                                      3
+
+
+case of ReLU networks with weights that are decimal fractions. We almost match this lower bound
+(up to a difference of at most one layer).
+  It is noteworthy that Theorem 1 already improves the depth complexity of MAX5 .
+
+Proposition 3. The minimum number of hidden layers needed for computing MAX5 is exactly two.
+
+   This also implies that every function in CPWL4 can be implemented with two hidden layers,
+sharpening the contrast to the ICNN model, for which there are functions in CPWL4 that need
+arbitrary large depth (see [Val24] for the proof using neighborly polytopes and [BBH+ 25] for a more
+detailed discussion).
+   The proof of our result is short and elementary, we provide it in Section 2. However, it hides a
+beautiful geometric intuition that guided us in developing the proof and that might also be useful to
+further improve the current upper or lower bounds. We therefore explain this intuition in Section 3.
+The geometric intuition is based on relations between neural networks and polyhedral and tropical
+geometry, which were already studied in several previous works, see e.g., [ZNL18, MS21, MCT21,
+HBDSS23, HMST23, HHL23, BGH25, HL24, Val24].
+   We hope that our result initiates follow-up work on finding the true required depth to represent
+all CPWL functions. There is a gap to close between 2 and ⌈log3 (n − 1)⌉ + 1 hidden layers. While
+we resolve the previously open question of whether MAX5 can be represented with two hidden layers,
+it intriguingly remains open whether the same is possible for MAX6 .
+   We mention a similarity to the computational complexity of multiplying two n × n matrices. The
+trivial algorithm runs in time O(n3 ). In his seminal work, Strassen showed that multiplying two
+2 × 2 matrices can be done with seven multiplications instead of eight [Str69]. This finite-dimensional
+improvement leads to a better algorithm with running time O(nlog2 7 ) ≈ O(n2.8 ). A long line of works
+(see [CU03, Cop82, GU18] and the many references within) found better and better upper bounds on
+the matrix multiplication exponent ω and the current best upper bound is ω ≤ 2.371552 [ADW+ 25].
+Coming back to the maximum function, thinking of the depth parameter d as fixed, we can trivially
+compute the maximum of 2d numbers with d hidden layers. The finite-dimensional Proposition 3
+leads to a polynomial improvement. With d hidden layers, we can compute the maximum of ≈ (5/2)d
+numbers. With a more technical analysis this can be boosted to ≈ 3d . For the matrix multiplication
+exponent, we have the trivial lower bound ω ≥ 2. On the other hand, to the best of our knowledge it
+could be the case that two hidden layers suffice for computing the maximum of n numbers for all n.
+
+
+1.2. Universal approximation and required size. Our paper is concerned with the study of
+exact expressivity. The celebrated universal approximation theorems (see [Cyb89, HSW89] for initial
+versions and [LLPS93] for a version that encompasses ReLU) state that every continuous function on
+a bounded domain can be approximated with one hidden layer networks. Related to this, Safran,
+Reichman, and Valiant [SRV24] studied how to efficiently approximate MAXn . Nevertheless, for a
+rigorous mathematical understanding of neural networks, it is inevitable to study the precise set of
+functions representable by different network architectures. Also, universal approximation theorems
+only work on bounded domains and might require a large number of neurons. In contrast, it is
+easy to verify that our construction needs only linearly many neurons to compute MAXn . It is,
+however, more tricky to determine the required size to represent an arbitrary CPWL function with
+our construction, as this depends on the number s of terms in the representation (1). The best
+known upper bound on s was investigated in a series of works [HLXZ20, HBDSS23, CGR22, BGH25]
+and is s ∈ O(pn+1 ), where p is the number of different affine functions represented locally by the
+given CPWL function. Another related stream of research is how one can trade depth and size
+against each other, with several results implying that mild increases in depth often allow significantly
+smaller neural networks [MPCB14, Tel16, ES16, ABMM18, EG24, SES22].
+4                         BAKAEV, BRUNCK, HERTRICH, STADE, AND YEHUDAYOFF
+
+
+                                                2. Direct proofs
+2.1. Computing the maximum of five numbers with two hidden layers. In this section we
+give an explicit representation of MAX5 with two hidden layers. To this end, let M : R5 → R be
+defined by
+(2)                      M (x) = 0.5 P1 (x) + P2 (x) + P3 (x) + P4 (x) + Q(x)
+                                                                                     
+                                              − R13 (x) − R14 (x) − R23 (x) − R24 (x) ,
+where
+                       P1 (x) = max(max(2x5 , x1 + x2 ), max(x1 , x3 ) + max(x1 , x4 ))
+                                 = max(2x5 , x1 + x2 , 2x1 , x1 + x3 , x1 + x4 , x3 + x4 ),
+                       P2 (x) = max(max(2x5 , x1 + x2 ), max(x2 , x3 ) + max(x2 , x4 ))
+                                 = max(2x5 , x1 + x2 , 2x2 , x2 + x3 , x2 + x4 , x3 + x4 ),
+                       P3 (x) = max(max(2x5 , x3 + x4 ), max(x3 , x1 ) + max(x3 , x2 ))
+                                 = max(2x5 , x3 + x4 , 2x3 , x3 + x1 , x3 + x2 , x1 + x2 ),
+                       P4 (x) = max(max(2x5 , x3 + x4 ), max(x4 , x1 ) + max(x4 , x2 ))
+                                 = max(2x5 , x3 + x4 , 2x4 , x4 + x1 , x4 + x2 , x1 + x2 ),
+                        Q(x) = max(2x5 , max(x1 + x2 , x3 + x4 ))
+                                 = max(2x5 , x1 + x2 , x3 + x4 ),
+                      R13 (x) = max(max(2x5 , x1 + x3 ), max(x1 + x2 , x3 + x4 ))
+                                 = max(2x5 , x1 + x3 , x1 + x2 , x3 + x4 ),
+                      R14 (x) = max(max(2x5 , x1 + x4 ), max(x1 + x2 , x3 + x4 ))
+                                 = max(2x5 , x1 + x4 , x1 + x2 , x3 + x4 ),
+                      R23 (x) = max(max(2x5 , x2 + x3 ), max(x1 + x2 , x3 + x4 ))
+                                 = max(2x5 , x2 + x3 , x1 + x2 , x3 + x4 ),
+                      R24 (x) = max(max(2x5 , x2 + x4 ), max(x1 + x2 , x3 + x4 ))
+                                 = max(2x5 , x2 + x4 , x1 + x2 , x3 + x4 ).
+Claim 4. MAX5 = M .
+Proof. We use a simple case analysis. If MAX5 (x) = x5 then 2x5 is not smaller than the sum of any
+pair of coordinates x1 , x2 , x3 , x4 , x5 , and then each of the nine terms defined above equals to 2x5 ,
+therefore M (x1 , x2 , x3 , x4 , x5 ) = x5 . So now we can assume that max(x1 , x2 , x3 , x4 , x5 ) is not x5 .
+  The expression M (x) is symmetric with respect to the following operations: swapping indices
+1 and 2; swapping indices 3 and 4; simultaneously swapping the pairs of indices (1, 2) and (3, 4).
+This is because with these swaps of indices some of the terms just swap with each other:
+            if 1 ↔ 2, then        P1 ↔ P2 ,      R13 ↔ R23 ,       R14 ↔ R24 ,       other terms stay the same;
+            if 3 ↔ 4, then        P3 ↔ P4 ,      R13 ↔ R14 ,       R23 ↔ R24 ,       other terms stay the same;
+    if (1, 2) ↔ (3, 4), then      P1 ↔ P3 ,        P2 ↔ P4 ,       R14 ↔ R23 ,       other terms stay the same.
+    So without loss of generality, we can suppose that
+                               x1 = max(x1 , x2 , x3 , x4 ) = max(x1 , x2 , x3 , x4 , x5 ),
+                                BETTER NEURAL NETWORK EXPRESSIVITY                                                5
+
+
+and the other cases will follow by symmetry. When x1 is the largest input, we have:
+
+        x1 = MAX5 (x)          =⇒ P1 (x)          = max(2x5 , x1 + x2 , 2x1 , x1 + x3 , x1 + x4 , x3 + x4 )
+                                                  = 2x1 ,
+     x2 + x1 ≥ 2x2 ,
+     x2 + x1 ≥ x2 + x4         =⇒ P2 (x)          = max(2x5 , x1 + x2 , 2x2 , x2 + x3 , x2 + x4 , x3 + x4 )
+                                                  = max(2x5 , x1 + x2 , x2 + x3 , x3 + x4 )
+                                                  = R23 (x),
+     x3 + x1 ≥ 2x3 ,
+     x3 + x1 ≥ x3 + x2         =⇒ P3 (x)          = max(2x5 , x3 + x4 , 2x3 , x3 + x1 , x3 + x2 , x1 + x2 )
+                                                  = max(2x5 , x3 + x4 , x3 + x1 , x1 + x2 )
+                                                  = R13 (x),
+     x4 + x1 ≥ 2x4 ,
+     x4 + x1 ≥ x4 + x2         =⇒ P4 (x)          = max(2x5 , x3 + x4 , 2x4 , x4 + x1 , x4 + x2 , x1 + x2 )
+                                                  = max(2x5 , x3 + x4 , x4 + x1 , x1 + x2 )
+                                                  = R14 (x),
+     x1 + x2 ≥ x2 + x4         =⇒ R24 (x)         = max(2x5 , x2 + x4 , x1 + x2 , x3 + x4 )
+                                                  = max(2x5 , x1 + x2 , x3 + x4 )
+                                                  = Q(x).
+  We see that all but one of the terms in the sum cancel out:
+                                                                                                              
+    M (x) = 0.5 P1 (x) + P2 (x) + P3 (x) + P4 (x) + Q(x) − R13 (x) − R14 (x) − R23 (x) − R24 (x)
+          = 0.5P1 (x) = x1 ,
+  which is MAX5 (x), concluding the proof.                                                                        □
+  With this representation of the maximum function, we can prove Proposition 3.
+Proof of Proposition 3. As each of the nine terms in the definition of M can be computed with two
+hidden layers, the same is true for M itself, and therefore, by Claim 4, for MAX5 .             □
+
+2.2. Improved upper bound on the depth. Computing MAX5 in 2 hidden layers already allows
+us to compute MAXn in 2⌈log5 (n)⌉ ≈ 0.86 log2 (n) hidden layers. In fact, Claim 4 can be pushed
+further. In this section, we show how to compute the maximum of 3n + 2 numbers with n + 1 hidden
+layers. This allows MAXn to be computed in ⌈log3 (n − 2)⌉ + 1 ≈ 0.63 log2 (n) hidden layers.
+   Let Ta,b be the function R4a+b → R that equals the maximum of a elements of type max(x1 , x2 ) +
+max(x3 , x4 ), and b extra arguments:
+            Ta,b (x) = max max(x1 , x2 ) + max(x3 , x4 ), max(x5 , x6 ) + max(x7 , x8 ), . . .
+                                                                                                     
+                               . . . , max(x4a−3 , x4a−2 ) + max(x4a−1 , x4a ), x4a+1 , . . . , x4a+b .
+  Let Ta,b be the vector space spanned by the functions of the form Ta,b ◦ L for linear transformations
+L : R4a+b → R4a+b .
+Claim 5. Viewing Ta,b+4 as a function R4a+b+4+1 → R that ignores the last coordinate, we have
+that Ta,b+4 ∈ Ta+1,b+1 .
+6                       BAKAEV, BRUNCK, HERTRICH, STADE, AND YEHUDAYOFF
+
+
+Proof. Write Ta,b+4 = max(xi+1 , xi+2 , xi+3 , xi+4 , Ta,b ), where i = 4a + b. By Equation (2), this can
+be written as a linear combination of the nine functions P1 , P2 , P3 , P4 , Q, R13 , R14 , R23 and R24 .
+Here, for example,
+                                                                                       
+             P1 (x) = max 2Ta,b , xi+1 + xi+2 , max(xi+1 , xi+3 ) + max(xi+1 , xi+4 )
+                                                                                          
+                                   xi+1 + xi+2          x
+                                                            i+1 xi+3
+                                                                             x
+                                                                                  i+1 xi+4
+                    = 2max Ta,b ,                , max         ,        + max        ,        ,
+                                        2                    2     2              2      2
+                                                                
+                                   xi+1 + xi+2 xi+3 + xi+4
+              Q(x) = 2max Ta,b ,                 ,                  ,
+                                        2                2
+                                                                             
+                                   xi+1 + xi+3 xi+1 + xi+2 xi+3 + xi+4
+            R13 (x) = 2max Ta,b ,                ,               ,              .
+                                        2                2              2
+It follows that
+                                            P1 (x) ∈ Ta+1,b+1 ,
+                                             Q(x) ∈ Ta,b+2 ,
+                                           R13 (x) ∈ Ta,b+3 .
+Similarly,
+                                      P2 (x), P3 (x), P4 (x) ∈ Ta+1,b+1 ,
+                                  R14 (x), R23 (x), R24 (x) ∈ Ta,b+3 .
+Since max(x1 , x2 ) = max(max(x1 , x2 ) + max(0, 0)), we have that Ta,b+2 ⊆ Ta,b+3 ⊆ Ta+1,b+1 (by
+ignoring the last coordinates). We can conclude that Ta,b+4 is in Ta+1,b+1 .                   □
+Claim 6. If the function T3n−1 ,2 can be computed in depth k, then so can T0,3n +2 .
+Proof. Since Ta,b+4 ∈ Ta+1,b+1 , we have Ta,b+4 ⊆ Ta+1,b+1 . Applying this 3n−1 times,
+                    T0,3n +2 ⊆ T1,3n −3+2 ⊆ T2,3n −6+2 ⊆ T3,3n −9+2 ⊆ · · · ⊆ T3n−1 ,2 .              □
+Claim 7. If the function T0,3n−1 +2 can be computed in depth k − 1, then T3n−1 ,2 can be computed in
+depth k.
+Proof. Compute 3n−1 elements of type max(x1 , x2 ) + max(x3 , x4 ) in the first layer, then apply
+T0,3n−1 +2 to them and two extra inputs.                                                       □
+Proof of Theorem 1. The proof is by induction. The case n = 1 is Proposition 3. For the induction
+step, we simply combine the previous two claims. Assume that MAX3n−1 +2 = T0,3n−1 +2 can be
+computed with n hidden layers. By Claim 7, we know that T3n−1 ,2 can be computed with n + 1
+hidden layers. By Claim 6, we now know that T0,3n +2 = MAX3n +2 can also be computed with n + 1
+hidden layers.                                                                                  □
+Proof of Theorem 2. This follows from Theorem 1, using the fact that every function in CPWLn can
+be written as a linear combination of maxima of n + 1 affine terms [WS05].                     □
+Remark 1. The inductive constructions described in the proofs of the Claims 5 and 7 imply that the
+weights of the obtained networks are fractions with denominators that are powers of two, in other
+words, binary fractions. Such fractions can also be represented as decimal fractions.
+
+                                      3. Geometric intuition
+  Even though it is not necessary for the proof of our main theorem, in this section we describe the
+geometric intuition behind our constructions. The geometric perspective may help to understand
+the constructions and may be useful in future research. The connection to geometry is based on a
+well-known fundamental equivalence between (positively homogeneous and convex) CPWL functions
+                             BETTER NEURAL NETWORK EXPRESSIVITY                                    7
+
+
+and polytopes (see [ZNL18, MS21, MCT21, HBDSS23, HMST23, HHL23, BGH25, HL24, Val24] and
+the references within), which we describe next.
+
+3.1. Polytopes, support functions, and neural networks. A polytope is the convex hull of
+finitely many points in Rn . We refer to [Grü03] for standard terminology and theory of polytopes.
+Each polytope P can be uniquely associated with its support function
+                                   hP (x) = max{⟨x, p⟩ : p ∈ P }.
+The support function hP is convex, positively homogeneous and CPWL. Conversely, for each such
+function f there exists a unique polytope P with f = hP , which is sometimes called the Newton
+polytope of f , referring to the corresponding concept in tropical geometry.
+   The Newton polytope of MAXn is the (n − 1)-dimensional simplex ∆n−1 = conv{e1 , . . . , en } in
+Rn , where ei is the i’th standard unit vector. Understanding the ReLU depth complexity of MAXn
+translates to a question about generating ∆n−1 in the following model (see e.g. [HBDSS23, Val24]).
+For two sets P, Q ⊆ Rn , their Minkowski sum is defined as
+                                  P + Q = {p + q : p ∈ P, q ∈ Q}.
+Their convex hull is denoted by
+                                       P ∗ Q = conv(P ∪ Q).
+Denote by P 0 the set of polytopes consisting of a single point (for a fixed dimension n). For k ≥ 0,
+define                                nX                              o
+                              P k+1 =       Pi ∗ Qi : ∀i Pi , Qi ∈ P k ,
+                                         i
+where the sum over i is finite. This leads to a computational complexity measure for polytopes. The
+complexity of a polytope P is the minimum k so that P ∈ P k .
+   This complexity measure does not, however, capture ReLU depth complexity. The missing piece
+is formal Minkowski difference. A polytope X is a formal Minkowski difference of P and Q if
+X + P = Q. As the following lemma shows, this computational complexity measure is equivalent to
+ReLU depth.
+Lemma 8 (see [Her22], Theorem 3.35). For every polytope X, the required number of hidden layers
+for representing hX is the minimum k so that there are P, Q ∈ P k so that
+                                             X + P = Q.
+   We mostly care about X = ∆n−1 . In other words, we want to write ∆n−1 as a formal Minkowski
+differences of polytopes in P k for the smallest k possible. Understanding the ReLU depth complexity
+of the maximum function—and hence of all CPWL functions—boils down to understanding formal
+Minkowski differences.
+
+3.2. Upper bounds on the depth via subdivisions. By Lemma 8, we wish to write ∆n−1 as a
+formal Minkowski difference. We need to construct two polytopes P, Q ∈ P k for some small k, and
+show that ∆n−1 + P = Q. This task is not so easy because P and Q should be somehow “coupled”
+for this equation to hold. We now explain how to replace the pair (P, Q) by a subdivision of ∆n−1 .
+The advantage is that subdivisions are easier to comprehend and hence to find.
+   The simple fact we start with is that the identity map is what is called a valuation: if P and Q
+are polytopes so that P ∪ Q is a polytope, then
+(3)                                (P ∪ Q) + (P ∩ Q) = P + Q.
+The deeper fact we use is an inclusion-exclusion extension of the valuation property. It is called
+the full additivity of the identity map; see for example 5.20 in [MS83] and Chapter 6 in Schneider’s
+book [Sch13].
+8                            BAKAEV, BRUNCK, HERTRICH, STADE, AND YEHUDAYOFF
+
+
+Lemma 9 (full additivity). Let X and Q1 , . . . , Qm be polytopes in Rn so that X = i∈[m] Qi . Let
+                                                                                         S
+
+T 0 be the collection of non-empty sets S ⊆ [m] of even size. Let T 1 be the collection of sets S ⊆ [m]
+of odd size. Then,                         X           X
+                                      X+        QS =         QS
+                                              S∈T 0       S∈T 1
+              T
+where QS :=       i∈S Qi .
+
+   It is worth mentioning that Lemma 9 leads to a different proof of the important Equation (1)
+that was proved by Wang and Sun [WS05], compare also [HBDSS23]. The explanation, in a nutshell,
+is as follows. Every polytope P can be triangulated, that is, subdivided into simplices. Then, by the
+Lemma 9, the support function hP can be written as a difference between the support functions of
+simplices. In other words, hP is a signed-sum of MAXn+1 functions.
+   The proof of Lemma 9 is quite deep. Like the inclusion-exclusion formula, it is tempting to prove
+it by induction. But as opposed to the inclusion-exclusion formula, if we remove a single polytope
+Qi then the relevant union may no longer be a polytope and the induction hypothesis can not be
+applied. We must significantly strengthen the lemma in order to prove it. The proof is obtained in
+several steps. First, it uses the equivalence between polytopes and their support functions. Second, it
+extends the support function to the lattice of finite unions of polytopes. This extension is topological
+and uses the Euler characteristic. Third, the Euler characteristic is shown to be fully additive.
+Finally, we can now deduce that the extended support function is fully additive, and hence the
+identity map on polytopes is fully additive (the identity map may not be fully additive on the lattice
+of finite unions of polytopes).
+   Lemma 9 is useful in combination with Lemma 8 because from a cover of X = ∆n−1 by polytopes
+Q1 , . . . , Qm , we can write ∆n−1 as a formal Minkowski difference between two polytopes that are as
+complex as the QS ’s. This is captured by the following lemma.
+Lemma 10. The required number of hidden layers          for MAXn is at most the minimum k so that
+there are polytopes Q1 , . . . , Qm so that ∆n−1 = i∈[m] Qi where QS ∈ P k for all non-empty S ⊂ [m].
+                                                  S
+
+   Observe that the condition QS ∈ P k holds if Q1 , . . . , Qm ∈ P k and each QS is a face of some
+Qi because P k is closed under taking faces. This observation suggests the following way of using
+Lemma 10. Instead of writing ∆n−1 as a formal Minkowski difference, it suffices to subdivide ∆n−1
+into Q1 , . . . , Qm ∈ P k . If the subdivision is polyhedral, the intersections QS are always faces, and
+such a subdivision automatically leads to writing ∆n−1 as ∆n−1 + P = Q for P, Q ∈ P k . Note that
+P and Q themselves might be pretty complicated and “hard to find” because they originate from the
+exponentially large alternating sums in Lemma 9.
+3.3. Subdividing the four-simplex. We now apply our previously developed machinery to explain
+the geometric intuition behind our construction of the two-hidden-layer ReLU neural network for
+MAX5 . Geometrically, we subdivide ∆4 to four pieces, each in P 2 . This subdivision leads to the
+two-hidden-layer ReLU network for MAX5 described in Equation (2).
+   We start with the three-dimensional case ∆3 . Below we explain how to subdivide ∆3 into four
+pieces Q1 , . . . , Q4 so that each Qi is of the form
+                                                Qi = pi ∗ Zi
+where pi ∈ P 0 is a point and Zi ∈ P 1 is a rhombus. In words, each Qi is a rhombic pyramid. This
+is a nice 3D puzzle, and an illustration of the solution is given in Figure 1 and Figure 2. This
+subdivision leads to a computation of MAX4 with two hidden layers, which is different than the
+“trivial network”.
+   Let x1 , . . . , x4 denote the four points
+                    x1 = (−1, −1, −1), x2 = (1, 1, −1), x3 = (−1, 1, 1), x4 = (1, −1, 1).
+                              BETTER NEURAL NETWORK EXPRESSIVITY                                     9
+
+                              x3
+                                                               x3         x23        x2
+
+                              x34
+                                            x23                          x34 , x12
+                      x13                                   x13                       x24
+
+                                     x4
+                        x14                 x24
+                                                     x2       x1                      x4
+                                                                              x14
+                 x1                x12
+
+       Figure 1. Two ways to look at the three-simplex. The highlighted part is one of
+       four pyramids of subdivision — a rhombic pyramid with base x1 , x14 , x34 , x13 and
+       apex x12 .
+
+
+
+
+         Figure 2. Subdividing the three-simplex into four identical rhombic pyramids.
+
+The convex hull of the four points is a three-dimensional simplex (which is affinely equivalent to
+∆3 ). Denote by xij the midpoints of xi and xj . The orthogonal projections of x1 , . . . , x4 to the
+plane e⊥                                             2                                          ⊥
+        3 are the four vertices of the square [−1, 1] . Cutting the simplex along the planes e1 and
+ ⊥
+e2 partitions the simplex into four identical rhombic pyramids:
+                                         apex        base
+                                          x12 x1 , x14 , x34 , x13
+                                          x12 x2 , x23 , x34 , x24
+                                          x34 x3 , x13 , x12 , x23
+                                          x34 x4 , x14 , x12 , x24
+This is the representation we are after; the apex is in P 0 and the base in P 1 .
+   We now explain how the subdivision of ∆3 into rhombic pyramids leads to a subdivision of ∆4
+into pieces in P 2 . Let X be a three-dimensional face of ∆4 . So X is a copy of ∆3 . Subdivide X into
+four rhombic pyramids of the form
+                                               pi ∗ Z i .
+Let x5 be the vertex of ∆ not in X. Because ∆4 = x5 ∗ X, we see that the four pieces
+                            4
+
+                                    x5 ∗ (pi ∗ Zi ) = (x5 ∗ pi ) ∗ Zi ∈ P 2
+10                          BAKAEV, BRUNCK, HERTRICH, STADE, AND YEHUDAYOFF
+
+
+lead to the required subdivision of ∆4 .
+   The four full-dimensional polytopes in P 2 in the subdivision are the Newton polytopes of the four
+terms P1 (x), P2 (x), P3 (x), and P4 (x) in Equation (2), while the other terms in Equation (2) are the
+support functions of lower-dimensional faces of the four full-dimensional polytopes.
+3.4. Higher dimensions. The geometric approach also allows to see why we can compute MAX3n +2
+in n + 1 layers. We have seen that ∆3 can be subdivided into four pieces, each of which is a join 2 of
+a point pi and a parallelogram Zi . The simplex ∆3 is the join of a point and a triangle. In other
+words, we replaced a triangle (which is in P 2 ) with a parallelogram (which is in P 1 ). More abstractly,
+we replaced three points (the triangle) by a single parallelogram, which is the geometric intuition
+behind Claim 5. This suggests that each layer can reduce “the number of objects to be joined” by a
+factor of three, which should then allow ∆n to be computed in roughly log3 (n) layers. A formal
+implementation of this proof strategy can be done, but it requires a non-trivial reasoning on the
+interactions between joins and subdivisions. The algebraic proof presented in Section 2.2 “hides” this
+complex interaction in the vector space structure of Ta,b .
+
+                                                 4. Conclusions
+   Summarizing, we provide the first improvement of the upper bound on the required depth to
+represent CPWL functions, after the initial representation result by Arora, Basu, Mianjy, and
+Mukherjee [ABMM18]. Thereby, we break the log2 (n)-barrier that was conjectured to be opti-
+mal [HBDSS23] and proven to be tight in many special cases [HHL23, Val24, GHL25]. Consequently,
+our result has the potential to shift the focus of future work from lower bounds to upper bounds,
+from impossibility results to constructions. One interpretation of our result is that neural networks
+can compute exact maxima more efficiently than in a pairwise manner. Besides the result itself, a
+key contribution of our paper is that new upper bounds can be proven via subdividing the simplex
+into polytopes with known depth complexity, which is captured by Lemma 10.
+   Curiously, while we were able to give a positive answer to the previously open question of whether
+the maximum of five numbers can be computed with two hidden layers, the same question remains
+open for the maximum of six numbers. The lower bound by Averkov, Hojny, and Merkert [AHM25]
+for neural networks with rational weights, however, tells us that further improving the upper
+bound would require rational weights with large denominators (or even irrational weights) in the
+neural network. Geometrically, when applying our subdivision approach, this would correspond to
+subdivisions of the simplex into even smaller cells. Overall, the question of whether constant depth,
+perhaps even two hidden layers, suffices to represent all CPWL functions remains an intriguing
+mystery.
+
+                                              Acknowledgments
+  We thank Daniel Reichman for valuable discussions around ReLU networks. C.H. thanks Gennadiy
+Averkov for valuable discussions around Lemma 9 during the Cargese Workshop on Combinatorial
+Optimization 2024. E.B., F.B., and A.Y. are supported by a DNRF Chair grant. E.B., F.B., J.S.,
+and A.Y. are part of BARC, Basic Algorithms Research Copenhagen, supported by the VILLUM
+Foundation grant 54451.
+
+                                                   References
+[ABMM18] Raman Arora, Amitabh Basu, Poorya Mianjy, and Anirbit Mukherjee. Understanding deep neural networks
+          with rectified linear units. In International Conference on Learning Representations, 2018.
+[ADW+ 25] Josh Alman, Ran Duan, Virginia Vassilevska Williams, Yinzhan Xu, Zixuan Xu, and Renfei Zhou. More
+          asymmetry yields faster matrix multiplication. In Proceedings of the 2025 Annual ACM-SIAM Symposium
+          on Discrete Algorithms (SODA), pages 2005–2039. SIAM, 2025.
+
+     2A convex hull of two polytopes that are embedded in non-intersecting affine spaces.
+                                 BETTER NEURAL NETWORK EXPRESSIVITY                                             11
+
+
+[AHM25]   Gennadiy Averkov, Christopher Hojny, and Maximilian Merkert. On the expressiveness of rational
+          ReLU neural networks with bounded depth. In The Thirteenth International Conference on Learning
+          Representations, 2025.
+[AXK17]   Brandon Amos, Lei Xu, and Zico Kolter. Input convex neural networks. In International conference on
+          machine learning, pages 146–155. PMLR, 2017.
+[BBH+ 25] Egor Bakaev, Florestan Brunck, Christoph Hertrich, Daniel Reichman, and Amir Yehudayoff. On the
+          depth of monotone ReLU neural networks and ICNNs. arXiv preprint arXiv:2505.06169, 2025.
+[BGH25]   Marie-Charlotte Brandenburg, Moritz Grillo, and Christoph Hertrich. Decomposition polyhedra of
+          piecewise linear functions. In The Thirteenth International Conference on Learning Representations, 2025.
+[BSA+ 21] Felix Bünning, Adrian Schalbetter, Ahmed Aboudonia, Mathias Hudoba de Badyn, Philipp Heer, and
+          John Lygeros. Input convex neural networks for building MPC. In Learning for dynamics and control,
+          pages 251–262. PMLR, 2021.
+[BSG+ 23] Charlotte Bunne, Stefan G Stark, Gabriele Gut, Jacobo Sarabia Del Castillo, Mitch Levesque, Kjong-Van
+          Lehmann, Lucas Pelkmans, Andreas Krause, and Gunnar Rätsch. Learning single-cell perturbation
+          responses using neural optimal transport. Nature methods, 20(11):1759–1768, 2023.
+[CGR22]   Kuan-Lin Chen, Harinath Garudadri, and Bhaskar D Rao. Improved bounds on neural complexity for
+          representing piecewise linear functions. Advances in Neural Information Processing Systems, 35:7167–7180,
+          2022.
+[Cop82]   Don Coppersmith. Rapid multiplication of rectangular matrices. SIAM Journal on Computing, 11(3):467–
+          471, 1982.
+[CSZ19]   Yize Chen, Yuanyuan Shi, and Baosen Zhang. Optimal control via neural networks: A convex approach.
+          In International Conference on Learning Representations, 2019.
+[CSZ20]   Yize Chen, Yuanyuan Shi, and Baosen Zhang. Data-driven optimal voltage regulation using input convex
+          neural networks. Electric Power Systems Research, 189:106741, 2020.
+[CU03]    Henry Cohn and Christopher Umans. A group-theoretic approach to fast matrix multiplication. In 44th
+          Annual IEEE Symposium on Foundations of Computer Science, 2003. Proceedings., pages 438–449. IEEE,
+          2003.
+[Cyb89]   George Cybenko. Approximation by superpositions of a sigmoidal function. Mathematics of control, signals
+          and systems, 2(4):303–314, 1989.
+[EG24]    Ekin Ergen and Moritz Grillo. Topological expressivity of ReLU neural networks. In Shipra Agrawal
+          and Aaron Roth, editors, Proceedings of Thirty Seventh Conference on Learning Theory, volume 247
+          of Proceedings of Machine Learning Research, pages 1599–1642. PMLR, 30 Jun–03 Jul 2024. URL:
+          https://proceedings.mlr.press/v247/ergen24a.html.
+[ES16]    Ronen Eldan and Ohad Shamir. The power of depth for feedforward neural networks. In Conference on
+          learning theory, pages 907–940. PMLR, 2016.
+[GHL25]   Moritz Grillo, Christoph Hertrich, and Georg Loho. Depth-bounds for neural networks via the braid
+          arrangement. arXiv:2502.09324, 2025.
+[Grü03]   Branko Grünbaum. Convex Polytopes. Springer-Verlag, New York, 2003.
+[GU18]    Francois Le Gall and Florent Urrutia. Improved rectangular matrix multiplication using powers of the
+          coppersmith-winograd tensor. In Proceedings of the Twenty-Ninth Annual ACM-SIAM Symposium on
+          Discrete Algorithms, pages 1029–1046. SIAM, 2018.
+[HBDSS23] Christoph Hertrich, Amitabh Basu, Marco Di Summa, and Martin Skutella. Towards lower bounds on
+          the depth of relu neural networks. SIAM Journal on Discrete Mathematics, 37(2):997–1029, 2023.
+[Her22]   Christoph Hertrich. Facets of neural network complexity. Technische Universitaet Berlin (Germany), 2022.
+[HHL23]   Christian Haase, Christoph Hertrich, and Georg Loho. Lower bounds on the depth of integral ReLU neural
+          networks via lattice polytopes. In The Eleventh International Conference on Learning Representations,
+          2023.
+[HL24]    Christoph Hertrich and Georg Loho. Neural networks and (virtual) extended formulations.
+          arXiv:2411.03006, 2024.
+[HLXZ20] Juncai He, Lin Li, Jinchao Xu, and Chunyue Zheng. ReLU deep neural networks and linear finite elements.
+          J. Comput. Math., 38(3):502–527, 2020. doi:10.4208/jcm.1901-m2018-0160.
+[HMST23] Joey Huchette, Gonzalo Muñoz, Thiago Serra, and Calvin Tsay. When deep learning meets polyhedral
+          theory: A survey. arXiv preprint arXiv:2305.00241, 2023.
+[HSW89]   Kurt Hornik, Maxwell Stinchcombe, and Halbert White. Multilayer feedforward networks are universal
+          approximators. Neural networks, 2(5):359–366, 1989.
+[LLPS93] Moshe Leshno, Vladimir Ya Lin, Allan Pinkus, and Shimon Schocken. Multilayer feedforward networks
+          with a nonpolynomial activation function can approximate any function. Neural networks, 6(6):861–867,
+          1993.
+12                        BAKAEV, BRUNCK, HERTRICH, STADE, AND YEHUDAYOFF
+
+
+[MB17]   Anirbit Mukherjee and Amitabh Basu. Lower bounds over boolean inputs for deep neural networks with
+         ReLU gates. arXiv preprint arXiv:1711.03073, 2017.
+[MCT21]  Petros Maragos, Vasileios Charisopoulos, and Emmanouil Theodosis. Tropical geometry and machine
+         learning. Proceedings of the IEEE, 109(5):728–755, 2021.
+[MPCB14] Guido Montúfar, Razvan Pascanu, Kyunghyun Cho, and Yoshua Bengio. On the number of linear regions
+         of deep neural networks. In Proceedings of the 28th International Conference on Neural Information
+         Processing Systems - Volume 2, NIPS’14, page 2924–2932, Cambridge, MA, USA, 2014. MIT Press.
+[MS83]   Peter McMullen and Rolf Schneider. Valuations on convex bodies. In Convexity and its applications, pages
+         170–247. Springer, 1983.
+[MS21]   Diane Maclagan and Bernd Sturmfels. Introduction to tropical geometry, volume 161. American Mathe-
+         matical Society, 2021.
+[Sch13]  Rolf Schneider. Convex bodies: the Brunn–Minkowski theory, volume 151. Cambridge university press,
+         2013.
+[SES22]  Itay Safran, Ronen Eldan, and Ohad Shamir. Depth separations in neural networks: What is actually
+         being separated? Constructive approximation, 55(1):225–257, 2022.
+[SRV24]  Itay Safran, Daniel Reichman, and Paul Valiant. How many neurons does it take to approximate the
+         maximum? In Proceedings of the 2024 Annual ACM-SIAM Symposium on Discrete Algorithms (SODA),
+         pages 3156–3183. SIAM, 2024.
+[Str69]  Volker Strassen. Gaussian elimination is not optimal. Numerische mathematik, 13(4):354–356, 1969.
+[Tel16]  Matus Telgarsky. Benefits of depth in neural networks. In Conference on learning theory, pages 1517–1539.
+         PMLR, 2016.
+[Val24]  Juan Valerdi. On minimal depth in neural networks. arXiv:2402.15315, 2024.
+[Wil18]  Ryan Williams. Limits on representing boolean functions by linear combinations of simple functions:
+         Thresholds, ReLUs, and low-degree polynomials. In CCC, 2018.
+[WS05]   Shuning Wang and Xusheng Sun. Generalization of hinging hyperplanes. IEEE Transactions on Information
+         Theory, 51(12):4425–4431, 2005.
+[ZNL18]  Liwen Zhang, Gregory Naitzat, and Lek-Heng Lim. Tropical geometry of deep neural networks. In
+         International Conference on Machine Learning, pages 5824–5832. PMLR, 2018.
+
+     Department of Computer Science, University of Copenhagen
+     Email address: egor.bakaev@gmail.com
+
+     Department of Computer Science, University of Copenhagen
+     Email address: flbr@di.ku.dk
+
+     University of Technology Nuremberg
+     Email address: christoph.hertrich@utn.de
+
+     Department of Computer Science, University of Copenhagen
+     Email address: jast@di.ku.dk
+
+  Department of Computer Science, University of Copenhagen, and Department of Mathematics,
+Technion–IIT
+  Email address: amir.yehudayoff@gmail.com
+

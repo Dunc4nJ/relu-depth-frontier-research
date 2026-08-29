@@ -10,7 +10,7 @@ checks `.skill-runtime.toml`: canonical package root, skill version, and the rec
 digest must still match. A mismatch REFUSES execution; it never silently rebinds. This detects ordinary
 runtime drift. It is not a signed or tamper-proof security boundary.
 
-These are the cold-safe literal commands. A freshly bootstrapped workspace MUST run all seven exactly as
+These are the cold-safe literal commands. A fresh session MUST run all six exactly as
 written:
 
 <!-- COLD-E2E:BEGIN -->
@@ -19,7 +19,6 @@ written:
 ./skill-runtime detect
 ./skill-runtime verify-quick
 ./skill-runtime view
-./skill-runtime lockbox status
 ./skill-runtime convergence status
 ./skill-runtime verify-full
 ```
@@ -32,8 +31,11 @@ written:
    then claim the next work item (mark it claimed in `beads/QUEUE.md`). Active object IDs are checked
    mechanically; the orientation summary is operator-maintained and never grants standing.
 3. Do the work; every result lands as ledger records (claims/evidence/routes/experiments) — not prose.
-   For a quantitative subject, the control gates come FIRST inside this step: no strategy number is
-   discussed until all six are green as `control-run` evidence (§Control gates, below).
+   When computation bears on a mathematical claim, preregister the exact subject, implementation,
+   domain, detection floor, and stop/retry predicates before execution. All six campaign controls must
+   be green as subject-bound `control-run` evidence before such computation promotes a live claim
+   (§Control gates, below). Pure deductive work owes statement matching and adversarial proof review,
+   not synthetic computational controls that do not bear on it.
 4. Regenerate the view: `./skill-runtime view`. This comes BEFORE the verifying step: the view is
    generated from canon, so verifying a round that touched canon against a stale view reports an
    SE-15 that means nothing. A gate that cries wolf every round is a gate agents learn to ignore.
@@ -49,11 +51,11 @@ written:
 
 ## Control gates
 
-A11's control runners live in the package, not here. `./skill-runtime gates` is how this workspace
+The package's demonstration runners live outside this workspace. `./skill-runtime gates` is how this workspace
 reaches them:
 
 ```bash
-./skill-runtime gates list                     # all fourteen control runners + method strings
+./skill-runtime gates list                     # available control runners + exact method strings
 ./skill-runtime gates show {RUNNER_OR_METHOD}  # contract, both-direction demo, honest limit
 ./skill-runtime gates demo {RUNNER_OR_METHOD}  # watch a hostile arm caught and an honest arm pass
 ./skill-runtime gates record {METHOD}          # the exact control-run evidence skeleton
@@ -63,26 +65,38 @@ reaches them:
 themselves; they accept no pipeline, subject, or config, because no package can ship a harness for
 an arbitrary pipeline. A gate is discharged only by a harness built against THIS campaign's
 subject — the exact code, data, and environment under review — recorded as `control-run` evidence
-whose `method` is one of six exact strings: `planted-alpha` · `lookahead-probe` ·
-`random-after-cost` · `pnl-reconcile` · `truncation-refusal` · `cross-subject-rejection`. Equality
-is exact; a method string that merely contains one of these discharges nothing.
+whose `method` is one of six exact strings: `known-answer` · `sweep-plant-recovery` ·
+`empty-region-null` · `census-reconciliation` · `trivial-witness-null` ·
+`metamorphic-invariance`. Equality is exact; a method string that merely contains one of these
+discharges nothing.
 `references/CONTROL-GATES.md` is the construction guide and the discharge procedure.
 
-Both arms, every gate: the hostile case must be CAUGHT and the honest case must PASS. Any pipeline
-change unbinds every gate — re-run and re-record, because the record is bound to the bytes that
-produced it. `./skill-runtime verify-quick` reports what is still missing as
-`control gate '<method>' is not green` inside its `walk-obligations` result.
+This campaign binds the six controls as follows:
 
-What a green gate establishes is SHAPE — a contained artifact whose digest still matches its
+| Exact method | Honest/positive arm | Hostile/null arm |
+|---|---|---|
+| `known-answer` | untouched exact MAX5–MAX10 subjects pass | an independently specified false identity is rejected |
+| `sweep-plant-recovery` | a hidden valid control at the registered far edge is recovered | the identical unplanted sweep returns no planted hit |
+| `empty-region-null` | a neighboring registered nonempty slice exercises the path | a deliberately impossible/empty registered slice returns no witness |
+| `census-reconciliation` | generated = accepted + rejected + skipped + failed, including orbit/row/column totals | a deliberate omission or duplicate is detected |
+| `trivial-witness-null` | a valid shape-correct certificate passes | zero, random, and equality-destroying corruptions fail |
+| `metamorphic-invariance` | coordinate permutations and positive homogeneous scalings preserve validity | a coefficient perturbation breaking a chamber identity flips the verdict |
+
+Where a control naturally has two arms, the hostile/null case must be caught and the honest case must
+pass. Any subject, code, configuration, or environment change unbinds the affected controls: re-run and
+re-record them against the new hashes. `./skill-runtime verify-quick` checks record shape and bindings;
+the research lead must still inspect whether the implemented test actually instantiates the named method.
+
+What a green gate establishes mechanically is SHAPE — a contained artifact whose digest still matches its
 bytes, an exact method string, a subject binding that matches the implementation-claim, and the
-joined preregistered experiment and route. **Whether what ran was truly a planted-alpha recovery
+joined preregistered experiment and route. **Whether what ran was truly the named mathematical control
 stays JUDGMENT** (`references/THREAT-MODEL.md` RR-06). Do not write a sentence that upgrades a
 green gate into a claim about the world.
 
 P10 uses `./skill-runtime verify-full` to inspect replay recipes, pins, and local authorizations;
 ordinary full mode executes zero commands. Any separately authorized replay is one exact evidence
-handle and is not sandboxed merely because the operator consented. Every mutating lockbox or
-convergence command consumes a just-read canonical-state parent:
+handle and is not sandboxed merely because the operator consented. Every mutating convergence
+command consumes a just-read canonical-state parent:
 
 To execute one replay locally, first add its exact closed-form authorization row inside the
 `REPLAY-AUTHORIZATIONS-V1` block in `TOOLCHAIN.md`, check that `./skill-runtime verify-full` is green,
@@ -96,28 +110,13 @@ The executor accepts one handle, verifies the command and environment-manifest d
 and output, rejects canonical-state mutation, and checks the output artifact digest. It is not a
 sandbox: the authorized command can access anything the current user can access.
 
-The lockbox is sealed at P1 and opened once at P12. **A commit is mandatory between the two**, not
-housekeeping afterwards: `open` refuses unless every canonical path — `lockbox/manifest.toml`
-included — is clean at HEAD, so a seal that was never committed refuses its own open with
-`ERR-LOCKBOX: open requires a clean committed pre-open canonical baseline: lockbox/manifest.toml
-is not present at HEAD`. Each segment below is literal and complete on its own; they are separated
-because a whole campaign runs between them.
+### Lockbox and quantitative contracts — not applicable
 
-```bash
-# P1 — seal the holdout range, then COMMIT the seal. The commit is part of sealing.
-parent=$(./skill-runtime state-digest)
-./skill-runtime lockbox seal {PATH...} --by {ROLE} --expect-state "$parent"
-git add lockbox/manifest.toml && git commit -m "lockbox: seal L-0001"
-```
-
-```bash
-# P12 — the one-shot open. It also refuses unless an eligible latest claim stands exactly at
-# COST_AWARE_DEV with all six frontier control gates green; see the gate block above.
-parent=$(./skill-runtime state-digest)
-./skill-runtime lockbox open --by {VERIFIER_ROLE} --expect-state "$parent"
-# Before reading/running against the holdout, commit the sole dirty canonical mutation:
-git add lockbox/manifest.toml && git commit -m "lockbox: commit one-shot open L-####"
-```
+This W1 mathematics campaign has no dataset, time-ordered holdout, or one-shot sealed evaluation.
+Do not seal or open a lockbox and do not interpret P1/P12 as data-access phases. Surprise is provided
+instead by withheld known arities/certificates, preregistered corruptions, clean-room implementations,
+independent replay, and external referee review. Those objects are ordinary hash-bound artifacts and
+must be disclosed in the experiment ledger; they are not a concealed benchmark.
 
 ```bash
 # after the sealed evaluation, or after any clean adversarial pass
@@ -131,22 +130,15 @@ witness into the row; a clean pass against a red battery is REFUSED (record the 
 recomputed. The first pass mints `phases/.pass-witness-key`: commit it with that round and never
 delete or ignore it, or the recorded passes stop being re-derivable and the tracker fails closed.
 
-Read-only forms are `./skill-runtime lockbox status` and `./skill-runtime convergence status`. A parent
+The relevant read-only state form is `./skill-runtime convergence status`. A parent
 is single-proposal context, not a reusable token. `ERR-CONFLICT` means another cooperative mutation won:
 re-read the changed campaign state, reconsider the proposal, obtain a fresh digest, and retry only if it
 still applies.
 
-For a quantitative campaign, complete both typed contract templates before
-recording cost-aware evidence, then bind their exact current bytes:
-
-```bash
-quant_contract_sha256=$(./skill-runtime quant-contract-digest)
-```
-
-Copy that value into the exact `method = "cost-model-application"` computation
-record together with every applied `cost_facets` entry and the central, stress,
-and cost-floor outcomes. The command refuses incomplete contracts; editing
-either contract later changes the digest and revokes that evidence's standing.
+The `quant-contract-digest` path and the quantitative cost-model evidence class are inactive here.
+Computational experiments instead bind code, environment, subject/certificate snapshot, exact domain,
+resource ceiling, detection floor, and output digest through the mathematics evidence ladder in
+`NEURAL_REPRESENTATION_EPISTEMICS.md`.
 
 The coordination lock is advisory and same-filesystem only. It prevents lost updates among these
 package writers; it does not stop a same-user process from editing files directly or ignoring the lock,
@@ -154,9 +146,12 @@ and it is not an external custody or multi-user security boundary. Manual canoni
 by `verify-quick` and the round Git anchor.
 
 ## Campaign bindings
-- Domain pack: {domains/quantitative-trading.md | domains/mathematics.md | {DOMAIN}_EPISTEMICS.md}
-- Route: {W#} · Referee roster: {ROLE/INSTANCE_NAMES} · Cross-family transport: {BINDING}
-- Compute policy: {LOCAL | offload rules} · Heavy-run approval: {REQUIRED_ABOVE_N_MINUTES}
+- Domain pack: `domains/mathematics.md` plus the binding W11 translation `NEURAL_REPRESENTATION_EPISTEMICS.md`
+- Route: W1 dual prove/refute
+- Research lead: Agent Mail identity `CrimsonBirch`; native Codex subagents are bounded same-family T1 challengers, never autonomous promoters
+- Referee roster: no T2 reviewer bound at bootstrap; named human or explicitly authorized genuinely different model lineage required for T2+
+- Cross-family transport: `NONE`; fail closed for `REFEREED`/`FORMALIZED` promotion until a valid transport record exists
+- Compute policy: project-local CPU/storage by default; preregister any run projected above 30 minutes, 16 GiB RAM, or 100 GiB additional storage; human approval is required before paid/external compute
 
 ## Recovery
 - Interrupted mid-round: the ledger is append-only — re-run `./skill-runtime verify-quick`, reconcile

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/6WB3vjScv5hfTK3GFXxVpBQ66Zw</id>
+  <title>arXiv Query: search_query=&amp;id_list=2305.16933&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-29T04:58:26Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2305.16933" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2305.16933v1</id>
+    <title>Representing Piecewise Linear Functions by Functions with Small Arity</title>
+    <updated>2023-05-26T13:48:37Z</updated>
+    <link href="https://arxiv.org/abs/2305.16933v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2305.16933v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>A piecewise linear function can be described in different forms: as an arbitrarily nested expression of $\min$- and $\max$-functions, as a difference of two convex piecewise linear functions, or as a linear combination of maxima of affine-linear functions. In this paper, we provide two main results: first, we show that for every piecewise linear function there exists a linear combination of $\max$-functions with at most $n+1$ arguments, and give an algorithm for its computation. Moreover, these arguments are contained in the finite set of affine-linear functions that coincide with the given function in some open set. Second, we prove that the piecewise linear function $\max(0, x_{1}, \ldots, x_{n})$ cannot be represented as a linear combination of maxima of less than $n+1$ affine-linear arguments. This was conjectured by Wang and Sun in 2005 in a paper on representations of piecewise linear functions as linear combination of maxima.</summary>
+    <category term="cs.SC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DM" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-05-26T13:48:37Z</published>
+    <arxiv:primary_category term="cs.SC"/>
+    <author>
+      <name>Christoph Koutschan</name>
+    </author>
+    <author>
+      <name>Bernhard Moser</name>
+    </author>
+    <author>
+      <name>Anton Ponomarchuk</name>
+    </author>
+    <author>
+      <name>Josef Schicho</name>
+    </author>
+  </entry>
+</feed>

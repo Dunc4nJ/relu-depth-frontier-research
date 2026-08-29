@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/b6QQ4BsGBRerJjb50dvvjjpG0Cc</id>
+  <title>arXiv Query: search_query=&amp;id_list=2502.06283&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-29T04:58:26Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2502.06283" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2502.06283v2</id>
+    <title>On the Expressiveness of Rational ReLU Neural Networks With Bounded Depth</title>
+    <updated>2025-02-15T13:21:31Z</updated>
+    <link href="https://arxiv.org/abs/2502.06283v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2502.06283v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>To confirm that the expressive power of ReLU neural networks grows with their depth, the function $F_n = \max \{0,x_1,\ldots,x_n\}$ has been considered in the literature. A conjecture by Hertrich, Basu, Di Summa, and Skutella [NeurIPS 2021] states that any ReLU network that exactly represents $F_n$ has at least $\lceil\log_2 (n+1)\rceil$ hidden layers. The conjecture has recently been confirmed for networks with integer weights by Haase, Hertrich, and Loho [ICLR 2023].
+  We follow up on this line of research and show that, within ReLU networks whose weights are decimal fractions, $F_n$ can only be represented by networks with at least $\lceil\log_3 (n+1)\rceil$ hidden layers. Moreover, if all weights are $N$-ary fractions, then $F_n$ can only be represented by networks with at least $Ω( \frac{\ln n}{\ln \ln N})$ layers. These results are a partial confirmation of the above conjecture for rational ReLU networks, and provide the first non-constant lower bound on the depth of practically relevant ReLU networks.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DM" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-02-10T09:26:35Z</published>
+    <arxiv:comment>ICLR 2025 conference paper</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Gennadiy Averkov</name>
+    </author>
+    <author>
+      <name>Christopher Hojny</name>
+    </author>
+    <author>
+      <name>Maximilian Merkert</name>
+    </author>
+  </entry>
+</feed>

@@ -1,44 +1,56 @@
 # RESEARCH CHARTER — relu-depth-frontier-research
 
-**Created:** 2026-08-29T04:42:21Z · **Skill:** frontier-research-with-epistemic-humility v1.0.0-rc.1 ·
-**Domain:** {quantitative-trading | mathematics | translated: {DOMAIN_NAME}} · **Route:** {W#}
+**Created:** 2026-08-29T04:42:21Z · **Skill:** frontier-research-with-epistemic-humility v1.0.0-rc.1 · **Domain:** mathematics, translated subfield `exact-neural-representation` · **Route:** W1 dual prove/refute
 
 ## Exact target
-{THE_EXACT_STATEMENT — quantifiers bound, conventions named, regime stated. For quant: signal ·
-universe · horizon · rebalance rule · data vintage/as-of · intended decision.}
+
+For every integer `n >= 1`, there exist finite positive integers `m1,m2`, real matrices and biases
+`W1 in R^(m1 x n)`, `b1 in R^m1`, `W2 in R^(m2 x m1)`, `b2 in R^m2`, `a in R^m2`, and `c in R` such that, for every `x in R^n`,
+
+`max_i x_i = a^T ReLU(W2 ReLU(W1 x + b1) + b2) + c`,
+
+where ReLU is applied coordinatewise as `max(t,0)`. Widths may depend on `n`; weights are unrestricted real numbers; equality is global and exact. The first campaign rung is the instance `n = 11`.
 
 ## Success object / failure object
-- Success looks like: {WHAT_ARTIFACT_WOULD_ESTABLISH_IT}
-- Refutation looks like: {WHAT_OBSERVATION_OR_CONSTRUCTION_WOULD_KILL_IT}
+
+- **First-rung success:** an explicit finite MAX11 network or algebraically equivalent certificate, with an audited conversion to the exact architecture, exact arithmetic verification, deliberate corruption controls, and clean-room replay.
+- **Terminal success:** a proof for every `n`, preferably a scalable construction/normal form rather than isolated certificates.
+- **Refutation:** one explicit `n` with an unconditional proof that no finite two-hidden-layer network over real weights represents MAX_n globally and exactly.
+- **Meaningful intermediate:** a new infinite family, strict structural compression, a theorem reducing unrestricted search to a complete finite certificate class, or a lower bound that removes a genuine unrestricted route.
 
 ## No-claim boundary
-Success here would still NOT establish: {THE_ADJACENT_CLAIMS_THIS_MUST_NEVER_BE_CONFUSED_WITH}
+
+Success here would not establish trainability, learnability, optimization efficiency, generalization, robustness, useful parameter count, approximation rates, or a practical ML architecture. A MAX11 witness would not prove all `n`. Failure of the Rueß pairwise-comparison/symmetric ansatz, any rational-only search, or any bounded-width family would not prove the unrestricted target false. Floating residuals are discovery signals only. Rational certificates prove existence over reals; absence over rationals does not prove absence over reals. CPWL consequences require the exact generalized-hinging hypotheses and dimension bookkeeping.
 
 ## Intended decision
-This campaign exists to inform: {THE_DECISION — e.g. "allocate research budget to X",
-"promote strategy to paper", "submit result for external review"}
 
-## Budget (declared up front; exhaustion forces consolidate-or-extend, never silent continuation)
-- Token budget: {N} · Wall-clock: {N} · Round budget: {N} · Round floor (named-frontier only): {N≥10}
+Decide whether to invest the campaign in (a) a scalable constructive shallow-ReLU theory, (b) an unrestricted lower-bound/invariant program, or (c) consolidation because the first rung has been independently settled. A promotable result should be suitable for expert external review and eventual formalization.
+
+## Budget
+
+- Aggregate research-token ceiling: 1,000,000
+- Initial wall-clock authorization: 14 calendar days
+- Round budget: 24 substantive rounds
+- Named-frontier floor: at least 10 substantive rounds unless decisive evidence settles or kills the target
+- External paid compute or publication action: requires human approval; local CPU/storage are authorized
+
+Budget exhaustion forces consolidate-or-extend. It never licenses an unlogged continuation or a lower evidence bar.
 
 ## Minimum review bar
-Load-bearing promotions require tier {T2} per `references/EVIDENCE-HIERARCHY.md` §6.
 
-**Family taxonomy — declared HERE, at P1, before any result exists.** The rule is lineage, not size
-tier (`references/ORCHESTRATION.md` §What counts as a different family); the ledger can only check
-that two family labels DIFFER, so the taxonomy is a judgment this charter is where you record.
-Choosing it after seeing which promotions it would permit is severity-shopping the tier.
-- Author family label (canonical lowercase): {FAMILY}
-- Counted as DIFFERENT from it, and why: {LIST — different vendor lineage | `human-referee` | NONE}
-- Same-lineage siblings explicitly NOT counted as different: {SIZE TIERS · SNAPSHOTS · FINE-TUNES
-  RULED OUT BY NAME — writing "none apply" is itself a claim; say which ones you considered}
+Load-bearing promotion requires tier T2. At bootstrap that bar is unavailable and must fail closed.
 
-**Cross-family transport bound for this campaign:** {multi-pane different-family dispatcher |
-different-family batch-job CLI | operator-assisted relay | human referee | NONE}.
-**If NONE:** every load-bearing promotion — `LOCKBOX_CONFIRMED` and above, `REFEREED` and above,
-and every claim entering the final report's bottom line — will emit `TYPED_REFUSAL`, this campaign
-will report at T1, and that is ACCEPTED here as the honest outcome. It is never relaxed later by
-volume of same-family agreement.
+- Author family: `openai-gpt-5`
+- Counted as different: a named human referee, or a future explicitly authorized genuinely different model lineage
+- Same-lineage and not different: GPT-5/Codex size tiers, snapshots, reasoning-effort settings, and parallel panes
+- Cross-family transport bound: `NONE` at bootstrap
+
+Therefore every `LOCKBOX_CONFIRMED`/`REFEREED` promotion and every bottom-line final claim emits `TYPED_REFUSAL` until a valid different-family or human-referee record exists. Volume of same-family review cannot lift this cap.
 
 ## Prior material
-{NONE — none found; stated honestly | imported from {SOURCE}, normalized and quarantined per P0}
+
+Prior target-selection notes, ansatz counts, scripts, and a pinned upstream checkout from `/home/ubuntu/obsidian-vault/Knowledge/ML Research/Autonomous Research/resources/papers/frontier-math-targets` are imported under `imports/target-selection-2026-08-27/`. They remain quarantined (`author_path` prefixed `import/`) until re-authored through native controls. Primary papers are independently re-retrieved where possible rather than trusted by inheritance.
+
+## Binding field pack
+
+`NEURAL_REPRESENTATION_EPISTEMICS.md` is the W11 translation binding this uncovered mathematical subfield, together with `domains/mathematics.md`. The nearest shipped algebra field file is advisory only where its exact-arithmetic and certificate discipline transfers.

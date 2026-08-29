@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/kKknDnEX96nM8qzTldNAdwRX8u0</id>
+  <title>arXiv Query: search_query=&amp;id_list=1611.01491&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-29T04:58:26Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=1611.01491" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/1611.01491v6</id>
+    <title>Understanding Deep Neural Networks with Rectified Linear Units</title>
+    <updated>2018-02-28T02:23:47Z</updated>
+    <link href="https://arxiv.org/abs/1611.01491v6" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1611.01491v6" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In this paper we investigate the family of functions representable by deep neural networks (DNN) with rectified linear units (ReLU). We give an algorithm to train a ReLU DNN with one hidden layer to *global optimality* with runtime polynomial in the data size albeit exponential in the input dimension. Further, we improve on the known lower bounds on size (from exponential to super exponential) for approximating a ReLU deep net function by a shallower ReLU net. Our gap theorems hold for smoothly parametrized families of "hard" functions, contrary to countable, discrete families known in the literature. An example consequence of our gap theorems is the following: for every natural number $k$ there exists a function representable by a ReLU DNN with $k^2$ hidden layers and total size $k^3$, such that any ReLU DNN with at most $k$ hidden layers will require at least $\frac{1}{2}k^{k+1}-1$ total nodes. Finally, for the family of $\mathbb{R}^n\to \mathbb{R}$ DNNs with ReLU activations, we show a new lowerbound on the number of affine pieces, which is larger than previous constructions in certain regimes of the network architecture and most distinctively our lowerbound is demonstrated by an explicit construction of a *smoothly parameterized* family of functions attaining this scaling. Our construction utilizes the theory of zonotopes from polyhedral theory.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cond-mat.dis-nn" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2016-11-04T18:54:50Z</published>
+    <arxiv:comment>The poly(data) exact training algorithm has been improved to now be applicable to any single hidden layer R^n-&gt; R ReLU DNN and there is a cleaner pseudocode for it given on page 8. Also now on page 7 there is a more precise description about when and how the Zonotope construction improves on the Theorem 4 of this paper, arXiv:1402.1869</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <arxiv:journal_ref>ICLR 2028</arxiv:journal_ref>
+    <author>
+      <name>Raman Arora</name>
+    </author>
+    <author>
+      <name>Amitabh Basu</name>
+    </author>
+    <author>
+      <name>Poorya Mianjy</name>
+    </author>
+    <author>
+      <name>Anirbit Mukherjee</name>
+    </author>
+  </entry>
+</feed>

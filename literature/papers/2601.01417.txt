@@ -1,0 +1,1085 @@
+                                                       A Depth Hierarchy for Computing the Maximum
+                                                        in ReLU Networks via Extremal Graph Theory
+                                                                                           Itay Safran1
+                                                                                   1
+                                                                                       Ben-Gurion University
+arXiv:2601.01417v1 [cs.LG] 4 Jan 2026
+
+
+
+
+                                                                                             Abstract
+                                                  We consider the problem of exact computation of the maximum function over d real inputs using
+                                                                                                                              1
+                                                                                                                         1+      
+                                              ReLU neural networks. We prove a depth hierarchy, wherein width Ω d 2k−2 −1 is necessary to rep-
+                                              resent the maximum for any depth 3 ≤ k ≤ log2 (log2 (d)). This is the first unconditional super-linear
+                                              lower bound for this fundamental operator at depths k ≥ 3, and it holds even if the depth scales with d.
+                                              Our proof technique is based on a combinatorial argument and associates the non-differentiable ridges of
+                                              the maximum with cliques in a graph induced by the first hidden layer of the computing network, utilizing
+                                              Turán’s theorem from extremal graph theory to show that a sufficiently narrow network cannot capture
+                                              the non-linearities of the maximum. This suggests that despite its simple nature, the maximum func-
+                                              tion possesses an inherent complexity that stems from the geometric structure of its non-differentiable
+                                              hyperplanes, and provides a novel approach for proving lower bounds for deep neural networks.
+
+
+                                        1    Introduction
+                                        The role depth plays in the expressive power of neural networks and its benefits over width have been studied
+                                        extensively in recent years [8, 28, 7, 33, 17, 23, 24, 31, 14, 22, 26, 25]. Despite our growing understanding
+                                        of the settings in which depth is beneficial, establishing approximation lower bounds remains an extremely
+                                        challenging problem, especially for deep neural networks. While machine learning applications are ulti-
+                                        mately concerned with approximating target functions with respect to a data distribution in the L2 sense,
+                                        recent work has shifted toward simpler, and perhaps cleaner, problem settings where exact computation is
+                                        considered instead [12, 10, 3, 2, 9]. While it is well-known that sufficiently wide depth-2 networks can ap-
+                                        proximate any continuous function to arbitrary accuracy on a compact domain [6, 13, 16], this is not the case
+                                        for exact computation. For example, a piecewise-linear activation such as the Rectified Linear Unit (ReLU)
+                                        cannot exactly represent a quadratic function. For this reason, a common setting for studying the limitations
+                                        of deep neural networks focuses on the ability of ReLU networks to represent continuous piecewise-linear
+                                        (CPWL) target functions. It is known that sufficiently deep ReLU networks can compute any CPWL func-
+                                        tion [1, 4]. This follows from the result that all CPWL functions can be represented as a linear combination
+                                        of affine functions composed with the maximum function [21, 32].
+                                            Following these results, many works have studied whether depth is indeed necessary for computing the
+                                        maximum over d inputs, which we denote by Maxd . It is known that Max3 cannot be computed exactly by
+                                        any depth-2 network [20]. Conversely, since Max2 (x1 , x2 ) = max{0, x1 } − max{0, −x1 } + max{0, x2 −
+                                        x1 } is easily computable using three ReLU neurons, one can compute Maxd using depth ⌈log2 (d)⌉ + 1 by
+                                        simulating a tournament structure — taking pairwise maxima in each layer until the maximum is extracted
+
+                                                                                                 1
+[1]. Hertrich et al. [12] conjectured that Max5 cannot be computed by depth-3 ReLU networks, but this was
+recently refuted by Bakaev et al. [4], who provided an explicit depth-3 construction for Max5 and a depth-
+(⌈log3 (d − 2)⌉ + 1) construction for Maxd . Despite this progress, it remains an open problem whether
+Maxd can be computed by shallower networks. For instance, it is unknown if Max6 is computable at depth
+3. To date, no CPWL function has been proven uncomputable by depth-3 ReLU networks without imposing
+specific restrictions on the weights or architecture [12, 19, 10, 26, 3, 2, 9].
+    In this paper, rather than imposing weight or structural restrictions on the network to establish incom-
+putability results, we investigate unconditional lower bound requirements for computing Maxd . Specifically,
+we establish a depth-width hierarchy demonstrating that while the required width decays as the depth in-
+creases, a width super-linear in the input dimension d is still required even when the depth k scales with the
+input dimension. This result provides a quantitative characterization of the efficiency of depth, showing that
+while adding layers reduces the width requirement, a fundamental super-linear barrier persists beyond the
+constant-depth regime. More formally, our main result is the following:
+
+Theorem 1.1. Suppose that 3 ≤ k ≤ log2 (log2 (d)). Let N be a depth-k ReLU network such that
+
+                                              N (x) = Maxd (x)
+
+for all x ∈ [0, 1]d . Then, N has width at least
+                                                               1
+                                                          1+ k−2
+                                                   0.1d     2      −1   .
+
+    Our result provides the first unconditional super-linear lower bound for the computation of Maxd , and
+more generally for any 1-Lipschitz continuous piecewise-linear function, using ReLU networks for all con-
+stant depths k ≥ 3. We remark that our lower bound remains super-linear for all k ≤ log2 (log2 (d)) − ω(1)
+and naturally transitions to a linear bound as the depth approaches O(log2 (log2 (d)).
+    Our proof technique proceeds by induction and is based on a combinatorial argument that links the
+piecewise-linear structure of the network with cliques in a graph induced by the arrangement of hyperplanes
+in the first hidden layer. A key component of our analysis is the following seminal result from extremal
+graph theory, which provides a fundamental bound on the density of graphs with excluded cliques.
+
+Theorem 1.2 (Turán’s Theorem [29]). Suppose
+                                                  2G is a graph on d vertices that does not contain a
+                                                that
+                                               1
+clique of size r ≥ 3. Then, G has at most 1 − r−1 d2 edges.
+
+    A central challenge in deriving computation lower bounds for neural networks is that an impossibility
+result for depth k − 1 rarely provides a clear path toward a generalization for depth k. Consequently, many
+known proof techniques are specialized to shallow architectures and offer little scalability. By leveraging
+Turán’s theorem, we demonstrate that the non-linearities in the first hidden layer become redundant when
+restricted to a specific subset of input coordinates. This allows us to compute the maximum on this subset
+while effectively “collapsing” the first hidden layer — circumventing the inductive barrier and enabling
+a recursive application of the argument for deeper architectures. We remark that we did not attempt to
+optimize the constant factor 0.1, though our method could potentially improve it to 0.5 for sufficiently large
+k. We prioritized clarity and simplicity in the proof, given that the lower bound is asymptotically governed
+by the exponent. The reader is referred to Section 2 for a detailed proof sketch, and to Appendix A.3 for the
+complete formal proof.
+    It is interesting to note that our exact computation lower bound nearly matches the approximation upper
+                                                                                 1
+                                                                            1+ k−2
+bound of Safran et al. [26], who prove that depth 2k − 3 and width d          2      −1   for all k ≥ 3 suffice to obtain
+
+                                                           2
+arbitrarily good L2 approximation of Maxd with respect to continuous data distributions. Even though there
+exists a notable gap between the depth requirements for exact computation (depth k) and L2 approximation
+(depth 2k − 3), our result suggests that the price of exactly matching the non-differentiable ridges of the
+Maxd function requires a width that grows at a rate nearly identical to the L2 approximation case, despite the
+differences in depth and the notion of approximation. Since the approximation error in Safran et al. [26] can
+be made arbitrarily small only by increasing the magnitude of the weights, this implies that the bottleneck
+for computing Maxd is not the error tolerance, but the inherent structural complexity of its d hyperplanes.
+     It is also natural to compare our result to analogs in threshold circuit complexity, where similar lower
+bounds are sought after for computing Boolean functions in the complexity class P using bounded-depth
+circuits that employ threshold activations as non-linearities. While double-exponentially decaying lower
+                             −k
+bounds of the form d1+cθ exist √     for the number of wires required for computing the parity function [15],
+the best-known exponent θ = 1 + 2 ≈ 2.414 has remained the state-of-the-art for decades. In comparison,
+in this paper we obtain c = 4 and θ = 2 for the required number of neurons (gates), which immediately im-
+plies a lower bound on the wires, and is stronger than what is known for threshold circuits. This discrepancy
+suggests potential new avenues for proving circuit lower bounds; however, such results do not follow imme-
+diately from neural network lower bounds, and we leave this connection as a tantalizing direction for future
+work. Notably, proving threshold circuit lower bounds for all θ > 1 for certain N C 1 -complete problems
+would imply that T C 0 ̸= N C 1 , and would solve a major open problem in circuit complexity [5]. Despite
+this intriguing connection, it is not clear if our proof technique is capable of improving the exponent θ below
+2, and whether there exist efficient reductions to carry these parameters reliably to threshold circuits.
+     In the following subsection, we turn to discuss additional related work. Thereafter, we introduce nec-
+essary notation and terminology, and in Section 2 we provide a detailed proof sketch of our result. Formal
+proofs are deferred to the appendix.
+
+1.1   Additional related work
+Lower bounds via a region-counting argument using deep neural networks A simple and intuitive
+method for establishing lower bounds for CPWL functions involves bounding the maximal number of linear
+regions a network can realize along a one-dimensional line. This technique, pioneered by Telgarsky [28]
+to demonstrate a depth separation for highly oscillatory functions, typically requires the target function to
+have a Lipschitz constant that scales exponentially with depth — a property often considered pathological
+in a learning context. While such methods can establish a depth hierarchy, this is achieved by gradually
+increasing the complexity of the target function via its Lipschitz parameter. In contrast, our result applies
+to the Maxd function, which remains 1-Lipschitz regardless of the input dimension or network depth. This
+demonstrates that depth provides a fundamental representational advantage even for “well-behaved” func-
+tions whose region complexity is small and thus simple region-counting arguments do not apply.
+     Yarotsky [33], Liang and Srikant [17] and Safran and Shamir [23] employ similar region-counting argu-
+ments to demonstrate that smooth (and potentially Lipschitz) target functions can be well-approximated by
+deep architectures. These architectures generate a large number of linear regions and align them to resolve
+the curvature of the target function. While such results establish a depth hierarchy for approximation, there is
+significant evidence that these highly-oscillatory representations are difficult to learn efficiently [11, 18, 30].
+In contrast, our work focuses on the natural Maxd function, which does not rely on depth-induced exponen-
+tial oscillation for its expression. Consequently, our lower bound suggests that depth provides a fundamental
+representational advantage even for functions that do not suffer from the aforementioned learnability barri-
+ers.
+
+
+
+                                                        3
+Lower bounds for Maxd Safran et al. [26] show a width-d lower bound that holds regardless of depth, but
+this is only a linear lower bound rather than super-linear as ours. Additionally, they establish an approxima-
+tion lower bound of 1/poly(d) (with respect to the uniform distribution over the unit hypercube) for depth-3
+ReLU networks of width O(d2 ). While this result implies an exact computation lower bound, it relies on
+the additional assumption that the network weights are exponentially bounded. In contrast, our lower bound
+is unconditional and imposes no limitations on the magnitude of the weights, since we employ a novel con-
+struction that identifies an assignment of weights allowing for a recursive application of our main inductive
+argument. Lastly, while our proof builds upon the technique pioneered in Safran et al. [26], our proof is an
+adaptation and extension of it, since we generalize the technique to arbitrary depths by recursively applying
+Turán’s theorem within an inductive framework, rather than merely applying Mantel’s theorem as required
+in the induction base.
+    Mukherjee and Basu [20] and Šı́ma and Cabessa [27] establish that no depth-2 ReLU network can
+compute Max3 , a result which is used in our induction base in our proof. However, the analysis in Šı́ma
+and Cabessa [27] assumes non-negative inputs, and it is not immediately clear if their approach extends
+to the compact domains we consider here. While our proof for depth-2 incomputability builds upon the
+techniques in Mukherjee and Basu [20], we identify a technical gap in their original argument regarding
+the characterization of non-differentiable points. Consequently, we provide a self-contained proof and a
+generalization that addresses this gap.1 (See Lemma A.1 and Proposition A.2 in the appendix.)
+    Hertrich et al. [12] establish an auxiliary proposition similar to ours, demonstrating that a network
+computing a homogeneous function (see Subsection 1.2 for a formal definition) can be “homogenized”
+by eliminating all bias terms. While we utilize a similar homogenization argument, our approach differs
+in several key aspects. First, we do not assume the function is globally homogeneous, but only that it
+coincides with a homogeneous function on a compact domain. Second, our analysis requires a quantitative
+bound on the width of the resulting network to preserve the super-linear lower bound. Furthermore, we must
+prove that the homogenized network retains at least two non-zero coordinates in the weights of all first-layer
+neurons to satisfy the prerequisites for applying Turán’s theorem. Consequently, our result can be viewed
+as a generalization of theirs, and our proof is significantly more involved as it necessitates tighter structural
+control that was not required in previous works.
+
+Reductions to circuit complexity lower bounds Our results are fundamentally distinct from existing
+lower bounds inspired by threshold circuit complexity. While previous works have successfully lever-
+aged reductions to circuit complexity or communication complexity to establish network size lower bounds
+[20, 30], those bounds typically yield linear constraints on the total number of neurons. In contrast, we
+establish a super-linear width requirement that persists even as the depth k grows. Crucially, total size lower
+bounds often allow for a symmetric trade-off where depth and width are interchangeable resources (namely,
+doubling depth allows for halving width). Our results, however, characterize a non-symmetric trade-off. We
+demonstrate that for exact computation of Maxd , depth is a strictly more efficient resource. This highlights
+that the architectural bottleneck in resolving the intersecting hyperplanes of Maxd is inherently tied to depth
+in a way that total size bounds cannot capture.
+   1
+     The authors in [20] suggest that the set of non-differentiable points of a function computed by a depth-2 ReLU network is
+precisely the union of the hyperplanes ⟨wi , x⟩ + bi = 0 defined by the ith hidden neuron. However, this oversight ignores certain
+edge cases where, for instance, the activation boundaries of two or more neurons coincide to mutually smooth their respective
+non-differentiable hyperplanes.
+
+
+
+
+                                                                4
+1.2   Preliminaries and notation
+Notation and terminology We let [n] be shorthand for the set {1, . . . , n}. We denote vectors using bold-
+faced letters (e.g. x). Given a vector x = (x1 , . . . , xd ), we let ∥x∥ denote its Euclidean norm. Throughout,
+we use the notation Maxd (x) := max{x1 , . . . , xd } for the maximum function, and [x]+ = max{0, x} for
+the ReLU activation function. A function or network f is (positively) homogeneous if for all c > 0 and
+all x ∈ Rd , f (cx) = cf (x). A function f : D → R defined in some domain D ⊆ Rd is continuous
+piecewise-linear (CPWL) if there exists a finite partition D = ∪i Di such that f is linear on Di for all i,
+where each Di is a closed set.
+
+Neural networks We consider fully connected, feed-forward neural networks, computing functions from
+Rd to R. We focus on neural networks which employ the ReLU function as a non-linear activation. A ReLU
+neural network consists of layers of neurons, where in every layer except for the output neuron, an affine
+function of the inputs is computed, followed by a computation of the non-linear activation function [·]+ . The
+single output neuron simply computes an affine transformation of its inputs. Each layer with a non-linear
+activation is called a hidden layer, and the depth of a network is defined as the number of hidden layers plus
+one, and is generally denoted by k. The width of a network is defined as the number of neurons in the largest
+hidden layer, and the size of the network is the total number of neurons across all layers.
+
+
+2     Techniques and proof sketch
+In this section, we provide a detailed proof sketch of Theorem 1.1. Our proofis centered on the geometric
+intuition that a ReLU network of depth k computing Maxd must account for d2 distinct non-linearities: one
+for each pair of coordinates i, j that takes effect when xi and xj are the maximal values in x ∈ Rd , and one
+“overtakes” the other. If these non-linearities are absent in the first hidden layer, the burden of computing
+them must fall on the subsequent, deeper layers.
+    Specifically, if the network is sufficiently narrow, we use Turán’s theorem to identify a clique of size r
+among the input coordinates for which these pairwise non-linearities are missing in the first layer. A key
+technical proposition allows us to transition from a network computing Maxd on a compact domain to a
+network of the same depth (and at most twice the width) that computes Maxd on all of Rd . By identifying
+an assignment of extremely negative values for the d − r coordinates outside the clique, we can ensure
+that the neurons in the first hidden layer never change their activation state regardless of the values of the
+remaining r coordinates, that are all bounded in [0, 1]. This reduces the first hidden layer to a simple linear
+transformation of its input, allowing us to collapse it and construct a depth-(k − 1) network that computes
+Maxr on [0, 1]r . The theorem then follows by applying our induction hypothesis to this reduced architecture.
+    Below, we further detail each significant step in the proof, starting from the induction base.
+
+2.1   Step 1: The induction base — a depth-3, width-0.1d2 lower bound
+As the base case, we consider depth-3 neural networks, and we show that a width of approximately 18 d2 is
+necessary for computing Maxd . More formally, we prove the following lower bound.
+
+Theorem 2.1. Let d ≥ 1 and suppose that N is a depth-3 ReLU network such that
+
+                                              N (x) = Maxd (x)
+
+
+
+                                                       5
+for all x ∈ [0, 1]d . Then, N has width at least
+                                                        
+                                              1    1   1
+                                                 −   −    d2 .
+                                              8 4d 2d2
+
+     The proof of the above theorem, which appears in Appendix A.2, is based on a similar technique which
+was developed in Safran et al. [26], and uses Mantel’s theorem (a particular case of Turán’s theorem for
+cliques of size 3) to identify a triplet of coordinates on which the network computes Max3 while maintaining
+a fixed activation pattern in the first layer.
+     As d → ∞, this lower bound approaches 18 d2 , which represents the optimal constant achievable for
+depth 3 using our current framework.
+
+2.2     Step 2: From computation on the unit hypercube to Rd
+Following the induction base, we now detail the derivation of the inductive step. This stage is critical for
+Step 4 (Subsection 2.4), where we perform a substitution of extremely negative values while ensuring we
+remain within the valid domain of computation for Maxd . To this end, we prove Proposition A.4, which
+establishes that the efficient computation of Maxd on a compact domain implies its efficient computation on
+all of Rd .
+     While this part of the proof is inspired by the “homogenization” argument in Hertrich et al. [12], our
+approach differs in two key aspects: unlike their proof which crucially relies on the target function being
+homogeneous, we only assume that this is the case on a compact domain and thus their proof technique is not
+directly applicable; and we guarantee the existence of a network where all first-layer weights have at least
+two non-zero coordinates, which is a prerequisite for the graph-theoretic analysis in Step 3 (Subsection 2.3).
+     We begin by shifting the network with a random bias, allowing it to compute the maximum in a neigh-
+borhood of the origin. The proof of the proposition then proceeds by recursively “pushing” non-zero biases
+from the first hidden layer forward through the network. This process preserves the function’s behavior in a
+sufficiently small neighborhood of the origin through the following logic:
+
+      • Negative biases: If a neuron has a negative bias, it becomes inactive in a small enough neighborhood
+        of the origin and can be removed without affecting the output (see Figure 1 for an illustration).
+
+      • Positive biases: If a neuron has a positive bias, the affine transformation it computes can be simulated
+        near the origin by substituting it with two unbiased (homogeneous) neurons and adjusting the biases
+        in the subsequent layer (see Figure 2 for an illustration).
+
+Since each original neuron is replaced by at most two homogeneous neurons, the width of the resulting
+network is at most twice that of the original. Because the final network is homogeneous and coincides
+with Maxd near the origin, a homogeneity argument implies they must coincide on all of Rd . Finally, we
+demonstrate that with probability one, all neurons in the constructed network possess at least two non-zero
+weights, facilitating the next step of the proof.
+
+2.3     Step 3: Constructing a first-layer weight graph with a large clique
+In this step, we establish a formal connection between the weights of the first hidden layer and extremal
+graph theory. Based on the technique in Safran et al. [26], we construct a graph GN derived from the weight
+vectors of the width-n network N as follows:
+
+
+                                                        6
+ 4                                                      4
+
+ 2         x2                         x1                2         x2                         x1
+
+ 0                                                      0
+ 2                                              2       2                                              2
+       1                                   1                  1                                   1
+             0                       0                              0                       0
+                 −1            −1                                       −1            −1
+                       −2−2                                                   −2−2
+
+Figure 1: The function [x1 + x2 ]+ + [x1 − 0.5]+ (left) and the resulting function [x1 + x2 ]+ (right) when
+the neuron with negative bias is removed. Since the neuron is inactive in a neighborhood of the origin,
+removing it maintains the computation near the origin.
+
+
+
+
+                                                        5
+ 4
+                                                                  x2                         x1
+ 2         x2                         x1
+                                                        0
+ 0
+ 2                                              2        2                                             2
+       1                                   1                  1                                   1
+             0                       0                              0                       0
+                 −1            −1                                       −1            −1
+                       −2−2                                                   −2−2
+
+Figure 2: The function [x1 + x2 ]+ + [x1 + 0.5]+ (left) and the resulting function [x1 + x2 ]+ + [x1 ]+ −
+[−x1 ]+ + 0.5 (right) when the neuron with positive bias is removed and replaced with two homogeneous
+neurons, and the bias of the output neuron is modified. The function maintains its behavior near the origin
+while pushing biases one layer forward.
+
+
+
+
+                                                    7
+      • We define a graph on d vertices, where each vertex represents an input coordinate.
+
+      • For each neuron i in the first hidden layer, let wi ∈ Rd be its weight vector. We remove an edge (j, k)
+        from the initial complete graph Kd based on the indices of the non-zero entries in wi . Specifically,
+        if wi contains at least two non-zero elements, we remove the edge which corresponds to the two
+        smallest indices.
+
+         d
+           each of the n neurons can remove at most one edge, the resulting graph GN contains at least
+      • Since
+         2 − n edges.
+
+      • If n is sufficiently small, then by Turán’s theorem (Theorem 1.2), GN must contain a clique of size r.
+This clique I ⊆ {1, . . . , d} identifies a subset of coordinates with a crucial property: for any pair of coordi-
+nates j, k ∈ I, there is no neuron in the first hidden layer whose activation is determined solely by xj and
+xk (see Figure 3 for an illustration). This implies that the first layer is “blind” to the pairwise interactions of
+these coordinates, which forces the burden of computing the transitions of Maxr onto the subsequent k − 1
+layers. This structural gap is what enables the layer-reduction step in the final stages of the proof.
+                       v1                                                                v1
+
+                                             w1 := (0, 0, 1, −1, 0)
+           v5                       v2                                       v5                       v2
+                                             w2 := (0, −1, 0, 1, 0)
+
+                                             w3 := (1, 0, 0, 0, −1)
+
+                                             w4 := (0, 0, 0, 1, −1)
+                v4             v3                                                 v4             v3
+
+Figure 3: The construction of the graph GN that is induced by the first-hidden-layer weights of N . Left:
+The complete graph K5 where edges are colored according to the first-layer neuron wi that removes them.
+Middle: The weight vectors of the first hidden layer whose non-zero coordinates dictate the edge removal
+process. Right: The final graph GN after the removal of all colored edges. If the width n is small relative
+to d, Turán’s theorem ensures that the graph still contains a large clique (e.g., the triangle formed by the first
+three coordinates).
+
+
+2.4     Step 4: Dimensionality reduction via coordinate assignment
+Utilizing the structural property of the weight-graph established in Step 3 above, we now construct an
+assignment of inputs that forces the network to compute a lower-dimensional version of the maximum
+function. Recall that in Step 2 (Subsection 2.2), we extended the computation of Maxd to all of Rd while
+ensuring that every neuron in the first hidden layer has a weight vector with at least two non-zero coordinates.
+     Assume, without loss of generality, that the clique I identified in the previous step corresponds to the
+first r coordinates. We prove that there exists a substitution of sufficiently negative values for the remaining
+coordinates, xr+1 , . . . , xd , such that the resulting network computes Maxr on the unit hypercube [0, 1]r .
+The core of this argument lies in assigning exponentially increasing negative values to these coordinates. By
+doing so, we ensure that for each neuron, the non-zero coordinate with the largest index (among the indices
+r + 1, . . . , d) dominates the pre-activation, effectively dictating the activation pattern of the neuron for all
+x′ ∈ [0, 1]r .
+
+                                                        8
+     Crucially, our construction of GN in Step 3 ensures that every neuron in the first layer has at least one
+non-zero weight associated with a coordinate outside the clique I = {1, . . . , r}. Consequently, for any
+input in [0, 1]r , these neurons remain in a fixed activation state (either “always on” or “always off”). Since
+fixing these inputs preserves the network architecture while reducing the first hidden layer to a simple linear
+transformation, we have effectively constructed a neural network of the same depth that computes Maxr on
+[0, 1]r without utilizing any non-linearities in the first hidden layer. (See Figure 4 for an illustration.)
+
+           x1 ∈ [0, 1]
+
+
+
+           x2 ∈ [0, 1]
+
+
+
+           x3 ∈ [0, 1]
+
+
+
+           x4 = −∞
+
+
+
+           x5 = −∞
+
+Figure 4: An illustration of the effects of the negative assignment of values explained in Step 4 (Subsec-
+tion 2.4). By constructing a clique from the first three coordinates, we ensure that every neuron in the first
+hidden layer possesses a non-zero weight for some coordinate j ≥ 4. Since the clique coordinates are
+bounded in [0, 1], assigning sufficiently large negative values to x4 and x5 ensures that each neuron’s pre-
+activation is dominated by the term corresponding to its largest non-zero weight index. Consequently, these
+operating ranges (highlighted in red) remain strictly within either the positive or negative rays of the ReLU,
+rendering the first hidden layer’s non-linearities redundant. Crucially, as Step 2 (Subsection 2.2) guarantees
+that the network computes Maxd globally, this negative assignment forces the maximum to be attained by
+one of the first three coordinates. This effectively reduces the network’s computation to Max3 on the clique’s
+domain, facilitating the lower bound proof.
+
+
+2.5   Step 5: Layer collapse and inductive contradiction
+In this final step, we consolidate the previous results to complete the proof. From the construction in Step 4
+above, we have obtained a network that computes Maxr on [0, 1]r , but where every neuron in the first hidden
+layer maintains a fixed activation pattern across the entire domain. This property allows us to “collapse” the
+first hidden layer without altering the function computed by the network.
+     Because the first layer is restricted to its linear region, it effectively computes a simple linear transforma-
+tion of its input. This transformation can be absorbed into the weights of the second hidden layer, resulting
+in a new network that computes Maxr on [0, 1]r with its depth reduced by one to k − 1, and its width pre-
+served. Finally, we apply our induction hypothesis to this reduced architecture. If the original network were
+too narrow, the resulting clique size r (determined by Turán’s theorem) would be large enough to violate the
+width requirements for depth-(k − 1) networks, thus yielding a contradiction and concluding the proof of
+the theorem.
+
+                                                         9
+Acknowledgments
+This research is supported by Israel Science Foundation Grant 1753/25. I thank Dean Doron for helpful
+discussions regarding connections to circuit complexity.
+
+
+References
+ [1] R. Arora, A. Basu, P. Mianjy, and A. Mukherjee. Understanding deep neural networks with rectified
+     linear units. arXiv preprint arXiv:1611.01491, 2016.
+
+ [2] G. Averkov, C. Hojny, and M. Merkert. On the expressiveness of rational relu neural networks with
+     bounded depth. In The Thirteenth International Conference on Learning Representations, 2025.
+
+ [3] E. Bakaev, F. Brunck, C. Hertrich, D. Reichman, and A. Yehudayoff. On the depth of monotone relu
+     neural networks and icnns. arXiv preprint arXiv:2505.06169, 2025.
+
+ [4] E. Bakaev, F. Brunck, C. Hertrich, J. Stade, and A. Yehudayoff. Better neural network expressivity:
+     subdividing the simplex. arXiv preprint arXiv:2505.14338, 2025.
+
+ [5] L. Chen and R. Tell. Bootstrapping results for threshold circuits “just beyond” known lower bounds.
+     In Proceedings of the 51st Annual ACM SIGACT Symposium on Theory of Computing, pages 34–41,
+     2019.
+
+ [6] G. Cybenko. Approximation by superpositions of a sigmoidal function. Mathematics of control,
+     signals and systems, 2(4):303–314, 1989.
+
+ [7] A. Daniely. Depth separation for neural networks. In Conference on Learning Theory, pages 690–696.
+     PMLR, 2017.
+
+ [8] R. Eldan and O. Shamir. The power of depth for feedforward neural networks. In Conference on
+     learning theory, pages 907–940, 2016.
+
+ [9] M. Grillo, C. Hertrich, and G. Loho. Depth-bounds for neural networks via the braid arrangement.
+     arXiv preprint arXiv:2502.09324, 2025.
+
+[10] C. A. Haase, C. Hertrich, and G. Loho. Lower bounds on the depth of integral relu neural networks
+     via lattice polytopes. In The Eleventh International Conference on Learning Representations, 2023.
+
+[11] B. Hanin and D. Rolnick. Complexity of linear regions in deep networks. In International Conference
+     on Machine Learning, pages 2596–2604. PMLR, 2019.
+
+[12] C. Hertrich, A. Basu, M. Di Summa, and M. Skutella. Towards lower bounds on the depth of relu
+     neural networks. Advances in Neural Information Processing Systems, 34:3336–3348, 2021.
+
+[13] K. Hornik. Approximation capabilities of multilayer feedforward networks. Neural networks, 4(2):
+     251–257, 1991.
+
+[14] D. Hsu, C. Sanford, R. A. Servedio, and E.-V. Vlatakis-Gkaragkounis. On the approximation power
+     of two-layer networks of random relus. arXiv preprint arXiv:2102.02336, 2021.
+
+
+
+                                                  10
+[15] R. Impagliazzo, R. Paturi, and M. E. Saks. Size–depth tradeoffs for threshold circuits. SIAM Journal
+     on Computing, 26(3):693–707, 1997.
+
+[16] M. Leshno, V. Y. Lin, A. Pinkus, and S. Schocken. Multilayer feedforward networks with a nonpoly-
+     nomial activation function can approximate any function. Neural networks, 6(6):861–867, 1993.
+
+[17] S. Liang and R. Srikant. Why deep neural networks for function approximation? In 5th International
+     Conference on Learning Representations, ICLR 2017, 2017.
+
+[18] E. Malach, G. Yehudai, S. Shalev-Shwartz, and O. Shamir. The connection between approximation,
+     depth separation and learnability in neural networks. arXiv preprint arXiv:2102.00434, 2021.
+
+[19] K. Matoba, N. Dimitriadis, and F. Fleuret. The theoretical expressiveness of maxpooling. arXiv
+     preprint arXiv:2203.01016, 2022.
+
+[20] A. Mukherjee and A. Basu. Lower bounds over boolean inputs for deep neural networks with relu
+     gates. arXiv preprint arXiv:1711.03073, 2017.
+
+[21] S. Ovchinnikov. Max-min representation of piecewise linear functions. arXiv preprint math/0009026,
+     2000.
+
+[22] I. Safran and J. Lee. Optimization-based separations for neural networks. In Conference on Learning
+     Theory, pages 3–64. PMLR, 2022.
+
+[23] I. Safran and O. Shamir. Depth-width tradeoffs in approximating natural functions with neural net-
+     works. In International Conference on Machine Learning, pages 2979–2987. PMLR, 2017.
+
+[24] I. Safran, R. Eldan, and O. Shamir. Depth separations in neural networks: what is actually being
+     separated? In Conference on Learning Theory, pages 2664–2666. PMLR, 2019.
+
+[25] I. Safran, D. Reichman, and P. Valiant. Depth separations in neural networks: Separating the dimension
+     from the accuracy. arXiv preprint arXiv:2402.07248, 2024.
+
+[26] I. Safran, D. Reichman, and P. Valiant. How many neurons does it take to approximate the maximum?
+     In Proceedings of the 2024 Annual ACM-SIAM Symposium on Discrete Algorithms (SODA), pages
+     3156–3183. SIAM, 2024.
+
+[27] J. Šı́ma and J. Cabessa. The power of max pooling layer. In International Conference on Artificial
+     Neural Networks, pages 221–233. Springer, 2025.
+
+[28] M. Telgarsky. Benefits of depth in neural networks. In Conference on learning theory, pages 1517–
+     1539. PMLR, 2016.
+
+[29] P. Turán. On an extremal problem in graph theory. Mat. Fiz. Lapok, 48:436–452, 1941. (In Hungarian).
+
+[30] G. Vardi, D. Reichman, T. Pitassi, and O. Shamir. Size and depth separation in approximating benign
+     functions with neural networks. In Conference on Learning Theory, pages 4195–4223. PMLR, 2021.
+
+[31] L. Venturi, S. Jelassi, T. Ozuch, and J. Bruna. Depth separation beyond radial functions. arXiv preprint
+     arXiv:2102.01621, 2021.
+
+
+
+                                                     11
+[32] S. Wang and X. Sun. Generalization of hinging hyperplanes. IEEE Transactions on Information
+     Theory, 51(12):4425–4431, 2005.
+
+[33] D. Yarotsky. Error bounds for approximations with deep relu networks. Neural Networks, 94:103–114,
+     2017.
+
+
+
+A      Proofs
+A.1     Auxiliary Lemmas
+We first define a hyperplane arrangement as the finite union of hyperplanes in Rd . With this definition, we
+can define our first auxiliary lemma, used to prove the limitations of depth-2 ReLU networks for approxi-
+mating piecewise linear functions.
+
+Lemma A.1. The set of non-differentiable points of a depth-2, width-n ReLU network is a hyperplane
+arrangement with at most n hyperplanes.
+
+    The proof technique of the above lemma is based on the approach of Mukherjee and Basu [20, Proposi-
+tion 2.2], and completes a gap in their original proof.
+
+Proof. Let
+                                                     n
+                                                     X
+                                          N (x) =          vj [⟨wi , x⟩ + bi ]+ + b0
+                                                     i=1
+
+be a depth-2, width-n neural network. Given the weights 0 ̸= w ∈ Rd and bias b ∈ R of a hidden neuron,
+we define
+                                     Hw,b := {x : ⟨w, x⟩ + b = 0}
+as shorthand for the hyperplane induced by w and b. To prove the lemma, we will manipulate the network,
+reducing the number of neurons in it while keeping its set of non-differentiable points unchanged. To this
+end, we have the following case analysis:
+
+      • If vj for some j ∈ [n], then the output neuron ignores the j th neuron’s output, and we can simply
+        remove it from the network while keeping the function computed by N unchanged.
+
+      • Similarly, if wj = 0 for some j, then we have
+
+                                                 vj [⟨wj , x⟩ + bj ]+ = vj [bj ]+ ,
+
+        and therefore the j th neuron only adds a constant to the computation of N without changing its set of
+        non-differentiable points, and we can thus remove it.2
+    2
+      Note that while this might change the function computed by N , it does not change the set of non-differentiable points, and
+therefore removing it suffices for our purposes. However, if one wishes to remove all neurons such that wj = 0 while keeping the
+function computed by N unchanged, then this can be done by removing the j th neuron and modifying the output neuron’s bias term
+using the transformation b0 7→ b0 + vj [bj ]+ , which would simulate the same computation.
+
+
+
+
+                                                               12
+• Suppose that Hwj ,bj = Hwk ,bk . Namely, we have that neuron j and neuron k for j ̸= k induce the
+  same hyperplane. Since the solution space of the linear system
+                                         ⊤               
+                                          wj                b
+                                                 ·x=− j
+                                          wk⊤               bk
+
+  is a rank d − 1 subspace (the hyperplane induced by the neurons), wj , wk must be linearly dependent.
+  Writing wk = αwj for some α ̸= 0 and plugging this in the linear system, we obtain bk = αbj . We
+  now analyze two complementary cases:
+
+     – Suppose that Hwj ,bj = Hwk ,bk and that wk = αwj and bk = αbj for some α > 0. Then for all
+       vj , vk ∈ R we have
+
+           vj [⟨wj , x⟩ + bj ]+ + vk [⟨wk , x⟩ + bk ]+ = vj [⟨wj , x⟩ + bj ]+ + vk [⟨αwj , x⟩ + αbj ]+
+                                                      = vj [⟨wj , x⟩ + bj ]+ + αvk [⟨wj , x⟩ + bj ]+
+                                                      = (vj + αvk ) [⟨wj , x⟩ + bj ]+ ,
+
+       where in the second equality we used the facts that the ReLU activation is positively homo-
+       geneous and α > 0. This shows that in this case, we can replace every pair of neurons with
+       overlapping induced hyperplanes with a single neuron whose weights and bias equal wj and bj ,
+       respectively, and modify the incoming weight of the output neuron to vj +αvk . This would allow
+       N to compute the same function, thus keeping its set of non-differentiable points unchanged.
+     – Suppose that Hwj ,bj = Hwk ,bk and that wk = αwj and bk = αbj for some α < 0. Then in this
+       case, we can assume that there are at most two neuron with overlapping induced hyperplanes
+       (since otherwise we can cancel them as detailed in the previous item). Suppose that vj = αvk .
+       Then we have
+
+           vj [⟨wj , x⟩ + bj ]+ + vk [⟨wk , x⟩ + bk ]+ = vj [⟨wj , x⟩ + bj ]+ + vk [⟨αwj , x⟩ + αbj ]+
+                                                      = vj [⟨wj , x⟩ + bj ]+ − αvk [⟨−wj , x⟩ − bj ]+
+                                                                                                     
+                                                      = vj [⟨wj , x⟩ + bj ]+ − [− (⟨wj , x⟩ + bj )]+
+                                                      = vj (⟨wj , x⟩ + bj ) ,                            (1)
+
+       where in the second equality we used the positive homogeneity of the ReLU with α < 0, and in
+       the last equality we used the fact that [z]+ − [−z]+ = z for all z ∈ R. We can therefore remove
+       neurons j and k without changing the non-differentiable set of N .
+
+• In all possible remaining cases, we have that a hyperplane is induced by a single neuron, or that it
+  is induced by at most two neurons but with a negative α. We will now construct the set of non-
+  differentiable points of N based on this derivation.
+
+     – In the first case, a set of non-differentiable points is formed along this hyperplane. Taking the
+       union over all such hyperplanes, it is straightforward to verify that this union also forms a set
+       of non-differential points. This is trivial in the case where a point does not intersect any other
+       hyperplane, and when it does, it is easy to verify that it is still a non-differentiable point by
+       considering the derivative along any direction that is not contained in one of the hyperplanes
+       (such a direction must exist since there is a finite intersection of hyperplanes).
+
+                                                 13
+          – In the second case where a hyperplane is induced by two neurons, since their α is negative and
+            since the slope in the direction perpendicular to the hyperplane changes (otherwise this pair of
+            neurons would have merged into a single neuron according to Equation (1)), we have that by the
+            same reasoning as in the previous item, that the union of these hyperplanes with the hyperplanes
+            in the previous item forms the set of non-differentiable points of N .
+We have constructed a hyperplane arrangement consisting of at most n hyperplanes (since we can only re-
+move but never add neurons and their induced hyperplanes) which forms the precise set of non-differentiable
+points of N , concluding the proof of the lemma.
+
+    The following proposition shows that no depth-2 network can compute the function Max3 (x) on [0, 1]3 .
+Proposition A.2. There exists no depth-2 ReLU network which satisfies
+                                               N (x) = Max3 (x)
+for all x ∈ [0, 1]3 .
+Proof. Suppose by contradiction that there exists a depth-2, width-n ReLU network N that computes Max3
+for all x ∈ [0, 1]3 . Consider the network Ñ obtained fromP N by transforming all the biases of the hidden
+layer neurons using the transformation bi 7→ bi + 0.5 3j=1 wi,j , where wi,j is the j th coordinate of the
+weight of the ith neuron in the hidden layer. For all x ∈ [0, 1]3 , let x0.5 := x − (0.5, 0.5, 0.5). Then we have
+that x0.5 ∈ [−0.5, 0.5]3 and that any neuron in the first hidden layer now computes for any x0.5
+                                                                                                   
+                                    d
+                                    X                                                       Xd
+           ⟨wi , x0.5 ⟩ + bi − 0.5    wi,j  = ⟨wi , x − (0.5, 0.5, 0.5)⟩ + bi + 0.5           wi,j 
+                                   j=1                                                     j=1
+                                             +                                                       +
+                                                 = [⟨wi , x⟩ + bi ]+ .
+
+Thus, we have that Ñ (x0.5 ) = Maxd (x) for all x0.5 ∈ [−0.5, 0.5]d . We further modify Ñ by subtracting
+0.5 from the bias term of the output neuron, to obtain
+                                  Ñ (x0.5 ) = Maxd (x) − 0.5 = Maxd (x0.5 )
+for all x0.5 ∈ [−0.5, 0.5]d .
+    We now have that Ñ (0, x1 , x2 ) = max{0, x1 , x2 } for all x1 , x2 ∈ [−0.5, 0.5]. By setting the incoming
+weights that receive the first input to zero in all of the hidden neurons, we effectively simulate the same
+computations that the network performs when the input is (0, x1 , x2 ) for x1 , x2 ∈ [−0.5, 0.5]. This way, we
+obtain a network N ′ satisfying N ′ (x1 , x2 ) = max{0, x1 , x2 } for all x1 , x2 ∈ [−0.5, 0.5]. Note that N ′ has
+the same width as Ñ , which has the same width as N , and thus N ′ has width n.
+    By virtue of Lemma A.1, the set of non-differentiable points of N ′ is a hyperplane arrangement with at
+most n hyperplanes. However, on the domain [−0.5, 0.5]2 , the set of non-differentiable points is precisely
+        A := {(x1 , x2 ) : 0 ≤ x1 = x2 ≤ 1} ∪ {(x1 , 0) : −1 ≤ x1 ≤ 0} ∪ {(0, x2 ) : −1 ≤ x2 ≤ 0}.
+Suppose by contradiction that there exists a hyperplane arrangement whose intersection with the set [−0.5, 0.5]2
+equals A. Pick any distinct n + 1 points on the line {(x1 , x2 ) : 0 ≤ x1 = x2 ≤ 1}. By the pigeonhole
+principle, there exists a hyperplane which intersect at least two points on this line. This implies that this
+hyperplane must intersect the entire line, hence it equals the set {(x1 , x2 ) : x1 = x2 ∈ R}. In particular,
+the point (−0.25, −0.25) must be in this hyperplane, hence it is a non-differentiable point of N ′ . But N ′ is
+constant and equals zero for all x1 , x2 ∈ [−0.5, 0], which is a contradiction.
+
+                                                        14
+    In the lemma below, used to prove our main “homogenization” argument, given some ε > 0 we let
+Bε (0) := {x ∈ Rd : ∥x∥ < ε} denote the origin-centered Euclidean ball of radius ε.
+
+Lemma A.3. Suppose that N : Rd → R is a ReLU network that satisfies N (x) = Maxd (x) for all
+x ∈ [0, 1]d . Then, there exists a ReLU network N ′ such that
+
+   1. N ′ has the same depth and at most twice the width of N .
+
+   2. N ′ is homogeneous.
+
+   3. There exists ε > 0 such that N ′ (x) = Maxd (x) for all x ∈ Bε (0).
+
+   4. All the weights of the neurons in the first hidden layer of Ñ (x) contain at least two coordinates that
+      are non-zero.
+
+Proof. We begin with ‘shifting’ the network N to compute the maximum on a domain containing an open
+neighborhood of the origin. Consider the network Ñ (·) obtained   P by transforming all the biases of the first
+hidden layer neurons using the transformation bi 7→ bi + c dj=1 wi,j for some c ∈ U([0.4, 0.6]), where
+wi,j is the j th coordinate of the weight of the ith neuron in the first hidden layer. For all x ∈ [0, 1]d , let
+xc := x − (c, . . . , c). Then we have that xc ∈ [−c, 1 − c]d and that any neuron in the first hidden layer now
+computes for any xc
+                                                                                 
+                            Xd                                               d
+                                                                             X
+      ⟨wi , xc ⟩ + bi − c      wi,j  = ⟨wi , x − (c, . . . , c)⟩ + bi + c   wi,j  = [⟨wi , x⟩ + bi ]+ .
+                          j=1                                             j=1
+                                    +                                               +
+
+Thus, we have that Ñ (xc ) = Maxd (x) for all xc ∈ [−c, 1 − c]d . We further modify Ñ by subtracting c
+from the bias term of the output neuron, to obtain
+
+                                    Ñ (xc ) = Maxd (x) − c = Maxd (xc )
+
+for all xc ∈ [−c, 1 − c]d . Since c ∈ [0.4, 0.6], we have that [−0.4, 0.4]d ⊆ [−c, 1 − c]d , so Ñ computes
+Maxd on a domain which contains an open neighborhood of the origin.
+    Next, we gradually ‘homogenize’ Ñ , by moving biases in every hidden layer one layer forward. We
+begin with constructing a new network N1 which has no biases in its first hidden layer as follows:
+
+    • For any neuron in the first hidden layer with non-zero bias, if the bias is negative, we remove the
+      neuron and set all the incoming weights of neurons which receive its output as input in the second
+      hidden layer to zero. This way we are only left with biases that are either zero or positive, and for a
+      sufficiently small ε′ > 0, we have that N1 (x) = Maxd (x) for all x ∈ Bε′ (0).
+
+    • We now further modify N1 to remove its positive biases in the first hidden layer. For each neuron with
+      a positive bias b > 0 and weight vector w, we remove the neuron and replace it with two neurons
+      having weights w and −w, and zero biases. For each neuron in the second hidden layer with an
+      incoming weight v from the neuron which had a positive bias, we set its incoming weights for the two
+      new neurons to v and −v, and modify its bias term according to b′ 7→ b′ + vb, so that it now computes
+      its previous output without the input from the neuron we are removing in the first hidden layer, plus
+      v [⟨w, x⟩]+ − v [− ⟨w, x⟩]+ + vb = v(⟨w, x⟩ + b). Since b > 0, for sufficiently small ε′′ > 0, this
+      equals v [⟨w, x⟩ + b]+ for all x ∈ Bε′′ (0), effectively replacing the neuron in the first hidden layer.
+
+                                                      15
+Replacing all the neurons in the first hidden layer in this manner and intersecting all the balls centered at the
+origin which maintain the original output of the network, we obtain N1 whose first hidden layer has width at
+most twice of that as Ñ , but with zero biases, and which coalesces with Ñ on the set Bε1 for some ε1 > 0.
+Continuing in this manner for all the subsequent k hidden layers, we obtain Nk whose width is at most twice
+of that as Ñ , but with zero biases in all hidden layers, and which coalesces with Ñ on the set Bε for some
+ε > 0. In particular, we have that Nk (0) = Maxd (0) = 0. However, since Nk has no non-zero biases in its
+hidden layers, we also have that Nk (0) equals the bias term of the output neuron, which therefore must also
+equal zero, proving that Nk is homogeneous.
+    It is only left to show that the neurons in the first hidden layer of N ′ := Nk all have at least two
+coordinates that are non-zero. First, we may assume without loss of generality that no neuron in the first
+hidden layer of N ′ has an all-zero weight vector. This is justified, since once homogenized, this neuron
+has a bias of zero, and therefore it can simply be removed without changing the function computed by N ′ .
+Next, observe that in all stages in the construction of N ′ , the number of non-zero weights in each neuron
+remains unchanged. If some neuron in the first hidden layer had a weight vector w with just a single non-
+zero coordinate wj , then its bias term was modified to b 7→ b + c · wj , which is non-zero with probability 1.
+We thus have that for almost all c ∈ [0.4, 0.6], once homogenized, Ñ has no such neurons. Choosing one
+such c arbitrarily and substituting its values in Ñ , we obtain the desired N ′ .
+
+
+Proposition A.4. Suppose that N : Rd → R is a ReLU network that satisfies N (x) = Maxd (x) for all
+x ∈ [0, 1]d . Then, there exists a ReLU network Ñ : Rd → R such that
+
+   1. Ñ has the same depth and at most twice the width of N .
+
+   2. Ñ (x) = Maxd (x) for all x ∈ Rd .
+
+   3. All the weights of the neurons in the first hidden layer of Ñ (x) contain at least two coordinates that
+      are non-zero.
+
+Proof. By virtue of Lemma A.3, we obtain a network Ñ which satisfies the following properties:
+
+   1. Ñ has the same depth and at most twice the width of N .
+
+   2. Ñ is homogeneous.
+
+   3. There exists ε > 0 such that Ñ (x) = Maxd (x) for all x ∈ Bε (0).
+
+   4. All the weights of the neurons in the first hidden layer of Ñ (x) contain at least two coordinates that
+      are non-zero.
+
+To conclude the proof, we first have that Ñ (0) = Maxd (0) by Item 3, and for all x ̸= 0 we have
+                                                                      
+                            ∥x∥              x      ∥x∥               x
+                  Ñ (x) =       · Ñ ε ·         =      · Maxd ε ·         = Maxd (x),
+                             ε             ∥x∥       ε               ∥x∥
+
+where the first equality follows from Item 2, the second equality follows from Item 3, and the last equality
+follows from the homogeneity of Maxd (·).
+
+    It will be convenient to use the following corollary of Turán’s Theorem in our proofs.
+
+
+
+                                                       16
+                                     q                                             
+                                       2                                        1−δ d2
+Corollary A.5. For all δ > 0, if d ≥   δ and G   is a graph with at least   1 − r−1   2 edges, then G
+contains a clique of size r.
+                             q
+                                          2
+Proof. By the assumption d ≥ 2δ we have d2 ≥ 1δ . We thus compute
+
+                       1 − δ d2
+                                         2
+                                              d2
+                                                    2
+                                      1  d           1  d
+                    1−          = 1−        +δ ≥ 1−        + 1,
+                       r−1 2         r−1 2    2     r−1 2
+
+and the corollary follows from Theorem 1.2.
+
+A.2    Proof of Theorem 2.1
+First, it is straightforward to verify that for all d ∈ {1, 2, 3, 4},
+                                                              
+                                               1     1      1
+                                                 −      −         d2 ≤ 0,
+                                               8 4d 2d2
+
+and therefore the theorem statement holds vacuously for such values of d. Assume from now on that d ≥ 5,
+and denote ad := 18 − 4d  1
+                            − 2d12 .
+     Suppose that N is a depth-3 ReLU network that computes Maxd on [0, 1]d with width at most ad d2 .
+Then by Proposition A.4, there exists a depth-3 ReLU network Ñ of width at most 2ad d2 such that N (x) =
+Maxd (x) for all x ∈ Rd . Moreover, we have that all the weight vectors wi of the neurons in the first hidden
+layer of Ñ contain at least two non-zero coordinates. Let GÑ be the corresponding graph induced by the
+first hidden layer of Ñ . Then by the properties of Ñ , GÑ has at least
+
+                       d2 d                    d2 d d2 d     d2
+                                       
+          d         2           1   1   1
+             − 2ad d =   − −2     −   − 2 d2 =   − −   + +1=    +1
+          2            2  2     8 4d 2d        2  2  4  2    4
+
+edges. By Theorem 1.2, GÑ contains a clique of size 3. By definition, all the neurons in the first hidden
+layer of Ñ have a non-zero coordinate with an index that does not form this clique. This holds true since
+otherwise, if all the coordinates of a particular neuron’s weight vector are zero at the indices that do not form
+the clique, then since it must have at least two non-zero coordinates, we have that these two coordinates are
+both at indices that form the clique. But this implies that these two coordinates remove an edge from the
+clique, which is a contradiction.
+    Suppose without loss of generality that the clique is formed by the first three coordinates. Then we have
+shown that all neurons have at least one weight coordinate with index 4 or larger. We now define
+                                                                                     wmax
+                       wmin :=      min         |wi,j |, wmax := max |wi,j |, W :=        .
+                                 i,j:wi,j ̸=0                    i,j                 wmin
+
+That is, W is the maximal ratio between two coordinates of weights in the first hidden layer of N . Consider
+the function computed by the following assignment of inputs for the coordinates 4, . . . , d. For any such
+coordinate with index i, we substitute xi = −3 · (2W )i−3 as follows
+
+          f (x1 , x2 , x3 ) := N (x1 , x2 , x3 , x4 = −6W, x5 = −12W 2 , . . . , xd = −3 · 2d−3 W d−3 ).
+
+Since Ñ computes Maxd (x) for all x ∈ Rd and since the assignment assigns negative values for all co-
+ordinates with index 4 or larger, we have that f (x1 , x2 , x3 ) = max{x1 , x2 , x3 } for all x ∈ [0, 1]3 . Let
+
+                                                           17
+w = (w1 , . . . , wd ) denote the weights of an arbitrary neuron and let ℓ ≥ 4 be the largest index of a coordi-
+nate such that wℓ ̸= 0. Then we have for all x ∈ [0, 1]3 that
+           ℓ−1
+           X                 3
+                             X                 ℓ−1
+                                               X                            3
+                                                                            X                    ℓ−1
+                                                                                                 X
+                  x i wi =          x i wi +         −3 · 2i−3 W i−3 wi ≤         |xi wi | + 3         2i−3 W i−3 |wi |
+            i=1               i=1              i=4                          i=1                  i=4
+                                        ℓ−1
+                                        X                            ℓ−4
+                                                                     X
+                        ≤ 3wmax + 3wmax     (2W )i−3 = 3wmax + 3wmax     (2W )i
+                                                     i=4                                  i=1
+                                      ℓ−4
+                                      X                        (2W )ℓ−3 − 1         (2W )ℓ−3
+                        = 3wmax             (2W )i = 3wmax                  < 3wmax
+                                                                 2W − 1               W
+                                      i=0
+                        = 3wmin (2W )ℓ−3 ≤ 3 |wℓ | (2W )ℓ−3 = |xℓ wℓ |.                                                   (2)
+
+In the above, the penultimate inequality follows from (2W )ℓ−3 − 1 < (2W )ℓ−3 and 2W − 1 ≥ W which
+holds since W ≥ 1, the penultimate equality and last inequality follow from the definitions of wmin , wmax
+and W , and the final equality follows from xℓ = −3 · (2W )i−3 . We thus have that for all x ∈ [0, 1]3 ,
+                        d                  ℓ−1
+                                !                           !
+                      X                    X
+               sign       xi wi = sign         xi wi + xℓ wℓ = sign (xℓ wℓ ) = −sign (wℓ ) ,
+                        i=1                           i=1
+
+where the first equality follows from the fact that ℓ is the largest non-zero coordinate of w, the second
+                                 Pd and the last equality follows from xℓ < 0. We therefore
+equality follows from Equation (2),
+                                                                                      3
+                                                                                               obtain that the
+sign of the pre-activation output i=1 xi wi of each neuron is fixed for all x ∈ [0, 1] and determined by wℓ .
+    To conclude the derivation thus far, we have established that there exists a neural network which com-
+putes Max3 on x ∈ [0, 1]3 , where no neuron in the first hidden layer changes its linearity over this domain.
+This implies that we can remove the ReLU non-linearities in the first hidden layer as follows:
+
+    • If a neuron’s pre-activation output is negative, then it is negative for all x ∈ [0, 1]3 , and thus this neuron
+      always outputs zero. By changing the incoming weight of all the neurons in the second hidden layer
+      to zero at the coordinate which receives it as input, we can simulate it without the ReLU activation.
+      Note that this preserves the architecture without impacting the number of neurons.
+
+    • If a neuron’s pre-activation output is positive, then it is positive for all x ∈ [0, 1]3 . In such a case,
+      each neuron merely applies a linear transformation to its input and propagates it forward to the second
+      hidden layer. By composing this linear transformation with the linear transformation computed by the
+      second hidden layer, we are able to absorb it in the weights of the second hidden layer. Note that this
+      also does not impact the architecture of the network, and maintains the same width while removing
+      all non-linearities in the first hidden layer.
+
+Finally, we conclude that in both cases, we can remove the non-linearities of the first hidden layer while
+maintaining the same behavior over the domain [0, 1]3 . Thus, we can collapse the first hidden layer which
+is now linear, and obtain a depth-2 ReLU network that computes Max3 over the domain [0, 1]3 . But since
+this contradicts Proposition A.2 which establishes that no depth-2 network can compute this function, the
+theorem then follows.
+
+
+
+
+                                                               18
+A.3   Proof of Theorem 1.1
+We first define αk := 2k−21 −1 for all k ≥ 3. We now have
+
+                                                                                           2k−2 − 2   2k−3
+                                                                                
+                                                     1                      1
+           (1 − αk ) (1 + αk−1 ) = 1 −                        1+                       =            ·
+                                                 2k−2 − 1              2k−3 − 1            2k−2 − 1 2k−3 − 1
+                                            2k−2                   1
+                                     =                =1+                   = 1 + αk .                                 (3)
+                                         2k−2 − 1             2k−2 − 1
+Next, we note that our assumption 3 ≤ log2 (log2 (d)) implies that
+                                                              3
+                                                     d ≥ 22 = 256,                                                     (4)
+
+and k ≤ log2 (log2 (d)) implies that
+                              1                      4                  4            4 log2 (d)              16
+           dαk ≥ d 2log2 (log2 (d))−2 −1 = d 2log2 (log2 (d)) −4 = d log2 (d)−4 = 2 log2 (d)−4 = 16 · 2 log2 (d)−4 .
+          16
+Since 2 log2 (d)−4 > 1 for all d ≥ 256, we have by Equation (4) that
+
+                                                         dαk ≥ 16.                                                     (5)
+
+    The proof of the theorem now follows by induction. For the base case k = 3, it is straightforward to
+verify that for all d ≥ 256 we have
+                                            1     1      1
+                                              −      − 2 ≥ 0.1.
+                                            8 4d 2d
+Thus, Equation (4) and Theorem 2.1 imply that a depth-3 ReLU network that computes Max3 on [0, 1]3
+has width at least 0.1d2 . On the other hand, the theorem statement for the case k = 3 is that width at least
+          1
+     1+
+0.1d 23−2 −1 = 0.1d2 is required, which concludes the proof of the base case.
+    For the inductive step, suppose by contradiction that Nk is a depth-k ReLU network of width at most
+0.1d1+αk that satisfies Nk (x) = Maxd for all x ∈ [0, 1]d . By Proposition A.4, there exists a depth-k ReLU
+network Ñk of width at most 0.2d1+αk that satisfies Ñk (x) = Maxd (x) for all x ∈ Rd . Moreover, all the
+weights of the neurons in the first hidden layer of Ñk contain at least two coordinates that are non-zero.
+    Let GÑk be the corresponding graph induced by the first hidden layer of Ñk , as defined in Step 3 in
+Subsection 2.3. Then by the width upper bound on Ñk and the definition of GÑk , we have that GÑk has at
+least
+                                           d2 d 1 1+αk             d2
+                                                                                   
+                         d     1 1+αk                                        1 1 αk
+                            − d         =     − − d            =      −d       + d
+                         2     5            2    2 5               2         2 5
+edges. By Equation (5), we have that 12 ≤ 32
+                                           1 αk
+                                             d , implying that the above displayed equation is lower
+bounded by
+                                                                       !                      !
+                                                                  37                       1
+   d2                         d2                    d2                       2          −
+                                             
+           1 αk 1 αk                      37                                d         1
+      −d      d + d         =      1−             =      1 − 80 38       ≥      1−        38
+                                                                                                 ,
+   2       32       5          2        80d1−αk      2        38 d1−αk      2       2.1d 1−αk
+
+                                                                                                  √
+where the inequality holds since 80
+                                 38
+                                                    1
+                                    ≥ 2.1. Let δ = 38 . Then by Equation (4), we have d ≥ 256 ≥ 76 =
+q
+  2
+  δ , and therefore from the above displayed equation and by virtue of Corollary A.5, we deduce that GÑk
+contains a clique of size
+                                    r = 2.1d1−αk + 1 ≥ 2.1d1−αk .
+                                                       
+                                                                                                      (6)
+
+                                                             19
+By definition, all the neurons in the first hidden layer of Ñk have a non-zero coordinate with an index that
+does not form this clique. This holds true since otherwise, if all the coordinates of a particular neuron’s
+weight vector are zero at the indices that do not form the clique, then since it must have at least two non-
+zero coordinates, we have that these two coordinates are both at indices that form the clique. But this implies
+that these two coordinates remove an edge from the clique, which is a contradiction.
+    Suppose without loss of generality that the clique is formed by the first r coordinates. Then we have
+shown that all neurons have at least one non-zero weight coordinate with index r + 1 or larger. We now
+define
+                                                                                 wmax
+                        wmin := min |wi,j |, wmax := max |wi,j |, W :=                 .
+                                i,j:wi,j ̸=0                  i,j                wmin
+That is, W is the maximal ratio between two coordinates of weights in the first hidden layer of N . Consider
+the function computed by the following assignment of inputs for the coordinates r + 1, . . . , d. For any such
+coordinate with index i, we substitute xi = −r · (2W )i−r as follows
+
+       f (x1 , . . . , xr ) := N (x1 , . . . , xr , xr+1 = −2rW, xr+2 = −4rW 2 , . . . , xd = −r · 2d−r W d−r ).
+
+Since Ñ computes Maxd (x) for all x ∈ Rd and since the assignment assigns negative values for all coor-
+dinates with index r + 1 or larger, we have that f (x1 , . . . , xr ) = max{x1 , . . . , xr } for all x ∈ [0, 1]r . Let
+w = (w1 , . . . , wd ) denote the weights of an arbitrary neuron and let ℓ ≥ r + 1 be the largest index of a
+coordinate such that wℓ ̸= 0. Then we have for all x ∈ [0, 1]3 that
+          ℓ−1
+          X                 r
+                            X                ℓ−1
+                                             X                              r
+                                                                            X                    ℓ−1
+                                                                                                 X
+                x i wi =          x i wi +           −r · 2i−r W i−r wi ≤         |xi wi | + r           2i−r W i−r |wi |
+          i=1               i=1              i=r+1                          i=1                  i=r+1
+                                                   ℓ−1
+                                                   X                                      ℓ−r−1
+                                                                                           X
+                      ≤ rwmax + rwmax                    (2W )i−r = rwmax + rwmax                 (2W )i
+                                                i=r+1                                      i=1
+                                    ℓ−r−1
+                                     X                         (2W )ℓ−r − 1                 (2W )ℓ−r
+                      = rwmax                (2W )i = rwmax                       < rwmax
+                                                                 2W − 1                       W
+                                     i=0
+                      = rwmin (2W )ℓ−r ≤ r |wℓ | (2W )ℓ−r = |xℓ wℓ |.                                                       (7)
+
+In the above, the penultimate inequality follows from (2W )ℓ−r − 1 < (2W )ℓ−r and 2W − 1 ≥ W which
+holds since W ≥ 1, the penultimate equality and last inequality follow from the definitions of wmin , wmax
+and W , and the final equality follows from xℓ = −r · (2W )i−r . We thus have that for all x ∈ [0, 1]r ,
+                        d                  ℓ−1
+                                !                           !
+                      X                    X
+               sign       xi wi = sign         xi wi + xℓ wℓ = sign (xℓ wℓ ) = −sign (wℓ ) ,
+                           i=1                        i=1
+
+where the first equality follows from the fact that ℓ is the largest non-zero coordinate of w, the second
+                                 P and the last equality follows from xℓ < 0. We therefore obtain that the
+equality follows from Equation (7),
+sign of the pre-activation output di=1 xi wi of each neuron is fixed for all x ∈ [0, 1]r and determined by wℓ .
+    To conclude the derivation thus far, we have established that there exists a neural network which com-
+putes Maxr on x ∈ [0, 1]r , where no neuron in the first hidden layer changes its linearity over this domain.
+This implies that we can remove the ReLU non-linearities in the first hidden layer as follows:
+    • If a neuron’s pre-activation output is negative, then it is negative for all x ∈ [0, 1]r , and thus this neuron
+      always outputs zero. By changing the incoming weight of all the neurons in the second hidden layer
+
+                                                               20
+      to zero at the coordinate which receives it as input, we can simulate it without the ReLU activation.
+      Note that this preserves the architecture without impacting the number of neurons.
+
+    • If a neuron’s pre-activation output is positive, then it is positive for all x ∈ [0, 1]r . In such a case,
+      each neuron merely applies a linear transformation to its input and propagates it forward to the second
+      hidden layer. By composing this linear transformation with the linear transformation computed by the
+      second hidden layer, we are able to absorb it in the weights of the second hidden layer. Note that this
+      also does not impact the architecture of the network, and maintains the same width while removing
+      all non-linearities in the first hidden layer.
+
+Finally, we conclude that in both cases, we can remove the non-linearities of the first hidden layer while
+maintaining the same behavior over the domain [0, 1]r . Thus, we can collapse the first hidden layer which
+is now linear, and obtain a depth-(k − 1) ReLU network Nk−1 with width at most 0.2d1+αk that computes
+Maxr over the domain [0, 1]r .
+    We will now derive a contradiction to the induction hypothesis, which implies that Nk−1 must have
+width at least 0.1r1+αk−1 , meaning that it must hold that 0.2d1+αk ≥ 0.1r1+αk−1 . We compute
+                                                   1+αk−1
+       0.2d1+αk ≥ 0.1r1+αk−1 ≥ 0.1 2.1d1−αk                  = 0.1 · 2.11+αk−1 d1+αk ≥ 0.1 · 2.1d1+αk
+                  = 0.2d1+αk + 0.01d1+αk ≥ 0.2d1+αk + 0.01d ≥ 0.2d1+αk + 2.
+
+In the above, the second inequality follows from Equation (6), the first equality follows from Equation (3),
+the third and fourth inequalities follow from αk ≥ 0 for all k, and the last inequality follows from Equa-
+tion (4). We have thus reached a contradiction, concluding the proof of the theorem.
+
+
+
+
+                                                      21
+

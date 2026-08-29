@@ -1,0 +1,2151 @@
+                                            How Many Neurons Does it Take to Approximate the
+                                                             Maximum?
+                                                           Itay Safran1 , Daniel Reichman2 , and Paul Valiant1
+                                                                                1
+arXiv:2307.09212v2 [cs.LG] 7 Nov 2023
+
+
+
+
+                                                                                Purdue University
+                                                                       2
+                                                                           Worcester Polytechnic Institute
+
+
+
+                                                                                        Abstract
+                                                  We study the size of a neural network needed to approximate the maximum function over
+                                              d inputs, in the most basic setting of approximating with respect to the L2 norm, for continu-
+                                              ous distributions, for a network that uses ReLU activations. We provide new lower and upper
+                                              bounds on the width required for approximation across various depths. Our results establish
+                                              new depth separations between depth 2 and 3, and depth 3 and 5 networks, as well as providing
+                                              a depth O(log(log(d))) and width O(d) construction which approximates the maximum func-
+                                              tion. Our depth separation results are facilitated by a new lower bound for depth 2 networks
+                                              approximating the maximum function over the uniform distribution, assuming an exponential
+                                              upper bound on the size of the weights. Furthermore, we are able to use this depth 2 lower
+                                              bound to provide tight bounds on the number of neurons needed to approximate the maximum
+                                              by a depth 3 network. Our lower bounds are of potentially broad interest as they apply to
+                                              the widely studied and used max function, in contrast to many previous results that base their
+                                              bounds on specially constructed or pathological functions and distributions.
+
+
+                                        1    Introduction
+                                        How and why depth helps neural networks to excel in applications is one of the central challenges
+                                        in the quest to understand deep learning. Both classical circuit complexity and modern deep learn-
+                                        ing theory is guided by the intuition that a modest increase in depth often leads to drastic—and
+                                        often exponential—improvements in the expressive power of the circuit or network described,
+                                        along with concomitant improvements in key measures of performance, including efficiency as
+                                        measured by width or neuron count, and approximation accuracy. Despite this firm intuition, and
+                                        much recent encouraging evidence of the practical expressive power of deep networks (and hence
+                                        also deep circuits), theoretical insight to illuminate these phenomena remains scarce; and each ad-
+                                        ditional layer of depth adds often prohibitive new theoretical challenges. This paper contributes to
+                                        this area by providing several new lower and upper bounds across a range of depths for a natural
+
+
+                                                                                            1
+function, with respect to a meaningful notion of approximation, in a realistic circuit/network model
+with realistic parameters.
+    While it is known that any continuous function can be approximated arbitrarily well by a shal-
+low (depth 2) network [2, 14], these constructions of depth 2 approximations typically require
+exponential size, as a function of the input dimension in the worst case. This raises the natural
+question: when and how can increasing the depth beyond 2 allow us to drastically improve the
+width, so as to be polynomial in the input dimension. Indeed, significant study has been directed
+towards understanding the benefit of depth in expressing functions. For example, there are sev-
+eral constructions of functions which can be approximated by a depth 3 and polynomial width
+network, but require exponentially many neurons to be approximated by a network of depth 2
+[4, 3, 20, 21, 25, 8, 19]. It is also known that highly oscillatory or even sufficiently non-linear
+functions may require exponentially fewer neurons when approximated by networks whose depth
+scales with the problem’s parameters (e.g. the target accuracy) than by constant depth networks
+[23, 26, 15, 20]. While such results establish the expressive superiority of depth over width, the
+functions used to demonstrate this are at times somewhat pathological, the configuration of the
+network which approximates them efficiently is highly stylized, or the assumed data distribution is
+quite complex. Therefore we are motivated to study the effect of depth on efficiency for “natural”,
+well-studied functions that commonly arise in machine learning tasks.
+    We study the effect of depth on the quality of approximation for the maximum function
+
+                                       fd (x1 , . . . , xd ) := max{x1 , . . . , xd },
+
+where (x1 , . . . , xd ) ∈ Rd . This function enjoys many favorable properties: It is a fundamental
+mathematical function; it has a very simple structure; it is easy to compute in linear time (assuming
+comparisons between real numbers can be done in time O(1)), and it is used explicitly in popular
+neural network architectures (e.g. max pooling [12, 22, 9]). Computing the maximum is important
+in reinforcement learning tasks (choosing an action maximizing the expected reward) and has
+received attention in theoretical neuroscience [11]. Several works have studied how to compute
+the maximum efficiently using a neural network [1, 7, 17, 5]. However, most known results only
+deal with L∞ approximations or even exact computation of this function, which is a far more
+stringent notion of approximation than the L2 approximation which is often the metric chosen for
+machine learning applications, and is the metric we study in this paper (see related work subsection
+and Sec. 2 for further discussion).
+    We provide new lower and upper bounds for approximating the maximum function with respect
+to a broad class of distributions including the uniform distribution over the unit hypercube, and the
+                                                                                                      1
+Gaussian distribution (see Assumption 3.2).We show that     for any natural k ≤ O(log(log(d))),
+                                                       k
+ReLU networks of depth 2k+1 and width O d1+1/(2 −1) can approximate the maximum function
+to arbitrary accuracy given sufficiently large weights. In particular, this implies a depth 3 and width
+O(d2 ) approximation; a depth 5 and width O(d4/3 ) approximation; and a depth O(log(log(d)))
+and width O(d) approximation. Moreover, assuming an exponential upper bound on the size of
+the weights, we show corresponding lower bounds for approximating the maximum using ReLU
+   1
+       Unless stated otherwise all logarithms are base 2.
+
+
+                                                             2
+Table 1: New results in this paper for approximating the maximum function using ReLU neural
+networks uniformly over the domain [0, 1]d . We provide a polynomial separation between depth
+2 and 3, and for the same target function, we provide a polynomial separation between depth 3
+and 5, requiring widths of Ω(d2 ) and O(d4/3 ), respectively. We also provide a novel upper bound
+which only requires a perhaps surprising network depth of O(log(log(d))) for approximating the
+maximum using linear width. This in contrast to the previously best known approximation which
+requires width and overall size linear in d but depth O(log(d)) to compute the maximum exactly
+[1, 17]. The theta notation in the target accuracy column hides an absolute constant, and our
+depth 2 lower bound holds for any value of the parameter ℓ ≥ 1. An asterisk (∗) denotes that,
+beyond the ReLU activation, the bound applies to any activation satisfying a mild assumption
+(Assumption 3.2); and a dagger (†) denotes that an exponential upper bound on the magnitude of
+the weights is assumed.
+
+             Depth         Target accuracy      Width lower bound       Width upper bound
+                                                                         (any accuracy)
+              2        d−θ(ℓ) , any ℓ ≥ 1     Ω(dℓ ) (Thm. 4.2) (∗,†)
+              3              d−θ(1)           Ω(d2 ) (Thm. 4.3) (†)     O(d2 ) (Thm. 3.3)
+              5               d−4.5             d (Thm. 4.4) (∗)        O(d4/3 ) (Thm. 3.4)
+        O(log(log(d)))        d−4.5             d (Thm. 4.4) (∗)         O(d) (Thm. 3.4)
+
+
+networks. Specifically, we show a depth 2 lower bound requiring width dℓ for any ℓ ≥ 1 for
+obtaining a target accuracy of d−c·ℓ for constant c > 0, and a depth 3 lower bound requiring width
+Ω(d2 ), establishing the tightness of our depth 3 upper bound.
+    We remark that by performing a change of variables in our lower bounds, one can rescale the
+domain of approximation as desired at the cost of rescaling the target accuracy (see Lemma D.6
+for a formal statement). For example, rescaling the domain to [0, d] where the maximum function
+has constant variance will multiply the target accuracy by a factor of d2 in all of our lower bounds.
+Moreover, by further rescaling, our lower bounds show that the maximum function cannot be
+approximated to better than constant accuracy if the domain of approximation scales polynomially
+with the input dimension d. Due to the fact that our upper bounds on the required width are
+independent of the target accuracy (better accuracy is obtained by increasing the magnitude of the
+weights of the approximating network), scaling the domain of approximation does not affect the
+width requirement in our upper bounds. Therefore, our results also establish several new depth-
+based separations for approximating the maximum function to better than constant accuracy. See
+Table 1 for a comparison of our bounds.
+    It is interesting to compare lower bounds for continuous neural networks over continuous do-
+mains to lower bounds for discrete neural networks such as threshold circuits over {0, 1}d . De-
+vising superlinear lower bounds for depth three threshold circuits (with polynomial weights on the
+output gate) has been obtained relatively recently after decades of research for a family of compli-
+cated functions [10] which cannot be computed by circuits with o(d3/2 / log3 (d)) threshold gates.
+Our tight quadratic lower bound for depth 3 networks with ReLU gates approximating the maxi-
+
+
+                                                 3
+mum function suggests that proving lower bounds for the continuous case is a more amenable task
+and that further superlinear lower bounds for bounded depth networks might be achievable over
+the continuous domain.
+    The remainder of this paper is structured as follows: After presenting our contributions in
+this paper in more detail below, we discuss related work in the literature. In Sec. 2 we present
+the notation used throughout this paper. Sec. 3 details our positive approximation results (upper
+bounds) and Sec. 4 details our negative inapproximability results (lower bounds). Lastly, Sec. 5
+summarizes and discusses potential future work directions.
+
+Our contributions
+   • We exhibit a construction to approximate the maximum function arbitrarily well—in the L2
+     sense—using a depth 3 and width d(d + 1) ReLU network (Thm. 3.3). Interestingly, to
+     increase the accuracy of this construction, we increase the size of the weights, but do not
+     need to change the network architecture. This construction arises from a piecewise-linear
+     decomposition of the maximum function.
+
+   • We “compose” the above construction with itself, so as to enable different depth-width trade-
+     offs. This reinterpretation of Thm. 3.3 provides new upper bounds for expressing the maxi-
+     mum function across odd depths, with the required width dropping rapidly as larger depths
+     are used (Thm. 3.4).
+
+   • By contrast, we show that these constructions at depths 3 and higher are impossible at depth
+     2: the width of a depth 2 network approximating the maximum function must depend on
+     the desired approximation accuracy. This thus shows a polynomial separation between
+     depths 2 and 3 for approximating the maximum function. Our analysis relates to the seminal
+     technique developed in Eldan and Shamir [4], analyzing the Fourier spectrum of the maxi-
+     mum function, to show that, assuming exponential upper bounds on the size of the weights,
+     we show a lower bound for approximating the maximum function on a compact domain
+     (Thm. 4.2).
+
+   • We show a polynomial separation between depth 3 and depth 5 neural networks. Using a
+     combinatorial argument, we show that depth 3 ReLU networks with first hidden layer of
+     width at most d2 /5 cannot capture the full structure of the maximum function on the hyper-
+     cube, reducing the approximation error lower bound to the accuracy achieved by the second
+     hidden layer. Using our previous lower bound in Thm. 4.2, this implies an approximation
+     lower bound for depth 3 ReLU networks (Thm. 4.3). Together with Thm. 3.3, this estab-
+     lishes a tight bound of Θ(d2 ) for approximation of the maximum using depth 3; and when
+     combined with our Thm. 3.4 which implies a depth 5 and width O(d4/3 ) approximation, this
+     provides a polynomial separation between depth 3 and 5.
+
+   • Lastly, we observe that any neural network (regardless of depth or activation function) ap-
+     proximating the maximum must have at least d neurons in its first hidden layer. Thus, known
+
+
+                                               4
+      upper bounds on the number of ReLUs needed to compute the maximum precisely which
+      require size O(d) (e.g. Arora et al. [1], Matoba et al. [17]) are optimal up to a constant factor.
+
+Related work
+Exact computation and approximation of the maximum function Quite a few recent works
+have studied the problem of exact computation of the maximum function using ReLU neural net-
+works. Arora et al. [1] establish that any d-dimensional, piecewise-linear function can be expressed
+exactly using a depth ⌈log(d + 1)⌉ ReLU network. Observe that we are able to obtain a more depth
+efficient implementation of the maximum function, although in contrast to Arora et al. [1] we
+construct a network approximating the function rather than computing it exactly, and our overall
+size requirement is slightly larger. The construction of Arora et al. [1] implies that max{x1 , x2 }
+is computable by depth 2 ReLU networks, and max{x1 , . . . , x4 } is computable by depth 3 ReLU
+networks. In contrast, Mukherjee and Basu [18] show that the function (x1 , x2 ) 7→ max{0, x1 , x2 }
+(which can be shown to be equivalent to computing the maximum over three inputs) cannot be
+computed exactly by a depth 2 ReLU network regardless of its width. Hertrich et al. [7] conjecture
+an analogous impossibility result for computing max{0, x1 , . . . , x4 } exactly using a depth 3 net-
+work, and partially resolve it by assuming a certain restriction on the structure of the computing
+network. Haase et al. [5] further show the uncomputability of max{0, x1 , . . . , x4 } assuming the
+computing network has depth 3 and integral weights, which also implies that the exact computation
+of fd (·) using integer weights requires depth Ω(d). Since our approximation of fd (·) can be done
+using integer weights, this shows a depth separation between exact and approximate computation
+of fd (·) using integer weights, as the former requires depth Ω(log(d)) whereas for the latter depth
+O(log(log(d))) suffices.
+    Despite these efforts, this conjecture is still open. Furthermore, it is currently unknown whether
+there exists any piecewise-linear function which cannot be computed exactly using depth 3 ReLU
+networks. We stress that the aforementioned lower bounds are concerned with exact computation,
+whereas our notion of approximation is markedly different since we consider lower bounds with
+respect to the L2 norm rather than requiring zero L∞ loss. This is a less stringent approximation
+requirement in the sense that an L2 lower bound implies an L∞ lower bound, but not vice versa.
+    In contrast to the exact computation requirement discussed above, Matoba et al. [17] consider
+approximations of the maximum function with respect to the L∞ norm. They show a family of
+networks that increase in accuracy as the size of the approximating network increases, whereas
+we provide a construction of a network achieving arbitrarily good accuracy with fixed width (by
+increasing the size of the weights). Additionally, under the restriction of the approximating net-
+work to have a certain symmetry structure, they also show approximation lower bounds for the
+maximum function, however these do not hold in general if we relax the symmetry assumption,
+whereas our lower bounds hold only under the (mild) assumption that the approximating network
+has exponentially bounded weights.
+
+Separations between depth 2 and 3 The seminal work of Eldan and Shamir [4] was the first
+to establish the existence of a (continuous) function that can be approximated efficiently using
+
+
+                                                   5
+networks of depth 3, whereas any network of depth 2 would require width exponential in the
+input dimension to achieve better than constant accuracy. Later, Daniely [3] showed a separation
+using a different technique which applies to a compactly supported distribution, but requires an
+exponential upper bound on the magnitude of the weights of the approximating depth 2 network.
+Following these works, additional separation results between depth 2 and 3 were shown (e.g. [25,
+8]), including reductions to the results of Eldan and Shamir [4] and Daniely [3] that however hold
+for much simpler functions than the ones originally used (e.g. [20, 21, 19]). Nevertheless, due to
+the reduction proof technique used, these results inevitably inherit the arguably more complicated
+distributions over the data used in Eldan and Shamir [4] and Daniely [3]. In contrast, our separation
+between depth 2 and 3 holds for both the simple maximum function and for the uniform distribution
+over a hypercube, albeit providing a polynomial separation and requiring an exponential upper
+bound on the magnitude of the weights.
+
+Limitations of deeper architectures Moving beyond depth 2, there are known constructions of
+functions that can be approximated by a small sized network (with no restriction on its depth),
+whereas an approximation to similar accuracy using constant depth networks may require expo-
+nentially many more neurons. Such lower bounds, however, are based on two main arguments and
+suffer from certain drawbacks making them incomparable to our results. We discuss these lower
+bounds and their limitations in more detail below.
+
+    Region-counting-based depth separations The seminal work of Telgarsky [23] first estab-
+lished depth separations between deep architectures. It is shown that a deep ReLU network can
+realize a one-dimensional, rapidly oscillating sawtooth function, whereas a shallower architecture
+cannot generate sufficiently many linear segments to be able to approximate this function effi-
+ciently. If one wishes, however, to learn this efficient representation of this function using the
+deeper architecture, then it is known that this cannot be done efficiently using standard techniques
+such as the gradient descent algorithm [16]. Different lower bounds exist that build on this region
+counting proof technique, but focus on smooth and non-linear target functions that may be more
+prone to be learned efficiently using gradient descent [26, 15, 20]. Nevertheless, there’s some the-
+oretical work which shows that when initializing deep ReLU networks, the expected number of
+linear regions our initialization will have is merely linear in the size of the network, and further
+empirical evidence suggests that this number does not tend to increase significantly, indicating that
+depth will impart no practical benefit for approximating these target functions [6, 24]. On the other
+hand, our results which focus on the maximum function and do not rely on region counting, still
+leave open the possibility of an optimization-based result to be shown which will demonstrate this
+separation in a more practical setting.
+
+    Size lower bounds and connections to circuit complexity A different, less direct approach
+for showing approximation lower bounds for neural networks relies on the connection between
+threshold circuits and neural networks. Mukherjee and Basu [18] derive sub-linear size lower
+bounds for neural networks by showing reductions to known threshold circuit lower bounds. Vardi
+et al. [24] use communication complexity to provide linear size lower bounds for approximating
+
+                                                 6
+a smoothed version of the binary IP mod 2 function. These results provide a different result than
+ours since they imply a linear width lower bound for approximating various functions using depth
+3 networks, while we show a quadratic lower bound for depth 3 ReLU networks. Moreover, the
+lower bounds in the aforementioned papers are for the size of the network, rather than the required
+width for some given depth. For this reason such results cannot establish the superiority of depth
+over width, since these two quantities can be traded off evenly in such lower bounds, whereas
+our results establish a non-symmetric trade-off which indicates that depth is more efficient for
+approximating the maximum function.
+
+
+2    Preliminaries and notation
+Notation and terminology We let [n] be shorthand for the set {1, . . . , n}. We denote vectors
+using bold-faced letters (e.g. x) and matrices or random variables using upper-case letters (e.g.
+X). Multivariate random variables are denoted using bold-faced upper-case letters (e.g. X). Given
+                                                                                   P               1/p
+                                                                                        d         p
+a vector x = (x1 , . . . , xd ), we let ∥x∥p denote its ℓp norm which is given by       i=1 |x i |       ,
+where the case p = ∞ is defined as ∥x∥∞ = maxi∈[d] |xi |. Throughout, we use the notation
+fd (x) := max{x1 , . . . , xd } for the maximum function, [x]+ = max{0, x} for the ReLU activation
+function, and for any natural k ≥ 1 we use the notation β(k) := 2k1−1 . A function f : D → R
+defined in some domain D ⊆ Rd is (continuous) piecewise-linear if there exists a finite partition
+D = ∪i Di such that f is linear on Di for all i, where each Di is a closed set which is referred to as
+a linear region of f . We let U(A) denote the uniform distribution on a set A ⊆ Rd .
+
+Neural networks We consider fully connected, feed-forward neural networks, computing func-
+tions from Rd to R. A σ neural network consists of layers of neurons. In every layer except for
+the output neuron, an affine function of the inputs is computed, followed by a computation of the
+non-linear activation function σ : R → R. The single output neuron simply computes an affine
+transformation of its inputs. Each layer with a non-linear activation is called a hidden layer, and
+the depth of a network is defined as the number of hidden layers plus one. The width of a network
+is defined as the number of neurons in the largest hidden layer which we generally denote by k,
+and the size of the network is the total number of neurons across all layers.
+
+Approximation error Since we consider a regression setting in which a neural network N :
+Rd → R computes a real function of its input, we define our approximation error with respect to
+an underlying distribution D on Rd and we consider the square loss. Formally, given a predictor
+N , a target function f : Rd → R and an underlying distribution D, our approximation error is
+defined as
+                                  Ex∼D (N (x) − f (x))2 .
+                                                        
+
+In words, the L2 approximation defined above corresponds to the expected square error when
+sampling an instance from the underlying distribution D, labelling it using the target function f
+we are trying to approximate, and making a prediction using a given neural network hypothesis
+
+
+                                                    7
+N . This makes this notion of approximation a natural choice for showing approximation lower
+and upper bounds, as a lower bound for certain class of neural network predictors implies the
+existence of a particular learning problem where the architecture being considered is unable to
+achieve population loss better than a certain quantity, whereas a network N which achieves small
+loss implies that this class of networks can express a good predictor.
+
+
+3        Deep ReLU approximations
+In this section, we focus on positive approximation results for the maximum function. We now
+begin with stating our assumptions on the underlying distribution generating the data, but first we
+would need the following definition.
+
+Definition 3.1. Given some δ > 0, we say that a vector x = (x1 , . . . , xd ) is δ-separated if for all
+i ̸= j, and xj ̸= 0 we have that
+                                     xi
+                                        ∈
+                                        / [1 − δ, 1 + δ].
+                                     xj
+    We denote the set of δ-separated vectors in d-dimensional space by
+
+                               Sδ := x ∈ Rd : x is δ-separated .
+                                      
+
+
+The above definition essentially guarantees that each pair of coordinates in x have a ratio whose
+distance from 1 is at least δ for some real δ > 0. Since our construction is sensitive to instances
+where there are coordinates that are extremely close, we would need to make sure that points that
+violate δ-separateness are sufficiently scarce. To this end, we make the following assumption on
+the distribution of the data.
+
+Assumption 3.2. The distribution D satisfies the following:
+
+    1.
+                                           EX∼D ∥X∥2∞ < ∞.
+                                                    
+
+    2.
+                                         lim PX∼D [X ∈
+                                                     / Sδ ] = 0.
+                                         δ→0
+
+    Item 1 merely requires that the tail of X is sufficiently well-behaved in the sense of having a
+finite second moment for its infinity norm, and Item 2 requires that it becomes increasingly unlikely
+to draw an instance from D which isn’t δ-separated as δ decreases. These hold, for example, when
+the coordinates of X are i.i.d. and follow any absolutely continuous distribution with a bounded
+density and a finite second moment, or when a certain continuous noise is added to a sufficiently
+concentrated random variable X (see Appendix A for formal examples).
+    We now turn to formally state our positive approximation result for approximating the maxi-
+mum function using depth 3 ReLU neural networks.
+
+
+
+                                                  8
+   2                                    2
+                                                                             2
+
+   0                                    0                                    0
+                                   1                                    1                                    1
+                                                                            −2
+ −2                                    −2
+  1                            0        1                           0        1                           0
+       0.5                                  0.5                                  0.5
+             0                                    0                                    0
+                 −0.5                                 −0.5                                 −0.5
+                        −1−1                                 −1−1                                 −1−1
+
+                  (a)                                 (b)                                   (c)
+
+Figure 1: Three-step polytope approximation of (x, y) 7→ max{x, y}. Subfigure 1(a) plots the
+depth 2 network [x]+ − [10y − 10x]+ − [−x]+ − [10y − 10x]+ which computes max{x, y} on the
+polytope {(x, y) ∈ [−1, 1]2 : x ≥ y}. In Subfigure 1(b), a second layer of ReLUs is utilized to clip
+negative
+          values that are
+                         outside
+                              of the polytope to zero,
+                                                          plotting the depth 3 network N (x, y) :=
+ [x]+ − [10y − 10x]+ + − [−x]+ − [10y − 10x]+ + . Lastly, Subfigure 1(c) plots the depth 3
+network N (x, y) + N (y, x) which is an effective approximation of max{x, y}. We remark that
+while max{x, y} can be computed exactly using depth 2 ReLU networks, the figure is intended
+for illustration purposes of our construction idea used in Thm. 3.3, which generalizes to any input
+dimension d. Best viewed in color.
+
+
+Theorem 3.3. Let D be any distribution satisfying Assumption 3.2. Then for any ε > 0 and natural
+d ≥ 2, there exists a ReLU network N of depth 3 and width d(d + 1) such that
+
+                                Ex∼D (N (x) − fd (x))2 ≤ ε.
+                                                       
+
+     The proof of the above theorem, which appears in Appendix B, relies on the observation that
+the structure of the maximum function is such that its surface consists of d linear regions (cor-
+responding to the subsets of Rd where each coordinate is maximal). Since each such region has
+exactly d − 1 faces (corresponding to the hyperplanes where one coordinate overtakes the other),
+we can use the first hidden layer to compute the linear function x 7→ xi and “peel off” the surface
+of the function at the relevant faces using a ReLU neuron with a very large negative slope. We
+then use the second hidden layer to truncate negative values. By adding such “polytope functions”,
+we are able to obtain a good approximation of the maximum function at points where the coordi-
+nates are sufficiently distant from each other. We refer the reader to Definition 3.6 for the formal
+construction and Fig. 1 for an illustration.
+     It is interesting to note that the width of the approximating network in our result only scales with
+the input dimension d, and does not scale with the desired target accuracy. Rather, by increasing
+the magnitude of the weights of the approximating network we can control the accuracy of the
+approximation. This is in contrast to many other approximation regimes where an improvement
+in the approximation accuracy necessitates an increase in width. E.g., when approximating the
+maximum function using depth 2 (see Proposition C.1 in the appendix) or when approximating
+non-linear functions using ReLU networks (see Safran and Shamir [20]).
+     Our result allows the approximation of the maximum function using a network of size O(d2 ).
+It is known, however, that the maximum function can be computed exactly using a smaller network
+
+                                                       9
+of size O(d) if we allow depth O(log(d)). It is therefore natural to ask whether by utilizing depth,
+we can obtain more efficient approximations of the maximum function using our construction.
+Perhaps surprisingly, we are able to approximate the maximum function using linear width but
+by only requiring the depth to scale as O(log(log(d))). More formally, we have the following
+theorem.
+
+Theorem 3.4. Let D be any distribution satisfying Assumption 3.2. Then for any ε > 0 and
+naturals d ≥ 58 and 1 ≤ k ≤ ⌈log(log(d) + 1)⌉, there exists a ReLU network N of depth 2k + 1
+                     1+ 1
+and width at most 20d 2k −1 such that
+
+                                Ex∼D (N (x) − fd (x))2 ≤ ε.
+                                                      
+
+
+In particular, we have a ReLU network of width 40d and depth 2⌈log(log(d) + 1)⌉ + 1 which
+approximates fd (x) to accuracy ε with respect to the distribution D.
+
+    The proof of the above theorem, which appears in Appendix B, exploits the key observation
+that the maximum taken over sub-vectors of maxima is the maximum of the vector. We can thus
+partition our input into smaller batches and use Thm. 3.3 to compute the maximum over each of
+these batches. Since we may vary the size of the batches across layers, we can gradually take
+larger and larger batches as our computation propagates deeper in the network, while keeping the
+width roughly the same across all layers. This enables a double exponential decay in the number
+of maxima computed at each layer, requiring depth of only O(log(log(d))) for approximating the
+maximum using width linear in d (see Definition 3.7 for the formal construction and Fig. 2 for
+an illustration). While our result is not directly comparable to previous approximations of the
+maximum function [1, 17] since these allow its exact computation using depth and network size
+linear in d, it does provide an alternative construction which allows the approximation of max
+using a network of size d log(log(d)), but with a much smaller depth of only log(log(d)).
+    Of particular interest is the following corollary, which provides an approximation guarantee in
+the case where the data are sampled uniformly from a hypercube. Most importantly, in such a case
+we can guarantee an approximation to accuracy ε > 0 using a network with weights that scale
+polynomially with d and linearly with 1/ε. This property will turn out to be useful in the next
+section where we will show lower bounds for approximating the maximum function with respect
+to the uniform distribution.
+
+Corollary 3.5. For any ε > 0 and naturals d ≥ 58 and 1 ≤ k ≤ ⌈log(log(d) + 1)⌉, there
+                                                                                     exists
+                                                                                           
+                                                                                       4 2
+a ReLU network N of depth 2k + 1, width at most 20d1+β(k) and weights of magnitude O d εR
+such that
+                            Ex∼U ([0,R]d ) (N (x) − fd (x))2 ≤ ε.
+                                                           
+
+
+    Having stated our main positive approximation results, we now turn to specify the constructions
+used to achieve them. Beginning with defining the depth 3 network used in Thm. 3.3, we have the
+following architecture.
+
+
+
+                                                10
+              Multiplicity:   ×128         ×64           ×16              ×1
+                                           Nα,2
+                                           Nα,2
+                                                         Nα,4
+                                           Nα,2
+                                           Nα,2
+
+                                                                         Nα,16
+
+                                           Nα,2
+                                           Nα,2
+                                                         Nα,4
+                                           Nα,2
+                                           Nα,2
+
+                Layer #:       input     1st & 2nd     3rd & 4th     5th ,6th & 7th
+                                        3
+Figure 2: Sketch of the architecture Nα,128  which approximates f128 (·) using depth 7 and width
+      8/7
+≈ 128 = 256. The multiplicity row at the top counts the number of components in each layer,
+and the layer # row at the bottom indicates which layers participate in the computation of each
+component. The height of each Nα,· component is roughly proportional to its width. Each pair
+of hidden layers increases the batch size on which the maxima are computed quadratically, while
+maintaining the width of the network roughly the same across all hidden layers. This results in a
+double exponential decay of the batch size, allowing an approximation of the maximum with depth
+O(log(log(d))).
+
+
+
+
+                                               11
+Definition 3.6. [Depth 3 approximation] Given a weight upper bound α > 0 and input dimension
+d, we define the following depth 3 width d(d + 1) network which approximates fd (x):
+                                                                                  
+                   d
+                   X             d
+                                 X                                 d
+                                                                   X
+                                                                                  
+       Nα,d (x) :=    [x
+                      +  i ] −   [αx j − αx i ]  
+                                                  + − 
+                                                       [−x i ]+ −   [αx j − αx i ] +  .
+                                                                                      
+                    i=1             j=1                                 j=1
+                                    j̸=i                                j̸=i
+                                                       +                                   +
+
+    We remark that we occasionally omit the dimension subscript whenever clear from context,
+and we note that the above architecture can be realized using a width d(d + 1) ReLU network since
+the inner sum terms are identical, and thus computing both requires only d − 1 neurons.
+    Next, we define the architecture which approximates the function fd (x) using depth 2k + 1 and
+width at most 20d1+β(k) , achieving the approximating result stated in Thm. 3.4.
+
+Definition 3.7. [Depth 2k + 1 approximation] Given a weight upper bound α > 0 and input
+dimension d, we define the following depth 2k + 1 width at most 20d1+β(k) network Nα,d
+                                                                                   k
+                                                                                       which
+approximates fd (x) in a recursive manner:
+                            1
+      • For k = 1, we have Nα,d ≡ Nα,d .
+                                                                                                 
+      • For integer k > 1, we partition the input into d1−β(k) batches, each of size at most dβ(k) .
+        For each batch, the first two hidden layers compute the function Nα,⌈dβ(k) ⌉ . The output over
+                                                          k−1
+        all the batches is then fed into the sub-network Nα,            which consists the remaining
+                                                             ⌈d1−β(k) ⌉
+                                 k
+        layers of the network Nα,d .
+
+
+4      Approximation lower bounds
+Having shown a positive approximation result for the maximum function in the previous section,
+we now turn to complement our approximation upper bounds with lower bounds in this section.
+
+4.1     Improving accuracy requires increasing width for depth 2 networks
+Before presenting our main theorem for this subsection, we first state the following very mild
+assumption that we use which is adopted from Eldan and Shamir [4]:
+
+Assumption 4.1 (Polynomially-bounded activation). The activation function σ is Lebesgue mea-
+surable and satisfies
+                                 |σ(x)| ≤ Cσ (1 + |x|ασ )
+for all x ∈ R and for some constants Cσ , ασ > 0.
+
+    Our depth 2 lower bound is the following:
+
+
+
+                                                  12
+Theorem 4.2. Let ℓ ≥ 1 be arbitrary and suppose that σ satisfies Assumption 4.1. Then there exist
+constants c1 , c2 > 0 which depend solely on σ such that for all dimensions d ≥ c1 , a σ depth 2
+neural network N of width at most dℓ and with weights bounded by O(exp(O(d))) must satisfy
+                          Ex∼U ([0,1]d ) (N (x) − fd (x))2 > Ω d−c2 ·ℓ .
+                                                                    
+
+    The proof of the above theorem, which appears in Appendix C.1, builds on the proof technique
+introduced in Eldan and Shamir [4]. Roughly speaking, they build on the important observation
+that a neural network N approximates a function f if and only if the Fourier transform of N
+approximates the Fourier transform of f . Our main technical contribution here is the computation
+of the Fourier transform of the maximum function and showing that it has sufficient L2 mass
+far away from the origin which is sufficiently spread. This, in turn, shows that the support of the
+Fourier transform of a neural network (which is a linear combination of the Fourier transform of its
+activation function) must be contained inside a d-dimensional union of ‘Gaussian tubes’. Namely,
+under the assumption of exponentially bounded weights, the approximation contribution of each
+neuron is negligible outside a union of tubes with bounded radius. This entails that to approximate
+the Fourier transform of the maximum function, one must use sufficiently many neurons in order
+to be able to capture its non-trivial structure which is sufficiently spread across the domain of
+approximation.
+    While the above theorem establishes a polynomial rather than exponential separation between
+depths 2 and 3, such a gap is nevertheless significant since it provides a compelling practical ex-
+ample where depth is more beneficial than width: Modern machine learning problems are often
+high-dimensional, hence even such polynomial gaps quickly translate into a significant practical
+advantage in the size of the required network. We further remark that our assumption that the ap-
+proximating network has exponentially bounded weights is mild and very reasonable. This follows
+from the fact that approximations with weights that have exponential magnitude are known to be
+difficult to learn using stable gradient descent [19], so from a more practical perspective having
+exponentially bounded weights and having unbounded weights is equivalent. Lastly, as we also
+pointed out earlier, our result also implies a lower bound with constant accuracy by rescaling our
+domain of approximation polynomially with d. Performing such a manipulation is justified since
+our upper bounds from the previous section are not sensitive to scaling of the domain and merely re-
+quire that the weights of the approximating network would also scale appropriately (Corollary 3.5).
+This enables us to show a separation in which a depth 2 network cannot approximate the maximum
+to better than constant accuracy, whereas a depth 3 network with a fixed width of d(d + 1) that
+does not depend on the desired accuracy can achieve arbitrarily good accuracy. In contrast, known
+results in the literature do require that the width of the depth 3 network would scale with the accu-
+racy parameter (e.g. Eldan and Shamir [4], Daniely [3] and results that build on their technique –
+see related work subsection).
+                           
+4.2   Depth 3 requires Ω d2 width
+In this subsection, we show that approximating the maximum function using depth 3 ReLU net-
+works with weights bounded by O(exp(O(d))) requires width at least Ω(d2 ). Our main result in
+this subsection is the following.
+
+                                                 13
+                            1               2
+                                                        w1 := (0, 0, 1, −1)
+                                                        w2 := (0, −1, 0, 1)
+                                                        w3 := (0, 1, 0, −1)
+                            3               4
+
+Figure 3: An informal simplication of the main proof idea behind Thm. 4.3. To identify a region
+in the domain of approximation where fd (·) is poorly approximated, we construct a graph G as
+follows: We begin with the complete graph on d vertices (a vertex for each input), and we remove
+an edge (i, j) if there exists a neuron in the first hidden layer whose weight vector is all zeros except
+for the coordinates i, j. In the example portrayed in the figure, for weight vectors w1 , w2 , w3 we
+remove the edge (3, 4) due to w2 , and the edge (2, 4) due to either of w2 , w3 . Loosely speaking,
+whenever the first hidden layer contains a neuron with an all-zero weight vector except for two
+coordinates that equal −1 and 1, then this neuron is able to capture the non-linearity of fd (·)
+associated with the two non-zero coordinates when one overtakes the other in value. Since the
+width of the network is at most d2 /5, this guarantees that G contains at least d2 − d2 /5 > d2 /4
+edges. By Mantel’s theorem (see Thm. D.1), G must contain a triangle, which implies the existence
+of a 3-dimensional sub-cube where the non-linearities in the first hidden layer are redundant. This
+effectively reduces the approximation of fd (·) using a depth 3 network to the approximation of
+f3 (·) using a depth 2 network.
+
+                                                                                    2
+Theorem 4.3. Suppose that N is a depth 3 ReLU network of width at most d5 and with weights
+bounded by O(exp(O(d))). Then there exist absolute constants c1 , c2 > 0 such that for all d ≥ c1
+
+                       Ex∼U ([0,1]d ) (N (x) − fd (x))2 > Ω d−c2 .
+                                                                  
+
+
+     The proof of the above theorem, which appears in Appendix C.2, exploits the structure of
+the maximum function which computes a lower dimensional version of itself on every subset of
+its inputs. Using a combinatorial argument, we show that with fewer than d2 /5 neurons in the
+first hidden layer, our approximating network must be able to approximate the maximum over
+three inputs well on a non-negligible subset of its domain with its remaining layers (see Fig. 3
+for a more detailed explanation of the proof technique). Since in the previous subsection we
+have shown a lower bound on the approximation capabilities of depth 2 ReLU networks for the
+maximum function, this implies that if the second hidden layer is also at most d2 /5, then we cannot
+obtain a good approximation.
+     We remark that together with Thm. 3.3, we establish tight bounds on the capability of depth
+3 ReLU networks to approximate the maximum function (up to constant factors). It is also inter-
+esting to note that other existing lower bound techniques in the literature such as region counting
+arguments (c.f. Telgarsky [23]) when applied to the maximum function yield a far weaker lower
+bound for depth 3 networks, since the maximum function consists of d different linear regions, a
+number which is attainable by merely using log(d) neurons. In contrast, our lower bound of Ω(d2 )
+highlights an inherent limitation of depth 3 ReLU networks for capturing the particular structure
+
+                                                   14
+of the maximum function. When combined with Thm. 3.4 for k = 2, our theorem also implies a
+polynomial depth separation between depths 3 and 5 where the former requires width Ω(d2 ), yet
+the latter can approximate with width O(d4/3 ).
+
+4.3   Width of at least d is necessary
+Having shown lower bounds for depth 2 and 3 ReLU networks, we now turn to show a general
+width d lower bound requirement for approximating the maximum function.
+
+Theorem 4.4. Let N be neural network employing any activation function and having first hidden
+layer width of at most d − 1. Then
+
+                          Ex∼U ([0,1]d ) (N (x) − fd (x))2 ≥ Ω d−4.5 .
+                                                                  
+
+
+    The proof of the above theorem, which appears in Appendix C.3, relies on the observation
+that having fewer than d neurons in the first hidden layer implies that the linear transformation
+defined by them has a non-trivial kernel, and therefore establishes the existence of some direction
+in the domain of approximation where the function computed by the network is constant. Since
+the maximum function typically does not remain constant in most directions, this results in a non-
+trivial approximation error.
+    We remark that the exponent of −4.5 in the target accuracy can possibly be improved some-
+what, but in any case it must be strictly positive, since a network with a single neuron which
+computes the constant value function 1 − 1/d will achieve better than constant accuracy over the
+domain [0, 1]d . Moreover, we note that this result also immediately implies a size d lower bound.
+Together with Thm. 3.4, this establishes size bounds for approximating the maximum function
+using ReLU networks that are tight up to a factor of O(log(log(d))).
+
+
+5     Summary
+We have shown that the maximum function can be gradually approximated more efficiently by
+increasing the depth of the approximating ReLU network. This holds under an appropriate (but
+mostly mild) assumption on the distribution of the data (Assumption 3.2). Interestingly, the width
+in our positive approximation results does not scale with the desired target accuracy, but rather
+by increasing the magnitude of the weights of the approximating network we can obtain an ar-
+bitrarily good approximation. Assuming exponentially bounded weights, we show a polynomial
+lower bound on the required width when approximating the maximum function using depth 2, and
+a quadratic lower bound on the width required for approximating using depth 3. Additionally,
+we also provide a general width d lower bound for approximating the maximum function using
+neural networks of any depth or with any activation function. Our results establish a partial depth
+hierarchy for approximating a simple target function and with respect to the uniform distribution
+on a hypercube, which provides a more grounded example for the benefits of depth compared to
+previous results which make more stylized assumptions on the problem.
+
+
+                                                15
+    Our analysis leaves several important open questions. First, our lower bound for depth 2 is
+(inverse) polynomial in the desired accuracy, which becomes polynomial in the input dimension d
+if we scale the domain with d. However, it is not clear what is the optimal rate at which a depth 2
+network can approximate the maximum function, and whether this quantity is polynomial or rather
+exponential in the input dimension. Second, despite our tight Θ(d2 ) bound on the width for ap-
+proximating the maximum using depth 3, our lower bound for deeper architectures is only linear,
+which leaves open the question of showing superlinear width lower bounds for depths larger than 3.
+Moreover, our upper bounds essentially suggest that depth 2k + 1 and depth 2k + 2 ReLU network
+approximations require the same width, up to constant factors. It is therefore natural to ask whether
+one can improve our depth 2k + 1 upper bounds to apply to depth k + 1 instead. Finally, our analy-
+sis opens an avenue for novel optimization-based separations for the maximum function. Proving
+that indeed deep architectures are capable of learning the representations constructed by our up-
+per bounds (efficiently, from finite data) using standard techniques such as gradient descent is a
+tantalizing future research direction. Such a result holds the potential to establish an optimization-
+based depth hierarchy for learning the maximum function, exemplifying the superiority of depth
+in a simple and natural problem setting.
+
+Acknowledgements
+Part of this work was done while the second author was visiting the Simons Institute for the Theory
+of Computing. Their hospitality is greatly acknowledged.
+
+
+References
+ [1] R. Arora, A. Basu, P. Mianjy, and A. Mukherjee. Understanding deep neural networks with
+     rectified linear units. arXiv preprint arXiv:1611.01491, 2016.
+ [2] G. Cybenko. Approximation by superpositions of a sigmoidal function. Mathematics of
+     control, signals and systems, 2(4):303–314, 1989.
+ [3] A. Daniely. Depth separation for neural networks. In Conference on Learning Theory, pages
+     690–696. PMLR, 2017.
+ [4] R. Eldan and O. Shamir. The power of depth for feedforward neural networks. In Conference
+     on learning theory, pages 907–940, 2016.
+ [5] C. Haase, C. Hertrich, and G. Loho. Lower bounds on the depth of integral relu neural
+     networks via lattice polytopes. arXiv preprint arXiv:2302.12553, 2023.
+ [6] B. Hanin and D. Rolnick. Complexity of linear regions in deep networks. In International
+     Conference on Machine Learning, pages 2596–2604. PMLR, 2019.
+ [7] C. Hertrich, A. Basu, M. Di Summa, and M. Skutella. Towards lower bounds on the depth of
+     relu neural networks. Advances in Neural Information Processing Systems, 34:3336–3348,
+     2021.
+
+                                                 16
+ [8] D. Hsu, C. Sanford, R. A. Servedio, and E.-V. Vlatakis-Gkaragkounis. On the approximation
+     power of two-layer networks of random relus. arXiv preprint arXiv:2102.02336, 2021.
+
+ [9] S. Ioffe and C. Szegedy. Batch normalization: Accelerating deep network training by reduc-
+     ing internal covariate shift. In International conference on machine learning, pages 448–456.
+     pmlr, 2015.
+
+[10] D. M. Kane and R. Williams. Super-linear gate and super-quadratic wire lower bounds for
+     depth-two and depth-three threshold circuits. In Proceedings of the forty-eighth annual ACM
+     symposium on Theory of Computing, pages 633–643, 2016.
+
+[11] B. Kriener, R. Chaudhuri, and I. R. Fiete. Robust parallel decision-making in neural circuits
+     with nonlinear inhibition. Proceedings of the National Academy of Sciences, 117(41):25505–
+     25516, 2020.
+
+[12] A. Krizhevsky, I. Sutskever, and G. E. Hinton. Imagenet classification with deep convolu-
+     tional neural networks. Communications of the ACM, 60(6):84–90, 2017.
+
+[13] R. Lang. A note on the measurability of convex sets. Archiv der Mathematik, 47:90–92,
+     1986.
+
+[14] M. Leshno, V. Y. Lin, A. Pinkus, and S. Schocken. Multilayer feedforward networks with
+     a nonpolynomial activation function can approximate any function. Neural networks, 6(6):
+     861–867, 1993.
+
+[15] S. Liang and R. Srikant. Why deep neural networks for function approximation? In 5th
+     International Conference on Learning Representations, ICLR 2017, 2017.
+
+[16] E. Malach, G. Yehudai, S. Shalev-Shwartz, and O. Shamir. The connection between
+     approximation, depth separation and learnability in neural networks. arXiv preprint
+     arXiv:2102.00434, 2021.
+
+[17] K. Matoba, N. Dimitriadis, and F. Fleuret. The theoretical expressiveness of maxpooling.
+     arXiv preprint arXiv:2203.01016, 2022.
+
+[18] A. Mukherjee and A. Basu. Lower bounds over boolean inputs for deep neural networks with
+     relu gates. arXiv preprint arXiv:1711.03073, 2017.
+
+[19] I. Safran and J. Lee. Optimization-based separations for neural networks. In Conference on
+     Learning Theory, pages 3–64. PMLR, 2022.
+
+[20] I. Safran and O. Shamir. Depth-width tradeoffs in approximating natural functions with neural
+     networks. In International Conference on Machine Learning, pages 2979–2987. PMLR,
+     2017.
+
+[21] I. Safran, R. Eldan, and O. Shamir. Depth separations in neural networks: what is actually
+     being separated? In Conference on Learning Theory, pages 2664–2666. PMLR, 2019.
+
+                                               17
+[22] K. Simonyan and A. Zisserman. Very deep convolutional networks for large-scale image
+     recognition. arXiv preprint arXiv:1409.1556, 2014.
+
+[23] M. Telgarsky. Benefits of depth in neural networks. In Conference on learning theory, pages
+     1517–1539. PMLR, 2016.
+
+[24] G. Vardi, D. Reichman, T. Pitassi, and O. Shamir. Size and depth separation in approximating
+     benign functions with neural networks. In Conference on Learning Theory, pages 4195–4223.
+     PMLR, 2021.
+
+[25] L. Venturi, S. Jelassi, T. Ozuch, and J. Bruna. Depth separation beyond radial functions.
+     arXiv preprint arXiv:2102.01621, 2021.
+
+[26] D. Yarotsky. Error bounds for approximations with deep relu networks. Neural Networks,
+     94:103–114, 2017.
+
+
+
+A     Distributions that satisfy Assumption 3.2
+In this appendix, we exemplify two instances of distribution that satisfy Assumption 3.2. While
+the examples presented here are quite broad, they are in no way exhaustive, and a far richer family
+of distributions can be shown to satisfy the assumption.
+Theorem A.1. Suppose that X is absolutely continuous with bounded density and has a finite
+second moment. Then X := (X1 , . . . , Xd ) satisfies Assumption 3.2, where each Xi is an i.i.d X
+random variable.
+Proof. Beginning with Item 1, we have
+                                                 d
+                                                 X
+                EX ∥X∥2∞ ≤ EX ∥X∥21 ≤ d                 EX Xi2 = d2 EX X 2 < ∞.
+                                                                 
+                                                  i=1
+
+In the above, the second inequality is an application of Cauchy-Schwartz to the vectors (1, . . . , 1)
+and (X1 , . . . , Xd ) and due to the linearity of expectation, and the last inequality is due to our
+assumption that X has a finite second moment.
+    Moving on to Item 2, assuming X has density f satisfying supx∈R f (x) ≤ C for some C > 0,
+we have that the density of the ratio distribution between two different coordinates of X satisfies
+                  Z                            Z                               p
+     fR (r) =        |x| f (r · x)f (x)dx ≤ C · |x| f (x)dx = CEX [|X|] ≤ C EX [X 2 ] < ∞,
+                R                            R
+
+where the penultimate inequality follows from Jensen’s inequality applied to the function x 7→ x2 .
+The above implies that for any two coordinates Xi , Xj , we have
+                                       Xi
+                                    lim   ∈ [1 − δ, 1 + δ] = 0,
+                                   δ→0 Xj
+
+
+                                                 18
+therefore by taking a union bound over all ≤ d2 pairs of coordinates we have that
+
+                                           lim PX∼D [X ∈
+                                                       / Sδ ] = 0.
+                                           δ→0
+
+
+
+
+Theorem A.2. Suppose that X := (X1 , . . . , Xd ) satisfies Item 1 in Assumption 3.2. Then the
+vector X + Y satisfies Assumption 3.2, where Y := (Y1 , . . . , Yd ) is an i.i.d noise vector such that
+Yi is absolutely continuous, with bounded density, and 0 < E [Yi2 ] < ∞.
+Proof. To show that Item 1 holds, we have by Thm. A.1 that Y satisfies Item 1. This entails that
+
+                                    ∥X + Y∥∞ ≤ ∥X∥∞ + ∥Y∥∞ < ∞.
+
+To show that Item 2 is satisfied, consider any coordinates i ̸= j. Let zi := xi + yi denote the
+realizations of Zi := Xi + Yi . Then we have that for any realization xj of Xj , it must hold that yj
+falls within an interval of length at most 2δ to have that
+
+                                   zj ∈ [zi − δ, zi + δ] ⇐⇒ |zj − zi | ≤ δ.
+
+Since                                                        Z a+2δ
+                       sup P [Yj ∈ [a, a + 2δ]] = sup                 f (x)dx ≤ 2δC,
+                       a∈R                             a∈R    a
+
+where f is the density of Y which satisfies supx f (x) ≤ C by assumption, we obtain
+
+                                           P [|zj − zi | ≤ δ] ≤ 2δC.
+
+Since Zi has bounded first and second moments for all i by assumption, we have from Chebyshev’s
+inequality that there exists some Mδ > 0 such that P [∥X∥∞ ≤ Mδ ] ≥ 1 − δ. Since Lemma D.2
+guarantees that if |zj − zi | > δ then z ∈ Sδ/Mδ , we have from a union bound taken over all ≤ d2
+pairs of coordinates and the event where ∥X∥∞ is bounded that
+
+                                           lim PX∼D [X ∈
+                                                       / Sδ ] = 0.
+                                           δ→0
+
+
+
+
+B       Proofs from Sec. 3
+To prove Thm. 3.3 and Thm. 3.4, we would first need the following lemmas and proposition:
+Lemma B.1. Given a real α > 0 and integer i ≥ 1, let
+                                                                                            
+                            d
+                            X                                                 d
+                                                                              X
+                                                      −
+                                                                                           
+    n+
+     α,i (x) := [xi ]+ −
+                                  [αxj − αxi ]+  , nα,i (x) := − [−xi ]+ −
+                                                                              [αxj − αxi ]+ 
+                                                                                               .
+                            j=1                                                  j=1
+                            j̸=i                                                 j̸=i
+                                                 +                                                 +
+
+
+                                                      19
+Then                                     (
+                                          xi , If fd (x) = xi and xi ≥ 0,
+                              n+
+                               α,i (x) =
+                                          0, If fd (x) > xi and x ∈ S1/α ,
+and                                      (
+                                          xi , If fd (x) = xi and xi ≤ 0,
+                              n−
+                               α,i (x) =
+                                          0, If fd (x) > xi and x ∈ S1/α .
+                                                                                     −
+Proof. We will only focus on the proof for n+
+                                            α,i since the analysis is symmetric for nα,i .
+   Suppose that fd (x) = xi . Then xj < xi for all j ̸= i, implying that αxj − αxi < 0 and thus
+                                                              
+                                                    d
+                                                    X
+                                                                        
+                            n+
+                             α,i (x) = [xi ]+ −
+                                                          [αxj − αxi ]+ 
+                                                                          = [xi ]+ .
+                                                    j=1
+                                                    j̸=i
+                                                                              +
+
+Suppose that fd (x) > xi . Then if xi ≤ 0 we immediately have that n+
+                                                                    α,i (x) = 0. Assuming xi > 0
+and letting j := argmax xi , we have that xj > xi > 0. Next, from the assumption x ∈ S1/α we
+                    i∈[d]
+obtain
+                                                  xj    1
+                                                     >1+ ,
+                                                  xi    α
+which entails
+                                                αxj − αxi > xi ,
+implying that
+                            d
+                            X
+                 [xi ]+ −          [αxi − αxi ]+ ≤ [xi ]+ − [αxj − αxi ]+ < xi − xi = 0,
+                            i=1
+                            i̸=i
+
+and thus
+                                                  n+
+                                                   α,i (x) = 0.
+
+
+
+
+Lemma B.2. Given a real α > 0, we have
+
+                                         Nα (x) = fd (x), ∀ x ∈ S1/α ,
+
+and
+                                         |Nα (x)| ≤ ∥x∥1 , ∀ x ∈ Rd .
+Proof. By the definition of Nα and Lemma B.1, we have for all x ∈ S1/α that
+                            d                                   d
+                                                                      xi · 1 {fd (x) = xi } = fd (x).
+                            X                                   X
+                                                −
+                                    n+
+                                                      
+                Nα (x) =             α,i (x) + nα,i (x)    =
+                            i=1                                 i=1
+
+
+                                                           20
+Assuming any arbitrary x ∈ Rd , we have by the definitions of n±
+                                                               α,i that
+
+
+                                                 d
+                                                 X
+                      n±
+                       α,i (x)   = [±xi ]+ −            [αxi − αxi ]+ ≤ [±xi ]+ ≤ |xi | ,
+                                                 j=1
+                                                 i̸=i
+
+
+therefore by the definition of Nα and the fact that at most one of n±
+                                                                    α,i is non-zero, we have
+
+                                           d
+                                           X
+                                                              −
+                              |Nα (x)| ≤          n+
+                                                   α,i (x) + nα,i (x) ≤ ∥x∥1 .
+                                           i=1
+
+
+
+
+Proposition B.3. Given any real α > 0, we have
+
+                                     Nαk (x) = fd (x), ∀ x ∈ S1/α ,
+
+and
+                                     Nαk (x) ≤ d · fd (x), ∀ x ∈ Rd .
+
+Proof. The proof follows by induction on k. The base case k = 1 follows immediately from
+Lemma B.2. In what follows, given a natural k, recall that we use the shorthand β(k) := 2k1−1 .
+    For the inductive step, assume the induction hypothesis for k, and consider the network Nαk+1 .
+Since any sub-vector of a δ-separated vector is also δ-separated for all δ > 0, we have from
+                                                                      k+1
+ 1−β(k) B.2 that the output of the second hidden layer of Nα is the maximum over each of the
+Lemma
+ d         batches. Applying the inductive hypothesis on the sub-network consisting of layers 3 to
+2k + 3, the network outputs fd (x).                                            1−β(k) 
+    For the second part of the proposition, partition the     input
+                                                            β(k)    x  into  d         batches such that the
+vector of inputs in each batch has dimension at most d              . Then by Lemma B.2, each coordinate
+                                                    k+1
+in the output of the second hidden layer of Nα is upper bounded by
+                                                                      
+                                       ∥x1 ∥1 , . . . , x⌈d1−β(k) ⌉      .
+                                                                      1
+
+Applying the induction hypothesis on the sub-network consisting of layers 3 to 2k + 3, we obtain
+
+                                         ⌈d1−β(k)
+                                           X ⌉
+                             Nαk (x) ≤                  ∥xi ∥1 = ∥x∥1 ≤ d · fd (x).
+                                            i=1
+
+
+
+
+   With the above lemmas and proposition, we are now ready to prove the theorems. Since the
+proof of Thm. 3.4 follows mainly by induction and since Thm. 3.3 consists the base case for the
+induction, it would be convenient to prove both theorems simultaneously.
+
+                                                         21
+Proofs of Thm. 3.3 and Thm. 3.4. Recall we use the shorthand β(k) := 2k1−1 for any natural k ≥ 1.
+We begin with asserting the size of the approximating network. We have that Nαk has depth 2k + 1
+and weights of magnitude at most α by definition (note that the output neuron of Nα has weights
+of magnitude exactly 1, and therefore composing its weights with the subsequent layer’s weights
+does not increase the magnitude).
+   Next, we bound the width of Nαk using induction. To this end, we will show that for all natural
+k ≥ 1 we have an upper bound on the width of
+                                          k               2
+                                          Y        2
+                                                1+ 3            d1+β(k) .
+                                          i=1
+                                                  i
+
+                                          2 2
+By Lemma D.3, we have that ∞
+                               Q            
+                                 i=1 1 + i3    ≤ 20, thus the above implies the desired upper bound
+on the width.
+    The base case is immediate since Nα1 ≡ Nα which has width exactly d(d + 1) ≤ 2d2 . Assume
+theinductive hypothesis for k, and consider the network Nαk+1 . Its first two hidden layers consist
+of d1−β(k+1) ≤ d1−β(k+1) + 1 batches of Nα,⌈dβ(k+1) ⌉ , each of which having width at most
+         β(k+1) 2  β(k+1)               2
+         d         + d         ≤ dβ(k+1) + 1 + dβ(k+1) + 1 = d2β(k+1) + 3dβ(k+1) + 2,
+
+for a total width upper bound of
+
+                      d1−β(k+1) + 1       d2β(k+1) + 3dβ(k+1) + 2 ≤ 12d1+β(k+1) ,
+                                                                
+
+thus implying an upper bound on the width of
+                                                    k+1
+                                                    Y             2
+                                    1+β(k+1)                  2
+                              12d               ≤          1+ 3         d1+β(k+1) ,
+                                                    i=1
+                                                             i
+
+since k ≥ 1 and the product over the first two elements is at least 14. Moving on to bound the width
+                                                                                        k
+of the remaining layers, we have by definition that layers 3 to 2k + 3 is the network Nα,              ,
+                                                                                          ⌈d1−β(k+1) ⌉
+which by the induction hypothesis has width at most
+      k      2                      k       2
+     Y      2     1−β(k+1) 1+β(k) Y        2                   1+β(k)
+         1+ 3     d                ≤      1+ 3     d1−β(k+1) + 1
+     i=1
+           i                         i=1
+                                            i
+                                      k       2                            1+β(k)
+                                     Y       2                2        1−β(k+1)
+                                   ≤      1+ 3       1+              d
+                                     i=1
+                                            i             (k + 1)3
+                                      k       2                2
+                                     Y       2              2                   1+β(k)
+                                   ≤      1+ 3      1+          3
+                                                                     d1−β(k+1)
+                                     i=1
+                                            i           (k + 1)
+                                     k+1
+                                     Y        2
+                                             2
+                                   =     1 + 3 d1+β(k+1) .
+                                     i=1
+                                            i
+
+
+                                                          22
+In the above, the second inequality follows from Lemma D.4 by our assumption that d ≥ 58 and
+1 ≤ k ≤ ⌈log(log(d) + 1)⌉, and the third inequality follows from the fact that β(k) ≤ 1 for all
+natural k ≥ 1. We thus conclude that Nαk has width at most 20d1+β(k) .
+    Turning to bound the approximation error of Nαk , we first have from Assumption 3.2 that there
+exists some δ0 > 0 such that
+                                                               ε
+                              Px∼D [x ∈
+                                      / Sδ0 ] ≤                                                    (1)
+                                                                     ∥x∥2∞
+                                                                          .
+                                                   (d + 1)2 Ex∼D
+
+We now compute using the law of total expectation
+        h                    2 i        h                     2          i
+           k                                 k
+   Ex∼D N1/δ 0
+               (x) − f d (x)      = Ex∼D   N 1/δ0 (x) − f d (x)   |x ∈ S δ0 · Px∼D [x ∈ Sδ0 ]
+                                           h                      2         i
+                                                 k
+                                    + Ex∼D N1/δ0 (x) − fd (x) |x ∈      / Sδ0 · Px∼D [x ∈
+                                                                                        / S δ0 ]
+                                         h                     2          i
+                                             k
+                                  = Ex∼D N1/δ   0
+                                                  (x) − fd (x) |x ∈  / Sδ0 · Px∼D [x ∈/ S δ0 ]
+                                                                         ε
+                                  ≤ Ex∼D (d + 1)2 ∥x∥2∞ ·
+                                                         
+                                                                                    = ε,
+                                                              (d + 1)2 Ex∼D ∥x∥2∞
+                                                                             
+
+where the second equality follows from Proposition B.3, and the inequality also follows from
+Proposition B.3 and Eq. (1).
+   Lastly, we verify that ⌈log(log(d) + 1)⌉ = O(log(log(d))). We have
+                    1+ k1               1                1                      1
+                20d   2 −1   ≤ 20d1+ log(d) = 20d · d log(d) = 20d · 2log(d) log(d) = 40d,
+
+thus for this choice of k we have a network of depth O(log(log(d))) and width O(d) which ap-
+proximates fd (·), concluding the proof of the theorem.
+                                                                                      
+Proof of Corollary 3.5. To prove the corollary, we need only show that D ∼ U [0, R]d satisfies
+Assumption 3.2 and compute the δ0 > 0 for which Eq. (1) holds. Starting with Item 1, it is trivial
+that
+                                    Ex∼U ([0,R]d ) ∥x∥2∞ ≤ R2 .
+                                                       
+                                                                                               (2)
+Moving on to Item 2, let δ > 0 be some arbitrary real number. Drawing any xi ∼ U([0, R]) for
+some i ∈ [d], we have with probability at most 2δ   R
+                                                      that it is within distance of at most δ from
+any other xj , j < i. By a union bound taken over the distances from all coordinates, any freshly
+sampled coordinate is within distance at least δ from all the other coordinates with probability at
+least 1 − 2dδ
+           R
+              . Taking another union bound over drawing each coordinate sufficiently far and using
+Lemma D.2 with the fact that P [|xi | ≤ R] = 1 for all i, we have that
+                                                          2d2 δ
+                                   Px∼U ([0,R]d ) x ∈
+                                                    / Sδ/R ≤      ,
+                                                             R
+which by a change of variables δ0 = δ/R implies
+
+                                                      / Sδ0 ] ≤ 2d2 δ0 .
+                                    Px∼U ([0,R]d ) [x ∈
+
+                                                    23
+It is only left to compute the δ0 for which Eq. (1) holds. To this end, we wish to find δ > 0 such
+that
+                                       ε                        ε
+                       2d2 δ ≤                 ≤
+                                         2   2
+                                                 (d + 1) Ex∼U ([0,R]d ) ∥x∥2∞
+                                                                             ,
+                                 (d + 1) R               2
+
+
+                                                                                        ε
+                                                                                            
+where the second inequalityuses Eq.   (2). Solving the above for δ, we have δ 0 = Ω  4
+                                                                                      d R 2   , implying
+                                4  2
+a weight upper bound of O d εR and concluding the proof of the corollary.
+
+
+C      Proofs from Sec. 4
+C.1     Proof of Thm. 4.2
+The following proposition is key in the proof of the theorem.
+
+Proposition C.1. For each fixed dimension d ≥ 2, the squared L2 error of approximating the
+function max{0, x1 , x2 , . . . , xd } on the unit Gaussian, using n neurons in a depth 2 σ network
+satisfying Assumption 4.1, with coefficients of size at most s, is at least
+
+                                             polylog(n)    1
+                                                        · 1+ 3 .
+                                             polylog(s) n d−1
+
+   Before we prove the proposition, however, we will first need the following definition and lem-
+mas.
+
+Definition C.2. Let M (x) = max{0, x1 , x2 , . . . , xd } denote the max function. Let M1 (x) denote
+only the portion of the max function where coordinate x1 is biggest, namely, the function that
+takes value x1 if x1 is the largest of 0, x2 , x3 , . . . , xd , and 0 otherwise. Equivalently, let q1 (x) =
+x1 · 1[x1 ≥0] · 1[x2 ≤0] · 1[x3 ≤0] · . . . · 1[xd ≤0] , namely the function taking value x1 but only when x1
+is nonnegative and all the other coordinates are nonpositive; let S1 (x) be the “skew” matrix such
+that S1 · (x1 , x2 , x3 , . . . , xd )T = (x1 , x2 − x1 , x3 − x1 , . . . , xd − x1 )T , namely subtracting x1 from
+all the other coordinates; thus M1 (x) = q1 (S1 · x)) since x1 is at least some other coordinate xj if
+and only if xj − x1 ≤ 0.
+
+Lemma C.3. The Fourier transform of the skew of a function is the inverse transpose skew of
+                                                                  \
+the Fourier transform of the function: for a function g, we have g(S         b(S1−⊤ ξ), using the
+                                                                    1 · x) = g
+standard notation S1−⊤ to represent the matrix inverse transpose.
+
+Proof. Standard (linear) change of variables relation for the Fourier transform integral.
+
+Lemma C.4. Letting q1 (x) = x1 ·1[x1 ≥0] ·1[x2 ≤0] ·1[x3 ≤0] ·. . .·1[xd ≤0] and defining Dawson’s integral
+                           Rx
+to be daw(x) := exp(−x2 ) 0 exp(t2 ) dt, then the Fourier transform of q1 (x) exp(− ∥x∥22 /4)
+equals
+                                                         d
+                                 √                  2
+                                                      Y                   √
+           2 − 4ξ1 daw(ξ1 ) − 2i πξ1 exp(−ξ1 )              (exp(−ξj2 ) π + 2i · daw(ξj )).
+                                                             j=2
+
+
+                                                        24
+                                                                      d−1
+And further, this Fourier transform has magnitude at most 2π 2 everywhere, and for inputs ξ
+each of whose coordinates is positive and has value at least Ω(log(d)),
+                                                                 Qd 1 the Fourier transform has
+                                          d−1                  1
+a component in the (complex) direction −i     that is at least ξ2 j=2 ξj .
+                                                                  1
+
+
+Proof. The Fourier transform is a straightforward calculation on each dimension separately, since
+the function q1 (x) exp(− ∥x∥22 /4) is separable.
+    The global magnitude bound simply comes from evaluating the Fourier transform at the origin,
+since the Fourier transform of a nonnegative real function attains its largest magnitude at the origin.
+                                                                                      1
+    For the final bound, we take the approximation of Dawson’s integral daw(x) = 2x     + 4x13 +Θ( x15 )
+for inputs x away from 0. These inverse polynomial terms in ξj dominate the inverse exponential
+exp(−ξj2 ) terms, even when d such terms are multiplied together, for ξ = Ω(log d). Substituting
+
+                  1
+                    Qd fori daw(x) into our Fourier transform expression and dropping lower-order
+in this approximation
+terms yields − ξ2 j=2 ξj , with the next-largest terms from the expansion of Dawson’s integral
+                  1
+contributing inverse-polynomially farther in the same direction. Thus we conclude the lemma.
+
+Lemma C.5. For vector ξ with all of its coordinates positive and at least Ω(d), but less than some
+parameter b, the Fourier transform of exp(− ∥x∥22 /4) max(0, x1 , x2 , . . . , xd ) evaluated at ξ has
+magnitude at least b−(d+1) 2−O(d) .
+
+Proof. The Fourier transform of exp(− ∥x∥22 /4) max{0, x1 , x2 , . . . , xd } can be decomposed into
+the sum of the contributions of the d separate components of the max function, which are all
+symmetric up to relabeling the coordinates. We thus compute the contribution from the first com-
+ponent.
+     We compute the Fourier transform of exp(− ∥x∥22 /4)M1 (x) by expressing M1 = q1 ◦ s1 from
+Definition C.2, as the composition of a separable function q1 with a volume-preserving affine
+transformation s1 . We make further use of the transformation s1 by breaking the scaling term
+exp(− ∥x∥22 /4) into 2 parts, one of which is a spherical Gaussian even after begin transformed by
+s1 . Explicitly, we have
+
+         exp(− ∥x∥22 /4)M1 (x) = exp −x⊤ Qx exp −||s1 (x)||22 /(4(d + 1)) q1 (s1 (x))
+                                                                        
+                                                                                                    (3)
+for some symmetric positive semidefinite matrix Q with eigenvalues at most 41 .
+    Since the Fourier transform of a product equals the convolution of the Fourier transform of
+the terms, we thus have that the Fourier transform     of Equation 3 equals the convolution of the
+                                                 ⊤
+Fourier transform of the Gaussian exp −x Qx with the Fourier transform of the expression
+exp (−||s1 (x)||22 /(4(d + 1))) q1 (s1 (x)). Since this expression is an affine transformation of
+exp (−||y||22 /(4(d + 1))) q1 (y), its Fourier transform is the corresponding (inverse transpose) affine
+transformation of the Fourier transform of exp (−||y||22 /(4(d + 1))) q1 (y).
+    We bound this Fourier transform via Lemma C.4. Explicitly, let g(ξ) be the Fourier transform
+of exp (−||y||22 /4) q1 (y), which Lemma C.4 bounds.                 Then the Fourier transform of
+            2
+                                                  √                 d+1                        √
+exp (−||y||2 /(4(d + 1))) q√1 (y) is exactly g(ξ d + 1)(d + 1) 2 , since replacing y by y d + 1
+scales the function q1 by d + 1 and thus scales its integral and hence Fourier transform by the
+d + 1 power of this, as claimed. Next, transforming the inputs of a function by the affine function
+s1 transforms its Fourier transform by the transpose of the inverse of the affine function. Thus the
+
+                                                  25
+                                                                          √
+Fourier transform of exp (−||s1 (x)||22 /(4(d + 1))) q1 (s1 (x)) equals g( d + 1(( j ξj ), ξ2 , ξ3 , . . . , ξd ))·
+                                                                                  P
+        d+1
+(d + 1) 2 .
+    We now use the bounds of Lemma C.4 to characterize
+                                                     √         Pg. For ξ with all coordinates positive
+and at least Ω(1), the transformed coordinates d + 1(( j ξj ), ξ2 , ξ3 , . . . , ξd ) will all be at least
+Ω(log(d)) and thus the lemma applies.Q    Thus we conclude that the Fourier transform has component
+in the direction −id−1 at least (P 1ξj )2 dj=2 ξ1j , where the factors of d + 1 all cancel; by the second
+                                    j
+
+part of Lemma C.4, this Fourier transform has magnitude at most O(d)O(d) everywhere.
+    Finally, to obtain the overall Fourier transform of exp (−||x||22 /4) M1 (x), it remains  to con-
+volve this last expression with the Fourier transform of the remaining term exp −x⊤ Qx ; namely,
+we convolve this last expression with the Gaussian of covariance Q, which thus has radius ≤ 14
+by construction. Since all but exp (−Ω(d2 )) fraction of the mass of this Gaussian must be within
+radius O(d), we thus have that—even after this final convolution—the component of theQ          Fourier
+                          2                               d−1                   −O(d) P 1        d   1
+transform of exp (−||x||2 /4) M1 (x) in the direction −i      must be at least 2      ( j ξj )2  j=2 ξj
+provided all coordinates of ξ are at least Ω(d).
+    Summing this bound over all d components of the maximum function, and then pointing out
+that the magnitude of a complex number must be at least its component in the direction −id−1
+yields our final bound.
+    Using the above lemmas, we now turn to the proof of the proposition.
+Proof of Proposition C.1. Let b = ω(d). Consider the region in Fourier space where each coordi-
+nate ξj lies in [Ω(d), b]. This region has volume Ω(bd ). By Lemma C.5, the Fourier transform of
+the maximum function, weighted by the square root of the pdf of the unit Gaussian, has magnitude
+at least b−(d+1) 2−O(d) ; denote this bound by ℓ.
+    However, a ReLU with bounded coefficients has a Fourier transform which is large only on a
+relatively small volume, which is what gives us the desired contradiction.
+    We will show that the linear combination of ReLU units cannot closely approximate the max
+function on our Gaussian via the following “accounting” scheme: consider the contribution of each
+neuron separately, and letting fk (ξ) be Rthe Fourier transform
+                                                        1      of the contribution of the k th neuron,
+then we give this neuron a “score” of [Ω(d),b]d min 1, ℓ |fk (ξ)| dξ. We will show that the total
+score over all neurons is at most half the volume of the region, which implies a squared-L2 error
+of at least Ω(bd ℓ2 ) = b−d−2 2−O(d) .
+    Consider a neuron with an activation function σ : R → R satisfying Assumption 4.1, and
+weights of magnitude at most some bound s. In the context of the neural net, σ will be applied as
+wσ(x · v) where w is a weight of magnitude at most s and v is a vector each of whose coordinates
+has magnitude at most s. We decompose the Fourier transform of wσ(x · v) exp (−||x||22 /4) into
+the Fourier transform along the direction of v, and then the Fourier transform in the transverse
+d − 1 dimensional space.
+    Since by Assumption 4.1, σ is polynomially bounded, the 1-dimensional Fourier transform
+along direction v of this scaled version wσ(x · v) exp (−||x||22 /4) will be bounded by O(sd)d+1 ,
+where the parameters of the big-O expression depend on σ. We now consider the Fourier transform
+of along the d − 1 dimensional space orthogonal to d: along any hyperplane orthogonal to v, we
+
+
+                                                     26
+have a d − 1 dimensional Gaussian exp (−||x||22 /4) times some number bounded by O(sd)d+1 . We
+thus consider how much “score” this can contribute.                       √
+                         factor t = O(sd)d+1 , we bound Rd−1 min 1, ℓt (2 π)d−1 exp (−||ξ||22 ) dξ,
+                                                         R        
+    Namely, for a scaling√
+where the expression (2 π)d−1 exp (−||ξ||22 ) is the d − 1 dimensional Fourier transform of the
+Gaussian exp (−x2 /4). This integral is straightforward to bound once we convert it to an integral
+over the radius. We solve for the radius r where the min
+                                                       qfunction√transitions from the first term to
+                 √
+the second: tl (2 π)d−1 exp (−r2 ) ≤ 1 means that r ≥ log tl (2 π)d−1 . Since the surface area of
+a radius r ball in d − 1 dimensions is O(1)rd−1 , we bound our integral as
+                                                       Z ∞
+                 t √ d−1                                                          t √ d−1
+Z                                                                                                  
+                                           2                      d−1                              2
+                                                                                                    
+       min 1, (2 π) exp −||ξ||2                  dξ ≤       O(1)r     min 1, (2 π) exp −r               dr
+  Rd−1          ℓ                                       0                         ℓ
+                  √                                                              √       d
+And for log ℓt (2 π)d−1 ≥ d this integral is bounded by O(1) · (log ℓt (2 π)d−1 ) 2 . Substituting in
+our bound for t yields that, for ℓ ≤ O(sd)d+1 , the contribution to the score per unit in the transverse
+                                                        d
+direction v is at most ((d + 1) log O(sd) + log 1ℓ ) 2 .
+    Since we integrate √  the score over the hypercube of side length b, the projection to direction
+v has length
+        √      at most  b   d, and thus the total score of our neural network with n neurons is at
+                                              d
+most nb d((d + 1) log O(sd) + log 1ℓ ) 2 . Substituting in the definition ℓ = b−(d+1) 2−O(d) yields
+   √                         d
+nb d((d + 1) log O(sdb)) 2 .
+    As described above, we show this neural network does not closely approximate the max func-
+tion by showing that this score is less than half the volume of the region of frequency space under
+                                                                   1 polylog(s)
+consideration, 21 (b − Ω(d))d , which is true provided b ≥ n d−1 polylog(n)     , where we emphasize that
+the base and exponents of the polylog terms may depend on d. Thus our overall L2 -squared error
+bound of b−d−2 2−O(d) becomes polylog(n)         1
+                                   polylog(s) 1+ 3
+                                                    , as claimed.
+                                          n   d−1
+
+
+   With Proposition C.1 at our disposal, we can now prove Thm. 4.2.
+Proof of Thm. 4.2. We wish to find some c2 > 0 such that
+                                                                              
+                                                                        1
+                           Ex∼U ([0,1]d ) (N (x) − fd (x))2 > Ω
+                                                          
+                                                                                   .
+                                                                      dc2 ·ℓ
+
+To this end, we first define the sets A := [0, 1 − 1/d]d−3 and B = [1 − 1/d, 1]3 . For any natural
+n, denote the uniform distribution over [0, 1]n by Dn and compute by repeatedly using the law of
+total expectation
+
+Ex∼Dd (N (x) − fd (x))2 = Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 ))2 |x1
+                                                                             
+
+       = Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 ))2 |x1 ∈ A, x2 ∈ B · P [x1 ∈ A, x2 ∈ B]
+                                                                         
+
+          + Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 ))2 |x1 ∈
+                                                                             
+                                                                  / A or x2 ∈
+                                                                            / B · P [x1 ∈
+                                                                                        / A or x2 ∈/ B]
+                                                        2                
+       ≥ Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 )) |x1 ∈ A, x2 ∈ B · P [x1 ∈ A, x2 ∈ B]
+       ≥ Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 ))2 |x1 ∈ A, x2 ∈ B · d−3 exp(−1)
+                                                                         
+                  h                                      i
+                                                 2
+       = Ex2 ∼D3 (N (x′1 , x2 ) − fd (x′1 , x2 )) |x2 ∈ B · d−3 exp(−1).
+
+                                                    27
+In the above, the last equality holds for some intermediate point         x′1 ∈ A whose existence is guar-
+anteed by Lemma D.5 due to the fact that g(x) = Ex2 ∼D3 (N (x, x2 ) − fd (x, x2 ))2 |x2 ∈ B is
+                                                                                                     
+
+continuous on [0, 1]d−3 . Since x2 7→ N (x′1 , x2 ) defines a depth 2 σ network which we denote by
+Ñ (·), and by using the fact that fd (x′1 , x2 ) = f3 (x2 ) for all x′1 ∈ A and x2 ∈ B, we can let N(2)
+denote the class of depth 2 networks employing a σ activation function, and lower bound the above
+by                                                             2 
+                        inf Ex2 ∼U (B) Ñ (x2 ) − f3 (x2 )            · d−3 exp(−1).
+                           Ñ ∈N(2)
+                                                                                     ′
+It now suffices to lower bound the expectation term above by Ω(d−c ·ℓ ) for some constant c′ > 0.
+Focusing on the expectation term above and letting Ñ denote arbitrary (not necessarily fixed)
+elements in N(2) , we once more use the law of total expectation repeatedly to obtain
+                               2 
+Ex2 ∼U (B) Ñ (x2 ) − f3 (x2 )
+                                                                                            
+                                                                                2          1
+  = Ex̃1 ∼U ([1− 1 ,1]) Ex̃ ∼U 1− 1 ,1 2
+                                             Ñ (x̃1 , x̃2 ) − f3 (x̃1 , x̃2 ) |x̃1 ∈ 1 − , 1
+                 d         2    [ d ]                                                       d
+                                                                                2                    
+                                                                                                     3   1
+  ≥ 0.5Ex̃1 ∼U ([1− 1 ,1]) Ex̃ ∼U  1− 1 ,1 2  Ñ (x̃1 , x̃2 ) − f3 (x̃1 , x̃2 ) |x̃1 |x̃1 ∈ 1 − , 1 −
+                      d       2    [ d ]                                                            4d  4d
+                                                            2 
+  = 0.5Ex̃ ∼U  1− 1 ,1 2  Ñ (x0 , x̃2 ) − f3 (x0 , x̃2 )        ,
+           2     [ d ]
+
+where the last equality
+                        uses Lemma D.5 to establish the existence of some intermediate point
+            3        1
+x0 ∈ 1 − 4d   , 1 − 4d  satisfying the above. Writing the above expectation term in integral form,
+we have that it equals
+                            Z 1 Z 1                                   2
+                                        Ñ (x0 , x̃2 ) − f3 (x0 , x̃2 ) d2 dx̃2 .
+                                        1− d1   1− d1
+
+
+By the change of variables x̃2 = y + (x0 , x0 ), dx̃2 = dy, the above equals
+              Z 1−x0 Z 1−x0                                                         2
+                                  Ñ (x0 , y + (x0 , x0 )) − f3 (x0 , y + (x0 , x0 )) d2 dy
+                   1− 1 −x0
+                     d       d
+                                    1− 1 −x0
+                  Z 1−x 0
+                          Z 1−x 0                                                        2
+              =                                  Ñ (x0 , y + (x0 , x0 )) − x0 − f3 (0, y) d2 dy
+                   1− 1 −x0
+                     d       d
+                                    1− 1 −x0
+                  Z 1−x 0
+                          Z 1−x 0                                 2
+              =                                  Ñ (y) − f3 (0, y) d2 dy
+                   1− d1 −x0        1− d1 −x0
+                  Z    1   Z    1
+                      4d       4d
+                                                         2
+              ≥                         Ñ (y) − f3 (0, y) d2 dy,
+                      1       1
+                   − 4d    − 4d
+
+
+where the first equality uses the fact that f3 (x+(c, c, c)) = c+f3 (x) for any vector x and real c, the
+second equality follows from the fact that N(2) is closed under linear transformations of the input
+
+                                                               28
+and the output, and since we can simulate the fixed input x0 in the first coordinate by
+                                                                                       an appropriate
+                                                                                            3        1
+                                                                                                       
+linear rescaling of the first hidden layer, and the inequality follows from x0 ∈ 1 − 4d       , 1 − 4d
+which implies that [−0.25d−1 , 0.25d−1 ] ⊆ [1 − 1/d − x0 , 1 − x0 ]. Letting γ > 0 to be determined
+later, we perform a second linear change of variables y = 0.5γ −1 z, dy = 0.5γ −2 dz, which entails
+that the above displayed equation equals
+                  Z γ Z γ 
+                    2d    2d
+                                       −1
+                                                         −1
+                                                              2 2 −2
+              0.5              Ñ 0.5γ z − f3 0, 0.5γ z           d γ dz
+                      γ      γ
+                    − 2d   − 2d
+                   Z γ Z γ                                                      2
+                     2d         2d
+                                      0.5γ −1 2γ Ñ 0.5γ −1 z − 0.5γ −1 f3 (0, z) d2 γ −2 dz
+                                                             
+            =0.5
+                      γ      γ
+                    − 2d   − 2d
+                           Z γ Z γ                          2 1
+                              2d     2d
+                      2 −2
+            =0.25πd γ                      Ñ (z) − f3 (0, z)       dz
+                               γ
+                            − 2d      γ
+                                   − 2d                          2π
+                           Z                                      2 1
+                    2 −2
+                                                                          exp −0.5 ∥z∥22 dz
+                                                                                        
+            ≥0.25πd γ                            Ñ (z) − f3 (0, z)
+                            {z:∥z∥2 ≤0.5d−1 γ}                         2π
+                                                              2 
+            =0.25πd2 γ −2 Ez∼N (0,I2 ) Ñ (z) − f3 (0, z)
+                 Z                                                                  !
+                                                         2 1
+                                                                  exp −0.5 ∥z∥22 dz .
+                                                                                
+               −                        Ñ (z) − f3 (0, z)                                          (4)
+                  {z:∥z∥2 ≥0.5d−1 γ}                          2π
+
+In the above, the first equality follows from the fact that f3 (α · x) = αf3 (x) for all α > 0 and
+x ∈ R, the second equality follows from the fact that N(2) is closed under linear scaling of its input
+and output, and the inequality follows from {z : ∥z∥2 ≤ 0.5d−1 γ} ⊆ [−0.5d−1 γ, 0.5d−1 γ]2 and
+                                                                 1
+the fact that the maximum of a bivariate standard Gaussian is 2π   .
+    Next, we upper bound the square of the above approximation. We begin with the output of a
+single neuron:
+           |σ (⟨wi , z⟩ + bi )| ≤ Cσ (1 + |⟨wi , z⟩ + bi |ασ )
+                                ≤ Cσ (1 + |∥wi ∥ · ∥z∥ + |bi ||ασ ) ≤ O (exp (O(d)) ∥z∥ασ ) ,
+where the second inequality follows from Cauchy-Schwartz and the last inequality follows from
+our assumption on the magnitude of the weights. Using the above, we can upper bound the output
+of the network by
+                                     k
+                                     X
+                Ñ (z) =                   σ (⟨wi , z⟩ + bi ) + b0 ≤ dℓ · O (exp (O(d)) ∥z∥ασ ) ,
+                                     i=1
+
+implying
+                                                2
+                               Ñ (z) − f3 (0, z) ≤ d2ℓ · O exp (O(d)) ∥z∥2ασ .
+                                                                             
+
+Substituting γ = O(d2 ) in Eq. (4) and using the above, we get a lower bound of
+                                                     2                       
+                    −2                                                       2
+                                                                               
+              0.25πd     Ez∼N (0,I2 ) Ñ (z) − f3 (0, z)     − O exp −0.5d          .
+
+                                                            29
+Lastly, using Proposition C.1 to lower bound the expectation term above with the assumed bounds
+on the parameters, the theorem follows.
+
+C.2      Proof of Thm. 4.3
+Proof. We begin with reducing the approximation error of fd over a depth 3 ReLU network to
+the approximation error of f3 over a depth 2 ReLU network. To this end, we first identify three
+coordinates in the domain of N where a certain sub-cube B of dimension 3, and a set A ⊆ [0, 1]d−3
+exist, which satisfy the following properties:
+   1. Px∼Dd−3 [x ∈ A] ≥ 0.1.
+   2. Px∼D3 [x ∈ B] = d−18 .
+   3. fd (x1 , x2 ) = f3 (x2 ) for all x1 ∈ A, x2 ∈ B.
+                                                                     k
+   4. A can be decomposed into a disjoint   S partition of at most 2 convex sets A1 , A2 , . . . and a set
+      of measure zero ∆, such that A = j Aj ∪∆, where for all j and i ∈ [k], Px∼Dd−3 [x ∈ Aj ] >
+      0 and sign(ni (x1 , x2 )) is fixed for all x1 ∈ Aj and all x2 ∈ B.
+Before we prove the existence of A and B, we shall first show how they imply a reduction to an
+approximation using depth 2. For any natural n, denote the uniform distribution over [0, 1]n by Dn
+and compute by repeatedly using the law of total expectation
+Ex∼Dd (N (x) − fd (x))2 = Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 ))2 |x1
+                                                                            
+
+      = Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 ))2 |x1 ∈ A, x2 ∈ B · P [x1 ∈ A, x2 ∈ B]
+                                                                        
+
+        + Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 ))2 |x1 ∈
+                                                                            
+                                                                 / A or x2 ∈
+                                                                           / B · P [x1 ∈/ A or x2 ∈/ B]
+      ≥ Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 ))2 |x1 ∈ A, x2 ∈ B · P [x1 ∈ A, x2 ∈ B]
+                                                                        
+        X
+            Ex1 ∼Dd−3 Ex2 ∼D3 (N (x1 , x2 ) − fd (x1 , x2 ))2 |x2 ∈ B, x1 |x1 ∈ Aj · P [x1 ∈ Aj , x2 ∈ B]
+                                                                                
+      =
+             j
+            X              h                                 2      i
+        =        Ex2 ∼D3       N (x′j , x2 ) − fd (x′j , x2 ) |x2 ∈ B · P [x1 ∈ Aj , x2 ∈ B] .
+             j
+
+In the above, the penultimate equality holds despite the omission of ∆ from the decomposition
+of A since it is a set of measure zero, and the last equality holds for a set of intermediate points
+(x′1 , x′2 , . . .) ∈ R d−3 whose existence is guaranteed by Lemma D.5 due to Item 4 and the fact that
+g(x) = Ex2 ∼D3 (N (x, x2 ) − fd (x, x2 ))2 |x2 ∈ B is continuous on [0, 1]d−3 . Since for any given
+j, sign(ni (x′j , x2 )) is fixed for all i ∈ [k] and all x2 ∈ B, we can collapse the first hidden layer
+of N ,2 obtaining a depth 2 ReLU network Nj for each x′j such that N (x′j , x2 ) = Nj (x2 ) for all
+   2
+     More formally, we can obtain Nj from N and x′j by choosing some arbitrary x2 ∈ B and considering the sign of
+ni (x′j , x2 ) for each i ∈ [k]. If it is negative we can discard the neuron and set its incoming weight in the second layer
+to 0, and if it is positive then we discard the ReLU activation and compose the obtained linear transformation with the
+linear transformation computed by the corresponding neuron in the second layer. In both cases, the neuron in the first
+layer is either canceled or is absorbed into the second layer, thus removing the first hidden layer altogether without
+increasing the width of the network.
+
+
+                                                            30
+x2 ∈ B. Combining the previous argument with Item 3, the above displayed equation is equal to
+            X
+                Ex2 ∼D3 (Nj (x2 ) − f3 (x2 ))2 |x2 ∈ B · P [x1 ∈ Aj , x2 ∈ B]
+                                                     
+                    j
+                            X
+                                   Ex2 ∼U (B) (Nj (x2 ) − f3 (x2 ))2 · P [x1 ∈ Aj ] · P [x2 ∈ B] .
+                                                                   
+                        =
+                             j
+
+
+Letting N(2) denote the class of depth 2 ReLU networks of width at most d2 /5, and letting b > a ≥
+0 such that B = [a, b]3 where b := a + d−6 , we can lower bound the above by
+              X                                      2 
+                    inf Ex2 ∼U (B) Ñ (x2 ) − f3 (x2 )      · P [x1 ∈ Aj ] · P [x2 ∈ B]
+                        Ñ ∈N(2)
+                j
+                                                                              2 
+                        = inf Ex2 ∼U (B)                Ñ (x2 ) − f3 (x2 )            · P [x1 ∈ A] · P [x2 ∈ B]
+                          Ñ ∈N(2)
+                                                                                         2 
+                                 −18
+                        ≥ 0.1d         · inf Ex2 ∼U (B)                 Ñ (x2 ) − f3 (x2 )     ,                  (5)
+                                        Ñ ∈N(2)
+
+
+where the equality is due to Item 4 and the inequality is due to Items 1 and 2. Applying Lemma D.6
+and Thm. 4.2 with input dimension 3 and ℓ = 2, the lower bound follows.
+    It now remains to show the existence of A and B. Starting with B, we first assume w.l.o.g. that
+no neuron in the first hidden layer of N has an all-zero weight vector. This is justified since if such
+a neuron exists, it merely outputs a constant as input to the second layer which can be simulated
+by modifying the bias terms in the second layer, which doesn’t increase the width of N . Denote
+for all i ∈ [k], wimax = wi,ji where ji = argmax |wi,j |, we define the set
+                                                           j∈[d]
+
+                                                                 
+                                      1          bi     −3
+                          P := x ∈ 1 − , 1 : x + max ≤ d , ∀ i ∈ [k] .
+                                      d         wi
+                                               2                                                    2
+Note that by our assumption k ≤ d5 , we have that P consists of at most d5 connected components
+where each is of length at most 2d−3 . Therefore, the overall length of P is no more than 5d 2
+                                                                                               , and
+we can thus find an interval [a, a + d−6 ] ⊆ [1 − 1/d] \ P for some a ∈ [1 − 1/d, 1 − d−6 ]. We can
+now define                                                3
+                                        B := a, a + d−6 .
+                                               
+
+Note that this immediately entails that Px∼D3 [x ∈ B] = d−18 , proving Item 2. Continuing to
+showing the existence of A, we first define it formally as the set given by
+                                  d−3
+                      1
+                                          \ x1 ∈ [0, 1]d−3 : ∃x2 ∈ B, i ∈ [k] s.t. ni (x1 , x2 ) = 0 .
+                                           
+          A := 0, 1 −
+                      d
+
+Note that this immediately implies Item 3. To show Item 4, we observe that A can be defined as the
+set difference between a cube and the union of k closed sets, one for each neuron in the first hidden
+
+
+                                                                    31
+layer of N . More specifically, for i ∈ [k], suppose that the i-th neuron has weights w = (w1 , w2 )
+and bias b where w1 ∈ Rd−3 and w2 ∈ R3 , and consider the set
+
+                     Ãi := x1 ∈ [0, 1]d−3 : ∃x2 ∈ B s.t. ni (x1 , x2 ) = 0 .
+                             
+
+Observing that                             [
+                               Ãi =             {x1 : ⟨w1 , x1 ⟩ = b − ⟨w2 , x2 ⟩} ,
+                                         x2 ∈B
+
+we have that Ãi = Rd−3 or Ãi = ∅ if w1 = 0, depending on whether b − ⟨w2 , x2 ⟩ equals zero
+for some w2 ∈ B or not. Otherwise, if w1 ̸= 0, we have that Ãi can be represented as a union of
+parallel affine subspaces, the boundary of which is given by ⟨w1 , x1 ⟩ = minx2 ∈B b − ⟨w2 , x2 ⟩ and
+⟨w1 , x1 ⟩ = maxx2 ∈B b − ⟨w2 , x2 ⟩, where both the minimum and maximum are defined since B is
+compact and x2 7→ b − ⟨w2 , x2 ⟩ is continuous. Moreover, by continuity we also obtain that Ãi is
+connected. We thus have in either case that we can represent Ãi = Ãi,1 ∪ Ãi,2 for some disjoint
+and convex sets Ãi,1 , Ãi,2 ⊆ Rd−3 . We now compute
+                                                                                                          
+                d−3                                 d−3                          d−3
+               1             [                       1      \ [                    1       \ \
+ A = 0, 1 −           \          Ãi  = 0, 1 −                    Ãi = 0, 1 −                        Ãi 
+               d                                     d                             d
+                            i∈[k]                             i∈[k]                                i∈[k]
+                                                                                                         
+                d−3 \ \                                                                            d−3
+               1                                            [            \            \             1
+   = 0, 1 −                          Ãi,1 ∪ Ãi,2  =                     Ãi,ji        0, 1 −           .
+               d                                                                                     d
+                              i∈[k]                              j1 ,...,jk ∈{1,2}   i∈[k]
+
+
+Namely, A is a union of at most 2k disjoint and convex sets (since the intersection of convex sets
+is also convex). For j1 , . . . , jk ∈ {1, 2}, denote
+                                                          
+                                                             \         d−3
+                                                  \                   1
+                                 Aj1 ,...,jk :=    Ãi,ji    0, 1 −        .
+                                                                      d
+                                                       i∈[k]
+
+By defining                                                                                     
+                                      [                                                         
+                      ∆ :=                           Aj1 ,...,jk : Px∼Dd−3 [x ∈ Aj1 ,...,jk ] = 0 ,
+                                                                                                
+                                 j1 ,...,jk ∈{1,2}
+
+we can partition A into ∆ and A \ ∆ where each connected component in A \ ∆ is not a measure
+zero set. Finally, we have that sign(ni (x1 , x2 )) is fixed on each such convex component. This
+holds true since if otherwise, by contradiction, it holds that some neuron satisfies ni (x1 , x2 ) ≥ 0
+and ni (x′1 , x′2 ) < 0 for some (x1 , x2 ), (x′1 , x′2 ) ∈ Aj × B and some j ∈ [2k ]. Consider the path
+p : [0, 1] → Rd given by
+                                 p(λ) := λ(x1 , x2 ) + (1 − λ)(x′1 , x′2 ).
+Since Aj and B are convex, so is Aj × B, and we have p(λ) ∈ Aj × B for all λ ∈ [0, 1]. Since
+ni (p(λ)) is continuous in λ, by the intermediate value theorem, we can find some λ0 ∈ [0, 1] such
+that ni (p(λ0 )) = 0, which contradicts the definition of A.
+
+                                                               32
+    To show Item 1, we first show that with high probability over drawing
+                                                                             x1 , it holds that ni (x1 , x2 ) ̸=
+                                                                   d−3
+0 for all x2 ∈ B and i ∈ [k]. Suppose that x1 ∼ U [0, 1 − 1/d]          . We now construct the follow-
+ing graph G: G has d vertices, one for each coordinate of the input dimension, and the set of edges
+is determined according to the values of the weights in the first hidden layer of N . Specifically,
+there’s an edge between two vertices j1 , j2 ∈ [d] if and only if there exists no neuron m ∈ [k]
+such that |wm,j1 | > |wm,ℓ | for all ℓ ∈ [k] \ {j2 } and |wm,j2 | > |wm,ℓ | for all ℓ ∈ [k] \ {j1 }. In
+words, there’s no edge between vertices j1 and j2 if and only if there exists a neuron in which the
+coordinates j1 , j2 have the strictly largest
+                                           weights   in the neuron in absolute value. Since k ≤ d2 /5,
+                                         d    d2                                         2
+we have that G must contain at least 2 − 5 edges, which is strictly greater than d4 for sufficiently
+large d, and thus by Mantel’s theorem (Thm. D.1) we have that G must contain a triangle. Consider
+this triangle in G, and assume w.l.o.g. that it is formed on the last three coordinates. This means by
+the definition of G that at least one of the two largest coordinates in each neuron in the hidden layer
+of N have an index j ≤ d−3. Fix some neuron, and let w = (w1 , . . . , wd ) and b denote the weights
+and bias, respectively, of the neuron. Further assume w.l.o.g. that |w1 | ≥ |w2 | ≥ . . . ≥ |wd−3 | and
+that |wd−2 | ≤ |wd−1 | ≤ |wd |. We now perform a case analysis depending on the ratio between the
+two largest coordinates in the weights of the neuron.
+
+    • Suppose that |w1 | ≤ |wd |d−4 . Note that this also entails |wd | ≥ |w1 |d4 > |w1 |. Namely,
+      wd has the largest magnitude in absolute value among the weights of the neuron. By our
+      construction of B, we have
+                                            b
+                                               > d−3 , ∀ x ∈ a, a + d−6 .
+                                                                      
+                                      x+
+                                            wd
+
+      Simple algebra and the above imply that
+
+                                / −|wd |d−3 , |wd |d−3 , ∀ x ∈ a, a + d−6 .
+                                                                      
+                       wd x + b ∈                                                                         (6)
+
+      We now compute
+                                   d−1
+                                   X                d−1
+                                                    X               d−1
+                                                                    X
+                                         wj x j ≤         |wj | ≤         |w1 | < |wd |d−3 .
+                                   j=1              j=1             j=1
+
+      In the above, the first inequality is Hölder’s inequality, the second inequality is due to the
+      fact that |w1 | is the second largest in absolute value among the weights of the neuron, and the
+      last inequality is by our assumption |w1 | ≤ |wd |d−4 . Adding the above displayed inequality
+      with Eq. (6) we obtain
+                          d
+                          X
+                                 wj xj + b ̸= 0, ∀ x1 ∈ [0, 1 − 1/d]d−3 , ∀ x2 ∈ B.                       (7)
+                           j=1
+
+
+    • Suppose that |w1 | > |wd |d−4 . Then in such a case, we cannot guarantee that Eq. (7) holds
+      with probability 1. However, we can show that the randomness over drawing x1 induces
+      sufficient variance and therefore it holds with high probability. Define the random variables
+
+
+                                                          33
+     X := d−3
+          P                       Pd−3
+             j=1 wj xj + b, X̃ :=    j=2 wj xj + b, where the randomness is taken over drawing
+     x1 ∼ U([0, 1 − 1/d] ), and let I ⊆ R be any interval of length 3|wd |d−6 . We compute
+                        d−3
+
+
+            h               i      h                     i Z 1 − 1/d
+          P X ∈ I|X̃ = x = P w1 x1 + x ∈ I|X̃ = x ≤                      1 {t + x ∈ I} dt
+                                                               R   |w1 |
+                                 3|wd |d−6
+                              ≤            < 3d−2 ,                                        (8)
+                                    |w1 |
+
+     where we used the fact that the density of the random variable w1 x1 is 1−1/d
+                                                                              |w1 |
+                                                                                    in its support,
+                                                         4
+     and our assumption which implies that |wd | < |w1 |d . Next, compute using the law of total
+     probability to obtain
+                           Z h                  i            Z
+              P [X ∈ I] =     P X ∈ I|X̃ = x pX̃ (x)dx <        3d−2 pX̃ (x)dx = 3d−2 ,
+                                R                                              R
+
+     where the inequality follows from Eq. (8). Since
+                                       d
+                                       X                        d
+                                                                X
+                               max             wi xi − min              wi xi ≤ 3|wd |d−6 ,
+                               x2 ∈B                    x2 ∈B
+                                       i=d−2                    i=d−2
+
+     we have that
+                                             " d                    #
+                                              X
+                    Px1 ∼U ([0,1−1/d]d−3 )           wj xj + b ̸= 0 ≥ 1 − 3d−2 , ∀ x2 ∈ B.      (9)
+                                               j=1
+
+
+Having shown that in both cases Eq. (9) holds, we proceed by taking a union bound over all the
+k ≤ d2 /5 neurons in the first hidden layer of N , obtaining
+                                     " d                  #
+                                      X                     2
+              Px1 ∼U ([0,1−1/d]d−3 )      wi,j xj + b ̸= 0 ≥ , ∀ i ∈ [k], ∀ x2 ∈ B.
+                                      j=1
+                                                            5
+
+We now observe that
+
+      Px1 ∼Dd−3 [x1 ∈ A]
+             = Px1 ∼Dd−3 x1 ∈ A|x1 ∈ [0, 1 − 1/d]d−3 · Px1 ∼Dd−3 |x1 ∈ [0, 1 − 1/d]d−3
+                                                                                    
+                        d−3
+               2       1        2
+             ≥     1−         ≥ exp(−1) ≥ 0.1,
+               5       d        5
+
+which thus proves Item 1, and completes the proof of the theorem.
+
+
+
+
+                                                        34
+C.3     Proof of Thm. 4.4
+Proof. Consider the matrix of first hidden layer weights W ∈ Rk×d . Since k ≤ d − 1 by our
+assumption, we have that dim(ker(W )) ≥ 1. Fix some vector v = (v1 , . . . , vd ) ∈ ker(W ) such
+that ∥v∥2 = 1 and assume w.l.o.g. ∥v∥∞ = v1 . Denote X := [0, 1]d , we now consider the triangular
+matrix and vector
+                      1                                                  1
+                                                                              
+                        d
+                          v 1   0       0    ·  · · 0                   1 − d
+                       1 v2 1 − 2      0    ·  · · 0                1 
+                      d            d                                   d 
+                       1 v3    0     1 −  2
+                                             ·  · · 0                 1 
+                 P :=  d                                  , b :=  d  ,
+                                                          
+                                           d
+                       ..       ..     ..    . .    ..              .. 
+                       .         .      .        .   .              . 
+                        1                               2                 1
+                          v
+                        d d
+                                0       0    ··· 1 − d                    d
+
+and the set defined by
+                                         P := {P x + b : x ∈ X} .
+By its definition, P is a parallelotope satisfying P ⊆ X. Moreover, we have
+
+                                 fd (u) = u1 , ∀ u = (u1 , . . . , ud ) ∈ P.                               (10)
+
+The above holds true since for all u ∈ P there exists some x = (x1 , . . . , xd ) ∈ X such that
+ui = 1 − d1 + d1 vi x1 for all i ≥ 2 and u1 = 1 − d1 + d1 v1 , and thus by our assumption that ∥v∥∞ = v1
+we have
+                                         1 1                    1 1
+                               u1 = 1 − + v1 x1 ≥ 1 − + vi x1 = ui .
+                                         d d                    d d
+Using the change of variables u = P x + b, du = |det (P )| dx; the fact that P ⊆ X; and the fact
+that the squared loss is non-negative, we have
+                                              Z
+                                         2
+                                                 (N (u) − fd (u))2 du
+                      
+          Eu∼U (X) (N (u) − fd (u)) ≥
+                                              ZP
+                                            =    (N (P x + b) − fd (P x + b))2 |det (P )| dx.       (11)
+                                                X
+
+Letting ei denote the standard unit vector with coordinate ei = 1, we get from P x = d1 vx1 +
+Pd          2
+              
+  i=2  1 −  d
+                xi ei and v ∈ ker(W ) that we can write N (P x + b) = c(x2 , . . . , xd ) for some
+                                                                                           d−1
+function c : Rd−1 → R. Since P is triangular, we have |det(P )| = d1 1 − d2                      v1 ≥ 10d 1
+                                                                                                            v1 .
+                                                                             −0.5
+Moreover, since ∥v∥∞ = v1 and ∥v∥2 = 1, we have that v1 ≥ d                       and we can further lower
+bound the above to obtain |det(P )| ≥ 10d11.5 . Plugging the above and Eq. (10) back in Eq. (11), we
+obtain
+                                           Z                                           2
+                              2     1                                       1 1
+  Ex∼U (X) (N (x) − fd (x)) ≥                       c(x2 , . . . , xd ) − 1 − + v1 x1          dx
+                                   10d1.5 X                                   d d
+                        Z      Z Z                                              2
+                   1                                                    1 1
+            =              ...          c(x2 , . . . , xd ) − 1 − + v1 x1             dx1 dx2 . . . dxd . (12)
+                10d1.5 xd       x2 x1                                   d d
+
+                                                      35
+It is easy to verify that the optimal constant approximation for the linear function 1 − d1 + d1 v1 x1 is
+1 − d1 + 2d1
+              v1 , in which case the optimal L2 approximation error is
+          Z 1                                      2                       2
+                                                              v12 1 1                   v2
+                                                                Z 
+                       1     1            1 1
+                   1 − + v1 − 1 − + v1 x                dx = 2           − x dx = 1 2 .
+            0          d 2d               d d                 d 0 2                    12d
+Plugging the above back in Eq. (12) and using the fact that v1 ≥ d−0.5 again, we obtain
+                                                                 v12
+                                                  Z         Z
+                                   2      1                                            1
+          Ex∼U (X) (N (x) − fd (x)) ≥         1.5
+                                                      . . .          2
+                                                                       dx2 . . . dxd ≥         ,
+                                         10d       xd        x2 12d                    120d4.5
+concluding the proof of the lemma.
+
+
+D     Technical lemmas
+The following theorem is a well-known result in graph theory, which we state here for the sake of
+completeness.
+Theorem D.1 (Mantel’s theorem). Let G be a graph with d vertices and more than d2 /4 edges.
+Then G contains a triangle.
+Lemma D.2. Let x = (x1 , . . . , xd ) and M, δ > 0 such that |xi − xj | > δ and |xj | ≤ M for all i
+and j. Then x ∈ Sδ/M .
+Proof. Assuming xj ̸= 0, we have that
+                                              
+               xi         xi − xj      δ     δ      xi − x j   δ
+                  =1+             ∈
+                                  / 1 − ,1 +     ⇐⇒          >   .
+               xj            xj        M     M         xj      M
+Thus the lemma follows from
+                                       xi − xj      δ      δ
+                                               >        ≥    ,
+                                          xj      |xj |    M
+where the first inequality is by the assumption |xi − xj | > δ and the second inequality is by the
+assumption |xj | ≤ M which implies 1/ |xj | ≥ 1/M .
+Lemma D.3.                                ∞      2
+                                         Y      2
+                                             1+ 3    ≤ 20.
+                                         i=1
+                                               i
+Proof. Compute
+          ∞       2      2 Y ∞          2                ∞          !
+         Y       2          5              2        225       X          2
+              1+ 3    =9             1+ 3       =       exp 2     ln 1 + 3
+         i=1
+                i           4   i=3
+                                          i          16       i=3
+                                                                         i
+                                     ∞
+                                           !                        
+                        225         X   2        225                9
+                      ≤      exp 2       3
+                                              =       exp 4 ζ(3) −
+                         16         i=3
+                                        i         16                8
+                                              
+                        225                   9
+                      ≤      exp 4 1.21 −           ,
+                         16                   8
+
+                                                    36
+where the first inequality follows from the inequality ln(1 + x) < x for all x > 0, and the second
+inequality is a known bound ζ(3) ≤ 1.21 where ζ(·) is Riemann’s zeta function. Evaluating the
+above expression, the lemma follows.
+Lemma D.4. For all natural d ≥ 58 and 1 ≤ k ≤ ⌈log(log(d) + 1)⌉, we have
+
+                                                      2d1−β(k+1)
+                                                 1≤              .
+                                                       (k + 1)3
+Proof. We first verify the lemma for k = 1. We have
+
+                                  2d1−β(2)  1 2   1√    1√
+                                           = d3 ≥    d≥    100 ≥ 1.
+                                     8      4     4     4
+Next, assume k ≥ 2 and compute
+                                                  6                              6
+                          2d1−β(k+1)     2d 7                2d 7
+                                   3
+                                     ≥         3
+                                                 ≥                          .
+                           (k + 1)     (k + 1)     (⌈log(log(d) + 1)⌉ + 1)3
+It thus suffices to prove that
+                                                                          1      6
+                                         ⌈log(log(d) + 1)⌉ + 1 ≤ 2 3 d 21 .
+It is easy to see that this inequality holds for d = 58 (using any symbolic computation package),
+and since the left hand side is constant for all d ∈ [58, 128] whereas the right hand side is increasing,
+the inequality also holds for all d ≤ 128. By the same reasoning,
+                                                            i         we observe that the left hand side
+                                              2n −1 2n+1 −1
+is constant on any interval of the form 2          ,2         for integer n ≥ 3, and takes the value of
+                                                                   1    n  6
+n + 2. In contrast, the right hand side is lower bounded by 2 3 22 −1 21 on each such interval. It
+is thus sufficient to prove that
+                                                     1    n   6
+                                         n + 2 ≤ 2 3 22 −1 21
+for all integer n ≥ 3. We shall show this using induction. The base case can be easily verified for
+n = 3. Assuming the induction hypothesis for n, we compute
+                                                                         216
+                                                               2n+1 −1
+                  1
+                       n+1 −1
+                                  216       1   n  6    2                         6
+                                                                                  2n 21
+                 2 3 22                  = 2 3 22 −1 21 ·            6 ≥ (n + 2) 2
+                                                          (22n −1 ) 21
+                                                     6
+                                         ≥ (n + 2) 28 21 ≥ 2n + 4 ≥ n + 3,
+
+where the first inequality follows from the induction hypothesis, and the second inequality follows
+from n ≥ 3.
+Lemma D.5. Let µ denote the d-dimensional Lebesgue measure, Let D ⊆ Rd be compact, and
+suppose that g : D → R is continuous and that Ω ⊆ [0, 1]d is a convex set satisfying µ(Ω) > 0.
+Then there exists some x0 ∈ Ω such that
+
+                                         Ex∼U (D) [g(x)|x ∈ Ω] = g(x0 ).
+
+                                                        37
+Proof. Since Ω = (∂Ω ∩ Ω) ∪ int(Ω) is a disjoint union and since the boundary of a convex set in
+Rd has measure zero [13], we have
+                                             Z                    Z
+                                         1                    1
+               Ex∼U (D) [g(x)|x ∈ Ω] =           g(x)dx =               g(x)dx.
+                                       µ(Ω) Ω              µ(Ω) int(Ω)
+Due to the above, we may assume w.l.o.g. that Ω = int(Ω) is thus open and Lebesgue measurable.
+If g is constant on Ω then the lemma holds true for all x0 ∈ Ω. Suppose that g is not constant on Ω,
+then due to being continuous on the compact domain D ⊇ Ω, it is bounded on Ω, and there exist
+x1 , x2 ∈ Ω such that g(x1 ) < g(x2 ). Denote
+                −∞ < m := inf g(x) ≤ g(x1 ) < g(x2 ) ≤ sup g(x) =: M < ∞.
+                              x∈Ω                            x∈Ω
+
+In particular, by the continuity of g and since Ω is open, there exists some open neighborhood
+U ⊆ Ω containing x2 and satisfying µ(U ) > 0 such that g(x′ ) ≥ g(x1 )+g(x
+                                                                       2
+                                                                            2)
+                                                                               > g(x1 ) ≥ m for all
+  ′
+x ∈ U . We now have
+                         Z                    Z                Z          
+                      1                   1
+                            g(x)dx =                  g(x)dx +     g(x)dx
+                    µ(Ω) Ω              µ(Ω)     Ω\U             U
+                                                                Z          
+                                          1
+                                     ≥          m · µ (Ω \ U ) +    g(x)dx
+                                        µ(Ω)                      U
+                                          1
+                                     >        (m · µ (Ω \ U ) + m · µ(U )) = m.
+                                        µ(Ω)
+                                      1
+                                         R
+An analogous argument shows that µ(Ω)     Ω
+                                             g(x)dx < M , and we thus deduce that
+                                               Z
+                                            1
+                                   m<             g(x)dx < M.                                 (13)
+                                         µ(Ω) Ω
+Let {an }∞            ∞
+           n=1 , {bn }n=1 ⊆ Ω such that limn→∞ g(an ) = m and limn→∞ g(bn ) = M . Then for
+any ε > 0, there exists n0 such that g(an0 ) ≤ m + ε and g(bn0 ) ≥ M − ε. Consider the path
+p : [0, 1] → Rd given by
+                                   p(λ) := λan0 + (1 − λ)bn0 .
+From the convexity of Ω we have that p(λ) ∈ Ω for all λ ∈ [0, 1], and since g(p(λ)) is continuous
+in λ, for all y ∈ [m + ε, M − ε] there exists some λ ∈ [0, 1] such that
+                                           g(p(λ)) = y.
+In particular, using Eq. (13), we can choose ε > 0 sufficiently small such that
+                                      Z
+                                   1
+                                         g(x)dx ∈ [m + ε, M − ε],
+                                µ(Ω) Ω
+and find some λ0 satisfying              Z
+                                     1
+                                            g(x)dx = g(p(λ0 )).
+                                   µ(Ω) Ω
+Letting x0 := p(λ0 ) ∈ Ω gives the desired result.
+
+                                                38
+Lemma D.6. Let Nk,ℓ denote the class of width k and depth ℓ neural networks with an arbitrary
+activation function. Then there exists some ε > 0 such that
+
+                              inf Ex∼U ([0,1]d ) (N (x) − fd (x))2 ≥ ε,
+                                                                 
+                            N ∈Nk,ℓ
+
+
+if and only if for all R > 0 and all a ∈ R, we have
+
+                            inf Ex∼U ([a,a+R]d ) (N (x) − fd (x))2 ≥ R2 ε.
+                                                                 
+                          N ∈Nk,ℓ
+
+
+
+                                                              1
+                                                                  substituting R
+Proof. The fact that the latter implies the former is immediate by
+                                                                                d
+                                                                                  = 1 and a = 0.
+For the reverse implication, observing that fd (x) = R · fd R x for all x ∈ R , we have by [21,
+Theorem 9] that
+                              inf Ex∼U ([0,1]d ) (N (x) − fd (x))2 ≥ ε
+                                                                 
+                           N ∈Nk,ℓ
+
+implies
+                           inf Ex∼U ([0,R]d ) (N (x) − fd (x))2 ≥ R2 ε,
+                                                              
+                         N ∈Nk,ℓ
+
+for all R > 0. Writing the above expectation in integral form and performing the change of
+variables x = y + (a, . . . , a), dx = dy, the lemma follows.
+
+
+
+
+                                                39
+
