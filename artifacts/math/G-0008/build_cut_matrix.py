@@ -125,14 +125,30 @@ def load_selection(path: Path) -> tuple[dict[str, object], tuple[tuple[int, ...]
     value = json.loads(path.read_text(encoding="utf-8"))
     if value.get("schema") != SELECTION_SCHEMA or value.get("n") != N:
         raise ValueError("wrong cut-selection schema")
-    directions = tuple(tuple(map(int, row)) for row in value["directions"])
-    if len(directions) != value.get("selected_count") or list(directions) != sorted(
+    raw_directions = value.get("directions")
+    if not isinstance(raw_directions, list):
+        raise ValueError("cut directions are not a list")
+    selected_count = value.get("selected_count")
+    if type(selected_count) is not int:
+        raise ValueError("selected cut count is not an integer")
+    directions_list: list[tuple[int, ...]] = []
+    for row_index, row in enumerate(raw_directions):
+        if not isinstance(row, list) or any(type(entry) is not int for entry in row):
+            raise ValueError(f"cut direction {row_index} is not an integer list")
+        directions_list.append(tuple(row))
+    directions = tuple(directions_list)
+    if len(directions) != selected_count or list(directions) != sorted(
         set(directions)
     ):
         raise ValueError("cut direction order/census mismatch")
     for direction in directions:
         if len(direction) != N or sum(direction) != 0:
             raise ValueError("invalid hinge cut direction")
+        magnitude = 0
+        for entry in direction:
+            magnitude = gcd(magnitude, abs(entry))
+        if magnitude != 1:
+            raise ValueError("hinge cut direction is not primitive")
         if g6.nonpositive_on_ordered_cone(direction):
             raise ValueError("inactive direction admitted as a hinge cut")
     return value, directions
