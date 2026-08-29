@@ -1,0 +1,44 @@
+# Closed schema: quant-portfolio-contract-v1. Fill every slot before promotion.
+# Missing/invalid values block the quant transition; they do not become prose waivers.
+schema = "quant-portfolio-contract-v1"
+
+[construction]
+method = "{sizing/weighting rule}"
+rebalance_alignment = "{how construction aligns with the claim's rebalance rule}"
+long_short = "{gross/net and long-short basis}"
+source = "{construction module/artifact under the bound code hash}"
+
+[exposure]
+factors = ["{named factor measured}"]
+neutralization = "{what is neutralized, when, and how}"
+residual_basis = "{what the reported return is residual TO}"
+limit = "{post-neutralization exposure limit}"
+source = "{exposure report/artifact}"
+
+[concentration]
+position_limit = "{maximum single-subject weight}"
+group_limit = "{maximum group/sector weight}"
+effective_breadth = "{MEASURED effective breadth, not assumed}"
+source = "{concentration report/artifact}"
+
+[walk_forward]
+status = "applies"
+protocol = "{refit cadence, window, purge/embargo}"
+refit_registration = "{how each refit is registered as a family trial}"
+fold_reporting = "{per-fold reporting rule; every fold reports}"
+source = "{walk-forward log/artifact}"
+# Only for a design that fits once and never refits, replace the four fields with:
+# status = "not-applicable"
+# basis = "single-fit-no-refit"
+# reason = "{why no refit occurs for this object}"
+
+[regime]
+boundaries = ["{declared regime: dates, volatility state, structural era}"]
+cross_regime_rule = "{how the claim must behave across the declared regimes}"
+cross_regime_threshold = "{the threshold every regime must clear}"
+change_point_method = "operator-declared"
+change_point_standing = "JUDGMENT"
+change_point_basis = "{named structural events the boundaries were declared from}"
+# This package does NOT detect change points. Claiming statistical detection requires
+# change_point_method = "statistical-detector", change_point_standing = "COMPUTED", and
+# change_point_control = "E-####" naming the un-coerced subject-bound control-run that ran it.

@@ -1,0 +1,32 @@
+# reviews.toml — review records. Schema: references/CLAIMS-LEDGER-SPEC.md §5.7 (closed).
+# reviewer MUST differ from the target's author_path; capable_of_failure is MANDATORY for weight;
+# attribution/model_family are stored in canonical lowercase ASCII; the tier is a local attestation
+# about the moment of review — never retroactively upgradeable or provider-authenticated.
+#
+# Worked example (uncomment to adapt):
+# [[review]]
+# id        = "V-0001"
+# target    = "C-0001@1"
+# reviewer  = "referee/kappa"
+# tier      = "T2"
+# model_family = "different-family-per-attribution"
+# basis     = ["statement-match", "cost-model-application", "split-custody"]
+# capable_of_failure = "a reconstruction of the expectancy from raw fills diverging by more than the stated floor would have produced verdict=refuted"
+# verdict   = "holds"
+# findings  = "re-derived expectancy from fills; matches within floor; split custody clean"
+# residual_doubts = "capacity untested; regime boundary not yet declared"
+# expected_break = "author pre-named the cost model as the likeliest break point"
+# implementation_claim = "C-0002@1"
+# code_hash = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# env_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# data_snapshot = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# transcript_artifact = "reviews/referee/V-0001.transcript.toml" # REQ for T2/T3
+# transcript_sha256 = "sha256:<64 lowercase hex>"                # exact manifest bytes
+# created   = 2026-08-23T00:00:00Z
+#
+# T2/T3 also requires exact regular non-symlink siblings V-0001.request.md and
+# V-0001.response.md plus the closed transcript-v1 manifest and >=1 [[input]] row described in
+# references/CLAIMS-LEDGER-SPEC.md §5.7. T3 method bases are duplicate-free, disjoint canonical
+# lowercase ASCII tokens. T1 requires neither transcript field.
+# Any review of an implementation-dependent claim requires the exact reachable
+# implementation_claim + code/data/environment tuple, including T0/T1.

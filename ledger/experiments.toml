@@ -1,0 +1,44 @@
+# experiments.toml — THE MULTIPLICITY LEDGER. APPEND-ONLY.
+# EVERY trial enters: failed, aborted, exploratory, and control runs included. Selection accounting,
+# deflation arithmetic, and lockbox eligibility all read this file — an absent trial falsifies every
+# downstream correction. Schema: references/CLAIMS-LEDGER-SPEC.md §5.6. Variants are pre-specified
+# ARMS of an existing study, never fresh studies.
+#
+# Two worked examples, one per shipped domain pack. Adapt ONE; both define EXP-0001.
+#
+# ---- Worked example A — quantitative-trading (uncomment to adapt) ----
+# [[experiment]]
+# id        = "EXP-0001"
+# route     = "H-0001"
+# design    = "tercile split by analyst coverage; measure cost-aware drift expectancy; FAILURE = no monotone ordering or null control matches"
+# arm       = "unhedged"
+# family    = "pead-coverage-U2026"
+# prereg    = true
+# consumed_split = "dev-oos"
+# result_summary = "monotone in terciles; survives time-index control; borderline vs cost floor"
+# evidence  = ["E-0001"]
+# status    = "complete"
+# author_path = "quant-hypothesis-author/a"
+# created   = 2026-08-23T00:00:00Z
+#
+# Lockbox preregistration differs: use consumed_split = "lockbox", add a sorted nonempty
+# claims = ["C-####@n"] list, keep status = "planned", and OMIT evidence. Commit it before open.
+# Post-open results bind from evidence.experiment + evidence.lockbox_event; do not rewrite this row.
+#
+# ---- Worked example B — mathematics (uncomment to adapt) ----
+# `consumed_split` and `arm` are absent on purpose: data splits and hedged/unhedged arms are the
+# quantitative custody vocabulary. `family` still matters — it is what multiplicity accounting reads
+# when several bounded searches attack one claim, and every abandoned or aborted search enters this
+# file too. `prereg = true` means the design was written down BEFORE the run; a confirmatory result
+# backed by an unregistered trial cannot promote.
+# [[experiment]]
+# id        = "EXP-0001"
+# route     = "H-0001"
+# design    = "exhaustive enumeration to n = 32 with an exact minimum-cover solver; FAILURE = any graph needs more than n/2 + 2 cycles"
+# family    = "cdc-cubic-planar-n32"
+# prereg    = true
+# result_summary = "no violating graph to n = 32; two extremal families meet the bound with equality"
+# evidence  = ["E-0001"]
+# status    = "complete"
+# author_path = "route-author/a"
+# created   = 2026-08-23T00:00:00Z

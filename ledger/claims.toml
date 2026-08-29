@@ -1,0 +1,84 @@
+# claims.toml — canonical claim records. Schema: references/CLAIMS-LEDGER-SPEC.md §5.1 (closed).
+# NO disposition/evidence_class/confidence/verified/status fields exist — standing is computed.
+# Edits to statement/falsifier/no_claim mint version n+1; nothing is deleted.
+#
+# Two worked examples, one per shipped domain pack. Adapt ONE; both define C-0001/C-0002.
+#
+# ---- Worked example A — quantitative-trading (uncomment to adapt) ----
+# [[claim]]
+# id        = "C-0001"
+# version   = 1
+# statement = "For universe U(vintage 2026-06-30), signal S with horizon 21d and monthly rebalance has positive cost-aware expectancy under the declared execution model."
+# role      = "signal-claim"
+# domain    = "quantitative-trading"
+# depends_on = ["C-0002@1"]          # exact implementation subject used below
+# falsifier = "Cost-aware expectancy <= 0 on the dev-OOS window, or the bare time-index control matches it."
+# no_claim  = "Says nothing beyond U/vintage/horizon; not a lockbox, replication, or live result."
+# not_equivalent_to = ["the same signal on the full unfiltered universe"]
+# signal = "{exact signal definition and inputs}"
+# universe = "{decision population the conclusions are about}" # exact [population].declared
+# horizon = "{declared holding interval}"                       # exact [scope].holding_period
+# rebalance_rule = "{decision clock and rebalance rule}"
+# data_vintage = "{YYYY-MM-DD frozen knowledge date}"           # exact [lineage].vintage
+# intended_decision = "{decision this claim would inform}"
+# regime_boundary = "{conditions outside which the claim does not travel}"
+# origin_round = "R-0001"
+# author_path  = "quant-hypothesis-author/a"
+# created   = 2026-08-23T00:00:00Z
+#
+# [[claim]]
+# id        = "C-0002"
+# version   = 1
+# statement = "Implementation v1 is identified by the declared code, data, and environment anchor."
+# role      = "implementation-claim"
+# domain    = "quantitative-trading"
+# # Identity-only leaf: never add depends_on here; put premises on C-0001.
+# no_claim  = "No behavior outside these exact subject identities."
+# origin_round = "R-0001"
+# code_hash = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# env_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# data_snapshot = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# # Or replace data_snapshot with one canonical, non-placeholder dataset_id.
+# author_path = "implementation/a"
+# created   = 2026-08-23T00:00:00Z
+#
+# ---- Worked example B — mathematics (uncomment to adapt) ----
+# The shape differs from A in ways that do not survive transposition: no signal/universe/
+# horizon/rebalance_rule/data_vintage/intended_decision/regime_boundary fields (those are the
+# quantitative subject vocabulary), and the implementation subject anchors a GENERATED instance
+# corpus rather than a market-data vintage. Everything else — computed standing, the
+# implementation-claim leaf, exact version pins — is identical.
+# [[claim]]
+# id        = "C-0001"
+# version   = 1
+# statement = "Every 3-connected cubic planar graph on n <= 32 vertices has a cycle double cover using at most n/2 + 2 cycles."
+# role      = "conjecture"                # falsifier is REQUIRED for conjecture roles
+# domain    = "mathematics"
+# depends_on = ["C-0002@1"]               # exact implementation subject used by the search
+# falsifier = "one 3-connected cubic planar graph on n <= 32 whose minimum cycle double cover needs more than n/2 + 2 cycles"
+# no_claim  = "Says nothing for n > 32, for non-planar or non-cubic graphs, or about any polynomial-time construction."
+# not_equivalent_to = ["the unrestricted cycle double cover conjecture"]
+# origin_round = "R-0001"
+# author_path  = "route-author/a"
+# created   = 2026-08-23T00:00:00Z
+#
+# [[claim]]
+# id        = "C-0002"
+# version   = 1
+# statement = "Enumeration implementation v1 is identified by the declared code, generated graph corpus, and environment anchor."
+# role      = "implementation-claim"
+# domain    = "mathematics"
+# # Identity-only leaf: never add depends_on here; put premises on C-0001.
+# no_claim  = "No behavior outside these exact subject identities."
+# origin_round = "R-0001"
+# code_hash = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# env_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# data_snapshot = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# # In mathematics data_snapshot digests the GENERATED corpus the search actually ran over
+# # (or the generator's exact output); there is no data vendor and no vintage to cite.
+# author_path = "implementation/a"
+# created   = 2026-08-23T00:00:00Z
+#
+# A pure paper proof with no machine step needs neither C-0002 nor any subject binding: record the
+# argument as evidence with kind = "construction" or "statement". The implementation-claim leaf
+# exists because a COMPUTATION was run — it binds the exact code that ran.

@@ -1,0 +1,16 @@
+# dead-ends.toml — preserved negative knowledge. APPEND-ONLY; never deleted, never author-erased.
+# Schema: references/CLAIMS-LEDGER-SPEC.md §5.4. A closed entry is a predicate waiting to fire,
+# not a tombstone: retry_when uses the closed vocabulary of §6 — vague deferrals are rejected.
+#
+# Worked example (uncomment to adapt):
+# [[dead_end]]
+# id        = "D-0001"
+# approach  = "threshold sweep over raw signal quantiles on universe U"
+# observed  = "every profitable threshold vanished under the random-walk input control"
+# scope     = "U(2026-06-30), thresholds q in [0.80,0.99], central costs, seeds 1-1000"
+# does_not_show = "that quantile signals fail on other universes, horizons, or under regime filters"
+# killed_routes = ["H-0002"]
+# evidence  = ["E-0009"]
+# retry_when = "data_changes(population)"
+# author_path = "null-control-runner/a"
+# created   = 2026-08-23T00:00:00Z

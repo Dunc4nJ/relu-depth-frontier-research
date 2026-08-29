@@ -1,0 +1,11 @@
+# gaps.toml — named obligations. Schema: references/CLAIMS-LEDGER-SPEC.md §5.3 (closed).
+# "It follows" is not a step. An open gap blocks promotion past its rung.
+#
+# Worked example (uncomment to adapt):
+# [[gap]]
+# id         = "G-0001"
+# claim      = "C-0001@1"
+# obligation = "P&L reconciliation under the designated null has not been run for the dev-OOS window."
+# status     = "open"
+# author_path = "ledger-auditor/a"
+# created    = 2026-08-23T00:00:00Z

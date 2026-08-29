@@ -1,0 +1,1 @@
+For every integer n>=1, the function MAX_n:R^n->R, MAX_n(x)=max_i x_i, has an exact finite feed-forward ReLU realization with exactly two hidden ReLU layers, affine maps/biases allowed, unrestricted finite widths, and real weights; first campaign rung: decide n=11 and obtain a scalable construction or an unconditional obstruction.

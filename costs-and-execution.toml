@@ -1,0 +1,95 @@
+# Closed schema: quant-cost-contract-v1. Every facet is explicit. Applied
+# facets require model/central/stress/unit/source, including measured zero.
+schema = "quant-cost-contract-v1"
+
+[scope]
+currency = "{reporting currency}"
+notional_basis = "{gross/net/capital basis}"
+turnover_basis = "{one-way or round-trip definition}"
+holding_period = "{declared holding interval}"
+instrument_scope = "{instruments and venues covered}"
+hedge_leg_policy = "same-model"
+# For no hedge leg use hedge_leg_policy="no-hedge-leg" plus a non-placeholder hedge_leg_reason.
+
+[commissions]
+status = "applies"
+model = "{per-share | per-notional | tiered schedule}"
+central = "{central value}"
+stress = "{stress value}"
+unit = "{bps | currency/share | schedule id}"
+source = "{fee schedule/source}"
+
+[spread]
+status = "applies"
+model = "{spread crossing model}"
+central = "{central value}"
+stress = "{stress value}"
+unit = "{bps or price unit}"
+source = "{quote/source rule}"
+
+[slippage]
+status = "applies"
+model = "{slippage model}"
+central = "{central value}"
+stress = "{stress value}"
+unit = "{bps or price unit}"
+source = "{calibration source}"
+
+[impact]
+status = "applies"
+model = "{participation/impact curve}"
+central = "{central calibration}"
+stress = "{stress calibration}"
+unit = "{impact unit}"
+source = "{calibration source}"
+
+[capacity]
+status = "applies"
+model = "{edge-exhaustion rule}"
+central = "{central capacity boundary}"
+stress = "{stress capacity boundary}"
+unit = "{notional or participation unit}"
+source = "{liquidity source}"
+
+[borrow]
+status = "applies"
+model = "{inventory/rate schedule}"
+central = "{central borrow cost}"
+stress = "{hard-to-borrow stress}"
+unit = "{annualized rate or schedule id}"
+source = "{inventory/source}"
+# Long-only exemption: status="not-applicable", basis="no-short-inventory", reason="{...}".
+
+[financing]
+status = "applies"
+model = "{funding/margin model}"
+central = "{central funding cost}"
+stress = "{stress funding cost}"
+unit = "{annualized rate or schedule id}"
+source = "{funding source}"
+# Fully funded exemption: basis="fully-funded-unlevered-no-margin" with reason.
+
+[dividends]
+status = "applies"
+model = "{long/short distribution treatment}"
+central = "{central distribution assumption}"
+stress = "{stress distribution assumption}"
+unit = "{cash/price unit}"
+source = "{distribution source}"
+# Non-distribution instrument exemption: basis="non-distribution-bearing-instruments" with reason.
+
+[execution]
+status = "applies"
+model = "{decision-time-to-fill policy}"
+central = "{central fill policy}"
+stress = "{stress fill policy}"
+unit = "policy"
+source = "{execution calibration/source}"
+
+[sensitivity]
+status = "applies"
+model = "{registered parameter sweep}"
+central = "{central scenario}"
+stress = "{stress scenario}"
+unit = "scenario"
+source = "{registered experiment/artifact}"

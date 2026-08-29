@@ -1,0 +1,70 @@
+# evidence.toml — canonical evidence records. Schema: references/CLAIMS-LEDGER-SPEC.md §5.2 (closed).
+# Class/eligibility is COMPUTED from shape (references/EVIDENCE-HIERARCHY.md); coercions are recorded.
+#
+# Two worked examples, one per shipped domain pack. Adapt ONE; both define E-0001.
+#
+# ---- Worked example A — quantitative-trading (uncomment to adapt) ----
+# [[evidence]]
+# id        = "E-0001"
+# bears_on  = "C-0001@1"
+# direction = "supports"
+# kind      = "computation"
+# method    = "cost-model-application" # exact for COST_AWARE_DEV
+# source    = "generated"
+# mode      = "confirmatory"
+# artifact  = "experiments/e0001/report.json"
+# implementation_claim = "C-0002@1"
+# code_hash = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# env_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# data_snapshot = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# artifact_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# quant_contract_sha256 = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# cost_facets = ["commissions", "spread", "slippage", "impact", "capacity", "borrow", "financing", "dividends", "execution", "sensitivity"]
+# central_cost_outcome = "SURVIVES"
+# stress_cost_outcome = "FAILS" # reporting a stress failure is allowed; omission is not
+# cost_floor_outcome = "SURVIVES"
+# repro     = "python experiments/e0001/run.py --seed 7"
+# domain_checked  = "U(2026-06-30), 2019-01..2024-12 dev-OOS window, central costs"
+# detection_floor = "expectancy effects < 0.5 bps/trade indistinguishable at this sample size"
+# seeds     = [7]
+# experiment = "EXP-0001"
+# author_path = "quant-hypothesis-author/a"
+# created   = 2026-08-23T00:00:00Z
+#
+# A qualifying sealed result instead uses exact method = "lockbox-evaluation", result = "CONSISTENT",
+# consumed experiment = "EXP-####", and lockbox_event = "L-####"; its created time is at/after open.
+#
+# ---- Worked example B — mathematics (uncomment to adapt) ----
+# What does NOT transpose from A: no cost fields at all (quant_contract_sha256, cost_facets,
+# central/stress/cost_floor outcomes are the cost-model contract, absent here), and
+# detection_floor means something different — for an exact computation it is the boundary of what
+# the search could have SEEN, not a statistical resolution. `experiment` is still mandatory in
+# practice: a confirmatory computation with no registered EXP-#### is a hidden trial (SE-16),
+# whatever the domain.
+# [[evidence]]
+# id        = "E-0001"
+# bears_on  = "C-0001@1"
+# direction = "supports"
+# kind      = "computation"
+# method    = "exhaustive enumeration with exact cover certificates"
+# source    = "generated"
+# mode      = "confirmatory"
+# artifact  = "computations/e0001/summary.json"
+# implementation_claim = "C-0002@1"
+# code_hash = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# env_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# data_snapshot = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# artifact_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+# repro     = "python computations/e0001/run.py --max-n 32"
+# domain_checked  = "every 3-connected cubic planar graph with n <= 32 (complete generation, 2314967 graphs)"
+# detection_floor = "exact integer comparison, so one violating graph is decisive; nothing above n = 32 is searched, and a counterexample first appearing at n = 34 is invisible here"
+# # seeds = [7] only if the search is randomized; an exhaustive deterministic run omits it.
+# experiment = "EXP-0001"
+# author_path = "route-author/a"
+# created   = 2026-08-23T00:00:00Z
+#
+# This example is verified: uncommented alongside the matching claims/routes/experiments examples
+# it validates with zero findings and computes to class COMPUTED_BOUNDED, blocked on clean-room
+# replay by a different author. A machine-checked proof instead uses kind = "formal-artifact" with
+# a formalization manifest (references/FORMALIZATION.md); a paper argument uses kind =
+# "construction" or "statement" and carries no subject binding.

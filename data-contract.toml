@@ -1,0 +1,62 @@
+# Closed schema: quant-data-contract-v1. Fill every slot before promotion.
+# Missing/invalid values block the quant transition; they do not become prose waivers.
+schema = "quant-data-contract-v1"
+
+[population]
+declared = "{decision population the conclusions are about}"
+represented = "{population the source actually observes}"
+coverage_class = "{FULL | SOURCE_PARTIAL}"
+coverage_basis = "{coverage audit result; name structural omissions when partial}"
+membership_rule = "{exact rule with as-of semantics}"
+
+[lineage]
+vendors = ["{vendor/feed identity}"]
+vintage = "{YYYY-MM-DD frozen knowledge date}"
+point_in_time = true
+revision_policy = "{revision detection and retention policy}"
+identities = "{cross-time identity mapping rule}"
+
+[splits]
+in_sample = "{range and custody rule}"
+dev_oos = "{purged development-OOS range}"
+embargo = "{gap sized to horizon/label overlap}"
+lockbox = "{one-shot sealed range}"
+
+[timing]
+status = "applies"
+method = "{when each signal input becomes decision-usable}"
+source = "{timestamp/source audit}"
+
+[availability]
+status = "applies"
+method = "{latency/publication rule preventing unavailable inputs}"
+source = "{availability/source audit}"
+
+[survivorship]
+status = "applies"
+method = "{as-of membership; dead/delisted subjects retained}"
+source = "{lineage source or audit artifact}"
+# Only for non-entity time series, replace method/source with:
+# status = "not-applicable"
+# basis = "non-entity-time-series"
+# reason = "{why survivorship cannot arise for this object}"
+
+[corporate_actions]
+status = "applies"
+method = "{split/dividend/rename/relisting treatment}"
+source = "{lineage source or audit artifact}"
+# Only for non-corporate instruments, replace method/source with:
+# status = "not-applicable"
+# basis = "non-corporate-instruments"
+# reason = "{why corporate actions cannot arise for this object}"
+
+[implementation]
+implementation_claim = "{C-####@n exact implementation-claim pin}"
+code_hash = "{sha256:<64 lowercase hex>}"
+env_digest = "{sha256:<64 lowercase hex>}"
+data_snapshot = "{sha256:<64 lowercase hex>}"
+# Replace data_snapshot with exactly one canonical dataset_id when bytes are externally custodied.
+fixtures_isolated = true
+
+[costs]
+model_ref = "costs-and-execution.toml"

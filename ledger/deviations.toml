@@ -1,0 +1,14 @@
+# deviations.toml — planned-check substitutions. Schema: references/CLAIMS-LEDGER-SPEC.md §5.8.
+# A substitution RAISES the evidence obligation: it becomes the referee's PRIMARY audit target, and
+# an open deviation blocks promotion of every claim it affects. Silent normalization is laundering.
+#
+# Worked example (uncomment to adapt):
+# [[deviation]]
+# id        = "X-0001"
+# planned   = "registered finiteness battery over the full pattern census"
+# substitute = "partial-table torsion kills on the reachable sub-census"
+# reason    = "the registered battery is inapplicable: every universal group surjects onto Z"
+# affects   = ["C-0031@1", "H-0004"]
+# status    = "open"
+# author_path = "route-author/b"
+# created   = 2026-08-23T00:00:00Z

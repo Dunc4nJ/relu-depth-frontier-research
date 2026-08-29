@@ -1,0 +1,34 @@
+# routes.toml — attack routes (strategies), distinct from claims (content).
+# Schema: references/CLAIMS-LEDGER-SPEC.md §5.5. Every route carries falsifier + expected_evidence +
+# spike + kill_predicate at creation; candidates render HEURISTIC until evidence exists; kills cite
+# their killer. Killed routes are preserved — negative knowledge is first-class.
+#
+# Two worked examples, one per shipped domain pack. Adapt ONE; both define H-0001.
+#
+# ---- Worked example A — quantitative-trading (uncomment to adapt) ----
+# [[route]]
+# id        = "H-0001"
+# mechanism = "post-earnings drift concentrates in low-coverage names because information diffuses through fewer channels"
+# falsifier = "drift expectancy in the low-coverage tercile <= the full-universe baseline, cost-aware, on dev-OOS"
+# expected_evidence = "monotone expectancy across coverage terciles, surviving the time-index control"
+# spike     = "single pre-registered tercile split on dev-OOS, both arms, full costs"
+# kill_predicate = "spike shows no monotonicity, or the random-walk control profits"
+# status    = "active"
+# track     = "prove"
+# author_path = "route-author/a"
+# created   = 2026-08-23T00:00:00Z
+#
+# ---- Worked example B — mathematics (uncomment to adapt) ----
+# Same five mandatory fields, same meaning: `mechanism` is a structural reason, not an analogy or a
+# plan. On W1 the refute track runs the mirror route with track = "refute".
+# [[route]]
+# id        = "H-0001"
+# mechanism = "in a 3-connected cubic planar graph the face boundaries already double-cover every edge, so the face count bounds the cover size structurally"
+# falsifier = "an enumerated graph in the bounded range whose minimum cover exceeds the face bound"
+# expected_evidence = "exhaustive search to n = 32 returns no violating graph, plus an exact cover certificate for the extremal cases"
+# spike     = "enumerate n <= 20 first and check the bound on every graph with an exact cover solver"
+# kill_predicate = "one violating graph, or the solver cannot certify covers at n = 20 within the compute budget"
+# status    = "active"
+# track     = "prove"
+# author_path = "route-author/a"
+# created   = 2026-08-23T00:00:00Z

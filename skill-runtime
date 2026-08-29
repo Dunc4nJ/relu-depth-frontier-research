@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Generated workspace-local dispatcher. The package remains authoritative.
+set -euo pipefail
+PACKAGE_ROOT=/home/ubuntu/.agent/skills/frontier-research-with-epistemic-humility
+WORKSPACE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+RUNTIME="$PACKAGE_ROOT/scripts/runtime-binding.py"
+if [[ ! -f "$RUNTIME" ]]; then
+  echo "runtime-binding: REFUSED BOUND_ROOT_MISSING — $PACKAGE_ROOT" >&2
+  exit 1
+fi
+exec python3 "$RUNTIME" dispatch "$WORKSPACE_ROOT" "$@"
