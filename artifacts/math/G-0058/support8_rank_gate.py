@@ -75,6 +75,14 @@ COUNTEREXAMPLE_SEQUENCE = 92_489
 COUNTEREXAMPLE_AMBIENT_COEFFICIENT = 6_912
 PRIMES = (1_000_003, 1_000_033)
 SCHEMA = "max11-g0058-support8-rank-gate-v1"
+SCIENTIFIC_PROJECTION_POLICY = {
+    "recursive": True,
+    "stripped_key_rules": [
+        "key == wall_seconds",
+        "key ends with _seconds",
+        "key names an available-memory measurement",
+    ],
+}
 
 Direction = tuple[int, ...]
 
@@ -103,6 +111,31 @@ def canonical_bytes(value: object) -> bytes:
 
 def canonical_sha256(value: object) -> str:
     return hashlib.sha256(canonical_bytes(value)).hexdigest()
+
+
+def deterministic_scientific_projection(value: object) -> object:
+    """Recursively remove runtime/resource observations from scientific data."""
+    if isinstance(value, dict):
+        result: dict[str, object] = {}
+        for raw_key, item in value.items():
+            key = str(raw_key)
+            lowered = key.lower()
+            is_seconds = lowered == "wall_seconds" or lowered.endswith("_seconds")
+            is_available_memory = (
+                lowered in {"available_gib", "available_kib", "available_bytes"}
+                or "available_memory" in lowered
+                or "memory_available" in lowered
+                or lowered == "memavailable_kib"
+            )
+            if is_seconds or is_available_memory:
+                continue
+            result[key] = deterministic_scientific_projection(item)
+        return result
+    if isinstance(value, list):
+        return [deterministic_scientific_projection(item) for item in value]
+    if isinstance(value, tuple):
+        return [deterministic_scientific_projection(item) for item in value]
+    return value
 
 
 def load_json_gz(path: Path) -> dict[str, object]:
@@ -527,10 +560,27 @@ def self_test() -> dict[str, object]:
     witness = gain_report["lambda_nonzero_circuit"]
     if not isinstance(witness, dict) or witness["normalized_lambda_pairing"] != 1:
         raise GateError("gain witness control failed")
+    projection_control = {
+        "rank": 7,
+        "nested": [
+            {
+                "wall_seconds": 1.25,
+                "solver_seconds": 0.5,
+                "available_gib": 19.0,
+                "certificate": "kept",
+            }
+        ],
+    }
+    if deterministic_scientific_projection(projection_control) != {
+        "rank": 7,
+        "nested": [{"certificate": "kept"}],
+    }:
+        raise GateError("deterministic scientific projection control failed")
     return {
         "explicit_complete_kernel_no_gain_control": True,
         "explicit_normalized_lambda_circuit_gain_control": True,
         "nonzero_minor_controls": True,
+        "recursive_scientific_projection_strips_runtime_and_memory": True,
     }
 
 
@@ -759,8 +809,9 @@ def run(workers: int) -> dict[str, object]:
         },
         "wall_seconds": time.perf_counter() - started,
         "script_sha256": script_hash_before,
+        "scientific_projection_policy": SCIENTIFIC_PROJECTION_POLICY,
     }
-    scientific_payload = {
+    scientific_seed = {
         key: report[key]
         for key in (
             "schema",
@@ -774,8 +825,10 @@ def run(workers: int) -> dict[str, object]:
             "two_prime_rank_tuples",
             "exact_bounded_conclusion",
             "claim_boundary",
+            "scientific_projection_policy",
         )
     }
+    scientific_payload = deterministic_scientific_projection(scientific_seed)
     report["canonical_scientific_payload_sha256"] = canonical_sha256(
         scientific_payload
     )

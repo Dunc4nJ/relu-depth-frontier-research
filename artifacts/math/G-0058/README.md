@@ -73,14 +73,18 @@ Rank-gate bindings:
 
 ```text
 support8_rank_gate.py
-  27d2088cb255c5e4f546bc555cbba6c9fda736c2410e9de715c6a8d60eedfb25
+  2be8d7c8e95bc7a437af1534356521916fe0d9481d264de074c53672de2b4dc0
 support8_rank_gate_v1.json.gz
-  5849c6c317949e438c47a7026c6df0f0abf09b532b39043399ab7d4e75bdf4c2
+  b18dc35ab221d0517bb496bf87cbaa4b23748b5a17f198a23c2cb9d525f030a4
 canonical scientific payload
-  1e72c307e5c8e8dc8e5fe9f1aff50a1e21d42875b8560e4c98c419d50e00ec69
+  56c9efb93f379f9d7a927077b6d396b15bf147500fb01718814953aad9f22d3e
 canonical full report payload
-  ad80910ef23ecd8f549b93a6af8931bf49779b33ef176051cd5c2b37cbfb7742
+  db450584f8e5ea0213c65e92bb1bfa921c79dba772f003c433063ead455eb352
 ```
+
+The scientific projection recursively removes runtime and available-memory
+observations before hashing. Mutation tests confirm that changing those
+run-specific fields leaves the scientific digest unchanged.
 
 ## Reproduce
 
