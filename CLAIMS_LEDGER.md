@@ -298,3 +298,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0010` [complete] family `max11-zero-high-plus-structural-mass4-joint-quotient-v1` arm — prereg=True · trace:66226b80
 - `EXP-0011` [complete] family `max11-asymmetric-loop-edge-inherited-weight-probe-v1` arm — prereg=False · trace:ec8d81bb
 - `EXP-0012` [complete] family `max11-asymmetric-loop-edge-3754-orbit-global-span-v1` arm — prereg=True · trace:ed682030
+- `EXP-0013` [complete] family `max11-y-spoke-8104-orbit-exact-profile-gate-v1` arm — prereg=True · trace:6e699958
