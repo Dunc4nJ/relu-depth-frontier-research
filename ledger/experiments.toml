@@ -119,3 +119,25 @@ result_summary = "No appendix outcome exists at preregistration. This is one fin
 status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T02:24:36Z
+
+[[experiment]]
+id = "EXP-0011"
+route = "H-0001"
+design = "Exploratory exact Boolean-layer falsifier for the obvious asymmetric lift weighting: for each of the 252 pinned full-support two-component MAX10 source terms, attach the loop-edge gadget at all ten anchors and both orientations, retain the source rational coefficient on every labelled seed, fully S_11-symmetrize, and evaluate exactly on all eleven nonzero Boolean Hamming layers. Failure is any unequal pair of normalized layer values; this observation was made before the arbitrary-coefficient span gate was registered."
+family = "max11-asymmetric-loop-edge-inherited-weight-probe-v1"
+prereg = false
+result_summary = "The eleven exact normalized layer values are not constant: they begin -1/508032, -101/103488000 and end -1/145152, -1/145152. Therefore the obvious inherited MAX10 weighting cannot be a scalar multiple of MAX11. Artifact SHA-256 072b66d77857eecb95c0638b3b12ae7daf111cc509c9a328907dae319313e98b. This does not test arbitrary coefficients in the 3,754-orbit span."
+status = "complete"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T03:37:36Z
+
+[[experiment]]
+id = "EXP-0012"
+route = "H-0001"
+design = "Before outcome, freeze G-0072 script SHA-256 59981f53d5c7ddbeef7cbd1d82b7b0df1289f692f593aca49aea2c925592521f at Git commit e98390920c3aa6cdf360a467d6f817c649187383. Independently reconstruct the exact 5,040 G-0071 labelled loop-edge seeds and require the pinned raw-seed, orbit-sequence, and orbit-class-manifest hashes; quotient by exact coordinate relabelling and global branch swap to exactly 3,754 full-S_11 orbit representatives; append exactly the two pure degree-five linear carriers 5E and 5L. Reconstruct every loop-inclusive ordered-cone normal form by subset DP with the diagonal contribution W[v,v] included exactly once, validated against literal full permutation evaluation, the pinned exact MAX5 certificate, both carrier formulas, and a loop-omission mutant. Apply a deterministic direction-keyed signed 4,096-bucket CountSketch with seed max11-g0072-loop-edge-orbit-span-v1 to every primitive hinge while retaining all eleven linear coordinates exactly, forming a 4,107 by 3,756 integer matrix. Compare column rank with rank after appending 11!*MAX11 at primes 1,000,003 and 1,000,033. Failure is augmented-rank gain at either prime; this rejects target membership only in that modular sketched system and is not an exact-Q no-go. If both primes admit the target, freeze and exactly replay the emitted target-bearing vectors on the complete unsketched normal form before any construction inference, then align additional primes, lift over Q, correct linears, compile, and independently replay globally. Abort if 12 GiB are unavailable or any script/input/manifest/census/control/backend binding drifts."
+family = "max11-asymmetric-loop-edge-3754-orbit-global-span-v1"
+prereg = true
+result_summary = "No registered matrix outcome exists. Self-test and preflight pass on the frozen script: 5,040 raw seeds, 3,754 orbit columns, 2 carriers, matrix shape 4,107 by 3,756, literal loop-inclusive semantic controls, known MAX5 recovery, planted member/nonmember and sketch-collision controls, and pinned python-flint nmod backend. Registered execution is forbidden until this record is committed and pushed."
+status = "planned"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T03:37:36Z
