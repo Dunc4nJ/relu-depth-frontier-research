@@ -254,3 +254,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0007` [complete] family `max11-signed-mass-four-full-core-census-v1` arm — prereg=True · trace:d2fb7ef9
 - `EXP-0008` [complete] family `max11-natural-single-edge-mass5-zero-high-census-v1` arm — prereg=True · trace:ff2593a4
 - `EXP-0009` [complete] family `max11-zero-high-joint-s1-quotient-v1` arm — prereg=True · trace:e7ff91b4
+- `EXP-0010` [planned] family `max11-zero-high-plus-structural-mass4-joint-quotient-v1` arm — prereg=True · trace:66226b80

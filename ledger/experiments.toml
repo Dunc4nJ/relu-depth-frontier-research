@@ -108,3 +108,14 @@ result_summary = "Outcome unavailable before registered-subject execution. Root 
 status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T01:51:54Z
+
+[[experiment]]
+id = "EXP-0010"
+route = "H-0001"
+design = "This appendix was selected adaptively only after frozen G-0070 report SHA-256 538fdfadea85985f9b7eb06940b73ddac26b978676d8c95550ede33855c24683 showed complete-source rank 1,713, candidate quotient rank 425, nullity 101, and zero Lambda gain at both registered primes. Before appendix outcome, reuse the frozen G-0070 script SHA-256 0e24f192d3f467e992d6cfa31f9534247d72ced597aa12d225287e615fbff27e and its exact 1,288-column S1 plus 526-column primary reconstruction, append exactly the 1,877 structural same-family aliases from the bound G-0068 structure report, cancel their common edge, deduplicate only identical complete normal forms, require exactly 252 unique structural base semantics and exact Lambda zero for each, and form N=[1,288 exact S1 pivots | 526 primary candidates | 252 structural semantics] on all 99,858 complete D4 rows. Use the same deterministic signed 4,096-row CountSketch seed max11-g0070-direct-s1-plus-zero-high-v1 and primes 1,000,003 and 1,000,033. Because the primary block is already deficient at both primes, the decisive outcome is not full rank but whether complete-source replay of the enlarged matrix makes rank([N;Lambda])-rank(N)=1. If both sketches are deficient, replay every proposed kernel on all complete sparse rows, add lexicographically first violations for at most eight CEGIS rounds, stream every source row in blocks of 2,048, and retain explicit nonzero source minors. A nonzero Lambda gain at either prime is discovery evidence only: freeze the aligned mixed circuit and immediately perform additional-prime alignment, exact-Q reconstruction, every-row hinge/Lambda replay, linear correction, compilation, and independent global replay. If both complete-source augmented gains remain zero, stop blind expansion of this natural-lift catalogue and pivot the main construction effort to asymmetric codimension-two facet gluing; any combined-family no-go still requires an exact-Q dual and must not delay that pivot. Abort if MemAvailable is below 16 GiB or any script/input/subject/hash/census/alias/control binding drifts."
+family = "max11-zero-high-plus-structural-mass4-joint-quotient-v1"
+prereg = true
+result_summary = "No appendix outcome exists at preregistration. This is one final mixed-family interaction test selected after the negative primary modular result; the registered appendix run is forbidden until this record is committed and pushed."
+status = "planned"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T02:24:36Z
