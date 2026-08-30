@@ -1,0 +1,18 @@
+Title:           On the expressivity of sparse maxout networks
+Author:          Moritz Grillo; Tobias Hofmann
+Creator:         arXiv GenPDF (tex2pdf:e76afa9)
+Producer:        pikepdf 8.15.1
+Custom Metadata: yes
+Metadata Stream: yes
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           20
+Encrypted:       no
+Page size:       595.276 x 841.89 pts (A4)
+Page rot:        0
+File size:       482798 bytes
+Optimized:       no
+PDF version:     1.7

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/EM2Ij5/qTIop/eyJHBTqEedf/kk</id>
+  <title>arXiv Query: search_query=&amp;id_list=2510.14068&amp;start=0&amp;max_results=10</title>
+  <updated>2026-08-30T15:18:26Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=&amp;start=0&amp;max_results=10&amp;id_list=2510.14068" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2510.14068v1</id>
+    <title>On the expressivity of sparse maxout networks</title>
+    <updated>2025-10-15T20:18:18Z</updated>
+    <link href="https://arxiv.org/abs/2510.14068v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2510.14068v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We study the expressivity of sparse maxout networks, where each neuron takes a fixed number of inputs from the previous layer and employs a, possibly multi-argument, maxout activation. This setting captures key characteristics of convolutional or graph neural networks. We establish a duality between functions computable by such networks and a class of virtual polytopes, linking their geometry to questions of network expressivity. In particular, we derive a tight bound on the dimension of the associated polytopes, which serves as the central tool for our analysis. Building on this, we construct a sequence of depth hierarchies. While sufficiently deep sparse maxout networks are universal, we prove that if the required depth is not reached, width alone cannot compensate for the sparsity of a fixed indegree constraint.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-10-15T20:18:18Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Moritz Grillo</name>
+    </author>
+    <author>
+      <name>Tobias Hofmann</name>
+    </author>
+  </entry>
+</feed>

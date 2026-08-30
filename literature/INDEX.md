@@ -16,6 +16,7 @@
 | REF-0012 | Safran et al., Approximate the Maximum | approximation/width cousin | PDF, text, Atom metadata | L3 |
 | REF-0013 | Safran, Every Layer Counts | adjacent unrestricted-weight hierarchy; not MAX11 | PDF, text, Atom metadata | L3 |
 | REF-0014 | Jochemko & Ravichandran, Generalized Permutahedra | signed-simplex uniqueness and root-edge summands | PDF, text | L3 |
+| REF-0015 | Grillo & Hofmann, On the expressivity of sparse maxout networks | closest hinge-rank prior; virtual-polytope common-span dimension mechanism | PDF, text, Atom metadata | L3 |
 | SRC-0001 | max-relu-certificates commit 2343f121... | code, exact certificates, verifier | archive and extracted tree | provenance only |
 | IMP-0001 | prior MAX11 ansatz audit/scripts, 2026-08-27 | quarantined route hints | three hash-bound files | import only |
 

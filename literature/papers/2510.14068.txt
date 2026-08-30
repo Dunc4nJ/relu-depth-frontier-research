@@ -1,0 +1,1096 @@
+                                              On the expressivity of sparse maxout networks
+
+                                                       Moritz Grillo                                Tobias Hofmann
+                                                    Max Planck Institute for                             TU Berlin
+                                                  Mathematics in the Sciences                      tobias.hfm@icloud.com
+                                                  moritz.grillo@mis.mpg.de
+arXiv:2510.14068v1 [cs.LG] 15 Oct 2025
+
+
+
+
+                                              Abstract. We study the expressivity of sparse maxout networks, where each
+                                              neuron takes a fixed number of inputs from the previous layer and employs
+                                              a, possibly multi-argument, maxout activation. This setting captures key
+                                              characteristics of convolutional or graph neural networks. We establish a du-
+                                              ality between functions computable by such networks and a class of virtual
+                                              polytopes, linking their geometry to questions of network expressivity. In par-
+                                              ticular, we derive a tight bound on the dimension of the associated polytopes,
+                                              which serves as the central tool for our analysis. Building on this, we con-
+                                              struct a sequence of depth hierarchies. While sufficiently deep sparse maxout
+                                              networks are universal, we prove that if the required depth is not reached,
+                                              width alone cannot compensate for the sparsity of a fixed indegree constraint.
+
+                                              Keywords. Expressivity of neural networks, maxout networks, polyhedral
+                                              geometry, virtual polytopes
+
+                                              MSC 2020. 68T07, 52B05, 14T99
+
+
+                                         1 Introduction
+
+                                         Despite the impressive progress that has been made in the practical use of neural net-
+                                         works, our theoretical understanding of their inner mechanisms and why they generalize
+                                         so well is still far from being complete. Universal approximation theorems, such as those
+                                         of Cybenko [1989], Hornik et al. [1990], or Leshno et al. [1993] marked major steps to-
+                                         wards explaining the expressivity of neural networks. Yet, making precise what neural
+                                         networks can or cannot do goes beyond approximation results and requires addressing
+                                         questions of exact representability. That is, given a specific neural network architecture,
+                                         what is the exact class of functions that can be represented by that architecture? Re-
+                                         cent work, for example, Telgarsky [2016], Arora et al. [2018], or Hertrich et al. [2021],
+                                         have provided new insights into how architectural parameters such as depth and width
+                                         influence expressivity.
+
+
+
+                                                                                     1
+In contrast, this article investigates how network sparsity affects expressivity and how it
+interacts with architectural parameters such as depth and width. Beyond that, we are
+interested in the effects of using multi-argument maxout activation functions, which can
+be seen as generalized rectified linear units, as introduced by Goodfellow et al. [2013].
+We call a network sparse, or more specifically indegree-d-constrained, if each of its neu-
+rons depends on a fixed number d of outputs from the previous layer. This framework
+interpolates between fully connected architectures (d equal to the previous layer’s width)
+and extremely sparse ones (d = 2). A precise formalization of the architecture we are
+concerned with follows in Section 2. Our considerations are motivated by two aspects.
+First, one might find it interesting that explicit attempts to construct neural networks of
+minimum depth, such as those by Arora et al. [2018] or the recent improvement by Bakaev
+et al. [2025] are nonetheless sparse. In other words, when not restricting the width of the
+neural network, sparse networks can compute any continuous piecewise linear function
+with logarithmic depth.
+Second, sparsity is a characteristic property of many practically relevant network types.
+For example, a convolutional layer involving a typical 3×3 kernel is indegree-9-constrained.
+Another example are graph neural networks, which, depending on the specific variant,
+often come with indegree constraints stemming from their localized feature update rules.
+The preceding examples also provide relevant network types in which indegree-constrained
+operations are used together with pooling steps. In our model, this is reflected by incor-
+porating multi-argument maxout activations.
+Note also that the architecture we investigate allows for varying indegree constraints
+across layers. The only exception is the first and last layer, where indegree constraints
+are not imposed. Thus, our model interpolates between fully connected networks on those
+in which each neuron depends on only two inputs from the previous layer, apart from the
+first and last one. Not enforcing indegree constraints in the first and last layer has the
+following reasons.
+From a practical perspective, even networks that otherwise incorporate sparse operations,
+such as convolutional or graph neural networks often bundle information via fully con-
+nected layers into one or few neurons in the final layer. See Krizhevsky et al. [2012] for a
+prominent example. Allowing the first layer to be fully connected can be seen as allowing
+a general feature transformation or preprocessing step, for instance, in which an image is
+patched or graph nodes are embedded into a suitable feature space.
+Another reason is that our theoretical interest lies more on structural effects of sparsity
+across the layers of a network, rather than on the information-theoretic limitations im-
+posed by a restricted receptive field in the first layer. For example, given an input with n
+pixels and a network in which each neuron, including those in the first layer, depend on
+at most two inputs from the preceding layer, it is clear that a network with depth smaller
+than log2 (n) is insufficient to capture every aspect of the input. But this says little about
+structural effects within the network, but merely reflects the restrictive reception in the
+beginning of information processing chain.
+
+
+
+
+                                              2
+Our Contributions. Using a duality between positively homogeneous convex continu-
+ous piecewise linear functions and polytopes, we establish an isomorphism between func-
+tions computed by sparse maxout networks and a class of virtual polytopes (Theorem 7),
+which are formal differences of polytopes. We then study the dimensions of these virtual
+polytopes in Section 4, where Theorem 11 provides an upper bound and Theorem 12
+shows that this bound is attained. These results form the foundation of our analysis of
+how sparsity affects expressivity in Section 5.
+While our general framework, introduced in Section 2, allows for varying indegree and
+rank constraints across layers, and thus involves vector-valued parameters, the following
+outline of our main results suppresses this notation for simplicity. For any indegree
+constraint d ∈ N, number of arguments r ∈ N in the maxout activation, and input
+dimension n, let Nn (d, r, ℓ) denote the class of functions representable by such networks
+with ℓ hidden layers. Our main results are as follows:
+   • For any d, r, and ℓ, there exist an input dimension n and a function f : Rn → R
+     computable by a fully connected network with two hidden layers and width O(n)
+     that is not contained in Nn (d, r, ℓ) (Theorem 18). This, in particular, implies that
+     sparse shallow networks cannot represent all continuous piecewise linear functions,
+     regardless of their width.
+   • For d = r = 2, we fully characterize the class of functions Nn (2, 2, ℓ) (Theorem 19),
+     showing a sharp separation for each ℓ ∈ {1, . . . , ⌈log2 (n + 1)⌉}.
+In words, when allowing arbitrary input dimension, for any fixed depth and indegree
+constraint, the resulting sparsity cannot be compensated by increasing width. This, in
+particular, also implies that for a fixed indegree, there is no depth that fully compensates
+for sparsity. Overall, our results demonstrate that sparsity has a decisive impact on the
+expressivity of neural networks.
+
+
+Further Related Work An extensive body of research has examined the effect of
+depth Hertrich et al. [2021], Haase et al. [2023], Averkov et al. [2025], Grillo et al. [2025],
+Bakaev et al. [2025] as well as the relationship between depth and size in neural networks,
+showing that deeper architectures can represent certain functions exponentially more
+compactly than shallow ones Montúfar et al. [2014], Telgarsky [2016], Arora et al. [2018],
+Ergen and Grillo [2024]. Another perspective considers bounds on the total size of the
+networks Hertrich and Skutella [2023], Hertrich and Sering [2024], Chen et al. [2022],
+Brandenburg et al. [2025].
+A related methodological development connects questions of expressivity to Newton poly-
+topes of functions realized by neural networks through tropical geometry. This approach
+was initiated by Zhang et al. [2018] and further developed by Maragos et al. [2021]. It has
+since been applied to the study of decision boundaries, depth and size lower bounds, the
+number of linear regions, and approximation capabilities Montúfar et al. [2022], Misiakos
+et al. [2022], Haase et al. [2023], Brandenburg et al. [2024], Valerdi [2024], Koutschan
+et al. [2023], Hertrich and Loho [2025], Balakin et al. [2025].
+
+
+
+
+                                              3
+2 Sparse networks and continuous piecewise linear functions
+
+A polyhedron P is the intersection of finitely many closed halfspaces and a polytope is
+a bounded polyhedron. A hyperplane supports P if it bounds a closed halfspace con-
+taining P , and any intersection of P with such a supporting hyperplane yields a face F
+of P . A polyhedral complex P is a finite collection of polyhedra such that (i) ∅ ∈ P,
+(ii) if P ∈ P, then all faces of P are in P, and (iii) if P, Q ∈ P, then P ∩ Q is a face
+both of P and Q. For additional background on polyhedral geometry, we refer to Schri-
+jver [1998] and Ziegler [2012]. A continuous function f : Rn → R is called continuous
+piecewise linear if there exists a polyhedral complex P such that the restriction of f to
+each full-dimensional polyhedron P ∈ P is an affine function. For a convex continuous
+piecewise linear function f , there is a unique coarsest such polyhedral complex P, that
+is, f is affine within each maximal P ∈ P, but not within Q ⊋ P for any P ∈ P n . We
+call P the polyhedral complex underlying f
+A function f : Rn → R is called positively homogeneous if f (λx) = λf (x) for any λ ≥ 0.
+We denote by Cn the vector space of all positively homogeneous continuous piecewise
+linear functions from Rn to R and by Cn+ the set of convex positively homogeneous con-
+tinuous piecewise linear functions.
+Maxout activation functions can be regarded as multi-argument generalizations of ReLU
+activation functions. For r, m ∈ N0 := N ∪ {0}, a rank-r-maxout layer having n inputs
+and m outputs with weights aij ∈ Rn , i ∈ [m], j ∈ [r] computes a function Rn → Rm ,
+                                               h              im
+                                         x 7→ max{a⊤
+                                                   ij x}             .
+                                                   j∈ [r]      i=1
+
+
+Denoting the support of a vector x ∈ Rn by supp(x) := {i ∈ [n] : xi ̸= 0}, we call a layer
+indegree-d-constrained, for some d ∈ N, if | j∈[r] supp(aij )| ≤ d for all i ∈ [m]. For ℓ ∈ N0 ,
+                                                S
+
+r ∈ Nℓ , a rank-r-maxout network with ℓ hidden layers computes a function Rn0 → R,
+fℓ+1 ◦ . . . ◦ f1 where fi , i ∈ [ℓ], is a rank-ri -maxout layer and fℓ+1 is a linear map from
+Rnℓ to R. We denote the class of functions f : Rn → R that are representable by such
+an architecture by Nn (ℓ, r). For d ∈ Nℓ , the network is called indegree-d-constrained if
+fi is indegree-di -constrained. The class of functions f : Rn → R that are representable
+by such an architecture is denoted by Nn (ℓ, d, r). As discussed in the introduction,
+we allow the first layer to be fully connected, meaning that d1 = n, throughout this
+work. In our investigation, we often specify d = (d1 , . . . , dℓ ), r = (r1 , . . . , rℓ ) ∈ Nℓ for a
+network with ℓ hidden layers. In various arguments, however, we focus on subnetworks
+with ℓ′ < ℓ hidden layers. Then, strictly speaking, in Nn (ℓ′ , d, r), the dimensions of d
+and r do not match the number of hidden layers ℓ′ . To avoid overloading the notation, we
+nevertheless adopt the notation Nn (ℓ′ , d, r) = Nn (ℓ′ , (d1 , . . . , dℓ′ ), (r1 , . . . , rℓ′ )). The same
+convention is used for Nn (ℓ, r) and further polytope classes depending on d and r, which
+are introduced in Section 3. To denote indegree and rank constraints succinctly, we use
+boldface numbers for vectors, of appropriate size, containing only the specified number,
+except that we retain d1 = n if we denote indegree constraints. For example, d = 2 is to
+be read as d = [n, 2, . . . , 2] and r = 2 is to be read as r = [2, . . . , 2]. For ℓ = 0, there is
+
+
+
+                                                        4
+                 (a 11)1                      ···               1
+                                                                               1
+                                                                1
+       x1         (a12)1                                        1              1
+                                                                1                               β1
+                                                                1
+                                                                               1
+                    n
+                                                                1
+                  1)
+
+                            n
+                  1
+                                                                1
+                (a
+
+                          2)
+                                                                               1
+                       1
+                     (a
+                                                                1                               β2
+                      (a p
+
+        ··                             ··                             ··               ··
+                           2
+                 (a p 2
+                          ℓ−
+
+
+
+
+         ·                              ·                              ·                ·
+                            1  )1
+
+
+                                                                1
+                     ℓ
+                     )1
+
+
+
+                                                                                                β3
+                                                                1              1
+       xn       (ap 2 ℓ−1)                                      1
+                               n                                               1
+                (ap ℓ                                           1
+                   2 )    n                   ···
+       hidden layer:                   1                            ℓ−1                ℓ
+
+                           Figure 1: A network from the class Nn (ℓ, 2, 2)
+
+no hidden layer, and Nn (0, d, r) = Nn (0, r) consists of the linear functions from Rn to R.
+An example for a network from Nn (ℓ, 2, 2) = Nn (ℓ, [n, 2, . . . , 2], 2) is given in Figure 1.
+One goal of our work is to understand which functions lie in Nn (ℓ, d, r). We know that
+members of this class are positively homogeneous continuous piecewise linear, as they are
+compositions of such functions. To see whether a converse inclusion holds, for certain
+parameters ℓ, d, and r, we rely on the following result by Wang and Sun [2005].
+Theorem 1 (Wang and Sun [2005]). Every function f ∈ Cn can be written as
+                                              p
+                                    f (x) =         βi max{a⊤               ⊤
+                                              X
+                                                            i,1 x, . . . , ai,n+1 x}
+                                              i=1
+
+for suitable p ∈ N, βi ∈ R, and ai,j ∈ Rn , i ∈ [p], j ∈ [n + 1].
+Building on this representation, Arora et al. [2018] give a one-to-one correspondence
+between the class of functions computable by ReLU neural networks and continuous
+piecewise linear functions. The following result is a refinement of their result, imply-
+ing that deep indegree-constrained networks are as expressive as networks that are not
+indegree-constrained.
+Theorem 2 (C.f. Arora et al. [2018]). For given d, r ∈ Nℓ , if n <                          i=1 min{di , ri }, then
+                                                                                        Qℓ
+
+
+                                        Nn (ℓ, r) = Nn (ℓ, d, r) = Cn .
+
+Proof. By definition, every function in Nn (ℓ, r) or Nn (ℓ, d, r) is in Cn . Since, of course,
+Nn (ℓ, d, r) ⊆ Nn (ℓ, r), we need to verify that Cn ⊆ Nn (ℓ, d, r). By Theorem 1, every
+function f ∈ Cn is a linear combination of maxima of at most n + 1 linear functions,
+f (x) = pi=1 βi max{a⊤  i,1 x, . . . , ai,n+1 x}. In the following, we argue that such a function
+                                        ⊤
+         P
+
+
+
+
+                                                            5
+can be represented by a function fℓ+1 ◦ . . . ◦ f1 ∈ Nn (ℓ, d, r). The inner linear functions
+ i,j x, i ∈ [p], j ∈ [n + 1], can be implemented up to the first hidden layer, because f1
+a⊤
+involves a general linear transformation without indegree constraints. The outer linear
+combination can be represented by the linear function fℓ+1 . Finally, the p occurring
+maxima are implementable by fℓ ◦ . . . ◦ f1 , since the maximum function is associative,
+that is max{x, y, z} = max{max{x, y}, z} for all x, y, z ∈ R. Hence the maximum of
+n + 1 inputs can be obtained sequentially by composing maxima across layers, with all
+weights set to one. For d = r = 2, this is illustrated in Figure 1. With each layer i ∈ [ℓ],
+the number of inputs that can be processed grows by a factor of min{di , ri }, since each
+neuron takes at most di inputs and computes a maximum over at most ri inputs. In
+total, n + 1 inputs can be compared if n + 1 ≤ ℓi=1 min{di , ri }, as is our claim.
+                                                   Q
+
+
+Theorem 2 says that, for any given input dimension, indegree and rank constraint, sparse
+maxout networks are universal if they are sufficiently deep. Nevertheless, in Theorem 18
+it is shown that for any given depth ℓ ∈ N0 , indegree and rank constraints d, r ∈ Nℓ ,
+there is an input dimension n ∈ N and function f ∈ Nn (2, 2) which is not in Nn (ℓ, d, r).
+In words, sparsity has a decisive restrictive effect on the expressivity of a network. Our
+work also provides particular insight into the class Nn (ℓ, 2, 2). We characterize it by
+comparing it with the vector space
+                 n                       p                                           o
+     Mn (m) := f : Rn → R : f (x) =            βi max{a⊤                            n
+                                         X
+                                                       ij x}, p ∈ N, βi ∈ R, aij ∈ R  .
+                                                    j∈[m]
+                                         i=1
+
+For any n ∈ N and ℓ ∈ N0 , Theorem 19 says that
+
+                                   Nn (ℓ, 2, 2) = Mn (2ℓ ).
+
+The arguments leading to those results rely largely on polyhedral geometry.
+
+
+3 Virtual polytopes and support functions
+
+The goal of this section is to establish a duality between specific virtual polytopes and
+the functions computable by related sparse maxout networks. For on overview of virtual
+polytopes, we refer to Panina and Streinu [2015].
+The Minkowski sum of two sets X, Y ∈ Rn is X +Y = {x+y : x ∈ X, y ∈ Y }. By span(X)
+we denote the smallest linear subspace containing X, by aff(X) we denote the smallest
+affine subspace containing X, and by conv(X) we denote the convex hull of X. A polytope
+P is the convex hull of finitely many points in Rn . We denote by Pn the set of all such
+polytopes. The dimension of a polytope P is the dimension of its affine hull dim(aff(P )).
+Note that P + Q + (−Q) ̸= P for −Q := {−q : q ∈ Q} and hence naive subtraction is not
+the inverse of Minkowski addition. But there is a canonical way to introduce a formal
+Minkowski difference. The set of polytopes together with Minkowski addition forms a
+commutative semigroup S, having the polytope that consists only of the zero vector as
+neutral element. For any polytopes P, Q, R in Pn , there holds the cancellation law, which
+
+
+
+                                                6
+says that if P + Q = R + Q, then P = R. This allows to construct the Grothendieck
+group of S by Vn := {(P, Q) : P, Q ∈ Pn }/ ∼ where the equivalence relation ∼ is defined
+by
+                     (P1 , Q1 ) ∼ (P2 , Q2 ) ⇐⇒ P1 + Q2 = P2 + Q1 .
+The equivalence class represented by (P, Q) is denoted by P − Q and called virtual
+polytope. Furthermore, we denote V := n∈N Vn . As a virtual polytope is not a point set,
+                                        S
+
+further definitions have to be adjusted appropriately. For virtual polytopes P1 − Q1 and
+P2 − Q2 and λ ∈ R, one defines the operations
+
+                         λ(P1 − Q1 ) := (λP1 − λQ1 ),
+             (P1 − Q1 ) + (P2 − Q2 ) := (P1 + P2 ) − (Q1 + Q2 ),
+            conv(P1 − Q1 , P2 − Q2 ) := conv(P1 + Q2 , P2 + Q1 ) − (Q1 + Q2 ).
+
+For more details about virtual polytopes, we refer to the survey of Panina and Streinu
+[2015]. The support function fP : Rn → R of a polytope P = conv{aj : j ∈ [p]} is given
+by
+                             fP (x) := max{a⊤
+                                            j x : j ∈ [p]}.
+
+Note that support functions depend only on the extreme points of a given polytope. So
+they are independent of a specific representation. More precisely, if conv{aj : j ∈ [p]} and
+conv{bk : k ∈ [q]} describe the same polytope, then the corresponding support functions
+are identical. In tropical geometry, functions of the form max{a⊤    j x : j ∈ [p]} are also
+called tropical polynomial. As for classical polynomials, one defines the Newton polytope
+                       j x : j ∈ [p]} ∈ Cn as
+P (f ) of f (x) = max{a⊤                 +
+
+
+                                 P (f ) := conv{aj : j ∈ [p]}.
+
+The following theorem shows a duality between the functions in Cn+ and their Newton
+polytopes.
+Theorem 3 (Schneider [2013]). The map Pn → Cn+ , P 7→ fP is a bijection and for all
+P, Q ∈ Pn and λ ≥ 0, it holds that
+  (i) fP +Q = fP + fQ ,
+ (ii) fλP = λfP , and
+(iii) fconv(P ∪Q) = max{fP , fQ }.
+For our investigation it is essential to extend the preceding relationships to virtual poly-
+topes and corresponding functions in Cn . Given the support functions fP and fQ of two
+polytopes P and Q, the support function of the virtual polytope P − Q is defined as
+fP −Q := fP − fQ . We also build on the following well-known fact.
+Lemma 4 (Melzer [1986]). Every positively homogeneous continuous piecewise linear
+function f : Rn → R can be written as f = g − h where g and h are convex positively
+homogeneous continuous piecewise linear functions.
+
+
+
+
+                                              7
+The following Lemma is a direct application of Theorem 3 and Theorem 4 and the fact
+that virtual polytopes are constructed as the Grothdendieck group of polyoptes [Panina
+and Streinu, 2015].
+Lemma 5. The map Vn → Cn , P − Q 7→ fP −Q is a bijection and satisfies
+  (i) f(P −Q)+(R−S) = fP −Q + fR−S ,
+ (ii) fλ(P −Q) = λfP −Q ,
+(iii) fconv(P ∪Q) = max{fP , fQ }.
+
+Proof. To check that the given map is well-defined, note first that support functions are
+positively homogeneous and continuous piecewise linear. So fP −Q = fP − fQ is also
+positively homogeneous and continuous piecewise linear, for any polytopes P and Q.
+We yet have to show that fP −Q is independent of the representation of P − Q. Given
+equivalent virtual polytopes P − Q and R − S, we obtain P + S = R + Q and hence
+fP −Q (x) = fP (x) + fS (x) = fR (x) + fQ (x) = fR−S (x).
+To see that the map P − Q 7→ fP (x) − fQ (x) is injective, let fP −Q (x) = fR−S (x) for
+all x ∈ Rn . Rearranging gives fP (x) + fS (x) = fR (x) + fQ (x). Since the support function
+uniquely determines a polytope, it follows that P + S = R + Q. Thus, the virtual
+polytopes P − Q and R − S are the same, as is to be shown.
+To verify that the map P − Q 7→ fP (x) − fQ (x) is surjective, consider an arbitrary
+positively homogeneous continuous piecewise linear function f (x) on Rn . By Lemma 4,
+we can assume that f is of the form max{a⊤   j x : j ∈ [p]} − max{bk x : k ∈ [q]}, for finitely
+                                                                   ⊤
+
+many points aj , j ∈ [p], and bk , k ∈ [q]. Defining the polytopes P = conv{aj : j ∈ [p]}
+and Q = conv{bk : k ∈ [q]}, we obtain f (x) = fP (x) − fQ (x) and hence every positively
+homogeneous continuous piecewise linear function is the image of the map, establishing
+surjectivity.
+To verify Relation (i), consider two arbitrary virtual polytopes P − Q and R − S and
+check that
+
+          f(P −Q)+(R−S) = f(P +R)−(Q+S) = fP +R − fQ+S = (fP + fR ) − (fQ + fS )
+                        = (fP − fQ ) + (fR − fS ) = fP −Q + fR−S .
+
+For Relation (ii), take an any virtual polytope P − Q and λ ∈ R. There holds
+
+          fλ(P −Q) = fλP −λQ = fλP − fλQ = λfP − λfQ = λ(fP − fQ ) = λfP −Q .
+
+
+
+
+                                              8
+For (iii), consider arbitrary virtual polytopes P − Q and R − S. We find that
+
+             fconv(P −Q,R−S) = fconv((P +S)∪(R+Q))−(Q+S)
+                             = fconv((P +S)∪(R+Q)) − fQ+S
+                             = max{fP +S , fR+Q } − fQ+S
+                             = max{fP + fS , fR + fQ } − (fQ + fS )
+                             = max{fP + fS − (fQ + fS ), fR + fQ − (fQ + fS )}
+                             = max{fP − fQ , fR − fS }
+                             = max{fP −Q , fR−S }.
+
+Having established a general duality between virtual polytopes and corresponding func-
+tions in Cn , our next goal is to focus on those virtual polytopes which correspond to the
+functions computable by sparse maxout networks.
+Definition 6. Let be given the parameters ℓ ∈ N0 , d = (d1 = n, d2 , . . . , dℓ ) ∈ Nℓ , and
+r = (r1 , . . . , rℓ ) ∈ Nℓ . We define recursively
+
+      V̌n (0, d, r) := {{v} : v ∈ Rn },
+                         n      nP                           o                                   o
+       V̌n (ℓ, d, r) := conv      dℓ
+                                    j=1 αij Vj : i ∈ [rℓ ]       : αij ∈ R, Vj ∈ V̌n (ℓ − 1, d, r) .
+
+Furthermore, let us denote
+                         nP                                                       o
+       Vn (ℓ, d, r) :=       k
+                             i=1 αi Vi   : k ∈ N, αi ∈ R, Vi ∈ V̌n (ℓ, d, r) ,
+        V̌(ℓ, d, r) := n∈N V̌n (ℓ, d, r), and
+                         S
+
+        V(ℓ, d, r) := n∈N Vn (ℓ, d, r).
+                      S
+
+
+In Hertrich et al. [2021], it is shown that the above recursive definition of virtual polytopes
+precisely corresponds to the Newton polytopes of the function computed by networks with
+ℓ layers. The following theorem, carrying this to the indegree-constrained setting, is an
+immediate consequence
+Theorem 7. The map V 7→ fV is a bijection between V̌n (ℓ, d, r) and Ňn (ℓ, d, r) and
+between Vn (ℓ, d, r) and Nn (ℓ, d, r).
+
+Proof. Note that V̌n (ℓ, d, r) ⊆ Vn (ℓ, d, r) ⊆ Vn . Likewise, Ňn (ℓ, d, r) ⊆ Nn (ℓ, d, r) ⊆ Cn .
+Since Lemma 5 says that V 7→ fV is a bijection between Vn and Cn , we certainly know
+that its restrictions to V̌n (ℓ, d, r) or Vn (ℓ, d, r) are injective. It remains to be shown that
+the image of V̌n (ℓ, d, r) is Ňn (ℓ, d, r). From there, Lemma 5, Part (i), gives directly that
+Nn (ℓ, d, r) is the image of Vn (ℓ, d, r). The point is that the functions in Nn (ℓ, d, r) are
+exactly the linear combinations of those in Ňn (ℓ, d, r), just as the virtual polytopes in
+Vn (ℓ, d, r) are precisely the linear combinations of those in V̌n (ℓ, d, r).
+Let us begin with the case where ℓ = 0. By definition, V̌n (0, d, r) = {{v} : v ∈ Rn }.
+The corresponding support functions are the linear functions from Rn to R, which are
+precisely the functions in Ňn (0, d, r).
+
+
+
+                                                     9
+We proceed inductively, assuming that the image of V̌n (ℓ − 1, d, r)) is Ňn (ℓ − 1, d, r).
+Any V ∈ V̌n (ℓ, d, r), by Definition 6, is of the form
+                                                    nP                               o
+                                      V = conv        dℓ
+                                                        j=1 αij Vj : i ∈ [rℓ ]
+
+
+for certain αij ∈ R and Vj ∈ V̌n (ℓ − 1, d, r). By Lemma 5, Parts (i) to (iii),
+                                                                dℓ
+                                         fV (x) = max                 αij fVj (x).
+                                                                X
+                                                      i∈[rℓ ]
+                                                                j=1
+
+This is precisely what is computed at a neuron of a rank-rℓ -maxout layer that is indegree-
+dℓ -constrained. Since, by our induction hypothesis, each fVj is realized by a network
+from Ňn (ℓ − 1, d, r), it follows that fV is in Ňn (ℓ, d, r). Conversely, every function in
+Ňn (ℓ, d, r) is of the same form as fV . With the fVj lying in Ňn (ℓ − 1, d, r), we know by
+induction nthat the corresponding      o Vj belong to V̌n (ℓ − 1, d, r). These serve to construct
+V = conv         j=1 αij Vj : i ∈ [rℓ ] , which shows that every function in Ňn (ℓ, d, r) is indeed
+              Pdℓ
+
+the image of a suitable virtual polytope in V̌n (ℓ, d, r).
+
+Note that the relations (i) to (iii) of Lemma 5 remain valid when restricting the map
+V 7→ fV . In particular, this map is not only a bijection between Ňn (ℓ, d, r) and V̌n (ℓ, d, r),
+as stated in Theorem 7, but also a vector space isomorphism and a semigroup isomor-
+phism, the latter with respect to building the convex hull and taking the maximum.
+
+
+4 The dimension of polytopes arising from sparse networks
+
+Having discussed which virtual polytopes are dual to functions computable by networks
+in Ňn (ℓ, d, r), we now aim to bound the dimension of these polytopes. Eventually, this
+will link the geometry of the polytopes to the expressivity of corresponding networks.
+Definition 8. The dimension of a virtual polytope V ∈ V is defined by
+
+                              dim(V ) = min{dim(P + Q) | V = P − Q}.
+
+The proof of this section’s main result, Theorem 11, builds on the following two lemmas.
+Lemma 9. For subspaces U1 , . . . , Uk ⊆ Rn and vectors x1 , . . . , xk ∈ Rn , there holds
+               S                                    n                                  o
+         aff        i=1 (xi + Ui )
+                    k
+                                      = x1 + span x2 − x1 , . . . , xk − x1 +                   i=1 span(Ui ).
+                                                                                              Pk
+
+
+Proof. By the definition of the affine hull,
+                      S                                        n                                    o
+                aff        i=1 (xi + Ui )
+                           k
+                                                = x1 + span s − x1 : s ∈                 i=1 (xi + Ui ) .
+                                                                                     Sk
+
+
+
+
+                                                           10
+If s ∈ x1 + U1 , then s = x1 + u1 for any u1 ∈ U1 and s − x1 = u1 . For i ∈ {2, . . . , k}, if
+s ∈ xi + Ui , then s = xi + ui for some ui ∈ Ui and
+                                                     s − x1 = (xi − x1 ) + ui .
+Therefore,
+                 {s − x1 : s ∈               i=1 (xi + Ui )} = U1 ∪            i=2 {(xi − x1 ) + ui : ui ∈ Ui },
+                                      Sk                                     Sk
+
+which implies our statement, because
+                 S                                                                                                   
+           aff        i=1 (xi + Ui )
+                      k
+                                             = x1 + span U1 ∪                i=2 {(xi − x1 ) + ui : ui ∈ Ui }
+                                                                         Sk
+                                                                        n                                       o                    
+                                             = x1 + span U1 ∪ xi − x1 : i ∈ {2, . . . , k} +
+                                                                                                                      Pk
+                                                                                                                         i=2 Ui
+                                                              n                                       o
+                                             = x1 + span xi − x1 : i ∈ {2, . . . , k} +
+                                                                                                                Pk
+                                                                                                                 i=1 Ui .
+
+
+Lemma 10. For integers d, r ∈ N and virtual polytopes Vi ∈ V, i ∈ {1, . . . , d}, there
+holds            P                                  P           
+       dim conv       d
+                                                              dim   i + r − 1,
+                                         Pd               d
+                         α  V
+                      i=1 1i i , . . . ,     α  V
+                                          i=1 ri i    ≤   i=1     V
+for any coefficients α1i , . . . , αri ∈ R.
+
+Proof. For i ∈ {1, . . . , d}, let Vi = Pi −Qi be represented by Pi ⊆ xi +Ui and Qi ⊆ yi +Wi
+such that dim(Vi ) = dim(Pi + Qi ) = dim(Ui + Wi ). For j ∈ {1, . . . , r}, we use the
+shorthands
+            P j :=                                    Qj :=
+                       Pd                                         Pd
+                    i=1 αji Pi ,                                    i=1 αji Qi ,
+               x := i=1 αji xi ,
+                j
+                                                      y :=
+                                                         j
+                                                                                                 z j := xj +
+                   Pd                                             Pd                                             Pr               k
+                                                           i=1 αji yi ,                                              k=1,k̸=j y
+               U :=                                   W := i=1 Wi .
+                       Pd                                 Pd
+                          i=1 Ui ,
+
+and observe that
+                                             P j ⊆ xj + U            and Qj ⊆ y j + W.
+Therefore,
+                     P                                           
+      dim conv              d                    Pd
+                            i=1 α1i Vi , . . . ,  i=1 αri Vi
+                     P                                                                    
+= dim conv                  i=1 α1i (Pi − Qi ), . . . ,
+                            d
+                                                         i=1 αri (Pi − Qi )
+                                                        Pd
+                                                           
+= dim conv P 1 − Q1 , . . . , P r − Qr
+                                                                                     P                 
+= dim conv P 1 +                     j=2 Q ∪ . . . ∪ P +
+                                Pr        j           r              Pr−1    j                   r     j
+                                                                        j=1 Q  −                 j=1 Q
+                                                                                            P                                            
+≤ dim conv x1 +                                  + U + W ∪ . . . ∪ xr +               y +U +W +                                         +W
+                               Pr            j                                    Pr−1 j         r                                  j
+                                  j=2 y                                               j=1                                   j=1 y
+                                                                       
+= dim aff z 1 + U + W ∪ . . . ∪ z r + U + W
+(∗)                                                                            
+= dim z 1 + span{z 2 − z 1 , . . . , z r − z 1 } + U + W
+≤ dim(U + W ) + r − 1 = dim(                          i=1 Ui +          i=1 Wi ) + r − 1
+                                                    Pd              Pd
+      P                                                P                       
+           i=1 dim(Ui + Wi )             +r−1=                    i=1 dim(Vi )        + r − 1,
+           d                                                      d
+≤
+using Lemma 9 at (∗).
+
+
+
+                                                                       11
+Theorem 11. For parameters ℓ ∈ N0 , d = (d1 , d2 , . . . , dℓ ), and r = (r1 , . . . , rℓ ) ∈ Nℓ ,
+any virtual polytope V ∈ V̌(ℓ, d, r) satisfies
+
+                              dim(V ) ≤           k=1 (rk − 1)
+                                                Pℓ                Qℓ
+                                                                      i=k+1 di .
+
+
+Proof. For ℓ = 0, both sides of the inequality are zero. We proceed by induction on ℓ ≥ 1,
+assuming our claim to be true for virtual polytopes in V̌(ℓ − 1, d, r). Now, consider an
+arbitrary virtual polytope V ∈ V̌(ℓ, d, r). It can be expressed as
+                                        P                                          
+                          V = conv             dℓ                   Pdℓ
+                                               j=1 α1j Vj , . . . ,  j=1 αrℓ j Vj       ,
+
+for suitable virtual polytopes Vj ∈ V̌(ℓ − 1, d, r) and coefficients α1j , . . . , αrℓ j ∈ R. In-
+voking Lemma 10, there holds
+                                                P                                         
+                   dim(V ) = dim conv                 dℓ                   Pdℓ
+                                                      j=1 α1j Vj , . . . ,  j=1 αrℓ j Vj
+                                P                   
+                                     j=1 dim Vj          + rℓ − 1,
+                                     dℓ
+                            ≤
+                                P                                           
+                                               k=1 (rk − 1)       i=k+1 di + rℓ − 1,
+                                     dℓ      Pℓ−1              Qℓ−1
+                            ≤        j=1
+                                                                       
+                            = dℓ            k=1 (rk − 1)                    + rℓ − 1,
+                                     Pℓ−1                  Qℓ−1
+                                                             i=k+1 di
+
+                            =       k=1 (rk − 1)
+                                Pℓ                   Qℓ
+                                                         i=k+1 di .
+
+
+The given dimension bound is tight, as is shown next.
+Theorem 12. Given parameters ℓ ∈ N0 , d = (d1 , d2 , . . . , dℓ ), and r = (r1 , . . . , rℓ ) ∈ Nℓ
+with di ≥ ri for i ∈ [ℓ], if n ≥ ℓk=1 (rk − 1) ℓi=k+1 di , then there exists a polytope
+                                P             Q
+
+P ∈ V̌n (ℓ, d, r) such that
+
+                              dim(P ) =           k=1 (rk − 1)
+                                                Pℓ                Qℓ
+                                                                      i=k+1 di .
+
+
+Proof. Denoting by {ei }ni the standard basis of Rn , we prove the following statement by
+induction on ℓ.
+Claim. Let n ≥ ℓk=1 (rk − 1) ℓi=k+1 di =: mℓ . Then, for every v ∈ Rn and I ⊆ [n] with
+                   P                Q
+
+|I| = mℓ there is a polytope P ∈ V̌n (ℓ, d, r) such that aff(P ) = v + span{ei : i ∈ I}.
+For ℓ = 0, there is mℓ = 0 and thus I = ∅. In this case, for every v ∈ Rn , we can just
+take P = {v} ∈ V̌n (0, d, r) whose affine hull is v + span{ei : i ∈ I} = {v}.
+For ℓ ≥ 1, we have that mℓ = dℓ mℓ−1 + (rℓ − 1). Let us take some v ∈ Rn and let
+I = {i1 , . . . , imℓ } ⊆ [n] be an arbitrary index set of cardinality mℓ . We split
+
+                                     I = I1 ∪· I2 ∪· . . . ∪· Idℓ ∪· J
+
+such that |Ik | = mℓ−1 for k ∈ [dℓ ], |J| = rℓ − 1, and denote J = {j1 , . . . , jrℓ −1 }. By
+induction, for each k ∈ [dℓ ], there exists a polytope
+
+            Pk ∈ V̌n (ℓ − 1, d, r) such that               aff(Pk ) = tk + span{ei : i ∈ Ik },
+
+
+
+                                                      12
+where the reference points tk are free to be chosen. Let us pick
+
+                      1     rXℓ −1
+                                              !
+               trℓ :=    v−        e js                and ti := trℓ + eji    for i ∈ [rℓ − 1]
+                      rℓ     s=1
+
+and set tk := 0 for k > rℓ . Note that the points are chosen such that
+                     dℓ               ℓ −1
+                                     rX                                     ℓ −1
+                                                                           rX
+                           tk =            (trℓ + ejk ) + trℓ = rℓ trℓ +           ejk = v.
+                     X
+
+                     k=1             k=1                                   k=1
+
+Furthermore, for i ∈ [rℓ − 1], we define the polytopes
+                                dℓ                       dℓ                               rℓ
+                                                                                                    !
+             Qi := Pi +                      Qrℓ :=                   and P := conv
+                                X                        X                                [
+                                Pk ,                           Pk ,                             Qi .
+                        k=1, k̸=rℓ                       k=1                              i=1
+
+
+By construction, P ∈ V̌n (ℓ, d, r). It remains to be shown that the affine hull of P is
+aff(P ) = v + span{ei : i ∈ I}. We compute the affine hulls of the Qi first. For i ∈ [rℓ − 1],
+we have
+                                                                 
+                aff(Qi ) = aff Pi +
+                                              Pdℓ
+                                                  k=1, k̸=rℓ Pk
+                                                                                                o
+                           = ti − trℓ +            k=1 tk + span{ei : i ∈ I \ (J ∪ Irℓ )}
+                                              Pdℓ
+
+                           = eji + v + span{ei : i ∈ I \ (J ∪ Irℓ )}
+
+and similarly, aff(Qrℓ ) = v + span{ei : i ∈ I \ J}. The affine hull of P is
+                                             S             
+                 aff(P ) = aff conv                rℓ
+                                                   i=1 Qi
+                                     S            
+                          = aff           rℓ
+                                          i=1 Qi
+                                     S                  
+                          = aff           i=1 aff(Qi )
+                                          rℓ
+                                     S
+                                          rℓ −1
+                          = aff           i=1 (eji + v + span{ei : i ∈ I \ (J ∪ Irℓ )})
+                                                                              
+                                         ∪ aff(v + span{ei : i ∈ I \ J})
+                          (∗)
+                          = v + span{ej1 , . . . , ejrℓ −1 } + span{ei : i ∈ I \ J}
+                          = v + span{ei : i ∈ I},
+
+where Lemma 9 is used at (∗). This concludes our induction.
+
+
+5 Consequences for the expressivity of sparse networks
+
+Knowing which dimensions can be realized by virtual polytopes from sparse networks,
+we now explore consequences for the expressivity of corresponding network classes. The
+results developed to that point yield the following hierarchy.
+
+
+
+                                                             13
+Theorem 13. For parameters d ≥ r, there holds
+
+                              V̌n (0, d, r) ⊊ . . . ⊊ V̌n (ℓ′ , d, r),
+                                                      Pℓ′                Qℓ′
+where ℓ′ ∈ N is the depth for which n ≥ mℓ′ :=           k=1 (rk − 1)     i=k+1 di , but n < mℓ′ +1 .
+
+
+Proof. The inclusions follow from the recursion in Definition 6. The depth ℓ′ is the largest
+index for which the dimension bound, Theorem 11, and its attainment, Theorem 12,
+apply. This ensures strictness up to that level.
+
+Corollary 14. Under the conditions of Theorem 13, there holds
+
+                             Ňn (0, d, r) ⊊ . . . ⊊ Ňn (ℓ′ , d, r).
+
+Proof. This follows directly from Theorem 13 and the duality given by Theorem 7.
+
+Our next goal is to show that every indegree constraint is a real constraint and cannot be
+compensated by width or depth. For this, we aim to show that Nn (ℓ, d, r) ⊆ Mn (mℓ + 1)
+for a suitable mℓ that does not depend on the input dimension n. We then proceed
+by showing that for every input dimension n there is a function f ∈ Nn (2, 2) \ Mn (n).
+Hence, for every ℓ, r, d, not all functions representable with a fully-connected network
+that has only two hidden layers, is in Nn (ℓ, d, r). For the first part, we build on the fact
+that every polytope admits a triangulation into simplices. For example, this is discussed
+by Lee and Santos [2017]. Lemma 9 in Bakaev et al. [2025] implies the following.
+Lemma 15. Let P ⊆ Rn be a polytope of dimension d. Then P is a linear combination
+of simplices of dimension at most d.
+Theorem 16. Given parameters ℓ ∈ N0 , d, r ∈ Nℓ , if mℓ :=                k=1 (rk − 1)    i=k+1 di , then
+                                                                         Pℓ              Qℓ
+
+
+                                Nn (ℓ, d, r) ⊆ Mn (mℓ + 1).
+
+Proof. Let be given an arbitrary function f ∈ Nn (ℓ, d, r). By Theorem 7, its Newton
+polytope V (f ) is in Vn (ℓ, d, r). The dimension bound, Theorem Theorem 11, implies
+that V (f ) is a linear combination of virtual polytopes of dimension at most mℓ . Together
+with Lemma Theorem 15, this says that V (f ) is a linear combination of simplices of
+dimension at most mℓ . In other words, V (f ) decomposes into convex hulls of at most
+mℓ + 1 affinely independent points. By Theorem 5, it follows that f ∈ Mn (mℓ + 1),
+proving the claim.
+
+Our argumentation relies on the following result by Hertrich et al. [2021]. Given a poly-
+hedral complex P, the set of all k-dimensional polyhedra in P is denoted by P k .
+
+
+
+
+                                                14
+Lemma 17. Let f : Rn → R be a convex continuous piecewise linear function and let P
+be its underlying polyhedral complex. If there exists a hyperplane H ⊆ Rn such that the
+set
+                                    T :=
+                                              [
+                                                  F
+                                              F ∈P n−1 :F ⊆H
+
+is nonempty and contains no line, then f is not contained in Mn (n).
+Theorem 18. There exists a function f ∈ Nn (2, 2) \ Mn (n). In particular, for ℓ ≥ 2,
+d ≥ 2, r ∈ Nℓ , and n ≥ mℓ + 1, mℓ := ℓk=1 (rk − 1) ℓi=k+1 di , there holds
+                                     P             Q
+
+
+                                   Nn (ℓ, d, r) ⊊ Nn (ℓ, r).
+
+Proof. By construction, the function
+                                             ( n−2                                  )
+              f : R → R,
+                   n
+                               f (x) = max           max{0, xj }, max{xn−1 , xn }
+                                               X
+
+                                               j=1
+
+
+is contained in Nn (2, 2), which in turn is a subset of Nn (ℓ, r) for ℓ ≥ 2 and d ≥ 2.
+The inclusion Nn (ℓ, d, r) ⊆ Nn (ℓ, r) holds by definition. It is strict if n ≥ mℓ + 1 and
+f∈/ Mn (n) ⊇ Mn (mℓ + 1) ⊇ Nn (ℓ, d, r), where the latter inclusion is by Theorem 16.
+It remains to be shown that f ∈ / Mn (n). We prove that by applying Lemma 17 to f
+and the hyperplane H := {x ∈ Rn : xn−1 = xn }. Certainly, f is convex and continuous
+piecewise linear. Also, we may rewrite it as
+                                                                   n−2
+             f (x) = max{S(x), xn−1 , xn },       where S(x) :=          max{0, xj }.
+                                                                   X
+
+                                                                   j=1
+
+Furthermore, denote by P the polyhedral complex underlying f . To use Lemma 17, we
+have to verify that T := F ∈P n−1 :F ⊆H F is nonempty and contains no line.
+                        S
+
+First, we show that there is exactly one F ∈ P n−1 with F ⊆ H, the polyhedron
+F ⋆ := {x ∈ Rn : xn−1 = xn ≥ S(x)}.
+To see what is in P n−1 , let us list all elements of P n . The maximal regions on which S(x)
+is affine are the sign chambers ΠJ := {x ∈ Rn : xj ≥ 0 for j ∈ J, xj ≤ 0 for j ∈        / J},
+J ⊆ [n − 2], where S(x) = j∈J xj . So, f is affine on
+                              P
+
+
+            CJ := {x ∈ Rn : S(x) ≥ xn−1 , S(x) ≥ xn } ∩ ΠJ           for J ⊆ [n − 2],
+           Cn−1 := {x ∈ Rn : xn−1 ≥ xn , xn−1 ≥ S(x)},
+            Cn := {x ∈ Rn : xn ≥ xn−1 , xn ≥ S(x)}.
+
+The polyhedra in P n−1 are intersections of two distinct polyhedra from P n . We obtain
+
+                       Cn−1 ∩ Cn = {x ∈ Rn : xn−1 = xn ≥ S(x)} = F ⋆ .
+
+So F ⋆ ∈ P n−1 and certainly also F ⋆ ⊆ H, thus F ⋆ ⊆ T .
+
+
+
+                                               15
+Any other intersection of polyhedra from P n imposes further equality constraints. If
+different CJ1 , CJ2 intersect, then some xj , j ∈ [n − 2], has to be zero. If some CJ
+intersects with Cn−1 , then S(x) = j∈J xj = xn−1 , and likewise if some CJ intersects Cn .
+                                   P
+
+With the additional constraint xn−1 = xn enforced by F ⊆ H, any such intersection has
+dimension at most n − 2. Therefore F ⋆ = T = {x ∈ Rn : xn−1 = xn ≥ S(x)}.
+It remains to be shown that T contains no line. Suppose, for a contradiction, that
+L = {y + λv : λ ∈ R} ⊆ T for some y ∈ Rn and v ∈ Rn . Setting t := vn−1 = vn , we have
+         n−2
+               max{0, yj + λvj } = S(y + λv) ≤ yn−1 + λvn−1 = yn + λvn = yn + λt
+         X
+
+         j=1
+
+for all λ ∈ R. Dividing both sides by λ > 0 yields
+                                   n−2
+                                                       yj          yn
+                                             max{0,       + vj } ≤    +t
+                                   X
+
+                                       j=1             λ           λ
+
+Taking the limit λ → ∞, we obtain
+                                              n−2
+                                                    max{0, vj } ≤ t.
+                                              X
+
+                                              j=1
+
+Analogously, dividing by λ < 0 and taking the limit λ → −∞ yields
+                                             n−2
+                                                   max{0, −vj } ≤ −t.
+                                             X
+
+                                             j=1
+
+Adding up those inequalities gives
+                       n−2             n−2
+                                       X                                  
+                             |vj | =           max{0, vj } + max{0, −vj } ≤ 0.
+                       X
+
+                       j=1             j=1
+
+
+Thus vj = 0 for j ∈ [n − 2]. With this, S(y + λv) = S(y) for all λ ∈ R. The inequality
+S(y) ≤ yn + λt must then hold for all λ, hence letting λ → ±∞ forces t = 0 and thus
+v = 0. In other words, there is no line in T , concluding the proof.
+
+For the particular setting d = r = 2, we obtain the following characterization. Beyond
+this strict hierarchy, the class Nn (ℓ, 2, 2) can be characterized succinctly by relating it to
+the class Mn (m).
+Theorem 19. For all ℓ ∈ N0 , there holds
+
+                                             Nn (ℓ, 2, 2) = Mn (2ℓ ).
+
+Proof. The inclusion Nn (ℓ, 2, 2) ⊆ Mn (2ℓ ) follows by Theorem 16. Just note that
+mℓ + 1 = 2ℓ for d = r = 2.
+
+
+
+                                                         16
+For the inclusion Mn (2ℓ ) ⊆ Nn (ℓ, 2, 2), consider an arbitrary f ∈ Mn (2ℓ ). Such a
+function is of the form                  p
+                                  f (x) =         βi maxℓ {a⊤
+                                            X
+                                                            ij x}
+                                            i=1        j∈[2 ]
+
+for some p ∈ N, βi ∈ R, aij ∈ Rn . To check that f is in Nn (ℓ, 2, 2), let us take a look at
+Figure 1. Recall that the first layer of networks in Nn (ℓ, 2, 2) is not indegree constrained.
+This allows to realize the linear terms a⊤  ij x until the first activation. The following ℓ
+hidden layers of rank-2-maxout units compute maxj∈[2ℓ ] {a⊤     ij x} for i ∈ [p]. Those terms
+can be combined linearly, with coefficients βi , in the final layer, as desired.
+
+Since Mn (k) ⊊ Mn (k + 1) [Hertrich et al., 2021, Koutschan et al., 2023] for all k ≤ n,
+we obtain the following corollary.
+Corollary 20.
+                     Nn (0, 2, 2) ⊊ . . . ⊊ Nn (⌈log2 (n + 1)⌉, 2, 2) = Cn .
+
+
+Discussion
+
+All in all, our work shows that the virtual polytopes associated with the functions com-
+putable by sparse maxout networks can help understanding them. We have seen that
+our bound on their dimension provides a useful tool for analyzing expressivity, yielding
+various depth hierarchies and showing that width cannot fully compensate for given in-
+degree constraints. The lineality space of a positively homogeneous continuous piecewise
+linear function f : Rn → R is the vector space {v ∈ Rn | f (x) = f (v + x) for all x ∈ Rn }.
+The codimension of the lineality space of a function f equals the dimension of the virtual
+polytope Vf . The codimension of the lineality space was also used by Koutschan et al.
+[2023] to find the smallest k such that the function f is contained in the vector space
+Mn (k). Consequently, by tracking the lineality space of a function computed by a sparse
+network, one could alternatively derive Theorem 16. However, formulating Lemma 10 di-
+rectly in terms of the lineality space, rather than in the dual setting of virtual polytopes,
+seems to be more involved.
+
+
+Acknowledgments
+
+The authors thank Christoph Hertrich for many valuable discussions. We gratefully
+acknowledge partial support by the Deutsche Forschungsgemeinschaft (DFG, German
+Research Foundation) under Germany’s Excellence Strategy – The Berlin Mathemat-
+ics Research Center MATH+ (EXC-2046/1, project ID: 390685689). Moritz Grillo was
+also partially supported by project 464109215 within the priority programme SPP 2298
+“Theoretical Foundations of Deep Learning,”
+
+
+
+
+                                                  17
+References
+Raman Arora, Amitabh Basu, Poorya Mianjy, and Anirbit Mukherjee. Understanding
+  deep neural networks with rectified linear units. International Conference on Learning
+  Representations, 2018.
+Gennadiy Averkov, Christopher Hojny, and Maximilian Merkert.       On the ex-
+ pressiveness of rational ReLU neural networks with bounded depth.      In The
+ Thirteenth International Conference on Learning Representations, 2025.   URL
+ https://openreview.net/forum?id=uREg3OHjLL.
+Egor Bakaev, Florestan Brunck, Christoph Hertrich, Jack Stade, and Amir Yehudayoff.
+  Better neural network expressivity: subdividing the simplex. arXiv:2505.14338, 2025.
+Andrei Balakin, Shelby Cox, Georg Loho, and Bernd Sturmfels. Maxout polytopes, 2025.
+ URL https://arxiv.org/abs/2509.21286.
+Marie-Charlotte Brandenburg, Georg Loho, and Guido Montufar. The real tropical ge-
+ ometry of neural networks for binary classification. Transactions on Machine Learning
+ Research, 2024.
+Marie-Charlotte Brandenburg, Moritz Grillo, and Christoph Hertrich.                  De-
+ composition polyhedra of piecewise linear functions.        In The                 Thir-
+ teenth International Conference on Learning Representations, 2025.                 URL
+ https://openreview.net/forum?id=vVCHWVBsLH.
+Kuan-Lin Chen, Harinath Garudadri, and Bhaskar D. Rao. Improved bounds on neural
+ complexity for representing piecewise linear functions. In Proceedings of the 36th Inter-
+ national Conference on Neural Information Processing Systems, NIPS ’22, Red Hook,
+ NY, USA, 2022. Curran Associates Inc. ISBN 9781713871088.
+George Cybenko. Approximation by superpositions of a sigmoidal function. Mathematics
+ of Control, Signals and Systems, 2(4):303–314, 1989.
+Ekin Ergen and Moritz Grillo.      Topological expressivity of relu neural net-
+  works.   In Shipra Agrawal and Aaron Roth, editors, Proceedings of Thirty
+  Seventh Conference on Learning Theory, volume 247 of Proceedings of Ma-
+  chine Learning Research, pages 1599–1642. PMLR, 30 Jun–03 Jul 2024. URL
+  https://proceedings.mlr.press/v247/ergen24a.html.
+Ian Goodfellow, David Warde-Farley, Mehdi Mirza, Aaron Courville, and Yoshua Bengio.
+  Maxout networks. In International Conference on Machine Learning, 2013.
+Moritz Grillo, Christoph Hertrich, and Georg Loho. Depth-bounds for neural networks
+ via the braid arrangement, 2025. URL https://arxiv.org/abs/2502.09324.
+Christian Alexander Haase, Christoph Hertrich, and Georg Loho. Lower bounds on
+ the depth of integral ReLU neural networks via lattice polytopes. In International
+ Conference on Learning Representations, 2023.
+
+
+
+
+                                           18
+Christoph Hertrich and Georg Loho. Neural networks and (virtual) extended formula-
+ tions, 2025. URL https://arxiv.org/abs/2411.03006.
+Christoph Hertrich and Leon Sering. Relu neural networks of polynomial size for exact
+ maximum flow computation. Mathematical Programming, pages 1–30, 2024.
+Christoph Hertrich and Martin Skutella. Provably good solutions to the knapsack problem
+ via neural networks of bounded size. INFORMS journal on computing, 35(5):1079–
+ 1097, 2023.
+Christoph Hertrich, Amitabh Basu, Marco Di Summa, and Martin Skutella. Towards
+ lower bounds on the depth of ReLU neural networks. Advances in Neural Information
+ Processing Systems, 34:3336–3348, 2021.
+Kurt Hornik, Maxwell Stinchcombe, and Halbert White. Universal approximation of an
+ unknown mapping and its derivatives using multilayer feedforward networks. Neural
+ Networks, 3(5):551–560, 1990.
+Christoph Koutschan, Bernhard Moser, Anton Ponomarchuk, and Josef Schicho. Repre-
+ senting piecewise linear functions by functions with small arity. Applicable Algebra in
+ Engineering, Communication and Computing, pages 1–16, 2023.
+Alex Krizhevsky, Ilya Sutskever, and Geoffrey E. Hinton. Imagenet classification with
+  deep convolutional neural networks. Advances in Neural Information Processing Sys-
+  tems, 25, 2012.
+Carl W. Lee and Francisco Santos. Subdivisions and triangulations of polytopes. In
+  Handbook of Discrete and Computational Geometry, pages 415–447. Chapman & Hall,
+  2017.
+Moshe Leshno, Vladimir Ya Lin, Allan Pinkus, and Shimon Schocken. Multilayer feedfor-
+ ward networks with a nonpolynomial activation function can approximate any function.
+ Neural Networks, 6(6):861–867, 1993.
+Petros Maragos, Vasileios Charisopoulos, and Emmanouil Theodosis. Tropical geometry
+  and machine learning. Proceedings of the IEEE, 109(5):728–755, 2021.
+D. Melzer. On the expressibility of piecewise-linear continuous functions as the difference
+  of two piecewise-linear convex functions. In Quasidifferential Calculus, pages 118–134.
+  Springer, 1986.
+Panagiotis Misiakos, Georgios Smyrnis, George Retsinas, and Petros Maragos. Neural
+  network approximation based on Hausdorff distance of tropical zonotopes. In Interna-
+  tional Conference on Learning Representations, 2022.
+Guido Montúfar, Razvan Pascanu, Kyunghyun Cho, and Yoshua Bengio. On the number
+ of linear regions of deep neural networks. In Proceedings of the 28th International
+ Conference on Neural Information Processing Systems - Volume 2, NIPS’14, pages
+ 2924–2932, Cambridge, MA, USA, 2014. MIT Press.
+
+
+
+
+                                            19
+Guido Montúfar, Yue Ren, and Leon Zhang. Sharp bounds for the number of regions of
+ maxout networks and vertices of minkowski sums. SIAM Journal on Applied Algebra
+ and Geometry, 6(4):618–649, 2022.
+Gaiane Yur’evna Panina and Ileana Streinu. Virtual polytopes. Russian Mathematical
+ Surveys, 70(6):1105, 2015.
+Rolf Schneider. Convex Bodies: The Brunn-Minkowski Theory, volume 151. Cambridge
+  University Press, 2013.
+Alexander Schrijver. Theory of Linear and Integer Programming. John Wiley & Sons,
+  1998.
+Matus Telgarsky. Benefits of depth in neural networks. In Conference on Learning Theory,
+ pages 1517–1539. PMLR, 2016.
+Juan L Valerdi. On minimal depth in neural networks. arXiv preprint arXiv:2402.15315,
+  2024.
+Shuning Wang and Xusheng Sun. Generalization of hinging hyperplanes. IEEE Trans-
+  actions on Information Theory, 51(12):4425–4431, 2005.
+Liwen Zhang, Gregory Naitzat, and Lek-Heng Lim. Tropical geometry of deep neural
+  networks. In International Conference on Machine Learning, pages 5824–5832. PMLR,
+  2018.
+Günter M. Ziegler. Lectures on Polytopes, volume 152. Springer Science & Business
+ Media, 2012.
+
+
+
+
+                                          20
+
