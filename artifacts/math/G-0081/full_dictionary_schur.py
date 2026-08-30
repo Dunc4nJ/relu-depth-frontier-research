@@ -15,6 +15,7 @@ only separates this finite dictionary on these frozen rows.
 from __future__ import annotations
 
 import argparse
+import ast
 import ctypes
 import fcntl
 import gzip
@@ -43,6 +44,11 @@ from types import ModuleType
 
 import numpy as np
 from numpy.lib.format import open_memmap
+
+if __name__ != "__main__":
+    raise RuntimeError(
+        "G-0081 is a CLI-only registered runner; importing it exposes no scientific entry"
+    )
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -99,9 +105,13 @@ EXPECTED_PROJECTED_DENSE_RANK_SECONDS = 408.36025315134856
 EXPECTED_PROJECTED_KERNEL_SECONDS = 10_710.702239091652
 EXPECTED_REGISTERED_PYTHON = "3.13.7"
 GIT_COMMIT_PATTERN = re.compile(r"[0-9a-fA-F]{40,64}")
+CACHE_RUN_ID_PATTERN = re.compile(r"[0-9a-f]{32}")
 CAPABILITY_DOMAIN = b"G0081_PARENT_CHILD_CAPABILITY_V1\0"
 CAPABILITY_SECRET_BYTES = 32
 PR_SET_PDEATHSIG = 1
+GIT_EXECUTABLE = Path("/usr/bin/git")
+EXPECTED_ORIGIN_URL = "git@github.com:Dunc4nJ/relu-depth-frontier-research.git"
+EXPECTED_PUBLISHED_REF = "refs/heads/master"
 
 EXPECTED_G0079_RUNNER_SHA256 = (
     "7539515641c241a28be45cea88445bd4f598f7c0693ab521c31805530c9f67da"
@@ -198,8 +208,17 @@ class GitAnchor:
     head_preregistration_blob_oid: str
     head_runner_blob_oid: str
     object_format: str
+    worktree: str
+    git_dir: str
+    git_common_dir: str
+    git_config_sha256: str
+    git_executable: str
+    git_executable_sha256: str
+    origin_url: str | None
+    published_ref: str | None
+    published_head_commit: str | None
 
-    def receipt(self) -> dict[str, str]:
+    def receipt(self) -> dict[str, str | None]:
         return {
             "preregistration_commit": self.preregistration_commit,
             "execution_head_commit": self.execution_head_commit,
@@ -207,6 +226,15 @@ class GitAnchor:
             "head_preregistration_blob_oid": self.head_preregistration_blob_oid,
             "head_runner_blob_oid": self.head_runner_blob_oid,
             "object_format": self.object_format,
+            "worktree": self.worktree,
+            "git_dir": self.git_dir,
+            "git_common_dir": self.git_common_dir,
+            "git_config_sha256": self.git_config_sha256,
+            "git_executable": self.git_executable,
+            "git_executable_sha256": self.git_executable_sha256,
+            "origin_url": self.origin_url,
+            "published_ref": self.published_ref,
+            "published_head_commit": self.published_head_commit,
         }
 
 
@@ -219,17 +247,6 @@ class Registration:
     cache_dir: Path
     document: dict[str, object]
     git_anchor: GitAnchor
-
-
-@dataclass
-class KernelCapability:
-    read_fd: int
-    expected_frame: bytes
-    expected_parent_pid: int
-    inherited_lock_fd: int
-    lock_path: Path
-    consumed: bool = False
-    evidence: dict[str, object] | None = None
 
 
 @dataclass(frozen=True)
@@ -362,7 +379,7 @@ def write_json_exclusive(path: Path, value: object) -> None:
 
 
 def write_json_atomic(path: Path, value: object) -> None:
-    """Replace only a resumable progress journal; never a final artifact."""
+    """Replace only the current execution's progress journal; never a final artifact."""
     require_contained(path)
     temporary = path.with_name(f".{path.name}.tmp-{os.getpid()}-{secrets.token_hex(4)}")
     write_json_exclusive(temporary, value)
@@ -462,16 +479,70 @@ def replay_static_bindings() -> dict[str, dict[str, object]]:
     return report
 
 
+def trusted_git_layout(repository: Path) -> tuple[Path, Path]:
+    """Resolve the repository metadata without consulting Git or inherited env."""
+    repository = repository.resolve()
+    marker = repository / ".git"
+    if marker.is_symlink():
+        raise GateError("campaign .git marker must not be a symlink")
+    if not marker.is_dir():
+        raise GateError("campaign requires one ordinary no-follow .git directory")
+    git_dir = marker.resolve()
+    if not git_dir.is_dir() or git_dir.is_symlink():
+        raise GateError("resolved campaign Git directory is not a regular directory")
+    common_marker = git_dir / "commondir"
+    if common_marker.exists() or common_marker.is_symlink():
+        raise GateError("linked-worktree Git commondir is outside this protocol")
+    common_dir = git_dir
+    if not common_dir.is_dir() or common_dir.is_symlink():
+        raise GateError("resolved campaign common Git directory is not regular")
+    alternates = common_dir / "objects/info/alternates"
+    if alternates.exists() or alternates.is_symlink():
+        raise GateError("Git object alternates are forbidden for campaign custody")
+    replace_dir = common_dir / "refs/replace"
+    if replace_dir.is_symlink() or (
+        replace_dir.is_dir() and any(replace_dir.rglob("*"))
+    ):
+        raise GateError("Git replacement refs are forbidden for campaign custody")
+    return git_dir, common_dir
+
+
+def clean_git_environment() -> dict[str, str]:
+    """Allowlist Git's environment; inherited repository selectors are forbidden."""
+    return {
+        "PATH": "/usr/bin:/bin",
+        "LANG": "C",
+        "LC_ALL": "C",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "GIT_CONFIG_GLOBAL": os.devnull,
+        "GIT_NO_REPLACE_OBJECTS": "1",
+        "GIT_TERMINAL_PROMPT": "0",
+        "GIT_SSH_COMMAND": (
+            "/usr/bin/ssh -F /dev/null -oBatchMode=yes "
+            "-oStrictHostKeyChecking=yes"
+        ),
+    }
+
+
 def git_process(
     repository: Path,
     arguments: Sequence[str],
 ) -> subprocess.CompletedProcess[bytes]:
-    environment = dict(os.environ)
-    environment["GIT_OPTIONAL_LOCKS"] = "0"
+    repository = repository.resolve()
+    if not GIT_EXECUTABLE.is_file() or GIT_EXECUTABLE.is_symlink():
+        raise GateError("fixed Git executable is absent, nonregular, or a symlink")
+    command = [str(GIT_EXECUTABLE), "--no-replace-objects", "--literal-pathspecs"]
+    if not arguments or arguments[0] != "init":
+        git_dir, _common_dir = trusted_git_layout(repository)
+        command.extend(
+            [f"--git-dir={git_dir}", f"--work-tree={repository}"]
+        )
+    command.extend(arguments)
     return subprocess.run(
-        ["git", *arguments],
+        command,
         cwd=repository,
-        env=environment,
+        env=clean_git_environment(),
         stdin=subprocess.DEVNULL,
         capture_output=True,
         check=False,
@@ -524,6 +595,9 @@ def verify_git_anchor(
     runner_sha256: str,
     *,
     expected_head: str | None = None,
+    expected_origin_url: str | None = None,
+    expected_published_ref: str | None = None,
+    expected_published_head: str | None = None,
 ) -> GitAnchor:
     repository = repository.resolve()
     preregistration_path = preregistration_path.resolve(strict=False)
@@ -534,9 +608,42 @@ def verify_git_anchor(
         raise GateError("Git-anchored files must be inside the campaign repository")
     if GIT_COMMIT_PATTERN.fullmatch(claimed_commit) is None:
         raise GateError("preregistration anchor must be one full hexadecimal commit ID")
+    git_dir, common_dir = trusted_git_layout(repository)
     top = git_bytes(repository, ["rev-parse", "--show-toplevel"]).decode().strip()
     if Path(top).resolve() != repository:
         raise GateError("campaign ROOT is not the active Git worktree root")
+    observed_git_dir = Path(
+        git_bytes(repository, ["rev-parse", "--absolute-git-dir"])
+        .decode()
+        .strip()
+    ).resolve()
+    observed_common_dir = Path(
+        git_bytes(repository, ["rev-parse", "--path-format=absolute", "--git-common-dir"])
+        .decode()
+        .strip()
+    ).resolve()
+    if observed_git_dir != git_dir or observed_common_dir != common_dir:
+        raise GateError("Git-reported metadata directories differ from no-follow layout")
+    config_path = common_dir / "config"
+    git_config_sha256 = sha256_path(config_path)
+    dangerous_config = git_process(
+        repository,
+        [
+            "config",
+            "--local",
+            "--get-regexp",
+            (
+                r"^(url\..*\.insteadof|core\.sshcommand|"
+                r"remote\.origin\.(uploadpack|receivepack)|"
+                r"core\.alternaterefscommand)$"
+            ),
+        ],
+    )
+    if dangerous_config.returncode not in {0, 1} or dangerous_config.stdout.strip():
+        raise GateError("campaign Git config contains forbidden transport/object indirection")
+    replacement_refs = git_bytes(repository, ["for-each-ref", "refs/replace"])
+    if replacement_refs.strip():
+        raise GateError("campaign Git database contains packed replacement refs")
     anchor = (
         git_bytes(repository, ["rev-parse", "--verify", f"{claimed_commit}^{{commit}}"])
         .decode("ascii")
@@ -551,6 +658,35 @@ def verify_git_anchor(
     )
     if expected_head is not None and head != expected_head:
         raise GateError("Git HEAD changed after registered execution began")
+    origin_url: str | None = None
+    published_ref: str | None = None
+    published_head: str | None = None
+    if (expected_origin_url is None) != (expected_published_ref is None):
+        raise GateError("published Git identity requires both origin URL and ref")
+    if expected_origin_url is not None and expected_published_ref is not None:
+        origin_url = git_bytes(repository, ["remote", "get-url", "origin"]).decode().strip()
+        if origin_url != expected_origin_url:
+            raise GateError("campaign origin URL differs from registered publication remote")
+        published_ref = expected_published_ref
+        if expected_published_head is None:
+            listing = git_bytes(
+                repository,
+                [
+                    "ls-remote",
+                    "--exit-code",
+                    expected_origin_url,
+                    expected_published_ref,
+                ],
+            )
+            records = [line.split() for line in listing.splitlines() if line.strip()]
+            if len(records) != 1 or len(records[0]) != 2:
+                raise GateError("publication remote returned an ambiguous registered ref")
+            published_head = records[0][0].decode("ascii")
+            published_ref = records[0][1].decode("ascii")
+        else:
+            published_head = expected_published_head
+        if published_ref != expected_published_ref or published_head != head:
+            raise GateError("execution HEAD is not the exact registered published head")
     ancestry = git_process(repository, ["merge-base", "--is-ancestor", anchor, head])
     if ancestry.returncode == 1:
         raise GateError("preregistration commit is not an ancestor of execution HEAD")
@@ -615,6 +751,15 @@ def verify_git_anchor(
         head_preregistration_blob_oid=head_preregistration_blob,
         head_runner_blob_oid=head_runner_blob,
         object_format=object_format,
+        worktree=str(repository),
+        git_dir=str(git_dir),
+        git_common_dir=str(common_dir),
+        git_config_sha256=git_config_sha256,
+        git_executable=str(GIT_EXECUTABLE),
+        git_executable_sha256=sha256_path(GIT_EXECUTABLE),
+        origin_url=origin_url,
+        published_ref=published_ref,
+        published_head_commit=published_head,
     )
 
 
@@ -630,6 +775,9 @@ def capture_custody(registration: Registration) -> dict[str, str]:
         SCRIPT,
         runner_sha256,
         expected_head=registration.git_anchor.execution_head_commit,
+        expected_origin_url=EXPECTED_ORIGIN_URL,
+        expected_published_ref=EXPECTED_PUBLISHED_REF,
+        expected_published_head=registration.git_anchor.published_head_commit,
     )
     if anchor != registration.git_anchor:
         raise GateError("live Git anchor differs from validated registration")
@@ -662,6 +810,9 @@ def recapture_custody(expected: dict[str, str]) -> dict[str, str]:
         SCRIPT,
         expected["g0081_runner"],
         expected_head=expected["git_execution_head_commit"],
+        expected_origin_url=EXPECTED_ORIGIN_URL,
+        expected_published_ref=EXPECTED_PUBLISHED_REF,
+        expected_published_head=expected.get("git_published_head_commit"),
     )
     values = {
         label: sha256_path(source)
@@ -698,12 +849,66 @@ def cache_paths(directory: Path) -> CachePaths:
     )
 
 
+def create_fresh_cache_namespace(directory: Path) -> tuple[int, int]:
+    """Create the registered cache directory exactly once, without following it."""
+    require_contained(directory)
+    parent = directory.parent
+    if not parent.is_dir() or parent.is_symlink():
+        raise GateError("cache namespace parent must be an existing regular directory")
+    directory_flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0) | getattr(
+        os, "O_NOFOLLOW", 0
+    )
+    parent_fd = os.open(parent, directory_flags)
+    try:
+        try:
+            os.mkdir(directory.name, mode=0o700, dir_fd=parent_fd)
+        except FileExistsError as error:
+            raise GateError(
+                "registered cache namespace must not exist before public execution"
+            ) from error
+        namespace_fd = os.open(directory.name, directory_flags, dir_fd=parent_fd)
+        try:
+            opened = os.fstat(namespace_fd)
+            listed = os.stat(directory.name, dir_fd=parent_fd, follow_symlinks=False)
+            if (
+                not stat.S_ISDIR(opened.st_mode)
+                or not stat.S_ISDIR(listed.st_mode)
+                or (opened.st_dev, opened.st_ino) != (listed.st_dev, listed.st_ino)
+            ):
+                raise GateError("fresh cache namespace inode identity drift")
+            identity = (opened.st_dev, opened.st_ino)
+        finally:
+            os.close(namespace_fd)
+    finally:
+        os.close(parent_fd)
+    return identity
+
+
 @contextmanager
 def exclusive_cache_lock(path: Path) -> Iterator[int]:
     require_contained(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    descriptor = os.open(path, os.O_RDWR | os.O_CREAT, 0o644)
+    if not path.parent.is_dir() or path.parent.is_symlink():
+        raise GateError("cache lock parent must be a regular directory")
+    flags = (
+        os.O_RDWR
+        | os.O_CREAT
+        | os.O_EXCL
+        | getattr(os, "O_CLOEXEC", 0)
+        | getattr(os, "O_NOFOLLOW", 0)
+    )
     try:
+        descriptor = os.open(path, flags, 0o600)
+    except OSError as error:
+        raise GateError(f"cache lock could not be opened without following links: {path}") from error
+    try:
+        opened = os.fstat(descriptor)
+        listed = path.stat(follow_symlinks=False)
+        if (
+            not stat.S_ISREG(opened.st_mode)
+            or not stat.S_ISREG(listed.st_mode)
+            or (opened.st_dev, opened.st_ino) != (listed.st_dev, listed.st_ino)
+        ):
+            raise GateError("cache lock descriptor/path identity drift before mutation")
         try:
             fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError as error:
@@ -735,73 +940,6 @@ def close_quietly(descriptor: int) -> None:
         pass
 
 
-def consume_kernel_capability(
-    capability: KernelCapability | None,
-) -> dict[str, object]:
-    if not isinstance(capability, KernelCapability) or capability.consumed:
-        raise GateError("scientific kernel lacks a fresh inherited parent capability")
-    capability.consumed = True
-    expected_frame = capability.expected_frame
-    capability.expected_frame = b""
-    if os.getppid() != capability.expected_parent_pid:
-        raise GateError("scientific kernel parent PID differs from fork-time parent")
-    if os.getpgrp() != os.getpid():
-        raise GateError("scientific kernel is not leader of its isolated process group")
-    pipe_stat = os.fstat(capability.read_fd)
-    if not stat.S_ISFIFO(pipe_stat.st_mode):
-        raise GateError("scientific kernel capability FD is not an anonymous pipe")
-    payload = bytearray()
-    try:
-        while len(payload) < len(expected_frame):
-            block = os.read(capability.read_fd, len(expected_frame) - len(payload))
-            if not block:
-                break
-            payload.extend(block)
-        trailing = os.read(capability.read_fd, 1)
-    finally:
-        os.close(capability.read_fd)
-        capability.read_fd = -1
-    if trailing or not secrets.compare_digest(bytes(payload), expected_frame):
-        raise GateError(
-            "anonymous parent capability frame is absent, truncated, or forged"
-        )
-
-    lock_stat = os.fstat(capability.inherited_lock_fd)
-    path_stat = capability.lock_path.stat(follow_symlinks=False)
-    if (
-        not stat.S_ISREG(lock_stat.st_mode)
-        or not stat.S_ISREG(path_stat.st_mode)
-        or (lock_stat.st_dev, lock_stat.st_ino) != (path_stat.st_dev, path_stat.st_ino)
-    ):
-        raise GateError("inherited cache-lock descriptor/path identity drift")
-    probe_flags = os.O_RDWR | getattr(os, "O_NOFOLLOW", 0)
-    probe = os.open(capability.lock_path, probe_flags)
-    try:
-        try:
-            fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError:
-            pass
-        else:
-            fcntl.flock(probe, fcntl.LOCK_UN)
-            raise GateError("inherited cache lock is not exclusively held")
-    finally:
-        os.close(probe)
-    evidence: dict[str, object] = {
-        "protocol": "forked-anonymous-pipe-secret-v1",
-        "capability_frame_sha256": hashlib.sha256(expected_frame).hexdigest(),
-        "capability_pipe_consumed_and_closed": True,
-        "fork_parent_pid": capability.expected_parent_pid,
-        "kernel_pid": os.getpid(),
-        "lock_path": relative_path(capability.lock_path),
-        "inherited_exclusive_lock_verified": True,
-        "isolated_session_and_process_group": True,
-        "parent_death_signal": "SIGKILL; timeout SIGTERM handler kills isolated group",
-        "fork_workers_parent_death_signal": "SIGKILL",
-    }
-    capability.evidence = evidence
-    return evidence
-
-
 def set_parent_death_signal(expected_parent_pid: int, death_signal: int) -> None:
     libc = ctypes.CDLL(None, use_errno=True)
     prctl = libc.prctl
@@ -830,7 +968,11 @@ def binding_hash_map() -> dict[str, str]:
     return {label: digest for label, (_path, digest) in STATIC_BINDINGS.items()}
 
 
-def validate_registration(arguments: argparse.Namespace) -> Registration:
+def validate_registration(
+    arguments: argparse.Namespace,
+    *,
+    expected_published_head: str | None = None,
+) -> Registration:
     required = {
         "--preregistration": arguments.preregistration,
         "--preregistration-commit": arguments.preregistration_commit,
@@ -868,6 +1010,9 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
         arguments.preregistration_commit,
         SCRIPT,
         runner_sha256,
+        expected_origin_url=EXPECTED_ORIGIN_URL,
+        expected_published_ref=EXPECTED_PUBLISHED_REF,
+        expected_published_head=expected_published_head,
     )
     try:
         document = json.loads(payload)
@@ -888,8 +1033,15 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
         "quotient_rows": QUOTIENT_ROWS,
         "all_new_columns_retained": True,
         "price_filtering_allowed": False,
-        "registration_protocol": "committed-git-ancestor-and-clean-HEAD-v1",
-        "execution_protocol": "forked-pipe-capability-pdeath-group-v1",
+        "registration_protocol": "published-git-layout-ancestor-clean-HEAD-v2",
+        "execution_protocol": "public-local-closure-fork-pipe-pdeath-group-v2",
+        "cache_policy": "fresh-namespace-no-reuse-v1",
+        "interrupted_run_policy": "registration-spent-new-preregistration-required",
+        "parent_finalization_protocol": "stage-chain-and-rref-replay-v1",
+        "registered_git_executable": str(GIT_EXECUTABLE),
+        "registered_git_executable_sha256": sha256_path(GIT_EXECUTABLE),
+        "published_origin_url": EXPECTED_ORIGIN_URL,
+        "published_ref": EXPECTED_PUBLISHED_REF,
         "workers": WORKERS,
         "chunk_rows": CHUNK_ROWS,
         "maximum_wall_seconds": MAXIMUM_WALL_SECONDS,
@@ -912,6 +1064,14 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
     for key, value in expected.items():
         if document.get(key) != value:
             raise GateError(f"preregistration field drift: {key}")
+    cache_run_id = document.get("cache_run_id")
+    if (
+        not isinstance(cache_run_id, str)
+        or CACHE_RUN_ID_PATTERN.fullmatch(cache_run_id) is None
+        or directory.parent.resolve() != HERE.resolve()
+        or directory.name != f"cache-{cache_run_id}"
+    ):
+        raise GateError("registered cache path is not the fresh run-ID namespace")
     if document.get("preregistration_path") != relative_path(preregistration):
         raise GateError("preregistration self-path drift")
     if (
@@ -930,6 +1090,35 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
         document,
         git_anchor,
     )
+
+
+def revalidate_public_registration(
+    registration: Registration,
+    *,
+    recheck_publication_remote: bool = True,
+) -> Registration:
+    """Rebuild a caller-supplied Registration through the sole public validator."""
+    if type(registration) is not Registration:
+        raise GateError("public execution requires an exact validated Registration")
+    arguments = argparse.Namespace(
+        preregistration=registration.path,
+        preregistration_commit=registration.git_anchor.preregistration_commit,
+        expected_runner_sha256=registration.runner_sha256,
+        expected_preregistration_sha256=registration.sha256,
+        output=registration.output,
+        cache_dir=registration.cache_dir,
+    )
+    rebuilt = validate_registration(
+        arguments,
+        expected_published_head=(
+            None
+            if recheck_publication_remote
+            else registration.git_anchor.published_head_commit
+        ),
+    )
+    if rebuilt != registration:
+        raise GateError("caller-supplied Registration differs from public revalidation")
+    return rebuilt
 
 
 def load_g0079_context() -> tuple[
@@ -1209,6 +1398,7 @@ def validate_complete_cache(
     schema: str,
     shape: tuple[int, int],
     custody: dict[str, str],
+    execution_capability_sha256: str,
 ) -> tuple[np.ndarray, dict[str, object]]:
     if (
         not data_path.is_file()
@@ -1227,6 +1417,8 @@ def validate_complete_cache(
         or receipt.get("prime") != PRIME
         or receipt.get("all_new_columns_retained") is not True
         or receipt.get("price_filtering_allowed") is not False
+        or receipt.get("execution_capability_sha256")
+        != execution_capability_sha256
         or receipt.get("custody", {}).get("start") != custody
         or receipt.get("custody", {}).get("end") != custody
         or receipt.get("custody", {}).get("identical") is not True
@@ -1242,90 +1434,46 @@ def validate_complete_cache(
     return matrix, receipt
 
 
-def build_or_load_c_cache(
+def build_fresh_c_cache(
     paths: CachePaths,
     evaluator: FastEvaluator,
     custody: dict[str, str],
     deadline: float,
+    execution_capability_sha256: str,
 ) -> tuple[np.ndarray, dict[str, object]]:
-    final_pair = (paths.c_final.exists(), paths.c_receipt.exists())
-    partial_pair = (paths.c_partial.exists(), paths.c_progress.exists())
-    if final_pair == (True, True):
-        if any(partial_pair) or paths.c_receipt_pending.exists():
-            raise GateError("complete C cache coexists with partial state")
-        return validate_complete_cache(
-            paths.c_final,
-            paths.c_receipt,
-            schema=SCHEMA_C_CACHE,
-            shape=(TOTAL_ROWS, NEW_COLUMNS),
-            custody=custody,
-        )
-    if (
-        any(final_pair)
-        or paths.c_receipt_pending.exists()
-        or partial_pair in ((True, False), (False, True))
-    ):
-        raise GateError(
-            "partial/final C cache transaction drift; hostile audit required"
-        )
-
+    c_paths = (
+        paths.c_final,
+        paths.c_partial,
+        paths.c_progress,
+        paths.c_receipt,
+        paths.c_receipt_pending,
+    )
+    if any(path.exists() or path.is_symlink() for path in c_paths):
+        raise GateError("public execution refuses every pre-existing C cache or journal")
     tasks = chunk_tasks()
-    if partial_pair == (False, False):
-        if paths.c_partial.exists() or paths.c_progress.exists():
-            raise GateError("refusing ambiguous C cache initialization")
-        paths.directory.mkdir(parents=True, exist_ok=True)
-        matrix = open_memmap_exclusive(
-            paths.c_partial,
-            dtype=np.dtype("<u4"),
-            shape=(TOTAL_ROWS, NEW_COLUMNS),
-        )
-        matrix.flush()
-        fsync_path(paths.c_partial)
-        progress: dict[str, object] = {
-            "schema": SCHEMA_C_CACHE,
-            "state": "building",
-            "shape": [TOTAL_ROWS, NEW_COLUMNS],
-            "dtype": "<u4",
-            "prime": PRIME,
-            "workers": WORKERS,
-            "chunk_rows": CHUNK_ROWS,
-            "all_new_columns_retained": True,
-            "price_filtering_allowed": False,
-            "evaluator": evaluator.cache_contract(),
-            "custody": custody,
-            "completed_chunks": {},
-        }
-        write_json_exclusive(paths.c_progress, progress)
-    else:
-        progress = read_json(paths.c_progress)
-        matrix = np.load(paths.c_partial, mmap_mode="r+", allow_pickle=False)
-        if (
-            progress.get("schema") != SCHEMA_C_CACHE
-            or progress.get("state") != "building"
-            or progress.get("shape") != [TOTAL_ROWS, NEW_COLUMNS]
-            or progress.get("dtype") != "<u4"
-            or progress.get("prime") != PRIME
-            or progress.get("workers") != WORKERS
-            or progress.get("chunk_rows") != CHUNK_ROWS
-            or progress.get("all_new_columns_retained") is not True
-            or progress.get("price_filtering_allowed") is not False
-            or progress.get("evaluator") != evaluator.cache_contract()
-            or progress.get("custody") != custody
-            or matrix.shape != (TOTAL_ROWS, NEW_COLUMNS)
-            or matrix.dtype != np.dtype("<u4")
-        ):
-            raise GateError("resumable C cache contract drift")
-        completed = progress.get("completed_chunks")
-        if not isinstance(completed, dict):
-            raise GateError("C cache progress chunk map malformed")
-        for chunk, start, stop in tasks:
-            key = str(chunk)
-            if key in completed:
-                observed = hashlib.sha256(
-                    memoryview(np.ascontiguousarray(matrix[start:stop])).cast("B")
-                ).hexdigest()
-                if completed[key] != observed:
-                    raise GateError(f"completed C cache chunk mutation: {chunk}")
+    matrix = open_memmap_exclusive(
+        paths.c_partial,
+        dtype=np.dtype("<u4"),
+        shape=(TOTAL_ROWS, NEW_COLUMNS),
+    )
+    matrix.flush()
+    fsync_path(paths.c_partial)
+    progress: dict[str, object] = {
+        "schema": SCHEMA_C_CACHE,
+        "state": "building",
+        "shape": [TOTAL_ROWS, NEW_COLUMNS],
+        "dtype": "<u4",
+        "prime": PRIME,
+        "workers": WORKERS,
+        "chunk_rows": CHUNK_ROWS,
+        "all_new_columns_retained": True,
+        "price_filtering_allowed": False,
+        "execution_capability_sha256": execution_capability_sha256,
+        "evaluator": evaluator.cache_contract(),
+        "custody": custody,
+        "completed_chunks": {},
+    }
+    write_json_exclusive(paths.c_progress, progress)
 
     completed = progress["completed_chunks"]
     assert isinstance(completed, dict)
@@ -1388,6 +1536,7 @@ def build_or_load_c_cache(
         "chunk_hashes_sha256": canonical_sha256(live_hashes),
         "all_new_columns_retained": True,
         "price_filtering_allowed": False,
+        "execution_capability_sha256": execution_capability_sha256,
         "evaluator": evaluator.cache_contract(),
         "npy_sha256": sha256_path(paths.c_partial),
         "raw_uint32_c_sha256": raw_sha256(matrix),
@@ -1406,6 +1555,7 @@ def build_or_load_c_cache(
         schema=SCHEMA_C_CACHE,
         shape=(TOTAL_ROWS, NEW_COLUMNS),
         custody=custody,
+        execution_capability_sha256=execution_capability_sha256,
     )
 
 
@@ -1594,6 +1744,8 @@ def export_native_cache(
     matrix: object,
     paths: CachePaths,
     custody: dict[str, str],
+    execution_capability_sha256: str,
+    c_receipt: dict[str, object],
 ) -> dict[str, object]:
     if any(
         path.exists() or path.is_symlink()
@@ -1630,6 +1782,10 @@ def export_native_cache(
         "column_order": "all 18,582 new columns in registered order, then target",
         "all_new_columns_retained": True,
         "price_filtering_allowed": False,
+        "execution_capability_sha256": execution_capability_sha256,
+        "source_C_npy_sha256": sha256_path(paths.c_final),
+        "source_C_raw_uint32_c_sha256": c_receipt["raw_uint32_c_sha256"],
+        "source_C_receipt_sha256": sha256_path(paths.c_receipt),
         "npy_sha256": sha256_path(paths.s_partial),
         "raw_uint32_c_sha256": raw_digest.hexdigest(),
         "custody": {"start": custody, "end": end, "identical": True},
@@ -1641,7 +1797,7 @@ def export_native_cache(
     return receipt
 
 
-def construct_or_load_s_cache(
+def construct_fresh_s_cache(
     adapter: ModuleType,
     paths: CachePaths,
     custody: dict[str, str],
@@ -1650,21 +1806,17 @@ def construct_or_load_s_cache(
     rows: np.ndarray,
     columns: np.ndarray,
     q: np.ndarray,
+    execution_capability_sha256: str,
+    c_receipt: dict[str, object],
 ) -> tuple[np.ndarray, dict[str, object]]:
-    pair = (paths.s_final.exists(), paths.s_receipt.exists())
-    partial = (paths.s_partial.exists(), paths.s_receipt_pending.exists())
-    if pair == (True, True):
-        if any(partial):
-            raise GateError("complete Schur cache coexists with partial state")
-        return validate_complete_cache(
-            paths.s_final,
-            paths.s_receipt,
-            schema=SCHEMA_S_CACHE,
-            shape=(QUOTIENT_ROWS, SCHUR_COLUMNS),
-            custody=custody,
-        )
-    if any(pair) or any(partial):
-        raise GateError("partial Schur cache transaction; hostile audit required")
+    s_paths = (
+        paths.s_final,
+        paths.s_partial,
+        paths.s_receipt,
+        paths.s_receipt_pending,
+    )
+    if any(path.exists() or path.is_symlink() for path in s_paths):
+        raise GateError("public execution refuses every pre-existing Schur cache")
 
     inverse = np.load(INVERSE_CACHE, mmap_mode="r", allow_pickle=False)
     native = adapter.NativeFlint()
@@ -1708,19 +1860,35 @@ def construct_or_load_s_cache(
             raw[-1] = int(old[int(raw_row), -1]) % PRIME
             row_view = native.row(schur, local, SCHUR_COLUMNS)
             row_view[:] = np.remainder(raw + PRIME - row_view, PRIME)
-        export_native_cache(native, schur, paths, custody)
+        export_native_cache(
+            native,
+            schur,
+            paths,
+            custody,
+            execution_capability_sha256,
+            c_receipt,
+        )
     finally:
         for matrix in (schur, right, lam, binv, aqp):
             if matrix is not None:
                 native.clear(matrix)
         native.cleanup()
-    return validate_complete_cache(
+    matrix, receipt = validate_complete_cache(
         paths.s_final,
         paths.s_receipt,
         schema=SCHEMA_S_CACHE,
         shape=(QUOTIENT_ROWS, SCHUR_COLUMNS),
         custody=custody,
+        execution_capability_sha256=execution_capability_sha256,
     )
+    if (
+        receipt.get("source_C_npy_sha256") != sha256_path(paths.c_final)
+        or receipt.get("source_C_raw_uint32_c_sha256")
+        != c_receipt.get("raw_uint32_c_sha256")
+        or receipt.get("source_C_receipt_sha256") != sha256_path(paths.c_receipt)
+    ):
+        raise GateError("Schur cache is not bound to the current-run C transaction")
+    return matrix, receipt
 
 
 def price_scalar_relation(
@@ -1794,6 +1962,13 @@ def scan_rref(native: object, matrix: object, rank: int) -> tuple[list[int], lis
             np.remainder(native.row(matrix, row_index, SCHUR_COLUMNS), PRIME)
         ):
             raise GateError("native RREF tail contains nonzero row")
+    pivot_array = np.asarray(pivots, dtype=np.int64)
+    for row_index in range(rank):
+        pivot_values = np.remainder(
+            native.row(matrix, row_index, SCHUR_COLUMNS)[pivot_array], PRIME
+        )
+        if np.count_nonzero(pivot_values) != 1 or int(pivot_values[row_index]) != 1:
+            raise GateError("native RREF pivot columns are not the identity matrix")
     return pivots, rhs
 
 
@@ -1823,6 +1998,16 @@ def scan_rref_array(matrix: np.ndarray, rank: int) -> tuple[list[int], list[int]
             np.remainder(matrix[start : min(start + 32, QUOTIENT_ROWS)], PRIME)
         ):
             raise GateError("persisted RREF tail contains a nonzero row")
+    pivot_array = np.asarray(pivots, dtype=np.int64)
+    for start in range(0, rank, 32):
+        stop = min(start + 32, rank)
+        pivot_block = np.remainder(matrix[start:stop][:, pivot_array], PRIME)
+        for local, row_index in enumerate(range(start, stop)):
+            if (
+                np.count_nonzero(pivot_block[local]) != 1
+                or int(pivot_block[local, row_index]) != 1
+            ):
+                raise GateError("persisted RREF pivot columns are not the identity matrix")
     return pivots, rhs
 
 
@@ -1834,6 +2019,8 @@ def export_native_rref_cache(
     paths: CachePaths,
     custody: dict[str, str],
     rref_seconds: float,
+    execution_capability_sha256: str,
+    s_receipt: dict[str, object],
 ) -> dict[str, object]:
     targets = (paths.r_final, paths.r_partial, paths.r_receipt, paths.r_receipt_pending)
     if any(path.exists() or path.is_symlink() for path in targets):
@@ -1871,6 +2058,7 @@ def export_native_rref_cache(
         "column_order": "all 18,582 new columns in registered order, then target",
         "all_new_columns_retained": True,
         "price_filtering_allowed": False,
+        "execution_capability_sha256": execution_capability_sha256,
         "in_place_FLINT_RREF": True,
         "rank_schur_new": rank_new,
         "rank_schur_augmented": rank_augmented,
@@ -1887,6 +2075,10 @@ def export_native_rref_cache(
             "finite-row new-column nullspace transform for later global gated-facet CEGIS."
         ),
         "rref_seconds": rref_seconds,
+        "source_pre_RREF_S_raw_uint32_c_sha256": s_receipt[
+            "raw_uint32_c_sha256"
+        ],
+        "source_pre_RREF_S_receipt_sha256": sha256_path(paths.s_receipt),
         "npy_sha256": sha256_path(paths.r_partial),
         "raw_uint32_c_sha256": raw_digest.hexdigest(),
         "custody": {"start": custody, "end": end, "identical": True},
@@ -1898,43 +2090,21 @@ def export_native_rref_cache(
     return receipt
 
 
-def load_or_compute_rref(
+def compute_fresh_rref(
     adapter: ModuleType,
     paths: CachePaths,
     custody: dict[str, str],
+    execution_capability_sha256: str,
+    s_receipt: dict[str, object],
 ) -> tuple[np.ndarray, dict[str, object], list[int], list[int]]:
-    pair = (paths.r_final.exists(), paths.r_receipt.exists())
-    partial = (paths.r_partial.exists(), paths.r_receipt_pending.exists())
-    if pair == (True, True):
-        if any(partial):
-            raise GateError("complete RREF cache coexists with partial state")
-        rref, receipt = validate_complete_cache(
-            paths.r_final,
-            paths.r_receipt,
-            schema=SCHEMA_R_CACHE,
-            shape=(QUOTIENT_ROWS, SCHUR_COLUMNS),
-            custody=custody,
-        )
-        rank = int(receipt.get("rank_schur_augmented", -1))
-        pivots, rhs = scan_rref_array(rref, rank)
-        pivot_new = [pivot for pivot in pivots if pivot < NEW_COLUMNS]
-        free_new = sorted(set(range(NEW_COLUMNS)) - set(pivot_new))
-        target_pivot = bool(pivots and pivots[-1] == NEW_COLUMNS)
-        if (
-            receipt.get("source_pre_RREF_S_sha256") != sha256_path(paths.s_final)
-            or receipt.get("ordered_pivot_columns") != pivots
-            or receipt.get("ordered_pivot_columns_sha256") != canonical_sha256(pivots)
-            or receipt.get("ordered_pivot_local_new_columns") != pivot_new
-            or receipt.get("ordered_free_local_new_columns") != free_new
-            or receipt.get("ordered_free_local_new_columns_sha256")
-            != canonical_sha256(free_new)
-            or receipt.get("rank_schur_new") != rank - int(target_pivot)
-            or receipt.get("target_coordinate_is_pivot") is not target_pivot
-        ):
-            raise GateError("persisted RREF transform/receipt drift")
-        return rref, receipt, pivots, rhs
-    if any(pair) or any(partial):
-        raise GateError("partial RREF cache transaction; hostile audit required")
+    r_paths = (
+        paths.r_final,
+        paths.r_partial,
+        paths.r_receipt,
+        paths.r_receipt_pending,
+    )
+    if any(path.exists() or path.is_symlink() for path in r_paths):
+        raise GateError("public execution refuses every pre-existing RREF cache")
 
     native = adapter.NativeFlint()
     bind_extended_native(native)
@@ -1945,7 +2115,15 @@ def load_or_compute_rref(
         rref_seconds = time.perf_counter() - started
         pivots, rhs = scan_rref(native, matrix, rank)
         export_native_rref_cache(
-            native, matrix, rank, pivots, paths, custody, rref_seconds
+            native,
+            matrix,
+            rank,
+            pivots,
+            paths,
+            custody,
+            rref_seconds,
+            execution_capability_sha256,
+            s_receipt,
         )
     finally:
         native.clear(matrix)
@@ -1956,9 +2134,18 @@ def load_or_compute_rref(
         schema=SCHEMA_R_CACHE,
         shape=(QUOTIENT_ROWS, SCHUR_COLUMNS),
         custody=custody,
+        execution_capability_sha256=execution_capability_sha256,
     )
     replay_pivots, replay_rhs = scan_rref_array(rref, rank)
-    if replay_pivots != pivots or replay_rhs != rhs:
+    if (
+        replay_pivots != pivots
+        or replay_rhs != rhs
+        or receipt.get("source_pre_RREF_S_sha256") != sha256_path(paths.s_final)
+        or receipt.get("source_pre_RREF_S_raw_uint32_c_sha256")
+        != s_receipt.get("raw_uint32_c_sha256")
+        or receipt.get("source_pre_RREF_S_receipt_sha256")
+        != sha256_path(paths.s_receipt)
+    ):
         raise GateError("persisted RREF differs from in-memory native result")
     return rref, receipt, pivots, rhs
 
@@ -2125,9 +2312,17 @@ def native_rref_and_decide(
     inverse: np.ndarray,
     basis_rows: np.ndarray,
     basis_columns: np.ndarray,
+    execution_capability_sha256: str,
+    s_receipt: dict[str, object],
 ) -> dict[str, object]:
     s_cache = np.load(paths.s_final, mmap_mode="r", allow_pickle=False)
-    _rref, rref_receipt, pivots, rhs = load_or_compute_rref(adapter, paths, custody)
+    _rref, rref_receipt, pivots, rhs = compute_fresh_rref(
+        adapter,
+        paths,
+        custody,
+        execution_capability_sha256,
+        s_receipt,
+    )
     rank_augmented = int(rref_receipt["rank_schur_augmented"])
     target_pivot = bool(pivots and pivots[-1] == NEW_COLUMNS)
     if NEW_COLUMNS in pivots[:-1]:
@@ -2188,123 +2383,6 @@ def native_rref_and_decide(
         }
     )
     return base
-
-
-def internal_kernel(
-    registration: Registration,
-    scratch_output: Path,
-    capability: KernelCapability | None,
-) -> dict[str, object]:
-    kernel_entry = consume_kernel_capability(capability)
-    begun = time.monotonic()
-    deadline = begun + MAXIMUM_WALL_SECONDS
-    custody = capture_custody(registration)
-    bindings = replay_static_bindings()
-    resources = validate_resource_contract(cache_paths(registration.cache_dir))
-    resource_estimates = validate_preflight_resource_estimates()
-    runner, preflight, g75, family, semantic = load_g0079_context()
-    price_report, functional = load_price_contract(runner)
-    adapter = load_owned_module(
-        NATIVE_ADAPTER, EXPECTED_NATIVE_ADAPTER_SHA256, "max11_native_adapter_for_g0081"
-    )
-    basis_rows, basis_columns, q, _modular = validate_inverse(adapter)
-    old = np.load(FULL_OLD_MATRIX, mmap_mode="r", allow_pickle=False)
-    inverse = np.load(INVERSE_CACHE, mmap_mode="r", allow_pickle=False)
-    if old.shape != (TOTAL_ROWS, OLD_COLUMNS + 1) or old.dtype != np.dtype("<i8"):
-        raise GateError("frozen old augmented matrix shape/dtype drift")
-    paths = cache_paths(registration.cache_dir)
-    evaluator = FastEvaluator(g75, family.bases, family.new_representatives)
-    c_matrix, c_receipt = build_or_load_c_cache(paths, evaluator, custody, deadline)
-    support_replay = independent_support_replay(
-        runner,
-        preflight,
-        g75,
-        family,
-        price_report,
-        functional,
-        c_matrix,
-        old,
-        deadline,
-    )
-    s_cache, s_receipt = construct_or_load_s_cache(
-        adapter, paths, custody, old, c_matrix, basis_rows, basis_columns, q
-    )
-    exact_payload = read_gzip(G0078_EXACT).get("scientific_payload")
-    if not isinstance(exact_payload, dict):
-        raise GateError("G-0078 exact payload missing")
-    failing_row = int(exact_payload.get("failing_raw_row", -1))
-    q_positions = {int(raw): index for index, raw in enumerate(q)}
-    if failing_row not in q_positions:
-        raise GateError("artifact-specified G-0078 failing row is not in Q")
-    recomputed = recompute_failing_schur_row(
-        old, c_matrix, inverse, basis_rows, basis_columns, failing_row
-    )
-    if not np.array_equal(recomputed, s_cache[q_positions[failing_row]]):
-        raise GateError(
-            "recomputed failing-row Schur vector differs from pre-RREF cache"
-        )
-    price_scientific = price_report["scientific_payload"]
-    price_vector = price_scientific["complete_price_vector"]
-    price_exact = price_scientific["exact_functional"]
-    scalar = price_scalar_relation(
-        recomputed,
-        price_vector["prices_mod_prime"],
-        int(price_exact["target_pairing_mod_prime"]),
-    )
-    scalar["artifact_specified_failing_raw_row"] = failing_row
-    scalar["ordered_Q_position"] = q_positions[failing_row]
-    decision = native_rref_and_decide(
-        adapter, paths, custody, old, c_matrix, inverse, basis_rows, basis_columns
-    )
-    end_custody = capture_custody(registration)
-    if end_custody != custody:
-        raise GateError("registered input/source custody changed during native kernel")
-    scientific = {
-        "schema": SCHEMA_RESULT,
-        "result": decision["result"],
-        "subject": {
-            "prime": PRIME,
-            "rows": TOTAL_ROWS,
-            "old_columns": OLD_COLUMNS,
-            "new_columns": NEW_COLUMNS,
-            "all_new_columns_retained": True,
-            "price_filtering_allowed": False,
-            "basis_rank": BASIS_RANK,
-            "quotient_rows": QUOTIENT_ROWS,
-        },
-        "C_cache": c_receipt,
-        "independent_230_row_replay": support_replay,
-        "pre_RREF_S_cache": s_receipt,
-        "price_row_scalar_relation": scalar,
-        "native_decision": decision,
-        "claim_boundary": decision["claim_boundary"],
-    }
-    report = {
-        "schema": SCHEMA_RESULT,
-        "scientific_payload": scientific,
-        "scientific_payload_sha256": canonical_sha256(scientific),
-        "runner_sha256": registration.runner_sha256,
-        "preregistration_sha256": registration.sha256,
-        "git_anchor": registration.git_anchor.receipt(),
-        "kernel_entry": kernel_entry,
-        "bindings": bindings,
-        "semantic_source_execution": semantic,
-        "resource_gate": resources,
-        "frozen_resource_estimates": resource_estimates,
-        "custody": {"start": custody, "end": end_custody, "identical": True},
-        "wall_seconds": time.monotonic() - begun,
-        "process_max_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
-        "environment": {
-            "python": platform.python_version(),
-            "numpy": np.__version__,
-            "platform": platform.platform(),
-            "workers": WORKERS,
-            "multiprocessing_start_method": "fork",
-            "native_flint": "3.6.0",
-        },
-    }
-    write_json_exclusive(scratch_output, report)
-    return report
 
 
 def resource_unresolved_report(
@@ -2373,55 +2451,209 @@ def wait_for_child(pid: int, deadline: float) -> int | None:
         time.sleep(min(0.1, max(0.0, deadline - time.monotonic())))
 
 
-def forked_kernel_child(
+def parent_finalize_cache_chain(
     registration: Registration,
-    scratch: Path,
-    capability: KernelCapability,
-    capability_write_fd: int,
-    stdout_fd: int,
-    stderr_fd: int,
-    begun: float,
-    start_custody: dict[str, str],
-) -> None:
-    exit_code = 1
+    paths: CachePaths,
+    namespace_identity: tuple[int, int],
+    lock_fd: int,
+    custody: dict[str, str],
+    execution_capability_sha256: str,
+    report: dict[str, object],
+) -> dict[str, object]:
+    """Read-only parent replay that roots the child decision in fresh C/S/R bytes."""
+    directory_stat = paths.directory.stat(follow_symlinks=False)
+    lock_stat = os.fstat(lock_fd)
+    if (
+        not stat.S_ISDIR(directory_stat.st_mode)
+        or (directory_stat.st_dev, directory_stat.st_ino) != namespace_identity
+        or not stat.S_ISREG(lock_stat.st_mode)
+    ):
+        raise GateError("parent finalizer cache namespace/lock identity drift")
+    expected_names = {
+        paths.lock.name,
+        paths.c_final.name,
+        paths.c_receipt.name,
+        paths.s_final.name,
+        paths.s_receipt.name,
+        paths.r_final.name,
+        paths.r_receipt.name,
+    }
+    observed_names = {path.name for path in paths.directory.iterdir()}
+    if observed_names != expected_names:
+        raise GateError(
+            "successful cache namespace has unexpected, partial, or missing files: "
+            f"{sorted(observed_names ^ expected_names)}"
+        )
+    c_matrix, c_receipt = validate_complete_cache(
+        paths.c_final,
+        paths.c_receipt,
+        schema=SCHEMA_C_CACHE,
+        shape=(TOTAL_ROWS, NEW_COLUMNS),
+        custody=custody,
+        execution_capability_sha256=execution_capability_sha256,
+    )
+    s_matrix, s_receipt = validate_complete_cache(
+        paths.s_final,
+        paths.s_receipt,
+        schema=SCHEMA_S_CACHE,
+        shape=(QUOTIENT_ROWS, SCHUR_COLUMNS),
+        custody=custody,
+        execution_capability_sha256=execution_capability_sha256,
+    )
+    r_matrix, r_receipt = validate_complete_cache(
+        paths.r_final,
+        paths.r_receipt,
+        schema=SCHEMA_R_CACHE,
+        shape=(QUOTIENT_ROWS, SCHUR_COLUMNS),
+        custody=custody,
+        execution_capability_sha256=execution_capability_sha256,
+    )
+    if (
+        s_receipt.get("source_C_npy_sha256") != sha256_path(paths.c_final)
+        or s_receipt.get("source_C_raw_uint32_c_sha256")
+        != c_receipt.get("raw_uint32_c_sha256")
+        or s_receipt.get("source_C_receipt_sha256")
+        != sha256_path(paths.c_receipt)
+        or r_receipt.get("source_pre_RREF_S_sha256")
+        != sha256_path(paths.s_final)
+        or r_receipt.get("source_pre_RREF_S_raw_uint32_c_sha256")
+        != s_receipt.get("raw_uint32_c_sha256")
+        or r_receipt.get("source_pre_RREF_S_receipt_sha256")
+        != sha256_path(paths.s_receipt)
+    ):
+        raise GateError("parent finalizer C-to-S-to-R source chain drift")
+    scientific = report.get("scientific_payload")
+    if not isinstance(scientific, dict) or canonical_sha256(scientific) != report.get(
+        "scientific_payload_sha256"
+    ):
+        raise GateError("parent finalizer scientific payload hash drift")
+    decision = scientific.get("native_decision")
+    if (
+        scientific.get("C_cache") != c_receipt
+        or scientific.get("pre_RREF_S_cache") != s_receipt
+        or not isinstance(decision, dict)
+        or decision.get("persisted_RREF") != r_receipt
+    ):
+        raise GateError("parent finalizer report/cache receipt projection drift")
+
+    adapter = load_owned_module(
+        NATIVE_ADAPTER,
+        EXPECTED_NATIVE_ADAPTER_SHA256,
+        "max11_native_adapter_for_g0081_parent_finalizer",
+    )
+    native = adapter.NativeFlint()
+    bind_extended_native(native)
+    replay = load_native_cache(
+        native, paths.s_final, (QUOTIENT_ROWS, SCHUR_COLUMNS)
+    )
+    replay_started = time.perf_counter()
     try:
-        os.close(capability_write_fd)
-        os.dup2(stdout_fd, 1)
-        os.dup2(stderr_fd, 2)
-        if stdout_fd not in {1, 2}:
-            os.close(stdout_fd)
-        if stderr_fd not in {1, 2}:
-            os.close(stderr_fd)
-        os.setsid()
-        signal.signal(signal.SIGTERM, kill_kernel_process_group)
-        set_parent_death_signal(capability.expected_parent_pid, signal.SIGKILL)
-        try:
-            internal_kernel(registration, scratch, capability)
-        except (MemoryError, OSError, TimeoutError) as error:
-            if capability.evidence is None:
-                raise
-            report = resource_unresolved_report(
-                registration,
-                f"{type(error).__name__}: {error}",
-                begun,
-                start_custody,
-            )
-            report["kernel_entry"] = capability.evidence
-            write_json_exclusive(scratch, report)
-        exit_code = 0
-    except BaseException:  # noqa: BLE001 -- isolated child must always exit, never unwind
-        traceback.print_exc()
+        rank = int(native.lib.nmod_mat_rref(native.pointer(replay)))
+        pivots, rhs = scan_rref(native, replay, rank)
+        for row in range(QUOTIENT_ROWS):
+            expected_row = np.remainder(
+                native.row(replay, row, SCHUR_COLUMNS), PRIME
+            ).astype(np.uint32)
+            if not np.array_equal(expected_row, r_matrix[row]):
+                raise GateError(
+                    f"parent RREF replay differs from persisted R at row {row}"
+                )
     finally:
-        try:
-            sys.stdout.flush()
-            sys.stderr.flush()
-        finally:
-            os._exit(exit_code)
+        native.clear(replay)
+        native.cleanup()
+    replay_seconds = time.perf_counter() - replay_started
+    target_pivot = bool(pivots and pivots[-1] == NEW_COLUMNS)
+    rank_new = rank - int(target_pivot)
+    parent_result = (
+        "MODULAR_SEPARATION_DISCOVERY"
+        if target_pivot
+        else "MODULAR_MEMBERSHIP_DISCOVERY"
+    )
+    pivot_new = [pivot for pivot in pivots if pivot < NEW_COLUMNS]
+    if (
+        r_receipt.get("rank_schur_augmented") != rank
+        or r_receipt.get("rank_schur_new") != rank_new
+        or r_receipt.get("ordered_pivot_columns") != pivots
+        or r_receipt.get("target_coordinate_is_pivot") is not target_pivot
+        or decision.get("result") != parent_result
+        or decision.get("rank_schur_augmented") != rank
+        or decision.get("rank_schur_new") != rank_new
+        or decision.get("target_coordinate_is_pivot") is not target_pivot
+        or decision.get("pivot_local_new_columns") != pivot_new
+    ):
+        raise GateError("parent RREF-derived decision differs from child declaration")
+
+    member_replay = False
+    if not target_pivot:
+        basis_rows, basis_columns, _q, _modular = validate_inverse(adapter)
+        old = np.load(FULL_OLD_MATRIX, mmap_mode="r", allow_pickle=False)
+        inverse = np.load(INVERSE_CACHE, mmap_mode="r", allow_pickle=False)
+        new_pivots, new_coefficients = canonical_free_zero_solution(pivots, rhs)
+        parent_solution = derive_and_replay_solution(
+            old,
+            c_matrix,
+            inverse,
+            basis_rows,
+            basis_columns,
+            new_pivots,
+            new_coefficients,
+        )
+        if parent_solution != decision.get("solution"):
+            raise GateError("parent all-row member replay differs from child solution")
+        parent_minor = full_row_rank_minor_evidence(
+            adapter,
+            s_matrix,
+            pivot_new,
+            old,
+            basis_rows,
+            basis_columns,
+        )
+        if parent_minor != decision.get("full_row_rank_minor_evidence"):
+            raise GateError("parent determinant evidence differs from child decision")
+        member_replay = True
+
+    stage_chain = {
+        "registered_run_binding_sha256": canonical_sha256(
+            {
+                "domain": "G0081/registered-run/v2",
+                "runner_sha256": registration.runner_sha256,
+                "preregistration_sha256": registration.sha256,
+                "git_anchor": registration.git_anchor.receipt(),
+                "cache_run_id": registration.document["cache_run_id"],
+                "cache_dir": relative_path(registration.cache_dir),
+                "output": relative_path(registration.output),
+                "static_bindings": binding_hash_map(),
+                "prime": PRIME,
+            }
+        ),
+        "C_npy_sha256": c_receipt["npy_sha256"],
+        "C_receipt_sha256": sha256_path(paths.c_receipt),
+        "S_npy_sha256": s_receipt["npy_sha256"],
+        "S_receipt_sha256": sha256_path(paths.s_receipt),
+        "R_npy_sha256": r_receipt["npy_sha256"],
+        "R_receipt_sha256": sha256_path(paths.r_receipt),
+        "execution_capability_sha256": execution_capability_sha256,
+        "scientific_payload_sha256": report["scientific_payload_sha256"],
+    }
+    return {
+        "protocol": "fresh-stage-chain-and-independent-rref-replay-v1",
+        "fresh_namespace_inode_reverified": True,
+        "exact_success_file_census": sorted(expected_names),
+        "C_to_S_to_R_receipt_chain_recomputed": True,
+        "stage_chain": stage_chain,
+        "stage_chain_sha256": canonical_sha256(stage_chain),
+        "parent_RREF_byte_for_byte_equal": True,
+        "parent_RREF_seconds": replay_seconds,
+        "parent_derived_result": parent_result,
+        "parent_all_16738_row_member_replay": member_replay,
+        "active_same_UID_or_root_adversary_excluded_from_threat_model": True,
+    }
 
 
-def public_run(registration: Registration) -> dict[str, object]:
+def public_run(invocation: argparse.Namespace) -> dict[str, object]:
+    registration = validate_registration(invocation)
     paths = cache_paths(registration.cache_dir)
-    paths.directory.mkdir(parents=True, exist_ok=True)
+    namespace_identity = create_fresh_cache_namespace(paths.directory)
     begun = time.monotonic()
     absolute_deadline = begun + MAXIMUM_WALL_SECONDS
     with exclusive_cache_lock(paths.lock) as lock_fd:
@@ -2433,7 +2665,7 @@ def public_run(registration: Registration) -> dict[str, object]:
                 registration, str(error), begun, start_custody
             )
             report["launcher"] = {
-                "protocol": "public-fork-capability-v1",
+                "protocol": "public-local-closure-fork-v2",
                 "kernel_started": False,
                 "exclusive_cache_lock": True,
                 "hard_timeout_seconds": MAXIMUM_WALL_SECONDS,
@@ -2462,13 +2694,263 @@ def public_run(registration: Registration) -> dict[str, object]:
             CAPABILITY_SECRET_BYTES
         )
         parent_pid = os.getpid()
-        capability = KernelCapability(
-            read_fd=pipe_read,
-            expected_frame=capability_frame,
-            expected_parent_pid=parent_pid,
-            inherited_lock_fd=lock_fd,
-            lock_path=paths.lock,
-        )
+        execution_capability_sha256 = hashlib.sha256(capability_frame).hexdigest()
+        capability_consumed = False
+
+        def consume_child_entry() -> dict[str, object]:
+            nonlocal capability_consumed, pipe_read
+            if capability_consumed:
+                raise GateError("fork-child authority was already consumed")
+            capability_consumed = True
+            rebuilt = revalidate_public_registration(
+                registration, recheck_publication_remote=False
+            )
+            if rebuilt != registration:
+                raise GateError("fork child registration differs from parent validation")
+            expected_lock_path = cache_paths(rebuilt.cache_dir).lock
+            if expected_lock_path.resolve(strict=False) != paths.lock.resolve(strict=False):
+                raise GateError("fork child derived a different registered cache lock")
+            if os.getpid() == parent_pid or os.getppid() != parent_pid:
+                raise GateError("scientific child PID/PPID differs from the public fork")
+            if os.getpgrp() != os.getpid():
+                raise GateError("scientific child is not its isolated process-group leader")
+            pipe_stat = os.fstat(pipe_read)
+            if not stat.S_ISFIFO(pipe_stat.st_mode):
+                raise GateError("fork-child authority FD is not an anonymous pipe")
+            payload = bytearray()
+            try:
+                while len(payload) < len(capability_frame):
+                    block = os.read(pipe_read, len(capability_frame) - len(payload))
+                    if not block:
+                        break
+                    payload.extend(block)
+                trailing = os.read(pipe_read, 1)
+            finally:
+                os.close(pipe_read)
+                pipe_read = -1
+            if trailing or not secrets.compare_digest(
+                bytes(payload), capability_frame
+            ):
+                raise GateError("fork-child authority frame is absent, truncated, or forged")
+            lock_stat = os.fstat(lock_fd)
+            path_stat = expected_lock_path.stat(follow_symlinks=False)
+            if (
+                not stat.S_ISREG(lock_stat.st_mode)
+                or not stat.S_ISREG(path_stat.st_mode)
+                or (lock_stat.st_dev, lock_stat.st_ino)
+                != (path_stat.st_dev, path_stat.st_ino)
+            ):
+                raise GateError("inherited registered lock inode identity drift")
+            probe = os.open(
+                expected_lock_path,
+                os.O_RDWR | getattr(os, "O_NOFOLLOW", 0),
+            )
+            try:
+                try:
+                    fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                except BlockingIOError:
+                    pass
+                else:
+                    fcntl.flock(probe, fcntl.LOCK_UN)
+                    raise GateError("inherited registered cache lock is not held")
+            finally:
+                os.close(probe)
+            return {
+                "protocol": "public-local-closure-fork-authority-v2",
+                "capability_frame_sha256": execution_capability_sha256,
+                "capability_pipe_consumed_and_closed": True,
+                "fork_parent_pid": parent_pid,
+                "kernel_pid": os.getpid(),
+                "lock_path": relative_path(expected_lock_path),
+                "inherited_exclusive_lock_verified": True,
+                "registration_revalidated_in_child": True,
+                "isolated_session_and_process_group": True,
+                "parent_death_signal": (
+                    "SIGKILL; timeout SIGTERM handler kills isolated group"
+                ),
+                "fork_workers_parent_death_signal": "SIGKILL",
+            }
+
+        def scientific_kernel(kernel_entry: dict[str, object]) -> dict[str, object]:
+            kernel_begun = time.monotonic()
+            deadline = kernel_begun + MAXIMUM_WALL_SECONDS
+            custody = capture_custody(registration)
+            bindings = replay_static_bindings()
+            resources = validate_resource_contract(paths)
+            resource_estimates = validate_preflight_resource_estimates()
+            runner, preflight, g75, family, semantic = load_g0079_context()
+            price_report, functional = load_price_contract(runner)
+            adapter = load_owned_module(
+                NATIVE_ADAPTER,
+                EXPECTED_NATIVE_ADAPTER_SHA256,
+                "max11_native_adapter_for_g0081",
+            )
+            basis_rows, basis_columns, q, _modular = validate_inverse(adapter)
+            old = np.load(FULL_OLD_MATRIX, mmap_mode="r", allow_pickle=False)
+            inverse = np.load(INVERSE_CACHE, mmap_mode="r", allow_pickle=False)
+            if old.shape != (TOTAL_ROWS, OLD_COLUMNS + 1) or old.dtype != np.dtype(
+                "<i8"
+            ):
+                raise GateError("frozen old augmented matrix shape/dtype drift")
+            evaluator = FastEvaluator(g75, family.bases, family.new_representatives)
+            c_matrix, c_receipt = build_fresh_c_cache(
+                paths,
+                evaluator,
+                custody,
+                deadline,
+                execution_capability_sha256,
+            )
+            support_replay = independent_support_replay(
+                runner,
+                preflight,
+                g75,
+                family,
+                price_report,
+                functional,
+                c_matrix,
+                old,
+                deadline,
+            )
+            s_cache, s_receipt = construct_fresh_s_cache(
+                adapter,
+                paths,
+                custody,
+                old,
+                c_matrix,
+                basis_rows,
+                basis_columns,
+                q,
+                execution_capability_sha256,
+                c_receipt,
+            )
+            exact_payload = read_gzip(G0078_EXACT).get("scientific_payload")
+            if not isinstance(exact_payload, dict):
+                raise GateError("G-0078 exact payload missing")
+            failing_row = int(exact_payload.get("failing_raw_row", -1))
+            q_positions = {int(raw): index for index, raw in enumerate(q)}
+            if failing_row not in q_positions:
+                raise GateError("artifact-specified G-0078 failing row is not in Q")
+            recomputed = recompute_failing_schur_row(
+                old, c_matrix, inverse, basis_rows, basis_columns, failing_row
+            )
+            if not np.array_equal(recomputed, s_cache[q_positions[failing_row]]):
+                raise GateError(
+                    "recomputed failing-row Schur vector differs from pre-RREF cache"
+                )
+            price_scientific = price_report["scientific_payload"]
+            price_vector = price_scientific["complete_price_vector"]
+            price_exact = price_scientific["exact_functional"]
+            scalar = price_scalar_relation(
+                recomputed,
+                price_vector["prices_mod_prime"],
+                int(price_exact["target_pairing_mod_prime"]),
+            )
+            scalar["artifact_specified_failing_raw_row"] = failing_row
+            scalar["ordered_Q_position"] = q_positions[failing_row]
+            decision = native_rref_and_decide(
+                adapter,
+                paths,
+                custody,
+                old,
+                c_matrix,
+                inverse,
+                basis_rows,
+                basis_columns,
+                execution_capability_sha256,
+                s_receipt,
+            )
+            end_custody = capture_custody(registration)
+            if end_custody != custody:
+                raise GateError(
+                    "registered input/source custody changed during native kernel"
+                )
+            scientific = {
+                "schema": SCHEMA_RESULT,
+                "result": decision["result"],
+                "subject": {
+                    "prime": PRIME,
+                    "rows": TOTAL_ROWS,
+                    "old_columns": OLD_COLUMNS,
+                    "new_columns": NEW_COLUMNS,
+                    "all_new_columns_retained": True,
+                    "price_filtering_allowed": False,
+                    "basis_rank": BASIS_RANK,
+                    "quotient_rows": QUOTIENT_ROWS,
+                },
+                "C_cache": c_receipt,
+                "independent_230_row_replay": support_replay,
+                "pre_RREF_S_cache": s_receipt,
+                "price_row_scalar_relation": scalar,
+                "native_decision": decision,
+                "claim_boundary": decision["claim_boundary"],
+            }
+            return {
+                "schema": SCHEMA_RESULT,
+                "scientific_payload": scientific,
+                "scientific_payload_sha256": canonical_sha256(scientific),
+                "runner_sha256": registration.runner_sha256,
+                "preregistration_sha256": registration.sha256,
+                "git_anchor": registration.git_anchor.receipt(),
+                "kernel_entry": kernel_entry,
+                "bindings": bindings,
+                "semantic_source_execution": semantic,
+                "resource_gate": resources,
+                "frozen_resource_estimates": resource_estimates,
+                "custody": {
+                    "start": custody,
+                    "end": end_custody,
+                    "identical": True,
+                },
+                "wall_seconds": time.monotonic() - kernel_begun,
+                "process_max_rss_kib": resource.getrusage(
+                    resource.RUSAGE_SELF
+                ).ru_maxrss,
+                "environment": {
+                    "python": platform.python_version(),
+                    "numpy": np.__version__,
+                    "platform": platform.platform(),
+                    "workers": WORKERS,
+                    "multiprocessing_start_method": "fork",
+                    "native_flint": "3.6.0",
+                },
+            }
+
+        def child_entry() -> None:
+            exit_code = 1
+            kernel_entry: dict[str, object] | None = None
+            try:
+                os.close(pipe_write)
+                os.dup2(stdout_fd, 1)
+                os.dup2(stderr_fd, 2)
+                if stdout_fd not in {1, 2}:
+                    os.close(stdout_fd)
+                if stderr_fd not in {1, 2}:
+                    os.close(stderr_fd)
+                os.setsid()
+                signal.signal(signal.SIGTERM, kill_kernel_process_group)
+                set_parent_death_signal(parent_pid, signal.SIGKILL)
+                kernel_entry = consume_child_entry()
+                try:
+                    child_report = scientific_kernel(kernel_entry)
+                except (MemoryError, OSError, TimeoutError) as error:
+                    child_report = resource_unresolved_report(
+                        registration,
+                        f"{type(error).__name__}: {error}",
+                        begun,
+                        start_custody,
+                    )
+                    child_report["kernel_entry"] = kernel_entry
+                write_json_exclusive(scratch, child_report)
+                exit_code = 0
+            except BaseException:  # noqa: BLE001 -- isolated child exits closed
+                traceback.print_exc()
+            finally:
+                try:
+                    sys.stdout.flush()
+                    sys.stderr.flush()
+                finally:
+                    os._exit(exit_code)
+
         try:
             pid = os.fork()
         except BaseException:
@@ -2480,16 +2962,7 @@ def public_run(registration: Registration) -> dict[str, object]:
             stderr_path.unlink()
             raise
         if pid == 0:
-            forked_kernel_child(
-                registration,
-                scratch,
-                capability,
-                pipe_write,
-                stdout_fd,
-                stderr_fd,
-                begun,
-                start_custody,
-            )
+            child_entry()
             raise AssertionError("os._exit returned")
 
         try:
@@ -2541,7 +3014,7 @@ def public_run(registration: Registration) -> dict[str, object]:
                 start_custody,
             )
             report["launcher"] = {
-                "protocol": "public-fork-capability-v1",
+                "protocol": "public-local-closure-fork-v2",
                 "kernel_started": True,
                 "exclusive_cache_lock": True,
                 "isolated_process_group": True,
@@ -2563,12 +3036,16 @@ def public_run(registration: Registration) -> dict[str, object]:
         report = read_json(scratch)
         expected_capability_sha256 = hashlib.sha256(capability_frame).hexdigest()
         kernel_entry = report.get("kernel_entry")
+        scientific_payload = report.get("scientific_payload")
         if (
             report.get("schema") != SCHEMA_RESULT
             or report.get("runner_sha256") != registration.runner_sha256
             or report.get("preregistration_sha256") != registration.sha256
             or report.get("git_anchor") != registration.git_anchor.receipt()
             or report.get("custody", {}).get("identical") is not True
+            or not isinstance(scientific_payload, dict)
+            or canonical_sha256(scientific_payload)
+            != report.get("scientific_payload_sha256")
             or not isinstance(kernel_entry, dict)
             or kernel_entry.get("capability_frame_sha256") != expected_capability_sha256
             or kernel_entry.get("fork_parent_pid") != parent_pid
@@ -2579,8 +3056,23 @@ def public_run(registration: Registration) -> dict[str, object]:
         end = capture_custody(registration)
         if end != start_custody:
             raise GateError("launcher custody changed across isolated kernel")
+        if scientific_payload.get("result") == "RESOURCE_UNRESOLVED":
+            report["parent_finalization"] = {
+                "protocol": "not-applicable-resource-unresolved",
+                "scientific_outcome_computed": False,
+            }
+        else:
+            report["parent_finalization"] = parent_finalize_cache_chain(
+                registration,
+                paths,
+                namespace_identity,
+                lock_fd,
+                start_custody,
+                execution_capability_sha256,
+                report,
+            )
         report["launcher"] = {
-            "protocol": "public-fork-capability-v1",
+            "protocol": "public-local-closure-fork-v2",
             "kernel_started": True,
             "exclusive_cache_lock": True,
             "isolated_process_group": True,
@@ -2710,6 +3202,7 @@ def self_test_cache_mutation() -> dict[str, object]:
         values[:] = np.arange(12, dtype=np.uint32).reshape(3, 4)
         values.flush()
         custody = {"g0081_runner": "fixture"}
+        execution_capability_sha256 = "ab" * 32
         receipt = {
             "schema": "fixture",
             "state": "complete",
@@ -2718,13 +3211,19 @@ def self_test_cache_mutation() -> dict[str, object]:
             "prime": PRIME,
             "all_new_columns_retained": True,
             "price_filtering_allowed": False,
+            "execution_capability_sha256": execution_capability_sha256,
             "custody": {"start": custody, "end": custody, "identical": True},
             "npy_sha256": sha256_path(data),
             "raw_uint32_c_sha256": raw_sha256(values),
         }
         write_json_exclusive(receipt_path, receipt)
         validate_complete_cache(
-            data, receipt_path, schema="fixture", shape=(3, 4), custody=custody
+            data,
+            receipt_path,
+            schema="fixture",
+            shape=(3, 4),
+            custody=custody,
+            execution_capability_sha256=execution_capability_sha256,
         )
         mutant = np.load(data, mmap_mode="r+")
         mutant[1, 2] += 1
@@ -2732,7 +3231,12 @@ def self_test_cache_mutation() -> dict[str, object]:
         rejected = False
         try:
             validate_complete_cache(
-                data, receipt_path, schema="fixture", shape=(3, 4), custody=custody
+                data,
+                receipt_path,
+                schema="fixture",
+                shape=(3, 4),
+                custody=custody,
+                execution_capability_sha256=execution_capability_sha256,
             )
         except GateError:
             rejected = True
@@ -2803,12 +3307,29 @@ def self_test_logic() -> dict[str, object]:
         or numpy_rref_fixture(separator, 101)[1] != 2
     ):
         raise GateError("rank-full-Q implication hostile fixture failed")
+    source_s = np.asarray([[1, 0, 1], [0, 1, 1]], dtype=np.int64)
+    forged_rref = np.asarray([[1, 0, 0], [0, 0, 1]], dtype=np.int64)
+    true_rref, true_rank = numpy_rref_fixture(source_s, 101)
+    forged_rank = numpy_rref_fixture(forged_rref, 101)[1]
+    true_target_pivot = bool(
+        [int(np.flatnonzero(row)[0]) for row in true_rref[:true_rank]][-1] == 2
+    )
+    forged_target_pivot = bool(
+        [int(np.flatnonzero(row)[0]) for row in forged_rref[:forged_rank]][-1] == 2
+    )
+    if (
+        np.array_equal(true_rref, forged_rref)
+        or true_target_pivot
+        or not forged_target_pivot
+    ):
+        raise GateError("forged branch-reversing RREF hostile control drift")
     return {
         "price_row_common_scalar": relation,
         "price_row_one_entry_mutant_rejected": True,
         "rank_full_Q_forces_every_frozen_Q_target_member": True,
         "rank_deficient_left_can_have_target_pivot": True,
         "characteristic_zero_minor_statement_is_one_sided": True,
+        "branch_reversing_non_row_equivalent_RREF_control_detected": True,
     }
 
 
@@ -2913,6 +3434,93 @@ def self_test_git_anchor() -> dict[str, object]:
             changed_after_anchor_rejected = True
         if not changed_after_anchor_rejected:
             raise GateError("clean post-anchor preregistration mutation escaped")
+
+        poisoned = {
+            "GIT_DIR": str(repository / "foreign.git"),
+            "GIT_WORK_TREE": str(repository / "foreign-worktree"),
+            "GIT_INDEX_FILE": str(repository / "foreign.index"),
+            "GIT_OBJECT_DIRECTORY": str(repository / "foreign-objects"),
+            "GIT_ALTERNATE_OBJECT_DIRECTORIES": str(repository / "alternates"),
+            "GIT_NAMESPACE": "attacker",
+            "GIT_CONFIG_GLOBAL": str(repository / "attacker.gitconfig"),
+            "GIT_CONFIG_SYSTEM": str(repository / "attacker-system.gitconfig"),
+            "GIT_REPLACE_REF_BASE": "refs/replace-attacker/",
+            "PATH": str(repository),
+        }
+        saved = {key: os.environ.get(key) for key in poisoned}
+        try:
+            os.environ.update(poisoned)
+            poisoned_environment_accepted = verify_git_anchor(
+                repository,
+                preregistration,
+                hashlib.sha256(changed_payload).hexdigest(),
+                git_bytes(repository, ["rev-parse", "HEAD"]).decode("ascii").strip(),
+                runner,
+                hashlib.sha256(runner_payload).hexdigest(),
+            )
+        finally:
+            for key, value in saved.items():
+                if value is None:
+                    os.environ.pop(key, None)
+                else:
+                    os.environ[key] = value
+        if poisoned_environment_accepted.worktree != str(repository.resolve()):
+            raise GateError("poisoned Git environment changed the trusted worktree")
+
+    with tempfile.TemporaryDirectory(dir=HERE) as foreign_fixture_text:
+        fixture_root = Path(foreign_fixture_text)
+        actual = fixture_root / "actual"
+        foreign = fixture_root / "foreign"
+        actual.mkdir()
+        foreign.mkdir()
+        for repository in (actual, foreign):
+            git_bytes(repository, ["init", "-q"])
+            git_bytes(repository, ["config", "user.name", "G-0081 fixture"])
+            git_bytes(
+                repository,
+                ["config", "user.email", "g0081-fixture@example.invalid"],
+            )
+        runner_payload = b"print('same runner')\n"
+        preregistration_payload = b'{"experiment_status":"planned"}\n'
+        (actual / "runner.py").write_bytes(runner_payload)
+        git_bytes(actual, ["add", "runner.py"])
+        git_bytes(actual, ["commit", "-q", "-m", "actual lacks preregistration"])
+        (actual / "preregistration.json").write_bytes(preregistration_payload)
+        (foreign / "runner.py").write_bytes(runner_payload)
+        (foreign / "preregistration.json").write_bytes(preregistration_payload)
+        git_bytes(foreign, ["add", "runner.py", "preregistration.json"])
+        git_bytes(foreign, ["commit", "-q", "-m", "foreign has preregistration"])
+        foreign_anchor = (
+            git_bytes(foreign, ["rev-parse", "HEAD"]).decode("ascii").strip()
+        )
+        saved_git_dir = os.environ.get("GIT_DIR")
+        saved_work_tree = os.environ.get("GIT_WORK_TREE")
+        try:
+            os.environ["GIT_DIR"] = str(foreign / ".git")
+            os.environ["GIT_WORK_TREE"] = str(actual)
+            foreign_rejected = False
+            try:
+                verify_git_anchor(
+                    actual,
+                    actual / "preregistration.json",
+                    hashlib.sha256(preregistration_payload).hexdigest(),
+                    foreign_anchor,
+                    actual / "runner.py",
+                    hashlib.sha256(runner_payload).hexdigest(),
+                )
+            except GateError:
+                foreign_rejected = True
+        finally:
+            if saved_git_dir is None:
+                os.environ.pop("GIT_DIR", None)
+            else:
+                os.environ["GIT_DIR"] = saved_git_dir
+            if saved_work_tree is None:
+                os.environ.pop("GIT_WORK_TREE", None)
+            else:
+                os.environ["GIT_WORK_TREE"] = saved_work_tree
+        if not foreign_rejected:
+            raise GateError("foreign Git object database escaped the trusted layout")
     return {
         "committed_ancestor_anchor_accepted": True,
         "anchor_commit": accepted.preregistration_commit,
@@ -2921,21 +3529,13 @@ def self_test_git_anchor() -> dict[str, object]:
         "dirty_runner_rejected": True,
         "untracked_post_outcome_preregistration_rejected": True,
         "clean_post_anchor_byte_change_rejected": True,
+        "poisoned_Git_environment_ignored": True,
+        "foreign_object_database_with_actual_untracked_prereg_rejected": True,
         "scientific_outcome_computed": False,
     }
 
 
 def self_test_entry_capability() -> dict[str, object]:
-    direct_function_rejected = False
-    try:
-        internal_kernel(None, HERE / "never-created.json", None)  # type: ignore[arg-type]
-    except GateError:
-        direct_function_rejected = True
-    if not direct_function_rejected:
-        raise GateError(
-            "direct scientific-kernel function call escaped capability gate"
-        )
-
     environment = dict(os.environ)
     environment["G0081_INTERNAL_TOKEN"] = "caller-chosen-token"
     direct_cli = subprocess.run(
@@ -2957,67 +3557,107 @@ def self_test_entry_capability() -> dict[str, object]:
     )
     if direct_cli.returncode == 0 or b"unrecognized arguments" not in direct_cli.stderr:
         raise GateError("removed direct internal CLI unexpectedly remained callable")
-
-    with tempfile.TemporaryDirectory(dir=HERE) as temporary_text:
-        lock_path = Path(temporary_text) / "capability.lock"
-        with exclusive_cache_lock(lock_path) as lock_fd:
-            capability_read, capability_write = os.pipe2(getattr(os, "O_CLOEXEC", 0))
-            status_read, status_write = os.pipe2(getattr(os, "O_CLOEXEC", 0))
-            frame = CAPABILITY_DOMAIN + secrets.token_bytes(CAPABILITY_SECRET_BYTES)
-            parent_pid = os.getpid()
-            capability = KernelCapability(
-                read_fd=capability_read,
-                expected_frame=frame,
-                expected_parent_pid=parent_pid,
-                inherited_lock_fd=lock_fd,
-                lock_path=lock_path,
-            )
-            pid = os.fork()
-            if pid == 0:
-                exit_code = 1
-                try:
-                    os.close(capability_write)
-                    os.close(status_read)
-                    os.setsid()
-                    signal.signal(signal.SIGTERM, kill_kernel_process_group)
-                    set_parent_death_signal(parent_pid, signal.SIGKILL)
-                    evidence = consume_kernel_capability(capability)
-                    reused_rejected = False
-                    try:
-                        consume_kernel_capability(capability)
-                    except GateError:
-                        reused_rejected = True
-                    if (
-                        evidence.get("inherited_exclusive_lock_verified") is True
-                        and reused_rejected
-                    ):
-                        write_all(status_write, b"PASS")
-                        exit_code = 0
-                except BaseException:  # noqa: BLE001 -- fork fixture reports by exit code
-                    traceback.print_exc()
-                finally:
-                    os._exit(exit_code)
-            os.close(capability_read)
-            os.close(status_write)
-            write_all(capability_write, frame)
-            os.close(capability_write)
-            exit_code = wait_for_child(pid, time.monotonic() + 10.0)
-            if exit_code is None:
-                signal_isolated_process_group(pid, signal.SIGKILL)
-                exit_code = wait_for_child(pid, time.monotonic() + 5.0)
-            fixture_status = os.read(status_read, 16)
-            os.close(status_read)
-            if exit_code != 0 or fixture_status != b"PASS":
-                raise GateError("inherited capability one-shot fork fixture failed")
+    import_attempt = subprocess.run(
+        [
+            str(REGISTERED_PYTHON),
+            "-B",
+            "-c",
+            (
+                "import importlib.util; "
+                f"s=importlib.util.spec_from_file_location('g0081_attack',{str(SCRIPT)!r}); "
+                "m=importlib.util.module_from_spec(s); s.loader.exec_module(m)"
+            ),
+        ],
+        cwd=ROOT,
+        env=environment,
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        check=False,
+        timeout=10,
+    )
+    if (
+        import_attempt.returncode == 0
+        or b"CLI-only registered runner" not in import_attempt.stderr
+    ):
+        raise GateError("ordinary import did not fail before exposing runner helpers")
+    tree = ast.parse(stable_regular_bytes(SCRIPT), filename=str(SCRIPT))
+    forbidden = {
+        "internal_kernel",
+        "forked_kernel_child",
+        "consume_kernel_capability",
+    }
+    module_functions = {
+        node.name
+        for node in tree.body
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    }
+    module_classes = {
+        node.name for node in tree.body if isinstance(node, ast.ClassDef)
+    }
+    if forbidden & module_functions or "KernelCapability" in module_classes:
+        raise GateError("module-level scientific entry/capability remains exposed")
     return {
-        "direct_internal_function_without_capability_rejected": True,
+        "ordinary_import_rejected_before_helper_definition": True,
+        "no_module_level_scientific_entry_or_capability": True,
         "direct_internal_cli_and_caller_environment_token_rejected": True,
-        "anonymous_pipe_secret_inherited": True,
-        "inherited_exclusive_lock_verified": True,
-        "capability_fd_consumed_closed_and_reuse_rejected": True,
-        "parent_pid_bound": True,
-        "isolated_process_group_bound": True,
-        "parent_death_guard_armed_before_capability": True,
+        "actual_fork_authority_is_public_run_local": True,
+        "scientific_outcome_computed": False,
+    }
+
+
+def self_test_fresh_namespace_lock() -> dict[str, object]:
+    with tempfile.TemporaryDirectory(dir=HERE) as temporary_text:
+        parent = Path(temporary_text)
+        namespace = parent / "cache-00000000000000000000000000000000"
+        create_fresh_cache_namespace(namespace)
+        if not namespace.is_dir() or namespace.is_symlink():
+            raise GateError("fresh cache namespace fixture was not a regular directory")
+        existing_rejected = False
+        try:
+            create_fresh_cache_namespace(namespace)
+        except GateError:
+            existing_rejected = True
+        if not existing_rejected:
+            raise GateError("existing empty cache namespace was reused")
+
+        victim = parent / "victim.txt"
+        victim_payload = b"must remain byte-identical\n"
+        victim.write_bytes(victim_payload)
+        symlink_lock = namespace / "execution.lock"
+        symlink_lock.symlink_to(victim)
+        symlink_lock_rejected = False
+        try:
+            with exclusive_cache_lock(symlink_lock):
+                pass
+        except GateError:
+            symlink_lock_rejected = True
+        if not symlink_lock_rejected or victim.read_bytes() != victim_payload:
+            raise GateError("symlink cache lock was followed or mutated its victim")
+
+        symlink_namespace = parent / "cache-11111111111111111111111111111111"
+        symlink_target = parent / "namespace-target"
+        symlink_target.mkdir()
+        symlink_namespace.symlink_to(symlink_target, target_is_directory=True)
+        namespace_symlink_rejected = False
+        try:
+            create_fresh_cache_namespace(symlink_namespace)
+        except GateError:
+            namespace_symlink_rejected = True
+        if not namespace_symlink_rejected or list(symlink_target.iterdir()):
+            raise GateError("symlink cache namespace was accepted or mutated")
+
+        normal_namespace = parent / "cache-22222222222222222222222222222222"
+        create_fresh_cache_namespace(normal_namespace)
+        with exclusive_cache_lock(normal_namespace / "execution.lock") as descriptor:
+            opened = os.fstat(descriptor)
+            if not stat.S_ISREG(opened.st_mode):
+                raise GateError("normal exclusive cache lock is not regular")
+    return {
+        "fresh_absent_namespace_created_exclusively": True,
+        "existing_empty_namespace_rejected": True,
+        "namespace_symlink_rejected_target_unchanged": True,
+        "lock_symlink_rejected_victim_byte_identical": True,
+        "normal_no_follow_exclusive_lock_accepted": True,
         "scientific_outcome_computed": False,
     }
 
@@ -3149,6 +3789,7 @@ def self_test() -> dict[str, object]:
         "logic": self_test_logic(),
         "git_anchor": self_test_git_anchor(),
         "entry_capability": self_test_entry_capability(),
+        "fresh_namespace_lock": self_test_fresh_namespace_lock(),
         "process_boundary": self_test_process_boundary(),
         "all_18582_columns_in_actual_runner": True,
         "price_filtering_in_actual_runner": False,
@@ -3188,8 +3829,8 @@ def main() -> None:
             raise GateError("--self-test refuses registered/internal arguments")
         print(json.dumps(self_test(), sort_keys=True))
         return
-    registration = validate_registration(arguments)
     if arguments.check_registration:
+        registration = validate_registration(arguments)
         bindings = replay_static_bindings()
         print(
             json.dumps(
@@ -3207,15 +3848,16 @@ def main() -> None:
             )
         )
         return
-    report = public_run(registration)
+    report = public_run(arguments)
+    assert isinstance(arguments.output, Path)
     print(
         json.dumps(
             {
                 "schema": SCHEMA_RESULT,
                 "result": report["scientific_payload"]["result"],
                 "scientific_payload_sha256": report["scientific_payload_sha256"],
-                "output": relative_path(registration.output),
-                "output_sha256": sha256_path(registration.output),
+                "output": relative_path(arguments.output),
+                "output_sha256": sha256_path(arguments.output),
             },
             sort_keys=True,
         )

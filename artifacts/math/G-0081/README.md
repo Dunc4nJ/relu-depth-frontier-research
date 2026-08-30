@@ -58,6 +58,13 @@ the runner proves all of the following:
 - scoped `git status` for the runner and preregistration is empty, rejecting
   dirty, staged, deleted, and untracked versions.
 
+Git is invoked only as fixed `/usr/bin/git` under an allowlisted environment,
+with explicit no-follow-resolved `--git-dir` and `--work-tree`. Inherited
+repository, index, object-alternate, namespace, replacement-ref, configuration,
+and `PATH` selectors do not participate. The receipt binds the resolved
+worktree/Git/common-directory identities, object format, exact publication URL,
+and the already-published `refs/heads/master` commit.
+
 The exact anchor commit, execution `HEAD`, Git object format, preregistration
 blob IDs, runner blob ID, and SHA-256 values enter start/end custody and every
 cache/result receipt. Any `HEAD` movement or byte/status drift during execution
@@ -95,8 +102,8 @@ eight workers evaluates deterministic eight-row chunks. Workers write only
 disjoint slices of one `<u4` NumPy cache of shape `(16738,18582)`.
 
 Progress is committed only after flushing and `fsync`ing a batch. Every
-committed chunk has a SHA-256. Resume verifies every completed chunk before
-continuing. Finalization writes an exclusive receipt containing the whole NPY
+committed chunk has a SHA-256, but no later execution may resume it.
+Finalization writes an exclusive receipt containing the whole NPY
 hash, raw C-order data hash, evaluator manifests, dimensions, and start/end
 custody, including the exact preregistration bytes. Final cache promotion uses
 a same-filesystem, no-replace hard link; it cannot overwrite an existing final
@@ -111,15 +118,20 @@ must replay. The artifact-specified G-0078 failing row is then recomputed as a
 Schur row and must be one common nonzero scalar multiple of the complete price
 row and target modulo `p`.
 
-## Persistent native caches
+## Fresh-only native caches
 
-All caches are under ignored `artifacts/math/G-0081/cache/` and are protected
-by an exclusive `flock` during public execution.
+Every preregistration chooses a 32-hex run ID and the ignored namespace
+`artifacts/math/G-0081/cache-<run-id>/`. It must not exist, even if empty. The
+public supervisor creates it once with `mkdirat`/no-follow checks and mode
+`0700`, then creates the lock with `O_EXCL|O_NOFOLLOW` and verifies the inode
+before mutation. Completed, partial, and caller-authored caches are never
+loaded. An interruption spends the registration; a new registration recomputes
+from zero in a new namespace.
 
 1. `complete_new_matrix_p1000003_v1.npy`
    - shape `(16738,18582)`, dtype little-endian `uint32`;
    - complete new matrix `C mod p`, no filtering;
-   - resumable chunk journal and final hash/custody receipt.
+   - within-run chunk journal and final hash/custody receipt.
 2. `pre_rref_schur_augmented_p1000003_v1.npy`
    - shape `(9862,18583)`, dtype little-endian `uint32`;
    - exact pre-RREF modular `S`, target last;
@@ -133,7 +145,10 @@ by an exclusive `flock` during public execution.
      coordinates zero, and `x_p=-RREF[pivot_row(p),f] mod p`.
 
 The third cache is the bridge to later global gated-facet CEGIS. Rank alone is
-not treated as the endpoint.
+not treated as the endpoint. Before the final gzip is created, the still-locked
+parent rehashes the C→S→R source/receipt chain, recomputes the complete RREF from
+S, compares every persisted entry, derives the branch independently, and on a
+member branch repeats all 16,738 rows and the determinant evidence.
 
 ## Decision and replay
 
@@ -165,14 +180,17 @@ The frozen preflight records:
 - conservative whole-kernel projection: 10,710.702 s;
 - projected native minimum peak: 3,755,753,472 bytes.
 
-Execution requires at least 12 GiB available RAM and 12 GiB free disk, with a
-larger dynamic disk requirement when caches are absent. The complete kernel
-runs in a new session/process group. The CLI exposes only `--self-test`,
-`--check-registration`, and `--run`; there is no direct internal execution
-mode. While holding the exclusive cache lock, the public wrapper forks the
-kernel and sends a random one-shot frame through an inherited anonymous pipe.
-Before any scientific work, the child verifies and closes that pipe, verifies
-its fork parent PID and inherited lock ownership, and rejects capability reuse.
+Execution requires at least 12 GiB available RAM and 12 GiB free disk. The
+complete kernel runs in a new session/process group. The CLI exposes only
+`--self-test`, `--check-registration`, and `--run`; ordinary Python import fails
+before helpers are defined. There is no module-level scientific kernel,
+capability class, consumer, or child entry. Only after public revalidation,
+fresh namespace creation, and acquisition of the derived lock does `public_run`
+define its child/science closure and fork it. A random one-shot frame passes
+through an inherited anonymous pipe. Before scientific work, the child
+revalidates the registration, consumes and closes that pipe, verifies its
+PID/session/process group, and proves that the inherited descriptor is the
+exact lock inode derived from the registered cache path.
 
 The child arms Linux `PR_SET_PDEATHSIG=SIGKILL` and rechecks its parent PID to
 close the fork/parent-death race. Each later fork worker independently arms the
@@ -204,8 +222,10 @@ fixtures, target-last pivot scanning, free-zero solving, rank-full-Q logic,
 cache mutation rejection, price-row scalar logic, and nine tiny non-outcome
 fast/frozen/nested evaluator entries. Must-fail controls reject a dirty runner,
 dirty or untracked preregistration, clean post-anchor preregistration mutation,
-the removed internal CLI, direct `internal_kernel(..., capability=None)`, and
-capability FD reuse. Fork fixtures exercise inherited lock proof, the
+a foreign Git database under poisoned Git/PATH/config variables, the removed
+internal CLI, ordinary import, any module-level scientific entry, an existing
+or symlink cache namespace, and a symlink lock without changing its victim.
+Fork fixtures exercise the
 post-`prctl` parent-death race, absolute timeout detection, process-group
 termination, worker death, and child reap. They evaluate no actual quotient or
 rank.
@@ -214,7 +234,8 @@ Public `--run` cannot execute without a separately committed preregistration
 whose exact bytes and expected runner hash are both supplied on the CLI. That
 invocation must also supply the full commit ID anchoring the preregistration via
 `--preregistration-commit`. The artifact must bind the output path, cache
-directory, all hashes, dimensions, resource gates, stage order, eight workers,
-the committed-Git registration protocol, the fork-capability execution
-protocol, and the prohibition on price filtering. This candidate intentionally
-does not create that preregistration.
+directory and run ID, all hashes, dimensions, resource gates, stage order,
+eight workers, the published committed-Git protocol, fresh-only and
+spent-on-interruption cache policies, parent RREF finalization, the local-closure
+fork protocol, and the prohibition on price filtering. This candidate
+intentionally does not create that preregistration.
