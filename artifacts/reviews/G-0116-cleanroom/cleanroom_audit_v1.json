@@ -1,0 +1,95 @@
+{
+  "bindings": {
+    "artifacts/math/G-0111/dual_rows_v1.json": "0b849d7dbb171367d9a55ad4b6da4631b4278caa38d9b5f9cbda04c6cb80535c",
+    "artifacts/math/G-0113/panel_solver_input_v1.json": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "artifacts/math/G-0116/cycle_cut_panel_benchmark_v1.json": "94d54b1a64340ff49d6bbdf35cc429e71a25628ba6764b16039d15c258176310",
+    "artifacts/math/G-0116/src/main.rs": "875b0046e24f32d9649fe0d9c5295dfbd75678fea46df96f6d9f287c6a987bfd"
+  },
+  "claim_boundary": "The exact frozen G-0116 evaluator semantics are corroborated on controls 0 and 3, and every frozen input record satisfies the low-cycle structural precondition. This does not execute the 163,740-column rank scan, establish panel membership, prove a global identity or completeness theorem, or settle MAX11.",
+  "literal_semantic_controls": {
+    "0": {
+      "active_vertices": 8,
+      "direct_formal_rows": {
+        "0": {
+          "formal_assignments": 990,
+          "value": 1269724
+        },
+        "150": {
+          "formal_assignments": 9240,
+          "value": 11443500
+        },
+        "300": {
+          "formal_assignments": 990,
+          "value": 1164404
+        }
+      },
+      "literal_panel_vector_sha256": "f09264dcc0b2d4bd3c9513b82b66aee22cd52cfe380e592f42cf7c5a454a3c58",
+      "official_panel_vector_sha256": "f09264dcc0b2d4bd3c9513b82b66aee22cd52cfe380e592f42cf7c5a454a3c58",
+      "signed_mass": 4
+    },
+    "3": {
+      "active_vertices": 11,
+      "direct_formal_rows": {
+        "0": {
+          "formal_assignments": 990,
+          "value": 1271730
+        },
+        "150": {
+          "formal_assignments": 9240,
+          "value": 11486720
+        },
+        "300": {
+          "formal_assignments": 990,
+          "value": 1171574
+        }
+      },
+      "literal_panel_vector_sha256": "475f46c40f0ee5994d15d5f36140fe78c20f6aaf46857b95be2b142f5a8d2099",
+      "official_panel_vector_sha256": "475f46c40f0ee5994d15d5f36140fe78c20f6aaf46857b95be2b142f5a8d2099",
+      "signed_mass": 5
+    }
+  },
+  "record_audit": {
+    "absolute_cycle_rank_histogram": {
+      "0": 36853,
+      "1": 84826,
+      "2": 36820,
+      "3": 5143,
+      "4": 98
+    },
+    "active_histogram": {
+      "0": 1,
+      "3": 3,
+      "4": 9,
+      "5": 78,
+      "6": 408,
+      "7": 1286,
+      "8": 5769,
+      "9": 20882,
+      "10": 91028,
+      "11": 44276
+    },
+    "all_cancelled_sides_disjoint": true,
+    "all_compact_loopless": true,
+    "mass_histogram": {
+      "0": 1,
+      "1": 2,
+      "2": 28,
+      "3": 464,
+      "4": 9907,
+      "5": 153338
+    },
+    "maximum_absolute_cycle_rank": 4,
+    "maximum_constructive_feedback_witness": 4,
+    "records": 163740
+  },
+  "result": "PASS_BOUNDED",
+  "row_audit": {
+    "formal_stabilizers_exact": true,
+    "positive_formal_profiles": 36,
+    "rows": 301,
+    "strict_zero_based_levels": true,
+    "target_int64_le_sha256": "19beb89b85e3a95989be9a97d749a48609cb4912897bc20da60bfcd1690bf260"
+  },
+  "schema": "max11-g0116-cleanroom-audit-v1",
+  "shared-code_evidence_limit": "G-0116 cycle-cut/exhaustive agreement shares signed-edge, signed-q, and panel-folding code; this clean-room literal branch-max route supplies the independent semantic leg."
+}
