@@ -21,6 +21,7 @@ the generated markers; never hand-edit the generated table.
 | `G-0009` | `C-0033@1` | No theorem reduces arbitrary two-hidden-layer MAX11 representations, or even the complete degree-five pair-max atom span, to the frozen 8,107-column Y-spoke-plus-carrier family. The exact separator must first be priced on broader certified atom universes or paired with a valid normal-form completeness bridge. |
 | `G-0010` | `C-0033@1` | No eligible different-family or human T2 reviewer has independently regenerated the frozen Y-spoke semantics and exact 230-row separator; current review standing is capped at same-family T1. |
 | `G-0011` | `C-0033@1` | The complete complementary same-component Y-spoke closure has been frozen at 18,582 additional full-S_11 orbit columns, but no registered exact-price vector, target-aware quotient decision, or exact rational member/separator certificate yet determines MAX11 on the 16,738-row system for the combined 26,686-orbit family plus three carriers. |
+| `G-0012` | `C-0002@1` | The eleven-face zonotope gluing problem now has an explicit candidate solution, but no theorem or exact construction cancels every additional dense-generator and primitive-block wall throughout all unique-maximum cones while retaining the MAX11 facet support heights. RANGE11 proves that projected face compatibility, even from one global network, is insufficient. |
 
 <!-- GENERATED:OPEN-GAPS:END -->
 

@@ -8,7 +8,7 @@ them against ledger, `phases/ROUNDS.md`, and Git before acting.
 
 ## Where the campaign is
 - Phase: P4 · Round: R-0001 · Proof-core commit: `bc92a01` · Latest frozen checkpoint: `ec2fe8e`
-- Ledger: 38 claims · 11 open gaps · 3 active routes · 3 dead ends · verify-ledger: green
+- Ledger: 40 claims · 12 open gaps · 3 active routes · 4 dead ends · verify-ledger: green
 - New exact boundary: `C-0033@1` is COMPUTED_BOUNDED with a same-family T1
   holds review.  A primitive rational functional supported on 230 rows
   annihilates all 8,107 frozen Y-spoke-plus-carrier columns and pairs nontrivially
@@ -38,14 +38,28 @@ them against ledger, `phases/ROUNDS.md`, and Git before acting.
   recurrences.  An orientation-specific fit survives with irregular rational
   coefficients, so this is evidence against the simplest recurrence, not a
   no-go for the combined family.
+- New unrestricted negative control: `C-0039@1` gives the exact RANGE11
+  function `max-min` as an alternating sum of proper-complement maxima.  Its
+  centered difference body has all eleven independently normalized MAX10
+  target faces but different support heights and 2,046 global two-level
+  facets.  A fresh T1 referee upheld the calculation.  Projected-face-only
+  reconstruction is therefore closed as `D-0004`; support heights or global
+  wall data are mandatory.
+- New constructive bridge: `C-0040@1` gives an explicit rational
+  necessary-and-sufficient generator-consistency criterion for gluing eleven
+  ordered zonotope branch faces into full-dimensional global branches.  A
+  fresh T1 referee upheld its face formula, 110-vector center-correction
+  basis, and no-skip compilation.  It does not cancel the additional global
+  walls introduced by the construction.
 - Unrestricted target: `C-0002@1` remains challenged and unproved.  A true
-  normal-form/completeness bridge or an escaping full-dimensional facet-gluing
-  construction remains the final conceptual bottleneck.
+  global wall-cancellation theorem or an exact construction satisfying it is
+  now the final conceptual bottleneck (`G-0012`).
 - Clean-pass streak (P10 only): 0
 
 ## Next work queue (dual-written to `beads/QUEUE.md`)
-1. G-0011 — independently audit and preregister the complete 26,689-column Schur/RREF run, execute it, preserve the full nullspace transform, and exact-lift or globally separate the resulting branch.
-2. G-0006 — pursue a true normal-form/completeness bridge or a full-dimensional asymmetric facet-gluing escape after the broad finite pricing discriminator.
+1. G-0012 — derive and solve the exact off-facet wall-cancellation equations for globally glued full-dimensional blocks, retaining support heights and rejecting RANGE11.
+2. G-0011 — independently audit and preregister the complete 26,689-column Schur/RREF run, execute it, preserve the full nullspace transform, and exact-lift or globally separate the resulting branch.
+3. G-0006 — pursue a true normal-form/completeness bridge or an asymmetric escape outside the finite pair/Y-spoke catalogues.
 
 `walk-consistency` compares the object-ID set on the real numbered lines above with the set on real
 unchecked lines in `beads/QUEUE.md`. Brace-slot lines are ignored line by line while this template is
@@ -59,8 +73,10 @@ review and a separately committed preregistration before any quotient rank is
 evaluated.  A modular member or separator is discovery-only unless its branch's
 registered exact bridge succeeds; even a rational certificate on all 16,738
 rows is not a global CPWL identity or unrestricted-network theorem.  G-0006
-remains the conceptual bridge.  T2 review remains unavailable but does not
-block this discriminator.
+remains the completeness bridge.  G-0012 is the target-facing constructive
+obligation: global exposed-face realizability is not enough without exact
+off-facet wall cancellation.  T2 review remains unavailable but does not
+block bounded discovery.
 
 ## Standing reminders for the resuming agent
 - Do not re-derive settled state; challenge it through the ledger if it looks wrong.

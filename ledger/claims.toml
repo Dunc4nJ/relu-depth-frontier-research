@@ -548,3 +548,30 @@ env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80e
 data_snapshot = "sha256:5d6754c91f7971aa3fdad2d1f171645f32fa57c26b4a001bb3b6ac9d5e802958"
 author_path = "cleanroom-implementation-author/g0079-price-cleanroom"
 created = 2026-08-30T15:02:47Z
+
+[[claim]]
+id = "C-0039"
+version = 1
+statement = "For every n>=2, the alternating proper-complement sum R_n(x)=sum_{empty!=S proper subset [n]} (-1)^(|S|+1) MAX_{[n]\\S}(x) equals max_i x_i+(-1)^n min_i x_i. For n=11, conditional on the retrieved exact MAX_k two-hidden-layer representations for k<=10, R_11=max-min is itself two-hidden-layer representable. Its centered difference body Delta_11^0+(-Delta_11^0) has, at each simplex facet normal, exactly the same independently translation-normalized exposed-face shape as Delta_11^0 while differing in support height and global normal fan. Therefore the eleven projected MAX10 face shapes, even when induced by one global network, do not suffice to reconstruct centered MAX11."
+role = "theorem-attempt"
+domain = "mathematics"
+depends_on = ["C-0003@1"]
+falsifier = "One incorrect alternating coefficient, one complement of arity eleven, failure of same-depth parallel composition, a sign or scaling error in the centered difference-body face calculation, or one projected facet that differs from the centered MAX10 simplex."
+no_claim = "This refutes only reconstruction from eleven independently translation-normalized exposed-face shapes. It does not refute stronger criteria retaining support heights, selected endpoint translations, additional normal directions, or the complete global wall fan; it neither constructs MAX11 nor proves MAX11 impossible. The MAX1--MAX10 network dependency remains only CITED in this campaign."
+not_equivalent_to = ["a counterexample to MAX11 representability", "an unrestricted two-hidden-layer lower bound", "a proof that support-height-aware gluing fails", "a novelty or priority claim"]
+origin_round = "R-0001"
+author_path = "theorem-author/beigeturtle"
+created = 2026-08-30T17:22:44Z
+
+[[claim]]
+id = "C-0040"
+version = 1
+statement = "In the centered n=11 space H, let eleven ordered local zonotope branch pairs (P_i,Q_i) have generators in E_i={z in H:z_i=0} and tied relative centers p_i-q_i in E_i. After canonical consolidation by unoriented generator line, the condition that each line visible on two local faces has the same total length on both, separately for P and Q, is necessary and sufficient for finite full-dimensional global zonotopes P,Q whose exposed faces at d_i=mu-e_i equal P_i,Q_i up to one common translation per i. Rational local data admit an explicit rational construction, and each resulting convex-hull primitive compiles into exactly two hidden ReLU layers."
+role = "theorem-attempt"
+domain = "mathematics"
+falsifier = "Compatible rational local data satisfying the generator-consistency and branch-tie hypotheses for which the explicit visible-generator union plus 110 dense center-correctors fails to reproduce one exposed face; a hidden compatibility not captured by canonical generator lines; a dependence in the claimed basis of H^11; or a required skip connection or third hidden layer in the compiled primitive."
+no_claim = "The theorem glues only eleven specified exposed faces and their support ties. Dense correction and padding generators generally create additional global walls. It proves neither cancellation of those walls, equality of the global virtual polytope with the simplex, a MAX11 construction, nor an unrestricted impossibility theorem. Novelty has not been adjudicated and T2 or human review is unavailable."
+not_equivalent_to = ["a MAX11 representation", "a global normal-fan gluing theorem", "cancellation of off-facet walls", "a completeness theorem for the finite pair-orbit ansatz", "a novelty or priority claim"]
+origin_round = "R-0001"
+author_path = "theorem-author/max11-constructive-escape"
+created = 2026-08-30T17:22:44Z

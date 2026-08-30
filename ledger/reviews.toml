@@ -102,3 +102,31 @@ code_hash = "sha256:fd1d0293ea507f9dd26d0948f54ff9358eb6ee8213d538ec3ec0510a4478
 env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
 data_snapshot = "sha256:5d6754c91f7971aa3fdad2d1f171645f32fa57c26b4a001bb3b6ac9d5e802958"
 created = 2026-08-30T15:02:47Z
+
+[[review]]
+id = "V-0005"
+target = "C-0039@1"
+reviewer = "referee/range11-counterexample-adversary"
+tier = "T1"
+model_family = "same-family-codex"
+basis = ["alternating-binomial-derivation", "centered-support-function-calculus", "facet-height-and-projection-replay", "same-depth-network-closure", "statement-match"]
+capable_of_failure = "A wrong parity or interior order-statistic coefficient, an arity-eleven complement, an added hidden layer under direct-sum closure, interpreting geometric reflection as Grothendieck inverse, a changed projected vertex or scale, or a claim extending beyond independently normalized face shapes would have produced refuted or narrowed rather than holds."
+verdict = "holds"
+findings = "Independently derived R_n=max+(-1)^n min, checked the complement arities and same-depth direct-sum compilation, recomputed the centered difference body and all facet faces, and obtained exact equality of the projected MAX10 simplices. The review found the decisive retained distinctions h_D(u_i)=1 versus h_Delta(u_i)=1/11 and 2046 versus eleven global facets."
+residual_doubts = "Same-model-family T1 only; exact MAX1--MAX10 network certificates remain a CITED dependency rather than a clean-room replay. No novelty search, T2 or human review, and no claim about support-height-aware or full-normal-fan reconstruction."
+expected_break = "The likeliest break was a sign/parity error or a translation that vanished only after an invalid normalization; exact coefficient and orthogonal-projection calculations found neither."
+created = 2026-08-30T17:22:44Z
+
+[[review]]
+id = "V-0006"
+target = "C-0040@1"
+reviewer = "referee/facet-gluing-lemma-adversary"
+tier = "T1"
+model_family = "same-family-codex"
+basis = ["canonical-zonotope-generator-data", "dense-center-correction-basis", "exposed-face-calculus", "no-skip-network-compilation", "signed-branch-allocation", "statement-match"]
+capable_of_failure = "One incorrect face-formula sign, nonintrinsic generator-consistency datum, hidden cross-facet compatibility, dependence among the 110 dense correction vectors, incorrect coefficient formula or negative-branch sign, failed common translation, lost support tie, or required third hidden layer would have produced refuted or narrowed rather than holds."
+verdict = "holds"
+findings = "The referee independently checked the exact exposed-face formula, necessity and sufficiency of consolidated unoriented-line consistency, the J-2I tensor basis of H^11, the explicit 1/9 and 4/19 correction coefficients, signed allocation to P or Q, full-dimensional common padding, tied convex-hull face, and a no-skip two-hidden-layer compilation. The theorem holds after explicitly restricting it to eleven exposed faces under the ambient and branch-tie hypotheses."
+residual_doubts = "Same-model-family T1 only; no novelty search, T2 or human review. The construction generally introduces extra dense-generator walls and supplies no cancellation theorem or global MAX11 identity."
+expected_break = "The likeliest failure was a hidden compatibility beyond shared generator lengths or an inability to steer all eleven relative centers without altering face shapes; the canonical edge-data argument and explicit H^11 basis survived."
+created = 2026-08-30T17:22:44Z

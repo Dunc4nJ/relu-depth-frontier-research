@@ -85,3 +85,11 @@ obligation = "The complete complementary same-component Y-spoke closure has been
 status = "open"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T12:44:16Z
+
+[[gap]]
+id = "G-0012"
+claim = "C-0002@1"
+obligation = "The eleven-face zonotope gluing problem now has an explicit candidate solution, but no theorem or exact construction cancels every additional dense-generator and primitive-block wall throughout all unique-maximum cones while retaining the MAX11 facet support heights. RANGE11 proves that projected face compatibility, even from one global network, is insufficient."
+status = "open"
+author_path = "research-lead/beigeturtle"
+created = 2026-08-30T17:22:44Z

@@ -25,7 +25,7 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0002@1`
 - falsifier: An unconditional proof that no finite two-hidden-layer ReLU network over arbitrary real weights equals MAX_11 globally.
 - no-claim: A positive witness settles only n=11; failure of a rational, symmetric, pairwise-comparison, or bounded-width search does not refute this claim.
-- open gaps: G-0002, G-0005, G-0006, G-0008
+- open gaps: G-0002, G-0005, G-0006, G-0008, G-0012
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
 ### C-0003@1 — construction [mathematics]
@@ -392,6 +392,26 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only. The verifier is fresh-context same-model-lineage T1 evidence, not T2 or human review; it shares Pynauty for frozen orbit ordering and the registered G-0078 functional artifact, and it does not independently reconstruct all 8,107 old columns.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0039@1 — theorem-attempt [mathematics]
+
+> For every n>=2, the alternating proper-complement sum R_n(x)=sum_{empty!=S proper subset [n]} (-1)^(|S|+1) MAX_{[n]\S}(x) equals max_i x_i+(-1)^n min_i x_i. For n=11, conditional on the retrieved exact MAX_k two-hidden-layer representations for k<=10, R_11=max-min is itself two-hidden-layer representable. Its centered difference body Delta_11^0+(-Delta_11^0) has, at each simplex facet normal, exactly the same independently translation-normalized exposed-face shape as Delta_11^0 while differing in support height and global normal fan. Therefore the eleven projected MAX10 face shapes, even when induced by one global network, do not suffice to reconstruct centered MAX11.
+
+- disposition: **open** · trace:7263d0de
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0039@1`
+- falsifier: One incorrect alternating coefficient, one complement of arity eleven, failure of same-depth parallel composition, a sign or scaling error in the centered difference-body face calculation, or one projected facet that differs from the centered MAX10 simplex.
+- no-claim: This refutes only reconstruction from eleven independently translation-normalized exposed-face shapes. It does not refute stronger criteria retaining support heights, selected endpoint translations, additional normal directions, or the complete global wall fan; it neither constructs MAX11 nor proves MAX11 impossible. The MAX1--MAX10 network dependency remains only CITED in this campaign.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0040@1 — theorem-attempt [mathematics]
+
+> In the centered n=11 space H, let eleven ordered local zonotope branch pairs (P_i,Q_i) have generators in E_i={z in H:z_i=0} and tied relative centers p_i-q_i in E_i. After canonical consolidation by unoriented generator line, the condition that each line visible on two local faces has the same total length on both, separately for P and Q, is necessary and sufficient for finite full-dimensional global zonotopes P,Q whose exposed faces at d_i=mu-e_i equal P_i,Q_i up to one common translation per i. Rational local data admit an explicit rational construction, and each resulting convex-hull primitive compiles into exactly two hidden ReLU layers.
+
+- disposition: **open** · trace:12df823d
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0040@1`
+- falsifier: Compatible rational local data satisfying the generator-consistency and branch-tie hypotheses for which the explicit visible-generator union plus 110 dense center-correctors fails to reproduce one exposed face; a hidden compatibility not captured by canonical generator lines; a dependence in the claimed basis of H^11; or a required skip connection or third hidden layer in the compiled primitive.
+- no-claim: The theorem glues only eleven specified exposed faces and their support ties. Dense correction and padding generators generally create additional global walls. It proves neither cancellation of those walls, equality of the global virtual polytope with the simplex, a MAX11 construction, nor an unrestricted impossibility theorem. Novelty has not been adjudicated and T2 or human review is unavailable.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -404,6 +424,7 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `D-0001` Reuse the current G-0011 rational left dual unchanged as a separator after adjoi · scope: Exactly G-0011 dual SHA fe6768c8..., G-0009 cross-family ser · retry_when: `data_changes(cross-component-family-serialization)` · trace:e415470a
 - `D-0002` Continue repairing the frozen G-0046 registered-only modular relation by adding  · scope: Exactly the G-0046 rank-7,302 serialized support and its 7,1 · retry_when: `regime_boundary(pair-orbit-family-enlarged-beyond-g0046)` · trace:e0b4a9d2
 - `D-0003` Search for MAX11 inside the fully symmetrized asymmetric loop-edge lift of the 2 · scope: Exactly the 5,040 G-0071 labelled seeds quotienting to 3,754 · retry_when: `data_changes(asymmetric-loop-edge-orbit-subject)` · trace:d09d860d
+- `D-0004` Reconstruct centered MAX11 from only the eleven independently translation-normal · scope: Exactly reconstruction criteria that discard independent nor · retry_when: `regime_boundary(face-data-retains-support-heights-or-global-wall-fan)` · trace:b4306f20
 
 ## Experiments (multiplicity ledger)
 
