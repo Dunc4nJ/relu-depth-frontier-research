@@ -1,0 +1,7 @@
+{
+  "schema": "max11-g0117-global-replay-certificate-v1",
+  "terms": [
+    {"sequence": 0, "coefficient": "1/2"},
+    {"sequence": 1, "coefficient": "-3/7"}
+  ]
+}
