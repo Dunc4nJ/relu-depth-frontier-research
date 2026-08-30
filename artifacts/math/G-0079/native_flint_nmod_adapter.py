@@ -430,6 +430,8 @@ def validate_full_native_product(
 
 
 def invert_old_basis(output: Path, receipt_path: Path) -> dict[str, object]:
+    if output.resolve(strict=False) == receipt_path.resolve(strict=False):
+        raise AdapterError("inverse output and receipt paths must be distinct")
     if output.exists() or output.is_symlink():
         raise AdapterError(f"refusing to overwrite inverse output: {output}")
     if receipt_path.exists() or receipt_path.is_symlink():
@@ -593,7 +595,14 @@ def invert_old_basis(output: Path, receipt_path: Path) -> dict[str, object]:
             "family prices and no target-membership or separation result."
         ),
     }
-    write_json_exclusive(receipt_path, receipt)
+    try:
+        write_json_exclusive(receipt_path, receipt)
+    except BaseException:
+        try:
+            output.unlink()
+        except FileNotFoundError:
+            pass
+        raise
     return receipt
 
 
@@ -686,6 +695,15 @@ def self_test() -> dict[str, object]:
         "libgmp": EXPECTED_GMP_SHA256,
     }:
         raise AdapterError("native library custody changed during self-test")
+    same_path_refused = False
+    with tempfile.TemporaryDirectory(prefix="g0079-native-path-control-") as directory:
+        same = Path(directory) / "same"
+        try:
+            invert_old_basis(same, same)
+        except AdapterError as error:
+            same_path_refused = "must be distinct" in str(error)
+    if not same_path_refused:
+        raise AdapterError("same output/receipt path mutant escaped")
     return {
         "schema": "max11-g0079-native-flint-adapter-self-test-v1",
         "result": "PASS",
@@ -696,6 +714,7 @@ def self_test() -> dict[str, object]:
         "live_subject_metadata_binding_replayed": True,
         "opaque_storage_bytes": 128,
         "opaque_guard_canaries_replayed": True,
+        "same_output_receipt_path_refused": True,
         "little_endian_uint32_export_replayed": True,
         "python_flint_imported": False,
         "python_flint_bulk_constructor_used": False,
