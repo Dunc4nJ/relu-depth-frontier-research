@@ -92,7 +92,7 @@ independently recomputed semantic hashes are checked at their relevant gates:
 
 | Input | SHA-256 |
 |---|---|
-| isolated startup launcher | `3d9b0b843cd84e7b3377829692f4aaec0c744b2a2b00a7bcdf917f3e352162af` |
+| isolated startup launcher | `9f6d75a6cb6903e2165896b74f725a87a5cf8f8f740831ebc98aa977ead2b0bb` |
 | static `/usr/bin/busybox` | `6c4a39ad9ab7071e4c0bdc3f61546b1526507e30a8f24886e4ef353d66e7398d` |
 | G-0079 registered price runner | `7539515641c241a28be45cea88445bd4f598f7c0693ab521c31805530c9f67da` |
 | G-0079 complete price artifact | `5d6754c91f7971aa3fdad2d1f171645f32fa57c26b4a001bb3b6ac9d5e802958` |
@@ -105,7 +105,7 @@ independently recomputed semantic hashes are checked at their relevant gates:
 | G-0077 modular basis | `9221d7111a67630a4962d88b97f0cfd7a6b8fd50d3dc9717e580440492d67ed4` |
 | G-0078 exact separator | `8e08caecbf5a4d7b457a32f445702121dc1d095b4e368d45db8bc64847b4ae96` |
 | old augmented matrix | `5c04ef6cadebf41e31cf01f822210305d4977ebbf0aebeba2bacc73e765c5c9f` |
-| environment manifest | `12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c` |
+| CPython 3.12/PyPI wheel manifest | `f17bb20bb817e5c4fe626f3782c3b382b1ba0cd2397b704def11a26df61ea1b4` |
 
 The G-0079 owned-byte loader separately binds the transitive G-0075/G-0074/
 G-0073 semantic source chain. Source bytes are read, hashed, and executed from

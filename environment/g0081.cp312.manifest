@@ -1,0 +1,27 @@
+schema=max11-g0081-cpython312-runtime-v1
+created_utc=2026-08-30T17:45:00Z
+installer=uv 0.9.26
+install_command=uv pip install --python .toolchains/g0081-venv/bin/python numpy==2.5.2 networkx==3.6.1 pynauty==2.8.8.1 python-flint==0.9.0
+
+python_version=3.12.12
+python_distribution=astral-sh-uv-managed-cpython-build
+python_base=/home/ubuntu/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu
+python_executable_sha256=43e53ed986ac242e0a412ce45efa474d3c3f9c337ed78a903cfec8241ac9810b
+python_runtime_tree_sha256_manifest=80cb7a04c60fa7c5cbda0e9ff9de6ca45535c7ba7f172b3214f8e40029a2f493
+site_packages_tree_sha256_manifest=cd60d7344f981039647313ae63bf3fbc84572b974194a50b54cfa64efda75d22
+
+numpy_wheel=numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+numpy_wheel_sha256=3cdec01fa790a186d430433fdd4d4ffb70eed6f0eeb4bf05c8dbe2dce0a9bcb8
+networkx_wheel=networkx-3.6.1-py3-none-any.whl
+networkx_wheel_sha256=d47fbf302e7d9cbbb9e2555a0d267983d2aa476bac30e90dfbe5669bd57f3762
+pynauty_wheel=pynauty-2.8.8.1-cp312-cp312-manylinux_2_39_x86_64.whl
+pynauty_wheel_sha256=2d9c7e23000137434dc8a0301779d891868f76c17bcbcafd2b5cc27a9636ab32
+python_flint_wheel=python_flint-0.9.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+python_flint_wheel_sha256=376b88cacd30612479e839ffdba887599d3f9c8c0e214852bf80bb2b194e4d76
+
+pynauty_native_sha256=b26c699ef1bbc057b000146087aac977ac6da08a94aea8478ed624da8c758182
+libflint_sha256=871a4132fd1e9f3638391b2208e07088f8e3e72a10e41d45f58b150a60c2a1a9
+libgmp_sha256=33d24e675b10f8b1ab93a8ad3fa2ed5012e1b0d89dcdb97273877c6c6b9450d8
+libmpfr_sha256=c4dfcfc7c5c7ab71d427e15f2f9fae4ace88592a81d4596a918dcc02eadfc6e3
+
+boundary=This manifest binds the local discovery runtime and the selected official PyPI wheel records. It does not turn a finite modular result into a rational identity or an unrestricted MAX11 theorem.

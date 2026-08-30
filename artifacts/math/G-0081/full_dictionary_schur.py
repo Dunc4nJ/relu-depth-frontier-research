@@ -73,15 +73,15 @@ G0078_SOURCE = ROOT / "artifacts/math/G-0078/sparse_exact_left_dual.py"
 G0078_PREFLIGHT = ROOT / "artifacts/math/G-0078/sparse_exact_preflight_v1.json.gz"
 G0078_EXACT = ROOT / "artifacts/math/G-0078/sparse_exact_left_dual_v1.json.gz"
 FULL_OLD_MATRIX = ROOT / "artifacts/math/G-0076/cache/full-N.npy"
-ENVIRONMENT_MANIFEST = ROOT / "environment/g0075.subject.manifest"
-REGISTERED_PYTHON = ROOT / ".venv/bin/python"
+ENVIRONMENT_MANIFEST = ROOT / "environment/g0081.cp312.manifest"
+REGISTERED_PYTHON = ROOT / ".toolchains/g0081-venv/bin/python"
 ISOLATED_LAUNCHER = HERE / "run_isolated.sh"
 BUSYBOX_EXECUTABLE = Path("/usr/bin/busybox")
-VENV_SITE_PACKAGES = ROOT / ".venv/lib/python3.13/site-packages"
+VENV_SITE_PACKAGES = ROOT / ".toolchains/g0081-venv/lib/python3.12/site-packages"
 EXPECTED_STARTUP_PATH = [
-    "/usr/lib/python313.zip",
-    "/usr/lib/python3.13",
-    "/usr/lib/python3.13/lib-dynload",
+    "/home/ubuntu/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python312.zip",
+    "/home/ubuntu/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12",
+    "/home/ubuntu/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/lib-dynload",
 ]
 EXPECTED_STARTUP_ENVIRONMENT = {
     "PATH": "/usr/bin:/bin",
@@ -89,7 +89,7 @@ EXPECTED_STARTUP_ENVIRONMENT = {
     "LC_ALL": "C",
 }
 EXPECTED_ISOLATED_LAUNCHER_SHA256 = (
-    "3d9b0b843cd84e7b3377829692f4aaec0c744b2a2b00a7bcdf917f3e352162af"
+    "9f6d75a6cb6903e2165896b74f725a87a5cf8f8f740831ebc98aa977ead2b0bb"
 )
 EXPECTED_BUSYBOX_SHA256 = (
     "6c4a39ad9ab7071e4c0bdc3f61546b1526507e30a8f24886e4ef353d66e7398d"
@@ -136,8 +136,8 @@ def validate_startup_runtime() -> dict[str, object]:
 
 
 STARTUP_RUNTIME = validate_startup_runtime()
-sys.prefix = str(ROOT / ".venv")
-sys.exec_prefix = str(ROOT / ".venv")
+sys.prefix = str(ROOT / ".toolchains/g0081-venv")
+sys.exec_prefix = str(ROOT / ".toolchains/g0081-venv")
 STARTUP_RUNTIME["manually_activated_prefix_after_no_site_validation"] = sys.prefix
 sys.path.append(str(VENV_SITE_PACKAGES))
 
@@ -174,13 +174,27 @@ EXPECTED_DENSE_SCHUR_ENTRIES = 183_265_546
 EXPECTED_PROJECTED_DENSE_MULTIPLY_SECONDS = 538.0544315638452
 EXPECTED_PROJECTED_DENSE_RANK_SECONDS = 408.36025315134856
 EXPECTED_PROJECTED_KERNEL_SECONDS = 10_710.702239091652
-EXPECTED_REGISTERED_PYTHON = "3.13.7"
+EXPECTED_REGISTERED_PYTHON = "3.12.12"
 GIT_COMMIT_PATTERN = re.compile(r"[0-9a-fA-F]{40,64}")
 CACHE_RUN_ID_PATTERN = re.compile(r"[0-9a-f]{32}")
 CAPABILITY_DOMAIN = b"G0081_PARENT_CHILD_CAPABILITY_V1\0"
 CAPABILITY_SECRET_BYTES = 32
 PR_SET_PDEATHSIG = 1
+PR_SET_CHILD_SUBREAPER = 36
+PR_GET_CHILD_SUBREAPER = 37
 GIT_EXECUTABLE = Path("/usr/bin/git")
+SSH_EXECUTABLE = Path("/usr/bin/ssh")
+SSH_IDENTITY = Path("/home/ubuntu/.ssh/id_ed25519")
+SSH_KNOWN_HOSTS = HERE / "github_known_hosts_v1"
+EXPECTED_GIT_EXECUTABLE_SHA256 = (
+    "3446b26047255f16d588eda4527aeedf02bd173449382d93bfe8a141257876c9"
+)
+EXPECTED_SSH_EXECUTABLE_SHA256 = (
+    "ad3008f8e15fdfa49f4c43ab649ff8d53c8a6c1a2bbdbfff8962154e0c6f0d96"
+)
+EXPECTED_SSH_KNOWN_HOSTS_SHA256 = (
+    "c73ac5d045cd2a359d2202b79b551fb22a638463d5ddbe5ed59b1b3998869c88"
+)
 EXPECTED_ORIGIN_URL = "git@github.com:Dunc4nJ/relu-depth-frontier-research.git"
 EXPECTED_PUBLISHED_REF = "refs/heads/master"
 
@@ -266,7 +280,11 @@ STATIC_BINDINGS: dict[str, tuple[Path, str]] = {
     ),
     "environment_manifest": (
         ENVIRONMENT_MANIFEST,
-        "12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c",
+        "f17bb20bb817e5c4fe626f3782c3b382b1ba0cd2397b704def11a26df61ea1b4",
+    ),
+    "g0081_github_known_hosts": (
+        SSH_KNOWN_HOSTS,
+        EXPECTED_SSH_KNOWN_HOSTS_SHA256,
     ),
 }
 
@@ -289,6 +307,9 @@ class GitAnchor:
     git_config_sha256: str
     git_executable: str
     git_executable_sha256: str
+    ssh_executable: str
+    ssh_executable_sha256: str
+    ssh_known_hosts_sha256: str
     origin_url: str | None
     published_ref: str | None
     published_head_commit: str | None
@@ -307,6 +328,9 @@ class GitAnchor:
             "git_config_sha256": self.git_config_sha256,
             "git_executable": self.git_executable,
             "git_executable_sha256": self.git_executable_sha256,
+            "ssh_executable": self.ssh_executable,
+            "ssh_executable_sha256": self.ssh_executable_sha256,
+            "ssh_known_hosts_sha256": self.ssh_known_hosts_sha256,
             "origin_url": self.origin_url,
             "published_ref": self.published_ref,
             "published_head_commit": self.published_head_commit,
@@ -571,9 +595,30 @@ def trusted_git_layout(repository: Path) -> tuple[Path, Path]:
     common_dir = git_dir
     if not common_dir.is_dir() or common_dir.is_symlink():
         raise GateError("resolved campaign common Git directory is not regular")
-    alternates = common_dir / "objects/info/alternates"
-    if alternates.exists() or alternates.is_symlink():
-        raise GateError("Git object alternates are forbidden for campaign custody")
+    for metadata_tree in (
+        common_dir / "objects",
+        common_dir / "refs",
+        common_dir / "info",
+    ):
+        if not metadata_tree.is_dir() or metadata_tree.is_symlink():
+            raise GateError(f"Git metadata tree is absent or indirect: {metadata_tree}")
+        for candidate in metadata_tree.rglob("*"):
+            status = candidate.lstat()
+            if stat.S_ISLNK(status.st_mode) or not (
+                stat.S_ISDIR(status.st_mode) or stat.S_ISREG(status.st_mode)
+            ):
+                raise GateError(f"Git metadata contains indirection/special state: {candidate}")
+    forbidden_metadata = (
+        common_dir / "info/grafts",
+        common_dir / "shallow",
+        common_dir / "objects/info/alternates",
+        common_dir / "objects/info/http-alternates",
+    )
+    if any(path.exists() or path.is_symlink() for path in forbidden_metadata):
+        raise GateError("Git graft, shallow, or alternate object state is forbidden")
+    pack_directory = common_dir / "objects/pack"
+    if pack_directory.is_dir() and any(pack_directory.glob("*.promisor")):
+        raise GateError("Git promisor packs are forbidden for campaign custody")
     worktree_config = common_dir / "config.worktree"
     if worktree_config.exists() or worktree_config.is_symlink():
         raise GateError("Git worktree-specific configuration is forbidden")
@@ -582,7 +627,30 @@ def trusted_git_layout(repository: Path) -> tuple[Path, Path]:
         replace_dir.is_dir() and any(replace_dir.rglob("*"))
     ):
         raise GateError("Git replacement refs are forbidden for campaign custody")
+    packed_refs = common_dir / "packed-refs"
+    if packed_refs.exists() and b"refs/replace/" in stable_regular_bytes(packed_refs):
+        raise GateError("packed Git replacement refs are forbidden for campaign custody")
     return git_dir, common_dir
+
+
+def validate_git_transport_bindings() -> None:
+    """Bind every executable/public-key byte used by Git publication checks."""
+    if (
+        not GIT_EXECUTABLE.is_file()
+        or GIT_EXECUTABLE.is_symlink()
+        or sha256_path(GIT_EXECUTABLE) != EXPECTED_GIT_EXECUTABLE_SHA256
+    ):
+        raise GateError("fixed Git executable binding drift")
+    if (
+        not SSH_EXECUTABLE.is_file()
+        or SSH_EXECUTABLE.is_symlink()
+        or sha256_path(SSH_EXECUTABLE) != EXPECTED_SSH_EXECUTABLE_SHA256
+    ):
+        raise GateError("fixed SSH executable binding drift")
+    if sha256_path(SSH_KNOWN_HOSTS) != EXPECTED_SSH_KNOWN_HOSTS_SHA256:
+        raise GateError("dedicated GitHub known-hosts binding drift")
+    if not SSH_IDENTITY.is_file() or SSH_IDENTITY.is_symlink():
+        raise GateError("registered SSH identity path is absent or indirect")
 
 
 def clean_git_environment() -> dict[str, str]:
@@ -595,10 +663,21 @@ def clean_git_environment() -> dict[str, str]:
         "GIT_CONFIG_NOSYSTEM": "1",
         "GIT_CONFIG_GLOBAL": os.devnull,
         "GIT_NO_REPLACE_OBJECTS": "1",
+        "GIT_NO_LAZY_FETCH": "1",
+        "GIT_PROTOCOL_FROM_USER": "0",
+        "GIT_ALLOW_PROTOCOL": "ssh",
         "GIT_TERMINAL_PROMPT": "0",
+        "GIT_SSH_VARIANT": "ssh",
         "GIT_SSH_COMMAND": (
-            "/usr/bin/ssh -F /dev/null -oBatchMode=yes "
-            "-oStrictHostKeyChecking=yes"
+            f"{SSH_EXECUTABLE} -F none -oBatchMode=yes -oIdentitiesOnly=yes "
+            f"-oIdentityFile={SSH_IDENTITY} "
+            f"-oUserKnownHostsFile={SSH_KNOWN_HOSTS} "
+            "-oGlobalKnownHostsFile=/dev/null -oStrictHostKeyChecking=yes "
+            "-oPasswordAuthentication=no -oKbdInteractiveAuthentication=no "
+            "-oGSSAPIAuthentication=no -oHostbasedAuthentication=no "
+            "-oProxyCommand=none -oProxyJump=none -oCanonicalizeHostname=no "
+            "-oCheckHostIP=no -oUpdateHostKeys=no -oVerifyHostKeyDNS=no "
+            "-oNumberOfPasswordPrompts=0 -oAddKeysToAgent=no"
         ),
     }
 
@@ -608,8 +687,7 @@ def git_process(
     arguments: Sequence[str],
 ) -> subprocess.CompletedProcess[bytes]:
     repository = repository.resolve()
-    if not GIT_EXECUTABLE.is_file() or GIT_EXECUTABLE.is_symlink():
-        raise GateError("fixed Git executable is absent, nonregular, or a symlink")
+    validate_git_transport_bindings()
     command = [str(GIT_EXECUTABLE), "--no-replace-objects", "--literal-pathspecs"]
     if not arguments or arguments[0] != "init":
         git_dir, _common_dir = trusted_git_layout(repository)
@@ -617,20 +695,28 @@ def git_process(
             [f"--git-dir={git_dir}", f"--work-tree={repository}"]
         )
     command.extend(arguments)
+    process = subprocess.Popen(
+        command,
+        cwd=repository,
+        env=clean_git_environment(),
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
+    )
     try:
-        return subprocess.run(
-            command,
-            cwd=repository,
-            env=clean_git_environment(),
-            stdin=subprocess.DEVNULL,
-            capture_output=True,
-            check=False,
-            timeout=GIT_COMMAND_TIMEOUT_SECONDS,
-        )
+        stdout, stderr = process.communicate(timeout=GIT_COMMAND_TIMEOUT_SECONDS)
     except subprocess.TimeoutExpired as error:
+        signal_isolated_process_group(process.pid, signal.SIGTERM)
+        try:
+            process.communicate(timeout=5.0)
+        except subprocess.TimeoutExpired:
+            signal_isolated_process_group(process.pid, signal.SIGKILL)
+            process.communicate()
         raise GateError(
             f"fixed Git command exceeded {GIT_COMMAND_TIMEOUT_SECONDS} seconds"
         ) from error
+    return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
 
 
 def git_bytes(repository: Path, arguments: Sequence[str]) -> bytes:
@@ -643,10 +729,99 @@ def git_bytes(repository: Path, arguments: Sequence[str]) -> bytes:
     return completed.stdout
 
 
-def audit_effective_git_config(
-    repository: Path, config_path: Path
+def parse_git_config_records(raw: bytes) -> dict[str, list[str]]:
+    records = raw.split(b"\0")
+    if records and records[-1] == b"":
+        records.pop()
+    values: dict[str, list[str]] = {}
+    for record in records:
+        if b"\n" not in record:
+            raise GateError("Git config record lacks a key/value boundary")
+        key_bytes, value_bytes = record.split(b"\n", 1)
+        try:
+            key = key_bytes.decode("ascii").lower()
+            value = value_bytes.decode("utf-8", errors="surrogateescape")
+        except UnicodeDecodeError as error:
+            raise GateError("Git config key is not ASCII") from error
+        values.setdefault(key, []).append(value)
+    return values
+
+
+def require_allowlisted_git_config(
+    values: dict[str, list[str]], expected_origin_url: str | None
+) -> None:
+    """Admit only inert repository settings needed by this exact checkout."""
+    exact_values: dict[str, set[str]] = {
+        "core.repositoryformatversion": {"0"},
+        "core.filemode": {"true", "false"},
+        "core.bare": {"false"},
+        "core.logallrefupdates": {"true", "false"},
+        "remote.origin.fetch": {"+refs/heads/*:refs/remotes/origin/*"},
+        "branch.master.remote": {"origin"},
+        "branch.master.merge": {"refs/heads/master"},
+    }
+    if expected_origin_url is not None:
+        exact_values["remote.origin.url"] = {expected_origin_url}
+    inert_free_text = {"user.name", "user.email"}
+    for key, observed in values.items():
+        if len(observed) != 1:
+            raise GateError(f"Git config key is repeated: {key}")
+        value = observed[0]
+        if key in inert_free_text:
+            if not value or any(ord(character) < 32 for character in value):
+                raise GateError(f"Git identity config is empty or contains controls: {key}")
+            continue
+        if key not in exact_values or value not in exact_values[key]:
+            raise GateError(f"Git config is outside the exact positive allowlist: {key}")
+
+
+def audit_raw_git_config(
+    repository: Path,
+    config_path: Path,
+    expected_origin_url: str | None,
 ) -> tuple[str, dict[str, list[str]]]:
-    """Require every effective setting to come from the one hash-bound local file."""
+    """Parse the sole local file before any repository-aware Git invocation."""
+    validate_git_transport_bindings()
+    config_payload = stable_regular_bytes(config_path)
+    command = [
+        str(GIT_EXECUTABLE),
+        "config",
+        f"--file={config_path}",
+        "--no-includes",
+        "--null",
+        "--list",
+    ]
+    process = subprocess.Popen(
+        command,
+        cwd=repository,
+        env=clean_git_environment(),
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
+    )
+    try:
+        stdout, stderr = process.communicate(timeout=GIT_COMMAND_TIMEOUT_SECONDS)
+    except subprocess.TimeoutExpired as error:
+        signal_isolated_process_group(process.pid, signal.SIGKILL)
+        process.communicate()
+        raise GateError("raw Git config parser exceeded its registered timeout") from error
+    if process.returncode != 0:
+        raise GateError(
+            "raw Git config parser failed: "
+            + stderr.decode(errors="replace")[-2000:]
+        )
+    values = parse_git_config_records(stdout)
+    require_allowlisted_git_config(values, expected_origin_url)
+    return hashlib.sha256(config_payload).hexdigest(), values
+
+
+def audit_effective_git_config(
+    repository: Path,
+    config_path: Path,
+    expected_origin_url: str | None,
+) -> tuple[str, dict[str, list[str]]]:
+    """Require effective settings from only the hash-bound, allowlisted local file."""
     config_payload = stable_regular_bytes(config_path)
     raw = git_bytes(
         repository,
@@ -657,7 +832,7 @@ def audit_effective_git_config(
         fields.pop()
     if len(fields) % 3:
         raise GateError("effective Git config listing has malformed field count")
-    values: dict[str, list[str]] = {}
+    canonical_records = bytearray()
     for offset in range(0, len(fields), 3):
         scope, origin, key_value = fields[offset : offset + 3]
         if scope != b"local" or not origin.startswith(b"file:"):
@@ -667,37 +842,10 @@ def audit_effective_git_config(
             raise GateError(
                 f"effective Git config came from an unbound origin: {observed_origin}"
             )
-        if b"\n" not in key_value:
-            raise GateError("effective Git config record lacks a key/value boundary")
-        key_bytes, value_bytes = key_value.split(b"\n", 1)
-        try:
-            key = key_bytes.decode("ascii").lower()
-            value = value_bytes.decode("utf-8", errors="surrogateescape")
-        except UnicodeDecodeError as error:
-            raise GateError("effective Git config key is not ASCII") from error
-        values.setdefault(key, []).append(value)
-
-    forbidden_exact = {
-        "core.alternaterefscommand",
-        "core.fsmonitor",
-        "core.hookspath",
-        "core.sshcommand",
-        "extensions.worktreeconfig",
-        "remote.origin.receivepack",
-        "remote.origin.uploadpack",
-    }
-    for key in values:
-        if (
-            key in forbidden_exact
-            or key == "include.path"
-            or key.startswith("includeif.")
-            or key.startswith("filter.")
-            or (
-                key.startswith("url.")
-                and (key.endswith(".insteadof") or key.endswith(".pushinsteadof"))
-            )
-        ):
-            raise GateError(f"campaign Git config contains forbidden behavior: {key}")
+        canonical_records.extend(key_value)
+        canonical_records.append(0)
+    values = parse_git_config_records(bytes(canonical_records))
+    require_allowlisted_git_config(values, expected_origin_url)
     return hashlib.sha256(config_payload).hexdigest(), values
 
 
@@ -751,6 +899,12 @@ def verify_git_anchor(
     if GIT_COMMIT_PATTERN.fullmatch(claimed_commit) is None:
         raise GateError("preregistration anchor must be one full hexadecimal commit ID")
     git_dir, common_dir = trusted_git_layout(repository)
+    config_path = common_dir / "config"
+    raw_config_sha256, raw_config = audit_raw_git_config(
+        repository,
+        config_path,
+        expected_origin_url,
+    )
     top = git_bytes(repository, ["rev-parse", "--show-toplevel"]).decode().strip()
     if Path(top).resolve() != repository:
         raise GateError("campaign ROOT is not the active Git worktree root")
@@ -766,10 +920,13 @@ def verify_git_anchor(
     ).resolve()
     if observed_git_dir != git_dir or observed_common_dir != common_dir:
         raise GateError("Git-reported metadata directories differ from no-follow layout")
-    config_path = common_dir / "config"
     git_config_sha256, effective_config = audit_effective_git_config(
-        repository, config_path
+        repository,
+        config_path,
+        expected_origin_url,
     )
+    if git_config_sha256 != raw_config_sha256 or effective_config != raw_config:
+        raise GateError("raw and effective Git configuration views differ")
     replacement_refs = git_bytes(repository, ["for-each-ref", "refs/replace"])
     if replacement_refs.strip():
         raise GateError("campaign Git database contains packed replacement refs")
@@ -889,6 +1046,9 @@ def verify_git_anchor(
         git_config_sha256=git_config_sha256,
         git_executable=str(GIT_EXECUTABLE),
         git_executable_sha256=sha256_path(GIT_EXECUTABLE),
+        ssh_executable=str(SSH_EXECUTABLE),
+        ssh_executable_sha256=sha256_path(SSH_EXECUTABLE),
+        ssh_known_hosts_sha256=sha256_path(SSH_KNOWN_HOSTS),
         origin_url=origin_url,
         published_ref=published_ref,
         published_head_commit=published_head,
@@ -1065,6 +1225,85 @@ def exclusive_cache_lock(path: Path) -> Iterator[int]:
             os.close(descriptor)
 
 
+def erase_unresolved_namespace(
+    paths: CachePaths,
+    namespace_identity: tuple[int, int],
+    lock_fd: int,
+) -> dict[str, object]:
+    """While holding the registered lock, erase every branch-bearing file."""
+    directory_flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0) | getattr(
+        os,
+        "O_NOFOLLOW",
+        0,
+    )
+    directory_fd = os.open(paths.directory, directory_flags)
+    try:
+        opened_directory = os.fstat(directory_fd)
+        opened_lock = os.fstat(lock_fd)
+        listed_lock = paths.lock.stat(follow_symlinks=False)
+        if (
+            not stat.S_ISDIR(opened_directory.st_mode)
+            or (opened_directory.st_dev, opened_directory.st_ino)
+            != namespace_identity
+            or not stat.S_ISREG(opened_lock.st_mode)
+            or not stat.S_ISREG(listed_lock.st_mode)
+            or (opened_lock.st_dev, opened_lock.st_ino)
+            != (listed_lock.st_dev, listed_lock.st_ino)
+        ):
+            raise GateError("unresolved namespace/lock identity drift before erasure")
+        probe = os.open(
+            paths.lock.name,
+            os.O_RDWR | getattr(os, "O_NOFOLLOW", 0),
+            dir_fd=directory_fd,
+        )
+        try:
+            try:
+                fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                pass
+            else:
+                fcntl.flock(probe, fcntl.LOCK_UN)
+                raise GateError("unresolved namespace erasure lock is not held")
+        finally:
+            os.close(probe)
+        for name in os.listdir(directory_fd):
+            if name == paths.lock.name:
+                continue
+            metadata = os.stat(name, dir_fd=directory_fd, follow_symlinks=False)
+            if stat.S_ISDIR(metadata.st_mode):
+                raise GateError(
+                    "unresolved namespace contains an unexpected directory; erasure refused"
+                )
+            os.unlink(name, dir_fd=directory_fd)
+        os.fsync(directory_fd)
+        remaining = sorted(os.listdir(directory_fd))
+        if remaining != [paths.lock.name]:
+            raise GateError("unresolved namespace erasure did not reach the lock-only state")
+    finally:
+        os.close(directory_fd)
+    return {
+        "protocol": "locked-no-follow-branch-state-erasure-v1",
+        "all_candidate_caches_receipts_scratch_and_logs_erased": True,
+        "directory_fsynced": True,
+        "remaining_file_census": [paths.lock.name],
+    }
+
+
+@contextmanager
+def erase_namespace_unless_preserved(
+    paths: CachePaths,
+    namespace_identity: tuple[int, int],
+    lock_fd: int,
+) -> Iterator[dict[str, bool]]:
+    """Fail closed if any exception/return leaves a non-final branch behind."""
+    state = {"preserve": False, "erased": False}
+    try:
+        yield state
+    finally:
+        if not state["preserve"] and not state["erased"]:
+            erase_unresolved_namespace(paths, namespace_identity, lock_fd)
+
+
 def write_all(descriptor: int, payload: bytes) -> None:
     offset = 0
     while offset < len(payload):
@@ -1199,7 +1438,7 @@ def validate_registration(
         "minimum_available_gib": MINIMUM_AVAILABLE_GIB,
         "minimum_free_disk_gib": MINIMUM_FREE_DISK_GIB,
         "projected_minimum_peak_bytes": PROJECTED_MINIMUM_PEAK_BYTES,
-        "registered_python": ".venv/bin/python",
+        "registered_python": ".toolchains/g0081-venv/bin/python",
         "python_version": EXPECTED_REGISTERED_PYTHON,
         "cache_dir": relative_path(directory),
         "output": relative_path(output),
@@ -2690,16 +2929,144 @@ def signal_isolated_process_group(pid: int, selected_signal: int) -> None:
         pass
 
 
+def process_group_exists(pid: int) -> bool:
+    try:
+        os.killpg(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
+
+
+def kill_and_observe_process_group_empty(pid: int, cleanup_seconds: float = 5.0) -> None:
+    cleanup_deadline = time.monotonic() + cleanup_seconds
+    while process_group_exists(pid):
+        signal_isolated_process_group(pid, signal.SIGKILL)
+        if time.monotonic() >= cleanup_deadline:
+            raise GateError("isolated process group did not become empty after SIGKILL")
+        time.sleep(0.01)
+
+
+def direct_child_pids() -> set[int]:
+    children_path = Path(f"/proc/self/task/{os.getpid()}/children")
+    try:
+        payload = children_path.read_text(encoding="ascii").strip()
+    except FileNotFoundError as error:
+        raise GateError("Linux direct-child census is unavailable") from error
+    if not payload:
+        return set()
+    try:
+        return {int(field) for field in payload.split()}
+    except ValueError as error:
+        raise GateError("Linux direct-child census is malformed") from error
+
+
+@contextmanager
+def temporary_child_subreaper() -> Iterator[None]:
+    """Adopt operation descendants so success and cleanup are observable."""
+    libc = ctypes.CDLL(None, use_errno=True)
+    previous = ctypes.c_int()
+    result = libc.prctl(
+        PR_GET_CHILD_SUBREAPER,
+        ctypes.byref(previous),
+        0,
+        0,
+        0,
+    )
+    if result != 0:
+        error_number = ctypes.get_errno()
+        raise OSError(error_number, os.strerror(error_number))
+    if previous.value not in {0, 1}:
+        raise GateError("Linux child-subreaper state is not Boolean")
+    if previous.value == 0:
+        result = libc.prctl(PR_SET_CHILD_SUBREAPER, 1, 0, 0, 0)
+        if result != 0:
+            error_number = ctypes.get_errno()
+            raise OSError(error_number, os.strerror(error_number))
+    try:
+        yield
+    finally:
+        if previous.value == 0:
+            result = libc.prctl(PR_SET_CHILD_SUBREAPER, 0, 0, 0, 0)
+            if result != 0:
+                error_number = ctypes.get_errno()
+                raise OSError(error_number, os.strerror(error_number))
+
+
+def reap_operation_children(
+    baseline_children: set[int],
+    leader_pid: int,
+    leader_exit_code: int | None,
+) -> tuple[int | None, int]:
+    """Reap only children created by this operation, never pre-existing ones."""
+    reaped_descendants = 0
+    for child_pid in sorted(direct_child_pids() - baseline_children):
+        try:
+            observed, wait_status = os.waitpid(child_pid, os.WNOHANG)
+        except ChildProcessError:
+            continue
+        except InterruptedError:
+            continue
+        if observed == 0:
+            continue
+        exit_code = os.waitstatus_to_exitcode(wait_status)
+        if observed == leader_pid:
+            if leader_exit_code is not None:
+                raise GateError("supervisor observed the leader exit twice")
+            leader_exit_code = exit_code
+        else:
+            reaped_descendants += 1
+    return leader_exit_code, reaped_descendants
+
+
+def terminate_and_reap_operation(
+    leader_pid: int,
+    baseline_children: set[int],
+    leader_exit_code: int | None,
+    *,
+    cleanup_seconds: float = 5.0,
+) -> tuple[int | None, int]:
+    """SIGKILL the isolated group and any adopted escapees, then prove emptiness."""
+    cleanup_deadline = time.monotonic() + cleanup_seconds
+    total_reaped_descendants = 0
+    while True:
+        signal_isolated_process_group(leader_pid, signal.SIGKILL)
+        for child_pid in direct_child_pids() - baseline_children:
+            try:
+                os.kill(child_pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        leader_exit_code, reaped = reap_operation_children(
+            baseline_children,
+            leader_pid,
+            leader_exit_code,
+        )
+        total_reaped_descendants += reaped
+        remaining_children = direct_child_pids() - baseline_children
+        if (
+            leader_exit_code is not None
+            and not process_group_exists(leader_pid)
+            and not remaining_children
+        ):
+            return leader_exit_code, total_reaped_descendants
+        if time.monotonic() >= cleanup_deadline:
+            raise GateError(
+                "isolated operation descendants could not be terminated and reaped"
+            )
+        time.sleep(0.01)
+
+
 def wait_for_child(pid: int, deadline: float) -> int | None:
     while True:
+        if time.monotonic() >= deadline:
+            return None
         try:
             observed, wait_status = os.waitpid(pid, os.WNOHANG)
         except InterruptedError:
             continue
         if observed == pid:
             return os.waitstatus_to_exitcode(wait_status)
-        if time.monotonic() >= deadline:
-            return None
         time.sleep(min(0.1, max(0.0, deadline - time.monotonic())))
 
 
@@ -2709,114 +3076,136 @@ def run_supervised_json_operation(
     maximum_wall_seconds: float,
     label: str,
 ) -> tuple[dict[str, object], dict[str, object]]:
-    """Fork, isolate, time-bound, reap, and authenticate one verifier operation."""
+    """Accept only an authenticated, EOF-closed, descendant-free timely operation."""
     if maximum_wall_seconds <= 0:
         raise GateError("supervised operation requires a positive wall allowance")
-    read_fd, write_fd = os.pipe2(getattr(os, "O_CLOEXEC", 0))
-    parent_pid = os.getpid()
     started = time.monotonic()
-    try:
-        pid = os.fork()
-    except BaseException:
-        os.close(read_fd)
-        os.close(write_fd)
-        raise
-    if pid == 0:
-        exit_code = 1
-        try:
-            os.close(read_fd)
-            os.setsid()
-            signal.signal(signal.SIGTERM, kill_kernel_process_group)
-            set_parent_death_signal(parent_pid, signal.SIGKILL)
-            try:
-                result = operation()
-                if not isinstance(result, dict):
-                    raise GateError("supervised operation did not return a JSON object")
-                envelope: dict[str, object] = {
-                    "status": "ok",
-                    "result": result,
-                }
-            except (MemoryError, OSError, TimeoutError) as error:
-                envelope = {
-                    "status": "resource-unresolved",
-                    "error_type": type(error).__name__,
-                    "error": str(error),
-                    "traceback_tail": traceback.format_exc()[-4000:],
-                }
-            except BaseException as error:  # noqa: BLE001 -- verifier reports closed
-                envelope = {
-                    "status": "gate-error",
-                    "error_type": type(error).__name__,
-                    "error": str(error),
-                    "traceback_tail": traceback.format_exc()[-4000:],
-                }
-            payload = canonical_bytes(envelope)
-            if len(payload) > 1_000_000:
-                raise GateError("supervised JSON envelope exceeded one megabyte")
-            write_all(write_fd, payload)
-            exit_code = 0
-        except BaseException:  # noqa: BLE001 -- isolated verifier exits closed
-            traceback.print_exc()
-        finally:
-            close_quietly(write_fd)
-            os._exit(exit_code)
-
-    os.close(write_fd)
-    os.set_blocking(read_fd, False)
-    payload = bytearray()
     deadline = started + maximum_wall_seconds
-    exit_code: int | None = None
-    timed_out = False
-    try:
-        while exit_code is None:
-            while True:
-                try:
-                    block = os.read(read_fd, 65_536)
-                except BlockingIOError:
-                    break
-                if not block:
-                    break
-                payload.extend(block)
-                if len(payload) > 1_000_000:
-                    signal_isolated_process_group(pid, signal.SIGKILL)
-                    wait_for_child(pid, time.monotonic() + 5.0)
-                    raise GateError("supervised verifier pipe exceeded one megabyte")
+    baseline_children = direct_child_pids()
+    capability = secrets.token_hex(32)
+    payload = bytearray()
+    leader_exit_code: int | None = None
+    total_reaped_descendants = 0
+    pipe_eof = False
+    parent_pid = os.getpid()
+    with temporary_child_subreaper():
+        read_fd, write_fd = os.pipe2(getattr(os, "O_CLOEXEC", 0))
+        try:
             try:
-                observed, wait_status = os.waitpid(pid, os.WNOHANG)
-            except InterruptedError:
-                continue
-            if observed == pid:
-                exit_code = os.waitstatus_to_exitcode(wait_status)
-                break
-            remaining = deadline - time.monotonic()
-            if remaining <= 0:
-                timed_out = True
-                break
-            select.select([read_fd], [], [], min(0.1, remaining))
+                pid = os.fork()
+            except BaseException:
+                os.close(read_fd)
+                os.close(write_fd)
+                raise
+            if pid == 0:
+                child_exit_code = 1
+                try:
+                    os.close(read_fd)
+                    os.setsid()
+                    signal.signal(signal.SIGTERM, kill_kernel_process_group)
+                    set_parent_death_signal(parent_pid, signal.SIGKILL)
+                    try:
+                        result = operation()
+                        if not isinstance(result, dict):
+                            raise GateError(
+                                "supervised operation did not return a JSON object"
+                            )
+                        envelope: dict[str, object] = {
+                            "status": "ok",
+                            "capability": capability,
+                            "result": result,
+                        }
+                    except (MemoryError, OSError, TimeoutError) as error:
+                        envelope = {
+                            "status": "resource-unresolved",
+                            "capability": capability,
+                            "error_type": type(error).__name__,
+                        }
+                    except BaseException as error:  # noqa: BLE001 -- closed report
+                        envelope = {
+                            "status": "gate-error",
+                            "capability": capability,
+                            "error_type": type(error).__name__,
+                        }
+                    child_payload = canonical_bytes(envelope)
+                    if len(child_payload) > 1_000_000:
+                        raise GateError("supervised JSON envelope exceeded one megabyte")
+                    write_all(write_fd, child_payload)
+                    child_exit_code = 0
+                except BaseException:  # noqa: BLE001 -- isolated child exits closed
+                    traceback.print_exc()
+                finally:
+                    close_quietly(write_fd)
+                    os._exit(child_exit_code)
 
-        if timed_out:
-            signal_isolated_process_group(pid, signal.SIGTERM)
-            exit_code = wait_for_child(pid, time.monotonic() + 5.0)
-            if exit_code is None:
-                signal_isolated_process_group(pid, signal.SIGKILL)
-                exit_code = wait_for_child(pid, time.monotonic() + 5.0)
-            if exit_code is None:
-                raise GateError(f"timed-out {label} could not be reaped")
-            raise TimeoutError(
-                f"{label} exceeded its registered {maximum_wall_seconds} second allowance"
-            )
+            os.close(write_fd)
+            os.set_blocking(read_fd, False)
+            try:
+                while True:
+                    if time.monotonic() >= deadline:
+                        raise TimeoutError(
+                            f"{label} exceeded its registered "
+                            f"{maximum_wall_seconds} second allowance"
+                        )
+                    while not pipe_eof:
+                        try:
+                            block = os.read(read_fd, 65_536)
+                        except BlockingIOError:
+                            break
+                        if not block:
+                            pipe_eof = True
+                            break
+                        payload.extend(block)
+                        if len(payload) > 1_000_000:
+                            raise GateError(
+                                "supervised verifier pipe exceeded one megabyte"
+                            )
+                    leader_exit_code, reaped = reap_operation_children(
+                        baseline_children,
+                        pid,
+                        leader_exit_code,
+                    )
+                    total_reaped_descendants += reaped
+                    group_empty = not process_group_exists(pid)
+                    descendants_empty = not (
+                        direct_child_pids() - baseline_children
+                    )
+                    if (
+                        leader_exit_code is not None
+                        and pipe_eof
+                        and group_empty
+                        and descendants_empty
+                    ):
+                        if time.monotonic() >= deadline:
+                            raise TimeoutError(
+                                f"{label} completed after its registered deadline"
+                            )
+                        break
+                    remaining = deadline - time.monotonic()
+                    select.select([read_fd], [], [], min(0.05, max(0.0, remaining)))
+            except BaseException:
+                leader_exit_code, reaped = terminate_and_reap_operation(
+                    pid,
+                    baseline_children,
+                    leader_exit_code,
+                )
+                total_reaped_descendants += reaped
+                raise
+            finally:
+                os.close(read_fd)
+        finally:
+            # Every accepted or rejected path must leave no operation child behind.
+            if direct_child_pids() - baseline_children:
+                leader_exit_code, reaped = terminate_and_reap_operation(
+                    pid,
+                    baseline_children,
+                    leader_exit_code,
+                )
+                total_reaped_descendants += reaped
 
-        os.set_blocking(read_fd, True)
-        while block := os.read(read_fd, 65_536):
-            payload.extend(block)
-            if len(payload) > 1_000_000:
-                raise GateError("supervised verifier pipe exceeded one megabyte")
-    finally:
-        os.close(read_fd)
-
-    if exit_code != 0:
+    if leader_exit_code != 0:
         raise SupervisedResourceError(
-            f"{label} exited without a trustworthy envelope (exit={exit_code})"
+            f"{label} exited without a trustworthy envelope"
         )
     try:
         envelope = json.loads(payload)
@@ -2826,30 +3215,38 @@ def run_supervised_json_operation(
         ) from error
     if not isinstance(envelope, dict):
         raise SupervisedResourceError(f"{label} envelope is not a JSON object")
+    observed_capability = envelope.get("capability")
+    if not isinstance(observed_capability, str) or not secrets.compare_digest(
+        observed_capability,
+        capability,
+    ):
+        raise SupervisedResourceError(f"{label} envelope capability mismatch")
     status = envelope.get("status")
     if status == "resource-unresolved":
-        raise SupervisedResourceError(
-            f"{label} resource failure: {envelope.get('error_type')}: "
-            f"{envelope.get('error')}"
-        )
+        raise SupervisedResourceError(f"{label} resource failure")
     if status == "gate-error":
-        raise GateError(
-            f"{label} rejected the candidate: {envelope.get('error_type')}: "
-            f"{envelope.get('error')}; {envelope.get('traceback_tail')}"
-        )
+        raise GateError(f"{label} rejected the candidate")
     result = envelope.get("result")
     if status != "ok" or not isinstance(result, dict):
         raise SupervisedResourceError(f"{label} returned an incomplete envelope")
+    if time.monotonic() >= deadline:
+        raise TimeoutError(f"{label} envelope validation exceeded its deadline")
     return result, {
-        "protocol": "isolated-fork-pdeath-process-group-json-pipe-v1",
+        "protocol": "subreaper-absolute-deadline-authenticated-json-pipe-v2",
         "label": label,
         "child_pid": pid,
         "maximum_wall_seconds": maximum_wall_seconds,
         "wall_seconds": time.monotonic() - started,
         "timed_out": False,
-        "exit_code": exit_code,
-        "child_reaped": True,
-        "isolated_process_group": True,
+        "exit_code": leader_exit_code,
+        "leader_reaped": True,
+        "result_pipe_eof_observed": True,
+        "process_group_empty_observed": True,
+        "operation_descendants_empty_observed": True,
+        "adopted_descendants_reaped": total_reaped_descendants,
+        "envelope_capability_verified": True,
+        "final_deadline_check_passed": True,
+        "isolated_process_group_observed": True,
         "parent_death_guard": True,
     }
 
@@ -3072,14 +3469,25 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
     namespace_identity = create_fresh_cache_namespace(paths.directory)
     begun = time.monotonic()
     scientific_deadline = begun + SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS
-    with exclusive_cache_lock(paths.lock) as lock_fd:
+    with exclusive_cache_lock(paths.lock) as lock_fd, erase_namespace_unless_preserved(
+        paths,
+        namespace_identity,
+        lock_fd,
+    ) as namespace_state:
         start_custody = capture_custody(registration)
         try:
             validate_resource_contract(paths)
         except (MemoryError, OSError) as error:
+            erasure = erase_unresolved_namespace(
+                paths,
+                namespace_identity,
+                lock_fd,
+            )
+            namespace_state["erased"] = True
             report = resource_unresolved_report(
                 registration, str(error), begun, start_custody
             )
+            report["namespace_erasure"] = erasure
             report["launcher"] = {
                 "protocol": "isolated-startup-and-supervised-process-groups-v3",
                 "kernel_started": False,
@@ -3405,6 +3813,7 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
             close_quietly(stderr_fd)
             signal_isolated_process_group(pid, signal.SIGKILL)
             wait_for_child(pid, time.monotonic() + 5.0)
+            kill_and_observe_process_group_empty(pid)
             for log_path in (stdout_path, stderr_path):
                 try:
                     log_path.unlink()
@@ -3422,21 +3831,34 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
                 raise GateError(
                     "timed-out isolated child could not be reaped after SIGKILL"
                 )
+        process_group_leaked = process_group_exists(pid)
+        if timed_out or process_group_leaked or (exit_code is not None and exit_code < 0):
+            kill_and_observe_process_group_empty(pid)
         stdout = read_log_tail(stdout_path, 2_000)
         stderr = read_log_tail(stderr_path, 4_000)
         stdout_path.unlink()
         stderr_path.unlink()
 
-        if timed_out:
+        unresolved_science = timed_out or process_group_leaked or pipe_error is not None or (
+            exit_code is not None and exit_code < 0
+        )
+        if unresolved_science:
+            erasure = erase_unresolved_namespace(
+                paths,
+                namespace_identity,
+                lock_fd,
+            )
+            namespace_state["erased"] = True
             report = resource_unresolved_report(
                 registration,
-                "isolated scientific process group exceeded "
-                f"{SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS} seconds",
+                "isolated scientific operation ended without an admissible result",
                 begun,
                 start_custody,
+                unverified_child_candidate_discarded=True,
             )
+            report["namespace_erasure"] = erasure
             report["launcher"] = {
-                "protocol": "isolated-startup-and-supervised-process-groups-v3",
+                "protocol": "isolated-startup-and-supervised-process-groups-v4",
                 "kernel_started": True,
                 "exclusive_cache_lock": True,
                 "isolated_process_group": True,
@@ -3445,17 +3867,17 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
                 "parent_finalization_maximum_wall_seconds": (
                     PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS
                 ),
-                "timed_out_group_terminated": True,
-                "child_stdout": stdout.strip(),
-                "child_stderr_tail": stderr,
+                "registered_deadline_exceeded": timed_out,
+                "leader_exit_code": exit_code,
+                "process_group_empty_observed": True,
+                "child_logs_erased_without_publication": True,
                 "startup_runtime": STARTUP_RUNTIME,
             }
             write_gzip_exclusive(registration.output, report)
             return report
-        if pipe_error is not None or exit_code != 0:
+        if exit_code != 0:
             raise GateError(
-                f"isolated kernel failed closed (exit={exit_code}, pipe={pipe_error!r}); "
-                f"stdout={stdout!r}; stderr={stderr!r}"
+                "isolated kernel rejected the registered run before returning a result"
             )
         if not scratch.is_file() or scratch.is_symlink():
             raise GateError("isolated kernel returned without one scratch report")
@@ -3484,10 +3906,36 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
         if end != start_custody:
             raise GateError("launcher custody changed across isolated kernel")
         if scientific_payload.get("result") == "RESOURCE_UNRESOLVED":
+            erasure = erase_unresolved_namespace(
+                paths,
+                namespace_identity,
+                lock_fd,
+            )
+            namespace_state["erased"] = True
+            report = resource_unresolved_report(
+                registration,
+                "scientific child reported a resource failure; candidate discarded",
+                begun,
+                start_custody,
+                unverified_child_candidate_discarded=True,
+            )
+            report["namespace_erasure"] = erasure
             report["parent_finalization"] = {
                 "protocol": "not-applicable-resource-unresolved",
                 "scientific_outcome_computed": False,
             }
+            report["launcher"] = {
+                "protocol": "isolated-startup-and-supervised-process-groups-v4",
+                "kernel_started": True,
+                "scientific_child_completed": True,
+                "scientific_child_candidate_discarded": True,
+                "exclusive_cache_lock": True,
+                "process_group_empty_observed": True,
+                "child_logs_erased_without_publication": True,
+                "startup_runtime": STARTUP_RUNTIME,
+            }
+            write_gzip_exclusive(registration.output, report)
+            return report
         else:
             def finalizer_operation() -> dict[str, object]:
                 return parent_finalize_cache_chain(
@@ -3507,22 +3955,31 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
                     label="independent parent-authorized cache finalizer",
                 )
             except (TimeoutError, SupervisedResourceError) as error:
+                erasure = erase_unresolved_namespace(
+                    paths,
+                    namespace_identity,
+                    lock_fd,
+                )
+                namespace_state["erased"] = True
+                report = {}
                 unresolved = resource_unresolved_report(
                     registration,
-                    f"{type(error).__name__}: {error}",
+                    "independent finalization ended without an admissible result",
                     begun,
                     start_custody,
                     unverified_child_candidate_discarded=True,
                 )
+                unresolved["namespace_erasure"] = erasure
                 unresolved["parent_finalization"] = {
-                    "protocol": "supervised-stage-chain-and-rref-replay-v2",
+                    "protocol": "supervised-stage-chain-and-rref-replay-v3",
                     "maximum_wall_seconds": PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS,
                     "completed": False,
-                    "verifier_group_terminated_and_reaped": True,
-                    "child_candidate_fields_preserved": False,
+                    "verifier_process_group_empty_observed": True,
+                    "verifier_operation_descendants_empty_observed": True,
+                    "branch_bearing_namespace_erased": True,
                 }
                 unresolved["launcher"] = {
-                    "protocol": "isolated-startup-and-supervised-process-groups-v3",
+                    "protocol": "isolated-startup-and-supervised-process-groups-v4",
                     "kernel_started": True,
                     "scientific_child_completed": True,
                     "scientific_child_candidate_discarded": True,
@@ -3544,7 +4001,7 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
             report["parent_finalization"] = finalization
         scientific_child_wall_seconds = report.pop("wall_seconds", None)
         report["launcher"] = {
-            "protocol": "isolated-startup-and-supervised-process-groups-v3",
+            "protocol": "isolated-startup-and-supervised-process-groups-v4",
             "kernel_started": True,
             "exclusive_cache_lock": True,
             "isolated_process_group": True,
@@ -3564,6 +4021,7 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
             "public_run_wall_seconds_before_output": time.monotonic() - begun,
         }
         write_gzip_exclusive(registration.output, report)
+        namespace_state["preserve"] = True
         return report
 
 
@@ -4193,6 +4651,78 @@ def self_test_git_anchor() -> dict[str, object]:
             worktree_config_rejected = True
         if not worktree_config_rejected:
             raise GateError("Git config.worktree escaped the trusted layout")
+
+    with tempfile.TemporaryDirectory(dir=HERE) as graft_fixture_text:
+        repository = Path(graft_fixture_text)
+        git_bytes(repository, ["init", "-q"])
+        graft_path = repository / ".git/info/grafts"
+        graft_path.write_text("0" * 40 + " " + "1" * 40 + "\n", encoding="ascii")
+        graft_rejected = False
+        try:
+            trusted_git_layout(repository)
+        except GateError:
+            graft_rejected = True
+        if not graft_rejected:
+            raise GateError("Git graft metadata escaped the no-follow layout gate")
+
+    with tempfile.TemporaryDirectory(dir=HERE) as promisor_fixture_text:
+        repository = Path(promisor_fixture_text)
+        git_bytes(repository, ["init", "-q"])
+        git_bytes(repository, ["config", "user.name", "G-0081 promisor fixture"])
+        git_bytes(
+            repository,
+            ["config", "user.email", "g0081-promisor@example.invalid"],
+        )
+        runner = repository / "runner.py"
+        preregistration = repository / "preregistration.json"
+        runner_payload = b"print('promisor fixture')\n"
+        preregistration_payload = b'{"experiment_status":"planned"}\n'
+        runner.write_bytes(runner_payload)
+        preregistration.write_bytes(preregistration_payload)
+        git_bytes(repository, ["add", "runner.py", "preregistration.json"])
+        git_bytes(repository, ["commit", "-q", "-m", "promisor fixture"])
+        anchor = git_bytes(repository, ["rev-parse", "HEAD"]).decode().strip()
+        helper_marker = repository / "external-helper-executed"
+        git_bytes(repository, ["config", "extensions.partialclone", "evil"])
+        git_bytes(repository, ["config", "remote.evil.promisor", "true"])
+        git_bytes(
+            repository,
+            [
+                "config",
+                "remote.evil.url",
+                f"ext::/usr/bin/touch {helper_marker}",
+            ],
+        )
+        git_bytes(repository, ["config", "protocol.ext.allow", "always"])
+        promisor_rejected = False
+        try:
+            verify_git_anchor(
+                repository,
+                preregistration,
+                hashlib.sha256(preregistration_payload).hexdigest(),
+                anchor,
+                runner,
+                hashlib.sha256(runner_payload).hexdigest(),
+            )
+        except GateError:
+            promisor_rejected = True
+        if not promisor_rejected or helper_marker.exists():
+            raise GateError("Git promisor/helper config executed or escaped raw allowlisting")
+
+    with tempfile.TemporaryDirectory(dir=HERE) as object_fixture_text:
+        repository = Path(object_fixture_text)
+        git_bytes(repository, ["init", "-q"])
+        objects = repository / ".git/objects"
+        real_objects = repository / ".git/objects-real"
+        objects.rename(real_objects)
+        objects.symlink_to(real_objects, target_is_directory=True)
+        object_symlink_rejected = False
+        try:
+            trusted_git_layout(repository)
+        except GateError:
+            object_symlink_rejected = True
+        if not object_symlink_rejected:
+            raise GateError("indirect Git object directory escaped layout custody")
     return {
         "committed_ancestor_anchor_accepted": True,
         "anchor_commit": accepted.preregistration_commit,
@@ -4206,6 +4736,9 @@ def self_test_git_anchor() -> dict[str, object]:
         "hidden_effective_config_include_rejected_before_network": True,
         "executable_fsmonitor_rejected_without_execution": True,
         "worktree_config_rejected": True,
+        "graft_metadata_rejected_before_ancestry_check": True,
+        "promisor_partial_clone_and_ext_helper_rejected_before_execution": True,
+        "symlinked_object_directory_rejected": True,
         "scientific_outcome_computed": False,
     }
 
@@ -4467,12 +5000,41 @@ def self_test_fresh_namespace_lock() -> dict[str, object]:
             opened = os.fstat(descriptor)
             if not stat.S_ISREG(opened.st_mode):
                 raise GateError("normal exclusive cache lock is not regular")
+
+        erasure_namespace = parent / "cache-33333333333333333333333333333333"
+        erasure_identity = create_fresh_cache_namespace(erasure_namespace)
+        erasure_paths = cache_paths(erasure_namespace)
+        erasure_victim = parent / "erasure-victim.txt"
+        erasure_victim.write_text("must survive\n", encoding="utf-8")
+        with exclusive_cache_lock(erasure_paths.lock) as descriptor:
+            erasure_paths.c_partial.write_bytes(b"branch canary C\n")
+            erasure_paths.r_receipt.write_bytes(b"branch canary R\n")
+            (erasure_namespace / ".kernel-outcome-fixture.json").write_bytes(
+                b"branch canary result\n"
+            )
+            (erasure_namespace / ".kernel-stderr-fixture.log").symlink_to(
+                erasure_victim
+            )
+            erasure = erase_unresolved_namespace(
+                erasure_paths,
+                erasure_identity,
+                descriptor,
+            )
+            if (
+                sorted(path.name for path in erasure_namespace.iterdir())
+                != [erasure_paths.lock.name]
+                or erasure_victim.read_text(encoding="utf-8") != "must survive\n"
+                or erasure.get("remaining_file_census") != [erasure_paths.lock.name]
+            ):
+                raise GateError("unresolved branch-state erasure fixture failed")
     return {
         "fresh_absent_namespace_created_exclusively": True,
         "existing_empty_namespace_rejected": True,
         "namespace_symlink_rejected_target_unchanged": True,
         "lock_symlink_rejected_victim_byte_identical": True,
         "normal_no_follow_exclusive_lock_accepted": True,
+        "branch_caches_receipts_scratch_logs_and_symlink_erased": True,
+        "branch_erasure_symlink_victim_unchanged": True,
         "scientific_outcome_computed": False,
     }
 
@@ -4493,9 +5055,30 @@ def self_test_process_boundary() -> dict[str, object]:
     )
     if (
         fast_result.get("fixture") != "fast-finalizer"
-        or fast_supervisor.get("child_reaped") is not True
+        or fast_supervisor.get("leader_reaped") is not True
+        or fast_supervisor.get("result_pipe_eof_observed") is not True
+        or fast_supervisor.get("process_group_empty_observed") is not True
+        or fast_supervisor.get("operation_descendants_empty_observed") is not True
     ):
         raise GateError("fast supervised-finalizer control failed")
+
+    def completing_descendant_operation() -> dict[str, object]:
+        worker = os.fork()
+        if worker == 0:
+            time.sleep(0.05)
+            os._exit(0)
+        return {"fixture": "completing-descendant"}
+
+    completing_result, completing_supervisor = run_supervised_json_operation(
+        completing_descendant_operation,
+        maximum_wall_seconds=2.0,
+        label="completing descendant fixture",
+    )
+    if (
+        completing_result.get("fixture") != "completing-descendant"
+        or completing_supervisor.get("adopted_descendants_reaped", 0) < 1
+    ):
+        raise GateError("completing supervised descendant was not adopted and reaped")
 
     with tempfile.TemporaryDirectory(dir=HERE) as finalizer_fixture_text:
         worker_record = Path(finalizer_fixture_text) / "worker.json"
@@ -4532,6 +5115,55 @@ def self_test_process_boundary() -> dict[str, object]:
         if process_is_running(worker_pid):
             os.kill(worker_pid, signal.SIGKILL)
             raise GateError("supervised-finalizer timeout left a live worker")
+
+        retained_record = Path(finalizer_fixture_text) / "retained-pipe-worker.json"
+
+        def retained_pipe_finalizer_fixture() -> dict[str, object]:
+            worker = os.fork()
+            if worker == 0:
+                signal.signal(signal.SIGTERM, signal.SIG_DFL)
+                while True:
+                    signal.pause()
+            write_json_exclusive(retained_record, {"pid": worker})
+            return {"fixture": "leader-returned-with-retained-pipe"}
+
+        retained_started = time.monotonic()
+        retained_timed_out = False
+        try:
+            run_supervised_json_operation(
+                retained_pipe_finalizer_fixture,
+                maximum_wall_seconds=0.2,
+                label="retained pipe descendant fixture",
+            )
+        except TimeoutError:
+            retained_timed_out = True
+        retained_wall = time.monotonic() - retained_started
+        if (
+            not retained_timed_out
+            or retained_wall > 3.0
+            or not retained_record.is_file()
+        ):
+            raise GateError("retained-pipe absolute-deadline fixture failed")
+        retained_pid = int(read_json(retained_record)["pid"])
+        if process_is_running(retained_pid):
+            os.kill(retained_pid, signal.SIGKILL)
+            raise GateError("retained-pipe fixture left a live descendant")
+
+    def signaled_operation() -> dict[str, object]:
+        os.kill(os.getpid(), signal.SIGKILL)
+        raise AssertionError("SIGKILL returned")
+
+    signaled_rejected = False
+    try:
+        run_supervised_json_operation(
+            signaled_operation,
+            maximum_wall_seconds=2.0,
+            label="signaled supervisor fixture",
+        )
+    except SupervisedResourceError:
+        signaled_rejected = True
+    if not signaled_rejected:
+        raise GateError("signaled supervised operation was accepted")
 
     # Simulate the fork race in which the public parent disappears before the
     # child arms PR_SET_PDEATHSIG.  The mandatory post-prctl PPID check must
@@ -4615,6 +5247,11 @@ def self_test_process_boundary() -> dict[str, object]:
         "blocking_supervised_finalizer_timed_out_and_reaped": True,
         "blocking_supervised_finalizer_worker_killed": True,
         "blocking_supervised_finalizer_wall_seconds": blocking_wall,
+        "leader_return_with_retained_pipe_timed_out": True,
+        "retained_pipe_descendant_terminated_and_reaped": True,
+        "retained_pipe_deadline_wall_seconds": retained_wall,
+        "clean_orphan_descendant_adopted_and_reaped": True,
+        "signaled_supervised_operation_rejected": True,
         "post_prctl_parent_pid_race_check_kills_child": True,
         "absolute_deadline_detects_live_child": True,
         "timeout_SIGTERM_terminates_isolated_group": True,

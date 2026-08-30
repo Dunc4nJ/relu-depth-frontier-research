@@ -9,5 +9,5 @@ exec /usr/bin/busybox env -i \
   PATH=/usr/bin:/bin \
   LANG=C \
   LC_ALL=C \
-  "$root/.venv/bin/python" -I -S -B \
+  "$root/.toolchains/g0081-venv/bin/python" -I -S -B \
   "$here/full_dictionary_schur.py" "$@"
