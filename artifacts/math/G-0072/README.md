@@ -1,5 +1,22 @@
 # G-0072 — direct global span gate for the asymmetric loop–edge family
 
+## Registered outcome
+
+The registered run rejected target membership at both frozen primes.  The
+`4107 x 3756` matrix has column rank `3518` modulo both `1,000,003` and
+`1,000,033`; appending the exact `11! * MAX11` target raises the rank to
+`3519` in each field.  Since the CountSketch plus exact linear rows is a
+left-linear image of the complete normal-form system, this rules out a full
+modular solution for the frozen family at both primes.
+
+The compressed receipt is
+`asymmetric_loop_edge_span_gate_v1.json.gz` (SHA-256
+`f9ce859ff3face85dfe6f79d6c8d52b88cd67df8b2185ee9d248903ecb897f2e`),
+with deterministic scientific-payload SHA-256
+`ca8a5090e331b5784fd9f5ffbf31a6c2826c319726a61cb3aa14f68544032495`.
+This is a bounded two-prime modular obstruction, not an exact-rational or
+unrestricted-network lower bound.
+
 ## Decision this experiment makes
 
 G-0071 showed that the labelled loop–edge lift has the intended MAX10 face,

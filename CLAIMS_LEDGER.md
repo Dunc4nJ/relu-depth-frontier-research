@@ -251,6 +251,26 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only; this record establishes neither exact rational rank nor any MAX11 construction or obstruction.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0025@1 — boundary-claim [mathematics]
+
+> For the frozen asymmetric loop-edge family consisting of 3,754 full-S_11 orbit columns plus the 5E and 5L linear carriers, the registered 4,107 by 3,756 matrix has column rank 3,518 modulo each of 1,000,003 and 1,000,033, while appending the exact 11!*MAX11 target raises the rank to 3,519 at both primes. Hence the target is outside the complete unsketched family span over each registered field, because the registered hinge CountSketch together with the eleven exact linear rows is a left-linear image of that complete system.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:8503eac8
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0025@1`
+- falsifier: One frozen subject, input, loop-inclusive semantic, orbit, sketch, target, code, or backend binding drift; one independently reproduced different column or augmented rank at either registered prime; or one full modular solution whose registered sketch fails to solve the reported matrix.
+- no-claim: The two modular obstructions are not an exact-Q left dual, denominator bound, or real-coefficient no-go. This does not exclude other graphical atoms, nonsymmetric blocks, non-graphical inner directions, arbitrary real weights, deeper networks, or unrestricted two-hidden-layer representations of MAX11.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0026@1 — implementation-claim [mathematics]
+
+> Asymmetric loop-edge global span gate v1 is identified by the frozen G-0072 script and Git revision, complete subject and dependency bindings, deterministic scientific payload, subject environment, and compressed result receipt.
+
+- disposition: **open** · trace:bfff7669
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0026@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes neither an exact rational obstruction nor any MAX11 construction or unrestricted-network lower bound.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -262,6 +282,7 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 
 - `D-0001` Reuse the current G-0011 rational left dual unchanged as a separator after adjoi · scope: Exactly G-0011 dual SHA fe6768c8..., G-0009 cross-family ser · retry_when: `data_changes(cross-component-family-serialization)` · trace:e415470a
 - `D-0002` Continue repairing the frozen G-0046 registered-only modular relation by adding  · scope: Exactly the G-0046 rank-7,302 serialized support and its 7,1 · retry_when: `regime_boundary(pair-orbit-family-enlarged-beyond-g0046)` · trace:e0b4a9d2
+- `D-0003` Search for MAX11 inside the fully symmetrized asymmetric loop-edge lift of the 2 · scope: Exactly the 5,040 G-0071 labelled seeds quotienting to 3,754 · retry_when: `data_changes(asymmetric-loop-edge-orbit-subject)` · trace:d09d860d
 
 ## Experiments (multiplicity ledger)
 
@@ -276,4 +297,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0009` [complete] family `max11-zero-high-joint-s1-quotient-v1` arm — prereg=True · trace:e7ff91b4
 - `EXP-0010` [complete] family `max11-zero-high-plus-structural-mass4-joint-quotient-v1` arm — prereg=True · trace:66226b80
 - `EXP-0011` [complete] family `max11-asymmetric-loop-edge-inherited-weight-probe-v1` arm — prereg=False · trace:ec8d81bb
-- `EXP-0012` [planned] family `max11-asymmetric-loop-edge-3754-orbit-global-span-v1` arm — prereg=True · trace:ed682030
+- `EXP-0012` [complete] family `max11-asymmetric-loop-edge-3754-orbit-global-span-v1` arm — prereg=True · trace:ed682030

@@ -35,3 +35,14 @@ evidence = ["E-0011"]
 retry_when = "regime_boundary(pair-orbit-family-enlarged-beyond-g0046)"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-29T19:53:55Z
+
+[[dead_end]]
+id = "D-0003"
+approach = "Search for MAX11 inside the fully symmetrized asymmetric loop-edge lift of the 252 pinned full-support MAX10 bases, allowing arbitrary coefficients on all 3,754 orbit classes and the two pure linear carriers."
+observed = "The preregistered matrix has rank 3,518 modulo both 1,000,003 and 1,000,033, while adjoining the exact target raises the rank to 3,519 in both fields. By left-linearity of the registered sketch, the complete unsketched family has no solution over either field."
+scope = "Exactly the 5,040 G-0071 labelled seeds quotienting to 3,754 G-0072 full-S_11 orbit representatives, plus 5E and 5L, with loop-inclusive semantics and the frozen target normalization; evidence E-0017."
+does_not_show = "This is not an exact-Q obstruction and does not refute other graphical atoms, non-graphical support-three walls, nonsymmetric constructions, arbitrary real inner weights, or unrestricted two-hidden-layer networks."
+evidence = ["E-0017"]
+retry_when = "data_changes(asymmetric-loop-edge-orbit-subject)"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T03:56:52Z

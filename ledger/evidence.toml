@@ -290,3 +290,26 @@ selected_by = "EXP-0010 and the frozen G-0070 script SHA-256 were committed and 
 experiment = "EXP-0010"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T02:53:05Z
+
+[[evidence]]
+id = "E-0017"
+bears_on = "C-0025@1"
+direction = "supports"
+kind = "computation"
+method = "preregistered two-prime exact modular rank comparison after a deterministic one-sided CountSketch of the complete loop-inclusive normal forms, with all eleven linear coordinates retained exactly"
+source = "generated"
+mode = "confirmatory"
+artifact = "artifacts/math/G-0072/asymmetric_loop_edge_span_gate_v1.json.gz"
+implementation_claim = "C-0026@1"
+code_hash = "sha256:59981f53d5c7ddbeef7cbd1d82b7b0df1289f692f593aca49aea2c925592521f"
+env_digest = "sha256:5b0bca0ebd9778a892d82d9975211aebd7e062b8b8339b9d3f4e4eda65ba872a"
+data_snapshot = "sha256:6aee8e8b5002df5d7627214e96e2008668ca244d4cdbba934153bef8341c77af"
+artifact_digest = "sha256:f9ce859ff3face85dfe6f79d6c8d52b88cd67df8b2185ee9d248903ecb897f2e"
+repro = ".venv/bin/python -B artifacts/math/G-0072/asymmetric_loop_edge_span_gate.py --run --workers 8 --buckets 4096 --seed max11-g0072-loop-edge-orbit-span-v1 --primes 1000003,1000033 --minimum-available-gib 12 --expected-script-sha256 59981f53d5c7ddbeef7cbd1d82b7b0df1289f692f593aca49aea2c925592521f --output artifacts/math/G-0072/asymmetric_loop_edge_span_gate_v1.json.gz"
+domain_checked = "Exactly 5,040 reconstructed labelled loop-edge seeds quotienting to 3,754 frozen full-S_11 orbit representatives, plus the 5E and 5L carriers, on a deterministic 4,096-row hinge CountSketch and all eleven exact ordered-cone linear coordinates at primes 1,000,003 and 1,000,033."
+detection_floor = "One binding, orbit census, loop-inclusive semantic digest, CountSketch row, matrix digest, target coordinate, backend, or registered rank change. The computation detects modular nonmembership through a one-sided left-linear image; it does not detect whether either prime is exceptional for a hypothetical rational solution."
+result = "CONSISTENT"
+selected_by = "EXP-0012 and frozen G-0072 script SHA-256 were committed and pushed before registered-subject execution."
+experiment = "EXP-0012"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T03:56:52Z
