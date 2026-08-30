@@ -1,0 +1,12 @@
+{
+  "schema": "max11-g0113-panel-solver-input-v1",
+  "records": [
+    {
+      "sequence": 0,
+      "signed_mass": 1,
+      "active_vertices": 3,
+      "negative_edges": [[0, 2]],
+      "positive_edges": [[1, 2]]
+    }
+  ]
+}
