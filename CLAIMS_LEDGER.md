@@ -271,6 +271,36 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only. The binding hashes principal Python/backend entrypoints rather than every transitively linked shared library, and establishes neither an exact rational obstruction nor any MAX11 construction or unrestricted-network lower bound.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0027@1 — boundary-claim [mathematics]
+
+> For the frozen 364 by 8,107 integer profile matrix of 8,104 full-S_11 Y-spoke orbit columns plus C_L, C_E, and C_Y, exact integer Gram/RREF computation gives rational rank 258 and row nullity 106, and the exact MAX11 profile target lies in the rational column span. An emitted 257-term rational witness, consisting of 256 Y-spoke orbit columns and C_E, replays with zero residual on all 364 rows using both FLINT and stdlib Fraction arithmetic; a disjoint clean-room semantic implementation independently replays the same selected witness exactly.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:151f1eae
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0027@1`
+- falsifier: One frozen subject, orbit, normalization, matrix, target, producer, or backend binding drift; one independently reproduced nonzero rational residual on any of the 364 rows; one exact full-matrix rank different from 258; or one descriptor mismatch in the selected 257-term witness.
+- no-claim: This establishes equality only on the 364 symmetric profiles over levels {0,1,2,3}. It is not a global CPWL identity, a two-hidden-layer MAX11 network, a proof away from the frozen profiles, or an unrestricted depth result. The clean-room replay establishes the selected witness and a rank-258 lower bound but not the full 8,107-column rank upper bound.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0028@1 — implementation-claim [mathematics]
+
+> Y-spoke exact symmetric-profile gate v1 is identified by frozen producer SHA-256 333dba4065c08d54742177941305c13841e6237001f364cf5a68a9e4ec2ebf67, preflight scientific payload d440ecf8b5119f1c6b8f872444cb364995d1f4043513519d57fbbd3eeb3517b8, the complete registered compressed outcome, and canonical subject environment manifest.
+
+- disposition: **open** · trace:bf569940
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0028@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes neither a global MAX11 construction nor correctness beyond the bound subject, profiles, semantics, and principal backend entrypoints.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0029@1 — implementation-claim [mathematics]
+
+> G-0073 clean-room semantic replay v1 is identified by standalone replayer SHA-256 f67a0adcba1b273cec38266b52f27908a27e5c6e0b6a5a2fecbcbda70191c54b, the registered outcome bytes it binds, and audit receipt SHA-256 a207d86304470ec5d813843be4fc71ad72373afcff93630f9d585b4222cf4db2.
+
+- disposition: **open** · trace:d6944314
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0029@1`
+- falsifier: —
+- no-claim: Identity only. The replay is a fresh-context same-model-lineage T1 implementation, not T2 or human review, and it reconstructs only the selected witness columns rather than the complete 8,107-column matrix.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
