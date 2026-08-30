@@ -106,7 +106,7 @@ fn matching_injections(table: &[Vec<i8>], active: usize, direction: &[i8; N], sc
     let mut current = vec![0u64; 1usize << active];
     current[0] = 1;
     for (rank, &coordinate) in direction.iter().enumerate() {
-        let expected = scale * coordinate;
+        let expected = i16::from(scale) * i16::from(coordinate);
         let mut next = vec![0u64; 1usize << active];
         for (mask, &count) in current.iter().enumerate() {
             if count == 0 {
@@ -122,7 +122,7 @@ fn matching_injections(table: &[Vec<i8>], active: usize, direction: &[i8; N], sc
             }
             for (vertex, increments_for_vertex) in table.iter().enumerate().take(active) {
                 let bit = 1usize << vertex;
-                if mask & bit == 0 && increments_for_vertex[mask] == expected {
+                if mask & bit == 0 && i16::from(increments_for_vertex[mask]) == expected {
                     next[mask | bit] += count;
                 }
             }
@@ -517,5 +517,13 @@ mod tests {
             mutation_literal.hinges != expected.hinges
                 || mutation_literal.linear != expected.linear
         );
+    }
+
+    #[test]
+    fn large_valid_direction_cannot_overflow_scale_product() {
+        let record = sample();
+        let direction = [0, 1, -26, 25, 0, 0, 0, 0, 0, 0, 0];
+        validate_direction(&direction).unwrap();
+        assert_eq!(hinge_coefficient(&record, &direction).unwrap(), 0);
     }
 }
