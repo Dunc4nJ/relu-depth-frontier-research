@@ -31,6 +31,7 @@ import sys
 from fractions import Fraction as Q
 from pathlib import Path
 from typing import Any, Sequence
+from zipfile import BadZipFile, ZipFile
 
 
 Vector = tuple[Q, ...]
@@ -52,6 +53,8 @@ EXPECTED_DEPENDENCY_HASHES = {
     "search_one_wall_refinements.py": "3f5f2a435aa6079aa6a7772f29cb3066490eb5eb58301532df3737345c8373ee",
     "search_seeded_multiwall_arrangements.py": "793db2b6f5e6cd0ab31ac59e9c3b7291a05c6372f9db336941ccd362efe92529",
 }
+DEPENDENCY_ARCHIVE_NAME = "g0035_exact_dependencies_v1.zip"
+EXPECTED_DEPENDENCY_ARCHIVE_SHA256 = "ad3a4359553c7ed11a23aea2384f39fe3c9cf65f7e6ca2587046cc1f6992cb56"
 
 
 def sha256_bytes(payload: bytes) -> str:
@@ -62,16 +65,24 @@ def sha256_file(path: Path) -> str:
     return sha256_bytes(path.read_bytes())
 
 
-def dependency_directory() -> Path:
-    return Path(__file__).resolve().parents[1] / "G-0035"
+def dependency_archive() -> Path:
+    return Path(__file__).resolve().with_name(DEPENDENCY_ARCHIVE_NAME)
 
 
 def dependency_hashes() -> dict[str, str]:
-    root = dependency_directory()
-    return {
-        name: sha256_file(root / name)
-        for name in EXPECTED_DEPENDENCY_HASHES
-    }
+    archive_path = dependency_archive()
+    if sha256_file(archive_path) != EXPECTED_DEPENDENCY_ARCHIVE_SHA256:
+        raise SystemExit("G-0035 dependency archive hash mismatch")
+    try:
+        with ZipFile(archive_path) as archive:
+            if set(archive.namelist()) != set(EXPECTED_DEPENDENCY_HASHES):
+                raise SystemExit("G-0035 dependency archive member-set mismatch")
+            return {
+                name: sha256_bytes(archive.read(name))
+                for name in EXPECTED_DEPENDENCY_HASHES
+            }
+    except BadZipFile as error:
+        raise SystemExit(f"invalid G-0035 dependency archive: {error}") from error
 
 
 def require_frozen_dependencies() -> dict[str, str]:
@@ -90,7 +101,8 @@ def require_frozen_dependencies() -> dict[str, str]:
 
 
 START_DEPENDENCY_HASHES = require_frozen_dependencies()
-sys.path.insert(0, str(dependency_directory()))
+START_DEPENDENCY_ARCHIVE_SHA256 = sha256_file(dependency_archive())
+sys.path.insert(0, str(dependency_archive()))
 
 import z3  # noqa: E402
 from analyze_survivor_type_cones import (  # noqa: E402
@@ -500,6 +512,9 @@ def main() -> None:
     end_hashes = dependency_hashes()
     if end_hashes != START_DEPENDENCY_HASHES:
         raise SystemExit("G-0035 dependency changed during execution; outputs refused")
+    end_archive_hash = sha256_file(dependency_archive())
+    if end_archive_hash != START_DEPENDENCY_ARCHIVE_SHA256:
+        raise SystemExit("G-0035 dependency archive changed during execution; outputs refused")
     source_hash = sha256_file(Path(__file__))
     proof_bundle = {
         "schema": "g0080-three-wall-j2-z3-proofs-v1",
@@ -514,6 +529,12 @@ def main() -> None:
         "source_sha256": source_hash,
         "dependency_hashes_start": START_DEPENDENCY_HASHES,
         "dependency_hashes_end": end_hashes,
+        "dependency_archive": {
+            "path": DEPENDENCY_ARCHIVE_NAME,
+            "sha256_start": START_DEPENDENCY_ARCHIVE_SHA256,
+            "sha256_end": end_archive_hash,
+            "member_count": len(START_DEPENDENCY_HASHES),
+        },
         "dependency_custody_unchanged": True,
         "z3_version": z3.get_version_string(),
         "wall_vertex_order": ["T0", "T1", "T2", "S00", "S10", "S01", "S11"],

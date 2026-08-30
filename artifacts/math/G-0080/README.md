@@ -128,19 +128,21 @@ Run:
   --proof-output artifacts/math/G-0080/three_wall_j2_z3_proofs_v1.json.gz
 ```
 
-The runner refuses changed G-0035 dependency bytes before import and checks
-them again after the computation.  The gzip proof bundle contains the exact
-Z3 proof text for all 22 `UNSAT` queries; the report binds every proof by
-SHA-256.
+The runner imports only the nine exact G-0035 source files in the committed,
+deterministic dependency archive; there is no filesystem fallback.  It
+verifies the archive and every member before import and again after the
+computation.  The gzip proof bundle contains the exact Z3 proof text for all
+22 `UNSAT` queries; the report binds every proof by SHA-256.
 
 ## Frozen hashes
 
 Filled from the final self-replayed artifacts:
 
 ```text
-decide_three_wall_j2.py                  7520cab379c9913f09188034dd4dfb09222520c79d3d473b04733d0f33618b25
-three_wall_j2_symbolic_decision_v1.json  d91d15f3f6e5fbec7dae74466c1b2ef603af666f5ce3c662dcde4616d383c638
-three_wall_j2_z3_proofs_v1.json.gz       407b89a59c26165a8118b6ea717d569159e14058a0e24422d277ac4cdbbd53bb
+decide_three_wall_j2.py                  e0f6a1efb5e603ee318348d663d0e88cc234065b2592983492410979461291da
+g0035_exact_dependencies_v1.zip          ad3a4359553c7ed11a23aea2384f39fe3c9cf65f7e6ca2587046cc1f6992cb56
+three_wall_j2_symbolic_decision_v1.json  70bd654205e905611401073ac44cb1e7c5df6b606837d7cbd7a336fb52742336
+three_wall_j2_z3_proofs_v1.json.gz       d7166d003cc86e15b326ebd03878298cefd89d56cf9c1600d3fa04611b3abb58
 ```
 
 ## No-claim boundary

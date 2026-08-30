@@ -9326,6 +9326,12 @@
       ]
     }
   ],
+  "dependency_archive": {
+    "member_count": 9,
+    "path": "g0035_exact_dependencies_v1.zip",
+    "sha256_end": "ad3a4359553c7ed11a23aea2384f39fe3c9cf65f7e6ca2587046cc1f6992cb56",
+    "sha256_start": "ad3a4359553c7ed11a23aea2384f39fe3c9cf65f7e6ca2587046cc1f6992cb56"
+  },
   "dependency_custody_unchanged": true,
   "dependency_hashes_end": {
     "analyze_survivor_type_cones.py": "7233d201bf85fb2c8b11d6d08bee263bb2efd1848a72a93ca64a3d088e215142",
@@ -9357,10 +9363,10 @@
   "maximal_cell_count": 8,
   "no_claim": "This decides only the displayed three-wall arrangement. It is not a no-go theorem for other subdivisions of J2, for arbitrary three-wall arrangements, for W2 or virtual S2 identities, or for unrestricted MAX11. A two-center SAT result would not by itself certify a primitive P2 block.",
   "proof_bundle": {
-    "gzip_sha256": "407b89a59c26165a8118b6ea717d569159e14058a0e24422d277ac4cdbbd53bb",
+    "gzip_sha256": "d7166d003cc86e15b326ebd03878298cefd89d56cf9c1600d3fa04611b3abb58",
     "path": "artifacts/math/G-0080/three_wall_j2_z3_proofs_v1.json.gz",
     "query_proof_count": 22,
-    "uncompressed_json_sha256": "f26d5d539b793599b1358593252255c8a52ba81dd3c69b1feab634e4f1b9ba99"
+    "uncompressed_json_sha256": "0adf0123a01eeba68f87a4a08163bf14fc701981b6dc5020b090e580ebe2c50c"
   },
   "result": "PASS",
   "schema": "g0080-three-wall-j2-symbolic-decision-v1",
@@ -9390,7 +9396,7 @@
     "triangle_one_center_proof_sha256": "17f69a865298095861936cdcea00a46e59a327b9968fc4125dd4ea5b8c0de4e0",
     "triangle_two_center_positive_control": "sat"
   },
-  "source_sha256": "7520cab379c9913f09188034dd4dfb09222520c79d3d473b04733d0f33618b25",
+  "source_sha256": "e0f6a1efb5e603ee318348d663d0e88cc234065b2592983492410979461291da",
   "theorem": "Every one of the eight maximal cells of the displayed three-wall arrangement is outside P2. Hence this exact arrangement is not a P2 subdivision of J2.",
   "wall_values": [
     [
