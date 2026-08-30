@@ -251,24 +251,24 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only; this record establishes neither exact rational rank nor any MAX11 construction or obstruction.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
-### C-0025@1 — boundary-claim [mathematics]
+### C-0025@2 — boundary-claim [mathematics]
 
-> For the frozen asymmetric loop-edge family consisting of 3,754 full-S_11 orbit columns plus the 5E and 5L linear carriers, the registered 4,107 by 3,756 matrix has column rank 3,518 modulo each of 1,000,003 and 1,000,033, while appending the exact 11!*MAX11 target raises the rank to 3,519 at both primes. Hence the target is outside the complete unsketched family span over each registered field, because the registered hinge CountSketch together with the eleven exact linear rows is a left-linear image of that complete system.
+> For the frozen asymmetric loop-edge family consisting of 3,754 full-S_11 orbit columns plus the 5E and 5L linear carriers, the registered 4,107 by 3,756 matrix has column rank 3,518 modulo each of 1,000,003 and 1,000,033, while appending the exact 11!*MAX11 target raises the rank to 3,519 at both primes. Hence the target is outside the complete unsketched family span over each registered field, because the registered hinge CountSketch together with the eleven exact linear rows is a left-linear image of that complete system. A same-script run to a distinct output path reproduces the signed matrix digest, scientific payload, and both rank gaps; it is correlated reproducibility, not a clean-room replay.
 
-- disposition: **supported** · facets: UNCHALLENGED · trace:8503eac8
-- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0025@1`
+- disposition: **supported** · facets: UNCHALLENGED · trace:4a959532
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0025@2`
 - falsifier: One frozen subject, input, loop-inclusive semantic, orbit, sketch, target, code, or backend binding drift; one independently reproduced different column or augmented rank at either registered prime; or one full modular solution whose registered sketch fails to solve the reported matrix.
-- no-claim: The two modular obstructions are not an exact-Q left dual, denominator bound, or real-coefficient no-go. This does not exclude other graphical atoms, nonsymmetric blocks, non-graphical inner directions, arbitrary real weights, deeper networks, or unrestricted two-hidden-layer representations of MAX11.
+- no-claim: The two modular obstructions are not an exact-Q left dual, denominator bound, or real-coefficient no-go. The same-script reproduction is not an independently reimplemented semantic or rank replay. This does not exclude other graphical atoms, nonsymmetric blocks, non-graphical inner directions, arbitrary real weights, deeper networks, or unrestricted two-hidden-layer representations of MAX11.
 - next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
 
-### C-0026@1 — implementation-claim [mathematics]
+### C-0026@2 — implementation-claim [mathematics]
 
-> Asymmetric loop-edge global span gate v1 is identified by the frozen G-0072 script and Git revision, complete subject and dependency bindings, deterministic scientific payload, subject environment, and compressed result receipt.
+> Asymmetric loop-edge global span gate v1 is identified by the frozen G-0072 producer and fail-closed reproduction verifier, Git revision, bound inputs and principal backend entrypoints, deterministic subject and scientific-payload digests, canonical venv environment manifest, and compressed result receipt.
 
-- disposition: **open** · trace:bfff7669
-- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0026@1`
+- disposition: **open** · trace:4f6de3e3
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0026@2`
 - falsifier: —
-- no-claim: Identity only; this record establishes neither an exact rational obstruction nor any MAX11 construction or unrestricted-network lower bound.
+- no-claim: Identity only. The binding hashes principal Python/backend entrypoints rather than every transitively linked shared library, and establishes neither an exact rational obstruction nor any MAX11 construction or unrestricted-network lower bound.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
 ## Routes

@@ -313,3 +313,26 @@ selected_by = "EXP-0012 and frozen G-0072 script SHA-256 were committed and push
 experiment = "EXP-0012"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T03:56:52Z
+
+[[evidence]]
+id = "E-0018"
+bears_on = "C-0025@2"
+direction = "supports"
+kind = "computation"
+method = "same frozen producer implementation rerun to a distinct nonexisting output path through a fail-closed verifier of the deterministic scientific payload, signed matrix digest, target, and two modular rank gaps"
+source = "generated"
+mode = "confirmatory"
+artifact = "artifacts/math/G-0072/asymmetric_loop_edge_span_gate_v1.json.gz"
+implementation_claim = "C-0026@2"
+code_hash = "sha256:469299e6b433331bacdeb7d99613b1513363302b63130a161b9e748e086ada70"
+env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
+data_snapshot = "sha256:6aee8e8b5002df5d7627214e96e2008668ca244d4cdbba934153bef8341c77af"
+artifact_digest = "sha256:f9ce859ff3face85dfe6f79d6c8d52b88cd67df8b2185ee9d248903ecb897f2e"
+repro = ".venv/bin/python -B artifacts/math/G-0072/reproduce_and_verify_span_gate.py --output artifacts/math/G-0072/asymmetric_loop_edge_span_gate_replay_v1.json.gz --workers 8"
+domain_checked = "The complete frozen 5,040-seed/3,754-orbit subject and both carriers through the same registered semantic and rank implementation; the rerun matched scientific payload ca8a5090..., signed matrix ae76bf94..., shape 4,107 by 3,756, target, and ranks 3,518 to 3,519 at both primes."
+detection_floor = "One deterministic subject, semantic, matrix, target, or rank drift. Operational resource/timing/environment fields and raw gzip bytes may differ. Because producer code is reused, correlated implementation errors are below this check's detection floor."
+result = "CONSISTENT"
+selected_by = "Corrective same-script reproducibility check after the registered EXP-0012 outcome; no independent-replay promotion is claimed."
+experiment = "EXP-0012"
+author_path = "repro-auditor/fresh-context"
+created = 2026-08-30T04:16:29Z

@@ -17,6 +17,15 @@ with deterministic scientific-payload SHA-256
 This is a bounded two-prime modular obstruction, not an exact-rational or
 unrestricted-network lower bound.
 
+Reproduction must use a distinct output path because the frozen script refuses
+to overwrite an existing receipt.  Run
+`reproduce_and_verify_span_gate.py`; it invokes the frozen producer and fails
+closed unless the scientific payload, signed-matrix digest, target, and both
+rank gaps match.  Its environment is pinned by
+`environment/g0072.subject.manifest`.  A fresh-context same-script run passed
+that contract.  This is correlated reproducibility, not a clean-room semantic
+or rank reimplementation.
+
 ## Decision this experiment makes
 
 G-0071 showed that the labelled loop–edge lift has the intended MAX10 face,

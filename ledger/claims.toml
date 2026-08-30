@@ -350,3 +350,33 @@ env_digest = "sha256:5b0bca0ebd9778a892d82d9975211aebd7e062b8b8339b9d3f4e4eda65b
 data_snapshot = "sha256:6aee8e8b5002df5d7627214e96e2008668ca244d4cdbba934153bef8341c77af"
 author_path = "implementation-author/crimsonbirch"
 created = 2026-08-30T03:56:52Z
+
+[[claim]]
+id = "C-0025"
+version = 2
+statement = "For the frozen asymmetric loop-edge family consisting of 3,754 full-S_11 orbit columns plus the 5E and 5L linear carriers, the registered 4,107 by 3,756 matrix has column rank 3,518 modulo each of 1,000,003 and 1,000,033, while appending the exact 11!*MAX11 target raises the rank to 3,519 at both primes. Hence the target is outside the complete unsketched family span over each registered field, because the registered hinge CountSketch together with the eleven exact linear rows is a left-linear image of that complete system. A same-script run to a distinct output path reproduces the signed matrix digest, scientific payload, and both rank gaps; it is correlated reproducibility, not a clean-room replay."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0026@2"]
+falsifier = "One frozen subject, input, loop-inclusive semantic, orbit, sketch, target, code, or backend binding drift; one independently reproduced different column or augmented rank at either registered prime; or one full modular solution whose registered sketch fails to solve the reported matrix."
+no_claim = "The two modular obstructions are not an exact-Q left dual, denominator bound, or real-coefficient no-go. The same-script reproduction is not an independently reimplemented semantic or rank replay. This does not exclude other graphical atoms, nonsymmetric blocks, non-graphical inner directions, arbitrary real weights, deeper networks, or unrestricted two-hidden-layer representations of MAX11."
+not_equivalent_to = ["an exact rational obstruction", "an independently replayed result", "a lower bound for unrestricted ReLU networks", "a proof that asymmetric facet gluing cannot work", "a MAX11 construction"]
+origin_round = "R-0001"
+supersedes = "C-0025@1"
+author_path = "correction-author/crimsonbirch"
+created = 2026-08-30T04:16:29Z
+
+[[claim]]
+id = "C-0026"
+version = 2
+statement = "Asymmetric loop-edge global span gate v1 is identified by the frozen G-0072 producer and fail-closed reproduction verifier, Git revision, bound inputs and principal backend entrypoints, deterministic subject and scientific-payload digests, canonical venv environment manifest, and compressed result receipt."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only. The binding hashes principal Python/backend entrypoints rather than every transitively linked shared library, and establishes neither an exact rational obstruction nor any MAX11 construction or unrestricted-network lower bound."
+origin_round = "R-0001"
+supersedes = "C-0026@1"
+code_hash = "sha256:469299e6b433331bacdeb7d99613b1513363302b63130a161b9e748e086ada70"
+env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
+data_snapshot = "sha256:6aee8e8b5002df5d7627214e96e2008668ca244d4cdbba934153bef8341c77af"
+author_path = "correction-author/crimsonbirch"
+created = 2026-08-30T04:16:29Z

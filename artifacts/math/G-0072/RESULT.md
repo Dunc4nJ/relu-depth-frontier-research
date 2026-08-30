@@ -26,3 +26,14 @@ catalogue.  The next construction test should change the inner-wall geometry;
 the minimal candidate currently identified is the support-three Y-spoke wall
 `x_l + x_11 - 2*x_k = 0`, which preserves the required MAX10 facet but is no
 longer a braid/root direction.
+
+Reproduction note: the original evidence command reused the immutable result
+path, which the frozen script correctly refuses to overwrite.  The corrected
+fail-closed wrapper `reproduce_and_verify_span_gate.py` writes to
+`asymmetric_loop_edge_span_gate_replay_v1.json.gz` and verifies the scientific
+payload, signed matrix, target, and ranks before returning success.  A
+fresh-context run with that correction matched scientific payload
+`ca8a5090e331b5784fd9f5ffbf31a6c2826c319726a61cb3aa14f68544032495`, signed
+matrix `ae76bf944e75f3be2e83789e4e9c50e8d627f6ab810afd3a32d1caece6b07480`, and
+both rank gaps.  It reused the producer implementation and therefore does not
+count as an independent clean-room replay.
