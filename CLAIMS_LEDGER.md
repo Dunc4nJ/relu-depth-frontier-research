@@ -339,7 +339,7 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0033@1`
 - falsifier: One frozen subject, row, target, normalization, certificate, producer, verifier, or matrix binding drift; one recomputed augmented-row gcd or exact division mismatch; one nonzero exact residual on any of the 8,107 construction columns; a zero or changed exact target pairing; or an independently reconstructed raw rational functional that fails the stated identities.
 - no-claim: This excludes only the hash-bound 8,107-column Y-spoke-plus-carrier family on the hash-bound 16,738-row system. It proves no completeness reduction from arbitrary two-hidden-layer networks, no unrestricted ReLU lower bound, no obstruction for absent graphical or facet-gluing atoms, and no novelty or priority claim. The clean-room replay is same-model-lineage T1 evidence, not T2 or human review.
-- open gaps: G-0009, G-0010
+- open gaps: G-0009, G-0010, G-0011
 - next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
 
 ### C-0034@1 — implementation-claim [mathematics]
