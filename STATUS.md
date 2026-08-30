@@ -7,35 +7,33 @@ commit, counts, and the last displayed verifier result are operator-maintained s
 them against ledger, `phases/ROUNDS.md`, and Git before acting.
 
 ## Where the campaign is
-- Phase: P4 · Round: R-0001 · Proof-core commit: `bc92a01` · Latest math checkpoint: `249e280`
-- Ledger: 18 claims · 8 open gaps · 3 active routes · 2 dead ends · verify-ledger: green
-- Bounded result: `C-0009@1` is COMPUTED_BOUNDED with an exact same-family T1
-  holds review.  G-0017 receipt SHA-256: `f539eb61ddf78272447ee40da3c37f4283ff56529aa0209af8ee0747f751350c`.
-- Structural results: `C-0011@1` forces full signed-core support inside the
-  frozen symmetrized pair-atom semantics; `C-0013@1` exactly excludes the
-  complete signed-mass-at-most-three census and has an independent same-family
-  T1 all-row replay.
-- Refuted candidate: G-0049 replayed the favorable 7,100-active-atom G-0046
-  relation globally and found 74,500 nonzero hinges at each prime despite a
-  perfect 8,427-row fit.  Further same-support finite-row CEGIS is dead-ended.
-- Exact mass-four boundary: G-0056 proves over Q that the 1,465 full seeds have
-  rank 867 and a 598-dimensional kernel on the complete 99,858-row semantics;
-  every kernel vector has zero Lambda.  G-0054's independent clean-room audit
-  hard-passes that bounded theorem.  This retires the seed-only route, not the
-  132,728 proper mass-four atoms.
-- Live frontier: EXP-0008 exactly partitions the 11,542 natural single-edge
-  mass-five columns into 526 zero-high and 11,016 nonzero-high columns.  The
-  latter have frozen sketch rank 6,626/11,016, which is strictly inconclusive
-  pending complete-row replay.  The shortest constructive gate is now G-0070:
-  jointly quotient all 526 exact zero-high lower normal forms by the exact
-  rank-1,288 S1 basis and test whether any kernel direction gains Lambda.
-- Unrestricted target: `C-0002@1` remains challenged and unproved; the bounded
-  theorems supply no completeness bridge to arbitrary two-hidden-layer networks.
+- Phase: P4 · Round: R-0001 · Proof-core commit: `bc92a01` · Latest exact/audit checkpoint: `2015707`
+- Ledger: 35 claims · 10 open gaps · 3 active routes · 3 dead ends · verify-ledger: green
+- New exact boundary: `C-0033@1` is COMPUTED_BOUNDED with a same-family T1
+  holds review.  A primitive rational functional supported on 230 rows
+  annihilates all 8,107 frozen Y-spoke-plus-carrier columns and pairs nontrivially
+  with MAX11.  The producer artifact is `8e08caec...ae96`; the independent
+  receipt is `d5149c9e...2119`.
+- Positive result retained: `C-0030@1` proves the same Y-spoke family equals
+  MAX11 on the entire at-most-three-valued locus.  G-0078 shows the obstruction
+  first appears on genuinely four-valued profiles and is already visible within
+  the first 21 registered panels.
+- Settled interpretation: exceptional-prime ambiguity and certificate hunting
+  for this 8,107-column family are finished.  The result is not a global MAX11
+  lower bound because no completeness bridge to arbitrary networks is known.
+- Live frontier: use the exact 230-row separator as a pricing oracle on the
+  complete certified 7,015,841-record loop-inclusive signed-degree-five
+  universe from G-0038 plus `5E` and `5L`.  All-zero prices would extend the
+  obstruction dramatically; nonzero prices identify the precise atoms needed
+  for target-aware column generation.
+- Unrestricted target: `C-0002@1` remains challenged and unproved.  A true
+  normal-form/completeness bridge or an escaping full-dimensional facet-gluing
+  construction remains the final conceptual bottleneck.
 - Clean-pass streak (P10 only): 0
 
 ## Next work queue (dual-written to `beads/QUEUE.md`)
-1. G-0008 — run the exact lower-degree quotient gate on all 526 zero-high natural lifts, then exact-replay any potent kernel; independently replay the natural high-degree sketch deficiency.
-2. G-0006 — pursue a true normal-form/completeness bridge or an asymmetric escape from the finite pair-orbit ansatz if the registered natural family is exhausted.
+1. G-0009 — exact-price the complete loop-inclusive degree-five universe with the new 230-row separator, then recompute a target-aware quotient on every nonzero-price extension.
+2. G-0006 — pursue a true normal-form/completeness bridge or a full-dimensional asymmetric facet-gluing escape after the broad finite pricing discriminator.
 
 `walk-consistency` compares the object-ID set on the real numbered lines above with the set on real
 unchecked lines in `beads/QUEUE.md`. Brace-slot lines are ignored line by line while this template is
@@ -43,16 +41,19 @@ being filled; a missing counterpart is reported as INFO. Once real work exists, 
 exactly the same active IDs.
 
 ## Open blockers
-The degree-four system has 99,858 rows and about 137,500 columns, so a complete
-dense matrix would exceed 100 GiB.  The certified 1,288-dimensional baseline
-now permits Schur-quotient candidate tests, but a complete mass-four negative
-still requires sparse/streaming exact semantics and a rational dual.  T2 review
-remains unavailable but does not block this mathematical expansion.
+The G-0038 universe has 7,015,841 orbit records.  Initial prices need only the
+230 certificate rows, but a sound implementation must evaluate symmetrized
+profile columns without expanding `11!` permutations, reconcile loops/common
+edges and row normalization, and retain exact confirmation after modular
+screening.  A later target-aware solve must avoid a dense 16,738-by-millions
+matrix.  T2 review remains unavailable but does not block this discriminator.
 
 ## Standing reminders for the resuming agent
 - Do not re-derive settled state; challenge it through the ledger if it looks wrong.
-- Do not describe `C-0009@1` as unrestricted MAX11 or as a general
-  two-hidden-layer lower bound.
+- Do not describe `C-0033@1` as unrestricted MAX11 or as a general
+  two-hidden-layer lower bound.  It is exact only for the frozen family.
+- Do not spend more time solving inside the already-separated 8,107 columns.
+  A new column matters first through its exact G-0078 price.
 - Do not resurrect G-0046 by adding sampled rows: G-0049 is its complete broad
   refutation.  Do not use the 10,065 degree-three universe as a complete test
   for signed mass four; the correct universe has 99,858 directions.

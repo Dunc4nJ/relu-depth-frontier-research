@@ -66,3 +66,21 @@ code_hash = "sha256:549de6670326c7086ce62611cfd9facf5d484a9ddc1b5eb0c4f6cdea307d
 env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
 data_snapshot = "sha256:c588e92b236dd1bbdfefda9304e936d4ded72bc46e030346dc9548b24ad03251"
 created = 2026-08-29T19:53:55Z
+
+[[review]]
+id = "V-0003"
+target = "C-0033@1"
+reviewer = "referee/g0078-exact-dual-adversary"
+tier = "T1"
+model_family = "same-family-codex"
+basis = ["exact-all-column-replay", "independent-divisor-recomputation", "modular-lineage-check", "mutation-controls", "quantifier-scope", "statement-match"]
+capable_of_failure = "Any exact residual on one of the 8,107 columns, one changed or zero target pairing, one incorrect row gcd or nonexact division, one modular-lineage mismatch, one accepted one-unit coefficient mutant, or one claim extending beyond the frozen matrix would have produced refuted or narrowed rather than holds."
+verdict = "holds"
+findings = "A standalone verifier that imported neither producer reconstructed the 230-row rational functional with Python exact arithmetic, recomputed every augmented-row gcd, obtained zero on all 8,107 construction columns, reproduced the exact nonzero target pairing and modular hashes, and rejected all 230 one-unit weight mutations. The rational separator proves real as well as rational nonmembership for the hash-bound finite matrix."
+residual_doubts = "Same-model-family and same-host lineage only; semantic columns were consumed from the frozen matrix rather than independently regenerated from all 8,104 descriptors. No T2 or human review, no family-completeness bridge, no unrestricted-network theorem, and no novelty adjudication."
+expected_break = "The likeliest decisive break was a basis-position/raw-row mapping error or an augmented-row divisor trusted from the producer; the clean-room verifier independently mapped indices and recomputed all divisors, finding neither."
+implementation_claim = "C-0035@1"
+code_hash = "sha256:39fd3b6f0a74ef22b264e16bb184eed2d5094a32c08ab018124182dd10ff5d52"
+env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
+data_snapshot = "sha256:8e08caecbf5a4d7b457a32f445702121dc1d095b4e368d45db8bc64847b4ae96"
+created = 2026-08-30T11:45:43Z

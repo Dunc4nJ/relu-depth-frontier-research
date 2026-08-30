@@ -331,6 +331,37 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only. The replay is fresh-context same-model-lineage T1 evidence, not T2 or human review. It reconstructs the 443 selected witness columns and C_L, not the complete 8,107-column matrix or the producer's full 460-column pivot minor.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0033@1 — boundary-claim [mathematics]
+
+> For the frozen 16,738 by 8,107 integer evaluation matrix of 8,104 full-S_11 Y-spoke orbit columns plus C_L, C_E, and C_Y, a primitive rational functional supported on 229 selected rows and raw row 2,410 annihilates all 8,107 construction columns exactly and has nonzero pairing with the MAX11 target. Hence that target is outside the rational and real column spans of the complete frozen family on the bound row system. A standalone clean-room implementation independently recomputes all 230 augmented-row gcds and replays every exact residual.
+
+- disposition: **challenged** · trace:72417a10
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0033@1`
+- falsifier: One frozen subject, row, target, normalization, certificate, producer, verifier, or matrix binding drift; one recomputed augmented-row gcd or exact division mismatch; one nonzero exact residual on any of the 8,107 construction columns; a zero or changed exact target pairing; or an independently reconstructed raw rational functional that fails the stated identities.
+- no-claim: This excludes only the hash-bound 8,107-column Y-spoke-plus-carrier family on the hash-bound 16,738-row system. It proves no completeness reduction from arbitrary two-hidden-layer networks, no unrestricted ReLU lower bound, no obstruction for absent graphical or facet-gluing atoms, and no novelty or priority claim. The clean-room replay is same-model-lineage T1 evidence, not T2 or human review.
+- open gaps: G-0009, G-0010
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0034@1 — implementation-claim [mathematics]
+
+> G-0078 adaptive sparse exact left-dual lift v1 is identified by frozen producer SHA-256 6aec90e28318b45680d3ee94254ff491d5eab89df9eec112fe9b5e66ce4f5229, preflight scientific payload 2e055acf291460f793e6673c9df4d76441ee2d52eda59d49ddb9f809bc91ffec, exact outcome scientific payload 0bb1a524503359529bb592030f220be86d88756b797e55c4be04c031852bd573, complete compressed outcome, raw matrix hash, and canonical subject environment.
+
+- disposition: **open** · trace:b927a732
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0034@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes neither completeness of the frozen construction family nor an unrestricted MAX11 lower bound.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0035@1 — implementation-claim [mathematics]
+
+> G-0078 clean-room exact-dual replay v1 is identified by standalone verifier SHA-256 39fd3b6f0a74ef22b264e16bb184eed2d5094a32c08ab018124182dd10ff5d52, exact upstream artifact SHA-256 8e08caecbf5a4d7b457a32f445702121dc1d095b4e368d45db8bc64847b4ae96, deterministic receipt SHA-256 d5149c9e6495e97549ffb43d5a2f1d75cd4ca71929dec6fc6e09c5d613f42119, and audit-payload SHA-256 b5c469436e99485b7f3adfdf272af543f95926aee653aa45ace7fa2081bb3f50.
+
+- disposition: **open** · trace:b2d76e0d
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0035@1`
+- falsifier: —
+- no-claim: Identity only. The verifier is fresh-context same-model-lineage T1 evidence on the same frozen inputs, not T2, human review, or an independent new subject construction.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -362,5 +393,5 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0014` [complete] family `max11-y-spoke-complete-three-level-spacing-gate-v1` arm — prereg=True · trace:b80b3dda
 - `EXP-0015` [complete] family `max11-y-spoke-generic-four-level-direct-rank-gate-v1` arm — prereg=True · trace:74032ac3
 - `EXP-0016` [complete] family `max11-y-spoke-target-aware-four-level-kernel-v1` arm — prereg=True · trace:d74e8ce9
-- `EXP-0017` [planned] family `max11-y-spoke-exact-left-dual-lift-v1` arm — prereg=True · trace:34ecda54
-- `EXP-0018` [planned] family `max11-y-spoke-sparse-exact-left-dual-lift-v1` arm — prereg=True · trace:f66d54d4
+- `EXP-0017` [complete] family `max11-y-spoke-exact-left-dual-lift-v1` arm — prereg=True · trace:34ecda54
+- `EXP-0018` [complete] family `max11-y-spoke-sparse-exact-left-dual-lift-v1` arm — prereg=True · trace:f66d54d4
