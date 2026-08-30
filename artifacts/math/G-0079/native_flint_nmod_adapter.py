@@ -488,6 +488,14 @@ def invert_old_basis(output: Path, receipt_path: Path) -> dict[str, object]:
         inverse_view = np.load(output, mmap_mode="r", allow_pickle=False)
         if inverse_view.shape != (RANK, RANK) or inverse_view.dtype != np.dtype("<u4"):
             raise AdapterError("exported inverse shape/dtype drift")
+        reloaded_data_digest = hashlib.sha256()
+        for row in range(RANK):
+            vector = np.ascontiguousarray(inverse_view[row])
+            if np.any(vector >= PRIME):
+                raise AdapterError("reloaded inverse entry lies outside canonical residue range")
+            reloaded_data_digest.update(memoryview(vector).cast("B"))
+        if reloaded_data_digest.hexdigest() != data_digest.hexdigest():
+            raise AdapterError("full reloaded inverse bytes differ from native export stream")
         replay = replay_inverse_columns(
             full, rows, columns, inverse_view, REPLAY_COLUMNS
         )
@@ -504,9 +512,16 @@ def invert_old_basis(output: Path, receipt_path: Path) -> dict[str, object]:
             pass
         raise
     finally:
-        native.clear(inverse)
-        native.clear(matrix)
-        native.cleanup()
+        try:
+            native.clear(inverse)
+            native.clear(matrix)
+            native.cleanup()
+        except BaseException:
+            try:
+                output.unlink()
+            except FileNotFoundError:
+                pass
+            raise
 
     end_script_sha256 = sha256_path(SCRIPT)
     end_gmp_path, end_flint_path = library_paths()
@@ -546,8 +561,12 @@ def invert_old_basis(output: Path, receipt_path: Path) -> dict[str, object]:
         "python_flint_bulk_constructor_used": False,
         "native_calls": [
             "nmod_mat_init",
-            "blockwise row memmove",
+            "nmod_mat_nrows",
+            "nmod_mat_ncols",
+            "nmod_mat_row_ptr",
+            "blockwise row assignment through exported row pointers",
             "nmod_mat_inv",
+            "nmod_mat_mul",
             "nmod_mat_clear",
         ],
         "fill_seconds": fill_seconds,
@@ -557,6 +576,8 @@ def invert_old_basis(output: Path, receipt_path: Path) -> dict[str, object]:
         "inverse_npy_path": str(output),
         "inverse_npy_sha256": sha256_path(output),
         "inverse_uint32_c_sha256": data_digest.hexdigest(),
+        "reloaded_inverse_uint32_c_sha256": reloaded_data_digest.hexdigest(),
+        "full_export_stream_equality": True,
         "inverse_probe": inverse_probe,
         "replay": replay,
         "full_product_replay": full_product_replay,
@@ -566,9 +587,10 @@ def invert_old_basis(output: Path, receipt_path: Path) -> dict[str, object]:
             "inputs_rehashed_at_end": end_inputs,
         },
         "claim_boundary": (
-            "This receipt proves only inversion of the frozen old-basis minor modulo "
-            "1,000,003 and selected full-column identity replays. It computes no new-family "
-            "prices and no target-membership or separation result."
+            "This receipt proves only an in-memory full B*B^-1 identity, byte-for-byte "
+            "equality of the entire exported/reloaded inverse, and selected arithmetic "
+            "replays for the frozen old-basis minor modulo 1,000,003. It computes no new-"
+            "family prices and no target-membership or separation result."
         ),
     }
     write_json_exclusive(receipt_path, receipt)
