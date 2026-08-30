@@ -1,0 +1,27 @@
+{
+  "schema": "max11-g0072-inherited-weight-boolean-probe-v1",
+  "mode": "exploratory-pre-registration-observation",
+  "bindings": {
+    "certificate_10_4_sha256": "10f38b27fa555866eda7c3ee10d5da51f3cd1db810a74860d6ab8ef8a30982e4",
+    "g0071_preflight_sha256": "f4504c4a80e22a15ca1b40c1f70fcd7f5ae7956932d635f78619432330968e9f",
+    "probe_script_sha256": "59981f53d5c7ddbeef7cbd1d82b7b0df1289f692f593aca49aea2c925592521f"
+  },
+  "coefficient_rule": "sum every anchor and both orientations with its source MAX10 coefficient",
+  "normalized_full_orbit_values_on_boolean_Hamming_layers_1_through_11": [
+    "-1/508032",
+    "-101/103488000",
+    "-12263/4191264000",
+    "-32743/8382528000",
+    "-2903/558835200",
+    "-9353/1564738560",
+    "-5399/838252800",
+    "-521/77616000",
+    "-683/99792000",
+    "-1/145152",
+    "-1/145152"
+  ],
+  "constant_across_nonzero_layers": false,
+  "result": "OBVIOUS_INHERITED_MAX10_WEIGHTING_REFUTED",
+  "detection_floor": "one exact rational mismatch between any two nonzero Boolean Hamming layers",
+  "no_claim": "This does not test arbitrary coefficients in the 3,754-orbit span and is not a refutation of the loop-edge family or MAX11 representability."
+}
