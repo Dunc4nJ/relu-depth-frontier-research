@@ -13,10 +13,13 @@ membership claim.  This source contains no quotient execution path.
 from __future__ import annotations
 
 import argparse
+import builtins
 from dataclasses import dataclass
 from fractions import Fraction
 import gzip
 import hashlib
+import importlib.machinery
+import importlib.util
 import json
 import math
 import os
@@ -24,6 +27,7 @@ from pathlib import Path
 import platform
 import resource
 import shutil
+import stat
 import sys
 import time
 from types import ModuleType
@@ -37,6 +41,12 @@ ROOT = HERE.parents[2]
 SCRIPT = Path(__file__).resolve()
 PREFLIGHT_SOURCE = HERE / "same_component_y_spoke_closure.py"
 PREFLIGHT_RECEIPT = HERE / "same_component_y_spoke_preflight_v1.json.gz"
+G0075_SOURCE = ROOT / "artifacts/math/G-0075/four_level_augmented_rank_gate.py"
+G0074_SOURCE = ROOT / "artifacts/math/G-0074/farey_three_level_gate.py"
+G0073_SOURCE = ROOT / "artifacts/math/G-0073/y_spoke_profile_gate.py"
+G0075_MODULE_NAME = "max11_g0075_frozen_for_g0079_runner"
+G0074_MODULE_NAME = "g0074_frozen_for_g0075"
+G0073_MODULE_NAME = "g0073_frozen_for_g0074"
 G0077_MODULAR = ROOT / "artifacts/math/G-0077/canonical_modular_dual_v1.json.gz"
 G0078_EXACT = ROOT / "artifacts/math/G-0078/sparse_exact_left_dual_v1.json.gz"
 FULL_OLD_MATRIX = ROOT / "artifacts/math/G-0076/cache/full-N.npy"
@@ -44,8 +54,8 @@ ENVIRONMENT_MANIFEST = ROOT / "environment/g0075.subject.manifest"
 REGISTERED_PYTHON = ROOT / ".venv/bin/python"
 REGISTERED_PYTHON_RELATIVE = ".venv/bin/python"
 
-SCHEMA_PREREGISTRATION = "max11-g0079-preregistration-v1"
-SCHEMA_PRICE = "max11-g0079-complete-exact-price-vector-v1"
+SCHEMA_PREREGISTRATION = "max11-g0079-preregistration-v2"
+SCHEMA_PRICE = "max11-g0079-complete-exact-price-vector-v2"
 
 PRIME = 1_000_003
 TOTAL_ROWS = 16_738
@@ -68,6 +78,15 @@ EXPECTED_PREFLIGHT_RECEIPT_SHA256 = (
 )
 EXPECTED_PREFLIGHT_SCIENCE_SHA256 = (
     "2774dfa1b49de1e661633c3176e091519b25f479a68041cc2d08887ada38f73b"
+)
+EXPECTED_G0075_SOURCE_SHA256 = (
+    "ba169bb9b3734c14d30afebba925a358e6f68a0cdd9734a30d78390438567bab"
+)
+EXPECTED_G0074_SOURCE_SHA256 = (
+    "269472b1eaeb38db852f92e0587243bba6429a300a7acdd35e0930a6b235f10d"
+)
+EXPECTED_G0073_SOURCE_SHA256 = (
+    "333dba4065c08d54742177941305c13841e6237001f364cf5a68a9e4ec2ebf67"
 )
 EXPECTED_G0077_MODULAR_SHA256 = (
     "9221d7111a67630a4962d88b97f0cfd7a6b8fd50d3dc9717e580440492d67ed4"
@@ -95,6 +114,44 @@ RESULT_PRICE_NONZERO = "EXACT_PRICE_SEED_CONTINUE_WITH_FULL_DICTIONARY"
 
 class RunnerError(RuntimeError):
     """A binding, arithmetic, custody, cache, or decision invariant failed."""
+
+
+@dataclass(frozen=True)
+class OwnedSource:
+    """One source file whose checked bytes, rather than a path loader, execute."""
+
+    label: str
+    module_name: str
+    path: Path
+    expected_sha256: str
+    source: bytes
+
+
+def read_owned_source(
+    label: str, module_name: str, path: Path, expected_sha256: str
+) -> OwnedSource:
+    """Read one regular source descriptor once and hash the exact execution bytes."""
+
+    flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        descriptor = os.open(path, flags)
+    except OSError as error:
+        raise RunnerError(f"could not open owned source {path}: {error}") from error
+    with os.fdopen(descriptor, "rb") as raw:
+        before = os.fstat(raw.fileno())
+        if not stat.S_ISREG(before.st_mode):
+            raise RunnerError(f"owned source is not a regular file: {path}")
+        source = raw.read()
+        after = os.fstat(raw.fileno())
+    stable_fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns")
+    if any(getattr(before, field) != getattr(after, field) for field in stable_fields):
+        raise RunnerError(f"owned source changed while being read: {path}")
+    if len(source) != after.st_size:
+        raise RunnerError(f"owned source byte census drift: {path}")
+    observed = hashlib.sha256(source).hexdigest()
+    if observed != expected_sha256:
+        raise RunnerError(f"source binding drift for {path}: {observed}")
+    return OwnedSource(label, module_name, path, expected_sha256, source)
 
 
 def canonical_bytes(value: object) -> bytes:
@@ -196,19 +253,15 @@ def free_disk_gib(path: Path) -> float:
 
 
 def load_module(path: Path, expected_sha256: str, name: str) -> ModuleType:
-    if not path.is_file() or path.is_symlink():
-        raise RunnerError(f"not a regular source file: {path}")
-    source = path.read_bytes()
-    observed = hashlib.sha256(source).hexdigest()
-    if observed != expected_sha256:
-        raise RunnerError(f"source binding drift for {path}: {observed}")
+    owned = read_owned_source("standalone_source", name, path, expected_sha256)
     module = ModuleType(name)
     module.__file__ = str(path)
     module.__package__ = None
     module.__cached__ = None
     module.__spec__ = None
     sys.modules[name] = module
-    exec(compile(source, str(path), "exec"), module.__dict__)
+    exec(compile(owned.source, str(path), "exec"), module.__dict__)
+    module.__cached__ = None
     return module
 
 
@@ -216,10 +269,21 @@ def fixed_binding_paths() -> dict[str, tuple[Path, str]]:
     return {
         "preflight_source": (PREFLIGHT_SOURCE, EXPECTED_PREFLIGHT_SOURCE_SHA256),
         "preflight_receipt": (PREFLIGHT_RECEIPT, EXPECTED_PREFLIGHT_RECEIPT_SHA256),
+        "g0075_semantic_source": (G0075_SOURCE, EXPECTED_G0075_SOURCE_SHA256),
+        "g0074_semantic_source": (G0074_SOURCE, EXPECTED_G0074_SOURCE_SHA256),
+        "g0073_semantic_source": (G0073_SOURCE, EXPECTED_G0073_SOURCE_SHA256),
         "g0077_modular": (G0077_MODULAR, EXPECTED_G0077_MODULAR_SHA256),
         "g0078_exact": (G0078_EXACT, EXPECTED_G0078_EXACT_SHA256),
         "full_old_matrix": (FULL_OLD_MATRIX, EXPECTED_FULL_OLD_MATRIX_SHA256),
         "environment_manifest": (ENVIRONMENT_MANIFEST, EXPECTED_ENVIRONMENT_SHA256),
+    }
+
+
+def expected_semantic_source_sha256() -> dict[str, str]:
+    return {
+        "g0075": EXPECTED_G0075_SOURCE_SHA256,
+        "g0074": EXPECTED_G0074_SOURCE_SHA256,
+        "g0073": EXPECTED_G0073_SOURCE_SHA256,
     }
 
 
@@ -311,6 +375,9 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
         "preflight_source_sha256": EXPECTED_PREFLIGHT_SOURCE_SHA256,
         "preflight_receipt_sha256": EXPECTED_PREFLIGHT_RECEIPT_SHA256,
         "preflight_scientific_payload_sha256": EXPECTED_PREFLIGHT_SCIENCE_SHA256,
+        "semantic_source_sha256": expected_semantic_source_sha256(),
+        "semantic_execution_from_single_read_expected_hash_bytes": True,
+        "project_semantic_bytecode_cache_execution_allowed": False,
         "prime": PRIME,
         "new_columns": NEW_COLUMNS,
         "all_new_columns_retained_after_nonzero_price": True,
@@ -349,6 +416,7 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
         "independent_evaluator": "direct nested-max replay over every support-row/column entry",
         "serialize_all_prices": True,
         "quotient_execution_in_this_source": False,
+        "transitive_semantic_source_custody_bound": True,
     }
     for key, expected in stage_contract.items():
         if price_stage.get(key) != expected:
@@ -362,14 +430,206 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
     )
 
 
+class OwnedBytesLoader:
+    """Loader that can only compile already-read, already-hashed source bytes."""
+
+    def __init__(self, owned: OwnedSource, context: "OwnedSemanticImportContext"):
+        self.owned = owned
+        self.context = context
+        self.executed = False
+
+    def create_module(self, specification: object) -> None:
+        return None
+
+    def exec_module(self, module: ModuleType) -> None:
+        if self.executed:
+            raise RunnerError(f"owned source executed twice: {self.owned.label}")
+        self.executed = True
+        if self.owned.label in self.context.executed_labels:
+            raise RunnerError(f"duplicate semantic execution: {self.owned.label}")
+        self.context.executed_labels.append(self.owned.label)
+        module.__file__ = str(self.owned.path)
+        module.__package__ = None
+        module.__cached__ = None
+        module.__dict__["__builtins__"] = self.context.owned_builtins
+        code = compile(self.owned.source, str(self.owned.path), "exec")
+        exec(code, module.__dict__)
+        module.__cached__ = None
+
+
+class OwnedSemanticImportContext:
+    """Confine legacy file-loader calls to registered in-memory source bytes."""
+
+    def __init__(self, sources: Sequence[OwnedSource]):
+        self.sources = {source.module_name: source for source in sources}
+        self.intercepted_module_names: list[str] = []
+        self.executed_labels: list[str] = []
+        util_proxy = ModuleType("importlib.util")
+        util_proxy.module_from_spec = importlib.util.module_from_spec
+        util_proxy.spec_from_file_location = self.spec_from_file_location
+        importlib_proxy = ModuleType("importlib")
+        importlib_proxy.util = util_proxy
+        self.importlib_proxy = importlib_proxy
+        self.owned_builtins = dict(vars(builtins))
+        self.owned_builtins["__import__"] = self.import_hook
+
+    def import_hook(
+        self,
+        name: str,
+        globals: dict[str, object] | None = None,
+        locals: dict[str, object] | None = None,
+        fromlist: object = (),
+        level: int = 0,
+    ) -> object:
+        if level == 0 and name == "importlib.util":
+            if fromlist:
+                return self.importlib_proxy.util
+            return self.importlib_proxy
+        return builtins.__import__(name, globals, locals, fromlist, level)
+
+    def specification(self, owned: OwnedSource) -> importlib.machinery.ModuleSpec:
+        specification = importlib.machinery.ModuleSpec(
+            owned.module_name,
+            OwnedBytesLoader(owned, self),
+            origin=str(owned.path),
+            is_package=False,
+        )
+        specification.has_location = False
+        return specification
+
+    def spec_from_file_location(
+        self, module_name: str, location: object, *args: object, **kwargs: object
+    ) -> importlib.machinery.ModuleSpec:
+        if args or kwargs:
+            raise RunnerError("legacy semantic import supplied an unregistered loader option")
+        owned = self.sources.get(module_name)
+        if owned is None:
+            raise RunnerError(f"unregistered semantic file import requested: {module_name}")
+        try:
+            observed_path = Path(os.fspath(location)).resolve(strict=False)
+        except TypeError as error:
+            raise RunnerError("legacy semantic import path is not path-like") from error
+        if observed_path != owned.path.resolve(strict=False):
+            raise RunnerError(
+                f"semantic import path drift for {module_name}: {observed_path}"
+            )
+        if module_name in self.intercepted_module_names:
+            raise RunnerError(f"semantic import requested twice: {module_name}")
+        self.intercepted_module_names.append(module_name)
+        return self.specification(owned)
+
+    def execute_top(self, owned: OwnedSource) -> ModuleType:
+        specification = self.specification(owned)
+        module = importlib.util.module_from_spec(specification)
+        sys.modules[owned.module_name] = module
+        try:
+            assert specification.loader is not None
+            specification.loader.exec_module(module)
+        except BaseException:
+            if sys.modules.get(owned.module_name) is module:
+                del sys.modules[owned.module_name]
+            raise
+        return module
+
+
+def semantic_sources() -> tuple[OwnedSource, OwnedSource, OwnedSource]:
+    """Read every project-semantic module before any member of the chain executes."""
+
+    return (
+        read_owned_source(
+            "g0075", G0075_MODULE_NAME, G0075_SOURCE, EXPECTED_G0075_SOURCE_SHA256
+        ),
+        read_owned_source(
+            "g0074", G0074_MODULE_NAME, G0074_SOURCE, EXPECTED_G0074_SOURCE_SHA256
+        ),
+        read_owned_source(
+            "g0073", G0073_MODULE_NAME, G0073_SOURCE, EXPECTED_G0073_SOURCE_SHA256
+        ),
+    )
+
+
+def semantic_module_chain_report(g75: ModuleType) -> dict[str, object]:
+    g74 = getattr(g75, "G74", None)
+    g73 = getattr(g75, "G73", None)
+    if not isinstance(g74, ModuleType) or not isinstance(g73, ModuleType):
+        raise RunnerError("G-0075 semantic module chain is incomplete")
+    if getattr(g74, "G73", None) is not g73:
+        raise RunnerError("G-0075/G-0074 disagree on the G-0073 module identity")
+    expected = (
+        ("g0075", G0075_MODULE_NAME, G0075_SOURCE, EXPECTED_G0075_SOURCE_SHA256, g75),
+        ("g0074", G0074_MODULE_NAME, G0074_SOURCE, EXPECTED_G0074_SOURCE_SHA256, g74),
+        ("g0073", G0073_MODULE_NAME, G0073_SOURCE, EXPECTED_G0073_SOURCE_SHA256, g73),
+    )
+    records: dict[str, dict[str, object]] = {}
+    contexts: set[int] = set()
+    context: OwnedSemanticImportContext | None = None
+    for label, module_name, path, digest, module in expected:
+        loader = getattr(module, "__loader__", None)
+        if not isinstance(loader, OwnedBytesLoader):
+            raise RunnerError(f"{label} escaped the owned-byte semantic loader")
+        contexts.add(id(loader.context))
+        context = loader.context
+        if (
+            getattr(module, "__cached__", "missing") is not None
+            or Path(str(getattr(module, "__file__", ""))).resolve(strict=False)
+            != path.resolve(strict=False)
+            or sys.modules.get(module_name) is not module
+            or loader.owned.expected_sha256 != digest
+            or loader.owned.source != next(
+                source.source
+                for source in loader.context.sources.values()
+                if source.label == label
+            )
+        ):
+            raise RunnerError(f"{label} owned-byte execution metadata drift")
+        records[label] = {
+            "path": relative_path(path),
+            "sha256": digest,
+            "bytes": len(loader.owned.source),
+            "cached": None,
+            "loader": type(loader).__name__,
+        }
+    if len(contexts) != 1 or context is None:
+        raise RunnerError("semantic modules did not share one owned-byte import context")
+    if context.executed_labels != ["g0075", "g0074", "g0073"]:
+        raise RunnerError(
+            f"semantic execution order drift: {context.executed_labels}"
+        )
+    if context.intercepted_module_names != [G0074_MODULE_NAME, G0073_MODULE_NAME]:
+        raise RunnerError(
+            f"transitive semantic import interception drift: "
+            f"{context.intercepted_module_names}"
+        )
+    return {
+        "sources": records,
+        "execution_order": list(context.executed_labels),
+        "intercepted_legacy_file_imports": list(context.intercepted_module_names),
+        "single_read_expected_hash_execution_bytes": True,
+        "project_semantic_bytecode_cache_execution_allowed": False,
+        "bytecode_policy_scope": "G-0075/G-0074/G-0073 project-semantic sources",
+        "shared_g0073_module_identity": True,
+    }
+
+
+def load_semantic_module_chain() -> ModuleType:
+    owned_sources = semantic_sources()
+    context = OwnedSemanticImportContext(owned_sources)
+    g75 = context.execute_top(owned_sources[0])
+    semantic_module_chain_report(g75)
+    return g75
+
+
 def reconstruct_family(
     preflight: ModuleType, receipt: dict[str, object]
 ) -> tuple[ModuleType, object]:
-    g75 = load_module(
-        preflight.G0075_SCRIPT,
-        preflight.EXPECTED_BINDINGS["g0075_producer"][1],
-        "max11_g0075_frozen_for_g0079_runner",
-    )
+    preflight_g75_path = Path(preflight.G0075_SCRIPT).resolve(strict=False)
+    preflight_g75_digest = preflight.EXPECTED_BINDINGS["g0075_producer"][1]
+    if (
+        preflight_g75_path != G0075_SOURCE.resolve(strict=False)
+        or preflight_g75_digest != EXPECTED_G0075_SOURCE_SHA256
+    ):
+        raise RunnerError("preflight and runner disagree on the G-0075 semantic source")
+    g75 = load_semantic_module_chain()
     family = preflight.reconstruct_family(g75, verify_vf2=False)
     new_report = family.new_orbit_report
     receipt_report = receipt["subject"]["new_family"]
@@ -600,6 +860,7 @@ def run_price_stage(arguments: argparse.Namespace) -> dict[str, object]:
     start_custody = capture_custody(custody_paths)
     preflight, receipt = validate_preflight()
     g75, family = reconstruct_family(preflight, receipt)
+    semantic_execution = semantic_module_chain_report(g75)
     functional = exact_functional(preflight)
 
     evaluation_started = time.perf_counter()
@@ -694,6 +955,7 @@ def run_price_stage(arguments: argparse.Namespace) -> dict[str, object]:
                 EXPECTED_NEW_REPRESENTATIVE_MANIFEST_SHA256
             ),
         },
+        "semantic_source_execution": semantic_execution,
         "exact_functional": {
             "source": relative_path(G0078_EXACT),
             "source_scientific_payload_sha256": functional.source_payload_sha256,
@@ -906,14 +1168,111 @@ def unit_controls() -> dict[str, object]:
     }
 
 
+def reconstruct_with_sourcefileloader_guard(
+    preflight: ModuleType, receipt: dict[str, object]
+) -> tuple[ModuleType, object]:
+    """Fail the self-test if a protected source reaches Python's path loader."""
+
+    protected = {
+        G0075_SOURCE.resolve(strict=False),
+        G0074_SOURCE.resolve(strict=False),
+        G0073_SOURCE.resolve(strict=False),
+    }
+    attempted: list[str] = []
+    original = importlib.machinery.SourceFileLoader.exec_module
+
+    def guarded(loader: object, module: ModuleType) -> object:
+        loader_path = Path(str(getattr(loader, "path", ""))).resolve(strict=False)
+        if loader_path in protected:
+            attempted.append(str(loader_path))
+            raise RunnerError(
+                f"protected semantic source reached SourceFileLoader: {loader_path}"
+            )
+        return original(loader, module)
+
+    importlib.machinery.SourceFileLoader.exec_module = guarded
+    try:
+        result = reconstruct_family(preflight, receipt)
+    finally:
+        importlib.machinery.SourceFileLoader.exec_module = original
+    if attempted:
+        raise RunnerError(f"legacy semantic SourceFileLoader attempts: {attempted}")
+    return result
+
+
+def semantic_loader_mutation_controls(g75: ModuleType) -> dict[str, object]:
+    loader = getattr(g75, "__loader__", None)
+    if not isinstance(loader, OwnedBytesLoader):
+        raise RunnerError("G-0075 loader unavailable for semantic mutation controls")
+    context = loader.context
+    before = list(context.intercepted_module_names)
+    legacy_specification = importlib.util.spec_from_file_location(
+        "g0079_real_legacy_loader_mutant", G0074_SOURCE
+    )
+    if not isinstance(
+        getattr(legacy_specification, "loader", None),
+        importlib.machinery.SourceFileLoader,
+    ):
+        raise RunnerError("could not construct a real SourceFileLoader mutant")
+
+    explicit_legacy_loader_rejected = False
+    try:
+        context.spec_from_file_location(
+            G0074_MODULE_NAME,
+            G0074_SOURCE,
+            loader=legacy_specification.loader,
+        )
+    except RunnerError as error:
+        explicit_legacy_loader_rejected = (
+            str(error)
+            == "legacy semantic import supplied an unregistered loader option"
+        )
+
+    unregistered_file_import_rejected = False
+    try:
+        context.spec_from_file_location(
+            "g0079_unregistered_semantic_mutant", G0074_SOURCE
+        )
+    except RunnerError as error:
+        unregistered_file_import_rejected = str(error).startswith(
+            "unregistered semantic file import requested:"
+        )
+
+    registered_name_wrong_path_rejected = False
+    try:
+        context.spec_from_file_location(G0074_MODULE_NAME, G0073_SOURCE)
+    except RunnerError as error:
+        registered_name_wrong_path_rejected = str(error).startswith(
+            "semantic import path drift for"
+        )
+
+    if (
+        not explicit_legacy_loader_rejected
+        or not unregistered_file_import_rejected
+        or not registered_name_wrong_path_rejected
+        or context.intercepted_module_names != before
+    ):
+        raise RunnerError("semantic owned-byte loader mutation control escaped")
+    return {
+        "real_sourcefileloader_guard_active_during_chain_execution": True,
+        "explicit_real_sourcefileloader_mutant_rejected": True,
+        "unregistered_semantic_file_import_mutant_rejected": True,
+        "registered_module_wrong_path_mutant_rejected": True,
+    }
+
+
 def self_test() -> dict[str, object]:
     bindings = replay_fixed_bindings()
     preflight, receipt = validate_preflight()
-    g75, family = reconstruct_family(preflight, receipt)
+    g75, family = reconstruct_with_sourcefileloader_guard(preflight, receipt)
+    semantic_execution = semantic_module_chain_report(g75)
     functional = exact_functional(preflight)
     if (
         preflight.__cached__ is not None
         or g75.__cached__ is not None
+        or g75.G74.__cached__ is not None
+        or g75.G73.__cached__ is not None
+        or g75.G74.G73 is not g75.G73
         or Path(sys.executable).resolve() != REGISTERED_PYTHON.resolve()
         or platform.python_version() != EXPECTED_PYTHON_VERSION
         or functional.denominator_lcm != 180
@@ -923,12 +1282,14 @@ def self_test() -> dict[str, object]:
     ):
         raise RunnerError("price-runner frozen metadata self-test failed")
     controls = unit_controls()
+    controls.update(semantic_loader_mutation_controls(g75))
     if RESULT_PRICE_NONZERO == RESULT_EXACT_ZERO:
         raise RunnerError("price-stage branch labels collapsed")
     return {
-        "schema": "max11-g0079-complete-price-runner-self-test-v1",
+        "schema": "max11-g0079-complete-price-runner-self-test-v2",
         "result": "PASS",
         "fixed_bindings": bindings,
+        "semantic_source_execution": semantic_execution,
         "preflight_scientific_payload_sha256": receipt.get(
             "scientific_payload_sha256"
         ),
@@ -938,8 +1299,8 @@ def self_test() -> dict[str, object]:
         "exact_functional_support_rows": EXACT_SUPPORT_ROWS,
         "common_denominator_lcm": functional.denominator_lcm,
         "single_global_primitive_gcd": functional.common_gcd,
-        "single_owned_byte_semantic_load": True,
-        "bytecode_cache_execution_allowed": False,
+        "single_read_expected_hash_semantic_execution": True,
+        "project_semantic_bytecode_cache_execution_allowed": False,
         "registered_python": REGISTERED_PYTHON_RELATIVE,
         "python_version": platform.python_version(),
         "controls": controls,
@@ -997,19 +1358,22 @@ def main() -> None:
             raise RunnerError("registered price output is not unused")
         start = capture_custody(registration_custody_paths(registration))
         replay_fixed_bindings()
-        validate_preflight()
+        preflight, receipt = validate_preflight()
+        g75, _family = reconstruct_family(preflight, receipt)
+        semantic_execution = semantic_module_chain_report(g75)
         end = capture_custody(registration_custody_paths(registration))
         if end != start:
             raise RunnerError("registration-check custody changed during execution")
         print(
             json.dumps(
                 {
-                    "schema": "max11-g0079-price-registration-check-v1",
+                    "schema": "max11-g0079-price-registration-check-v2",
                     "result": "PASS",
                     "runner_sha256": registration.runner_sha256,
                     "preregistration_sha256": registration.preregistration_sha256,
                     "output_unused": True,
                     "custody_identical": True,
+                    "semantic_source_execution": semantic_execution,
                     "actual_new_family_values_evaluated": 0,
                     "quotient_execution_implemented": False,
                 },
