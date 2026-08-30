@@ -7,3 +7,4 @@ __pycache__/
 .env
 .research-state.lock
 target/
+artifacts/math/G-0076/cache/
