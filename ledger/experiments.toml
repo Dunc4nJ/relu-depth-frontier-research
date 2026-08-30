@@ -226,6 +226,6 @@ design = "Fresh registration superseding the audit-aborted EXP-0019 without reus
 family = "max11-same-component-complete-exact-price-vector-v2"
 prereg = true
 result_summary = "No registered new-family price has been evaluated. The corrected frozen self-test passes with actual_new_family_values_evaluated=0; an exact-commit adversarial audit independently traced zero protected pyc reads and SHIPped runner 75395156...f67da. The standalone v2 registration check passes and its output remains absent. Registered execution is forbidden until this ledger record and v2 preregistration are committed and pushed."
-status = "planned"
+status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T13:38:00Z

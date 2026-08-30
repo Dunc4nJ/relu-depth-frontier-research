@@ -7,8 +7,8 @@ commit, counts, and the last displayed verifier result are operator-maintained s
 them against ledger, `phases/ROUNDS.md`, and Git before acting.
 
 ## Where the campaign is
-- Phase: P4 · Round: R-0001 · Proof-core commit: `bc92a01` · Latest frozen checkpoint: `f257581`
-- Ledger: 35 claims · 11 open gaps · 3 active routes · 3 dead ends · verify-ledger: green
+- Phase: P4 · Round: R-0001 · Proof-core commit: `bc92a01` · Latest frozen checkpoint: `ec2fe8e`
+- Ledger: 38 claims · 11 open gaps · 3 active routes · 3 dead ends · verify-ledger: green
 - New exact boundary: `C-0033@1` is COMPUTED_BOUNDED with a same-family T1
   holds review.  A primitive rational functional supported on 230 rows
   annihilates all 8,107 frozen Y-spoke-plus-carrier columns and pairs nontrivially
@@ -21,14 +21,13 @@ them against ledger, `phases/ROUNDS.md`, and Git before acting.
 - Settled interpretation: exceptional-prime ambiguity and certificate hunting
   for this 8,107-column family are finished.  The result is not a global MAX11
   lower bound because no completeness bridge to arbitrary networks is known.
-- Live frontier: G-0073 omitted the structurally complementary case where the
-  auxiliary leaf lies in the same MAX10 forest component as the doubled anchor.
-  G-0079 has now frozen all 26,960 labelled seeds into 18,582 new full-`S_11`
-  orbit columns, disjoint from the old 8,104, with complete VF2 and semantic
-  preflight.  Exact-price every new orbit first; if any price is nonzero, run
-  capped quotient-row CEGIS on all 18,582 columns.  Zero-price columns cannot
-  pierce the old separator alone but may still cancel residual quotient
-  coordinates after a piercing combination matches the target price.
+- Live frontier: `C-0036@1` records the complete exact G-0079 price vector.
+  Of the 18,582 structurally complementary same-component orbits, 17,952 pierce
+  the old separator and 630 have zero price; a fresh-context literal replay of
+  all 4,273,860 entries is consistent.  This proves neither membership nor
+  nonmembership.  The frozen G-0081 runner now retains all 26,689 columns and
+  computes the complete target-last 9,862 by 18,583 Schur RREF.  Independent
+  source review, separate preregistration, and registered execution are next.
 - Resource boundary resolved: the Python wrapper's 6,876-square conversion is
   unsafe, but a native FLINT block fill of the actual frozen minor used 0.85 GiB,
   and its inverse completed in 65.1 seconds at 2.31 GiB with three full-column
@@ -45,7 +44,7 @@ them against ledger, `phases/ROUNDS.md`, and Git before acting.
 - Clean-pass streak (P10 only): 0
 
 ## Next work queue (dual-written to `beads/QUEUE.md`)
-1. G-0011 — exact-price all 18,582 frozen same-component Y-spoke orbits, run the capped target-aware quotient CEGIS on the complete new family, and exact-lift either branch.
+1. G-0011 — independently audit and preregister the complete 26,689-column Schur/RREF run, execute it, preserve the full nullspace transform, and exact-lift or globally separate the resulting branch.
 2. G-0006 — pursue a true normal-form/completeness bridge or a full-dimensional asymmetric facet-gluing escape after the broad finite pricing discriminator.
 
 `walk-consistency` compares the object-ID set on the real numbered lines above with the set on real
@@ -54,14 +53,14 @@ being filled; a missing counterpart is reported as INFO. Once real work exists, 
 exactly the same active IDs.
 
 ## Open blockers
-The outcome-blind G-0079 preflight is frozen and independently replayed, but the
-separate registered exact-price/native-quotient runner and preregistration must
-still receive adversarial review before any new-family price is evaluated.  A
-modular CEGIS member or separator is discovery-only until an exact rational
-certificate replays on all 16,738 rows and every registered column.  Even that
-finite-row result is not a global CPWL identity or unrestricted-network theorem;
-G-0006 remains the conceptual bridge.  T2 review remains unavailable but does
-not block this discriminator.
+The complete G-0079 price vector is independently replayed, but it is guidance
+only.  The frozen G-0081 full-Schur runner must receive independent source
+review and a separately committed preregistration before any quotient rank is
+evaluated.  A modular member or separator is discovery-only unless its branch's
+registered exact bridge succeeds; even a rational certificate on all 16,738
+rows is not a global CPWL identity or unrestricted-network theorem.  G-0006
+remains the conceptual bridge.  T2 review remains unavailable but does not
+block this discriminator.
 
 ## Standing reminders for the resuming agent
 - Do not re-derive settled state; challenge it through the ledger if it looks wrong.

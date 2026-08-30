@@ -506,3 +506,45 @@ env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80e
 data_snapshot = "sha256:8e08caecbf5a4d7b457a32f445702121dc1d095b4e368d45db8bc64847b4ae96"
 author_path = "cleanroom-implementation-author/rosebridge"
 created = 2026-08-30T11:45:43Z
+
+[[claim]]
+id = "C-0036"
+version = 1
+statement = "For the complete registered same-component Y-spoke extension, the primitive exact G-0078 row functional has nonzero pairing with 17,952 of the 18,582 frozen new full-S_11 orbit columns and zero pairing with the remaining 630; its pairing with the MAX11 target is nonzero. All 4,273,860 support entries and the complete exact price vector were independently replayed. Consequently, the exact functional that separates MAX11 from the old 8,107-column family does not annihilate the combined frozen 26,689-column dictionary."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0033@1", "C-0037@1", "C-0038@1"]
+falsifier = "One frozen source, preregistration, semantic input, seed, orbit representative, column order, support entry, functional weight, price, target pairing, count, artifact digest, or independently reconstructed literal nested value differs from the registered bytes."
+no_claim = "This exact price vector proves neither membership nor nonmembership of MAX11 in the combined finite dictionary, gives no rational coefficient vector, filters no zero-price or nonzero-price column from a later solve, establishes no global CPWL identity, and proves no unrestricted two-hidden-layer result. The clean-room replay is same-model-lineage T1 evidence and shares the frozen G-0078 functional artifact and Pynauty ordering dependency."
+not_equivalent_to = ["a finite-row MAX11 representation", "a global MAX11 identity", "nonmembership in the combined dictionary", "a completeness theorem for arbitrary networks", "an unrestricted depth upper or lower bound", "T2 or human review"]
+origin_round = "R-0001"
+author_path = "exact-price-author/crimsonbirch"
+created = 2026-08-30T15:02:47Z
+
+[[claim]]
+id = "C-0037"
+version = 1
+statement = "G-0079 complete exact price-vector v2 is identified by frozen runner SHA-256 7539515641c241a28be45cea88445bd4f598f7c0693ab521c31805530c9f67da, preregistration SHA-256 c3da38c06f6d8b9b5ab9e89322f50ca9c797ea5bcfe5c9ea4dc8d618464e5b05, exact outcome SHA-256 5d6754c91f7971aa3fdad2d1f171645f32fa57c26b4a001bb3b6ac9d5e802958, scientific payload SHA-256 357e2437849dac4074995892a6f174d9f225848280e2bf53d9f9ea1010d9e265, and the bound semantic-source and environment manifests."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this establishes neither target membership nor nonmembership, rational coefficients, a global identity, or completeness of the frozen dictionary."
+origin_round = "R-0001"
+code_hash = "sha256:7539515641c241a28be45cea88445bd4f598f7c0693ab521c31805530c9f67da"
+env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
+data_snapshot = "sha256:357e2437849dac4074995892a6f174d9f225848280e2bf53d9f9ea1010d9e265"
+author_path = "implementation-author/crimsonbirch"
+created = 2026-08-30T15:02:47Z
+
+[[claim]]
+id = "C-0038"
+version = 1
+statement = "G-0079 exact-price clean-room replay v2 is identified by standalone verifier SHA-256 fd1d0293ea507f9dd26d0948f54ff9358eb6ee8213d538ec3ec0510a4478b02a, exact upstream artifact SHA-256 5d6754c91f7971aa3fdad2d1f171645f32fa57c26b4a001bb3b6ac9d5e802958, deterministic replay receipt SHA-256 6ace81f51e1c944756166d475914b3fd8e8c09030491651bd946441d4d8f58ae, price-vector digest 9ee2e4af9df71e83d72b418f30a023308244abae50073e9fbd766d79c7261e3d, and literal-matrix digest a38b8237b108284ecafaa4f97a0c0c29a60b3a9dd58521389762effb4e4619b2."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only. The verifier is fresh-context same-model-lineage T1 evidence, not T2 or human review; it shares Pynauty for frozen orbit ordering and the registered G-0078 functional artifact, and it does not independently reconstruct all 8,107 old columns."
+origin_round = "R-0001"
+code_hash = "sha256:fd1d0293ea507f9dd26d0948f54ff9358eb6ee8213d538ec3ec0510a4478b02a"
+env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
+data_snapshot = "sha256:5d6754c91f7971aa3fdad2d1f171645f32fa57c26b4a001bb3b6ac9d5e802958"
+author_path = "cleanroom-implementation-author/g0079-price-cleanroom"
+created = 2026-08-30T15:02:47Z

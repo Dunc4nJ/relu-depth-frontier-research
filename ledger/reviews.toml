@@ -84,3 +84,21 @@ code_hash = "sha256:39fd3b6f0a74ef22b264e16bb184eed2d5094a32c08ab018124182dd10ff
 env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
 data_snapshot = "sha256:8e08caecbf5a4d7b457a32f445702121dc1d095b4e368d45db8bc64847b4ae96"
 created = 2026-08-30T11:45:43Z
+
+[[review]]
+id = "V-0004"
+target = "C-0036@1"
+reviewer = "referee/g0079-price-cleanroom"
+tier = "T1"
+model_family = "same-family-codex"
+basis = ["complete-literal-entry-replay", "exact-integer-pairings", "orbit-and-seed-census", "quantifier-scope", "statement-match", "vf2-nonrepresentative-controls"]
+capable_of_failure = "Any changed seed/orbit census, one mismatch among the 4,273,860 literal nested support entries, one exact price or target-pairing mismatch, one accepted nonrepresentative VF2 mutant, or any statement extending the result to membership, nonmembership, a global identity, or unrestricted networks would have produced refuted or narrowed rather than holds."
+verdict = "holds"
+findings = "The standalone verifier reconstructed all 26,960 labelled seeds and all 18,582 frozen representatives, reproduced every literal nested support entry and exact price, obtained 17,952 nonzero and 630 zero prices, reproduced the exact nonzero target pairing and bound digests, and emitted CONSISTENT. Therefore the old exact separator is pierced by the combined frozen family, while no membership or nonmembership consequence follows."
+residual_doubts = "Same-model-family and same-host lineage only; the replay shares Pynauty for canonical ordering and consumes the G-0078 functional artifact instead of independently reconstructing all 8,107 old columns. No rational solve, all-row membership replay, T2 or human review, global identity, family-completeness bridge, or novelty adjudication."
+expected_break = "The likeliest decisive break was a flattened-versus-literal nested semantic mismatch or an orbit-order drift hidden by producer reuse; the standalone literal evaluation and independent seed/orbit reconstruction found neither."
+implementation_claim = "C-0038@1"
+code_hash = "sha256:fd1d0293ea507f9dd26d0948f54ff9358eb6ee8213d538ec3ec0510a4478b02a"
+env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
+data_snapshot = "sha256:5d6754c91f7971aa3fdad2d1f171645f32fa57c26b4a001bb3b6ac9d5e802958"
+created = 2026-08-30T15:02:47Z
