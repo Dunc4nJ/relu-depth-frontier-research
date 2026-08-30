@@ -174,3 +174,14 @@ result_summary = "No G-0075 rank outcome exists at preregistration. The outcome-
 status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T07:12:05Z
+
+[[experiment]]
+id = "EXP-0016"
+route = "H-0001"
+design = "Before any target-aware G-0076 rank-gap outcome, freeze registered producer SHA-256 1499b96abb926d54d96f2b3163748f40dfd5810325424dbb41409a829213c4e2 at Git commit db25bbd, preflight artifact SHA-256 32970ecc3a6bd8ebe26169eeaad5120930e78c00be2bf204d4b21bdb86f4ce14, scientific payload 30252895c2607f5385580b0b0c5ca15f7af30cebc83b054c2e1586e810efaafd, G-0075 direct-128 hash 7f77779fa2fe7cde13d64c4823158d8a0054d524897c570f554e7a51a746cf94, selected-460 projection hash f029fddb62924f2e6739396c58b81fbe7d393bad1b22bdec49819c4fa82a2184, G-0074 full matrix/target hashes 2521811babdf42205cc6ba49d7315666b6e7c8414a45e3ff0949b2445774f5c0 and 4aed6fcf1f8a41b9e5919f418e0ad887af4516cd4056b6dbb5181c415e5af301, and environment 12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c. Regenerate all 15,360 registered positive four-level rows without compression and append every one of the 1,378 G-0074 rows, in that order, to form N=[A|b] of shape 16,738 by 8,108. Recheck every per-panel matrix/target hash, the full direct prefix, the selected-460 projection, and the complete G-0074 suffix before algebra. At prime 1,000,003 call one exact modular nullspace, canonicalize the useful basis as the unique RREF row basis H_N of ker(N), replay every kernel vector on all rows, and determine epsilon=rank(N)-rank(A) solely from whether the target-coordinate projection of H_N is nonzero. Derive and RREF-canonicalize H_A=ker(A), verify all rank/nullity identities, and if epsilon=0 emit the target-normalized modular candidate reduced against H_A. Persist a deterministic gzip-npy archival copy of H_N plus raw hashes and pivots. Both modular outcomes are explicitly unresolved over Q/R: epsilon=0 selects later exact all-row right lifting, while epsilon=1 selects later exact all-column left-dual lifting. Bad-prime controls freeze examples of false modular compatibility and false modular separation. Refuse an existing outcome and abort on any producer, upstream, preflight, cache, row-order, resource, rank-gap, replay, archival, or binding drift."
+family = "max11-y-spoke-target-aware-four-level-kernel-v1"
+prereg = true
+result_summary = "No G-0076 target-aware outcome exists at preregistration. The frozen producer passes planted member/nonmember cases, both exceptional-prime traps, canonical target-vector replay and mutation rejection, 1,260 root randomized rank-gap checks, 735 hostile-review random profiles across five primes, and two independent epistemic reviews. Registered execution is forbidden until this record is committed and pushed."
+status = "planned"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T09:20:00Z
