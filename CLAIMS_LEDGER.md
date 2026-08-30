@@ -360,4 +360,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0012` [complete] family `max11-asymmetric-loop-edge-3754-orbit-global-span-v1` arm — prereg=True · trace:ed682030
 - `EXP-0013` [complete] family `max11-y-spoke-8104-orbit-exact-profile-gate-v1` arm — prereg=True · trace:6e699958
 - `EXP-0014` [complete] family `max11-y-spoke-complete-three-level-spacing-gate-v1` arm — prereg=True · trace:b80b3dda
-- `EXP-0015` [planned] family `max11-y-spoke-generic-four-level-direct-rank-gate-v1` arm — prereg=True · trace:74032ac3
+- `EXP-0015` [complete] family `max11-y-spoke-generic-four-level-direct-rank-gate-v1` arm — prereg=True · trace:74032ac3

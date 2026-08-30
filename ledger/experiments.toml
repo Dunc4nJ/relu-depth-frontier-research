@@ -171,6 +171,6 @@ design = "Before any genuinely-four-valued matrix or rank outcome, freeze G-0075
 family = "max11-y-spoke-generic-four-level-direct-rank-gate-v1"
 prereg = true
 result_summary = "No G-0075 rank outcome exists at preregistration. The outcome-blind preflight passed the 120/244 profile census, 488 all-8,107-column missing-colour reductions, literal/vectorized semantics, determinant mutants, row-floor, overflow, multiprocessing determinism, and frozen G-0074 reconstruction. Two adversarial reviewers replayed 1,700 randomized full/deficient rank cases, every emitted minor, nested 64-to-128 copying and digests, producer-drift mutants, and bounded FLINT resource behavior; both passed the final registered logic. Registered execution is forbidden until this record is committed and pushed."
-status = "planned"
+status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T07:12:05Z
