@@ -207,3 +207,14 @@ result_summary = "No rational sparse solve or exact G-0078 outcome exists at pre
 status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T11:28:06Z
+
+[[experiment]]
+id = "EXP-0019"
+route = "H-0001"
+design = "Before evaluating any of the 18,582 new-family prices, freeze the price-only runner SHA-256 9e948ff02fa53591c12753fa9ac29ec3c57f869d5282fafd927327fee01a10c9 at Git commit 514d9cabcdd9addb333bf4481b799b2fe4827d3b and the standalone preregistration SHA-256 8a55dcc16bd965cf6b121b57cb9defcd8bec635e793eea04aaedbd4451f4d7f1 at commit 9d3b2d9a77bd288437094006e7ee431b10fb84e8. Bind the G-0079 preflight source, receipt, and scientific-payload hashes 3b4626f36c8c505274b108b3cd80a17127de6e911c16962cbdbcff557a22b5da, 12ea9a384a064c4cd9e17e37688384f4241b2fbe85cea501b892ad1ab2b4fd91, and 2774dfa1b49de1e661633c3176e091519b25f479a68041cc2d08887ada38f73b; bind the exact G-0078 functional, complete old matrix, and environment manifests inside the runner; and use .venv/bin/python 3.13.7. Reconstruct exactly the 18,582 frozen same-component orbit representatives in bound order. Evaluate all 230 by 18,582 support entries both with the frozen flattened-max producer and a direct nested-max replay, requiring entrywise equality. Independently reconstruct the MAX11 target values. Clear the exact functional by one common denominator LCM and one global gcd only, price every column with signed Python integers, require the nonzero exact target pairing, and serialize every exact and mod-1,000,003 price plus ordered representative and structural bindings. If and only if all 18,582 prices are exactly zero, emit an internally cross-evaluated candidate proving nonmembership solely in the combined frozen 26,689-column dictionary on the frozen 16,738 rows, pending independent external replay before promotion. If any price is nonzero, emit guidance only: this proves neither membership nor nonmembership, filters no column, and requires a separately frozen quotient computation retaining all 18,582 new columns, including zero-price columns. This source contains no quotient path or dense fallback. Refuse an existing output; abort on any source, preregistration, input, order, evaluator, target, custody, resource, or arithmetic drift."
+family = "max11-same-component-complete-exact-price-vector-v1"
+prereg = true
+result_summary = "No registered new-family price has been evaluated. The frozen self-test reconstructs manifests and synthetic controls only, reports actual_new_family_values_evaluated=0, and passes under the bound virtual environment. Registered execution remains forbidden until this outcome-blind ledger record is committed and pushed and the frozen runner receives a final adversarial SHIP verdict."
+status = "planned"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T13:18:07Z

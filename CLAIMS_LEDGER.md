@@ -395,3 +395,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0016` [complete] family `max11-y-spoke-target-aware-four-level-kernel-v1` arm — prereg=True · trace:d74e8ce9
 - `EXP-0017` [complete] family `max11-y-spoke-exact-left-dual-lift-v1` arm — prereg=True · trace:34ecda54
 - `EXP-0018` [complete] family `max11-y-spoke-sparse-exact-left-dual-lift-v1` arm — prereg=True · trace:f66d54d4
+- `EXP-0019` [planned] family `max11-same-component-complete-exact-price-vector-v1` arm — prereg=True · trace:4146b2e1
