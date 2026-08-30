@@ -97,3 +97,14 @@ result_summary = "No full-run outcome exists at preregistration. Self-test, exac
 status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T00:45:23Z
+
+[[experiment]]
+id = "EXP-0009"
+route = "H-0001"
+design = "Before outcome, freeze G-0070 script SHA-256 0e24f192d3f467e992d6cfa31f9534247d72ced597aa12d225287e615fbff27e; take exactly the ordered 526 same-family class indices and subject positions from the G-0068 structure artifact SHA-256 fb909ed5f675b6b937e26e5929033513e3da6f3294e0df8e934b91dcd4ebe444, but rebuild every pair, exact normal form, D5-only vanishing check, Boolean charge, and semantic digest afresh with the hash-bound G-0049 engine; this is not clean-room semantic independence, while the separate alternating-cycle verifier independently supports zero-high selection. Regenerate the exact 1,358-column S1 system and verify its exact rank 1,288 plus all 70 integer hinge/Lambda kernel replays; deduplicate candidates only by identical full normal form; form N=[the 1,288 exact S1 pivots | unique candidates] on all 99,858 D4 rows; apply one common deterministic signed 4,096-row CountSketch with seed max11-g0070-direct-s1-plus-zero-high-v1 and rank it modulo 1,000,003 and 1,000,033. Detection floor: full sketch column rank at either prime is an exact one-sided Q-rank certificate; sketch deficiency is never promoted. If both sketches are deficient, replay every proposed kernel on all complete sparse rows, add lexicographically first violating source rows for at most eight CEGIS rounds, then stream every original row in blocks of 2,048 and emit an explicit nonzero source-row minor. Compare complete matrix rank with rank after appending the exact Lambda row. A complete-row modular kernel with nonzero Lambda is discovery evidence only and must be aligned across good primes, lifted over Q, replayed on every hinge and Lambda coordinate, linearly corrected, compiled, and globally replayed before any solution claim. Complete modular deficiency with zero Lambda gain is not a Q no-go without an exact rational kernel/dual. Abort if MemAvailable is below 16 GiB or any script/input/subject/hash/census/control binding drifts. Stop after the primary 526-column report: if injective, preregister the 252-semantic structural mass-four appendix; if potent, immediately freeze and exact-lift the circuit."
+family = "max11-zero-high-joint-s1-quotient-v1"
+prereg = true
+result_summary = "Outcome unavailable before registered-subject execution. Root compile, self-test, resource preflight, semantic smoke inherited from G-0068, and adversarial code review found no main-path false-positive blocker; the registered run remains forbidden until this record and the frozen script hash are committed and pushed."
+status = "planned"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T01:51:54Z
