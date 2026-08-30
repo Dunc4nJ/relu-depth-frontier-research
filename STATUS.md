@@ -25,8 +25,10 @@ them against ledger, `phases/ROUNDS.md`, and Git before acting.
   auxiliary leaf lies in the same MAX10 forest component as the doubled anchor.
   G-0079 has now frozen all 26,960 labelled seeds into 18,582 new full-`S_11`
   orbit columns, disjoint from the old 8,104, with complete VF2 and semantic
-  preflight.  Exact-price every new orbit first; then run capped quotient-row
-  CEGIS only on the columns that pierce the G-0078 separator.
+  preflight.  Exact-price every new orbit first; if any price is nonzero, run
+  capped quotient-row CEGIS on all 18,582 columns.  Zero-price columns cannot
+  pierce the old separator alone but may still cancel residual quotient
+  coordinates after a piercing combination matches the target price.
 - Resource boundary resolved: the Python wrapper's 6,876-square conversion is
   unsafe, but a native FLINT block fill of the actual frozen minor used 0.85 GiB,
   and its inverse completed in 65.1 seconds at 2.31 GiB with three full-column
@@ -43,7 +45,7 @@ them against ledger, `phases/ROUNDS.md`, and Git before acting.
 - Clean-pass streak (P10 only): 0
 
 ## Next work queue (dual-written to `beads/QUEUE.md`)
-1. G-0011 — exact-price all 18,582 frozen same-component Y-spoke orbits, run the capped target-aware quotient CEGIS on the piercing columns, and exact-lift either branch.
+1. G-0011 — exact-price all 18,582 frozen same-component Y-spoke orbits, run the capped target-aware quotient CEGIS on the complete new family, and exact-lift either branch.
 2. G-0006 — pursue a true normal-form/completeness bridge or a full-dimensional asymmetric facet-gluing escape after the broad finite pricing discriminator.
 
 `walk-consistency` compares the object-ID set on the real numbered lines above with the set on real
@@ -67,6 +69,8 @@ not block this discriminator.
   two-hidden-layer lower bound.  It is exact only for the frozen family.
 - Do not spend more time solving inside the already-separated 8,107 columns.
   A new column matters first through its exact G-0078 price.
+- Do not discard zero-price new columns after the separator is pierced: they
+  can contribute inside the separator kernel and are required for a sound full-family solve.
 - Do not jump to the 7,015,841-record degree-five universe before resolving the
   smaller exhaustive same-component closure; retain G-0009 as the broad fallback.
 - Do not resurrect G-0046 by adding sampled rows: G-0049 is its complete broad
