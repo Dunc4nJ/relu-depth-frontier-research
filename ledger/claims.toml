@@ -294,3 +294,31 @@ env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d1
 data_snapshot = "sha256:fb37d7ea87b0a1fa10677f9e1bd30156901d1f8ca73cdd6ba601b86875cfa1ff"
 author_path = "implementation-author/crimsonbirch"
 created = 2026-08-30T02:19:13Z
+
+[[claim]]
+id = "C-0023"
+version = 1
+statement = "For the pinned direct matrix consisting of the 1,288 exact S1 pivot columns, 526 primary zero-high candidates, and 252 deduplicated structural mass-four base semantics on all 99,858 complete degree-four hinge rows, the rank is 1,747 modulo each of 1,000,003 and 1,000,033. Thus the combined candidate quotient rank is 459, the structural appendix adds 34 modular quotient directions, modular nullity is 319, and appending the exact Lambda row raises neither modular rank."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0024@1"]
+falsifier = "One input, subject, semantic, alias-map, source-row, or script binding drift; failure of the 1,877-to-252 structural deduplication or exact zero-Lambda controls; one independently reproduced different complete-source or augmented rank at either registered prime; or one nonzero complete-row or Lambda residual in a reported modular kernel relation."
+no_claim = "Matching deficiency and zero Lambda gain at two primes are not an exact-Q row-span dual or rational no-go. This does not retire the complete registered natural family because G-0068's nonzero-high sketch deficiency remains inconclusive; it establishes no MAX11 construction and says nothing about asymmetric loop-edge atoms, other graphical atoms, arbitrary real directions, or unrestricted two-hidden-layer networks."
+not_equivalent_to = ["a 319-dimensional rational kernel", "Lambda membership in the rational row span", "a complete registered-natural-family obstruction", "a MAX11 construction", "an unrestricted two-hidden-layer result"]
+origin_round = "R-0001"
+author_path = "modular-rank-author/crimsonbirch"
+created = 2026-08-30T02:53:05Z
+
+[[claim]]
+id = "C-0024"
+version = 1
+statement = "Joint zero-high plus structural mass-four S1 quotient appendix v1 is identified by the frozen G-0070 script, complete combined input/subject snapshot, subject environment, full compressed report, and bounded appendix result receipt."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this record establishes neither exact rational rank nor any MAX11 construction or obstruction."
+origin_round = "R-0001"
+code_hash = "sha256:0e24f192d3f467e992d6cfa31f9534247d72ced597aa12d225287e615fbff27e"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:bac2d66c260c685888c1d65fc53b95637125422e2ab72bccd3cb90938e010b70"
+author_path = "implementation-author/crimsonbirch"
+created = 2026-08-30T02:53:05Z

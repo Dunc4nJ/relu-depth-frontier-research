@@ -231,6 +231,26 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only; this record establishes neither exact rational rank nor any MAX11 construction or obstruction.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0023@1 — boundary-claim [mathematics]
+
+> For the pinned direct matrix consisting of the 1,288 exact S1 pivot columns, 526 primary zero-high candidates, and 252 deduplicated structural mass-four base semantics on all 99,858 complete degree-four hinge rows, the rank is 1,747 modulo each of 1,000,003 and 1,000,033. Thus the combined candidate quotient rank is 459, the structural appendix adds 34 modular quotient directions, modular nullity is 319, and appending the exact Lambda row raises neither modular rank.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:ef71bcaf
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0023@1`
+- falsifier: One input, subject, semantic, alias-map, source-row, or script binding drift; failure of the 1,877-to-252 structural deduplication or exact zero-Lambda controls; one independently reproduced different complete-source or augmented rank at either registered prime; or one nonzero complete-row or Lambda residual in a reported modular kernel relation.
+- no-claim: Matching deficiency and zero Lambda gain at two primes are not an exact-Q row-span dual or rational no-go. This does not retire the complete registered natural family because G-0068's nonzero-high sketch deficiency remains inconclusive; it establishes no MAX11 construction and says nothing about asymmetric loop-edge atoms, other graphical atoms, arbitrary real directions, or unrestricted two-hidden-layer networks.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0024@1 — implementation-claim [mathematics]
+
+> Joint zero-high plus structural mass-four S1 quotient appendix v1 is identified by the frozen G-0070 script, complete combined input/subject snapshot, subject environment, full compressed report, and bounded appendix result receipt.
+
+- disposition: **open** · trace:451175cb
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0024@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes neither exact rational rank nor any MAX11 construction or obstruction.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -254,4 +274,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0007` [complete] family `max11-signed-mass-four-full-core-census-v1` arm — prereg=True · trace:d2fb7ef9
 - `EXP-0008` [complete] family `max11-natural-single-edge-mass5-zero-high-census-v1` arm — prereg=True · trace:ff2593a4
 - `EXP-0009` [complete] family `max11-zero-high-joint-s1-quotient-v1` arm — prereg=True · trace:e7ff91b4
-- `EXP-0010` [planned] family `max11-zero-high-plus-structural-mass4-joint-quotient-v1` arm — prereg=True · trace:66226b80
+- `EXP-0010` [complete] family `max11-zero-high-plus-structural-mass4-joint-quotient-v1` arm — prereg=True · trace:66226b80

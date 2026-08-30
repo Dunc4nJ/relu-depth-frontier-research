@@ -267,3 +267,26 @@ selected_by = "EXP-0009 and frozen G-0070 script SHA-256 were committed and push
 experiment = "EXP-0009"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T02:19:13Z
+
+[[evidence]]
+id = "E-0016"
+bears_on = "C-0023@1"
+direction = "supports"
+kind = "computation"
+method = "two-prime exact modular combined-source-row rank, 638 full kernel replays, and Lambda-augmented-rank comparison"
+source = "generated"
+mode = "confirmatory"
+artifact = "artifacts/math/G-0070/joint_zero_high_plus_natural_mass4_s1_quotient_result_v1.json"
+implementation_claim = "C-0024@1"
+code_hash = "sha256:0e24f192d3f467e992d6cfa31f9534247d72ced597aa12d225287e615fbff27e"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:bac2d66c260c685888c1d65fc53b95637125422e2ab72bccd3cb90938e010b70"
+artifact_digest = "sha256:080b16c9a8b4cd290e12394e8a8461321879d933246802e621106491793e3f87"
+repro = ".venv/bin/python -B artifacts/math/G-0070/joint_zero_high_s1_quotient_gate.py --run --workers 8 --sketch-buckets 4096 --row-block 2048 --cegis-rounds 8 --minimum-available-gib 16 --append-natural-mass4-base --output artifacts/math/G-0070/joint_zero_high_plus_natural_mass4_s1_quotient_replay_v1.json.gz"
+domain_checked = "The pinned 1,288-column exact S1 pivot basis plus exactly 526 reconstructed primary zero-high candidates and the 1,877 structural aliases deduplicated to 252 exact zero-Lambda base semantics, on all 99,858 complete degree-four hinge rows at primes 1,000,003 and 1,000,033."
+detection_floor = "One changed binding, descriptor, semantic digest, or 1,877-to-252 alias map; one changed rank/nullity; one nonzero complete-row modular residual among 638 replays; one nonzero Lambda residual; or one changed selected source-row/pivot-column minor. No numerical tolerance."
+result = "CONSISTENT"
+selected_by = "EXP-0010 and the frozen G-0070 script SHA-256 were committed and pushed before registered appendix execution."
+experiment = "EXP-0010"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T02:53:05Z

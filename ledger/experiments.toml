@@ -116,6 +116,6 @@ design = "This appendix was selected adaptively only after frozen G-0070 report 
 family = "max11-zero-high-plus-structural-mass4-joint-quotient-v1"
 prereg = true
 result_summary = "No appendix outcome exists at preregistration. This is one final mixed-family interaction test selected after the negative primary modular result; the registered appendix run is forbidden until this record is committed and pushed."
-status = "planned"
+status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T02:24:36Z
