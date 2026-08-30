@@ -81,8 +81,9 @@ PRICE_ZERO_CONTROLS = 60
 PRICE_NONZERO_CONTROLS = 60
 PERFORMANCE_CONSERVATIVE_FACTOR = 8.0
 MAX_PROJECTED_DENSE_SECONDS = 10_800.0
-MINIMUM_AVAILABLE_GIB = 32.0
+MINIMUM_EXACT_PRICE_AVAILABLE_GIB = 8.0
 MINIMUM_FREE_DISK_GIB = 12.0
+DIRECT_FULL_MINOR_NMOD_CONVERSION_ALLOWED = False
 CEGIS_MISMATCH_BATCH = 64
 MAX_CEGIS_ROWS = 1_024
 MAX_CEGIS_ROUNDS = 16
@@ -742,20 +743,43 @@ def verify_old_basis_contract() -> dict[str, object]:
         raise GateError("G-0077 P/R basis reconstruction drift")
 
     full = np.load(FULL_OLD_MATRIX, mmap_mode="r", allow_pickle=False)
-    raw_square = np.ascontiguousarray(
-        full[np.ix_(basis_rows.astype(np.intp), basis_columns.astype(np.intp))]
-    )
-    square_field, square_reduced = to_nmod(raw_square, PRIME)
-    square_rank = int(square_field.rank())
-    if square_rank != 6_876:
-        raise GateError("raw G-0077 B=A[R,P] is singular at the registered prime")
+    divisors = np.asarray(modular.get("primitive_row_divisors"), dtype=np.int64)
+    if divisors.shape != (6_876,) or np.any(divisors <= 0):
+        raise GateError("G-0077 primitive divisor census drift")
+    raw_digest = hashlib.sha256()
+    primitive_digest = hashlib.sha256()
+    maximum_absolute_entry = 0
+    for start in range(0, len(basis_rows), 32):
+        stop = min(start + 32, len(basis_rows))
+        selected_rows = np.asarray(basis_rows[start:stop], dtype=np.intp)
+        block = np.ascontiguousarray(full[selected_rows][:, basis_columns])
+        block_divisors = divisors[start:stop]
+        if np.any(block % block_divisors[:, None]):
+            raise GateError("raw B row does not divide by its frozen primitive divisor")
+        primitive = np.ascontiguousarray(block // block_divisors[:, None])
+        raw_digest.update(memoryview(block).cast("B"))
+        primitive_digest.update(memoryview(primitive).cast("B"))
+        maximum_absolute_entry = max(
+            maximum_absolute_entry, int(np.max(np.abs(block)))
+        )
+    if primitive_digest.hexdigest() != modular.get("primitive_square_int64_sha256"):
+        raise GateError("blockwise primitive B hash differs from G-0077 receipt")
+    square_rank = int(modular.get("rank_A", -1))
     report = {
         "prime": PRIME,
         "basis_rows_sha256": canonical_sha256(basis_rows.astype(int).tolist()),
         "basis_columns_sha256": canonical_sha256(basis_columns.astype(int).tolist()),
-        "raw_basis_square_int64_c_sha256": raw_sha256(raw_square),
+        "raw_basis_square_int64_c_sha256": raw_digest.hexdigest(),
+        "primitive_basis_square_int64_c_sha256": primitive_digest.hexdigest(),
+        "raw_basis_square_max_abs_entry": maximum_absolute_entry,
         "raw_basis_square_rank": square_rank,
         "raw_basis_square_nonsingular": True,
+        "nonsingularity_evidence": (
+            "blockwise live reconstruction matches the exact G-0077 primitive-square hash; "
+            "nonsingularity is carried by G-0077's frozen rank receipt, not recomputed by a "
+            "second unsafe 6876-square nmod_mat conversion"
+        ),
+        "large_live_rank_recomputation": "RESOURCE_REFUSED_AFTER_ACTUAL_CONVERSION_PROCESS_DIED",
         "archived_kernel_rows": kernel.shape[0],
         "archived_kernel_rref_pivots_sha256": canonical_sha256(pivots),
         "archived_all_row_kernel_replay_bound": True,
@@ -773,7 +797,7 @@ def verify_old_basis_contract() -> dict[str, object]:
             "no additional prime may reuse this P/R contract; it must derive and replay its own"
         ),
     }
-    del kernel, raw_square, square_field, square_reduced
+    del kernel
     return report
 
 
@@ -966,12 +990,18 @@ def performance_benchmark() -> dict[str, object]:
         "minimum_projected_peak_bytes": (
             new_matrix_bytes + basis_values_bytes + 4 * inverse_bytes
         ),
-        "minimum_available_gib_gate": MINIMUM_AVAILABLE_GIB,
+        "minimum_exact_price_available_gib_gate": MINIMUM_EXACT_PRICE_AVAILABLE_GIB,
         "minimum_free_disk_gib_gate": MINIMUM_FREE_DISK_GIB,
+        "direct_full_minor_nmod_conversion_allowed": (
+            DIRECT_FULL_MINOR_NMOD_CONVERSION_ALLOWED
+        ),
         "honest_limit": (
-            "The initial 6,876-square inversion and semantic generation can scale differently "
-            "from these fixtures. Registered execution must benchmark the actual frozen minor "
-            "and stop rather than extrapolate through an unmet wall-clock/RAM gate."
+            "The exact-price stage is independently runnable under its small stage-specific "
+            "memory gate. An actual attempt to construct the 6,876-square FLINT nmod_mat died "
+            "on this host despite about 35 GiB reported available, so the registered quotient "
+            "stage must not repeat that direct conversion. It must use a separately reviewed "
+            "memory-safe factor/solve method or stop after the exact-price artifact without a "
+            "full target-membership decision. Small-fixture extrapolations do not override this."
         ),
     }
 
@@ -1503,8 +1533,18 @@ def build_preflight(*, verify_vf2: bool) -> dict[str, object]:
                 "required_rank_fixture": [2048, 4096],
                 "conservative_factor": PERFORMANCE_CONSERVATIVE_FACTOR,
                 "maximum_projected_dense_seconds": MAX_PROJECTED_DENSE_SECONDS,
-                "minimum_available_gib": MINIMUM_AVAILABLE_GIB,
+                "minimum_exact_price_available_gib": (
+                    MINIMUM_EXACT_PRICE_AVAILABLE_GIB
+                ),
                 "minimum_free_disk_gib": MINIMUM_FREE_DISK_GIB,
+                "direct_full_minor_nmod_conversion_allowed": (
+                    DIRECT_FULL_MINOR_NMOD_CONVERSION_ALLOWED
+                ),
+                "quotient_stage_resource_gate": (
+                    "a separately reviewed method must factor/solve the frozen 6,876-square "
+                    "minor without constructing it as one full FLINT nmod_mat in the registered "
+                    "parent process; absent that method, stop after exact pricing"
+                ),
                 "mismatch_batch_size": CEGIS_MISMATCH_BATCH,
                 "maximum_accumulated_rows": MAX_CEGIS_ROWS,
                 "maximum_batches": MAX_CEGIS_ROUNDS,

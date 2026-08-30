@@ -24,8 +24,13 @@ The preflight also runs host-local inverse, bulk-price, quotient-batch
 multiply, and large rectangular-rank benchmarks.  It records the exact operation counts that reject a naive dense
 Schur matrix (about `1.26e12` multiply-adds before dense RREF) and projects the
 rank-adaptive loop.  Timings are diagnostic rather than scientific payload
-because they are host-dependent.  The registered path must stop if its actual
-frozen-minor benchmark exceeds the preregistered wall/RAM gate.
+because they are host-dependent.  A real attempt to construct the full
+6,876-square FLINT `nmod_mat` died on this host despite roughly 35 GiB reported
+available.  Direct full-minor FLINT construction is therefore forbidden, not
+licensed by a larger nominal RAM threshold.  Exact pricing has its own small
+stage gate and remains runnable here; the quotient stage must use a separately
+reviewed memory-safe factor/solve route or stop after preserving the complete
+price artifact, without a target-membership claim.
 
 The registered algorithm is batched quotient-row constraint generation, not
 a growing-column inverse and not a dense fallback.  With the frozen old basis
