@@ -24,13 +24,17 @@ The preflight also runs host-local inverse, bulk-price, quotient-batch
 multiply, and large rectangular-rank benchmarks.  It records the exact operation counts that reject a naive dense
 Schur matrix (about `1.26e12` multiply-adds before dense RREF) and projects the
 rank-adaptive loop.  Timings are diagnostic rather than scientific payload
-because they are host-dependent.  A real attempt to construct the full
-6,876-square FLINT `nmod_mat` died on this host despite roughly 35 GiB reported
-available.  Direct full-minor FLINT construction is therefore forbidden, not
-licensed by a larger nominal RAM threshold.  Exact pricing has its own small
-stage gate and remains runnable here; the quotient stage must use a separately
-reviewed memory-safe factor/solve route or stop after preserving the complete
-price artifact, without a target-membership claim.
+because they are host-dependent.  A real attempt through the `python-flint`
+bulk `nmod_mat` constructor died on this host despite roughly 35 GiB reported
+available.  A later direct bundled-FLINT 3.6.0 probe allocated and block-filled
+the actual 6,876-square minor in 1.115 seconds at 873,492 KiB maximum RSS, then
+cleared it cleanly.  That resource diagnostic shows allocation and fill only,
+not factorization or solve.  Exact pricing has its own small stage gate and
+remains runnable here; the quotient stage may use only a separately reviewed
+native block-fill/factor/solve adapter in an isolated subprocess.  The wrapper
+bulk conversion remains forbidden.  Without a safe native solve, execution
+must stop after preserving the complete price artifact, without a target-
+membership claim.
 
 The registered algorithm is batched quotient-row constraint generation, not
 a growing-column inverse and not a dense fallback.  With the frozen old basis

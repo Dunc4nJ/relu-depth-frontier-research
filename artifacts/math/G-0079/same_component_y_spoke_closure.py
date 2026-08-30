@@ -83,7 +83,7 @@ PERFORMANCE_CONSERVATIVE_FACTOR = 8.0
 MAX_PROJECTED_DENSE_SECONDS = 10_800.0
 MINIMUM_EXACT_PRICE_AVAILABLE_GIB = 8.0
 MINIMUM_FREE_DISK_GIB = 12.0
-DIRECT_FULL_MINOR_NMOD_CONVERSION_ALLOWED = False
+PYTHON_FLINT_BULK_MINOR_CONVERSION_ALLOWED = False
 CEGIS_MISMATCH_BATCH = 64
 MAX_CEGIS_ROWS = 1_024
 MAX_CEGIS_ROUNDS = 16
@@ -992,16 +992,31 @@ def performance_benchmark() -> dict[str, object]:
         ),
         "minimum_exact_price_available_gib_gate": MINIMUM_EXACT_PRICE_AVAILABLE_GIB,
         "minimum_free_disk_gib_gate": MINIMUM_FREE_DISK_GIB,
-        "direct_full_minor_nmod_conversion_allowed": (
-            DIRECT_FULL_MINOR_NMOD_CONVERSION_ALLOWED
+        "python_flint_bulk_minor_conversion_allowed": (
+            PYTHON_FLINT_BULK_MINOR_CONVERSION_ALLOWED
         ),
+        "observed_native_flint_fill_diagnostic": {
+            "status": "NON_SCIENTIFIC_RESOURCE_DIAGNOSTIC",
+            "library": "bundled FLINT 3.6.0 via ctypes",
+            "method": "nmod_mat_init followed by blockwise entry fill from frozen B",
+            "shape": [6_876, 6_876],
+            "fill_seconds": 1.115,
+            "process_max_rss_kib": 873_492,
+            "probe_entries": [517_993, 253_817, 446_959, 595_260],
+            "cleared_cleanly": True,
+            "does_not_show": (
+                "This manual diagnostic shows native allocation and fill only; it does not "
+                "show that native factorization, inversion, or repeated quotient solves succeed."
+            ),
+        },
         "honest_limit": (
             "The exact-price stage is independently runnable under its small stage-specific "
-            "memory gate. An actual attempt to construct the 6,876-square FLINT nmod_mat died "
-            "on this host despite about 35 GiB reported available, so the registered quotient "
-            "stage must not repeat that direct conversion. It must use a separately reviewed "
-            "memory-safe factor/solve method or stop after the exact-price artifact without a "
-            "full target-membership decision. Small-fixture extrapolations do not override this."
+            "memory gate. The python-flint bulk nmod_mat constructor died on this host despite "
+            "about 35 GiB reported available, while a direct bundled-FLINT blockwise fill used "
+            "under 1 GiB. The registered quotient stage must not repeat the wrapper conversion. "
+            "It may use only a separately reviewed native block-fill/factor/solve adapter in an "
+            "isolated subprocess, or stop after the exact-price artifact without a full target-"
+            "membership decision. Native factor/solve has not yet been demonstrated."
         ),
     }
 
@@ -1537,13 +1552,14 @@ def build_preflight(*, verify_vf2: bool) -> dict[str, object]:
                     MINIMUM_EXACT_PRICE_AVAILABLE_GIB
                 ),
                 "minimum_free_disk_gib": MINIMUM_FREE_DISK_GIB,
-                "direct_full_minor_nmod_conversion_allowed": (
-                    DIRECT_FULL_MINOR_NMOD_CONVERSION_ALLOWED
+                "python_flint_bulk_minor_conversion_allowed": (
+                    PYTHON_FLINT_BULK_MINOR_CONVERSION_ALLOWED
                 ),
                 "quotient_stage_resource_gate": (
-                    "a separately reviewed method must factor/solve the frozen 6,876-square "
-                    "minor without constructing it as one full FLINT nmod_mat in the registered "
-                    "parent process; absent that method, stop after exact pricing"
+                    "a separately reviewed native-FLINT adapter in an isolated subprocess must "
+                    "block-fill and factor/solve the frozen 6,876-square minor without invoking "
+                    "the python-flint bulk nmod_mat constructor; absent that method, stop after "
+                    "exact pricing"
                 ),
                 "mismatch_batch_size": CEGIS_MISMATCH_BATCH,
                 "maximum_accumulated_rows": MAX_CEGIS_ROWS,
