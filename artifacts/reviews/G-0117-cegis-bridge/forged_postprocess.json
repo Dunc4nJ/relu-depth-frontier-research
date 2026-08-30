@@ -1,0 +1,33 @@
+{
+  "schema": "max11-g0113-panel-exact-postprocess-v1",
+  "bindings": {
+    "input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "rows": "1111111111111111111111111111111111111111111111111111111111111111",
+    "report": "2222222222222222222222222222222222222222222222222222222222222222",
+    "retained": "3333333333333333333333333333333333333333333333333333333333333333",
+    "producer": "07f20ee167483aedc0c06f40650fd3edc671ef7fc5cf1e1050b1ad388ba3ec48",
+    "preregistration": "4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "records": 163740,
+  "retained_union_columns": 2,
+  "agreed_modular_rank": 2,
+  "exact_union_rank": 2,
+  "exact_augmented_rank": 2,
+  "exact_target_member": true,
+  "exact_rank_exceeds_modular_rank": false,
+  "planted_controls": {
+    "member": true,
+    "coefficient_plus_one_mutant_rejected": true,
+    "nonmember_separator": true
+  },
+  "payload": {
+    "result": "EXACT_Q_MEMBER_FINITE_PANEL",
+    "support_sequences": [0, 1],
+    "coordinate_rows": [0, 1],
+    "coefficients": ["1", "0"],
+    "coefficient_denominator_lcm": 1,
+    "all_301_rows_replayed": true,
+    "coefficient_mutant_index": 0,
+    "coefficient_plus_one_mutant_rejected": true
+  }
+}

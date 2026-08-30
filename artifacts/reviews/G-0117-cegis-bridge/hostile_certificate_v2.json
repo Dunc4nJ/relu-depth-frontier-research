@@ -1,0 +1,16 @@
+{
+  "schema": "max11-g0117-global-replay-certificate-v2",
+  "target_scale": "1",
+  "source_exact_postprocess": {
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "result": "NOT_A_MEMBER"
+  },
+  "unexpected_top_level_field": "the replay parser ignores this",
+  "terms": [
+    {
+      "sequence": 0,
+      "coefficient": "1",
+      "unexpected_term_field": "also ignored"
+    }
+  ]
+}

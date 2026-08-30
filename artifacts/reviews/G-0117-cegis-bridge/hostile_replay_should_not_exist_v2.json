@@ -1,0 +1,74 @@
+{
+  "schema": "max11-g0117-global-modular-replay-v1",
+  "result": "EXACT_GLOBAL_IDENTITY_REFUTED_BY_MODULAR_RESIDUAL",
+  "claim_boundary": "A nonzero modular residual exactly refutes this rational seed as a global identity. Two-prime zero is not an exact-Q identity and requires a deterministic integer bound or exact replay. Neither outcome proves family completeness or all-n.",
+  "bindings": {
+    "certificate": "df34866234fd0d3b185ca205c954fe369ee17a647eb20220268c375dab88bf6f",
+    "kernel": "84b37ea50f012bfe8310de84b1ca27a7c1b77de90978635dd483798759d4c6aa",
+    "panel_input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "producer": "95d5d9e03d8760a86563c691d5c5100421c30da10c1e87deda1051fde674a6b0"
+  },
+  "certificate_schema": "max11-g0117-global-replay-certificate-v2",
+  "target_scale": "1",
+  "primes": [
+    1000000007,
+    1000000009
+  ],
+  "terms": 1,
+  "hinge_entries_processed": 15139,
+  "labelled_permutations_checked": 39916800,
+  "aggregate_hinge_support": 15139,
+  "nonzero_hinge_residue_directions": 15139,
+  "first_hinge_residual": {
+    "direction": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      -2,
+      1
+    ],
+    "residues": [
+      123648,
+      123648
+    ]
+  },
+  "linear_residues_after_target": [
+    [
+      0,
+      725760,
+      2741760,
+      6410880,
+      11419200,
+      17090880,
+      22734912,
+      27925056,
+      32614272,
+      36984960,
+      1019520
+    ],
+    [
+      0,
+      725760,
+      2741760,
+      6410880,
+      11419200,
+      17090880,
+      22734912,
+      27925056,
+      32614272,
+      36984960,
+      1019520
+    ]
+  ],
+  "all_hinge_and_linear_residues_zero": [
+    false,
+    false
+  ],
+  "wall_seconds": 1.82680586
+}

@@ -1,0 +1,65 @@
+{
+  "bindings": {
+    "checker": "2cf51e919fdc312fc646f836f00a13138d7c91b3a7a4f46187956dbacde2307d",
+    "input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "rows": "0b849d7dbb171367d9a55ad4b6da4631b4278caa38d9b5f9cbda04c6cb80535c"
+  },
+  "cegis_algebra": {
+    "augmented_rank_progress": [
+      1,
+      2
+    ],
+    "exact_full_column_separator": [
+      0,
+      1
+    ],
+    "first_hidden_residual": "-2",
+    "fresh_q_solve_needed": [
+      "1",
+      "1/2"
+    ],
+    "frozen_support_would_falsely_fail": true,
+    "full_family_repaired_solution": [
+      "-1",
+      "2"
+    ],
+    "panel_seed": [
+      "1",
+      "0"
+    ],
+    "same_candidate_rank_inconsistent_target": true
+  },
+  "height_bounds": {
+    "certificate_rule": "For integer term weights a_j and positive target scale L, let S=sum|a_j|. Every hinge residual has abs <= 199584000*S; every nonfinal linear residual has abs <= 235872000*S; the final linear residual has abs <= 235872000*S + 39916800*L. A product of checked primes larger than the relevant bound turns zero residues into exact zero.",
+    "hinge_abs_per_atom_upper_bound": 199584000,
+    "linear_abs_per_atom_upper_bound": 235872000,
+    "target_coefficient": 39916800
+  },
+  "modular_logic": {
+    "denominator_equal_to_prime_must_be_refused": true,
+    "nonzero_integer_in_two_prime_kernel": 1000000016000000063,
+    "one_nonzero_residue_suffices_to_refute_exact_zero": 1000000007,
+    "primes": [
+      1000000007,
+      1000000009
+    ],
+    "product": 1000000016000000063,
+    "zero_claim_rule": "zero residues require exact replay or a proved cleared-integer bound below the accumulated modulus"
+  },
+  "panel_global_normalization": {
+    "5341": {
+      "active_vertices": 3,
+      "all_301_rows_match_full_orbit_divided_by_formal_stabilizer": true,
+      "panel_i128_le_sha256": "2edd9faf75a4960c4c1e03338710c46257fa57469a828aaa4a3831661bedba39",
+      "signed_mass": 1
+    },
+    "73165": {
+      "active_vertices": 4,
+      "all_301_rows_match_full_orbit_divided_by_formal_stabilizer": true,
+      "panel_i128_le_sha256": "66ed0bc898b1a38da30e030b6ba08c10c76b9a1c4062bad4c6dd074fd34ff8f8",
+      "signed_mass": 2
+    }
+  },
+  "result": "PASS_INDEPENDENT_CONTROLS",
+  "schema": "max11-g0117-cegis-bridge-independent-controls-v1"
+}
