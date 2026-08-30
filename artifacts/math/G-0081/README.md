@@ -1,9 +1,9 @@
 # G-0081 — complete native Schur rank/solve candidate
 
-`run_isolated.sh` and `full_dictionary_schur.py` are the launcher/runner
-candidate for the decisive finite-row calculation. They have **not** been
-registered or run. This directory contains no preregistration and no
-scientific result.
+`run_isolated.sh` and `full_dictionary_schur.py` are the frozen launcher/runner
+for the decisive finite-row calculation. The first outcome-producing run is
+bound by `full_dictionary_schur_preregistration_v1.json`. It has **not** been
+run, and this directory contains no scientific result.
 
 ## Exact subject and boundary
 
