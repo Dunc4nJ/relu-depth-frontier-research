@@ -1,0 +1,51 @@
+{
+  "all_new_columns_retained_after_nonzero_price": true,
+  "claim_contract": {
+    "all_zero": "Emit an internally cross-evaluated exact bounded-dictionary nonmembership candidate, pending independent external replay and promotion. This is not a global CPWL identity or unrestricted network lower bound.",
+    "some_nonzero": "Serialize the complete signed price vector as guidance only. It proves neither membership nor nonmembership, filters no column, and authorizes no quotient computation in this source."
+  },
+  "dense_fallback_allowed": false,
+  "environment_manifest_sha256": "12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c",
+  "experiment_status": "planned",
+  "new_columns": 18582,
+  "no_claim": "This registration covers only complete exact pricing of the frozen same-component family. It contains no quotient solver, no modular membership decision, no rational coefficient lift, no global identity proof, no unrestricted ReLU lower bound, and no novelty or priority claim.",
+  "preflight_receipt_sha256": "12ea9a384a064c4cd9e17e37688384f4241b2fbe85cea501b892ad1ab2b4fd91",
+  "preflight_scientific_payload_sha256": "2774dfa1b49de1e661633c3176e091519b25f479a68041cc2d08887ada38f73b",
+  "preflight_source_sha256": "3b4626f36c8c505274b108b3cd80a17127de6e911c16962cbdbcff557a22b5da",
+  "preregistration_path": "artifacts/math/G-0079/same_component_y_spoke_preregistration_v2.json",
+  "price_stage": {
+    "exact_arithmetic": "Clear all 230 raw-row denominators by one common LCM, divide by one global gcd only, preserve signed primitive integer weights, and perform no coordinatewise row-gcd or modular division.",
+    "independent_evaluator": "direct nested-max replay over every support-row/column entry",
+    "minimum_available_gib": 8.0,
+    "minimum_free_disk_gib": 12.0,
+    "new_columns": 18582,
+    "output": "artifacts/math/G-0079/same_component_y_spoke_prices_v2.json.gz",
+    "primary_evaluator": "frozen flattened-max producer",
+    "quotient_execution_in_this_source": false,
+    "serialize_all_prices": true,
+    "serialized_fields": "ordered exact prices, ordered prices modulo 1000003, local/global IDs, representative hashes, topology, orientation, orbit-class size, exact/modular counts and first indices, vector gcds, exact target pairing, evaluator hashes",
+    "transitive_semantic_source_custody_bound": true
+  },
+  "prime": 1000003,
+  "project_semantic_bytecode_cache_execution_allowed": false,
+  "python_version": "3.13.7",
+  "registered_python": ".venv/bin/python",
+  "registered_source_sha256": "7539515641c241a28be45cea88445bd4f598f7c0693ab521c31805530c9f67da",
+  "schema": "max11-g0079-preregistration-v2",
+  "semantic_execution_from_single_read_expected_hash_bytes": true,
+  "semantic_source_sha256": {
+    "g0073": "333dba4065c08d54742177941305c13841e6237001f364cf5a68a9e4ec2ebf67",
+    "g0074": "269472b1eaeb38db852f92e0587243bba6429a300a7acdd35e0930a6b235f10d",
+    "g0075": "ba169bb9b3734c14d30afebba925a358e6f68a0cdd9734a30d78390438567bab"
+  },
+  "stage_order": [
+    "exact-price"
+  ],
+  "supersedes_aborted_registration": {
+    "experiment": "EXP-0019",
+    "preregistration_sha256": "8a55dcc16bd965cf6b121b57cb9defcd8bec635e793eea04aaedbd4451f4d7f1",
+    "reason": "The v1 source was audit-blocked before execution because transitively imported project semantics could execute from unbound timestamp bytecode caches. No v1 price output exists."
+  },
+  "target": "Compute and serialize the exact G-0078 functional price of every one of the 18,582 frozen same-component Y-spoke representatives in the bound order, together with the nonzero exact target pairing.",
+  "trial_id": "G-0079-PRICE-0002"
+}
