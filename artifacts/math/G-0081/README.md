@@ -1,8 +1,9 @@
 # G-0081 — complete native Schur rank/solve candidate
 
-`full_dictionary_schur.py` is the frozen-source candidate for the decisive
-finite-row calculation. It has **not** been registered or run. This directory
-contains no preregistration and no scientific result.
+`run_isolated.sh` and `full_dictionary_schur.py` are the launcher/runner
+candidate for the decisive finite-row calculation. They have **not** been
+registered or run. This directory contains no preregistration and no
+scientific result.
 
 ## Exact subject and boundary
 
@@ -59,11 +60,25 @@ the runner proves all of the following:
   dirty, staged, deleted, and untracked versions.
 
 Git is invoked only as fixed `/usr/bin/git` under an allowlisted environment,
-with explicit no-follow-resolved `--git-dir` and `--work-tree`. Inherited
-repository, index, object-alternate, namespace, replacement-ref, configuration,
-and `PATH` selectors do not participate. The receipt binds the resolved
-worktree/Git/common-directory identities, object format, exact publication URL,
-and the already-published `refs/heads/master` commit.
+with explicit no-follow-resolved `--git-dir` and `--work-tree` and a 120-second
+per-command timeout. Inherited repository, index, object-alternate, namespace,
+replacement-ref, configuration, and `PATH` selectors do not participate. Every
+effective configuration row must report local scope and the single hash-bound
+`.git/config` origin. Includes, `config.worktree`, URL rewrites, filters,
+`core.fsmonitor`, hooks, and transport/object commands are rejected. The raw
+origin value—not `remote get-url` after rewriting—must equal the registered
+GitHub URL. The receipt binds the resolved worktree/Git/common-directory
+identities, object format, exact publication URL, and the already-published
+`refs/heads/master` commit.
+
+Python startup is also outside ambient caller control. The committed launcher
+has a static-BusyBox shebang and replaces the environment with exactly
+`PATH=/usr/bin:/bin`, `LANG=C`, and `LC_ALL=C` before executing the registered
+interpreter with `-I -S -B`. The runner checks those flags, the initial standard-
+library-only `sys.path`, the absence of `site` initialization, and the exact
+interpreter before manually adding only the registered venv site-packages path.
+Thus `PYTHONPATH`, user/site customization, script-directory shadow modules,
+`PYTHONHOME`, `LD_PRELOAD`, and `LD_LIBRARY_PATH` cannot select startup code.
 
 The exact anchor commit, execution `HEAD`, Git object format, preregistration
 blob IDs, runner blob ID, and SHA-256 values enter start/end custody and every
@@ -77,6 +92,8 @@ independently recomputed semantic hashes are checked at their relevant gates:
 
 | Input | SHA-256 |
 |---|---|
+| isolated startup launcher | `3d9b0b843cd84e7b3377829692f4aaec0c744b2a2b00a7bcdf917f3e352162af` |
+| static `/usr/bin/busybox` | `6c4a39ad9ab7071e4c0bdc3f61546b1526507e30a8f24886e4ef353d66e7398d` |
 | G-0079 registered price runner | `7539515641c241a28be45cea88445bd4f598f7c0693ab521c31805530c9f67da` |
 | G-0079 complete price artifact | `5d6754c91f7971aa3fdad2d1f171645f32fa57c26b4a001bb3b6ac9d5e802958` |
 | price scientific payload | `357e2437849dac4074995892a6f174d9f225848280e2bf53d9f9ea1010d9e265` |
@@ -145,10 +162,12 @@ from zero in a new namespace.
      coordinates zero, and `x_p=-RREF[pivot_row(p),f] mod p`.
 
 The third cache is the bridge to later global gated-facet CEGIS. Rank alone is
-not treated as the endpoint. Before the final gzip is created, the still-locked
-parent rehashes the C→S→R source/receipt chain, recomputes the complete RREF from
-S, compares every persisted entry, derives the branch independently, and on a
-member branch repeats all 16,738 rows and the determinant evidence.
+not treated as the endpoint. Before the final gzip is created, a separately
+supervised, still-locked verifier re-proves the lock/namespace identity,
+rehashes the C→S→R source/receipt chain, recomputes the complete RREF from S,
+compares every persisted entry, derives every branch-bearing projection
+independently, and on a member branch repeats all 16,738 rows and the determinant
+evidence.
 
 ## Decision and replay
 
@@ -181,7 +200,12 @@ The frozen preflight records:
 - projected native minimum peak: 3,755,753,472 bytes.
 
 Execution requires at least 12 GiB available RAM and 12 GiB free disk. The
-complete kernel runs in a new session/process group. The CLI exposes only
+scientific child has a separately registered 21,600-second ceiling. Independent
+parent-authorized finalization has its own registered 3,600-second ceiling and
+runs in another supervised session/process group, so a blocked second FLINT
+RREF can be killed and reaped. Each Git command has a registered 120-second
+timeout. These are deliberately separate allowances; there is no misleading
+single total-CLI wall-time claim. The CLI exposes `--startup-probe`,
 `--self-test`, `--check-registration`, and `--run`; ordinary Python import fails
 before helpers are defined. There is no module-level scientific kernel,
 capability class, consumer, or child entry. Only after public revalidation,
@@ -197,12 +221,14 @@ close the fork/parent-death race. Each later fork worker independently arms the
 same death signal against the kernel parent. Thus a wrapper crash cannot leave
 the kernel or cache workers running; ordinary `Pool.terminate()` behavior is
 restored in workers. A parent-side exception or cancellation also kills and
-reaps the child before releasing the lock. At the absolute six-hour deadline
-the wrapper terminates and reaps the isolated group and writes
-`RESOURCE_UNRESOLVED`; it never silently substitutes CEGIS. Native matrices are
-confined to the child and cleared on every normal path. An in-child
-`MemoryError`, `OSError`, or `TimeoutError` is likewise serialized as
-`RESOURCE_UNRESOLVED`, with no membership or separation claim.
+reaps the child before releasing the lock. At the scientific child's six-hour
+deadline the wrapper terminates and reaps that group. It then accepts no branch
+until the separately supervised finalizer succeeds within one hour. A timeout,
+signal, or resource failure in either supervised process writes only
+`RESOURCE_UNRESOLVED`; if the scientific child had produced a candidate, that
+candidate is explicitly discarded without preserving its branch fields. The
+runner never silently substitutes CEGIS. Native matrices are confined to the
+two supervised processes and cleared on normal paths.
 
 This protocol proves precedence for artifacts accepted by this committed
 runner. It cannot prove that nobody independently computed the same mathematics
@@ -214,7 +240,7 @@ external audit and custody, not a local program alone.
 The source-only self-test is safe to run now:
 
 ```bash
-.venv/bin/python -B artifacts/math/G-0081/full_dictionary_schur.py --self-test
+artifacts/math/G-0081/run_isolated.sh --self-test
 ```
 
 It covers native multiplication, in-place FLINT RREF member/separator
@@ -222,20 +248,22 @@ fixtures, target-last pivot scanning, free-zero solving, rank-full-Q logic,
 cache mutation rejection, price-row scalar logic, and nine tiny non-outcome
 fast/frozen/nested evaluator entries. Must-fail controls reject a dirty runner,
 dirty or untracked preregistration, clean post-anchor preregistration mutation,
-a foreign Git database under poisoned Git/PATH/config variables, the removed
+a foreign Git database, included/config.worktree URL rewriting, executable
+`core.fsmonitor`, ambient `sitecustomize`, unsafe import shadows, the removed
 internal CLI, ordinary import, any module-level scientific entry, an existing
 or symlink cache namespace, and a symlink lock without changing its victim.
-Fork fixtures exercise the
-post-`prctl` parent-death race, absolute timeout detection, process-group
-termination, worker death, and child reap. They evaluate no actual quotient or
-rank.
+Production-factored controls reject branch-reversing RREF bytes and mutated
+outer/receipt pivot projections. Fork fixtures exercise both deadlines,
+post-`prctl` parent-death races, process-group termination, verifier/worker
+death, and child reap. They evaluate no actual quotient or rank.
 
 Public `--run` cannot execute without a separately committed preregistration
 whose exact bytes and expected runner hash are both supplied on the CLI. That
 invocation must also supply the full commit ID anchoring the preregistration via
 `--preregistration-commit`. The artifact must bind the output path, cache
 directory and run ID, all hashes, dimensions, resource gates, stage order,
-eight workers, the published committed-Git protocol, fresh-only and
-spent-on-interruption cache policies, parent RREF finalization, the local-closure
-fork protocol, and the prohibition on price filtering. This candidate
-intentionally does not create that preregistration.
+eight workers, the single-origin Git protocol and timeout, isolated startup
+launcher, fresh-only and spent-on-interruption cache policies, both supervised
+wall allowances, the complete parent-verification/output stage order, and the
+prohibition on price filtering. This candidate intentionally does not create
+that preregistration.

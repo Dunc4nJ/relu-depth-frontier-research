@@ -36,19 +36,20 @@ import sys
 import tempfile
 import time
 import traceback
-from collections.abc import Iterator, Sequence
+from collections.abc import Callable, Iterator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
 
-import numpy as np
-from numpy.lib.format import open_memmap
-
 if __name__ != "__main__":
     raise RuntimeError(
         "G-0081 is a CLI-only registered runner; importing it exposes no scientific entry"
     )
+
+
+class GateError(RuntimeError):
+    """A frozen binding, cache, arithmetic, ABI, or claim invariant failed."""
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -74,6 +75,74 @@ G0078_EXACT = ROOT / "artifacts/math/G-0078/sparse_exact_left_dual_v1.json.gz"
 FULL_OLD_MATRIX = ROOT / "artifacts/math/G-0076/cache/full-N.npy"
 ENVIRONMENT_MANIFEST = ROOT / "environment/g0075.subject.manifest"
 REGISTERED_PYTHON = ROOT / ".venv/bin/python"
+ISOLATED_LAUNCHER = HERE / "run_isolated.sh"
+BUSYBOX_EXECUTABLE = Path("/usr/bin/busybox")
+VENV_SITE_PACKAGES = ROOT / ".venv/lib/python3.13/site-packages"
+EXPECTED_STARTUP_PATH = [
+    "/usr/lib/python313.zip",
+    "/usr/lib/python3.13",
+    "/usr/lib/python3.13/lib-dynload",
+]
+EXPECTED_STARTUP_ENVIRONMENT = {
+    "PATH": "/usr/bin:/bin",
+    "LANG": "C",
+    "LC_ALL": "C",
+}
+EXPECTED_ISOLATED_LAUNCHER_SHA256 = (
+    "3d9b0b843cd84e7b3377829692f4aaec0c744b2a2b00a7bcdf917f3e352162af"
+)
+EXPECTED_BUSYBOX_SHA256 = (
+    "6c4a39ad9ab7071e4c0bdc3f61546b1526507e30a8f24886e4ef353d66e7398d"
+)
+
+
+def validate_startup_runtime() -> dict[str, object]:
+    flags = {
+        "isolated": sys.flags.isolated,
+        "ignore_environment": sys.flags.ignore_environment,
+        "no_site": sys.flags.no_site,
+        "no_user_site": sys.flags.no_user_site,
+        "safe_path": sys.flags.safe_path,
+        "dont_write_bytecode": sys.flags.dont_write_bytecode,
+    }
+    expected_flags = {
+        "isolated": 1,
+        "ignore_environment": 1,
+        "no_site": 1,
+        "no_user_site": 1,
+        "safe_path": True,
+        "dont_write_bytecode": 1,
+    }
+    if flags != expected_flags:
+        raise GateError(
+            "G-0081 requires the committed isolated launcher (-I -S -B)"
+        )
+    if dict(os.environ) != EXPECTED_STARTUP_ENVIRONMENT:
+        raise GateError("G-0081 startup environment is not the exact launcher allowlist")
+    if sys.path != EXPECTED_STARTUP_PATH or "site" in sys.modules:
+        raise GateError("G-0081 startup import path/site policy is not isolated")
+    if Path(sys.executable).resolve() != REGISTERED_PYTHON.resolve():
+        raise GateError("G-0081 did not start through the registered interpreter")
+    if not VENV_SITE_PACKAGES.is_dir() or VENV_SITE_PACKAGES.is_symlink():
+        raise GateError("registered venv site-packages path is absent or indirect")
+    return {
+        "flags": flags,
+        "initial_sys_path": list(sys.path),
+        "environment": dict(os.environ),
+        "registered_python": str(REGISTERED_PYTHON),
+        "site_initialization_disabled": True,
+        "script_directory_excluded_from_import_path": True,
+    }
+
+
+STARTUP_RUNTIME = validate_startup_runtime()
+sys.prefix = str(ROOT / ".venv")
+sys.exec_prefix = str(ROOT / ".venv")
+STARTUP_RUNTIME["manually_activated_prefix_after_no_site_validation"] = sys.prefix
+sys.path.append(str(VENV_SITE_PACKAGES))
+
+import numpy as np  # noqa: E402 -- only after isolated startup validation
+from numpy.lib.format import open_memmap  # noqa: E402 -- same boundary
 
 SCHEMA_PREREGISTRATION = "max11-g0081-complete-native-schur-preregistration-v1"
 SCHEMA_RESULT = "max11-g0081-complete-native-schur-result-v1"
@@ -95,7 +164,9 @@ THREE_PROFILE_COUNT = 78
 WORKERS = 8
 CHUNK_ROWS = 8
 PROGRESS_COMMIT_CHUNKS = 16
-MAXIMUM_WALL_SECONDS = 21_600.0
+SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS = 21_600.0
+PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS = 3_600.0
+GIT_COMMAND_TIMEOUT_SECONDS = 120.0
 MINIMUM_AVAILABLE_GIB = 12.0
 MINIMUM_FREE_DISK_GIB = 12.0
 PROJECTED_MINIMUM_PEAK_BYTES = 3_755_753_472
@@ -148,6 +219,10 @@ EXPECTED_BASIS_COLUMNS_SHA256 = (
 )
 
 STATIC_BINDINGS: dict[str, tuple[Path, str]] = {
+    "g0081_isolated_launcher": (
+        ISOLATED_LAUNCHER,
+        EXPECTED_ISOLATED_LAUNCHER_SHA256,
+    ),
     "g0079_registered_runner": (G0079_RUNNER, EXPECTED_G0079_RUNNER_SHA256),
     "g0079_complete_price": (G0079_PRICE, EXPECTED_G0079_PRICE_SHA256),
     "g0079_preflight_source": (
@@ -196,8 +271,8 @@ STATIC_BINDINGS: dict[str, tuple[Path, str]] = {
 }
 
 
-class GateError(RuntimeError):
-    """A frozen binding, cache, arithmetic, ABI, or claim invariant failed."""
+class SupervisedResourceError(OSError):
+    """A supervised verifier died before returning a trustworthy result."""
 
 
 @dataclass(frozen=True)
@@ -499,6 +574,9 @@ def trusted_git_layout(repository: Path) -> tuple[Path, Path]:
     alternates = common_dir / "objects/info/alternates"
     if alternates.exists() or alternates.is_symlink():
         raise GateError("Git object alternates are forbidden for campaign custody")
+    worktree_config = common_dir / "config.worktree"
+    if worktree_config.exists() or worktree_config.is_symlink():
+        raise GateError("Git worktree-specific configuration is forbidden")
     replace_dir = common_dir / "refs/replace"
     if replace_dir.is_symlink() or (
         replace_dir.is_dir() and any(replace_dir.rglob("*"))
@@ -539,14 +617,20 @@ def git_process(
             [f"--git-dir={git_dir}", f"--work-tree={repository}"]
         )
     command.extend(arguments)
-    return subprocess.run(
-        command,
-        cwd=repository,
-        env=clean_git_environment(),
-        stdin=subprocess.DEVNULL,
-        capture_output=True,
-        check=False,
-    )
+    try:
+        return subprocess.run(
+            command,
+            cwd=repository,
+            env=clean_git_environment(),
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            check=False,
+            timeout=GIT_COMMAND_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired as error:
+        raise GateError(
+            f"fixed Git command exceeded {GIT_COMMAND_TIMEOUT_SECONDS} seconds"
+        ) from error
 
 
 def git_bytes(repository: Path, arguments: Sequence[str]) -> bytes:
@@ -557,6 +641,64 @@ def git_bytes(repository: Path, arguments: Sequence[str]) -> bytes:
             f"{completed.stderr.decode(errors='replace')[-2000:]}"
         )
     return completed.stdout
+
+
+def audit_effective_git_config(
+    repository: Path, config_path: Path
+) -> tuple[str, dict[str, list[str]]]:
+    """Require every effective setting to come from the one hash-bound local file."""
+    config_payload = stable_regular_bytes(config_path)
+    raw = git_bytes(
+        repository,
+        ["config", "--null", "--show-origin", "--show-scope", "--list"],
+    )
+    fields = raw.split(b"\0")
+    if fields and fields[-1] == b"":
+        fields.pop()
+    if len(fields) % 3:
+        raise GateError("effective Git config listing has malformed field count")
+    values: dict[str, list[str]] = {}
+    for offset in range(0, len(fields), 3):
+        scope, origin, key_value = fields[offset : offset + 3]
+        if scope != b"local" or not origin.startswith(b"file:"):
+            raise GateError("effective Git config escaped the local configuration scope")
+        observed_origin = Path(os.fsdecode(origin[5:])).resolve(strict=False)
+        if observed_origin != config_path.resolve():
+            raise GateError(
+                f"effective Git config came from an unbound origin: {observed_origin}"
+            )
+        if b"\n" not in key_value:
+            raise GateError("effective Git config record lacks a key/value boundary")
+        key_bytes, value_bytes = key_value.split(b"\n", 1)
+        try:
+            key = key_bytes.decode("ascii").lower()
+            value = value_bytes.decode("utf-8", errors="surrogateescape")
+        except UnicodeDecodeError as error:
+            raise GateError("effective Git config key is not ASCII") from error
+        values.setdefault(key, []).append(value)
+
+    forbidden_exact = {
+        "core.alternaterefscommand",
+        "core.fsmonitor",
+        "core.hookspath",
+        "core.sshcommand",
+        "extensions.worktreeconfig",
+        "remote.origin.receivepack",
+        "remote.origin.uploadpack",
+    }
+    for key in values:
+        if (
+            key in forbidden_exact
+            or key == "include.path"
+            or key.startswith("includeif.")
+            or key.startswith("filter.")
+            or (
+                key.startswith("url.")
+                and (key.endswith(".insteadof") or key.endswith(".pushinsteadof"))
+            )
+        ):
+            raise GateError(f"campaign Git config contains forbidden behavior: {key}")
+    return hashlib.sha256(config_payload).hexdigest(), values
 
 
 def git_blob_at_commit(
@@ -625,22 +767,9 @@ def verify_git_anchor(
     if observed_git_dir != git_dir or observed_common_dir != common_dir:
         raise GateError("Git-reported metadata directories differ from no-follow layout")
     config_path = common_dir / "config"
-    git_config_sha256 = sha256_path(config_path)
-    dangerous_config = git_process(
-        repository,
-        [
-            "config",
-            "--local",
-            "--get-regexp",
-            (
-                r"^(url\..*\.insteadof|core\.sshcommand|"
-                r"remote\.origin\.(uploadpack|receivepack)|"
-                r"core\.alternaterefscommand)$"
-            ),
-        ],
+    git_config_sha256, effective_config = audit_effective_git_config(
+        repository, config_path
     )
-    if dangerous_config.returncode not in {0, 1} or dangerous_config.stdout.strip():
-        raise GateError("campaign Git config contains forbidden transport/object indirection")
     replacement_refs = git_bytes(repository, ["for-each-ref", "refs/replace"])
     if replacement_refs.strip():
         raise GateError("campaign Git database contains packed replacement refs")
@@ -664,9 +793,12 @@ def verify_git_anchor(
     if (expected_origin_url is None) != (expected_published_ref is None):
         raise GateError("published Git identity requires both origin URL and ref")
     if expected_origin_url is not None and expected_published_ref is not None:
-        origin_url = git_bytes(repository, ["remote", "get-url", "origin"]).decode().strip()
-        if origin_url != expected_origin_url:
-            raise GateError("campaign origin URL differs from registered publication remote")
+        origin_values = effective_config.get("remote.origin.url", [])
+        if origin_values != [expected_origin_url]:
+            raise GateError(
+                "raw campaign origin URL differs from the one registered publication remote"
+            )
+        origin_url = expected_origin_url
         published_ref = expected_published_ref
         if expected_published_head is None:
             listing = git_bytes(
@@ -784,6 +916,10 @@ def capture_custody(registration: Registration) -> dict[str, str]:
     values = {
         label: sha256_path(path) for label, (path, _expected) in STATIC_BINDINGS.items()
     }
+    busybox_sha256 = sha256_path(BUSYBOX_EXECUTABLE)
+    if busybox_sha256 != EXPECTED_BUSYBOX_SHA256:
+        raise GateError("static isolated-launcher executable drift")
+    values["g0081_static_busybox"] = busybox_sha256
     values["g0081_runner"] = runner_sha256
     values["g0081_preregistration_path"] = relative_path(registration.path)
     values["g0081_preregistration"] = registration.sha256
@@ -798,6 +934,7 @@ def recapture_custody(expected: dict[str, str]) -> dict[str, str]:
         "g0081_runner",
         "git_preregistration_commit",
         "git_execution_head_commit",
+        "g0081_static_busybox",
     )
     if any(key not in expected for key in required):
         raise GateError("cached custody lacks committed Git-anchor fields")
@@ -818,6 +955,10 @@ def recapture_custody(expected: dict[str, str]) -> dict[str, str]:
         label: sha256_path(source)
         for label, (source, _digest) in STATIC_BINDINGS.items()
     }
+    busybox_sha256 = sha256_path(BUSYBOX_EXECUTABLE)
+    if busybox_sha256 != expected["g0081_static_busybox"]:
+        raise GateError("static isolated-launcher executable changed during execution")
+    values["g0081_static_busybox"] = busybox_sha256
     values["g0081_runner"] = expected["g0081_runner"]
     values["g0081_preregistration_path"] = expected["g0081_preregistration_path"]
     values["g0081_preregistration"] = expected["g0081_preregistration"]
@@ -1033,18 +1174,28 @@ def validate_registration(
         "quotient_rows": QUOTIENT_ROWS,
         "all_new_columns_retained": True,
         "price_filtering_allowed": False,
-        "registration_protocol": "published-git-layout-ancestor-clean-HEAD-v2",
-        "execution_protocol": "public-local-closure-fork-pipe-pdeath-group-v2",
+        "registration_protocol": (
+            "published-git-single-config-origin-ancestor-clean-HEAD-v3"
+        ),
+        "execution_protocol": "isolated-startup-and-supervised-process-groups-v3",
         "cache_policy": "fresh-namespace-no-reuse-v1",
         "interrupted_run_policy": "registration-spent-new-preregistration-required",
-        "parent_finalization_protocol": "stage-chain-and-rref-replay-v1",
+        "parent_finalization_protocol": "supervised-stage-chain-and-rref-replay-v2",
         "registered_git_executable": str(GIT_EXECUTABLE),
         "registered_git_executable_sha256": sha256_path(GIT_EXECUTABLE),
+        "git_command_timeout_seconds": GIT_COMMAND_TIMEOUT_SECONDS,
+        "isolated_launcher": relative_path(ISOLATED_LAUNCHER),
+        "isolated_launcher_sha256": EXPECTED_ISOLATED_LAUNCHER_SHA256,
+        "static_busybox_executable": str(BUSYBOX_EXECUTABLE),
+        "static_busybox_sha256": EXPECTED_BUSYBOX_SHA256,
+        "python_startup_flags": ["-I", "-S", "-B"],
+        "startup_environment_allowlist": EXPECTED_STARTUP_ENVIRONMENT,
         "published_origin_url": EXPECTED_ORIGIN_URL,
         "published_ref": EXPECTED_PUBLISHED_REF,
         "workers": WORKERS,
         "chunk_rows": CHUNK_ROWS,
-        "maximum_wall_seconds": MAXIMUM_WALL_SECONDS,
+        "scientific_child_maximum_wall_seconds": SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS,
+        "parent_finalization_maximum_wall_seconds": PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS,
         "minimum_available_gib": MINIMUM_AVAILABLE_GIB,
         "minimum_free_disk_gib": MINIMUM_FREE_DISK_GIB,
         "projected_minimum_peak_bytes": PROJECTED_MINIMUM_PEAK_BYTES,
@@ -1059,6 +1210,8 @@ def validate_registration(
             "complete-pre-RREF-Schur-cache",
             "native-target-last-RREF-and-persist-transform",
             "member-solution-or-separator-discovery",
+            "supervised-parent-stage-chain-and-independent-rref-replay",
+            "exclusive-final-result-transaction",
         ],
     }
     for key, value in expected.items():
@@ -2011,6 +2164,31 @@ def scan_rref_array(matrix: np.ndarray, rank: int) -> tuple[list[int], list[int]
     return pivots, rhs
 
 
+def require_replayed_rref_equal(
+    recomputed_rows: Iterator[np.ndarray],
+    persisted: np.ndarray,
+    *,
+    prime: int,
+) -> None:
+    """Production byte-for-byte replay gate, factored for hostile tiny controls."""
+    if persisted.ndim != 2 or persisted.dtype != np.dtype("<u4"):
+        raise GateError("persisted RREF replay target has wrong shape or dtype")
+    observed_rows = 0
+    for row_index, row in enumerate(recomputed_rows):
+        if row_index >= persisted.shape[0]:
+            raise GateError("recomputed RREF has too many rows")
+        expected = np.remainder(np.asarray(row), prime).astype(np.uint32)
+        if expected.shape != (persisted.shape[1],) or not np.array_equal(
+            expected, persisted[row_index]
+        ):
+            raise GateError(
+                f"parent RREF replay differs from persisted R at row {row_index}"
+            )
+        observed_rows += 1
+    if observed_rows != persisted.shape[0]:
+        raise GateError("recomputed RREF has too few rows")
+
+
 def export_native_rref_cache(
     native: object,
     matrix: object,
@@ -2303,6 +2481,27 @@ def full_row_rank_minor_evidence(
     }
 
 
+def branch_claim_boundary(target_pivot: bool, rank_new: int) -> str:
+    if target_pivot:
+        return (
+            "The target is separated only from the complete frozen 26,689-column "
+            "dictionary on the frozen 16,738 rows modulo 1,000,003. This is not a "
+            "characteristic-zero, global, or unrestricted lower bound."
+        )
+    if rank_new == QUOTIENT_ROWS:
+        return (
+            "The certified nonzero raw integer block minor proves rational spanning of every "
+            "target on these 16,738 frozen rows. The displayed coefficients remain modular; "
+            "a separately replayed exact Q lift is required for explicit rational coefficients, "
+            "and global CPWL replay is required for any unrestricted depth-two theorem."
+        )
+    return (
+        "This is exact modular compatibility for the complete frozen dictionary on "
+        "16,738 rows. It supplies no rational coefficients until an exact Q lift, and "
+        "no global CPWL identity or unrestricted depth-two theorem until global replay."
+    )
+
+
 def native_rref_and_decide(
     adapter: ModuleType,
     paths: CachePaths,
@@ -2346,11 +2545,7 @@ def native_rref_and_decide(
         base.update(
             {
                 "result": "MODULAR_SEPARATION_DISCOVERY",
-                "claim_boundary": (
-                    "The target is separated only from the complete frozen 26,689-column "
-                    "dictionary on the frozen 16,738 rows modulo 1,000,003. This is not a "
-                    "characteristic-zero, global, or unrestricted lower bound."
-                ),
+                "claim_boundary": branch_claim_boundary(target_pivot, rank_new),
             }
         )
         return base
@@ -2361,19 +2556,7 @@ def native_rref_and_decide(
     minor = full_row_rank_minor_evidence(
         adapter, s_cache, pivot_new, old, basis_rows, basis_columns
     )
-    if minor["rank_new_equals_quotient_rows"]:
-        boundary = (
-            "The certified nonzero raw integer block minor proves rational spanning of every "
-            "target on these 16,738 frozen rows. The displayed coefficients remain modular; "
-            "a separately replayed exact Q lift is required for explicit rational coefficients, "
-            "and global CPWL replay is required for any unrestricted depth-two theorem."
-        )
-    else:
-        boundary = (
-            "This is exact modular compatibility for the complete frozen dictionary on "
-            "16,738 rows. It supplies no rational coefficients until an exact Q lift, and "
-            "no global CPWL identity or unrestricted depth-two theorem until global replay."
-        )
+    boundary = branch_claim_boundary(target_pivot, rank_new)
     base.update(
         {
             "result": "MODULAR_MEMBERSHIP_DISCOVERY",
@@ -2385,19 +2568,87 @@ def native_rref_and_decide(
     return base
 
 
+def validate_parent_branch_projections(
+    scientific: dict[str, object],
+    decision: dict[str, object],
+    r_receipt: dict[str, object],
+    pivots: Sequence[int],
+    rank: int,
+    *,
+    new_columns: int,
+    global_new_start: int,
+    expected_claim_boundary: str,
+) -> dict[str, object]:
+    if new_columns in pivots[:-1]:
+        raise GateError("target-last pivot appears before the final pivot")
+    target_pivot = bool(pivots and pivots[-1] == new_columns)
+    rank_new = rank - int(target_pivot)
+    pivot_new = [int(pivot) for pivot in pivots if pivot < new_columns]
+    if len(pivot_new) != rank_new:
+        raise GateError("parent new-column pivot census differs from rank")
+    free_new = sorted(set(range(new_columns)) - set(pivot_new))
+    pivot_global = [global_new_start + pivot for pivot in pivot_new]
+    parent_result = (
+        "MODULAR_SEPARATION_DISCOVERY"
+        if target_pivot
+        else "MODULAR_MEMBERSHIP_DISCOVERY"
+    )
+    if (
+        r_receipt.get("rank_schur_augmented") != rank
+        or r_receipt.get("rank_schur_new") != rank_new
+        or r_receipt.get("ordered_pivot_columns") != list(pivots)
+        or r_receipt.get("ordered_pivot_columns_sha256")
+        != canonical_sha256(list(pivots))
+        or r_receipt.get("ordered_pivot_local_new_columns") != pivot_new
+        or r_receipt.get("ordered_free_local_new_columns") != free_new
+        or r_receipt.get("ordered_free_local_new_columns_sha256")
+        != canonical_sha256(free_new)
+        or r_receipt.get("target_coordinate_is_pivot") is not target_pivot
+        or decision.get("result") != parent_result
+        or decision.get("rank_schur_augmented") != rank
+        or decision.get("rank_schur_new") != rank_new
+        or decision.get("target_last") is not True
+        or decision.get("target_coordinate_is_pivot") is not target_pivot
+        or decision.get("pivot_local_new_columns") != pivot_new
+        or decision.get("pivot_local_new_columns_sha256")
+        != canonical_sha256(pivot_new)
+        or decision.get("pivot_global_new_columns") != pivot_global
+        or decision.get("claim_boundary") != expected_claim_boundary
+        or scientific.get("result") != parent_result
+        or scientific.get("claim_boundary") != expected_claim_boundary
+    ):
+        raise GateError("parent RREF-derived decision differs from child declaration")
+    return {
+        "result": parent_result,
+        "target_pivot": target_pivot,
+        "rank_new": rank_new,
+        "pivot_new": pivot_new,
+        "free_new": free_new,
+    }
+
+
 def resource_unresolved_report(
     registration: Registration,
     reason: str,
     begun: float,
     start_custody: dict[str, str],
+    *,
+    unverified_child_candidate_discarded: bool = False,
 ) -> dict[str, object]:
     end = capture_custody(registration)
     scientific = {
         "schema": SCHEMA_RESULT,
         "result": "RESOURCE_UNRESOLVED",
         "reason": reason,
-        "scientific_outcome_computed": False,
-        "claim_boundary": "No modular membership or separation decision was obtained.",
+        "scientific_outcome_computed": unverified_child_candidate_discarded,
+        "scientific_outcome_accepted": False,
+        "unverified_child_candidate_discarded": unverified_child_candidate_discarded,
+        "claim_boundary": (
+            "A child candidate was discarded because independent finalization did not "
+            "complete; no modular branch is accepted or reported."
+            if unverified_child_candidate_discarded
+            else "No modular membership or separation decision was obtained."
+        ),
     }
     return {
         "schema": SCHEMA_RESULT,
@@ -2406,6 +2657,7 @@ def resource_unresolved_report(
         "runner_sha256": registration.runner_sha256,
         "preregistration_sha256": registration.sha256,
         "git_anchor": registration.git_anchor.receipt(),
+        "startup_runtime": STARTUP_RUNTIME,
         "custody": {
             "start": start_custody,
             "end": end,
@@ -2451,6 +2703,157 @@ def wait_for_child(pid: int, deadline: float) -> int | None:
         time.sleep(min(0.1, max(0.0, deadline - time.monotonic())))
 
 
+def run_supervised_json_operation(
+    operation: Callable[[], dict[str, object]],
+    *,
+    maximum_wall_seconds: float,
+    label: str,
+) -> tuple[dict[str, object], dict[str, object]]:
+    """Fork, isolate, time-bound, reap, and authenticate one verifier operation."""
+    if maximum_wall_seconds <= 0:
+        raise GateError("supervised operation requires a positive wall allowance")
+    read_fd, write_fd = os.pipe2(getattr(os, "O_CLOEXEC", 0))
+    parent_pid = os.getpid()
+    started = time.monotonic()
+    try:
+        pid = os.fork()
+    except BaseException:
+        os.close(read_fd)
+        os.close(write_fd)
+        raise
+    if pid == 0:
+        exit_code = 1
+        try:
+            os.close(read_fd)
+            os.setsid()
+            signal.signal(signal.SIGTERM, kill_kernel_process_group)
+            set_parent_death_signal(parent_pid, signal.SIGKILL)
+            try:
+                result = operation()
+                if not isinstance(result, dict):
+                    raise GateError("supervised operation did not return a JSON object")
+                envelope: dict[str, object] = {
+                    "status": "ok",
+                    "result": result,
+                }
+            except (MemoryError, OSError, TimeoutError) as error:
+                envelope = {
+                    "status": "resource-unresolved",
+                    "error_type": type(error).__name__,
+                    "error": str(error),
+                    "traceback_tail": traceback.format_exc()[-4000:],
+                }
+            except BaseException as error:  # noqa: BLE001 -- verifier reports closed
+                envelope = {
+                    "status": "gate-error",
+                    "error_type": type(error).__name__,
+                    "error": str(error),
+                    "traceback_tail": traceback.format_exc()[-4000:],
+                }
+            payload = canonical_bytes(envelope)
+            if len(payload) > 1_000_000:
+                raise GateError("supervised JSON envelope exceeded one megabyte")
+            write_all(write_fd, payload)
+            exit_code = 0
+        except BaseException:  # noqa: BLE001 -- isolated verifier exits closed
+            traceback.print_exc()
+        finally:
+            close_quietly(write_fd)
+            os._exit(exit_code)
+
+    os.close(write_fd)
+    os.set_blocking(read_fd, False)
+    payload = bytearray()
+    deadline = started + maximum_wall_seconds
+    exit_code: int | None = None
+    timed_out = False
+    try:
+        while exit_code is None:
+            while True:
+                try:
+                    block = os.read(read_fd, 65_536)
+                except BlockingIOError:
+                    break
+                if not block:
+                    break
+                payload.extend(block)
+                if len(payload) > 1_000_000:
+                    signal_isolated_process_group(pid, signal.SIGKILL)
+                    wait_for_child(pid, time.monotonic() + 5.0)
+                    raise GateError("supervised verifier pipe exceeded one megabyte")
+            try:
+                observed, wait_status = os.waitpid(pid, os.WNOHANG)
+            except InterruptedError:
+                continue
+            if observed == pid:
+                exit_code = os.waitstatus_to_exitcode(wait_status)
+                break
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                timed_out = True
+                break
+            select.select([read_fd], [], [], min(0.1, remaining))
+
+        if timed_out:
+            signal_isolated_process_group(pid, signal.SIGTERM)
+            exit_code = wait_for_child(pid, time.monotonic() + 5.0)
+            if exit_code is None:
+                signal_isolated_process_group(pid, signal.SIGKILL)
+                exit_code = wait_for_child(pid, time.monotonic() + 5.0)
+            if exit_code is None:
+                raise GateError(f"timed-out {label} could not be reaped")
+            raise TimeoutError(
+                f"{label} exceeded its registered {maximum_wall_seconds} second allowance"
+            )
+
+        os.set_blocking(read_fd, True)
+        while block := os.read(read_fd, 65_536):
+            payload.extend(block)
+            if len(payload) > 1_000_000:
+                raise GateError("supervised verifier pipe exceeded one megabyte")
+    finally:
+        os.close(read_fd)
+
+    if exit_code != 0:
+        raise SupervisedResourceError(
+            f"{label} exited without a trustworthy envelope (exit={exit_code})"
+        )
+    try:
+        envelope = json.loads(payload)
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise SupervisedResourceError(
+            f"{label} returned a malformed verifier envelope"
+        ) from error
+    if not isinstance(envelope, dict):
+        raise SupervisedResourceError(f"{label} envelope is not a JSON object")
+    status = envelope.get("status")
+    if status == "resource-unresolved":
+        raise SupervisedResourceError(
+            f"{label} resource failure: {envelope.get('error_type')}: "
+            f"{envelope.get('error')}"
+        )
+    if status == "gate-error":
+        raise GateError(
+            f"{label} rejected the candidate: {envelope.get('error_type')}: "
+            f"{envelope.get('error')}; {envelope.get('traceback_tail')}"
+        )
+    result = envelope.get("result")
+    if status != "ok" or not isinstance(result, dict):
+        raise SupervisedResourceError(f"{label} returned an incomplete envelope")
+    return result, {
+        "protocol": "isolated-fork-pdeath-process-group-json-pipe-v1",
+        "label": label,
+        "child_pid": pid,
+        "maximum_wall_seconds": maximum_wall_seconds,
+        "wall_seconds": time.monotonic() - started,
+        "timed_out": False,
+        "exit_code": exit_code,
+        "child_reaped": True,
+        "isolated_process_group": True,
+        "parent_death_guard": True,
+    }
+
+
 def parent_finalize_cache_chain(
     registration: Registration,
     paths: CachePaths,
@@ -2460,15 +2863,31 @@ def parent_finalize_cache_chain(
     execution_capability_sha256: str,
     report: dict[str, object],
 ) -> dict[str, object]:
-    """Read-only parent replay that roots the child decision in fresh C/S/R bytes."""
+    """Read-only supervised replay that roots the child decision in fresh C/S/R bytes."""
     directory_stat = paths.directory.stat(follow_symlinks=False)
     lock_stat = os.fstat(lock_fd)
+    lock_path_stat = paths.lock.stat(follow_symlinks=False)
     if (
         not stat.S_ISDIR(directory_stat.st_mode)
         or (directory_stat.st_dev, directory_stat.st_ino) != namespace_identity
         or not stat.S_ISREG(lock_stat.st_mode)
+        or not stat.S_ISREG(lock_path_stat.st_mode)
+        or (lock_stat.st_dev, lock_stat.st_ino)
+        != (lock_path_stat.st_dev, lock_path_stat.st_ino)
+        or os.getpgrp() != os.getpid()
     ):
         raise GateError("parent finalizer cache namespace/lock identity drift")
+    lock_probe = os.open(paths.lock, os.O_RDWR | getattr(os, "O_NOFOLLOW", 0))
+    try:
+        try:
+            fcntl.flock(lock_probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            pass
+        else:
+            fcntl.flock(lock_probe, fcntl.LOCK_UN)
+            raise GateError("parent finalizer inherited lock is not held")
+    finally:
+        os.close(lock_probe)
     expected_names = {
         paths.lock.name,
         paths.c_final.name,
@@ -2550,38 +2969,34 @@ def parent_finalize_cache_chain(
     try:
         rank = int(native.lib.nmod_mat_rref(native.pointer(replay)))
         pivots, rhs = scan_rref(native, replay, rank)
-        for row in range(QUOTIENT_ROWS):
-            expected_row = np.remainder(
-                native.row(replay, row, SCHUR_COLUMNS), PRIME
-            ).astype(np.uint32)
-            if not np.array_equal(expected_row, r_matrix[row]):
-                raise GateError(
-                    f"parent RREF replay differs from persisted R at row {row}"
-                )
+        require_replayed_rref_equal(
+            (
+                native.row(replay, row, SCHUR_COLUMNS)
+                for row in range(QUOTIENT_ROWS)
+            ),
+            r_matrix,
+            prime=PRIME,
+        )
     finally:
         native.clear(replay)
         native.cleanup()
     replay_seconds = time.perf_counter() - replay_started
-    target_pivot = bool(pivots and pivots[-1] == NEW_COLUMNS)
-    rank_new = rank - int(target_pivot)
-    parent_result = (
-        "MODULAR_SEPARATION_DISCOVERY"
-        if target_pivot
-        else "MODULAR_MEMBERSHIP_DISCOVERY"
+    projections = validate_parent_branch_projections(
+        scientific,
+        decision,
+        r_receipt,
+        pivots,
+        rank,
+        new_columns=NEW_COLUMNS,
+        global_new_start=GLOBAL_NEW_START,
+        expected_claim_boundary=branch_claim_boundary(
+            bool(pivots and pivots[-1] == NEW_COLUMNS),
+            rank - int(bool(pivots and pivots[-1] == NEW_COLUMNS)),
+        ),
     )
-    pivot_new = [pivot for pivot in pivots if pivot < NEW_COLUMNS]
-    if (
-        r_receipt.get("rank_schur_augmented") != rank
-        or r_receipt.get("rank_schur_new") != rank_new
-        or r_receipt.get("ordered_pivot_columns") != pivots
-        or r_receipt.get("target_coordinate_is_pivot") is not target_pivot
-        or decision.get("result") != parent_result
-        or decision.get("rank_schur_augmented") != rank
-        or decision.get("rank_schur_new") != rank_new
-        or decision.get("target_coordinate_is_pivot") is not target_pivot
-        or decision.get("pivot_local_new_columns") != pivot_new
-    ):
-        raise GateError("parent RREF-derived decision differs from child declaration")
+    target_pivot = bool(projections["target_pivot"])
+    parent_result = str(projections["result"])
+    pivot_new = list(projections["pivot_new"])
 
     member_replay = False
     if not target_pivot:
@@ -2636,8 +3051,9 @@ def parent_finalize_cache_chain(
         "scientific_payload_sha256": report["scientific_payload_sha256"],
     }
     return {
-        "protocol": "fresh-stage-chain-and-independent-rref-replay-v1",
+        "protocol": "supervised-stage-chain-and-independent-rref-replay-v2",
         "fresh_namespace_inode_reverified": True,
+        "inherited_lock_inode_and_flock_reverified": True,
         "exact_success_file_census": sorted(expected_names),
         "C_to_S_to_R_receipt_chain_recomputed": True,
         "stage_chain": stage_chain,
@@ -2655,7 +3071,7 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
     paths = cache_paths(registration.cache_dir)
     namespace_identity = create_fresh_cache_namespace(paths.directory)
     begun = time.monotonic()
-    absolute_deadline = begun + MAXIMUM_WALL_SECONDS
+    scientific_deadline = begun + SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS
     with exclusive_cache_lock(paths.lock) as lock_fd:
         start_custody = capture_custody(registration)
         try:
@@ -2665,10 +3081,14 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
                 registration, str(error), begun, start_custody
             )
             report["launcher"] = {
-                "protocol": "public-local-closure-fork-v2",
+                "protocol": "isolated-startup-and-supervised-process-groups-v3",
                 "kernel_started": False,
                 "exclusive_cache_lock": True,
-                "hard_timeout_seconds": MAXIMUM_WALL_SECONDS,
+                "scientific_child_maximum_wall_seconds": SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS,
+                "parent_finalization_maximum_wall_seconds": (
+                    PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS
+                ),
+                "startup_runtime": STARTUP_RUNTIME,
             }
             write_gzip_exclusive(registration.output, report)
             return report
@@ -2773,7 +3193,7 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
 
         def scientific_kernel(kernel_entry: dict[str, object]) -> dict[str, object]:
             kernel_begun = time.monotonic()
-            deadline = kernel_begun + MAXIMUM_WALL_SECONDS
+            deadline = scientific_deadline
             custody = capture_custody(registration)
             bindings = replay_static_bindings()
             resources = validate_resource_contract(paths)
@@ -2891,6 +3311,7 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
                 "runner_sha256": registration.runner_sha256,
                 "preregistration_sha256": registration.sha256,
                 "git_anchor": registration.git_anchor.receipt(),
+                "startup_runtime": STARTUP_RUNTIME,
                 "kernel_entry": kernel_entry,
                 "bindings": bindings,
                 "semantic_source_execution": semantic,
@@ -2976,7 +3397,7 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
                 pipe_error = error
             finally:
                 os.close(pipe_write)
-            exit_code = wait_for_child(pid, absolute_deadline)
+            exit_code = wait_for_child(pid, scientific_deadline)
         except BaseException:
             close_quietly(pipe_read)
             close_quietly(pipe_write)
@@ -3009,20 +3430,25 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
         if timed_out:
             report = resource_unresolved_report(
                 registration,
-                f"isolated process group exceeded {MAXIMUM_WALL_SECONDS} seconds",
+                "isolated scientific process group exceeded "
+                f"{SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS} seconds",
                 begun,
                 start_custody,
             )
             report["launcher"] = {
-                "protocol": "public-local-closure-fork-v2",
+                "protocol": "isolated-startup-and-supervised-process-groups-v3",
                 "kernel_started": True,
                 "exclusive_cache_lock": True,
                 "isolated_process_group": True,
                 "parent_death_guard": True,
-                "hard_timeout_seconds": MAXIMUM_WALL_SECONDS,
+                "scientific_child_maximum_wall_seconds": SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS,
+                "parent_finalization_maximum_wall_seconds": (
+                    PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS
+                ),
                 "timed_out_group_terminated": True,
                 "child_stdout": stdout.strip(),
                 "child_stderr_tail": stderr,
+                "startup_runtime": STARTUP_RUNTIME,
             }
             write_gzip_exclusive(registration.output, report)
             return report
@@ -3042,6 +3468,7 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
             or report.get("runner_sha256") != registration.runner_sha256
             or report.get("preregistration_sha256") != registration.sha256
             or report.get("git_anchor") != registration.git_anchor.receipt()
+            or report.get("startup_runtime") != STARTUP_RUNTIME
             or report.get("custody", {}).get("identical") is not True
             or not isinstance(scientific_payload, dict)
             or canonical_sha256(scientific_payload)
@@ -3062,28 +3489,79 @@ def public_run(invocation: argparse.Namespace) -> dict[str, object]:
                 "scientific_outcome_computed": False,
             }
         else:
-            report["parent_finalization"] = parent_finalize_cache_chain(
-                registration,
-                paths,
-                namespace_identity,
-                lock_fd,
-                start_custody,
-                execution_capability_sha256,
-                report,
-            )
+            def finalizer_operation() -> dict[str, object]:
+                return parent_finalize_cache_chain(
+                    registration,
+                    paths,
+                    namespace_identity,
+                    lock_fd,
+                    start_custody,
+                    execution_capability_sha256,
+                    report,
+                )
+
+            try:
+                finalization, finalizer_supervisor = run_supervised_json_operation(
+                    finalizer_operation,
+                    maximum_wall_seconds=PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS,
+                    label="independent parent-authorized cache finalizer",
+                )
+            except (TimeoutError, SupervisedResourceError) as error:
+                unresolved = resource_unresolved_report(
+                    registration,
+                    f"{type(error).__name__}: {error}",
+                    begun,
+                    start_custody,
+                    unverified_child_candidate_discarded=True,
+                )
+                unresolved["parent_finalization"] = {
+                    "protocol": "supervised-stage-chain-and-rref-replay-v2",
+                    "maximum_wall_seconds": PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS,
+                    "completed": False,
+                    "verifier_group_terminated_and_reaped": True,
+                    "child_candidate_fields_preserved": False,
+                }
+                unresolved["launcher"] = {
+                    "protocol": "isolated-startup-and-supervised-process-groups-v3",
+                    "kernel_started": True,
+                    "scientific_child_completed": True,
+                    "scientific_child_candidate_discarded": True,
+                    "exclusive_cache_lock": True,
+                    "scientific_child_maximum_wall_seconds": (
+                        SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS
+                    ),
+                    "parent_finalization_maximum_wall_seconds": (
+                        PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS
+                    ),
+                    "startup_runtime": STARTUP_RUNTIME,
+                }
+                write_gzip_exclusive(registration.output, unresolved)
+                return unresolved
+            post_finalization_custody = capture_custody(registration)
+            if post_finalization_custody != start_custody:
+                raise GateError("custody changed across supervised parent finalization")
+            finalization["supervisor"] = finalizer_supervisor
+            report["parent_finalization"] = finalization
+        scientific_child_wall_seconds = report.pop("wall_seconds", None)
         report["launcher"] = {
-            "protocol": "public-local-closure-fork-v2",
+            "protocol": "isolated-startup-and-supervised-process-groups-v3",
             "kernel_started": True,
             "exclusive_cache_lock": True,
             "isolated_process_group": True,
             "parent_death_guard": True,
             "fork_workers_parent_death_guard": True,
             "capability_pipe_inherited_consumed_closed": True,
-            "hard_timeout_seconds": MAXIMUM_WALL_SECONDS,
-            "native_cleanup_confined_to_child": True,
+            "scientific_child_maximum_wall_seconds": SCIENTIFIC_CHILD_MAXIMUM_WALL_SECONDS,
+            "parent_finalization_maximum_wall_seconds": (
+                PARENT_FINALIZATION_MAXIMUM_WALL_SECONDS
+            ),
+            "native_cleanup_confined_to_supervised_processes": True,
             "child_stdout": stdout.strip(),
             "child_stderr_tail": stderr,
             "start_end_custody_identical": True,
+            "startup_runtime": STARTUP_RUNTIME,
+            "scientific_child_wall_seconds": scientific_child_wall_seconds,
+            "public_run_wall_seconds_before_output": time.monotonic() - begun,
         }
         write_gzip_exclusive(registration.output, report)
         return report
@@ -3323,6 +3801,92 @@ def self_test_logic() -> dict[str, object]:
         or not forged_target_pivot
     ):
         raise GateError("forged branch-reversing RREF hostile control drift")
+    true_persisted = true_rref.astype(np.dtype("<u4"))
+    require_replayed_rref_equal(
+        (row for row in true_rref), true_persisted, prime=101
+    )
+    forged_persisted = forged_rref.astype(np.dtype("<u4"))
+    forged_replay_rejected = False
+    try:
+        require_replayed_rref_equal(
+            (row for row in true_rref), forged_persisted, prime=101
+        )
+    except GateError:
+        forged_replay_rejected = True
+    if not forged_replay_rejected:
+        raise GateError("production RREF replay gate accepted branch-reversing bytes")
+
+    fixture_pivots = [0, 1]
+    fixture_boundary = "fixture member boundary"
+    fixture_receipt: dict[str, object] = {
+        "rank_schur_augmented": 2,
+        "rank_schur_new": 2,
+        "ordered_pivot_columns": fixture_pivots,
+        "ordered_pivot_columns_sha256": canonical_sha256(fixture_pivots),
+        "ordered_pivot_local_new_columns": fixture_pivots,
+        "ordered_free_local_new_columns": [],
+        "ordered_free_local_new_columns_sha256": canonical_sha256([]),
+        "target_coordinate_is_pivot": False,
+    }
+    fixture_decision: dict[str, object] = {
+        "result": "MODULAR_MEMBERSHIP_DISCOVERY",
+        "rank_schur_augmented": 2,
+        "rank_schur_new": 2,
+        "target_last": True,
+        "target_coordinate_is_pivot": False,
+        "pivot_local_new_columns": fixture_pivots,
+        "pivot_local_new_columns_sha256": canonical_sha256(fixture_pivots),
+        "pivot_global_new_columns": [5, 6],
+        "claim_boundary": fixture_boundary,
+    }
+    fixture_scientific: dict[str, object] = {
+        "result": "MODULAR_MEMBERSHIP_DISCOVERY",
+        "claim_boundary": fixture_boundary,
+    }
+    validate_parent_branch_projections(
+        fixture_scientific,
+        fixture_decision,
+        fixture_receipt,
+        fixture_pivots,
+        2,
+        new_columns=2,
+        global_new_start=5,
+        expected_claim_boundary=fixture_boundary,
+    )
+    mutations = [
+        ("scientific", "result", "MODULAR_SEPARATION_DISCOVERY"),
+        ("scientific", "claim_boundary", "mutated"),
+        ("decision", "pivot_global_new_columns", [5, 7]),
+        ("decision", "pivot_local_new_columns_sha256", "0" * 64),
+        ("receipt", "ordered_pivot_columns_sha256", "0" * 64),
+        ("receipt", "ordered_free_local_new_columns_sha256", "0" * 64),
+    ]
+    projection_mutants_rejected = 0
+    for target_name, key, value in mutations:
+        scientific_mutant = json.loads(json.dumps(fixture_scientific))
+        decision_mutant = json.loads(json.dumps(fixture_decision))
+        receipt_mutant = json.loads(json.dumps(fixture_receipt))
+        target_map = {
+            "scientific": scientific_mutant,
+            "decision": decision_mutant,
+            "receipt": receipt_mutant,
+        }[target_name]
+        target_map[key] = value
+        try:
+            validate_parent_branch_projections(
+                scientific_mutant,
+                decision_mutant,
+                receipt_mutant,
+                fixture_pivots,
+                2,
+                new_columns=2,
+                global_new_start=5,
+                expected_claim_boundary=fixture_boundary,
+            )
+        except GateError:
+            projection_mutants_rejected += 1
+    if projection_mutants_rejected != len(mutations):
+        raise GateError("parent branch projection mutant escaped")
     return {
         "price_row_common_scalar": relation,
         "price_row_one_entry_mutant_rejected": True,
@@ -3330,6 +3894,9 @@ def self_test_logic() -> dict[str, object]:
         "rank_deficient_left_can_have_target_pivot": True,
         "characteristic_zero_minor_statement_is_one_sided": True,
         "branch_reversing_non_row_equivalent_RREF_control_detected": True,
+        "production_RREF_replay_positive_control_accepted": True,
+        "production_RREF_replay_branch_reversal_rejected": True,
+        "parent_branch_projection_mutants_rejected": projection_mutants_rejected,
     }
 
 
@@ -3521,6 +4088,111 @@ def self_test_git_anchor() -> dict[str, object]:
                 os.environ["GIT_WORK_TREE"] = saved_work_tree
         if not foreign_rejected:
             raise GateError("foreign Git object database escaped the trusted layout")
+
+    with tempfile.TemporaryDirectory(dir=HERE) as config_fixture_text:
+        repository = Path(config_fixture_text)
+        git_bytes(repository, ["init", "-q"])
+        git_bytes(repository, ["config", "user.name", "G-0081 config fixture"])
+        git_bytes(
+            repository,
+            ["config", "user.email", "g0081-config@example.invalid"],
+        )
+        runner = repository / "runner.py"
+        preregistration = repository / "preregistration.json"
+        runner_payload = b"print('config fixture')\n"
+        preregistration_payload = b'{"experiment_status":"planned"}\n'
+        runner.write_bytes(runner_payload)
+        preregistration.write_bytes(preregistration_payload)
+        git_bytes(repository, ["add", "runner.py", "preregistration.json"])
+        git_bytes(repository, ["commit", "-q", "-m", "config fixture"])
+        anchor = git_bytes(repository, ["rev-parse", "HEAD"]).decode().strip()
+        marker = repository / "fsmonitor-executed"
+        included = repository / "hidden.cfg"
+        git_bytes(
+            repository,
+            [
+                "config",
+                "--file",
+                str(included),
+                "url.git@github.com/Dunc4nJ/relu-depth-frontier-research.git.insteadOf",
+                "alias://origin",
+            ],
+        )
+        git_bytes(
+            repository,
+            [
+                "config",
+                "--file",
+                str(included),
+                "url.file:///tmp/g0081-attacker.git.insteadOf",
+                EXPECTED_ORIGIN_URL,
+            ],
+        )
+        git_bytes(repository, ["config", "--local", "remote.origin.url", "alias://origin"])
+        git_bytes(repository, ["config", "--local", "include.path", str(included)])
+        include_rejected = False
+        try:
+            verify_git_anchor(
+                repository,
+                preregistration,
+                hashlib.sha256(preregistration_payload).hexdigest(),
+                anchor,
+                runner,
+                hashlib.sha256(runner_payload).hexdigest(),
+                expected_origin_url=EXPECTED_ORIGIN_URL,
+                expected_published_ref=EXPECTED_PUBLISHED_REF,
+            )
+        except GateError:
+            include_rejected = True
+        if not include_rejected or marker.exists():
+            raise GateError("hidden effective Git include escaped publication custody")
+        git_bytes(repository, ["config", "--local", "--unset-all", "include.path"])
+        git_bytes(
+            repository,
+            ["config", "--local", "core.fsmonitor", f"/usr/bin/touch {marker}"],
+        )
+        fsmonitor_rejected = False
+        try:
+            verify_git_anchor(
+                repository,
+                preregistration,
+                hashlib.sha256(preregistration_payload).hexdigest(),
+                anchor,
+                runner,
+                hashlib.sha256(runner_payload).hexdigest(),
+            )
+        except GateError:
+            fsmonitor_rejected = True
+        if not fsmonitor_rejected or marker.exists():
+            raise GateError("executable Git fsmonitor config ran before rejection")
+        git_bytes(repository, ["config", "--local", "--unset-all", "core.fsmonitor"])
+        git_bytes(
+            repository,
+            ["config", "--local", "extensions.worktreeConfig", "true"],
+        )
+        git_bytes(
+            repository,
+            [
+                "config",
+                "--worktree",
+                "url.file:///tmp/g0081-attacker.git.insteadOf",
+                EXPECTED_ORIGIN_URL,
+            ],
+        )
+        worktree_config_rejected = False
+        try:
+            verify_git_anchor(
+                repository,
+                preregistration,
+                hashlib.sha256(preregistration_payload).hexdigest(),
+                anchor,
+                runner,
+                hashlib.sha256(runner_payload).hexdigest(),
+            )
+        except GateError:
+            worktree_config_rejected = True
+        if not worktree_config_rejected:
+            raise GateError("Git config.worktree escaped the trusted layout")
     return {
         "committed_ancestor_anchor_accepted": True,
         "anchor_commit": accepted.preregistration_commit,
@@ -3531,6 +4203,9 @@ def self_test_git_anchor() -> dict[str, object]:
         "clean_post_anchor_byte_change_rejected": True,
         "poisoned_Git_environment_ignored": True,
         "foreign_object_database_with_actual_untracked_prereg_rejected": True,
+        "hidden_effective_config_include_rejected_before_network": True,
+        "executable_fsmonitor_rejected_without_execution": True,
+        "worktree_config_rejected": True,
         "scientific_outcome_computed": False,
     }
 
@@ -3540,9 +4215,7 @@ def self_test_entry_capability() -> dict[str, object]:
     environment["G0081_INTERNAL_TOKEN"] = "caller-chosen-token"
     direct_cli = subprocess.run(
         [
-            str(REGISTERED_PYTHON),
-            "-B",
-            str(SCRIPT),
+            str(ISOLATED_LAUNCHER),
             "--run",
             "--internal-run",
             "--internal-token",
@@ -3559,7 +4232,15 @@ def self_test_entry_capability() -> dict[str, object]:
         raise GateError("removed direct internal CLI unexpectedly remained callable")
     import_attempt = subprocess.run(
         [
+            str(BUSYBOX_EXECUTABLE),
+            "env",
+            "-i",
+            "PATH=/usr/bin:/bin",
+            "LANG=C",
+            "LC_ALL=C",
             str(REGISTERED_PYTHON),
+            "-I",
+            "-S",
             "-B",
             "-c",
             (
@@ -3601,6 +4282,140 @@ def self_test_entry_capability() -> dict[str, object]:
         "no_module_level_scientific_entry_or_capability": True,
         "direct_internal_cli_and_caller_environment_token_rejected": True,
         "actual_fork_authority_is_public_run_local": True,
+        "scientific_outcome_computed": False,
+    }
+
+
+def startup_probe_report() -> dict[str, object]:
+    launcher_sha256 = sha256_path(ISOLATED_LAUNCHER)
+    busybox_sha256 = sha256_path(BUSYBOX_EXECUTABLE)
+    if (
+        launcher_sha256 != EXPECTED_ISOLATED_LAUNCHER_SHA256
+        or busybox_sha256 != EXPECTED_BUSYBOX_SHA256
+    ):
+        raise GateError("isolated startup launcher binding drift")
+    return {
+        "schema": "max11-g0081-isolated-startup-probe-v1",
+        "result": "PASS",
+        "startup_runtime": STARTUP_RUNTIME,
+        "isolated_launcher_sha256": launcher_sha256,
+        "static_busybox_sha256": busybox_sha256,
+        "numpy_origin": str(Path(np.__file__).resolve()),
+        "numpy_version": np.__version__,
+        "scientific_outcome_computed": False,
+    }
+
+
+def self_test_startup_boundary() -> dict[str, object]:
+    with tempfile.TemporaryDirectory(dir=HERE) as temporary_text:
+        temporary = Path(temporary_text)
+        site_marker = temporary / "sitecustomize-ran"
+        sitecustomize = temporary / "sitecustomize.py"
+        sitecustomize.write_text(
+            "from pathlib import Path\n"
+            f"Path({str(site_marker)!r}).write_text('ambient startup executed\\n')\n",
+            encoding="utf-8",
+        )
+        unsafe_environment = dict(os.environ)
+        unsafe_environment["PYTHONPATH"] = str(temporary)
+        direct = subprocess.run(
+            [
+                str(REGISTERED_PYTHON),
+                "-B",
+                str(SCRIPT),
+                "--startup-probe",
+            ],
+            cwd=ROOT,
+            env=unsafe_environment,
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            check=False,
+            timeout=20,
+        )
+        if (
+            direct.returncode == 0
+            or not site_marker.is_file()
+            or b"requires the committed isolated launcher" not in direct.stderr
+        ):
+            raise GateError("ambient PYTHONPATH/sitecustomize route was not rejected")
+        site_marker.unlink()
+
+        hostile_environment = dict(os.environ)
+        hostile_environment.update(
+            {
+                "PYTHONPATH": str(temporary),
+                "PYTHONHOME": str(temporary / "python-home"),
+                "LD_PRELOAD": str(temporary / "untrusted-preload.so"),
+                "LD_LIBRARY_PATH": str(temporary),
+            }
+        )
+        isolated = subprocess.run(
+            [str(ISOLATED_LAUNCHER), "--startup-probe"],
+            cwd=ROOT,
+            env=hostile_environment,
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            check=False,
+            timeout=20,
+        )
+        if isolated.returncode != 0 or site_marker.exists():
+            raise GateError(
+                "static launcher did not clear hostile startup/loader environment: "
+                + isolated.stderr.decode(errors="replace")[-2000:]
+            )
+        isolated_report = json.loads(isolated.stdout)
+        if (
+            isolated_report.get("result") != "PASS"
+            or isolated_report.get("startup_runtime", {}).get("environment")
+            != EXPECTED_STARTUP_ENVIRONMENT
+        ):
+            raise GateError("isolated startup probe receipt drift")
+
+        shadow_marker = temporary / "shadow-numpy-ran"
+        (temporary / "numpy.py").write_text(
+            "from pathlib import Path\n"
+            f"Path({str(shadow_marker)!r}).write_text('shadow imported\\n')\n",
+            encoding="utf-8",
+        )
+        shadow_code = (
+            "import pathlib,sys; "
+            f"sys.path.append({str(VENV_SITE_PACKAGES)!r}); "
+            "import numpy; print(pathlib.Path(numpy.__file__).resolve())"
+        )
+        shadow = subprocess.run(
+            [
+                str(BUSYBOX_EXECUTABLE),
+                "env",
+                "-i",
+                "PATH=/usr/bin:/bin",
+                "LANG=C",
+                "LC_ALL=C",
+                str(REGISTERED_PYTHON),
+                "-I",
+                "-S",
+                "-B",
+                "-c",
+                shadow_code,
+            ],
+            cwd=temporary,
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            check=False,
+            timeout=20,
+        )
+        if (
+            shadow.returncode != 0
+            or shadow_marker.exists()
+            or not Path(shadow.stdout.decode().strip()).is_relative_to(
+                VENV_SITE_PACKAGES
+            )
+        ):
+            raise GateError("safe-path startup imported a caller shadow module")
+    return {
+        "unsafe_direct_PYTHONPATH_sitecustomize_executed_then_rejected": True,
+        "static_launcher_cleared_python_and_dynamic_loader_selectors": True,
+        "isolated_no_site_safe_path_flags_verified": True,
+        "script_or_cwd_shadow_numpy_rejected": True,
         "scientific_outcome_computed": False,
     }
 
@@ -3671,6 +4486,53 @@ def process_is_running(pid: int) -> bool:
 
 
 def self_test_process_boundary() -> dict[str, object]:
+    fast_result, fast_supervisor = run_supervised_json_operation(
+        lambda: {"fixture": "fast-finalizer", "scientific_outcome": False},
+        maximum_wall_seconds=2.0,
+        label="fast finalizer fixture",
+    )
+    if (
+        fast_result.get("fixture") != "fast-finalizer"
+        or fast_supervisor.get("child_reaped") is not True
+    ):
+        raise GateError("fast supervised-finalizer control failed")
+
+    with tempfile.TemporaryDirectory(dir=HERE) as finalizer_fixture_text:
+        worker_record = Path(finalizer_fixture_text) / "worker.json"
+
+        def blocking_finalizer_fixture() -> dict[str, object]:
+            local_parent = os.getpid()
+            worker = os.fork()
+            if worker == 0:
+                signal.signal(signal.SIGTERM, signal.SIG_DFL)
+                set_parent_death_signal(local_parent, signal.SIGKILL)
+                while True:
+                    signal.pause()
+            write_json_exclusive(worker_record, {"pid": worker})
+            while True:
+                signal.pause()
+
+        blocking_started = time.monotonic()
+        blocking_timed_out = False
+        try:
+            run_supervised_json_operation(
+                blocking_finalizer_fixture,
+                maximum_wall_seconds=0.2,
+                label="blocking finalizer fixture",
+            )
+        except TimeoutError:
+            blocking_timed_out = True
+        blocking_wall = time.monotonic() - blocking_started
+        if not blocking_timed_out or blocking_wall > 3.0 or not worker_record.is_file():
+            raise GateError("blocking supervised-finalizer deadline control failed")
+        worker_pid = int(read_json(worker_record)["pid"])
+        worker_deadline = time.monotonic() + 2.0
+        while process_is_running(worker_pid) and time.monotonic() < worker_deadline:
+            time.sleep(0.05)
+        if process_is_running(worker_pid):
+            os.kill(worker_pid, signal.SIGKILL)
+            raise GateError("supervised-finalizer timeout left a live worker")
+
     # Simulate the fork race in which the public parent disappears before the
     # child arms PR_SET_PDEATHSIG.  The mandatory post-prctl PPID check must
     # kill the isolated child rather than let it reach any kernel work.
@@ -3749,6 +4611,10 @@ def self_test_process_boundary() -> dict[str, object]:
         os.kill(worker_pid, signal.SIGKILL)
         raise GateError("isolated timeout left a live worker outside the group reap")
     return {
+        "fast_supervised_finalizer_accepted_and_reaped": True,
+        "blocking_supervised_finalizer_timed_out_and_reaped": True,
+        "blocking_supervised_finalizer_worker_killed": True,
+        "blocking_supervised_finalizer_wall_seconds": blocking_wall,
         "post_prctl_parent_pid_race_check_kills_child": True,
         "absolute_deadline_detects_live_child": True,
         "timeout_SIGTERM_terminates_isolated_group": True,
@@ -3780,6 +4646,8 @@ def self_test() -> dict[str, object]:
     return {
         "schema": "max11-g0081-complete-native-schur-self-test-v1",
         "result": "PASS",
+        "startup_runtime": STARTUP_RUNTIME,
+        "startup_boundary": self_test_startup_boundary(),
         "bindings": bindings,
         "frozen_resource_estimates": resource_estimates,
         "semantic_source_execution": semantic,
@@ -3803,6 +4671,7 @@ def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--self-test", action="store_true")
+    mode.add_argument("--startup-probe", action="store_true")
     mode.add_argument("--check-registration", action="store_true")
     mode.add_argument("--run", action="store_true")
     parser.add_argument("--preregistration", type=Path)
@@ -3816,6 +4685,19 @@ def parse_arguments() -> argparse.Namespace:
 
 def main() -> None:
     arguments = parse_arguments()
+    if arguments.startup_probe:
+        extras = (
+            arguments.preregistration,
+            arguments.preregistration_commit,
+            arguments.expected_runner_sha256,
+            arguments.expected_preregistration_sha256,
+            arguments.output,
+            arguments.cache_dir,
+        )
+        if any(value is not None for value in extras):
+            raise GateError("startup probe accepts no execution arguments")
+        print(canonical_bytes(startup_probe_report()).decode(), end="")
+        return
     if arguments.self_test:
         extras = (
             arguments.preregistration,
