@@ -4,7 +4,8 @@
 The registered subject is all 8,107 old columns and all 18,582 G-0079
 same-component columns on all 16,738 frozen rows modulo 1,000,003.  Prices
 are never used to select columns.  Public execution requires a separately
-frozen preregistration; this source ships first for hostile review.
+committed, clean, Git-anchored preregistration; this source ships first for
+hostile review.
 
 Every modular branch is discovery-only.  A member branch still needs an
 exact rational lift and a global CPWL identity replay.  A separator branch
@@ -22,8 +23,10 @@ import json
 import multiprocessing as mp
 import os
 import platform
+import re
 import resource
 import secrets
+import select
 import shutil
 import signal
 import stat
@@ -31,6 +34,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import traceback
 from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -94,6 +98,10 @@ EXPECTED_PROJECTED_DENSE_MULTIPLY_SECONDS = 538.0544315638452
 EXPECTED_PROJECTED_DENSE_RANK_SECONDS = 408.36025315134856
 EXPECTED_PROJECTED_KERNEL_SECONDS = 10_710.702239091652
 EXPECTED_REGISTERED_PYTHON = "3.13.7"
+GIT_COMMIT_PATTERN = re.compile(r"[0-9a-fA-F]{40,64}")
+CAPABILITY_DOMAIN = b"G0081_PARENT_CHILD_CAPABILITY_V1\0"
+CAPABILITY_SECRET_BYTES = 32
+PR_SET_PDEATHSIG = 1
 
 EXPECTED_G0079_RUNNER_SHA256 = (
     "7539515641c241a28be45cea88445bd4f598f7c0693ab521c31805530c9f67da"
@@ -183,6 +191,26 @@ class GateError(RuntimeError):
 
 
 @dataclass(frozen=True)
+class GitAnchor:
+    preregistration_commit: str
+    execution_head_commit: str
+    preregistration_blob_oid: str
+    head_preregistration_blob_oid: str
+    head_runner_blob_oid: str
+    object_format: str
+
+    def receipt(self) -> dict[str, str]:
+        return {
+            "preregistration_commit": self.preregistration_commit,
+            "execution_head_commit": self.execution_head_commit,
+            "preregistration_blob_oid": self.preregistration_blob_oid,
+            "head_preregistration_blob_oid": self.head_preregistration_blob_oid,
+            "head_runner_blob_oid": self.head_runner_blob_oid,
+            "object_format": self.object_format,
+        }
+
+
+@dataclass(frozen=True)
 class Registration:
     path: Path
     sha256: str
@@ -190,6 +218,18 @@ class Registration:
     output: Path
     cache_dir: Path
     document: dict[str, object]
+    git_anchor: GitAnchor
+
+
+@dataclass
+class KernelCapability:
+    read_fd: int
+    expected_frame: bytes
+    expected_parent_pid: int
+    inherited_lock_fd: int
+    lock_path: Path
+    consumed: bool = False
+    evidence: dict[str, object] | None = None
 
 
 @dataclass(frozen=True)
@@ -422,27 +462,216 @@ def replay_static_bindings() -> dict[str, dict[str, object]]:
     return report
 
 
-def capture_custody(
+def git_process(
+    repository: Path,
+    arguments: Sequence[str],
+) -> subprocess.CompletedProcess[bytes]:
+    environment = dict(os.environ)
+    environment["GIT_OPTIONAL_LOCKS"] = "0"
+    return subprocess.run(
+        ["git", *arguments],
+        cwd=repository,
+        env=environment,
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        check=False,
+    )
+
+
+def git_bytes(repository: Path, arguments: Sequence[str]) -> bytes:
+    completed = git_process(repository, arguments)
+    if completed.returncode != 0:
+        raise GateError(
+            f"git {' '.join(arguments)} failed ({completed.returncode}): "
+            f"{completed.stderr.decode(errors='replace')[-2000:]}"
+        )
+    return completed.stdout
+
+
+def git_blob_at_commit(
+    repository: Path,
+    commit: str,
+    path: Path,
+) -> tuple[str, bytes]:
+    relative = str(path.resolve(strict=False).relative_to(repository.resolve()))
+    listing = git_bytes(
+        repository,
+        ["ls-tree", "-z", "--full-tree", commit, "--", relative],
+    )
+    records = [record for record in listing.split(b"\0") if record]
+    if len(records) != 1 or b"\t" not in records[0]:
+        raise GateError(f"Git commit {commit} does not contain exactly one {relative}")
+    header, listed_path = records[0].split(b"\t", 1)
+    try:
+        mode, kind, object_id = header.decode("ascii").split()
+    except (UnicodeDecodeError, ValueError) as error:
+        raise GateError(f"malformed Git tree record for {relative}") from error
+    if (
+        kind != "blob"
+        or mode not in {"100644", "100755"}
+        or listed_path != os.fsencode(relative)
+    ):
+        raise GateError(f"Git tree entry is not the expected regular file: {relative}")
+    return object_id, git_bytes(repository, ["cat-file", "blob", object_id])
+
+
+def verify_git_anchor(
+    repository: Path,
+    preregistration_path: Path,
+    preregistration_sha256: str,
+    claimed_commit: str,
+    runner_path: Path,
     runner_sha256: str,
-    preregistration_path: Path | None = None,
-) -> dict[str, str]:
+    *,
+    expected_head: str | None = None,
+) -> GitAnchor:
+    repository = repository.resolve()
+    preregistration_path = preregistration_path.resolve(strict=False)
+    runner_path = runner_path.resolve(strict=False)
+    if not preregistration_path.is_relative_to(
+        repository
+    ) or not runner_path.is_relative_to(repository):
+        raise GateError("Git-anchored files must be inside the campaign repository")
+    if GIT_COMMIT_PATTERN.fullmatch(claimed_commit) is None:
+        raise GateError("preregistration anchor must be one full hexadecimal commit ID")
+    top = git_bytes(repository, ["rev-parse", "--show-toplevel"]).decode().strip()
+    if Path(top).resolve() != repository:
+        raise GateError("campaign ROOT is not the active Git worktree root")
+    anchor = (
+        git_bytes(repository, ["rev-parse", "--verify", f"{claimed_commit}^{{commit}}"])
+        .decode("ascii")
+        .strip()
+    )
+    if anchor != claimed_commit.lower():
+        raise GateError("preregistration anchor is not the exact full commit ID")
+    head = (
+        git_bytes(repository, ["rev-parse", "--verify", "HEAD^{commit}"])
+        .decode("ascii")
+        .strip()
+    )
+    if expected_head is not None and head != expected_head:
+        raise GateError("Git HEAD changed after registered execution began")
+    ancestry = git_process(repository, ["merge-base", "--is-ancestor", anchor, head])
+    if ancestry.returncode == 1:
+        raise GateError("preregistration commit is not an ancestor of execution HEAD")
+    if ancestry.returncode != 0:
+        raise GateError(
+            "Git could not establish preregistration ancestry: "
+            + ancestry.stderr.decode(errors="replace")[-2000:]
+        )
+
+    preregistration_relative = str(preregistration_path.relative_to(repository))
+    runner_relative = str(runner_path.relative_to(repository))
+    dirty = git_bytes(
+        repository,
+        [
+            "status",
+            "--porcelain=v1",
+            "-z",
+            "--untracked-files=all",
+            "--",
+            preregistration_relative,
+            runner_relative,
+        ],
+    )
+    if dirty:
+        raise GateError(
+            "runner or preregistration is dirty, staged, deleted, or untracked relative to HEAD"
+        )
+
+    live_preregistration = stable_regular_bytes(preregistration_path)
+    live_runner = stable_regular_bytes(runner_path)
+    if hashlib.sha256(live_preregistration).hexdigest() != preregistration_sha256:
+        raise GateError("live preregistration bytes differ from the registered SHA-256")
+    if hashlib.sha256(live_runner).hexdigest() != runner_sha256:
+        raise GateError("live runner bytes differ from the registered SHA-256")
+    anchor_blob, anchor_bytes = git_blob_at_commit(
+        repository, anchor, preregistration_path
+    )
+    head_preregistration_blob, head_preregistration_bytes = git_blob_at_commit(
+        repository, head, preregistration_path
+    )
+    head_runner_blob, head_runner_bytes = git_blob_at_commit(
+        repository, head, runner_path
+    )
+    if (
+        anchor_bytes != live_preregistration
+        or head_preregistration_bytes != live_preregistration
+    ):
+        raise GateError(
+            "preregistration bytes differ between anchor commit, execution HEAD, and worktree"
+        )
+    if head_runner_bytes != live_runner:
+        raise GateError("runner bytes differ between execution HEAD and worktree")
+    object_format = (
+        git_bytes(repository, ["rev-parse", "--show-object-format"])
+        .decode("ascii")
+        .strip()
+    )
+    return GitAnchor(
+        preregistration_commit=anchor,
+        execution_head_commit=head,
+        preregistration_blob_oid=anchor_blob,
+        head_preregistration_blob_oid=head_preregistration_blob,
+        head_runner_blob_oid=head_runner_blob,
+        object_format=object_format,
+    )
+
+
+def capture_custody(registration: Registration) -> dict[str, str]:
+    runner_sha256 = registration.runner_sha256
     if sha256_path(SCRIPT) != runner_sha256:
         raise GateError("live G-0081 runner differs from registered source pin")
+    anchor = verify_git_anchor(
+        ROOT,
+        registration.path,
+        registration.sha256,
+        registration.git_anchor.preregistration_commit,
+        SCRIPT,
+        runner_sha256,
+        expected_head=registration.git_anchor.execution_head_commit,
+    )
+    if anchor != registration.git_anchor:
+        raise GateError("live Git anchor differs from validated registration")
     values = {
         label: sha256_path(path) for label, (path, _expected) in STATIC_BINDINGS.items()
     }
     values["g0081_runner"] = runner_sha256
-    if preregistration_path is not None:
-        require_contained(preregistration_path)
-        values["g0081_preregistration_path"] = relative_path(preregistration_path)
-        values["g0081_preregistration"] = sha256_path(preregistration_path)
+    values["g0081_preregistration_path"] = relative_path(registration.path)
+    values["g0081_preregistration"] = registration.sha256
+    values.update({f"git_{key}": value for key, value in anchor.receipt().items()})
     return values
 
 
 def recapture_custody(expected: dict[str, str]) -> dict[str, str]:
-    path_text = expected.get("g0081_preregistration_path")
-    path = ROOT / path_text if path_text is not None else None
-    return capture_custody(expected["g0081_runner"], path)
+    required = (
+        "g0081_preregistration_path",
+        "g0081_preregistration",
+        "g0081_runner",
+        "git_preregistration_commit",
+        "git_execution_head_commit",
+    )
+    if any(key not in expected for key in required):
+        raise GateError("cached custody lacks committed Git-anchor fields")
+    path = ROOT / expected["g0081_preregistration_path"]
+    anchor = verify_git_anchor(
+        ROOT,
+        path,
+        expected["g0081_preregistration"],
+        expected["git_preregistration_commit"],
+        SCRIPT,
+        expected["g0081_runner"],
+        expected_head=expected["git_execution_head_commit"],
+    )
+    values = {
+        label: sha256_path(source)
+        for label, (source, _digest) in STATIC_BINDINGS.items()
+    }
+    values["g0081_runner"] = expected["g0081_runner"]
+    values["g0081_preregistration_path"] = expected["g0081_preregistration_path"]
+    values["g0081_preregistration"] = expected["g0081_preregistration"]
+    values.update({f"git_{key}": value for key, value in anchor.receipt().items()})
+    return values
 
 
 def cache_paths(directory: Path) -> CachePaths:
@@ -470,7 +699,7 @@ def cache_paths(directory: Path) -> CachePaths:
 
 
 @contextmanager
-def exclusive_cache_lock(path: Path) -> Iterator[None]:
+def exclusive_cache_lock(path: Path) -> Iterator[int]:
     require_contained(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor = os.open(path, os.O_RDWR | os.O_CREAT, 0o644)
@@ -482,12 +711,119 @@ def exclusive_cache_lock(path: Path) -> Iterator[None]:
         os.ftruncate(descriptor, 0)
         os.write(descriptor, f"pid={os.getpid()}\n".encode())
         os.fsync(descriptor)
-        yield
+        yield descriptor
     finally:
         try:
             fcntl.flock(descriptor, fcntl.LOCK_UN)
         finally:
             os.close(descriptor)
+
+
+def write_all(descriptor: int, payload: bytes) -> None:
+    offset = 0
+    while offset < len(payload):
+        written = os.write(descriptor, payload[offset:])
+        if written <= 0:
+            raise GateError("anonymous capability pipe accepted no bytes")
+        offset += written
+
+
+def close_quietly(descriptor: int) -> None:
+    try:
+        os.close(descriptor)
+    except OSError:
+        pass
+
+
+def consume_kernel_capability(
+    capability: KernelCapability | None,
+) -> dict[str, object]:
+    if not isinstance(capability, KernelCapability) or capability.consumed:
+        raise GateError("scientific kernel lacks a fresh inherited parent capability")
+    capability.consumed = True
+    expected_frame = capability.expected_frame
+    capability.expected_frame = b""
+    if os.getppid() != capability.expected_parent_pid:
+        raise GateError("scientific kernel parent PID differs from fork-time parent")
+    if os.getpgrp() != os.getpid():
+        raise GateError("scientific kernel is not leader of its isolated process group")
+    pipe_stat = os.fstat(capability.read_fd)
+    if not stat.S_ISFIFO(pipe_stat.st_mode):
+        raise GateError("scientific kernel capability FD is not an anonymous pipe")
+    payload = bytearray()
+    try:
+        while len(payload) < len(expected_frame):
+            block = os.read(capability.read_fd, len(expected_frame) - len(payload))
+            if not block:
+                break
+            payload.extend(block)
+        trailing = os.read(capability.read_fd, 1)
+    finally:
+        os.close(capability.read_fd)
+        capability.read_fd = -1
+    if trailing or not secrets.compare_digest(bytes(payload), expected_frame):
+        raise GateError(
+            "anonymous parent capability frame is absent, truncated, or forged"
+        )
+
+    lock_stat = os.fstat(capability.inherited_lock_fd)
+    path_stat = capability.lock_path.stat(follow_symlinks=False)
+    if (
+        not stat.S_ISREG(lock_stat.st_mode)
+        or not stat.S_ISREG(path_stat.st_mode)
+        or (lock_stat.st_dev, lock_stat.st_ino) != (path_stat.st_dev, path_stat.st_ino)
+    ):
+        raise GateError("inherited cache-lock descriptor/path identity drift")
+    probe_flags = os.O_RDWR | getattr(os, "O_NOFOLLOW", 0)
+    probe = os.open(capability.lock_path, probe_flags)
+    try:
+        try:
+            fcntl.flock(probe, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            pass
+        else:
+            fcntl.flock(probe, fcntl.LOCK_UN)
+            raise GateError("inherited cache lock is not exclusively held")
+    finally:
+        os.close(probe)
+    evidence: dict[str, object] = {
+        "protocol": "forked-anonymous-pipe-secret-v1",
+        "capability_frame_sha256": hashlib.sha256(expected_frame).hexdigest(),
+        "capability_pipe_consumed_and_closed": True,
+        "fork_parent_pid": capability.expected_parent_pid,
+        "kernel_pid": os.getpid(),
+        "lock_path": relative_path(capability.lock_path),
+        "inherited_exclusive_lock_verified": True,
+        "isolated_session_and_process_group": True,
+        "parent_death_signal": "SIGKILL; timeout SIGTERM handler kills isolated group",
+        "fork_workers_parent_death_signal": "SIGKILL",
+    }
+    capability.evidence = evidence
+    return evidence
+
+
+def set_parent_death_signal(expected_parent_pid: int, death_signal: int) -> None:
+    libc = ctypes.CDLL(None, use_errno=True)
+    prctl = libc.prctl
+    prctl.argtypes = [
+        ctypes.c_int,
+        ctypes.c_ulong,
+        ctypes.c_ulong,
+        ctypes.c_ulong,
+        ctypes.c_ulong,
+    ]
+    prctl.restype = ctypes.c_int
+    if prctl(PR_SET_PDEATHSIG, death_signal, 0, 0, 0) != 0:
+        error_number = ctypes.get_errno()
+        raise GateError(f"prctl(PR_SET_PDEATHSIG) failed: errno={error_number}")
+    if os.getppid() != expected_parent_pid:
+        if os.getpgrp() == os.getpid():
+            os.killpg(os.getpgrp(), signal.SIGKILL)
+        os.kill(os.getpid(), signal.SIGKILL)
+
+
+def kill_kernel_process_group(_signum: int, _frame: object) -> None:
+    os.killpg(os.getpgrp(), signal.SIGKILL)
 
 
 def binding_hash_map() -> dict[str, str]:
@@ -497,6 +833,7 @@ def binding_hash_map() -> dict[str, str]:
 def validate_registration(arguments: argparse.Namespace) -> Registration:
     required = {
         "--preregistration": arguments.preregistration,
+        "--preregistration-commit": arguments.preregistration_commit,
         "--expected-runner-sha256": arguments.expected_runner_sha256,
         "--expected-preregistration-sha256": arguments.expected_preregistration_sha256,
         "--output": arguments.output,
@@ -523,6 +860,15 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
     preregistration_sha256 = hashlib.sha256(payload).hexdigest()
     if preregistration_sha256 != arguments.expected_preregistration_sha256:
         raise GateError("explicit preregistration pin differs from live bytes")
+    assert isinstance(arguments.preregistration_commit, str)
+    git_anchor = verify_git_anchor(
+        ROOT,
+        preregistration,
+        preregistration_sha256,
+        arguments.preregistration_commit,
+        SCRIPT,
+        runner_sha256,
+    )
     try:
         document = json.loads(payload)
     except (UnicodeDecodeError, json.JSONDecodeError) as error:
@@ -542,6 +888,8 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
         "quotient_rows": QUOTIENT_ROWS,
         "all_new_columns_retained": True,
         "price_filtering_allowed": False,
+        "registration_protocol": "committed-git-ancestor-and-clean-HEAD-v1",
+        "execution_protocol": "forked-pipe-capability-pdeath-group-v1",
         "workers": WORKERS,
         "chunk_rows": CHUNK_ROWS,
         "maximum_wall_seconds": MAXIMUM_WALL_SECONDS,
@@ -580,6 +928,7 @@ def validate_registration(arguments: argparse.Namespace) -> Registration:
         output,
         directory,
         document,
+        git_anchor,
     )
 
 
@@ -800,8 +1149,13 @@ _WORKER_EVALUATOR: FastEvaluator | None = None
 _WORKER_CACHE: np.ndarray | None = None
 
 
-def initialize_matrix_worker(cache_path: str) -> None:
+def initialize_matrix_worker(cache_path: str, expected_parent_pid: int) -> None:
     global _WORKER_CACHE
+    # Pool workers inherit the kernel's SIGTERM group-kill handler across fork.
+    # Restore normal Pool.terminate() semantics; PDEATHSIG below independently
+    # kills each worker if the kernel parent disappears.
+    signal.signal(signal.SIGTERM, signal.SIG_DFL)
+    set_parent_death_signal(expected_parent_pid, signal.SIGKILL)
     if _WORKER_EVALUATOR is None:
         raise GateError("fork worker did not inherit FastEvaluator")
     _WORKER_CACHE = np.load(cache_path, mmap_mode="r+", allow_pickle=False)
@@ -984,7 +1338,7 @@ def build_or_load_c_cache(
         with context.Pool(
             WORKERS,
             initializer=initialize_matrix_worker,
-            initargs=(str(paths.c_partial),),
+            initargs=(str(paths.c_partial), os.getpid()),
         ) as pool:
             try:
                 for result in pool.imap(evaluate_matrix_chunk, remaining, chunksize=1):
@@ -1837,11 +2191,14 @@ def native_rref_and_decide(
 
 
 def internal_kernel(
-    registration: Registration, scratch_output: Path
+    registration: Registration,
+    scratch_output: Path,
+    capability: KernelCapability | None,
 ) -> dict[str, object]:
+    kernel_entry = consume_kernel_capability(capability)
     begun = time.monotonic()
     deadline = begun + MAXIMUM_WALL_SECONDS
-    custody = capture_custody(registration.runner_sha256, registration.path)
+    custody = capture_custody(registration)
     bindings = replay_static_bindings()
     resources = validate_resource_contract(cache_paths(registration.cache_dir))
     resource_estimates = validate_preflight_resource_estimates()
@@ -1899,7 +2256,7 @@ def internal_kernel(
     decision = native_rref_and_decide(
         adapter, paths, custody, old, c_matrix, inverse, basis_rows, basis_columns
     )
-    end_custody = capture_custody(registration.runner_sha256, registration.path)
+    end_custody = capture_custody(registration)
     if end_custody != custody:
         raise GateError("registered input/source custody changed during native kernel")
     scientific = {
@@ -1928,6 +2285,8 @@ def internal_kernel(
         "scientific_payload_sha256": canonical_sha256(scientific),
         "runner_sha256": registration.runner_sha256,
         "preregistration_sha256": registration.sha256,
+        "git_anchor": registration.git_anchor.receipt(),
+        "kernel_entry": kernel_entry,
         "bindings": bindings,
         "semantic_source_execution": semantic,
         "resource_gate": resources,
@@ -1954,7 +2313,7 @@ def resource_unresolved_report(
     begun: float,
     start_custody: dict[str, str],
 ) -> dict[str, object]:
-    end = capture_custody(registration.runner_sha256, registration.path)
+    end = capture_custody(registration)
     scientific = {
         "schema": SCHEMA_RESULT,
         "result": "RESOURCE_UNRESOLVED",
@@ -1968,6 +2327,7 @@ def resource_unresolved_report(
         "scientific_payload_sha256": canonical_sha256(scientific),
         "runner_sha256": registration.runner_sha256,
         "preregistration_sha256": registration.sha256,
+        "git_anchor": registration.git_anchor.receipt(),
         "custody": {
             "start": start_custody,
             "end": end,
@@ -1977,100 +2337,260 @@ def resource_unresolved_report(
     }
 
 
+def open_log_exclusive(path: Path) -> int:
+    require_contained(path)
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+    return os.open(path, flags, 0o600)
+
+
+def read_log_tail(path: Path, maximum_bytes: int) -> str:
+    payload = stable_regular_bytes(path)
+    return payload[-maximum_bytes:].decode(errors="replace")
+
+
+def signal_isolated_process_group(pid: int, selected_signal: int) -> None:
+    try:
+        os.killpg(pid, selected_signal)
+        return
+    except ProcessLookupError:
+        pass
+    try:
+        os.kill(pid, selected_signal)
+    except ProcessLookupError:
+        pass
+
+
+def wait_for_child(pid: int, deadline: float) -> int | None:
+    while True:
+        try:
+            observed, wait_status = os.waitpid(pid, os.WNOHANG)
+        except InterruptedError:
+            continue
+        if observed == pid:
+            return os.waitstatus_to_exitcode(wait_status)
+        if time.monotonic() >= deadline:
+            return None
+        time.sleep(min(0.1, max(0.0, deadline - time.monotonic())))
+
+
+def forked_kernel_child(
+    registration: Registration,
+    scratch: Path,
+    capability: KernelCapability,
+    capability_write_fd: int,
+    stdout_fd: int,
+    stderr_fd: int,
+    begun: float,
+    start_custody: dict[str, str],
+) -> None:
+    exit_code = 1
+    try:
+        os.close(capability_write_fd)
+        os.dup2(stdout_fd, 1)
+        os.dup2(stderr_fd, 2)
+        if stdout_fd not in {1, 2}:
+            os.close(stdout_fd)
+        if stderr_fd not in {1, 2}:
+            os.close(stderr_fd)
+        os.setsid()
+        signal.signal(signal.SIGTERM, kill_kernel_process_group)
+        set_parent_death_signal(capability.expected_parent_pid, signal.SIGKILL)
+        try:
+            internal_kernel(registration, scratch, capability)
+        except (MemoryError, OSError, TimeoutError) as error:
+            if capability.evidence is None:
+                raise
+            report = resource_unresolved_report(
+                registration,
+                f"{type(error).__name__}: {error}",
+                begun,
+                start_custody,
+            )
+            report["kernel_entry"] = capability.evidence
+            write_json_exclusive(scratch, report)
+        exit_code = 0
+    except BaseException:  # noqa: BLE001 -- isolated child must always exit, never unwind
+        traceback.print_exc()
+    finally:
+        try:
+            sys.stdout.flush()
+            sys.stderr.flush()
+        finally:
+            os._exit(exit_code)
+
+
 def public_run(registration: Registration) -> dict[str, object]:
     paths = cache_paths(registration.cache_dir)
     paths.directory.mkdir(parents=True, exist_ok=True)
     begun = time.monotonic()
-    start_custody = capture_custody(registration.runner_sha256, registration.path)
-    with exclusive_cache_lock(paths.lock):
+    absolute_deadline = begun + MAXIMUM_WALL_SECONDS
+    with exclusive_cache_lock(paths.lock) as lock_fd:
+        start_custody = capture_custody(registration)
         try:
             validate_resource_contract(paths)
         except (MemoryError, OSError) as error:
             report = resource_unresolved_report(
                 registration, str(error), begun, start_custody
             )
+            report["launcher"] = {
+                "protocol": "public-fork-capability-v1",
+                "kernel_started": False,
+                "exclusive_cache_lock": True,
+                "hard_timeout_seconds": MAXIMUM_WALL_SECONDS,
+            }
             write_gzip_exclusive(registration.output, report)
             return report
-        token = secrets.token_hex(32)
-        scratch = (
-            paths.directory
-            / f".kernel-outcome-{os.getpid()}-{secrets.token_hex(8)}.json"
+
+        nonce = secrets.token_hex(8)
+        scratch = paths.directory / f".kernel-outcome-{os.getpid()}-{nonce}.json"
+        stdout_path = paths.directory / f".kernel-stdout-{os.getpid()}-{nonce}.log"
+        stderr_path = paths.directory / f".kernel-stderr-{os.getpid()}-{nonce}.log"
+        if any(
+            path.exists() or path.is_symlink()
+            for path in (scratch, stdout_path, stderr_path)
+        ):
+            raise GateError("isolated child scratch/log collision")
+        stdout_fd = open_log_exclusive(stdout_path)
+        try:
+            stderr_fd = open_log_exclusive(stderr_path)
+        except BaseException:
+            os.close(stdout_fd)
+            stdout_path.unlink()
+            raise
+        pipe_read, pipe_write = os.pipe2(getattr(os, "O_CLOEXEC", 0))
+        capability_frame = CAPABILITY_DOMAIN + secrets.token_bytes(
+            CAPABILITY_SECRET_BYTES
         )
-        if scratch.exists() or scratch.is_symlink():
-            raise GateError("internal scratch collision")
-        command = [
-            str(REGISTERED_PYTHON),
-            "-B",
-            str(SCRIPT),
-            "--internal-run",
-            "--preregistration",
-            str(registration.path),
-            "--expected-runner-sha256",
-            registration.runner_sha256,
-            "--expected-preregistration-sha256",
-            registration.sha256,
-            "--output",
-            str(registration.output),
-            "--cache-dir",
-            str(registration.cache_dir),
-            "--internal-scratch-output",
-            str(scratch),
-            "--internal-token",
-            token,
-        ]
-        environment = dict(os.environ)
-        environment["G0081_INTERNAL_TOKEN"] = token
-        process = subprocess.Popen(
-            command,
-            cwd=ROOT,
-            env=environment,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            start_new_session=True,
+        parent_pid = os.getpid()
+        capability = KernelCapability(
+            read_fd=pipe_read,
+            expected_frame=capability_frame,
+            expected_parent_pid=parent_pid,
+            inherited_lock_fd=lock_fd,
+            lock_path=paths.lock,
         )
         try:
-            stdout, stderr = process.communicate(timeout=MAXIMUM_WALL_SECONDS)
-        except subprocess.TimeoutExpired:
-            os.killpg(process.pid, signal.SIGTERM)
+            pid = os.fork()
+        except BaseException:
+            os.close(pipe_read)
+            os.close(pipe_write)
+            os.close(stdout_fd)
+            os.close(stderr_fd)
+            stdout_path.unlink()
+            stderr_path.unlink()
+            raise
+        if pid == 0:
+            forked_kernel_child(
+                registration,
+                scratch,
+                capability,
+                pipe_write,
+                stdout_fd,
+                stderr_fd,
+                begun,
+                start_custody,
+            )
+            raise AssertionError("os._exit returned")
+
+        try:
+            os.close(pipe_read)
+            os.close(stdout_fd)
+            os.close(stderr_fd)
+            pipe_error: OSError | None = None
             try:
-                process.communicate(timeout=5)
-            except subprocess.TimeoutExpired:
-                os.killpg(process.pid, signal.SIGKILL)
-                process.communicate()
+                write_all(pipe_write, capability_frame)
+            except OSError as error:
+                pipe_error = error
+            finally:
+                os.close(pipe_write)
+            exit_code = wait_for_child(pid, absolute_deadline)
+        except BaseException:
+            close_quietly(pipe_read)
+            close_quietly(pipe_write)
+            close_quietly(stdout_fd)
+            close_quietly(stderr_fd)
+            signal_isolated_process_group(pid, signal.SIGKILL)
+            wait_for_child(pid, time.monotonic() + 5.0)
+            for log_path in (stdout_path, stderr_path):
+                try:
+                    log_path.unlink()
+                except FileNotFoundError:
+                    pass
+            raise
+        timed_out = exit_code is None
+        if timed_out:
+            signal_isolated_process_group(pid, signal.SIGTERM)
+            exit_code = wait_for_child(pid, time.monotonic() + 5.0)
+            if exit_code is None:
+                signal_isolated_process_group(pid, signal.SIGKILL)
+                exit_code = wait_for_child(pid, time.monotonic() + 5.0)
+            if exit_code is None:
+                raise GateError(
+                    "timed-out isolated child could not be reaped after SIGKILL"
+                )
+        stdout = read_log_tail(stdout_path, 2_000)
+        stderr = read_log_tail(stderr_path, 4_000)
+        stdout_path.unlink()
+        stderr_path.unlink()
+
+        if timed_out:
             report = resource_unresolved_report(
                 registration,
                 f"isolated process group exceeded {MAXIMUM_WALL_SECONDS} seconds",
                 begun,
                 start_custody,
             )
+            report["launcher"] = {
+                "protocol": "public-fork-capability-v1",
+                "kernel_started": True,
+                "exclusive_cache_lock": True,
+                "isolated_process_group": True,
+                "parent_death_guard": True,
+                "hard_timeout_seconds": MAXIMUM_WALL_SECONDS,
+                "timed_out_group_terminated": True,
+                "child_stdout": stdout.strip(),
+                "child_stderr_tail": stderr,
+            }
             write_gzip_exclusive(registration.output, report)
             return report
-        if process.returncode != 0:
+        if pipe_error is not None or exit_code != 0:
             raise GateError(
-                f"isolated kernel failed closed (exit={process.returncode}); "
-                f"stdout={stdout[-2000:]!r}; stderr={stderr[-4000:]!r}"
+                f"isolated kernel failed closed (exit={exit_code}, pipe={pipe_error!r}); "
+                f"stdout={stdout!r}; stderr={stderr!r}"
             )
         if not scratch.is_file() or scratch.is_symlink():
             raise GateError("isolated kernel returned without one scratch report")
         report = read_json(scratch)
+        expected_capability_sha256 = hashlib.sha256(capability_frame).hexdigest()
+        kernel_entry = report.get("kernel_entry")
         if (
             report.get("schema") != SCHEMA_RESULT
             or report.get("runner_sha256") != registration.runner_sha256
             or report.get("preregistration_sha256") != registration.sha256
+            or report.get("git_anchor") != registration.git_anchor.receipt()
             or report.get("custody", {}).get("identical") is not True
+            or not isinstance(kernel_entry, dict)
+            or kernel_entry.get("capability_frame_sha256") != expected_capability_sha256
+            or kernel_entry.get("fork_parent_pid") != parent_pid
+            or kernel_entry.get("inherited_exclusive_lock_verified") is not True
         ):
-            raise GateError("isolated kernel scratch contract drift")
+            raise GateError("isolated kernel scratch/entry contract drift")
         scratch.unlink()
-        end = capture_custody(registration.runner_sha256, registration.path)
+        end = capture_custody(registration)
         if end != start_custody:
             raise GateError("launcher custody changed across isolated kernel")
         report["launcher"] = {
+            "protocol": "public-fork-capability-v1",
+            "kernel_started": True,
+            "exclusive_cache_lock": True,
             "isolated_process_group": True,
+            "parent_death_guard": True,
+            "fork_workers_parent_death_guard": True,
+            "capability_pipe_inherited_consumed_closed": True,
             "hard_timeout_seconds": MAXIMUM_WALL_SECONDS,
             "native_cleanup_confined_to_child": True,
             "child_stdout": stdout.strip(),
-            "child_stderr_tail": stderr[-4000:],
+            "child_stderr_tail": stderr,
             "start_end_custody_identical": True,
         }
         write_gzip_exclusive(registration.output, report)
@@ -2292,6 +2812,312 @@ def self_test_logic() -> dict[str, object]:
     }
 
 
+def self_test_git_anchor() -> dict[str, object]:
+    with tempfile.TemporaryDirectory(dir=HERE) as temporary_text:
+        repository = Path(temporary_text)
+        git_bytes(repository, ["init", "-q"])
+        git_bytes(repository, ["config", "user.name", "G-0081 fixture"])
+        git_bytes(repository, ["config", "user.email", "g0081-fixture@example.invalid"])
+        runner = repository / "runner.py"
+        preregistration = repository / "preregistration.json"
+        runner_payload = b"print('frozen runner')\n"
+        preregistration_payload = b'{"experiment_status":"planned"}\n'
+        runner.write_bytes(runner_payload)
+        preregistration.write_bytes(preregistration_payload)
+        git_bytes(repository, ["add", "runner.py", "preregistration.json"])
+        git_bytes(repository, ["commit", "-q", "-m", "commit preregistration"])
+        anchor = git_bytes(repository, ["rev-parse", "HEAD"]).decode("ascii").strip()
+        (repository / "unrelated.txt").write_text("later HEAD\n", encoding="utf-8")
+        git_bytes(repository, ["add", "unrelated.txt"])
+        git_bytes(repository, ["commit", "-q", "-m", "advance head"])
+        accepted = verify_git_anchor(
+            repository,
+            preregistration,
+            hashlib.sha256(preregistration_payload).hexdigest(),
+            anchor,
+            runner,
+            hashlib.sha256(runner_payload).hexdigest(),
+        )
+
+        preregistration.write_bytes(b'{"experiment_status":"post-outcome"}\n')
+        dirty_rejected = False
+        try:
+            verify_git_anchor(
+                repository,
+                preregistration,
+                sha256_path(preregistration),
+                anchor,
+                runner,
+                hashlib.sha256(runner_payload).hexdigest(),
+            )
+        except GateError:
+            dirty_rejected = True
+        if not dirty_rejected:
+            raise GateError(
+                "dirty post-outcome preregistration escaped Git anchor gate"
+            )
+        preregistration.write_bytes(preregistration_payload)
+
+        runner.write_bytes(b"print('dirty runner')\n")
+        dirty_runner_rejected = False
+        try:
+            verify_git_anchor(
+                repository,
+                preregistration,
+                hashlib.sha256(preregistration_payload).hexdigest(),
+                anchor,
+                runner,
+                sha256_path(runner),
+            )
+        except GateError:
+            dirty_runner_rejected = True
+        if not dirty_runner_rejected:
+            raise GateError("dirty runner escaped Git HEAD gate")
+        runner.write_bytes(runner_payload)
+
+        untracked = repository / "late-preregistration.json"
+        untracked.write_bytes(preregistration_payload)
+        untracked_rejected = False
+        try:
+            verify_git_anchor(
+                repository,
+                untracked,
+                hashlib.sha256(preregistration_payload).hexdigest(),
+                anchor,
+                runner,
+                hashlib.sha256(runner_payload).hexdigest(),
+            )
+        except GateError:
+            untracked_rejected = True
+        if not untracked_rejected:
+            raise GateError(
+                "untracked post-outcome preregistration escaped Git anchor gate"
+            )
+        untracked.unlink()
+
+        changed_payload = b'{"experiment_status":"planned-but-changed"}\n'
+        preregistration.write_bytes(changed_payload)
+        git_bytes(repository, ["add", "preregistration.json"])
+        git_bytes(repository, ["commit", "-q", "-m", "change preregistration"])
+        changed_after_anchor_rejected = False
+        try:
+            verify_git_anchor(
+                repository,
+                preregistration,
+                hashlib.sha256(changed_payload).hexdigest(),
+                anchor,
+                runner,
+                hashlib.sha256(runner_payload).hexdigest(),
+            )
+        except GateError:
+            changed_after_anchor_rejected = True
+        if not changed_after_anchor_rejected:
+            raise GateError("clean post-anchor preregistration mutation escaped")
+    return {
+        "committed_ancestor_anchor_accepted": True,
+        "anchor_commit": accepted.preregistration_commit,
+        "execution_head_bound": True,
+        "dirty_post_outcome_preregistration_rejected": True,
+        "dirty_runner_rejected": True,
+        "untracked_post_outcome_preregistration_rejected": True,
+        "clean_post_anchor_byte_change_rejected": True,
+        "scientific_outcome_computed": False,
+    }
+
+
+def self_test_entry_capability() -> dict[str, object]:
+    direct_function_rejected = False
+    try:
+        internal_kernel(None, HERE / "never-created.json", None)  # type: ignore[arg-type]
+    except GateError:
+        direct_function_rejected = True
+    if not direct_function_rejected:
+        raise GateError(
+            "direct scientific-kernel function call escaped capability gate"
+        )
+
+    environment = dict(os.environ)
+    environment["G0081_INTERNAL_TOKEN"] = "caller-chosen-token"
+    direct_cli = subprocess.run(
+        [
+            str(REGISTERED_PYTHON),
+            "-B",
+            str(SCRIPT),
+            "--run",
+            "--internal-run",
+            "--internal-token",
+            "caller-chosen-token",
+        ],
+        cwd=ROOT,
+        env=environment,
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        check=False,
+        timeout=10,
+    )
+    if direct_cli.returncode == 0 or b"unrecognized arguments" not in direct_cli.stderr:
+        raise GateError("removed direct internal CLI unexpectedly remained callable")
+
+    with tempfile.TemporaryDirectory(dir=HERE) as temporary_text:
+        lock_path = Path(temporary_text) / "capability.lock"
+        with exclusive_cache_lock(lock_path) as lock_fd:
+            capability_read, capability_write = os.pipe2(getattr(os, "O_CLOEXEC", 0))
+            status_read, status_write = os.pipe2(getattr(os, "O_CLOEXEC", 0))
+            frame = CAPABILITY_DOMAIN + secrets.token_bytes(CAPABILITY_SECRET_BYTES)
+            parent_pid = os.getpid()
+            capability = KernelCapability(
+                read_fd=capability_read,
+                expected_frame=frame,
+                expected_parent_pid=parent_pid,
+                inherited_lock_fd=lock_fd,
+                lock_path=lock_path,
+            )
+            pid = os.fork()
+            if pid == 0:
+                exit_code = 1
+                try:
+                    os.close(capability_write)
+                    os.close(status_read)
+                    os.setsid()
+                    signal.signal(signal.SIGTERM, kill_kernel_process_group)
+                    set_parent_death_signal(parent_pid, signal.SIGKILL)
+                    evidence = consume_kernel_capability(capability)
+                    reused_rejected = False
+                    try:
+                        consume_kernel_capability(capability)
+                    except GateError:
+                        reused_rejected = True
+                    if (
+                        evidence.get("inherited_exclusive_lock_verified") is True
+                        and reused_rejected
+                    ):
+                        write_all(status_write, b"PASS")
+                        exit_code = 0
+                except BaseException:  # noqa: BLE001 -- fork fixture reports by exit code
+                    traceback.print_exc()
+                finally:
+                    os._exit(exit_code)
+            os.close(capability_read)
+            os.close(status_write)
+            write_all(capability_write, frame)
+            os.close(capability_write)
+            exit_code = wait_for_child(pid, time.monotonic() + 10.0)
+            if exit_code is None:
+                signal_isolated_process_group(pid, signal.SIGKILL)
+                exit_code = wait_for_child(pid, time.monotonic() + 5.0)
+            fixture_status = os.read(status_read, 16)
+            os.close(status_read)
+            if exit_code != 0 or fixture_status != b"PASS":
+                raise GateError("inherited capability one-shot fork fixture failed")
+    return {
+        "direct_internal_function_without_capability_rejected": True,
+        "direct_internal_cli_and_caller_environment_token_rejected": True,
+        "anonymous_pipe_secret_inherited": True,
+        "inherited_exclusive_lock_verified": True,
+        "capability_fd_consumed_closed_and_reuse_rejected": True,
+        "parent_pid_bound": True,
+        "isolated_process_group_bound": True,
+        "parent_death_guard_armed_before_capability": True,
+        "scientific_outcome_computed": False,
+    }
+
+
+def process_is_running(pid: int) -> bool:
+    try:
+        fields = Path(f"/proc/{pid}/stat").read_text(encoding="utf-8").split()
+    except (FileNotFoundError, ProcessLookupError):
+        return False
+    return len(fields) >= 3 and fields[2] not in {"X", "Z"}
+
+
+def self_test_process_boundary() -> dict[str, object]:
+    # Simulate the fork race in which the public parent disappears before the
+    # child arms PR_SET_PDEATHSIG.  The mandatory post-prctl PPID check must
+    # kill the isolated child rather than let it reach any kernel work.
+    race_pid = os.fork()
+    if race_pid == 0:
+        os.setsid()
+        signal.signal(signal.SIGTERM, kill_kernel_process_group)
+        set_parent_death_signal(os.getpid(), signal.SIGKILL)
+        os._exit(77)
+    race_exit = wait_for_child(race_pid, time.monotonic() + 5.0)
+    if race_exit is None:
+        signal_isolated_process_group(race_pid, signal.SIGKILL)
+        race_exit = wait_for_child(race_pid, time.monotonic() + 5.0)
+    if race_exit != -signal.SIGKILL:
+        raise GateError(f"parent-death fork-race fixture escaped: {race_exit}")
+
+    ready_read, ready_write = os.pipe2(getattr(os, "O_CLOEXEC", 0))
+    parent_pid = os.getpid()
+    kernel_pid = os.fork()
+    if kernel_pid == 0:
+        exit_code = 78
+        try:
+            os.close(ready_read)
+            os.setsid()
+            signal.signal(signal.SIGTERM, kill_kernel_process_group)
+            set_parent_death_signal(parent_pid, signal.SIGKILL)
+            local_kernel_pid = os.getpid()
+            worker_pid = os.fork()
+            if worker_pid == 0:
+                os.close(ready_write)
+                signal.signal(signal.SIGTERM, signal.SIG_DFL)
+                set_parent_death_signal(local_kernel_pid, signal.SIGKILL)
+                while True:
+                    signal.pause()
+            write_all(ready_write, f"{worker_pid}\n".encode("ascii"))
+            os.close(ready_write)
+            while True:
+                signal.pause()
+        except BaseException:  # noqa: BLE001 -- fork fixture reports by exit code
+            traceback.print_exc()
+        finally:
+            os._exit(exit_code)
+    os.close(ready_write)
+    readable, _writable, _exceptional = select.select([ready_read], [], [], 5.0)
+    if not readable:
+        signal_isolated_process_group(kernel_pid, signal.SIGKILL)
+        wait_for_child(kernel_pid, time.monotonic() + 5.0)
+        os.close(ready_read)
+        raise GateError("timeout/group fixture child never became ready")
+    worker_payload = os.read(ready_read, 64)
+    os.close(ready_read)
+    try:
+        worker_pid = int(worker_payload.strip())
+    except ValueError as error:
+        signal_isolated_process_group(kernel_pid, signal.SIGKILL)
+        wait_for_child(kernel_pid, time.monotonic() + 5.0)
+        raise GateError(
+            "timeout/group fixture returned malformed worker PID"
+        ) from error
+    premature_exit = wait_for_child(kernel_pid, time.monotonic() + 0.2)
+    if premature_exit is not None:
+        raise GateError(
+            f"timeout/group fixture exited before deadline: {premature_exit}"
+        )
+    signal_isolated_process_group(kernel_pid, signal.SIGTERM)
+    timeout_exit = wait_for_child(kernel_pid, time.monotonic() + 5.0)
+    if timeout_exit is None:
+        signal_isolated_process_group(kernel_pid, signal.SIGKILL)
+        timeout_exit = wait_for_child(kernel_pid, time.monotonic() + 5.0)
+    if timeout_exit is None or timeout_exit == 0:
+        raise GateError(f"isolated timeout fixture was not terminated: {timeout_exit}")
+    worker_deadline = time.monotonic() + 5.0
+    while process_is_running(worker_pid) and time.monotonic() < worker_deadline:
+        time.sleep(0.05)
+    if process_is_running(worker_pid):
+        os.kill(worker_pid, signal.SIGKILL)
+        raise GateError("isolated timeout left a live worker outside the group reap")
+    return {
+        "post_prctl_parent_pid_race_check_kills_child": True,
+        "absolute_deadline_detects_live_child": True,
+        "timeout_SIGTERM_terminates_isolated_group": True,
+        "worker_parent_death_SIGKILL_prevents_orphan": True,
+        "timed_out_child_reaped": True,
+        "scientific_outcome_computed": False,
+    }
+
+
 def self_test() -> dict[str, object]:
     bindings = replay_static_bindings()
     resource_estimates = validate_preflight_resource_estimates()
@@ -2321,6 +3147,9 @@ def self_test() -> dict[str, object]:
         "cache_mutation": self_test_cache_mutation(),
         "evaluator": self_test_fast_evaluator(runner, preflight, g75, family),
         "logic": self_test_logic(),
+        "git_anchor": self_test_git_anchor(),
+        "entry_capability": self_test_entry_capability(),
+        "process_boundary": self_test_process_boundary(),
         "all_18582_columns_in_actual_runner": True,
         "price_filtering_in_actual_runner": False,
         "actual_quotient_or_rank_evaluated": False,
@@ -2335,14 +3164,12 @@ def parse_arguments() -> argparse.Namespace:
     mode.add_argument("--self-test", action="store_true")
     mode.add_argument("--check-registration", action="store_true")
     mode.add_argument("--run", action="store_true")
-    mode.add_argument("--internal-run", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--preregistration", type=Path)
+    parser.add_argument("--preregistration-commit")
     parser.add_argument("--expected-runner-sha256")
     parser.add_argument("--expected-preregistration-sha256")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--cache-dir", type=Path)
-    parser.add_argument("--internal-scratch-output", type=Path, help=argparse.SUPPRESS)
-    parser.add_argument("--internal-token", help=argparse.SUPPRESS)
     return parser.parse_args()
 
 
@@ -2351,12 +3178,11 @@ def main() -> None:
     if arguments.self_test:
         extras = (
             arguments.preregistration,
+            arguments.preregistration_commit,
             arguments.expected_runner_sha256,
             arguments.expected_preregistration_sha256,
             arguments.output,
             arguments.cache_dir,
-            arguments.internal_scratch_output,
-            arguments.internal_token,
         )
         if any(value is not None for value in extras):
             raise GateError("--self-test refuses registered/internal arguments")
@@ -2364,11 +3190,6 @@ def main() -> None:
         return
     registration = validate_registration(arguments)
     if arguments.check_registration:
-        if (
-            arguments.internal_scratch_output is not None
-            or arguments.internal_token is not None
-        ):
-            raise GateError("registration check refuses internal arguments")
         bindings = replay_static_bindings()
         print(
             json.dumps(
@@ -2377,6 +3198,7 @@ def main() -> None:
                     "result": "PASS",
                     "runner_sha256": registration.runner_sha256,
                     "preregistration_sha256": registration.sha256,
+                    "git_anchor": registration.git_anchor.receipt(),
                     "bindings": bindings,
                     "output_unused": True,
                     "actual_quotient_or_rank_evaluated": False,
@@ -2385,50 +3207,6 @@ def main() -> None:
             )
         )
         return
-    if arguments.internal_run:
-        if (
-            arguments.internal_scratch_output is None
-            or arguments.internal_token is None
-            or not secrets.compare_digest(
-                arguments.internal_token, os.environ.get("G0081_INTERNAL_TOKEN", "")
-            )
-        ):
-            raise GateError("internal kernel lacks launcher's one-time token")
-        scratch = arguments.internal_scratch_output
-        require_contained(scratch)
-        if scratch.exists() or scratch.is_symlink():
-            raise GateError("refusing to overwrite internal scratch output")
-        begun = time.monotonic()
-        start_custody = capture_custody(registration.runner_sha256, registration.path)
-        try:
-            report = internal_kernel(registration, scratch)
-        except (MemoryError, OSError, TimeoutError) as error:
-            # Resource exhaustion is an explicit non-outcome.  Serialize it in
-            # the child so the public launcher can preserve the same custody
-            # checks and exclusive final-output transaction as a normal result.
-            report = resource_unresolved_report(
-                registration,
-                f"{type(error).__name__}: {error}",
-                begun,
-                start_custody,
-            )
-            write_json_exclusive(scratch, report)
-        print(
-            json.dumps(
-                {
-                    "schema": SCHEMA_RESULT,
-                    "result": report["scientific_payload"]["result"],
-                    "scientific_payload_sha256": report["scientific_payload_sha256"],
-                },
-                sort_keys=True,
-            )
-        )
-        return
-    if (
-        arguments.internal_scratch_output is not None
-        or arguments.internal_token is not None
-    ):
-        raise GateError("public run refuses internal arguments")
     report = public_run(registration)
     print(
         json.dumps(

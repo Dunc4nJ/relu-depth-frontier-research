@@ -45,11 +45,28 @@ The call mutates `A` to RREF and returns its rank. The runner never invokes
 the `python-flint` bulk matrix constructor and never switches to CEGIS or a
 price-selected subdictionary.
 
-## Input custody
+## Input and preregistration custody
 
-The run binds the following exact inputs. Every file-level binding is rehashed
-at start and end; embedded scientific-payload hashes and independently
-recomputed semantic hashes are checked at their relevant gates:
+The preregistration is not accepted merely because the caller supplies its
+SHA-256. The caller must also supply one full Git commit ID. Before execution,
+the runner proves all of the following:
+
+- the commit exists and is an ancestor of the exact execution `HEAD`;
+- the preregistration is a regular tracked blob at both that commit and `HEAD`;
+- the anchor blob, `HEAD` blob, and live preregistration bytes are identical;
+- the runner's `HEAD` blob and live source bytes are identical;
+- scoped `git status` for the runner and preregistration is empty, rejecting
+  dirty, staged, deleted, and untracked versions.
+
+The exact anchor commit, execution `HEAD`, Git object format, preregistration
+blob IDs, runner blob ID, and SHA-256 values enter start/end custody and every
+cache/result receipt. Any `HEAD` movement or byte/status drift during execution
+fails closed. This establishes commit-before-computation precedence; a content
+hash alone would not.
+
+The run additionally binds the following exact inputs. Every file-level
+binding is rehashed at start and end; embedded scientific-payload hashes and
+independently recomputed semantic hashes are checked at their relevant gates:
 
 | Input | SHA-256 |
 |---|---|
@@ -150,11 +167,29 @@ The frozen preflight records:
 
 Execution requires at least 12 GiB available RAM and 12 GiB free disk, with a
 larger dynamic disk requirement when caches are absent. The complete kernel
-runs in a new process group. At six hours the launcher terminates that group
-and writes `RESOURCE_UNRESOLVED`; it never silently substitutes CEGIS. Native
-matrices are confined to the child and cleared on every normal path. An
-in-child `MemoryError`, `OSError`, or `TimeoutError` is likewise serialized as
+runs in a new session/process group. The CLI exposes only `--self-test`,
+`--check-registration`, and `--run`; there is no direct internal execution
+mode. While holding the exclusive cache lock, the public wrapper forks the
+kernel and sends a random one-shot frame through an inherited anonymous pipe.
+Before any scientific work, the child verifies and closes that pipe, verifies
+its fork parent PID and inherited lock ownership, and rejects capability reuse.
+
+The child arms Linux `PR_SET_PDEATHSIG=SIGKILL` and rechecks its parent PID to
+close the fork/parent-death race. Each later fork worker independently arms the
+same death signal against the kernel parent. Thus a wrapper crash cannot leave
+the kernel or cache workers running; ordinary `Pool.terminate()` behavior is
+restored in workers. A parent-side exception or cancellation also kills and
+reaps the child before releasing the lock. At the absolute six-hour deadline
+the wrapper terminates and reaps the isolated group and writes
+`RESOURCE_UNRESOLVED`; it never silently substitutes CEGIS. Native matrices are
+confined to the child and cleared on every normal path. An in-child
+`MemoryError`, `OSError`, or `TimeoutError` is likewise serialized as
 `RESOURCE_UNRESOLVED`, with no membership or separation claim.
+
+This protocol proves precedence for artifacts accepted by this committed
+runner. It cannot prove that nobody independently computed the same mathematics
+with altered code or an older checkout; that broader operational claim requires
+external audit and custody, not a local program alone.
 
 ## Self-test and registration
 
@@ -167,11 +202,19 @@ The source-only self-test is safe to run now:
 It covers native multiplication, in-place FLINT RREF member/separator
 fixtures, target-last pivot scanning, free-zero solving, rank-full-Q logic,
 cache mutation rejection, price-row scalar logic, and nine tiny non-outcome
-fast/frozen/nested evaluator entries. It evaluates no actual quotient or
+fast/frozen/nested evaluator entries. Must-fail controls reject a dirty runner,
+dirty or untracked preregistration, clean post-anchor preregistration mutation,
+the removed internal CLI, direct `internal_kernel(..., capability=None)`, and
+capability FD reuse. Fork fixtures exercise inherited lock proof, the
+post-`prctl` parent-death race, absolute timeout detection, process-group
+termination, worker death, and child reap. They evaluate no actual quotient or
 rank.
 
 Public `--run` cannot execute without a separately committed preregistration
 whose exact bytes and expected runner hash are both supplied on the CLI. That
-artifact must bind the output path, cache directory, all hashes, dimensions,
-resource gates, stage order, eight workers, and the prohibition on price
-filtering. This candidate intentionally does not create that preregistration.
+invocation must also supply the full commit ID anchoring the preregistration via
+`--preregistration-commit`. The artifact must bind the output path, cache
+directory, all hashes, dimensions, resource gates, stage order, eight workers,
+the committed-Git registration protocol, the fork-capability execution
+protocol, and the prohibition on price filtering. This candidate intentionally
+does not create that preregistration.
