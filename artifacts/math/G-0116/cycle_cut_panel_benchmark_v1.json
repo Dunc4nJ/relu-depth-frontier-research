@@ -1,0 +1,123 @@
+{
+  "schema": "max11-g0116-cycle-cut-panel-benchmark-v1",
+  "result": "PASS_ACCELERATOR_GATE",
+  "claim_boundary": "Exact evaluator equivalence and performance on frozen controls only; no target membership, global identity, completeness theorem, or MAX11 result.",
+  "bindings": {
+    "input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "producer": "875b0046e24f32d9649fe0d9c5295dfbd75678fea46df96f6d9f287c6a987bfd",
+    "rows": "0b849d7dbb171367d9a55ad4b6da4631b4278caa38d9b5f9cbda04c6cb80535c"
+  },
+  "controls": [
+    {
+      "sequence": 0,
+      "signed_mass": 4,
+      "active_vertices": 8,
+      "abs_beta": 0,
+      "feedback_vertices": 0,
+      "cycle_cut_states": 3957,
+      "exhaustive_states": 3957,
+      "cycle_cut_seconds": 0.006585376,
+      "exhaustive_seconds": 0.004735675,
+      "speedup": 0.7191199105411749,
+      "panel_vector_sha256": "f09264dcc0b2d4bd3c9513b82b66aee22cd52cfe380e592f42cf7c5a454a3c58"
+    },
+    {
+      "sequence": 1,
+      "signed_mass": 5,
+      "active_vertices": 10,
+      "abs_beta": 1,
+      "feedback_vertices": 1,
+      "cycle_cut_states": 10820,
+      "exhaustive_states": 10820,
+      "cycle_cut_seconds": 0.006810054,
+      "exhaustive_seconds": 0.101298059,
+      "speedup": 14.874780581769247,
+      "panel_vector_sha256": "20aae137437ff17f5bac7f85b4e0be62655731be66f741c1889467d731052c94"
+    },
+    {
+      "sequence": 3,
+      "signed_mass": 5,
+      "active_vertices": 11,
+      "abs_beta": 1,
+      "feedback_vertices": 1,
+      "cycle_cut_states": 19493,
+      "exhaustive_states": 19493,
+      "cycle_cut_seconds": 0.014182986,
+      "exhaustive_seconds": 0.417658674,
+      "speedup": 29.44786619686433,
+      "panel_vector_sha256": "475f46c40f0ee5994d15d5f36140fe78c20f6aaf46857b95be2b142f5a8d2099"
+    },
+    {
+      "sequence": 284,
+      "signed_mass": 3,
+      "active_vertices": 7,
+      "abs_beta": 1,
+      "feedback_vertices": 1,
+      "cycle_cut_states": 1130,
+      "exhaustive_states": 1130,
+      "cycle_cut_seconds": 0.001208609,
+      "exhaustive_seconds": 0.001126978,
+      "speedup": 0.9324587190729178,
+      "panel_vector_sha256": "cc617c5722253273c0dd29496b7cbf9e908e09d13ee5b50a4aea7475dbc1f559"
+    },
+    {
+      "sequence": 5341,
+      "signed_mass": 1,
+      "active_vertices": 3,
+      "abs_beta": 0,
+      "feedback_vertices": 0,
+      "cycle_cut_states": 40,
+      "exhaustive_states": 40,
+      "cycle_cut_seconds": 0.000024916,
+      "exhaustive_seconds": 4.097e-6,
+      "speedup": 0.16443249317707498,
+      "panel_vector_sha256": "2edd9faf75a4960c4c1e03338710c46257fa57469a828aaa4a3831661bedba39"
+    },
+    {
+      "sequence": 30223,
+      "signed_mass": 0,
+      "active_vertices": 0,
+      "abs_beta": 0,
+      "feedback_vertices": 0,
+      "cycle_cut_states": 1,
+      "exhaustive_states": 1,
+      "cycle_cut_seconds": 1.91e-7,
+      "exhaustive_seconds": 1.8e-7,
+      "speedup": 0.9424083769633508,
+      "panel_vector_sha256": "0d4f4459bb76732cd4f10aeee1850c81bfed70537c792980eec4d187a8e4e395"
+    },
+    {
+      "sequence": 133449,
+      "signed_mass": 5,
+      "active_vertices": 10,
+      "abs_beta": 3,
+      "feedback_vertices": 2,
+      "cycle_cut_states": 11921,
+      "exhaustive_states": 11921,
+      "cycle_cut_seconds": 0.009991896,
+      "exhaustive_seconds": 0.223094918,
+      "speedup": 22.327586075755793,
+      "panel_vector_sha256": "e33be8f4531de9d063e129be88ecfe35049a0cfb531e63efd468c0ee266a65a7"
+    },
+    {
+      "sequence": 134301,
+      "signed_mass": 2,
+      "active_vertices": 4,
+      "abs_beta": 0,
+      "feedback_vertices": 0,
+      "cycle_cut_states": 85,
+      "exhaustive_states": 85,
+      "cycle_cut_seconds": 0.000061764,
+      "exhaustive_seconds": 0.000013245,
+      "speedup": 0.2144453079463765,
+      "panel_vector_sha256": "66ed0bc898b1a38da30e030b6ba08c10c76b9a1c4062bad4c6dd074fd34ff8f8"
+    }
+  ],
+  "median_cyclic_active10_11_speedup": 22.327586075755793,
+  "all_histograms_exact": true,
+  "all_panel_vectors_exact": true,
+  "all_formal_assignment_censuses_exact": true,
+  "branch_swap_preserved": true,
+  "edge_sign_mutant_rejected": true,
+  "wall_seconds": 1.6565261709999999
+}
