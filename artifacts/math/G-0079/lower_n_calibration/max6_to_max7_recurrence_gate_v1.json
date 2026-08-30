@@ -1,0 +1,2435 @@
+{
+  "claim": "MAX7 is not in the rational column span of the displayed eleven-column source-coefficient recurrence on the ten frozen symmetric profiles.",
+  "claim_boundary": "This is finite-row nonmembership for one inherited coefficient class. It is not a statement about arbitrary per-orbit cross+same Y-spoke coefficients, base-specific rules, additional carriers, lifts of ineligible source terms, the registered G-0079 experiment, or unrestricted two-hidden-layer networks.",
+  "decision": "The displayed grouped source-coefficient recurrence is rejected already by this ten-profile exact gate; Boolean membership was interpolation.",
+  "environment": {
+    "platform": "Linux-6.17.0-14-generic-x86_64-with-glibc2.42",
+    "python": "3.13.7"
+  },
+  "exact_gate": {
+    "augmented_rank": 10,
+    "coefficient_field": "Q",
+    "dual_annihilation": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "dual_row_order": [
+      "B1",
+      "B2",
+      "B3",
+      "B4",
+      "B5",
+      "B6",
+      "B7",
+      "P012",
+      "P013",
+      "P023"
+    ],
+    "dual_target_pairing": "17",
+    "matrix": [
+      [
+        "1/180",
+        "1/180",
+        "-23/1120",
+        "-23/1120",
+        "11/2520",
+        "11/2520",
+        "-23/1680",
+        "-23/1680",
+        "1/7",
+        "2/7",
+        "4/7"
+      ],
+      [
+        "1/3780",
+        "1/756",
+        "-467/15120",
+        "-467/15120",
+        "1/2520",
+        "11/7560",
+        "-313/15120",
+        "-313/15120",
+        "2/7",
+        "11/21",
+        "22/21"
+      ],
+      [
+        "0",
+        "1/700",
+        "-219/5600",
+        "-219/5600",
+        "0",
+        "1/840",
+        "-661/25200",
+        "-661/25200",
+        "3/7",
+        "5/7",
+        "10/7"
+      ],
+      [
+        "0",
+        "0",
+        "-47/1050",
+        "-47/1050",
+        "0",
+        "1/2100",
+        "-757/25200",
+        "-757/25200",
+        "4/7",
+        "6/7",
+        "12/7"
+      ],
+      [
+        "0",
+        "0",
+        "-61/1260",
+        "-61/1260",
+        "0",
+        "0",
+        "-61/1890",
+        "-61/1890",
+        "5/7",
+        "20/21",
+        "40/21"
+      ],
+      [
+        "0",
+        "0",
+        "-1/20",
+        "-1/20",
+        "0",
+        "0",
+        "-1/30",
+        "-1/30",
+        "6/7",
+        "1",
+        "2"
+      ],
+      [
+        "0",
+        "0",
+        "-1/20",
+        "-1/20",
+        "0",
+        "0",
+        "-1/30",
+        "-1/30",
+        "1",
+        "1",
+        "2"
+      ],
+      [
+        "1/210",
+        "43/7560",
+        "-2999/60480",
+        "-2999/60480",
+        "1/240",
+        "23/5040",
+        "-1003/30240",
+        "-1003/30240",
+        "3/7",
+        "17/21",
+        "11/7"
+      ],
+      [
+        "11/1080",
+        "17/1512",
+        "-151/2160",
+        "-151/2160",
+        "13/1512",
+        "13/1512",
+        "-353/7560",
+        "-353/7560",
+        "4/7",
+        "23/21",
+        "15/7"
+      ],
+      [
+        "19/3780",
+        "53/7560",
+        "-139/1728",
+        "-139/1728",
+        "23/5040",
+        "13/2160",
+        "-407/7560",
+        "-407/7560",
+        "5/7",
+        "4/3",
+        "55/21"
+      ]
+    ],
+    "matrix_sha256": "81c2be9e9298a9f140b95056d2cf56487fc04d8ce1eab848d2e9cdab7b2b217d",
+    "matrix_shape": [
+      10,
+      11
+    ],
+    "prefix_rank_progression": [
+      {
+        "augmented_rank": 7,
+        "rank": 7,
+        "rows": 7,
+        "target_in_span": true,
+        "through_row": "B7"
+      },
+      {
+        "augmented_rank": 8,
+        "rank": 8,
+        "rows": 8,
+        "target_in_span": true,
+        "through_row": "P012"
+      },
+      {
+        "augmented_rank": 9,
+        "rank": 9,
+        "rows": 9,
+        "target_in_span": true,
+        "through_row": "P013"
+      },
+      {
+        "augmented_rank": 10,
+        "rank": 9,
+        "rows": 10,
+        "target_in_span": false,
+        "through_row": "P023"
+      }
+    ],
+    "primitive_integer_row_dual": [
+      2016,
+      50400,
+      -1240,
+      -3020,
+      -423,
+      6129,
+      -3229,
+      50616,
+      -2160,
+      -48456
+    ],
+    "rank": 9,
+    "target": [
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "2",
+      "3",
+      "3"
+    ],
+    "target_in_span": false,
+    "target_sha256": "1a180ae392d3da38b3c998c9bdcf9409e767d5b2132fe1e22b1dbdcd235d0948"
+  },
+  "family": {
+    "all_raw_seeds": 180,
+    "base_manifest": [
+      {
+        "coefficient": "1/360",
+        "components": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        "left": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "position": 0,
+        "right": [
+          [
+            1,
+            4
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        "term_index": 1,
+        "topology": [
+          2,
+          4
+        ]
+      },
+      {
+        "coefficient": "-1/1440",
+        "components": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4,
+            5,
+            6
+          ]
+        ],
+        "left": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "position": 1,
+        "right": [
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ],
+        "term_index": 2,
+        "topology": [
+          3,
+          3
+        ]
+      },
+      {
+        "coefficient": "-1/360",
+        "components": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        "left": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "position": 2,
+        "right": [
+          [
+            1,
+            3
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        "term_index": 3,
+        "topology": [
+          2,
+          4
+        ]
+      }
+    ],
+    "base_manifest_sha256": "74a8e969477ef70128aaeec63e0313916741cfbe0b36064278c7d9bfe602984a",
+    "coefficient_class": "each raw seed inherits its eligible source certificate coefficient, then one rational multiplier is free per relation x unordered component topology x outer orientation; C_L/C_E/C_Y have independent multipliers",
+    "column_order": [
+      "cross_2+4_o0",
+      "cross_2+4_o1",
+      "cross_3+3_o0",
+      "cross_3+3_o1",
+      "same_2+4_o0",
+      "same_2+4_o1",
+      "same_3+3_o0",
+      "same_3+3_o1",
+      "C_L",
+      "C_E",
+      "C_Y"
+    ],
+    "cross_raw_seeds": 100,
+    "eligible_base_definition": "two sides of two edges whose four-edge union has no loop or duplicate, uses every label 1..6, and is a two-component forest",
+    "eligible_bases": 3,
+    "eligible_term_indices": [
+      1,
+      2,
+      3
+    ],
+    "grouped_raw_seed_census": [
+      {
+        "count": 32,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "count": 32,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "count": 18,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "count": 18,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "count": 28,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "count": 28,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "count": 12,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "count": 12,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      }
+    ],
+    "ineligible_source_terms_by_reason": {
+      "duplicate_edge": 1
+    },
+    "raw_seed_definition": "for each eligible base, every ordered distinct anchor/auxiliary pair in 1..6 and both outer orientations",
+    "raw_seed_manifest": [
+      {
+        "anchor": 1,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 6,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 1,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 2,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 3,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 4,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 5,
+        "base_position": 0,
+        "base_term_index": 1,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 6,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 1,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 2,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 3,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 4,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 5,
+        "base_position": 1,
+        "base_term_index": 2,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "3+3"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 1,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 2,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 3,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 4,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 5,
+        "auxiliary": 6,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 1,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 2,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 3,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 4,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "cross",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 0,
+        "relation": "same",
+        "topology": "2+4"
+      },
+      {
+        "anchor": 6,
+        "auxiliary": 5,
+        "base_position": 2,
+        "base_term_index": 3,
+        "orientation": 1,
+        "relation": "same",
+        "topology": "2+4"
+      }
+    ],
+    "raw_seed_manifest_sha256": "81aeffc02a9462d12429e2b3dc3aec49d946a6087a9a8a50e3bf65c438a806cc",
+    "same_raw_seeds": 80,
+    "topology_census": {
+      "2+4": 2,
+      "3+3": 1
+    }
+  },
+  "hostile_mutation": {
+    "changed_entry_coordinates": [
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        1,
+        7
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        4,
+        7
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        0
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        7,
+        5
+      ],
+      [
+        7,
+        6
+      ],
+      [
+        7,
+        7
+      ],
+      [
+        8,
+        0
+      ],
+      [
+        8,
+        1
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        8,
+        3
+      ],
+      [
+        8,
+        4
+      ],
+      [
+        8,
+        5
+      ],
+      [
+        8,
+        6
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        9,
+        0
+      ],
+      [
+        9,
+        2
+      ],
+      [
+        9,
+        3
+      ],
+      [
+        9,
+        4
+      ],
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        6
+      ],
+      [
+        9,
+        7
+      ]
+    ],
+    "changed_matrix_entries": 49,
+    "detected": true,
+    "frozen_dual_pairings_with_mutant_columns": [
+      "-2/7",
+      "-16/15",
+      "-1213/5040",
+      "-1213/5040",
+      "703/210",
+      "-286/315",
+      "13/20",
+      "13/20",
+      "0",
+      "0",
+      "0"
+    ],
+    "interpretation": "the row subject is unchanged, but the frozen dual ceases to annihilate the mutated semantics",
+    "mutant_matrix_sha256": "faab2867ccc2d3f032430938ae39ad939804b7d997bb6b2fe438374078e6edc0",
+    "name": "replace doubled-anchor coefficient 2 by 1 in both Y arms"
+  },
+  "input": {
+    "parser": {
+      "path": "cleanroom/maxrelu/model.py",
+      "sha256": "320c3e99d45f881472a19bfa3d406b9b6a3ff6ebc6a1de211d0062a7299a325a"
+    },
+    "source_certificate": {
+      "k": 2,
+      "n": 6,
+      "normalized_sha256": "b5e5ca7eb0e69a88d988285e847da6816b7eda07aff5664fef2b3b527e14daaa",
+      "path": "subjects/max-relu-known/certificates/certificate_6_2.json",
+      "raw_sha256": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+      "subject_id": "MAX6-k2",
+      "terms": 4
+    },
+    "target_certificate": {
+      "k": 3,
+      "n": 7,
+      "normalized_sha256": "bc2ec7ed82d98f24d1480a72d0899e2c8d4c7075fb3a167616c860d815931448",
+      "path": "subjects/max-relu-known/certificates/certificate_7_3.json",
+      "raw_sha256": "b79aaaf423187cf5aaa51c9272799bf36198759dd018a1a286716cce7b1b53be",
+      "role": "pinned context for the already-certified MAX7 target; the gate target values are evaluated directly from max(x_1,...,x_7)",
+      "subject_id": "MAX7-k3",
+      "terms": 57
+    }
+  },
+  "price_custody": "This producer imports no G-0078/G-0079 price artifact and does not evaluate any G-0079 new-family price.",
+  "producer_sha256": "67bf170730990ad985c88b9a556b272243125a163444849876904d0b6323aa91",
+  "row_subject": {
+    "conceptual_seed_point_evaluations": 45540,
+    "distinct_assignment_counts": [
+      7,
+      21,
+      35,
+      35,
+      21,
+      7,
+      1,
+      42,
+      42,
+      42
+    ],
+    "minimality_boundary": "P012 and P013 each raise both ranks; P023 is the first row in this declared sequence that raises only augmented rank. No global search for a smaller separating profile set was performed.",
+    "normalization": "each labelled seed is averaged over every distinct assignment of the profile multiset, exactly equal to its full S_7 average",
+    "profiles": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        3
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        3
+      ]
+    ],
+    "row_order": [
+      "B1",
+      "B2",
+      "B3",
+      "B4",
+      "B5",
+      "B6",
+      "B7",
+      "P012",
+      "P013",
+      "P023"
+    ],
+    "total_distinct_assignments": 253
+  },
+  "schema": "max7-y-spoke-lower-n-recurrence-gate-v1",
+  "scientific_payload_sha256": "47b5f00067668b010c89b5485525c626bac26c70ce20015ded73fdf20ec9c036"
+}
