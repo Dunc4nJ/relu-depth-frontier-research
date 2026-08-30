@@ -301,6 +301,36 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only. The replay is a fresh-context same-model-lineage T1 implementation, not T2 or human review, and it reconstructs only the selected witness columns rather than the complete 8,107-column matrix.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0030@1 — boundary-claim [mathematics]
+
+> For the frozen 1,378 by 8,107 integer system consisting of the 364 G-0073 rows plus all 78 three-colour profiles at all thirteen Farey-F6 spacings, one shared 443-term rational vector (442 Y-spoke orbit columns plus C_E) has exact zero residual on every row. The registered switch-form enumeration proves those nodes contain every possible breakpoint, so translation covariance and positive homogeneity extend the identity to every real input with at most three distinct coordinate values. A disjoint clean-room implementation independently replays the same vector on all 1,378 registered rows and 936 open-interval midpoint rows.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:c6662233
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0030@1`
+- falsifier: One frozen subject, orbit, row, target, normalization, producer, or backend binding drift; one nonzero exact witness residual on a registered or midpoint row; one missing switch root outside Farey F6; one failed translation/homogeneity degree; or one selected-descriptor mismatch in the clean-room replay.
+- no-claim: This establishes equality only on the at-most-three-valued locus. It is not equality on four-or-more-valued inputs, a global CPWL identity, a compiled two-hidden-layer MAX11 network, or an unrestricted depth theorem. The producer has an exact rank-460 lower-bound minor and modular rank 460 at three primes; the clean-room audit independently establishes only rank 444 because seventeen zero-coefficient pivot descriptors are absent from the sparse artifact. No exact full-matrix rank upper bound is claimed.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0031@1 — implementation-claim [mathematics]
+
+> G-0074 all-spacings three-level gate v1 is identified by frozen producer SHA-256 269472b1eaeb38db852f92e0587243bba6429a300a7acdd35e0930a6b235f10d, preflight scientific payload fc166ac93a268c54c85c9e15f43fcd9c0cfba16b3ebb4d3c3951df39c3c188df, complete registered compressed outcome, row manifest, and canonical subject environment manifest.
+
+- disposition: **open** · trace:b3cb5522
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0031@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes neither a global MAX11 construction nor correctness beyond the frozen subject, nodes, exact replay contracts, and principal backend entrypoints.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0032@1 — implementation-claim [mathematics]
+
+> G-0074 clean-room semantic replay v1 is identified by standalone replayer SHA-256 29142b4d905527082efcd0f8001feeec1c93e76e2dada768ee97c7ebbcad0de3, the registered outcome bytes it binds, and audit receipt SHA-256 4baae77f8190d388c88a64f6552da544b61add9561ccc695b4d3bb0231d95706.
+
+- disposition: **open** · trace:5cf5bb18
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0032@1`
+- falsifier: —
+- no-claim: Identity only. The replay is fresh-context same-model-lineage T1 evidence, not T2 or human review. It reconstructs the 443 selected witness columns and C_L, not the complete 8,107-column matrix or the producer's full 460-column pivot minor.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.

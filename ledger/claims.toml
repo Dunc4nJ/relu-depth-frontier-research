@@ -422,3 +422,45 @@ env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80e
 data_snapshot = "sha256:6aee8e8b5002df5d7627214e96e2008668ca244d4cdbba934153bef8341c77af"
 author_path = "correction-author/crimsonbirch"
 created = 2026-08-30T04:16:29Z
+
+[[claim]]
+id = "C-0030"
+version = 1
+statement = "For the frozen 1,378 by 8,107 integer system consisting of the 364 G-0073 rows plus all 78 three-colour profiles at all thirteen Farey-F6 spacings, one shared 443-term rational vector (442 Y-spoke orbit columns plus C_E) has exact zero residual on every row. The registered switch-form enumeration proves those nodes contain every possible breakpoint, so translation covariance and positive homogeneity extend the identity to every real input with at most three distinct coordinate values. A disjoint clean-room implementation independently replays the same vector on all 1,378 registered rows and 936 open-interval midpoint rows."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0031@1", "C-0032@1"]
+falsifier = "One frozen subject, orbit, row, target, normalization, producer, or backend binding drift; one nonzero exact witness residual on a registered or midpoint row; one missing switch root outside Farey F6; one failed translation/homogeneity degree; or one selected-descriptor mismatch in the clean-room replay."
+no_claim = "This establishes equality only on the at-most-three-valued locus. It is not equality on four-or-more-valued inputs, a global CPWL identity, a compiled two-hidden-layer MAX11 network, or an unrestricted depth theorem. The producer has an exact rank-460 lower-bound minor and modular rank 460 at three primes; the clean-room audit independently establishes only rank 444 because seventeen zero-coefficient pivot descriptors are absent from the sparse artifact. No exact full-matrix rank upper bound is claimed."
+not_equivalent_to = ["a global MAX11 representation", "a network compiler certificate", "membership on genuinely four-valued inputs", "an unrestricted two-hidden-layer upper or lower bound", "T2 or human review"]
+origin_round = "R-0001"
+author_path = "exact-continuum-author/crimsonbirch"
+created = 2026-08-30T06:28:18Z
+
+[[claim]]
+id = "C-0031"
+version = 1
+statement = "G-0074 all-spacings three-level gate v1 is identified by frozen producer SHA-256 269472b1eaeb38db852f92e0587243bba6429a300a7acdd35e0930a6b235f10d, preflight scientific payload fc166ac93a268c54c85c9e15f43fcd9c0cfba16b3ebb4d3c3951df39c3c188df, complete registered compressed outcome, row manifest, and canonical subject environment manifest."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this record establishes neither a global MAX11 construction nor correctness beyond the frozen subject, nodes, exact replay contracts, and principal backend entrypoints."
+origin_round = "R-0001"
+code_hash = "sha256:269472b1eaeb38db852f92e0587243bba6429a300a7acdd35e0930a6b235f10d"
+env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
+data_snapshot = "sha256:fc166ac93a268c54c85c9e15f43fcd9c0cfba16b3ebb4d3c3951df39c3c188df"
+author_path = "implementation-author/crimsonbirch"
+created = 2026-08-30T06:28:18Z
+
+[[claim]]
+id = "C-0032"
+version = 1
+statement = "G-0074 clean-room semantic replay v1 is identified by standalone replayer SHA-256 29142b4d905527082efcd0f8001feeec1c93e76e2dada768ee97c7ebbcad0de3, the registered outcome bytes it binds, and audit receipt SHA-256 4baae77f8190d388c88a64f6552da544b61add9561ccc695b4d3bb0231d95706."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only. The replay is fresh-context same-model-lineage T1 evidence, not T2 or human review. It reconstructs the 443 selected witness columns and C_L, not the complete 8,107-column matrix or the producer's full 460-column pivot minor."
+origin_round = "R-0001"
+code_hash = "sha256:29142b4d905527082efcd0f8001feeec1c93e76e2dada768ee97c7ebbcad0de3"
+env_digest = "sha256:12ad4b74f2736a883c562389d6ac50089ea07d5182593c7f75d564af80eb2a7c"
+data_snapshot = "sha256:5de36fa1cf39d8524577cdc681b68220c9e807670aef7b14595e8b380bcd4fcb"
+author_path = "cleanroom-implementation-author/azurehill"
+created = 2026-08-30T06:28:18Z
