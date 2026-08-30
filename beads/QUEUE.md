@@ -23,6 +23,6 @@ partial/non-campaign workspace may not yet have both, but disagreement when both
 - [x] G-0004 Reconstruct and statement-match the complete skip-free indexed compiler. (dropped: deprioritized after the bounded theorem; gap remains open)
 - [x] H-0001 Build a split-6 exact pricing oracle for cross-component columns and seek a new dual for the enlarged family. (dropped: superseded on the critical path by the exact full-core signed-mass-four gate; route H-0001 remains active)
 - [x] G-0007 Obtain a genuinely different-family or human review of the frozen bounded theorem bundle. (dropped: still open but not on the active mathematical critical path)
-- [ ] G-0008 Determine the complete degree-four hinge/Lambda rank gain for the signed-mass-four family with sparse or streamed exact semantics. (claimed-by: research-lead/crimsonbirch)
+- [ ] G-0008 Run the exact lower-degree quotient gate on all 526 zero-high natural lifts, exact-replay any potent kernel, and independently replay the natural high-degree sketch deficiency. (claimed-by: research-lead/crimsonbirch)
 - [ ] G-0006 Prove a completeness bridge for the finite pair-orbit ansatz or find an asymmetric escape relevant to unrestricted MAX11. (claimed-by: research-lead/crimsonbirch)
-- [ ] EXP-0008 Execute the preregistered resumable natural-lift census and one-sided nonzero-high rank gate over all 11,542 genuine columns. (claimed-by: research-lead/crimsonbirch)
+- [x] EXP-0008 Execute the preregistered resumable natural-lift census and one-sided nonzero-high rank gate over all 11,542 genuine columns. (completed: exact 526/11,016 partition; sketch rank 6,626 is deficient and strictly inconclusive pending complete-row replay)

@@ -166,8 +166,9 @@ does two independent semantic passes and does not create the large cache:
   --output artifacts/math/G-0068/single_edge_degree5_kernel_gate_smoke_v1.json.gz
 ```
 
-The full run has not been launched.  It requires an explicit `--full`, always
-persists its resumable cache, and refuses `--no-write`:
+The frozen full run was launched only after EXP-0008 was committed.  It
+requires an explicit `--full`, always persists its resumable cache, and refuses
+`--no-write`:
 
 ```bash
 .venv/bin/python -B artifacts/math/G-0068/single_edge_degree5_kernel_gate.py \
@@ -177,8 +178,9 @@ persists its resumable cache, and refuses `--no-write`:
   --output artifacts/math/G-0068/single_edge_degree5_kernel_gate_v1.json.gz
 ```
 
-Do not launch that command until its observed smoke/preflight behavior has
-been reviewed.
+The frozen output path now exists and is immutable, so the command fails closed
+rather than overwriting the report.  A replay must use a fresh direct-child
+output path while reusing and validating the existing cache.
 
 ## Executed smoke result
 
@@ -188,10 +190,9 @@ zeros; the remaining three-column block had sketch rank three.  The spawned
 stream and independent direct second pass agreed on all 5,065 nonzero rows in
 their complete sample union, including a coefficient-`+1` mutation control.
 
-The full-run planning report for a `16,384 x 11,542` `uint32` sketch is 0.704
+The full-run planning report for a `16,384 x 11,542` `uint32` sketch was 0.704
 GiB for the persisted matrix and 10.45 GiB conservative peak under the current
-Python-to-FLINT bridge.  This is an estimate, not a memory bound.  The full run
-was not started.
+Python-to-FLINT bridge.  This was a planning estimate, not a memory bound.
 
 Frozen hashes:
 
@@ -202,15 +203,58 @@ single_edge_degree5_kernel_gate_smoke_v1.json.gz
   acd480159ca760b29914c48691b3a3899a972db6e25a038f563a7e911189065b
 ```
 
+## Executed full result
+
+The complete semantic census finished in 2,646.79 seconds.  It regenerated all
+11,542 genuine-mass-five columns, partitioned exactly 526 zero-high columns and
+11,016 nonzero-high columns, and then ranked the frozen deterministic sketch of
+the nonzero-high block:
+
+```text
+nonzero-high columns          11,016
+sketch rank mod 1,000,003      6,626
+displayed sketch deficiency    4,390
+result                         INCONCLUSIVE_PENDING_COMPLETE_ROW_KERNEL_REPLAY
+```
+
+This is not a 4,390-dimensional kernel of the complete matrix.  Left sketching
+can lower rank, so the deficiency is only a trigger for a second map or exact
+complete-row kernel replay.  It proves neither a construction nor an
+obstruction.
+
+The zero-high block is exact rather than sketch-inferred.  All 526 columns are
+same-family.  Their ordered subject-index digest is
+`b7be6bac98d5600cd4901ec3234ef3182504237ffda4f336da164cef380ab441`.
+An independent alternating-cycle structure verifier produced the same ordered
+class list and matched all 526 complete semantic-column digests; no cross-family
+zero-high column exists in this pinned family.
+
+Frozen output hashes:
+
+```text
+single_edge_degree5_kernel_gate_v1.json.gz
+  08c6d3e180abe3c41be00a1db70c9829b736db68c8c7285fe7eecb8568ec1d35
+single_edge_degree5_sketch_cache_v1/manifest.json.gz
+  c4ec8058ef1e27d6eeaab70724cd5e28d9ae3125c6f669e144eb3f4be1690433
+zero_high_structure_verifier_v1.json.gz
+  fb909ed5f675b6b937e26e5929033513e3da6f3294e0df8e934b91dcd4ebe444
+```
+
+The immediate constructive gate is therefore the joint exact lower-degree
+quotient of all 526 zero-high columns against the rank-1,288 S1 basis.  That
+test is logically independent of whether the 4,390 sketch deficiency survives
+complete-row replay: any exact relation with nonzero Boolean charge can be
+lifted and compiled immediately.
+
 ## Claim boundary
 
-The smoke artifact proves no construction, obstruction, or 11,542-column
-rank.  A future full-rank result would characterize only the high-degree
-kernel of this registered natural single-edge family.  The emitted zero-high
-columns remain potentially constructive and require an exact lower-degree
-quotient test.  A two-prime no-gain result there would still be modular
-evidence only; retirement requires an exact rational dual/row-span certificate
-or an exact-`Q` kernel basis whose entire target/charge pairing is zero.
+The full artifact proves the exact 526/11,016 zero/nonzero-high partition, but
+its deficient sketch characterizes no additional kernel.  The emitted
+zero-high columns remain potentially constructive and require an exact
+lower-degree quotient test.  A two-prime no-gain result there would still be
+modular evidence only; retirement requires an exact rational dual/row-span
+certificate or an exact-`Q` kernel basis whose entire target/charge pairing is
+zero.
 
 Nothing here covers the other active-11 mass-five atoms, higher signed masses,
 asymmetric atoms, or unrestricted two-hidden-layer ReLU networks.

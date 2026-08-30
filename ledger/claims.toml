@@ -238,3 +238,31 @@ not_equivalent_to = ["rank gain of the mass-four family", "a MAX_11 certificate"
 origin_round = "R-0001"
 author_path = "census-author/crimsonbirch"
 created = 2026-08-29T19:53:55Z
+
+[[claim]]
+id = "C-0019"
+version = 1
+statement = "Within the frozen 11,542 registered natural single-edge genuine-mass-five atoms, exactly 526 individual columns have identically zero degree-five-only ordered-cone normal form and all 526 are same-family. On the preregistered deterministic sketch, the other 11,016 columns have rank 6,626 modulo 1,000,003; that displayed sketch rank licenses no dependency of the complete matrix."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0020@1"]
+falsifier = "One registered-subject reconstruction mismatch, one omitted or extra zero-high column, one nonzero complete degree-five-only hinge in an emitted zero-high column, one cache/report binding drift, or an independently reproduced different rank for the frozen sketch matrix."
+no_claim = "Sketch deficiency may be caused by left sketching and is not a complete-matrix kernel certificate. This claim establishes no MAX_11 representation, no obstruction for the registered family, no completeness bridge, and no statement about asymmetric or unrestricted two-hidden-layer networks."
+not_equivalent_to = ["a 4,390-dimensional complete high-degree kernel", "a MAX_11 construction", "a natural-family obstruction", "an unrestricted two-hidden-layer result"]
+origin_round = "R-0001"
+author_path = "census-author/crimsonbirch"
+created = 2026-08-30T01:44:24Z
+
+[[claim]]
+id = "C-0020"
+version = 1
+statement = "Natural single-edge degree-five kernel gate v1 is identified by the frozen G-0068 script, complete input/subject snapshot, subject environment, immutable shard manifest, and output report."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this record establishes neither that the sketch preserves complete rank nor any MAX_11 construction or obstruction."
+origin_round = "R-0001"
+code_hash = "sha256:80b467fe65835a3d36c5adde9a87bb8191b38f69734718784db38f0b356a7f61"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:d1259c598dae8316a99178e511d76c0edfe420e23b3ad3e6d53f989c0e485297"
+author_path = "implementation-author/crimsonbirch"
+created = 2026-08-30T01:44:24Z

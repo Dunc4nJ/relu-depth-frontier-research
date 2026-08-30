@@ -191,6 +191,26 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: The census alone establishes neither a signed-mass-four construction nor an obstruction, and says nothing about unrestricted networks.
 - next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
 
+### C-0019@1 — boundary-claim [mathematics]
+
+> Within the frozen 11,542 registered natural single-edge genuine-mass-five atoms, exactly 526 individual columns have identically zero degree-five-only ordered-cone normal form and all 526 are same-family. On the preregistered deterministic sketch, the other 11,016 columns have rank 6,626 modulo 1,000,003; that displayed sketch rank licenses no dependency of the complete matrix.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:dc0e39bc
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0019@1`
+- falsifier: One registered-subject reconstruction mismatch, one omitted or extra zero-high column, one nonzero complete degree-five-only hinge in an emitted zero-high column, one cache/report binding drift, or an independently reproduced different rank for the frozen sketch matrix.
+- no-claim: Sketch deficiency may be caused by left sketching and is not a complete-matrix kernel certificate. This claim establishes no MAX_11 representation, no obstruction for the registered family, no completeness bridge, and no statement about asymmetric or unrestricted two-hidden-layer networks.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0020@1 — implementation-claim [mathematics]
+
+> Natural single-edge degree-five kernel gate v1 is identified by the frozen G-0068 script, complete input/subject snapshot, subject environment, immutable shard manifest, and output report.
+
+- disposition: **open** · trace:1abef1ea
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0020@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes neither that the sketch preserves complete rank nor any MAX_11 construction or obstruction.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -212,4 +232,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0005` [complete] family `max11-g0046-global-normal-form-falsification-v1` arm — prereg=True · trace:183cb157
 - `EXP-0006` [complete] family `max11-signed-mass-at-most-three-exact-q-obstruction-v1` arm — prereg=True · trace:fa9efa60
 - `EXP-0007` [complete] family `max11-signed-mass-four-full-core-census-v1` arm — prereg=True · trace:d2fb7ef9
-- `EXP-0008` [planned] family `max11-natural-single-edge-mass5-zero-high-census-v1` arm — prereg=True · trace:ff2593a4
+- `EXP-0008` [complete] family `max11-natural-single-edge-mass5-zero-high-census-v1` arm — prereg=True · trace:ff2593a4

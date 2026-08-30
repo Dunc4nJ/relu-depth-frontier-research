@@ -23,21 +23,19 @@ them against ledger, `phases/ROUNDS.md`, and Git before acting.
   every kernel vector has zero Lambda.  G-0054's independent clean-room audit
   hard-passes that bounded theorem.  This retires the seed-only route, not the
   132,728 proper mass-four atoms.
-- Live frontier: G-0057 adds the exact 488-column low-mass proper basis and
-  three old full seeds to the 867-column S0 basis.  Both frozen primes give
-  rank 1,288, nullity 70, and zero augmented gain.  G-0058 exactly refutes a
-  proposed support-eight vanishing shortcut: proper atom 92,489 is the uniform
-  coefficient-6,912 column on all 3,465 support-eight rows.  The active gate is
-  a Schur-quotient test of that atom and the 328 mass-four atoms induced by the
-  exact public MAX10 certificate before any broad heuristic block sweep.
+- Live frontier: EXP-0008 exactly partitions the 11,542 natural single-edge
+  mass-five columns into 526 zero-high and 11,016 nonzero-high columns.  The
+  latter have frozen sketch rank 6,626/11,016, which is strictly inconclusive
+  pending complete-row replay.  The shortest constructive gate is now G-0070:
+  jointly quotient all 526 exact zero-high lower normal forms by the exact
+  rank-1,288 S1 basis and test whether any kernel direction gains Lambda.
 - Unrestricted target: `C-0002@1` remains challenged and unproved; the bounded
   theorems supply no completeness bridge to arbitrary two-hidden-layer networks.
 - Clean-pass streak (P10 only): 0
 
 ## Next work queue (dual-written to `beads/QUEUE.md`)
-1. EXP-0008 — execute the preregistered resumable natural-lift census and one-sided nonzero-high rank gate over all 11,542 genuine columns.
-2. G-0008 — run the complete-row signed-mass-four rank-gain program, beginning with the exact lower-mass basis and 1,465 full cores.
-3. G-0006 — pursue a true normal-form/completeness bridge or an asymmetric escape from the finite pair-orbit ansatz.
+1. G-0008 — run the exact lower-degree quotient gate on all 526 zero-high natural lifts, then exact-replay any potent kernel; independently replay the natural high-degree sketch deficiency.
+2. G-0006 — pursue a true normal-form/completeness bridge or an asymmetric escape from the finite pair-orbit ansatz if the registered natural family is exhausted.
 
 `walk-consistency` compares the object-ID set on the real numbered lines above with the set on real
 unchecked lines in `beads/QUEUE.md`. Brace-slot lines are ignored line by line while this template is

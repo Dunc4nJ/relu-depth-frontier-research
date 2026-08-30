@@ -94,6 +94,6 @@ design = "Before outcome, freeze G-0068 script SHA-256 80b467fe65835a3d36c5adde9
 family = "max11-natural-single-edge-mass5-zero-high-census-v1"
 prereg = true
 result_summary = "No full-run outcome exists at preregistration. Self-test, exact-universe preflight, six-column semantic smoke, and independent cache generate/reuse audit passed; the registered subject run remains forbidden until this record is committed."
-status = "planned"
+status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T00:45:23Z
