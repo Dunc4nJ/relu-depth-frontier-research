@@ -35,8 +35,9 @@ them against ledger, `phases/ROUNDS.md`, and Git before acting.
 - Clean-pass streak (P10 only): 0
 
 ## Next work queue (dual-written to `beads/QUEUE.md`)
-1. G-0008 — run the complete-row signed-mass-four rank-gain program, beginning with the exact lower-mass basis and 1,465 full cores.
-2. G-0006 — pursue a true normal-form/completeness bridge or an asymmetric escape from the finite pair-orbit ansatz.
+1. EXP-0008 — execute the preregistered resumable natural-lift census and one-sided nonzero-high rank gate over all 11,542 genuine columns.
+2. G-0008 — run the complete-row signed-mass-four rank-gain program, beginning with the exact lower-mass basis and 1,465 full cores.
+3. G-0006 — pursue a true normal-form/completeness bridge or an asymmetric escape from the finite pair-orbit ansatz.
 
 `walk-consistency` compares the object-ID set on the real numbered lines above with the set on real
 unchecked lines in `beads/QUEUE.md`. Brace-slot lines are ignored line by line while this template is

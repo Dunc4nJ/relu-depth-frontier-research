@@ -25,3 +25,4 @@ partial/non-campaign workspace may not yet have both, but disagreement when both
 - [x] G-0007 Obtain a genuinely different-family or human review of the frozen bounded theorem bundle. (dropped: still open but not on the active mathematical critical path)
 - [ ] G-0008 Determine the complete degree-four hinge/Lambda rank gain for the signed-mass-four family with sparse or streamed exact semantics. (claimed-by: research-lead/crimsonbirch)
 - [ ] G-0006 Prove a completeness bridge for the finite pair-orbit ansatz or find an asymmetric escape relevant to unrestricted MAX11. (claimed-by: research-lead/crimsonbirch)
+- [ ] EXP-0008 Execute the preregistered resumable natural-lift census and one-sided nonzero-high rank gate over all 11,542 genuine columns. (claimed-by: research-lead/crimsonbirch)
