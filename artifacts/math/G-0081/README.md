@@ -1,9 +1,32 @@
-# G-0081 — complete native Schur rank/solve candidate
+# G-0081 — complete native Schur rank/solve result
 
 `run_isolated.sh` and `full_dictionary_schur.py` are the frozen launcher/runner
 for the decisive finite-row calculation. The first outcome-producing run is
-bound by `full_dictionary_schur_preregistration_v1.json`. It has **not** been
-run, and this directory contains no scientific result.
+bound by `full_dictionary_schur_preregistration_v1.json`. The registered run
+completed and its canonical result is
+`full_dictionary_schur_result_v1.json.gz` (SHA-256
+`61e9c63b974a64d0272569b5e71a04541d49d853a76ec31ca59a6b6d0d1b95ef`).
+
+## Frozen outcome
+
+Over `F_1000003`, the old 8,107-column matrix has basis rank 6,876. After
+eliminating that basis, the complete 9,862 by 18,583 target-last Schur matrix
+has new-column rank 1,992 and augmented rank 1,993; the target coordinate is a
+pivot. Thus the full frozen dictionary has rank 8,868 and adjoining MAX11
+raises the rank to 8,869. All 18,582 new columns were retained; price filtering
+was disabled.
+
+The child persisted the complete 733 MiB RREF. A separately supervised parent
+recomputed it and obtained byte-identical output (`80.975 s` child,
+`80.091 s` parent). Start/end custody receipts, the C-to-S-to-R hash chain, and
+the registered input bindings agree. The scientific payload SHA-256 is
+`6d8d9bb6406f26a1515d60ef8c1a366fb556d40207184fa17d776d1626a0a06a`.
+
+This is exactly a one-prime, finite-row separation from the registered 26,689
+columns. It is not characteristic-zero nonmembership: rank loss modulo this
+prime could affect the dictionary and augmented matrices differently. It also
+does not cover the complete degree-five universe, establish a global CPWL
+identity, or imply an unrestricted two-hidden-layer ReLU lower bound.
 
 ## Exact subject and boundary
 
@@ -257,7 +280,7 @@ outer/receipt pivot projections. Fork fixtures exercise both deadlines,
 post-`prctl` parent-death races, process-group termination, verifier/worker
 death, and child reap. They evaluate no actual quotient or rank.
 
-Public `--run` cannot execute without a separately committed preregistration
+Public `--run` cannot execute without the separately committed preregistration
 whose exact bytes and expected runner hash are both supplied on the CLI. That
 invocation must also supply the full commit ID anchoring the preregistration via
 `--preregistration-commit`. The artifact must bind the output path, cache
@@ -265,5 +288,5 @@ directory and run ID, all hashes, dimensions, resource gates, stage order,
 eight workers, the single-origin Git protocol and timeout, isolated startup
 launcher, fresh-only and spent-on-interruption cache policies, both supervised
 wall allowances, the complete parent-verification/output stage order, and the
-prohibition on price filtering. This candidate intentionally does not create
-that preregistration.
+prohibition on price filtering. The frozen v1 preregistration satisfies those
+bindings and is the only registration used by the canonical result above.

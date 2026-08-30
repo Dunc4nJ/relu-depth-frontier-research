@@ -7,59 +7,43 @@ commit, counts, and the last displayed verifier result are operator-maintained s
 them against ledger, `phases/ROUNDS.md`, and Git before acting.
 
 ## Where the campaign is
-- Phase: P4 · Round: R-0001 · Proof-core commit: `bc92a01` · Latest frozen checkpoint: `ec2fe8e`
-- Ledger: 40 claims · 12 open gaps · 3 active routes · 4 dead ends · verify-ledger: green
-- New exact boundary: `C-0033@1` is COMPUTED_BOUNDED with a same-family T1
-  holds review.  A primitive rational functional supported on 230 rows
-  annihilates all 8,107 frozen Y-spoke-plus-carrier columns and pairs nontrivially
-  with MAX11.  The producer artifact is `8e08caec...ae96`; the independent
-  receipt is `d5149c9e...2119`.
-- Positive result retained: `C-0030@1` proves the same Y-spoke family equals
-  MAX11 on the entire at-most-three-valued locus.  G-0078 shows the obstruction
-  first appears on genuinely four-valued profiles and is already visible within
-  the first 21 registered panels.
-- Settled interpretation: exceptional-prime ambiguity and certificate hunting
-  for this 8,107-column family are finished.  The result is not a global MAX11
-  lower bound because no completeness bridge to arbitrary networks is known.
-- Live frontier: `C-0036@1` records the complete exact G-0079 price vector.
-  Of the 18,582 structurally complementary same-component orbits, 17,952 pierce
-  the old separator and 630 have zero price; a fresh-context literal replay of
-  all 4,273,860 entries is consistent.  This proves neither membership nor
-  nonmembership.  The frozen G-0081 runner now retains all 26,689 columns and
-  computes the complete target-last 9,862 by 18,583 Schur RREF.  Independent
-  source review, separate preregistration, and registered execution are next.
-- Resource boundary resolved: the Python wrapper's 6,876-square conversion is
-  unsafe, but a native FLINT block fill of the actual frozen minor used 0.85 GiB,
-  and its inverse completed in 65.1 seconds at 2.31 GiB with three full-column
-  identity replays.  The target-aware quotient is therefore operationally
-  feasible through a separately frozen native adapter.
-- Analytic shortcut update: exact Boolean-layer tests reject uniform,
-  cross/same-only, and relation-by-topology equal-orientation inherited
-  recurrences.  An orientation-specific fit survives with irregular rational
-  coefficients, so this is evidence against the simplest recurrence, not a
-  no-go for the combined family.
-- New unrestricted negative control: `C-0039@1` gives the exact RANGE11
-  function `max-min` as an alternating sum of proper-complement maxima.  Its
-  centered difference body has all eleven independently normalized MAX10
-  target faces but different support heights and 2,046 global two-level
-  facets.  A fresh T1 referee upheld the calculation.  Projected-face-only
-  reconstruction is therefore closed as `D-0004`; support heights or global
-  wall data are mandatory.
-- New constructive bridge: `C-0040@1` gives an explicit rational
-  necessary-and-sufficient generator-consistency criterion for gluing eleven
-  ordered zonotope branch faces into full-dimensional global branches.  A
-  fresh T1 referee upheld its face formula, 110-vector center-correction
-  basis, and no-skip compilation.  It does not cancel the additional global
-  walls introduced by the construction.
-- Unrestricted target: `C-0002@1` remains challenged and unproved.  A true
-  global wall-cancellation theorem or an exact construction satisfying it is
-  now the final conceptual bottleneck (`G-0012`).
+- Phase: P4 · Round: R-0002 · G-0081 preregistration/execution anchor: `0267bfd`
+- Ledger: 48 current claims · 14 open gaps · 3 active routes · 6 dead ends · verify-ledger: green
+- Central finite result: `C-0041@1` records the complete G-0081 decision over
+  `F_1000003`.  On all 16,738 frozen rows, the full 26,689-column dictionary has
+  rank 8,868 and adjoining MAX11 raises rank to 8,869.  In the old-basis Schur
+  quotient the corresponding ranks are 1,992 and 1,993, and the target is a
+  pivot.  All 18,582 new columns were retained.
+- Custody: result SHA-256 `61e9c63b...b95ef`, scientific payload
+  `6d8d9bb...a06a`, runner `f95ad8bb...033b`, preregistration
+  `f30a771d...8827`, and environment `f17bb20b...1b4`.  The separately
+  supervised parent recomputed the complete persisted RREF byte-for-byte.
+- Boundary: this is one-prime finite-row nonmembership only.  It is not a
+  rational/real decision, does not cover the complete 7,015,841-record
+  degree-five universe, and is not a global or unrestricted ReLU lower bound.
+- Leaf-induction update: `C-0043@1` records exact n=5 counterexamples showing
+  the raw G-0099 deletion incidence is coefficient-gauge dependent rather than
+  representation-independent.  The imposed-gauge G-0104 separator is therefore
+  only a finite candidate-generator no-go (`D-0006`), not a MAX11 theorem.
+- Lower-arity potency retained without promotion: G-0099/G-0102 reconstructed
+  an exact 113-term MAX7 identity satisfying the imposed incidence target, but
+  because the target map is nonsemantic it supplies no arity induction.
+- Live discriminators: G-0108 is extracting and independently replaying an
+  explicit G-0081 row separator; G-0109 is transporting that separator to the
+  complete degree-five pricer with the required stabilizer normalization;
+  G-0105 is testing whether an endpoint-aware face operator survives the
+  semantic quotient.
+- Unrestricted target: `C-0002@1` remains challenged and unproved.  The main
+  paths are now full-universe pricing/CEGIS (`G-0014`), exact or second-prime
+  lifting plus separator extraction (`G-0013`), global wall cancellation
+  (`G-0012`), and a genuine completeness/asymmetric bridge (`G-0006`).
 - Clean-pass streak (P10 only): 0
 
 ## Next work queue (dual-written to `beads/QUEUE.md`)
-1. G-0012 — derive and solve the exact off-facet wall-cancellation equations for globally glued full-dimensional blocks, retaining support heights and rejecting RANGE11.
-2. G-0011 — independently audit and preregister the complete 26,689-column Schur/RREF run, execute it, preserve the full nullspace transform, and exact-lift or globally separate the resulting branch.
-3. G-0006 — pursue a true normal-form/completeness bridge or an asymmetric escape outside the finite pair/Y-spoke catalogues.
+1. G-0013 — independently extract and replay the new modular separator, then seek a second-prime or exact-rational lift.
+2. G-0014 — transport that obstruction to and target-aware price the complete certified 7,015,841-record degree-five universe plus 5E/5L.
+3. G-0012 — derive and solve the exact off-facet wall-cancellation equations for globally glued full-dimensional blocks, retaining support heights and rejecting RANGE11.
+4. G-0006 — prove a true normal-form/completeness bridge or find an asymmetric escape outside the finite pair/Y-spoke catalogues.
 
 `walk-consistency` compares the object-ID set on the real numbered lines above with the set on real
 unchecked lines in `beads/QUEUE.md`. Brace-slot lines are ignored line by line while this template is
@@ -67,27 +51,28 @@ being filled; a missing counterpart is reported as INFO. Once real work exists, 
 exactly the same active IDs.
 
 ## Open blockers
-The complete G-0079 price vector is independently replayed, but it is guidance
-only.  The frozen G-0081 full-Schur runner must receive independent source
-review and a separately committed preregistration before any quotient rank is
-evaluated.  A modular member or separator is discovery-only unless its branch's
-registered exact bridge succeeds; even a rational certificate on all 16,738
-rows is not a global CPWL identity or unrestricted-network theorem.  G-0006
-remains the completeness bridge.  G-0012 is the target-facing constructive
-obligation: global exposed-face realizability is not enough without exact
-off-facet wall cancellation.  T2 review remains unavailable but does not
-block bounded discovery.
+G-0081 has no clean-room full-row separator yet, and one-prime nonmembership
+does not imply characteristic-zero nonmembership.  The transported functional
+may be dense over as many as 657,822 active primitive hinge directions, so the
+old sparse G-0040 trie is not automatically adequate.  Even separation of the
+complete pairwise degree-five universe would remain an ansatz theorem until
+G-0006 supplies a completeness bridge.  G-0012 remains the constructive route:
+exposed-face compatibility alone does not cancel off-facet walls.  T2 review
+is unavailable but does not block bounded discovery.
 
 ## Standing reminders for the resuming agent
 - Do not re-derive settled state; challenge it through the ledger if it looks wrong.
-- Do not describe `C-0033@1` as unrestricted MAX11 or as a general
-  two-hidden-layer lower bound.  It is exact only for the frozen family.
-- Do not spend more time solving inside the already-separated 8,107 columns.
-  A new column matters first through its exact G-0078 price.
-- Do not discard zero-price new columns after the separator is pierced: they
-  can contribute inside the separator kernel and are required for a sound full-family solve.
-- Do not jump to the 7,015,841-record degree-five universe before resolving the
-  smaller exhaustive same-component closure; retain G-0009 as the broad fallback.
+- Do not describe `C-0041@1` as rational, real, global, dictionary-complete, or
+  unrestricted nonmembership.  Its stated field, rows, and 26,689 columns are
+  part of the theorem.
+- Do not infer clean-room independence from the parent RREF replay; it shares
+  the registered implementation and host.  G-0108 must rederive the separator.
+- Do not omit the profile-stabilizer inverse when converting evaluation-row
+  weights to full-permutation hinge prices; the unscaled formula is false.
+- Do not resurrect the raw leaf-incidence gauge as a semantic necessity unless
+  a complete-quotient operator survives the G-0103 counterexamples.
+- Do not discard zero-price columns: they can contribute inside a separator
+  kernel and remain necessary for a sound target-aware solve.
 - Do not resurrect G-0046 by adding sampled rows: G-0049 is its complete broad
   refutation.  Do not use the 10,065 degree-three universe as a complete test
   for signed mass four; the correct universe has 99,858 directions.

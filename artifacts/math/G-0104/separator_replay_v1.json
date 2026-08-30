@@ -1,0 +1,38 @@
+{
+  "bindings": {
+    "g0046_report": "924ecdb9dfdbf8e445fa1c46d0e3ac96d0cf2435227a18bd6a635cdda898cf2b",
+    "g0099_report": "a853803b0a59174d497cf9e1f9d6409db9157290a74cd6d56a5156adba36a7d9",
+    "producer": "e9e82629680dacab96a0ff5775f58736a60bf2f1bc96c42ce0e569cca1e0fc0c",
+    "result": "a9fdd478eb5baf5f24ffa474bee3452bc3d54d679748b0b8f9b00aacaebcc2e8",
+    "tree_universe": "7dc597d7cefd514ca3d0b49887846cc7bb53a3fc12096217f70887ad12c4dfa3"
+  },
+  "claim_boundary": "Direct modular separator replay for the frozen G-0104 joint finite system. Not an exact-Q, necessary-gauge, global, family-complete, or unrestricted result.",
+  "controls": {
+    "dual_incidence_mutation_changes_column": true,
+    "prime": 101
+  },
+  "potency_mutation": {
+    "combined_column": 14293,
+    "forest_row": 366,
+    "operation": "increase one D entry by one",
+    "rejected": true,
+    "resulting_dual_column_residual": 999999,
+    "tree_index": 1345
+  },
+  "prime": 1000003,
+  "rank_record_replayed": {
+    "augmented_rank": 1381,
+    "rank": 1380
+  },
+  "result": "PASS",
+  "schema": "max11-g0104-direct-separator-replay-v1",
+  "separator": {
+    "column_residual_sha256": "83a0d95bcf6cf304b1a89d015c17675bde3993a4d2d665da14c220db9a3b6030",
+    "dictionary_columns_replayed": 22265,
+    "incidence_rows": 1387,
+    "nonzero_column_residuals": 0,
+    "semantic_basis_rows": 7302,
+    "target_pairing_mod_prime": 239271
+  },
+  "wall_seconds": 17.705484
+}

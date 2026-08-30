@@ -1,0 +1,127 @@
+{
+  "bindings": {
+    "compressed_sha256": "e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd",
+    "platform": "Linux-6.17.0-14-generic-x86_64-with-glibc2.42",
+    "producer": "artifacts/math/G-0101/full_dimensional_degree5_filter.py",
+    "producer_sha256": "57813d9b1f843601bb3f72dfeb07cb094462fbe47acf019fdf1a076cb9931861",
+    "python": "3.13.7 (main, Mar  3 2026, 12:19:54) [GCC 15.2.0]",
+    "stream": "artifacts/math/G-0038/loop_inclusive_signed_degree5_universe_v1.jsonl.gz",
+    "target_canonical_jsonl_sha256": "016bc3cfd5a27262c3d3659d35c6789e07aeeb8f9085de42e71d72cd900ce446",
+    "target_records": 384425
+  },
+  "census": {
+    "active_signed_mass_five_total": 384425,
+    "by_components_full": {
+      "1": 12459,
+      "10": 0,
+      "2": 83595,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0
+    },
+    "by_components_nonfull": {
+      "1": 0,
+      "10": 1,
+      "2": 10232,
+      "3": 149980,
+      "4": 91998,
+      "5": 29206,
+      "6": 5933,
+      "7": 900,
+      "8": 110,
+      "9": 11
+    },
+    "connected_full": 12459,
+    "full_dimensional_total": 96054,
+    "rank_deficient_total": 288371,
+    "two_component_balanced_rank_deficient": 10232,
+    "two_component_full": 83595,
+    "two_component_loop_histogram": {
+      "negative=0,positive=0,full=false": 4278,
+      "negative=0,positive=0,full=true": 39953,
+      "negative=0,positive=1,full=false": 3402,
+      "negative=0,positive=1,full=true": 24599,
+      "negative=1,positive=0,full=false": 2552,
+      "negative=1,positive=0,full=true": 19043
+    }
+  },
+  "claim_boundary": "Exact affine-dimension theorem and census for the frozen active signed-mass-five graphical orbit universe only. Rank-deficient atoms may still be needed as correction terms. This is not semantic-span completeness, a MAX11 identity, or an unrestricted ReLU lower bound.",
+  "controls": {
+    "cross_component_sign_swap": {
+      "mutant_component_imbalance": [
+        2,
+        -2
+      ],
+      "mutant_exact_dimension": 10,
+      "same_unsigned_union": true,
+      "seed_component_imbalance": [
+        0,
+        0
+      ],
+      "seed_exact_dimension": 9,
+      "seed_sequence": 6810202
+    },
+    "direct_exact_vertex_rank": {
+      "connected_full": {
+        "component_imbalance": [
+          0
+        ],
+        "criterion_dimension": 10,
+        "direct_vertex_affine_dimension": 10,
+        "sequence": 6972321
+      },
+      "three_component_nonfull": {
+        "component_imbalance": [
+          -1,
+          -1,
+          2
+        ],
+        "criterion_dimension": 9,
+        "direct_vertex_affine_dimension": 9,
+        "sequence": 6632211
+      },
+      "two_component_balanced": {
+        "component_imbalance": [
+          0,
+          0
+        ],
+        "criterion_dimension": 9,
+        "direct_vertex_affine_dimension": 9,
+        "sequence": 6810202
+      },
+      "two_component_full": {
+        "component_imbalance": [
+          1,
+          -1
+        ],
+        "criterion_dimension": 10,
+        "direct_vertex_affine_dimension": 10,
+        "sequence": 6803797
+      }
+    },
+    "exhaustive_small_formula": {
+      "active_disjoint_atoms_tested": 1182,
+      "branch_degree": 2,
+      "histogram": {
+        "components=1,delta_nonzero=false,dimension=3": 570,
+        "components=2,delta_nonzero=false,dimension=2": 48,
+        "components=2,delta_nonzero=true,dimension=3": 450,
+        "components=3,delta_nonzero=true,dimension=2": 108,
+        "components=4,delta_nonzero=true,dimension=1": 6
+      },
+      "n": 4
+    }
+  },
+  "result": "PASS",
+  "schema": "max11-g0101-full-dimensional-degree5-census-v1",
+  "theorem": {
+    "active_equal_degree_full_criterion": "c=1, or c=2 and delta is nonzero",
+    "delta_definition": "positive branch edge-occurrence mass minus negative branch edge-occurrence mass on each union-graph component",
+    "dimension_formula": "n-c+1[delta!=0]"
+  },
+  "wall_seconds": 32.97156069986522
+}

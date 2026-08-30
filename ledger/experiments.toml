@@ -229,3 +229,66 @@ result_summary = "No registered new-family price has been evaluated. The correct
 status = "complete"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T13:38:00Z
+
+[[experiment]]
+id = "EXP-0021"
+route = "H-0001"
+design = "Before any quotient rank was observed, freeze G-0081 runner f95ad8bb...33b, preregistration f30a771d...827, Git anchor 0267bfd1, canonical CPython environment f17bb20b...b4, the 8,107-column old matrix and rank-6,876 basis inverse, and the complete ordered 18,582-column G-0079 extension. Retain every new column without price filtering. Build the complete 16,738 by 18,582 modular new-column matrix at p=1,000,003, form the 9,862 by 18,583 target-last Schur matrix, compute and persist its in-place RREF, and decide membership solely by whether the final target coordinate is a pivot. Require start/end custody equality, C-to-S-to-R receipts, an isolated child, and a separately authorized parent recomputation byte-for-byte equal to the persisted RREF. A target pivot licenses only finite modular separation; a nonpivot would have required all-row candidate replay, an exact-Q lift, and global normal-form verification."
+family = "max11-complete-same-component-native-schur-v1"
+prereg = true
+result_summary = "Complete registered execution retained all 26,689 dictionary columns. The old-basis-plus-Schur rank is 8,868 and adjoining MAX11 raises it to 8,869 modulo 1,000,003; the target is a pivot, and the parent independently reproduced the complete RREF byte-for-byte. This is one-prime finite-row separation only."
+claims = ["C-0041@1"]
+evidence = ["E-0027"]
+status = "complete"
+author_path = "research-lead/lilacbridge"
+created = 2026-08-30T20:48:54Z
+
+[[experiment]]
+id = "EXP-0022"
+route = "H-0002"
+design = "Explore whether deleting a leaf edge and one opposite-colour edge from balanced bicoloured trees yields an arity-lowering incidence useful for MAX constructions. Enumerate the complete n=7 degree-three Rueß dictionary, impose the dominant MAX6 two-component forest target, and solve the combined semantic/incidence system exactly. Then require a fresh-context clean-room implementation to reconstruct all orbit counts, literal 7! semantic values, exact rank, the sparse vector, direct MAX evaluations, and hostile mutations before retaining the lower-dimensional potency result."
+family = "leaf-bridge-lower-dimensional-potency-v1"
+prereg = false
+result_summary = "Exploratory G-0099 found an exact 113-term MAX7 vector in the complete 3,010-column family satisfying the imposed MAX6 incidence target. G-0102 independently reconstructed the 648 by 3,010 system at exact rank 327 and replayed every row and mutation. The imposed map was not shown semantic, so this is a potency control rather than an induction."
+claims = ["C-0047@1"]
+evidence = ["E-0030"]
+status = "complete"
+author_path = "research-lead/lilacbridge"
+created = 2026-08-30T20:48:54Z
+
+[[experiment]]
+id = "EXP-0023"
+route = "H-0002"
+design = "Test whether the G-0099 leaf/opposite-colour incidence is representation-independent. Compute exact tree semantic quotients at n=5,7; extend D by zero to the complete loop-inclusive n=5 degree-two dictionary and seek a kernel witness; derive literal tied faces including selected endpoints; and test the canonical endpoint-tagged atom-dependent event sum on the n=5 tree kernel. Require explicit witnesses and equality-destroying mutations."
+family = "leaf-bridge-semantic-status-v1"
+prereg = false
+result_summary = "Tree-only quotient descent holds at n=5,7, but zero-extension raises rank 17 to 19, the unshifted tied-face formula fails even modulo translation, and the endpoint-tagged event sum raises tree rank 4 to 6. Only the final tagged test was preregistered; all artifacts were then frozen and deterministically replayed."
+claims = ["C-0043@1"]
+evidence = ["E-0028"]
+status = "complete"
+author_path = "semantic-auditor/ramanujan-2"
+created = 2026-08-30T20:48:54Z
+
+[[experiment]]
+id = "EXP-0024"
+route = "H-0002"
+design = "Preregister a joint modular system at p=1,000,003 containing every frozen G-0046 semantic row and every G-0099 incidence row on the 22,265-column registered-plus-all-tree-plus-5E/5L dictionary. Reconstruct all 12,459 trees, require D rank 1,387 and its target replay, eliminate a 7,302-row semantic basis, decide the incidence Schur target, and export and directly replay a separating row functional if inconsistent."
+family = "max11-joint-semantic-incidence-v1"
+prereg = true
+result_summary = "The sole outcome run gave Schur rank 1,380 and augmented rank 1,381; the lifted dual annihilates all 22,265 joint columns and pairs with the target by 239,271. Because EXP-0023 shows D is nonsemantic, this kills only the imposed-gauge candidate generator. One preflight path typo aborted before solving and was corrected before the outcome run."
+claims = ["C-0045@1"]
+evidence = ["E-0029"]
+status = "complete"
+author_path = "joint-system-author/carver-2"
+created = 2026-08-30T20:48:54Z
+
+[[experiment]]
+id = "EXP-0025"
+route = "H-0001"
+design = "Exploratorily derive and exhaustively test the affine-dimension formula dim R(W)=n-c(W)+1[delta(W) != 0] for signed graphical branch differences, then apply it only to the active full-support signed-mass-five G-0038 stratum as a safe future pricing filter. Preserve exact direct-rank controls and a connected-to-imbalanced mutation."
+family = "degree-five-full-dimensional-filter-v1"
+prereg = false
+result_summary = "Among 384,425 active signed-mass-five records, exactly 96,054 are full-dimensional under the proved formula: 12,459 connected and 83,595 two-component imbalanced. The filter does not cover lower signed masses or prove rank-deficient atoms irrelevant to wall cancellation."
+status = "complete"
+author_path = "filter-author/lilacbridge"
+created = 2026-08-30T20:48:54Z

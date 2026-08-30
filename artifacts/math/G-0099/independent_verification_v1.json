@@ -1,0 +1,72 @@
+{
+  "claim_boundary": "This independently verifies the exact n6->n7 sparse global normal-form identity with its incidence constraint, and exact n10->n11 combinatorial D surjectivity. It does not build or verify an n11 semantic solution, does not prove that D is a necessary semantic constraint, and makes no global-wall or unrestricted-depth claim.",
+  "claim_class": "exact",
+  "environment": {
+    "numpy": "2.5.2",
+    "pid": 2972178,
+    "python": "3.13.7",
+    "python_flint": "0.9.0"
+  },
+  "lower_complete_semantic_gate": {
+    "bruteforce_forest_orbits": 11,
+    "bruteforce_tree_orbits": 53,
+    "claim_class": "exact",
+    "direct_matrix_entries_checked": 583,
+    "literal_hinge_residual_count": 0,
+    "literal_incidence_replay": [
+      "0",
+      "0",
+      "0",
+      "1/360",
+      "0",
+      "0",
+      "0",
+      "-1/1440",
+      "0",
+      "-1/360",
+      "0"
+    ],
+    "literal_linear_replay": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "1"
+    ],
+    "literal_permutations_per_support_atom": 5040,
+    "literal_support_atoms": 113,
+    "one_coefficient_mutation_rejected": true,
+    "outcome": "positive",
+    "producer_sha256": "88ba42e8a2955bc3f333fe44b034c8db6a41174b9e17fe481ba0ba353ef175db",
+    "report_sha256": "4ba88a474591e08dc28a7e17d8fe9ea9c12c03c065b578777b2fe22ad3888885",
+    "seconds": 8.722642
+  },
+  "outcome": "positive",
+  "producer_sha256_before_output": "b339cd6c04e65fc92f89abc644d4e49aad52078f448ce7e910d9cc5e648b080d",
+  "result": "PASS",
+  "scale_combinatorial_incidence_gate": {
+    "claim_class": "exact",
+    "direct_reverse_nonzeros_checked": 171131,
+    "exact_Q_implication": "The reconstructed integer minor is nonsingular modulo p, hence its determinant is a nonzero integer and D is surjective over Q.",
+    "independent_backend": "python-flint nmod_mat.rank on reconstructed selected minor",
+    "one_incidence_mutation_rejected": true,
+    "outcome": "positive",
+    "producer_sha256": "57e780b6dde525bc2d5b4bf76b324dcf10984e9465cf14db89dd389318c04958",
+    "report_sha256": "a853803b0a59174d497cf9e1f9d6409db9157290a74cd6d56a5156adba36a7d9",
+    "seconds": 2.115788,
+    "selected_minor_rank_mod_p": 1387,
+    "selected_minor_shape": [
+      1387,
+      1387
+    ],
+    "selected_minor_uint32_c_sha256": "84c878deb57723e829a3a78bffe0ec481e915712b2b10eb6e1554cca5b1b0ada",
+    "sparse_shape": [
+      1387,
+      12459
+    ]
+  },
+  "schema": "max11-g0099-independent-leaf-bridge-verifier-v1",
+  "wall_seconds": 11.553264
+}

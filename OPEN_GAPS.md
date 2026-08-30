@@ -22,6 +22,8 @@ the generated markers; never hand-edit the generated table.
 | `G-0010` | `C-0033@1` | No eligible different-family or human T2 reviewer has independently regenerated the frozen Y-spoke semantics and exact 230-row separator; current review standing is capped at same-family T1. |
 | `G-0011` | `C-0033@1` | The complete complementary same-component Y-spoke closure has been frozen at 18,582 additional full-S_11 orbit columns, but no registered exact-price vector, target-aware quotient decision, or exact rational member/separator certificate yet determines MAX11 on the 16,738-row system for the combined 26,686-orbit family plus three carriers. |
 | `G-0012` | `C-0002@1` | The eleven-face zonotope gluing problem now has an explicit candidate solution, but no theorem or exact construction cancels every additional dense-generator and primitive-block wall throughout all unique-maximum cones while retaining the MAX11 facet support heights. RANGE11 proves that projected face compatibility, even from one global network, is insufficient. |
+| `G-0013` | `C-0041@1` | The G-0081 one-prime target-pivot decision lacks a fresh clean-room separator reconstruction, a second-prime or exact-rational rank/dual decision, and an explicit full-row functional suitable for pricing new columns. |
+| `G-0014` | `C-0002@1` | No target-aware solve has priced or incorporated the complete certified 7,015,841-record loop-inclusive degree-five pairwise Rueß universe plus 5E and 5L against the new G-0081 obstruction; the 26,689-column separation therefore leaves most of the complete degree-five ansatz untested. |
 
 <!-- GENERATED:OPEN-GAPS:END -->
 

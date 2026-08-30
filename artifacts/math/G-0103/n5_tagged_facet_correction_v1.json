@@ -1,0 +1,148 @@
+{
+  "claim_boundary": "This exact test concerns the canonical event sum of the unique full-dimensional tied facet for each leaf/opposite-edge deletion, retaining the selected surviving endpoint as a branch-specific loop after leaf-coordinate deletion. Failure means that this corrected combinatorial event map still does not define a linear operation on the balanced-tree support-function quotient. It does not rule out a fixed-normal face operator, a differently weighted flag valuation, or MAX11.",
+  "dimensions": [
+    {
+      "corrected_facet_map_descends": false,
+      "corrected_facet_shape": [
+        23,
+        6
+      ],
+      "corrected_hinge_direction_count": 19,
+      "event_count": 32,
+      "first_event": {
+        "B_minus_A_core_imbalance": 0,
+        "core_component": [
+          0,
+          2,
+          4
+        ],
+        "corrected_projected_pair": [
+          [
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              3
+            ],
+            [
+              2,
+              2
+            ]
+          ]
+        ],
+        "leaf": 1,
+        "leaf_colour": 0,
+        "leaf_edge": [
+          0,
+          1
+        ],
+        "leaf_edge_sign_in_B_minus_A": -1,
+        "normal": [
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "other_component": [
+          3
+        ],
+        "removed_opposite_edge": [
+          0,
+          3
+        ],
+        "selected_opposite_endpoint": 3,
+        "signed_imbalance": 0,
+        "tie_mutation": {
+          "expected": "tie destroyed",
+          "mutated_branch_supports": [
+            2,
+            1
+          ],
+          "mutated_normal": [
+            0,
+            2,
+            0,
+            1,
+            0
+          ],
+          "mutation": "increase the leaf normal level by one",
+          "result": "REJECTED"
+        },
+        "tied_branch_supports": [
+          1,
+          1
+        ]
+      },
+      "kernel_violation": {
+        "corrected_facet_residual": [
+          "-90",
+          "40",
+          "-10",
+          "0",
+          "20",
+          "0",
+          "-10",
+          "20",
+          "30",
+          "0",
+          "0",
+          "0",
+          "-10",
+          "-10",
+          "-10",
+          "30",
+          "0",
+          "0",
+          "0",
+          "0",
+          "-40",
+          "0",
+          "120"
+        ],
+        "first_nonzero_corrected_row": 0,
+        "first_nonzero_corrected_value": "-90",
+        "tree_relation": [
+          "1",
+          "-2",
+          "0",
+          "1",
+          "0",
+          "0"
+        ],
+        "upper_semantic_residual": [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "n": 5,
+      "signed_imbalance_histogram": {
+        "-1": 3,
+        "0": 25,
+        "1": 4
+      },
+      "stacked_rank": 6,
+      "tree_kernel_dimension": 2,
+      "tree_orbit_count": 6,
+      "tree_semantic_rank": 4,
+      "tree_semantic_shape": [
+        8,
+        6
+      ],
+      "upper_hinge_direction_count": 3
+    }
+  ],
+  "result": "CORRECTED_FACET_MAP_NOT_SEMANTIC",
+  "schema": "max11-g0103-tagged-facet-correction-audit-v1",
+  "smallest_failure_n": 5
+}

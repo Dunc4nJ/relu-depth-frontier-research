@@ -1,0 +1,32 @@
+{
+  "claim_boundary": "G-0099 exactly verifies the complete n=6->7 semantic-plus-incidence potency gate and the purely combinatorial n=10->11 incidence surjection. It does not verify a joint n=11 semantic-plus-incidence solution, global-wall validity for MAX11, or an unrestricted-depth theorem.",
+  "frozen": true,
+  "git_head_observed": "0267bfd1c779229c82b02874f8a306583fe48f92",
+  "outputs": {
+    "artifacts/math/G-0099/README.md": "e4fef34af62e6d5a6dfb77b0fc9d878a56a34cef23fe313a2eb2b8215796afec",
+    "artifacts/math/G-0099/independent_verification_v1.json": "67bf73edf830a9ad3392530b8b400d6db84e6aa6226dd3f191bf52c4b5c43864",
+    "artifacts/math/G-0099/leaf_bridge_complete_v1.json": "4ba88a474591e08dc28a7e17d8fe9ea9c12c03c065b578777b2fe22ad3888885",
+    "artifacts/math/G-0099/leaf_bridge_n10_n11.py": "57e780b6dde525bc2d5b4bf76b324dcf10984e9465cf14db89dd389318c04958",
+    "artifacts/math/G-0099/leaf_bridge_n10_n11_v1.json": "a853803b0a59174d497cf9e1f9d6409db9157290a74cd6d56a5156adba36a7d9",
+    "artifacts/math/G-0099/leaf_bridge_n6_n7.py": "88ba42e8a2955bc3f333fe44b034c8db6a41174b9e17fe481ba0ba353ef175db",
+    "artifacts/math/G-0099/leaf_bridge_subset_v1.json": "007aac52f82439d1b410188538e76b486039c8e26e457d37ed4461327de4dd3f",
+    "artifacts/math/G-0099/verify_leaf_bridge.py": "b339cd6c04e65fc92f89abc644d4e49aad52078f448ce7e910d9cc5e648b080d"
+  },
+  "process_custody": "All G-0099 producer and verifier processes were stopped before these hashes were recorded.",
+  "result_summary": {
+    "complete_lower_gate": "EXACT_MEMBERSHIP; 648x3010, rank_Q=327, support=113",
+    "independent_verifier": "PASS; literal 7! semantic replay and reconstructed 1387-square FLINT minor",
+    "restricted_lower_subset": "MODULAR_NONMEMBERSHIP_ONLY; rank/augmented-rank 87/88 mod 1000003",
+    "scale_incidence": "EXACT_INCIDENCE_SURJECTION; 1387x12459, rank_Q=1387; semantic columns built=0"
+  },
+  "schema": "max11-g0099-frozen-manifest-v1",
+  "sources": {
+    "artifacts/math/G-0023/all_tree_universe_v1.json": "7dc597d7cefd514ca3d0b49887846cc7bb53a3fc12096217f70887ad12c4dfa3",
+    "artifacts/math/G-0038/loop_inclusive_signed_degree5_universe_v1.jsonl.gz": "e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd",
+    "artifacts/math/G-0090/known_certificate_normal_form.py": "eeb70dd51d2d24eb5a2a9215a7700c8d12822cd08b5116b8245c830b7855c57b",
+    "artifacts/math/G-0090/known_certificate_normal_form_n10_v1.json": "772a841e707840809bab005480fc6b39bbbe8e0eb1f15b30cb2a182e1558c82f",
+    "literature/repos/max-relu-certificates/certificates/certificate_10_4.json": "10f38b27fa555866eda7c3ee10d5da51f3cd1db810a74860d6ab8ef8a30982e4",
+    "literature/repos/max-relu-certificates/certificates/certificate_6_2.json": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+    "literature/repos/max-relu-certificates/certificates/certificate_7_3.json": "b79aaaf423187cf5aaa51c9272799bf36198759dd018a1a286716cce7b1b53be"
+  }
+}

@@ -1,0 +1,395 @@
+{
+  "balanced_tree_orbits": 6,
+  "branch_degree": 2,
+  "claim_boundary": "This is an exact statement about the zero-extension of the balanced-tree deletion map to the complete fixed-degree-two symmetrised pairwise-max family on five coordinates. It proves that setting every non-tree atom's lower image to zero is representation-dependent already at n=5. It does not refute the restricted quotient map on the tree span, does not rule out a corrected extension with non-tree terms, and makes no n=11 nonrepresentability claim.",
+  "complete_family_census": {
+    "branch_multisets": 120,
+    "edge_types": 15,
+    "orbit_count": 131,
+    "raw_unordered_branch_pairs": 7260
+  },
+  "lower_forest_semantic_rank": 2,
+  "lower_forest_semantic_shape": [
+    4,
+    2
+  ],
+  "lower_hinge_directions": [],
+  "n": 5,
+  "non_tree_orbits": 125,
+  "non_tree_semantic_rank": 17,
+  "result": "ZERO_EXTENSION_NOT_SEMANTIC",
+  "schema": "max11-g0103-zero-extension-audit-v1",
+  "stacked_rank_with_zero_extension": 19,
+  "upper_hinge_directions": [
+    [
+      0,
+      0,
+      1,
+      -2,
+      1
+    ],
+    [
+      0,
+      1,
+      -2,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      -2,
+      1,
+      0
+    ],
+    [
+      0,
+      1,
+      -1,
+      -1,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      -2,
+      1
+    ],
+    [
+      1,
+      -2,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      -2,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      -2,
+      1,
+      0,
+      0
+    ],
+    [
+      1,
+      -1,
+      -1,
+      0,
+      1
+    ],
+    [
+      1,
+      -1,
+      -1,
+      1,
+      0
+    ],
+    [
+      1,
+      -1,
+      0,
+      -1,
+      1
+    ],
+    [
+      1,
+      0,
+      -2,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      -2,
+      1,
+      0
+    ],
+    [
+      1,
+      0,
+      -1,
+      -1,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      -2,
+      1
+    ]
+  ],
+  "upper_semantic_rank": 17,
+  "upper_semantic_shape": [
+    20,
+    131
+  ],
+  "witness": {
+    "first_nonzero_lower_row": 2,
+    "first_nonzero_lower_value": "240",
+    "mutation_control": {
+      "expected": "upper identity breaks",
+      "first_nonzero_upper_row": 15,
+      "first_nonzero_upper_value": "24",
+      "mutation": "add one to relation coefficient at column 3",
+      "result": "REJECTED"
+    },
+    "relation_support_size": 8,
+    "sparse_relation": [
+      {
+        "coefficient": 2,
+        "column_index": 3,
+        "kind": "non_tree",
+        "pair": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              2
+            ]
+          ]
+        ]
+      },
+      {
+        "coefficient": 1,
+        "column_index": 16,
+        "kind": "non_tree",
+        "pair": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ]
+      },
+      {
+        "coefficient": -2,
+        "column_index": 22,
+        "kind": "non_tree",
+        "pair": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              3
+            ]
+          ]
+        ]
+      },
+      {
+        "coefficient": 2,
+        "column_index": 37,
+        "kind": "non_tree",
+        "pair": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ]
+      },
+      {
+        "coefficient": -2,
+        "column_index": 45,
+        "kind": "non_tree",
+        "pair": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ]
+      },
+      {
+        "coefficient": -4,
+        "column_index": 65,
+        "kind": "non_tree",
+        "pair": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ]
+      },
+      {
+        "coefficient": 2,
+        "column_index": 81,
+        "kind": "non_tree",
+        "pair": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ]
+      },
+      {
+        "coefficient": 1,
+        "column_index": 118,
+        "kind": "balanced_tree",
+        "pair": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ]
+          ]
+        ]
+      }
+    ],
+    "tree_column_index": 118,
+    "upper_semantic_residual": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "zero_extension_lower_residual": [
+      "0",
+      "0",
+      "240",
+      "720"
+    ]
+  },
+  "zero_extension_descends": false
+}

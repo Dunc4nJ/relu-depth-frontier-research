@@ -1,0 +1,10242 @@
+{
+  "augmented_system": {
+    "column_descriptors_sha256": "1db56e3145f7b9f41d98ec3a9f092ab65917ef55a5cbc0402ccb454dd0db367b",
+    "columns": 3010,
+    "direction_list_sha256": "304ef4bf2c9df364ae0eb4cc1c054240a7b4ef1a9abad935cac9124e733ef797",
+    "hinge_rows": 630,
+    "incidence_rows": 11,
+    "linear_rows": 7,
+    "matrix_int64_c_sha256": "1a8bdfa8d4d122b4294ce40248fe3e20a1d94801569b8ee36386416aa4e828c9",
+    "rows": 648,
+    "semantic_dependency": "artifacts/math/G-0090/known_certificate_normal_form.py",
+    "semantic_dependency_sha256": "eeb70dd51d2d24eb5a2a9215a7700c8d12822cd08b5116b8245c830b7855c57b",
+    "semantic_independence_boundary": "Same-code dependency on G0090 exact_semantic_column; combinatorial incidence is independent, but this is not an independent semantic implementation.",
+    "semantic_seconds": 10.398358,
+    "target_denominator": 1440,
+    "target_int64_c_sha256": "fc182ae6f8ae9b8a60bfc5705ad8fbffc0182ef9a4c7d227576c1de9e354c9d7"
+  },
+  "claim_boundary": "The orbit census, stabilizers, direct/reverse double count, certificate projections, and any successful all-row rational replay are exact. A modular rank result is only modular. The deletion constraint is an investigated equivariant compression, not an established consequence of MAXn semantics. No statement here is an unrestricted-depth lower bound or a MAX11 construction.",
+  "claim_class": "exact",
+  "combinatorics": {
+    "all_nonzero_entries_checked": 234,
+    "all_weighted_equalities_hold": true,
+    "direct_incidence_int64_c_sha256": "962ead708e055099a59bdbab90d519c913eee4540c64535d1fddce44bc03f43f",
+    "direct_incidence_nonzeros": 234,
+    "direct_incidence_sum": 555,
+    "direct_r_matrix": [
+      [
+        18,
+        5,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        1,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        8,
+        0,
+        8,
+        6,
+        4,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        8,
+        4,
+        0,
+        0,
+        5,
+        4,
+        4,
+        1,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        4,
+        4,
+        4,
+        5,
+        1,
+        2,
+        0,
+        0,
+        3,
+        4,
+        1,
+        2,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        4,
+        0,
+        5,
+        0,
+        12,
+        6,
+        3,
+        4,
+        0,
+        0,
+        0,
+        0,
+        2,
+        1,
+        2,
+        4,
+        0,
+        2,
+        2,
+        0,
+        2,
+        0,
+        2,
+        1,
+        0,
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        3,
+        2,
+        2,
+        1,
+        3,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        3,
+        2,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        4,
+        1,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        3,
+        2,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0,
+        4,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        3,
+        2,
+        4,
+        1,
+        2,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        0,
+        4,
+        0,
+        3,
+        8,
+        4,
+        0,
+        0,
+        0,
+        2,
+        0,
+        2,
+        0,
+        0,
+        1,
+        2,
+        0,
+        2,
+        2,
+        2,
+        0,
+        1,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        1,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        0,
+        4,
+        2,
+        6,
+        3,
+        0,
+        2,
+        0,
+        2,
+        0,
+        2,
+        1,
+        2,
+        2,
+        3,
+        3,
+        2,
+        0,
+        2,
+        2,
+        2,
+        4,
+        3,
+        2,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        2,
+        0,
+        0,
+        1,
+        2,
+        1,
+        1,
+        0,
+        1,
+        1,
+        2,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        3,
+        3,
+        1,
+        2,
+        0,
+        1,
+        4,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        1,
+        0,
+        1,
+        2,
+        1,
+        1,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        4,
+        4,
+        2,
+        2,
+        5,
+        2,
+        8,
+        4,
+        1,
+        2,
+        4,
+        2,
+        0,
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        4
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        1,
+        0,
+        2,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        2,
+        2,
+        1,
+        1,
+        2,
+        0,
+        2,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        1,
+        2,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        2,
+        0,
+        2,
+        1,
+        0,
+        2,
+        0,
+        0,
+        2,
+        1,
+        1,
+        0,
+        2,
+        1,
+        0,
+        0,
+        2,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        0,
+        0,
+        2
+      ]
+    ],
+    "forest_labelled_orbit_sizes": [
+      90,
+      720,
+      360,
+      180,
+      360,
+      360,
+      360,
+      90,
+      360,
+      180,
+      180
+    ],
+    "forest_orbit_count": 11,
+    "forest_stabilizers": [
+      8,
+      1,
+      2,
+      4,
+      2,
+      2,
+      2,
+      8,
+      2,
+      4,
+      4
+    ],
+    "nonzero_entries_sha256": "2e55fb2973ca2b31a849e3495cb1287481cd5cb212e989a7f441598a612e10d8",
+    "one_incidence_mutation": {
+      "forest": 0,
+      "mutated_left": 1330,
+      "mutation": "direct_r += 1",
+      "rejected": true,
+      "tree": 0,
+      "unchanged_right": 1260
+    },
+    "reverse_incidence_int64_c_sha256": "57e46903d49edc03623d6f281573d7a9f1c5911ec3028b55c8156fd610531276",
+    "reverse_incidence_sum": 864,
+    "reverse_q_matrix": [
+      [
+        2,
+        10,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        8,
+        8,
+        4,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        8,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        0,
+        2,
+        3,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        2,
+        0,
+        0,
+        5,
+        4,
+        2,
+        1,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        2,
+        2,
+        2,
+        5,
+        1,
+        2,
+        0,
+        0,
+        3,
+        2,
+        1,
+        2,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        2,
+        0,
+        5,
+        0,
+        2,
+        2,
+        3,
+        4,
+        0,
+        0,
+        0,
+        0,
+        2,
+        1,
+        2,
+        4,
+        0,
+        4,
+        2,
+        0,
+        4,
+        0,
+        2,
+        2,
+        0,
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        4,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        2,
+        2,
+        4,
+        2,
+        6,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        6,
+        4,
+        4,
+        4,
+        2,
+        4,
+        0,
+        4,
+        6,
+        4,
+        4,
+        4,
+        2,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        4,
+        4,
+        2,
+        2,
+        0,
+        4,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        1,
+        4,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        4,
+        0,
+        0,
+        2,
+        0,
+        0,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        0,
+        6,
+        4,
+        4,
+        2,
+        4,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        0,
+        4,
+        0,
+        6,
+        2,
+        4,
+        0,
+        0,
+        0,
+        2,
+        0,
+        4,
+        0,
+        0,
+        2,
+        4,
+        0,
+        4,
+        4,
+        4,
+        0,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        2,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        0,
+        4,
+        2,
+        2,
+        6,
+        0,
+        2,
+        0,
+        2,
+        0,
+        2,
+        2,
+        4,
+        2,
+        6,
+        6,
+        4,
+        0,
+        4,
+        4,
+        4,
+        4,
+        6,
+        2,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        2,
+        0,
+        2,
+        0,
+        0,
+        2,
+        4,
+        2,
+        2,
+        0,
+        2,
+        2,
+        2,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        4,
+        2,
+        4,
+        4,
+        8,
+        0,
+        8,
+        4,
+        12,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        8,
+        4,
+        0,
+        8,
+        16,
+        4,
+        8,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        4,
+        4,
+        2,
+        4,
+        10,
+        4,
+        2,
+        4,
+        2,
+        2,
+        8,
+        4,
+        0,
+        0,
+        0,
+        2,
+        0,
+        2,
+        0,
+        4
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        4,
+        0,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        4,
+        4,
+        4,
+        4,
+        8,
+        0,
+        4,
+        4,
+        0,
+        4,
+        4,
+        4,
+        4,
+        4,
+        8,
+        4,
+        4,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        4,
+        0,
+        8,
+        4,
+        0,
+        8,
+        0,
+        0,
+        4,
+        4,
+        4,
+        0,
+        4,
+        4,
+        0,
+        0,
+        4,
+        0,
+        0,
+        4,
+        4,
+        0,
+        0,
+        0,
+        8,
+        4,
+        8,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        0,
+        0,
+        4
+      ]
+    ],
+    "ruess_basis_derivation": "For F_T=sum_{sigma in S7} Phi_{sigma T}, each distinct labelled unordered-colour tree occurs a_T times. Summing deletion events and regrouping by forest orbit gives coefficient 7*r(T,F) against F_F=sum_{tau in S6} Phi_{tau F}.",
+    "ruess_incidence_matrix": "D(F,T)=7*r(T,F)",
+    "stabilizer_double_count": "a_F*r(T,F) = a_T*q(F,T)",
+    "tree_labelled_orbit_sizes": [
+      70,
+      1260,
+      840,
+      1260,
+      2520,
+      2520,
+      2520,
+      420,
+      840,
+      2520,
+      2520,
+      840,
+      5040,
+      630,
+      2520,
+      2520,
+      2520,
+      2520,
+      2520,
+      5040,
+      5040,
+      2520,
+      5040,
+      5040,
+      5040,
+      2520,
+      5040,
+      5040,
+      5040,
+      2520,
+      5040,
+      2520,
+      2520,
+      2520,
+      2520,
+      2520,
+      5040,
+      5040,
+      5040,
+      630,
+      2520,
+      5040,
+      2520,
+      5040,
+      5040,
+      5040,
+      5040,
+      2520,
+      5040,
+      5040,
+      2520,
+      2520,
+      2520
+    ],
+    "tree_orbit_count": 53,
+    "tree_stabilizers": [
+      72,
+      4,
+      6,
+      4,
+      2,
+      2,
+      2,
+      12,
+      6,
+      2,
+      2,
+      6,
+      1,
+      8,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      8,
+      2,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2
+    ],
+    "weighted_double_count": "N_T*r(T,F) = 7*N_F*q(F,T)"
+  },
+  "dictionary": {
+    "base_atoms": [
+      "three_common_nonloops",
+      "three_common_loops"
+    ],
+    "compressed_column_count": 3010,
+    "records_scanned_through_first_mass4": 3312,
+    "selected_signed_W_records_by_mass": {
+      "0": 1,
+      "1": 5,
+      "2": 106,
+      "3": 2897
+    },
+    "source": "artifacts/math/G-0038/loop_inclusive_signed_degree5_universe_v1.jsonl.gz",
+    "source_sha256": "e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd",
+    "source_total_orbit_records_from_header": 7015841,
+    "tree_column_count": 53,
+    "wall_seconds": 1.214659
+  },
+  "environment": {
+    "networkx": "3.6.1",
+    "numpy": "2.5.2",
+    "pid": 2961479,
+    "python": "3.13.7",
+    "python_flint": "0.9.0"
+  },
+  "excluded_tree_columns_negative_control": {
+    "exact_negative": true,
+    "reason": "Every incidence row is identically zero after all tree columns are excluded, whereas the MAX6 c2 incidence target has nonzero entries."
+  },
+  "forest_orbits": [
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ]
+      ],
+      "index": 0,
+      "labelled_orbit_size": 90,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 8
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      ],
+      "index": 1,
+      "labelled_orbit_size": 720,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      ],
+      "index": 2,
+      "labelled_orbit_size": 360,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "index": 3,
+      "labelled_orbit_size": 180,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 4
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ]
+      ],
+      "index": 4,
+      "labelled_orbit_size": 360,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      ],
+      "index": 5,
+      "labelled_orbit_size": 360,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "index": 6,
+      "labelled_orbit_size": 360,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            5
+          ]
+        ]
+      ],
+      "index": 7,
+      "labelled_orbit_size": 90,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 8
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      ],
+      "index": 8,
+      "labelled_orbit_size": 360,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "index": 9,
+      "labelled_orbit_size": 180,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 4
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            5
+          ]
+        ]
+      ],
+      "index": 10,
+      "labelled_orbit_size": 180,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 4
+    }
+  ],
+  "forest_target_coefficients": [
+    "0",
+    "0",
+    "0",
+    "1/360",
+    "0",
+    "0",
+    "0",
+    "-1/1440",
+    "0",
+    "-1/360",
+    "0"
+  ],
+  "incidence_target_image": {
+    "D_definition": "D=7*r",
+    "all_rows_fraction_replay": true,
+    "claim_class": "exact",
+    "outcome": "positive",
+    "rank_mod_p": 11,
+    "rank_over_Q": 11,
+    "sparse_tree_preimage": [
+      {
+        "ruess_tree_coefficient": "-1/10080",
+        "scaled_integer_target_coefficient": "-1/7",
+        "tree_orbit_index": 0
+      },
+      {
+        "ruess_tree_coefficient": "1/2520",
+        "scaled_integer_target_coefficient": "4/7",
+        "tree_orbit_index": 1
+      },
+      {
+        "ruess_tree_coefficient": "1/30240",
+        "scaled_integer_target_coefficient": "1/21",
+        "tree_orbit_index": 2
+      },
+      {
+        "ruess_tree_coefficient": "-1/2520",
+        "scaled_integer_target_coefficient": "-4/7",
+        "tree_orbit_index": 3
+      },
+      {
+        "ruess_tree_coefficient": "1/5040",
+        "scaled_integer_target_coefficient": "2/7",
+        "tree_orbit_index": 5
+      },
+      {
+        "ruess_tree_coefficient": "1/10080",
+        "scaled_integer_target_coefficient": "1/7",
+        "tree_orbit_index": 8
+      },
+      {
+        "ruess_tree_coefficient": "-1/5040",
+        "scaled_integer_target_coefficient": "-2/7",
+        "tree_orbit_index": 16
+      }
+    ],
+    "sparse_tree_preimage_sha256": "bb0a867a919d545439899ddc90e7cbdbbea2b739f0a22263fab0ca8dbb939dc7",
+    "support_size": 7,
+    "target_denominator": 1440
+  },
+  "outcome_interpretation": "EXACT_POSITIVE for existence of a MAX7 degree-three Rue\u00df coefficient vector obeying the imposed leaf/bridge incidence constraint. This does not prove that the incidence constraint is functionally necessary and does not imply a MAX11 identity.",
+  "producer_sha256_before_output": "88ba42e8a2955bc3f333fe44b034c8db6a41174b9e17fe481ba0ba353ef175db",
+  "public_MAX7_semantic_positive_control": {
+    "exact_identity_replayed": true,
+    "implementation": "same G0090 subset-DP normal form used by the solve",
+    "linear": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "1"
+    ],
+    "residual_hinges": 0
+  },
+  "public_certificate_controls": {
+    "claim_boundary": "This is a statement about these public certificate coefficient vectors, not about all MAX7 solutions and not about functional necessity of the incidence constraint.",
+    "max6_certificate": "literature/repos/max-relu-certificates/certificates/certificate_6_2.json",
+    "max6_certificate_sha256": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+    "max6_dominant_c2_forest_terms": [
+      {
+        "coefficient": "1/360",
+        "forest_orbit_index": 3,
+        "pair_zero_based": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          [
+            [
+              0,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        ],
+        "term_index": 1
+      },
+      {
+        "coefficient": "-1/1440",
+        "forest_orbit_index": 7,
+        "pair_zero_based": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          [
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              5
+            ]
+          ]
+        ],
+        "term_index": 2
+      },
+      {
+        "coefficient": "-1/360",
+        "forest_orbit_index": 9,
+        "pair_zero_based": [
+          [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            [
+              0,
+              2
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        ],
+        "term_index": 3
+      }
+    ],
+    "max6_dominant_c2_projection_nonzero": true,
+    "max6_total_terms": 4,
+    "max7_balanced_spanning_tree_terms": [],
+    "max7_certificate": "literature/repos/max-relu-certificates/certificates/certificate_7_3.json",
+    "max7_certificate_sha256": "b79aaaf423187cf5aaa51c9272799bf36198759dd018a1a286716cce7b1b53be",
+    "max7_total_terms": 57,
+    "published_coefficient_transfer_reason": "The published MAX7 tree projection is zero, hence its incidence image is zero, while the published MAX6 dominant c2 projection is nonzero.",
+    "published_coefficient_transfer_result": "EXACT_NEGATIVE"
+  },
+  "result": "EXACT_MEMBERSHIP",
+  "schema": "max11-g0099-leaf-bridge-n6-n7-v1",
+  "scope": "complete_compressed_degree3_pairwise_Ruess_family",
+  "solution": {
+    "all_rows_fraction_replay": true,
+    "claim_class": "exact",
+    "coefficient_note": "coefficient_numerator_over_scaled_target solves the integer target; the adjacent ruess_full_permutation_sum_coefficient is already divided by target_denominator.",
+    "modular": {
+      "augmented_rank": 327,
+      "prime": 1000003,
+      "rank": 327
+    },
+    "pivot_columns_sha256": "b5d06ea8044471923db89bc7a656a7673ba6138fbc5e930d540dae6a1bec0eb6",
+    "pivot_rows_sha256": "06a83845bb9168cc6999787d2aec7c7ef771d73fc1629e7fa3c6ef3618519628",
+    "rank_over_Q": 327,
+    "result": "EXACT_MEMBERSHIP",
+    "rows_replayed": 648,
+    "sparse_solution": [
+      {
+        "coefficient_numerator_over_scaled_target": "-3/7",
+        "column_index": 0,
+        "descriptor": {
+          "active_vertices": 0,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ]
+          ],
+          "sequence": 0,
+          "signed_mass": 0
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/3360"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-71/14",
+        "column_index": 3,
+        "descriptor": {
+          "active_vertices": 3,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                2
+              ]
+            ]
+          ],
+          "sequence": 3,
+          "signed_mass": 1
+        },
+        "ruess_full_permutation_sum_coefficient": "-71/20160"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "177/28",
+        "column_index": 5,
+        "descriptor": {
+          "active_vertices": 4,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                3
+              ]
+            ]
+          ],
+          "sequence": 5,
+          "signed_mass": 1
+        },
+        "ruess_full_permutation_sum_coefficient": "59/13440"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-75/14",
+        "column_index": 70,
+        "descriptor": {
+          "active_vertices": 5,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                4,
+                4
+              ]
+            ]
+          ],
+          "sequence": 70,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-5/1344"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-40/7",
+        "column_index": 71,
+        "descriptor": {
+          "active_vertices": 5,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                3,
+                3
+              ]
+            ]
+          ],
+          "sequence": 71,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/252"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-10/7",
+        "column_index": 72,
+        "descriptor": {
+          "active_vertices": 5,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                3
+              ],
+              [
+                4,
+                4
+              ]
+            ]
+          ],
+          "sequence": 72,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1008"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "11/14",
+        "column_index": 75,
+        "descriptor": {
+          "active_vertices": 5,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                2
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                3
+              ],
+              [
+                4,
+                4
+              ]
+            ]
+          ],
+          "sequence": 75,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "11/20160"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-19/7",
+        "column_index": 77,
+        "descriptor": {
+          "active_vertices": 5,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                3
+              ]
+            ]
+          ],
+          "sequence": 77,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-19/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-87/7",
+        "column_index": 78,
+        "descriptor": {
+          "active_vertices": 5,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ]
+            ]
+          ],
+          "sequence": 78,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-29/3360"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "75/7",
+        "column_index": 79,
+        "descriptor": {
+          "active_vertices": 5,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ]
+          ],
+          "sequence": 79,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "5/672"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "35",
+        "column_index": 97,
+        "descriptor": {
+          "active_vertices": 6,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 97,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "7/288"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-363/28",
+        "column_index": 98,
+        "descriptor": {
+          "active_vertices": 6,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                4,
+                4
+              ]
+            ]
+          ],
+          "sequence": 98,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-121/13440"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-108/7",
+        "column_index": 99,
+        "descriptor": {
+          "active_vertices": 6,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ]
+          ],
+          "sequence": 99,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-3/280"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "21",
+        "column_index": 101,
+        "descriptor": {
+          "active_vertices": 6,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                5
+              ]
+            ]
+          ],
+          "sequence": 101,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "7/480"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-20/7",
+        "column_index": 102,
+        "descriptor": {
+          "active_vertices": 6,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                4,
+                5
+              ]
+            ]
+          ],
+          "sequence": 102,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/504"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "15",
+        "column_index": 103,
+        "descriptor": {
+          "active_vertices": 6,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                5
+              ]
+            ]
+          ],
+          "sequence": 103,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "1/96"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "134/7",
+        "column_index": 104,
+        "descriptor": {
+          "active_vertices": 6,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                4
+              ]
+            ]
+          ],
+          "sequence": 104,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "67/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "122/7",
+        "column_index": 105,
+        "descriptor": {
+          "active_vertices": 6,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                5
+              ]
+            ]
+          ],
+          "sequence": 105,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "61/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-55/7",
+        "column_index": 109,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ]
+          ],
+          "sequence": 109,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-11/2016"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-165/7",
+        "column_index": 110,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                6
+              ]
+            ]
+          ],
+          "sequence": 110,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "-11/672"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "87/14",
+        "column_index": 111,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                2,
+                5
+              ]
+            ]
+          ],
+          "sequence": 111,
+          "signed_mass": 2
+        },
+        "ruess_full_permutation_sum_coefficient": "29/6720"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-47/14",
+        "column_index": 2466,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2467,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-47/20160"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-181/14",
+        "column_index": 2467,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                3
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            [
+              [
+                4,
+                6
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2468,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-181/20160"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "141/14",
+        "column_index": 2469,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                6
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2470,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "47/6720"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "141/14",
+        "column_index": 2470,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                6
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2471,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "47/6720"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "10/7",
+        "column_index": 2473,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                6
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2474,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1008"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "16/7",
+        "column_index": 2474,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2475,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/630"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-10/7",
+        "column_index": 2476,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                2,
+                5
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2477,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1008"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-8/7",
+        "column_index": 2481,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                4
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2482,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1260"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "4/7",
+        "column_index": 2484,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            [
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2485,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/2520"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "8/7",
+        "column_index": 2490,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2491,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1260"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-31/14",
+        "column_index": 2493,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                2,
+                2
+              ],
+              [
+                3,
+                3
+              ],
+              [
+                4,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2494,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-31/20160"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "127/7",
+        "column_index": 2494,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                3,
+                3
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2495,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "127/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "85/21",
+        "column_index": 2495,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                3,
+                3
+              ]
+            ],
+            [
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2496,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "17/6048"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-127/7",
+        "column_index": 2496,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                2,
+                3
+              ],
+              [
+                3,
+                3
+              ],
+              [
+                4,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2497,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-127/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-6/7",
+        "column_index": 2498,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                3,
+                3
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2499,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1680"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-190/7",
+        "column_index": 2505,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            [
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2506,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-19/1008"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-10/7",
+        "column_index": 2506,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2507,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1008"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "135/7",
+        "column_index": 2508,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                2,
+                6
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2509,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "3/224"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "8/7",
+        "column_index": 2509,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                2,
+                6
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2510,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1260"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "15/2",
+        "column_index": 2510,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                5
+              ]
+            ],
+            [
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2511,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/192"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "127/7",
+        "column_index": 2511,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2512,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "127/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-94/7",
+        "column_index": 2513,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                3,
+                5
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2514,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-47/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-8/7",
+        "column_index": 2518,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                4
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                4,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                3
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2519,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1260"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "13/7",
+        "column_index": 2520,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                4
+              ]
+            ],
+            [
+              [
+                1,
+                2
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2521,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "13/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-12/7",
+        "column_index": 2522,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                3
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2523,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/840"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-15/7",
+        "column_index": 2525,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                4
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            [
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2526,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/672"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "11/21",
+        "column_index": 2532,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                2
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            [
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2533,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "11/30240"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "29/7",
+        "column_index": 2533,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                3
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                2
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2534,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "29/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "6/7",
+        "column_index": 2534,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                3
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                2
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                4,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2535,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1680"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-94/7",
+        "column_index": 2555,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                4,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2556,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-47/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "125/7",
+        "column_index": 2556,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                4,
+                6
+              ]
+            ],
+            [
+              [
+                2,
+                6
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2557,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "25/2016"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-115/7",
+        "column_index": 2557,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                3,
+                6
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2558,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-23/2016"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "239/14",
+        "column_index": 2559,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                4,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2560,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "239/20160"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-94/7",
+        "column_index": 2560,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                4,
+                6
+              ]
+            ],
+            [
+              [
+                3,
+                6
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2561,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-47/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "86/7",
+        "column_index": 2561,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                5
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2562,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "43/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "81/7",
+        "column_index": 2565,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                5
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                4,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2566,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "9/1120"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "9/7",
+        "column_index": 2566,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                3,
+                4
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2567,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1120"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-178/7",
+        "column_index": 2567,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                4
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2568,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-89/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "8/7",
+        "column_index": 2568,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                4
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2569,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1260"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "33/7",
+        "column_index": 2569,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                4
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2570,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "11/3360"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-13/7",
+        "column_index": 2570,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                1,
+                2
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2571,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-13/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "12/7",
+        "column_index": 2572,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2573,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/840"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "94/7",
+        "column_index": 2573,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                4
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2574,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "47/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-8/7",
+        "column_index": 2575,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                4
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2576,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1260"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "171/7",
+        "column_index": 2582,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2583,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "19/1120"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-163/7",
+        "column_index": 2597,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                6
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2598,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-163/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "6/7",
+        "column_index": 2616,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            [
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2617,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1680"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "33/7",
+        "column_index": 2617,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2618,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "11/3360"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "8/7",
+        "column_index": 2625,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                1,
+                3
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2626,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1260"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "24/7",
+        "column_index": 2627,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                6,
+                6
+              ]
+            ],
+            [
+              [
+                1,
+                3
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                5,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2628,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/420"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "11/7",
+        "column_index": 2639,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                1,
+                4
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2640,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "11/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-20/7",
+        "column_index": 2650,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                4
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                2,
+                4
+              ]
+            ],
+            [
+              [
+                2,
+                3
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2651,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/504"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-11/7",
+        "column_index": 2652,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                4
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                2,
+                4
+              ]
+            ],
+            [
+              [
+                1,
+                3
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                6,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2653,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-11/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-281/14",
+        "column_index": 2666,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2667,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-281/20160"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "260/21",
+        "column_index": 2667,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            [
+              [
+                0,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2668,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "13/1512"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "141/7",
+        "column_index": 2668,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2669,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "47/3360"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-137/7",
+        "column_index": 2670,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                1,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2671,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-137/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-171/7",
+        "column_index": 2671,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                1,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2672,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-19/1120"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "81/7",
+        "column_index": 2673,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2674,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "9/1120"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "249/7",
+        "column_index": 2674,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2675,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "83/3360"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-221/7",
+        "column_index": 2675,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                2,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2676,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-221/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "3",
+        "column_index": 2676,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                2,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2677,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/480"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-141/7",
+        "column_index": 2677,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                5
+              ]
+            ],
+            [
+              [
+                1,
+                5
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2678,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-47/3360"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "10/7",
+        "column_index": 2679,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                2
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2680,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1008"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-94/7",
+        "column_index": 2681,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                2,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2682,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-47/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "30/7",
+        "column_index": 2692,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                4
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2693,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/336"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-10/7",
+        "column_index": 2698,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2699,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1008"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-22/7",
+        "column_index": 2699,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2700,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-11/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-104/7",
+        "column_index": 2700,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2701,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-13/1260"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "31/14",
+        "column_index": 2701,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            [
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2702,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "31/20160"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "163/7",
+        "column_index": 2702,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                2,
+                3
+              ]
+            ]
+          ],
+          "sequence": 2703,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "163/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-141/14",
+        "column_index": 2708,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2709,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-47/6720"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-6/7",
+        "column_index": 2726,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                1,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2727,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1680"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-33/7",
+        "column_index": 2727,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                1,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2728,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-11/3360"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-11/7",
+        "column_index": 2784,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                3
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2785,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-11/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-66/7",
+        "column_index": 2785,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                6
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                3
+              ]
+            ]
+          ],
+          "sequence": 2786,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-11/1680"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-29/7",
+        "column_index": 2786,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                3
+              ]
+            ]
+          ],
+          "sequence": 2787,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-29/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-30/7",
+        "column_index": 2787,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                2,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2788,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/336"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-36/7",
+        "column_index": 2788,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                2,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2789,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/280"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "40/7",
+        "column_index": 2789,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                4,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2790,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/252"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "22/7",
+        "column_index": 2792,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                6
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                4,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                5
+              ]
+            ]
+          ],
+          "sequence": 2793,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "11/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-10/7",
+        "column_index": 2795,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                0,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2796,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/1008"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "10/7",
+        "column_index": 2803,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                2
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2804,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/1008"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-11/7",
+        "column_index": 2804,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                1
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2805,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-11/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "55/42",
+        "column_index": 2919,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                3,
+                6
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                2,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2920,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "11/12096"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-29/7",
+        "column_index": 2931,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                3,
+                6
+              ],
+              [
+                4,
+                6
+              ]
+            ],
+            [
+              [
+                1,
+                6
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                5,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2932,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-29/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-8/21",
+        "column_index": 2932,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                0,
+                5
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            [
+              [
+                1,
+                6
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2933,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/3780"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "11/7",
+        "column_index": 2933,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            [
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                5,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2934,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "11/10080"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "2/7",
+        "column_index": 2936,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                4,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2937,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "24/7",
+        "column_index": 2937,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                6
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            [
+              [
+                0,
+                6
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2938,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "1/420"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-2/7",
+        "column_index": 2938,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                2,
+                5
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                6
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                4
+              ]
+            ]
+          ],
+          "sequence": 2939,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/5040"
+      },
+      {
+        "coefficient_numerator_over_scaled_target": "-12/7",
+        "column_index": 2942,
+        "descriptor": {
+          "active_vertices": 7,
+          "kind": "G0038_signed_W_orbit",
+          "pair_zero_based": [
+            [
+              [
+                1,
+                5
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            [
+              [
+                0,
+                4
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                3,
+                6
+              ]
+            ]
+          ],
+          "sequence": 2943,
+          "signed_mass": 3
+        },
+        "ruess_full_permutation_sum_coefficient": "-1/840"
+      }
+    ],
+    "sparse_solution_sha256": "4f3831c8ec99445de0049774985f34bd4053cb0aa2a8071931589c2373350a6e",
+    "support_size": 113,
+    "wall_seconds": 2.89146
+  },
+  "tree_orbits": [
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            6
+          ]
+        ]
+      ],
+      "index": 0,
+      "labelled_orbit_size": 70,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 72
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            6
+          ]
+        ]
+      ],
+      "index": 1,
+      "labelled_orbit_size": 1260,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      ],
+      "stabilizer": 4
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 2,
+      "labelled_orbit_size": 840,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 6
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            6
+          ]
+        ]
+      ],
+      "index": 3,
+      "labelled_orbit_size": 1260,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 4
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      ],
+      "index": 4,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 5,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            6
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 6,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 7,
+      "labelled_orbit_size": 420,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 12
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 8,
+      "labelled_orbit_size": 840,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 6
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      ],
+      "index": 9,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            6
+          ]
+        ],
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 10,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "index": 11,
+      "labelled_orbit_size": 840,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 6
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 12,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            6
+          ]
+        ],
+        [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            1,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 13,
+      "labelled_orbit_size": 630,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 8
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        [
+          [
+            1,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 14,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            6
+          ]
+        ]
+      ],
+      "index": 15,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      ],
+      "index": 16,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "index": 17,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 18,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      ],
+      "index": 19,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 20,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      ],
+      "index": 21,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "index": 22,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            6
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 23,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 24,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "index": 25,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 26,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 27,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 28,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            2,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "index": 29,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 30,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        [
+          [
+            2,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 31,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            6
+          ]
+        ]
+      ],
+      "index": 32,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 33,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            6
+          ]
+        ]
+      ],
+      "index": 34,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      ],
+      "index": 35,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "index": 36,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 37,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 38,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 39,
+      "labelled_orbit_size": 630,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 8
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 40,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      ],
+      "index": 41,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "index": 42,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 43,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 44,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            3,
+            5
+          ]
+        ]
+      ],
+      "index": 45,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "index": 46,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            0,
+            5
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 47,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      ],
+      "index": 48,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 49,
+      "labelled_orbit_size": 5040,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 1
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "index": 50,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            3,
+            5
+          ]
+        ]
+      ],
+      "index": 51,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    },
+    {
+      "canonical_key_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "index": 52,
+      "labelled_orbit_size": 2520,
+      "representative_zero_based": [
+        [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      ],
+      "stabilizer": 2
+    }
+  ],
+  "wall_seconds": 55.300394
+}

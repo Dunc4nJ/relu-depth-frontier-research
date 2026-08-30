@@ -1,0 +1,267 @@
+{
+  "claim_boundary": "This refutes the eventwise claim that the codimension-two tied face is the unshifted D forest atom, even modulo global translations. It does not rule out a signed sum of shifted ridge faces whose correction terms later cancel, nor an abstract linear map on the balanced-tree semantic quotient.",
+  "exact_face_formula": "If u is constant on the components after deleting e and f, then face_u(Z_A)=e_p+Z_(A-e) and face_u(Z_B)=e_q+Z_(B-f), where p and q are the u-maximal endpoints of e and f. On a branch tie, face_u(conv(Z_A,Z_B)) =conv(e_p+Z_(A-e),e_q+Z_(B-f)).",
+  "formal_correction": "After deleting the leaf coordinate, add a loop at p to the first residual branch and a loop at q to the second. Dropping those loops gives D but is not semantic unless their relative translation contributes only a common affine term.",
+  "positive_common_translation_control": {
+    "branch_supports": [
+      0,
+      0
+    ],
+    "exact_translation_match": true,
+    "normal": [
+      0,
+      -1,
+      0,
+      -1,
+      0
+    ],
+    "pair": [
+      [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ]
+      ]
+    ],
+    "projected_actual_face_points": [
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0
+      ]
+    ],
+    "translation": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "unshifted_target_points": [
+      [
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "result": "UNSHIFTED_RIDGE_FORMULA_FALSE",
+  "schema": "max11-g0103-ridge-face-counterexample-v1",
+  "smallest_counterexample": {
+    "actual_coordinate_sum_levels": [
+      1,
+      2
+    ],
+    "actual_minus_target_support": [
+      1,
+      0
+    ],
+    "branch_supports": [
+      0,
+      0
+    ],
+    "exposed_branch_faces": [
+      [
+        [
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          1
+        ]
+      ]
+    ],
+    "leaf": 4,
+    "leaf_edge": [
+      0,
+      4
+    ],
+    "leaf_edge_branch": 1,
+    "missing_term": "The red branch retains endpoint e_0 while the blue branch retains the deleted leaf endpoint e_4, which projects to zero. The honest projected face is conv(e_0+[e_0,e_3], [e_1,e_2]); D replaces it by conv([e_0,e_3],[e_1,e_2]).",
+    "n": 5,
+    "normal": [
+      0,
+      -1,
+      -1,
+      0,
+      1
+    ],
+    "not_translation_equivalent": true,
+    "opposite_colour_edge": [
+      0,
+      1
+    ],
+    "pair": [
+      [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      [
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          2
+        ]
+      ]
+    ],
+    "projected_actual_face_points": [
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        2,
+        0,
+        0,
+        0
+      ]
+    ],
+    "support_covectors": [
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        -1,
+        0,
+        0,
+        0
+      ]
+    ],
+    "target_coordinate_sum_levels": [
+      1
+    ],
+    "unshifted_D_forest_points": [
+      [
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "tie_mutation_control": {
+    "expected": "tie destroyed",
+    "mutated_branch_supports": [
+      0,
+      -1
+    ],
+    "mutated_normal": [
+      0,
+      -1,
+      -1,
+      0,
+      0
+    ],
+    "mutated_winning_branches": [
+      0
+    ],
+    "mutation": "replace leaf-normal value +1 by 0",
+    "result": "REJECTED"
+  }
+}

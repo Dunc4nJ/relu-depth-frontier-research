@@ -25,7 +25,7 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0002@1`
 - falsifier: An unconditional proof that no finite two-hidden-layer ReLU network over arbitrary real weights equals MAX_11 globally.
 - no-claim: A positive witness settles only n=11; failure of a rational, symmetric, pairwise-comparison, or bounded-width search does not refute this claim.
-- open gaps: G-0002, G-0005, G-0006, G-0008, G-0012
+- open gaps: G-0002, G-0005, G-0006, G-0008, G-0012, G-0014
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
 ### C-0003@1 — construction [mathematics]
@@ -412,6 +412,87 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: The theorem glues only eleven specified exposed faces and their support ties. Dense correction and padding generators generally create additional global walls. It proves neither cancellation of those walls, equality of the global virtual polytope with the simplex, a MAX11 construction, nor an unrestricted impossibility theorem. Novelty has not been adjudicated and T2 or human review is unavailable.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0041@1 — boundary-claim [mathematics]
+
+> Over F_1,000,003, the frozen 16,738-row integer evaluation matrix containing all 8,107 old Y-spoke/carrier columns and all 18,582 registered complementary same-component columns has rank 8,868, while adjoining the MAX11 target raises the rank to 8,869. Equivalently, after a rank-6,876 old basis is eliminated, the complete target-last Schur matrix has new-column rank 1,992 and augmented rank 1,993. Hence no coefficient vector over this finite field represents the target on the frozen rows using the complete 26,689-column dictionary. The persisted Schur RREF was independently recomputed byte-for-byte by the supervising parent process.
+
+- disposition: **challenged** · trace:d1c11992
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0041@1`
+- falsifier: One frozen input, column, row, target, ordering, Schur projection, cache receipt, rank, pivot, custody, or byte-for-byte parent RREF replay mismatch; a mod-1,000,003 coefficient vector solving all 16,738 rows; or failure of the target-last pivot under an independent exact modular reconstruction.
+- no-claim: This is one-prime finite-row nonmembership only. It is not characteristic-zero or real nonmembership, because the old or enlarged integer matrix rank may drop at this prime; it supplies no rational dual, global CPWL obstruction, completeness theorem for degree-five atoms, or unrestricted two-hidden-layer MAX11 lower bound. The parent replay shares the registered implementation and host, so current standing is computed-bounded rather than clean-room independent.
+- open gaps: G-0013
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0042@1 — implementation-claim [mathematics]
+
+> G-0081 complete native Schur/RREF implementation v1 is identified by runner SHA-256 f95ad8bba3220f84a4ae8b6d3794b85ca40893454916616729fcf2786a54033b, preregistration SHA-256 f30a771dd1854420f1ff0e06881cdae2ac7f02025681c578b41c73a0164d8827, canonical CPython environment SHA-256 f17bb20bb817e5c4fe626f3782c3b382b1ba0cd2397b704def11a26df61ea1b4, final compressed result SHA-256 61e9c63b974a64d0272569b5e71a04541d49d853a76ec31ca59a6b6d0d1b95ef, scientific payload SHA-256 6d8d9bb6406f26a1515d60ef8c1a366fb556d40207184fa17d776d1626a0a06a, and its bound C-to-S-to-R receipt chain.
+
+- disposition: **open** · trace:6d8e6a5d
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0042@1`
+- falsifier: —
+- no-claim: Identity only. This record establishes neither correctness beyond the exact registered bytes nor characteristic-zero, global, family-complete, or unrestricted MAX11 nonrepresentability.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0043@1 — boundary-claim [mathematics]
+
+> For the G-0099 leaf/opposite-colour-edge incidence D, exact semantic calculations show that D annihilates every relation among balanced bicoloured tree atoms at n=5 and n=7, so it descends abstractly on those tested tree quotients. However, already at n=5: extending D by zero to the complete 131-column loop-inclusive degree-two Rueß dictionary raises semantic rank from 17 to 19; the literal tied exposed face retains branch-dependent selected-endpoint translations and need not equal the unshifted deletion atom even modulo a global linear term; and the canonical endpoint-tagged event sum raises tree rank from 4 to 6. Thus the tested G-0099 incidence is a coefficient gauge, not a representation-independent support-function induction law.
+
+- disposition: **open** · facets: UNCHALLENGED · trace:33fbe0ee
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0043@1`
+- falsifier: One exact relation whose reported upper residual is nonzero, a zero lower residual for the exported eight-term witness, global translation equivalence of the literal tied-face counterexample, descent of the tagged event map on the reported tree kernel, or an independent reconstruction disagreeing with any stated orbit census or rank.
+- no-claim: The negative statements exclude only the specified zero-extension, unshifted face, and canonical atom-dependent tagged-event interpretations. They do not refute a fixed-normal face derivative, a genuinely additive valuation defined on every atom, the complete degree-five Rueß span, MAX11 representability, or unrestricted two-hidden-layer networks. Three of the four discoveries were exploratory before deterministic freezing and still await independent replay.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0044@1 — implementation-claim [mathematics]
+
+> G-0103 leaf-incidence semantic audit suite v1 is identified by manifest-file SHA-256 145d890dcf46b41717c8310c8fad18bd6d6e5f5cbee9e529c8fe7729930fc25d and the eleven producer, preregistration, result, and README entries whose hashes it checks.
+
+- disposition: **open** · trace:5832a2fc
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0044@1`
+- falsifier: —
+- no-claim: Identity only. The suite is author-produced and author-replayed in one same-family context; only the tagged-facet test was preregistered before its outcome, and no independent-agent, T2, or human certification is asserted.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0045@1 — boundary-claim [mathematics]
+
+> Over F_1,000,003, the preregistered 9,814-row joint system combining 8,427 frozen MAX11 semantic equations with 1,387 imposed G-0099 incidence equations is inconsistent on the 22,265-column registered-plus-all-tree-plus-5E/5L dictionary: the incidence Schur rank is 1,380 and the augmented rank is 1,381. An exported modular row functional annihilates every joint dictionary column and pairs with the joint target by 239,271.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:bdadebd1
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0043@1`
+- falsifier: One frozen binding, tree alignment, incidence entry, semantic column, rank, separator residual, or target pairing mismatch; an accepted incidence-entry mutation; or a mod-1,000,003 coefficient vector satisfying every frozen semantic and incidence row.
+- no-claim: Because C-0043 shows that the imposed incidence is not a representation-independent semantic necessity, this excludes only the finite gauge-constrained candidate generator. It is not rational nonmembership, nonmembership in the unconstrained dictionary, a global identity test, or an unrestricted MAX11 lower bound.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0046@1 — implementation-claim [mathematics]
+
+> G-0104 joint semantic/incidence discriminator v1 is identified by producer SHA-256 e9e82629680dacab96a0ff5775f58736a60bf2f1bc96c42ce0e569cca1e0fc0c, preregistration SHA-256 57c8501e8a3a0eb3544d9f64e0d990fcba399d8cd96cd7078ee9e10c1de7da6f, compressed result SHA-256 a9fdd478eb5baf5f24ffa474bee3452bc3d54d679748b0b8f9b00aacaebcc2e8, direct separator replay SHA-256 572eb55d3e1a757c04b7cce793a70f6c2f19e48d7d8ac2c9a831ca45d264bc64, and manifest SHA-256 e7e93ce717fb18e844a93cd9bf892ab5955259c89cc20a073a2472694ac72e21.
+
+- disposition: **open** · trace:a4f3fa6d
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0046@1`
+- falsifier: —
+- no-claim: Identity only. This establishes no semantic necessity for D, characteristic-zero obstruction, global MAX11 result, or completeness theorem.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0047@1 — boundary-claim [mathematics]
+
+> Within the complete compressed degree-three pairwise Rueß dictionary on seven variables, there is a 113-term rational coefficient vector whose exact global normal form equals MAX7 and whose imposed G-0099 leaf/opposite-colour incidence image equals the dominant balanced two-component projection of the public MAX6 certificate. A fresh-context implementation independently reconstructed all 3,010 columns by literal 7! permutation enumeration, obtained exact rank 327 and nullity 2,683 for the complete 648-row system, and replayed the vector with zero residual on all rows.
+
+- disposition: **open** · facets: UNCHALLENGED · trace:baf680db
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0047@1`
+- falsifier: One omitted degree-three orbit or primitive hinge, one different exact rank, a nonzero semantic or incidence residual of the 113-term vector, a failed direct MAX7 evaluation, a broken orbit double count, or survival of any planted sign, incidence, coefficient, or target mutation.
+- no-claim: The incidence target was imposed rather than derived from a semantic restriction. This result is an exact lower-arity potency control, not an n=6-to-7 induction theorem, MAX11 identity, evidence that the analogous n=10-to-11 joint system is feasible, or an unrestricted-network theorem.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0048@1 — implementation-claim [mathematics]
+
+> G-0102 clean-room audit of the G-0099 lower-dimensional potency gate is identified by standalone auditor SHA-256 7ca056bddc7695222114e61b87c5e726bb96bc7803847c69baf8f57191166169, frozen G-0099 manifest SHA-256 508d4cec92e18da90f889bfbc1e4e34f73db5d56ee66bc0f65d21ee0a1b87121, and deterministic audit receipt SHA-256 dbc043aa9954f1cf76ae6ba28f8925a1ef687943a539a6c48048baafe7441d33.
+
+- disposition: **open** · trace:10548e0c
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0048@1`
+- falsifier: —
+- no-claim: Identity only. This same-model-family clean-room implementation establishes neither semantic necessity of the imposed incidence nor any MAX11 or unrestricted-network result.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -425,6 +506,8 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `D-0002` Continue repairing the frozen G-0046 registered-only modular relation by adding  · scope: Exactly the G-0046 rank-7,302 serialized support and its 7,1 · retry_when: `regime_boundary(pair-orbit-family-enlarged-beyond-g0046)` · trace:e0b4a9d2
 - `D-0003` Search for MAX11 inside the fully symmetrized asymmetric loop-edge lift of the 2 · scope: Exactly the 5,040 G-0071 labelled seeds quotienting to 3,754 · retry_when: `data_changes(asymmetric-loop-edge-orbit-subject)` · trace:d09d860d
 - `D-0004` Reconstruct centered MAX11 from only the eleven independently translation-normal · scope: Exactly reconstruction criteria that discard independent nor · retry_when: `regime_boundary(face-data-retains-support-heights-or-global-wall-fan)` · trace:b4306f20
+- `D-0005` Interpret the G-0099 leaf-edge/opposite-colour-edge deletion incidence as a repr · scope: Exactly the raw zero-extension on the complete n=5 degree-tw · retry_when: `regime_boundary(leaf-operator-defined-on-complete-semantic-quotient)` · trace:7b8f7884
+- `D-0006` Seek MAX11 in the 22,265-column registered-plus-all-tree-plus-5E/5L dictionary w · scope: Exactly the frozen 8,427 semantic rows, 1,387 imposed incide · retry_when: `regime_boundary(incidence-constraint-proved-semantic)` · trace:72bd986a
 
 ## Experiments (multiplicity ledger)
 
@@ -448,3 +531,8 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0018` [complete] family `max11-y-spoke-sparse-exact-left-dual-lift-v1` arm — prereg=True · trace:f66d54d4
 - `EXP-0019` [aborted] family `max11-same-component-complete-exact-price-vector-v1` arm — prereg=True · trace:4146b2e1
 - `EXP-0020` [complete] family `max11-same-component-complete-exact-price-vector-v2` arm — prereg=True · trace:331603cd
+- `EXP-0021` [complete] family `max11-complete-same-component-native-schur-v1` arm — prereg=True · trace:03e0008a
+- `EXP-0022` [complete] family `leaf-bridge-lower-dimensional-potency-v1` arm — prereg=False · trace:312a6efb
+- `EXP-0023` [complete] family `leaf-bridge-semantic-status-v1` arm — prereg=False · trace:e5b8ff77
+- `EXP-0024` [complete] family `max11-joint-semantic-incidence-v1` arm — prereg=True · trace:1e8b8933
+- `EXP-0025` [complete] family `degree-five-full-dimensional-filter-v1` arm — prereg=False · trace:1ba2022b

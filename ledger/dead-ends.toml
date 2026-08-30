@@ -56,3 +56,25 @@ does_not_show = "This does not refute support-height-aware conditions, selected-
 retry_when = "regime_boundary(face-data-retains-support-heights-or-global-wall-fan)"
 author_path = "research-lead/beigeturtle"
 created = 2026-08-30T17:22:44Z
+
+[[dead_end]]
+id = "D-0005"
+approach = "Interpret the G-0099 leaf-edge/opposite-colour-edge deletion incidence as a representation-independent arity-lowering operation by setting non-tree atom images to zero, identifying its output with unshifted tied exposed faces, or retaining the selected endpoints in the canonical atom-dependent tagged-facet sum."
+observed = "Exact n=5 witnesses refute all three interpretations: zero-extension raises semantic rank from 17 to 19; the literal tied face has a relative selected-endpoint translation that is not globally linear; and the endpoint-tagged event map raises the tree quotient rank from 4 to 6."
+scope = "Exactly the raw zero-extension on the complete n=5 degree-two Rueß dictionary, the unshifted eventwise tied-face formula, and the preregistered canonical endpoint-tagged atom-dependent event sum; evidence E-0028."
+does_not_show = "This does not refute fixed-normal face derivatives, a differently weighted additive valuation defined on every atom, the complete degree-five span, MAX11, or unrestricted two-hidden-layer networks."
+evidence = ["E-0028"]
+retry_when = "regime_boundary(leaf-operator-defined-on-complete-semantic-quotient)"
+author_path = "research-lead/lilacbridge"
+created = 2026-08-30T20:48:54Z
+
+[[dead_end]]
+id = "D-0006"
+approach = "Seek MAX11 in the 22,265-column registered-plus-all-tree-plus-5E/5L dictionary while imposing the G-0099 leaf/bridge coefficient gauge as if it were a necessary arity-lowering constraint."
+observed = "The preregistered joint modular system has Schur rank 1,380 and augmented rank 1,381 at p=1,000,003; a lifted functional annihilates every joint column and has nonzero target pairing 239,271."
+scope = "Exactly the frozen 8,427 semantic rows, 1,387 imposed incidence rows, 22,265 columns, and joint target in G-0104; evidence E-0029."
+does_not_show = "Because the gauge is not semantically necessary, this does not exclude MAX11 from the unconstrained dictionary, the complete degree-five span, characteristic zero, or unrestricted networks."
+evidence = ["E-0029"]
+retry_when = "regime_boundary(incidence-constraint-proved-semantic)"
+author_path = "research-lead/lilacbridge"
+created = 2026-08-30T20:48:54Z

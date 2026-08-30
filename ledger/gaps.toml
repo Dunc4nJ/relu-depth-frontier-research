@@ -93,3 +93,19 @@ obligation = "The eleven-face zonotope gluing problem now has an explicit candid
 status = "open"
 author_path = "research-lead/beigeturtle"
 created = 2026-08-30T17:22:44Z
+
+[[gap]]
+id = "G-0013"
+claim = "C-0041@1"
+obligation = "The G-0081 one-prime target-pivot decision lacks a fresh clean-room separator reconstruction, a second-prime or exact-rational rank/dual decision, and an explicit full-row functional suitable for pricing new columns."
+status = "open"
+author_path = "research-lead/lilacbridge"
+created = 2026-08-30T20:48:54Z
+
+[[gap]]
+id = "G-0014"
+claim = "C-0002@1"
+obligation = "No target-aware solve has priced or incorporated the complete certified 7,015,841-record loop-inclusive degree-five pairwise Rueß universe plus 5E and 5L against the new G-0081 obstruction; the 26,689-column separation therefore leaves most of the complete degree-five ansatz untested."
+status = "open"
+author_path = "research-lead/lilacbridge"
+created = 2026-08-30T20:48:54Z

@@ -1,0 +1,366 @@
+{
+  "augmented_system": {
+    "column_descriptors_sha256": "1db56e3145f7b9f41d98ec3a9f092ab65917ef55a5cbc0402ccb454dd0db367b",
+    "direction_list_sha256": "304ef4bf2c9df364ae0eb4cc1c054240a7b4ef1a9abad935cac9124e733ef797",
+    "exact_nullity_over_Q": 2683,
+    "exact_rank_over_Q": 327,
+    "hinge_rows": 630,
+    "incidence_rows": 11,
+    "linear_rows": 7,
+    "matrix_int64_c_sha256": "1a8bdfa8d4d122b4294ce40248fe3e20a1d94801569b8ee36386416aa4e828c9",
+    "modular_ranks": {
+      "1000003": {
+        "augmented_rank": 327,
+        "rank": 327
+      },
+      "1000033": {
+        "augmented_rank": 327,
+        "rank": 327
+      },
+      "1000081": {
+        "augmented_rank": 327,
+        "rank": 327
+      }
+    },
+    "pivot_receipts": {
+      "pivot_columns": true,
+      "pivot_rows": true,
+      "rank_over_Q": true
+    },
+    "receipt_matches": {
+      "descriptors": true,
+      "directions": true,
+      "matrix": true,
+      "sparse_solution": true,
+      "target": true
+    },
+    "row_completeness": "All primitive hinge directions occurring in all 3010 columns were included.  Literal n! enumeration supplies each column's full linear-plus-hinge normal form on the sorted cone; distinct retained primitive directions have distinct interior bend hyperplanes.",
+    "shape": [
+      648,
+      3010
+    ],
+    "target_denominator": 1440,
+    "target_int64_c_sha256": "fc182ae6f8ae9b8a60bfc5705ad8fbffc0182ef9a4c7d227576c1de9e354c9d7"
+  },
+  "claim_boundary": {
+    "established": "For the complete compressed n=7 degree-three pairwise Rue\u00df dictionary and the imposed D=7r constraint, an exact rational MAX7 coefficient vector exists whose D-image equals the dominant c2 projection of the public MAX6 certificate.",
+    "not_established": [
+      "that D is a semantic consequence of restriction from MAX7 to MAX6",
+      "that the analogous n=10 -> n=11 constrained system is feasible",
+      "any MAX11 functional identity",
+      "any unrestricted two-hidden-layer ReLU lower bound",
+      "novelty, external refereeing, or T2 independence"
+    ]
+  },
+  "dictionary": {
+    "burnside_orbits_by_mass": {
+      "0": 1,
+      "1": 5,
+      "2": 106,
+      "3": 2897
+    },
+    "burnside_total_signed_orbits": 3009,
+    "completeness_argument": "Every degree-three pair cancels to a signed loop-inclusive multigraph of balanced mass s<=3. Burnside gives exactly the independently canonicalized stream counts.  Common padding changes only the symmetrized common-edge component; the all-nonloop padding plus the separate all-loop atom spans its two edge orbits over Q.",
+    "compressed_columns": 3010,
+    "extra_common_loop_basis_columns": 1,
+    "selected_by_mass": {
+      "0": 1,
+      "1": 5,
+      "2": 106,
+      "3": 2897
+    },
+    "selected_signed_key_count": 3009,
+    "stream_header_expected_records": 7015841,
+    "stream_sha256": "e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd"
+  },
+  "environment": {
+    "byteorder": "little",
+    "numpy": "2.5.2",
+    "python": "3.13.7",
+    "python_flint": "0.9.0"
+  },
+  "independence": {
+    "linear_algebra": "exact Fraction certificate replay; FLINT only for independent whole-matrix Q rank and modular pivot receipts",
+    "orbit_count_method": "Burnside over S7 x global-sign-swap plus independent canonicalization",
+    "producer_modules_imported": [],
+    "same_model_family_boundary": "T1 clean-room computational replay, not T2 review",
+    "semantic_method": "literal enumeration of every vertex order and direct branch linear forms"
+  },
+  "input_hashes": {
+    "auditor_source": "7ca056bddc7695222114e61b87c5e726bb96bc7803847c69baf8f57191166169",
+    "cert6": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+    "cert7": "b79aaaf423187cf5aaa51c9272799bf36198759dd018a1a286716cce7b1b53be",
+    "manifest": "508d4cec92e18da90f889bfbc1e4e34f73db5d56ee66bc0f65d21ee0a1b87121",
+    "producer_report": "4ba88a474591e08dc28a7e17d8fe9ea9c12c03c065b578777b2fe22ad3888885",
+    "producer_script": "88ba42e8a2955bc3f333fe44b034c8db6a41174b9e17fe481ba0ba353ef175db",
+    "stream": "e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd"
+  },
+  "orbits_and_incidence": {
+    "D_convention": "D(F,T)=7*r(T,F) for full permutation-sum Rue\u00df basis coefficients",
+    "all_weighted_nonzeros_checked": 234,
+    "direct_incidence_nonzeros": 234,
+    "direct_incidence_sum": 555,
+    "double_count": "N_T*r(T,F)=7*N_F*q(F,T), equivalently a_F*r(T,F)=a_T*q(F,T)",
+    "forest_orbit_sizes_sum": 3240,
+    "forest_orbits": 11,
+    "forest_stabilizers": [
+      8,
+      1,
+      2,
+      4,
+      2,
+      2,
+      2,
+      8,
+      2,
+      4,
+      4
+    ],
+    "labelled_forest_universe": 3240,
+    "labelled_tree_universe": 168070,
+    "receipt_comparisons": {
+      "direct_incidence_hash": true,
+      "direct_nonzeros": true,
+      "direct_sum": true,
+      "forest_labelled_orbit_sizes": true,
+      "forest_stabilizers": true,
+      "forest_target": true,
+      "reverse_incidence_hash": true,
+      "reverse_sum": true,
+      "tree_labelled_orbit_sizes": true,
+      "tree_stabilizers": true
+    },
+    "reverse_incidence_sum": 864,
+    "tree_orbit_sizes_sum": 168070,
+    "tree_orbits": 53,
+    "tree_stabilizers": [
+      72,
+      4,
+      6,
+      4,
+      2,
+      2,
+      2,
+      12,
+      6,
+      2,
+      2,
+      6,
+      1,
+      8,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      8,
+      2,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2
+    ]
+  },
+  "planted_mutations": {
+    "coefficient_mutation": {
+      "column_index": 0,
+      "mutation": "add one to the first reported scaled coefficient",
+      "new_coefficient": "4/7",
+      "nonzero_residual_rows": 6,
+      "old_coefficient": "-3/7",
+      "rejected": true
+    },
+    "incidence_mutation": {
+      "column_index": 2919,
+      "constrained_row_residual": "55/6",
+      "double_count_after_left": 1330,
+      "double_count_before": 1260,
+      "forest_index": 0,
+      "mutation": "increment one direct incidence count r(F,T) by one",
+      "rejected": true,
+      "tree_index": 0,
+      "unchanged_right": 1260
+    },
+    "semantic_sign_mutation": {
+      "column_index": 3,
+      "first_residual": "linear:1=-17040/7",
+      "mutation": "use rho(u)=rho(-u)-u instead of rho(u)=rho(-u)+u when orienting a negative direction",
+      "nonzero_residual_coordinates": 6,
+      "rejected": true
+    },
+    "target_mutation": {
+      "mutation": "increment the MAX7 linear target coefficient at rank seven by one",
+      "new_target": 1441,
+      "old_target": 1440,
+      "rejected": true,
+      "residual": "-1",
+      "row": 636
+    }
+  },
+  "public_controls": {
+    "max6_dominant_c2_projection": [
+      "0",
+      "0",
+      "0",
+      "1/360",
+      "0",
+      "0",
+      "0",
+      "-1/1440",
+      "0",
+      "-1/360",
+      "0"
+    ],
+    "max6_dominant_c2_terms": [
+      {
+        "coefficient": "1/360",
+        "forest_orbit_index": 3,
+        "term_index": 1
+      },
+      {
+        "coefficient": "-1/1440",
+        "forest_orbit_index": 7,
+        "term_index": 2
+      },
+      {
+        "coefficient": "-1/360",
+        "forest_orbit_index": 9,
+        "term_index": 3
+      }
+    ],
+    "max6_identity": {
+      "exact_identity": true,
+      "file_sha256": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+      "implementation": "literal enumeration of all n! vertex orders",
+      "linear": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "n": 6,
+      "residual_hinges": 0,
+      "terms": 4
+    },
+    "max7_identity": {
+      "exact_identity": true,
+      "file_sha256": "b79aaaf423187cf5aaa51c9272799bf36198759dd018a1a286716cce7b1b53be",
+      "implementation": "literal enumeration of all n! vertex orders",
+      "linear": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "n": 7,
+      "residual_hinges": 0,
+      "terms": 57
+    },
+    "published_max7_tree_projection": [],
+    "published_vector_transfer": "FAILS because its tree projection is zero; this says nothing about other MAX7 coefficient vectors"
+  },
+  "reviewed_producer_report_sha256": "4ba88a474591e08dc28a7e17d8fe9ea9c12c03c065b578777b2fe22ad3888885",
+  "schema": "max11-g0102-cleanroom-audit-g0099-v1",
+  "solution": {
+    "all_648_rows_exact_fraction_replay": true,
+    "constrained_solution_exists": true,
+    "direct_function_value_replays": [
+      {
+        "expected": "11",
+        "matches": true,
+        "observed": "11",
+        "point": [
+          -3,
+          -1,
+          0,
+          2,
+          4,
+          7,
+          11
+        ]
+      },
+      {
+        "expected": "9",
+        "matches": true,
+        "observed": "9",
+        "point": [
+          -5,
+          -5,
+          -2,
+          0,
+          0,
+          3,
+          9
+        ]
+      },
+      {
+        "expected": "0",
+        "matches": true,
+        "observed": "0",
+        "point": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "expected": "7",
+        "matches": true,
+        "observed": "7",
+        "point": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      }
+    ],
+    "nonuniqueness": "The constrained system has exact nullity 2683; therefore the published MAX7 vector's failed tree projection cannot decide existence of a different vector.",
+    "reported_sparse_solution_sha256": "4f3831c8ec99445de0049774985f34bd4053cb0aa2a8071931589c2373350a6e",
+    "residuals": [],
+    "sparse_solution_canonical_sha256": "4f3831c8ec99445de0049774985f34bd4053cb0aa2a8071931589c2373350a6e",
+    "support_size": 113
+  },
+  "verdict": "PASS",
+  "wall_seconds": 183.81337
+}
