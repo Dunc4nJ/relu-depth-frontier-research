@@ -244,3 +244,26 @@ selected_by = "EXP-0008 was frozen and committed before the registered subject r
 experiment = "EXP-0008"
 author_path = "research-lead/crimsonbirch"
 created = 2026-08-30T01:44:24Z
+
+[[evidence]]
+id = "E-0015"
+bears_on = "C-0021@1"
+direction = "supports"
+kind = "computation"
+method = "two-prime exact modular complete-source-row rank, kernel replay, and Lambda-augmented-rank comparison"
+source = "generated"
+mode = "confirmatory"
+artifact = "artifacts/math/G-0070/joint_zero_high_s1_quotient_gate_result_v1.json"
+implementation_claim = "C-0022@1"
+code_hash = "sha256:0e24f192d3f467e992d6cfa31f9534247d72ced597aa12d225287e615fbff27e"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:fb37d7ea87b0a1fa10677f9e1bd30156901d1f8ca73cdd6ba601b86875cfa1ff"
+artifact_digest = "sha256:7b8b346f92df73e215658146cbbb35b4024f0c6adf52bb6508c496a3765e6156"
+repro = ".venv/bin/python -B artifacts/math/G-0070/joint_zero_high_s1_quotient_gate.py --run --workers 8 --sketch-buckets 4096 --row-block 2048 --cegis-rounds 8 --minimum-available-gib 16 --output artifacts/math/G-0070/joint_zero_high_s1_quotient_gate_replay_v1.json.gz"
+domain_checked = "The pinned 1,288-column exact S1 pivot basis plus exactly 526 reconstructed zero-high natural candidates on all 99,858 complete degree-four hinge rows, using primes 1,000,003 and 1,000,033 and the exact Lambda row."
+detection_floor = "One changed binding or semantic digest, one changed rank/nullity, one complete-row modular residual, one nonzero Lambda residual in a kernel relation, or one changed selected source-row/pivot-column minor. No numerical tolerance."
+result = "CONSISTENT"
+selected_by = "EXP-0009 and frozen G-0070 script SHA-256 were committed and pushed before registered-subject execution."
+experiment = "EXP-0009"
+author_path = "research-lead/crimsonbirch"
+created = 2026-08-30T02:19:13Z

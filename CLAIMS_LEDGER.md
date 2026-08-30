@@ -211,6 +211,26 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only; this record establishes neither that the sketch preserves complete rank nor any MAX_11 construction or obstruction.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0021@1 — boundary-claim [mathematics]
+
+> For the pinned direct matrix consisting of the 1,288 exact S1 pivot columns and exactly 526 reconstructed G-0068 zero-high candidates on all 99,858 complete degree-four hinge rows, the rank is 1,713 modulo each of 1,000,003 and 1,000,033, so the candidate quotient rank is 425 and modular nullity is 101 at both primes. Appending the exact Lambda row raises neither modular rank.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:3596e29e
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0021@1`
+- falsifier: One input, subject, semantic, source-row, or script binding drift; one independently reproduced different complete-source rank or augmented rank at either registered prime; or one nonzero complete-row or Lambda residual in a reported modular kernel relation.
+- no-claim: Matching deficiency and zero Lambda gain at two primes are not an exact-Q rank theorem or rational dual certificate. This establishes no no-go for the primary block, no conclusion for the omitted 252 structural mass-four semantics, no MAX11 construction, and no statement about asymmetric or unrestricted two-hidden-layer networks.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0022@1 — implementation-claim [mathematics]
+
+> Joint zero-high S1 quotient gate v1 is identified by the frozen G-0070 script, complete input/subject snapshot, subject environment, full compressed report, and bounded result receipt.
+
+- disposition: **open** · trace:6684561b
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0022@1`
+- falsifier: —
+- no-claim: Identity only; this record establishes neither exact rational rank nor any MAX11 construction or obstruction.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -233,4 +253,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0006` [complete] family `max11-signed-mass-at-most-three-exact-q-obstruction-v1` arm — prereg=True · trace:fa9efa60
 - `EXP-0007` [complete] family `max11-signed-mass-four-full-core-census-v1` arm — prereg=True · trace:d2fb7ef9
 - `EXP-0008` [complete] family `max11-natural-single-edge-mass5-zero-high-census-v1` arm — prereg=True · trace:ff2593a4
-- `EXP-0009` [planned] family `max11-zero-high-joint-s1-quotient-v1` arm — prereg=True · trace:e7ff91b4
+- `EXP-0009` [complete] family `max11-zero-high-joint-s1-quotient-v1` arm — prereg=True · trace:e7ff91b4

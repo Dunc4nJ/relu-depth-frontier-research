@@ -266,3 +266,31 @@ env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d1
 data_snapshot = "sha256:d1259c598dae8316a99178e511d76c0edfe420e23b3ad3e6d53f989c0e485297"
 author_path = "implementation-author/crimsonbirch"
 created = 2026-08-30T01:44:24Z
+
+[[claim]]
+id = "C-0021"
+version = 1
+statement = "For the pinned direct matrix consisting of the 1,288 exact S1 pivot columns and exactly 526 reconstructed G-0068 zero-high candidates on all 99,858 complete degree-four hinge rows, the rank is 1,713 modulo each of 1,000,003 and 1,000,033, so the candidate quotient rank is 425 and modular nullity is 101 at both primes. Appending the exact Lambda row raises neither modular rank."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0022@1"]
+falsifier = "One input, subject, semantic, source-row, or script binding drift; one independently reproduced different complete-source rank or augmented rank at either registered prime; or one nonzero complete-row or Lambda residual in a reported modular kernel relation."
+no_claim = "Matching deficiency and zero Lambda gain at two primes are not an exact-Q rank theorem or rational dual certificate. This establishes no no-go for the primary block, no conclusion for the omitted 252 structural mass-four semantics, no MAX11 construction, and no statement about asymmetric or unrestricted two-hidden-layer networks."
+not_equivalent_to = ["a 101-dimensional rational kernel", "Lambda membership in the rational row span", "a natural-family obstruction", "a MAX11 construction", "an unrestricted two-hidden-layer result"]
+origin_round = "R-0001"
+author_path = "modular-rank-author/crimsonbirch"
+created = 2026-08-30T02:19:13Z
+
+[[claim]]
+id = "C-0022"
+version = 1
+statement = "Joint zero-high S1 quotient gate v1 is identified by the frozen G-0070 script, complete input/subject snapshot, subject environment, full compressed report, and bounded result receipt."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity only; this record establishes neither exact rational rank nor any MAX11 construction or obstruction."
+origin_round = "R-0001"
+code_hash = "sha256:0e24f192d3f467e992d6cfa31f9534247d72ced597aa12d225287e615fbff27e"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:fb37d7ea87b0a1fa10677f9e1bd30156901d1f8ca73cdd6ba601b86875cfa1ff"
+author_path = "implementation-author/crimsonbirch"
+created = 2026-08-30T02:19:13Z
