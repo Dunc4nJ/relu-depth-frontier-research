@@ -218,6 +218,10 @@ def validate_unique_sequences(values: Any, label: str, expected: int | None = No
     return parsed
 
 
+def require_increasing(values: Sequence[int], label: str) -> None:
+    require(list(values) == sorted(values), f"{label}: not in increasing order")
+
+
 def identity_residuals(
     columns: Sequence[Sequence[int]], coefficients: Sequence[int], target: Sequence[int], scale: int
 ) -> list[int]:
@@ -260,6 +264,12 @@ def self_test() -> None:
         pass
     else:
         raise AuditFailure("duplicate support self-test did not fail")
+    try:
+        require_increasing([2, 1], "reordered")
+    except AuditFailure:
+        pass
+    else:
+        raise AuditFailure("reordered support self-test did not fail")
     try:
         identity_residuals([[1], [0, 1]], [1, 1], [1], 1)
     except AuditFailure:
@@ -518,6 +528,11 @@ def parse_result_and_transcript(
     require(result.get("manifest_path") == MANIFEST_REL, "result manifest path")
     require(result.get("manifest_sha256") == EXPECTED[MANIFEST_REL], "result manifest hash")
     require(result.get("solver_sha256") == manifest.get("solver", {}).get("sha256"), "result solver binding")
+    require(
+        result.get("batch_exact_residuals_decimal_lf_sha256")
+        == manifest.get("exact_batch_residuals_decimal_lf_sha256"),
+        "result Batch32 exact-residual binding",
+    )
     require(result.get("records") == RECORDS and result.get("rows") == ROWS, "result dimensions")
     require(result.get("all_rows_replayed") is True, "result all-row label")
     require(result.get("coefficient_plus_one_mutant_rejected") is True, "result mutant label")
@@ -525,7 +540,7 @@ def parse_result_and_transcript(
     selected = validate_unique_sequences(result.get("selected_sequences"), "selected_sequences", SELECTED_COLUMNS)
     support = validate_unique_sequences(result.get("support_sequences"), "support_sequences", SELECTED_COLUMNS)
     require(support == selected, "support_sequences differs from selected_sequences")
-    require(selected == sorted(selected), "selected sequences are not in increasing family order")
+    require_increasing(selected, "selected sequences")
     seed = validate_unique_sequences(manifest.get("seed_sequences"), "manifest seed_sequences", SEED_COLUMNS)
 
     raw_coefficients = result.get("integer_coefficients")
