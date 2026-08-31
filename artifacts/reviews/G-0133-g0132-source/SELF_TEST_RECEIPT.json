@@ -1,0 +1,52 @@
+{
+  "schema": "max11-g0133-g0132-source-self-test-receipt-v1",
+  "status": "PASS",
+  "completed_at_utc": "2026-08-31T05:36:06Z",
+  "subject": {
+    "source_sha256": "27400fe972986ea29ff245059f6011bbf1a146511d30cfecbdfdd834c3a5115e",
+    "cargo_manifest_sha256": "34f04114a5729d2fcd02edf4b544dda7f88762bb2decb1d6c9668375b536d2db",
+    "cargo_lock_sha256": "4b8685901b2e6783d0ffd51c2abe57d60a0e6c8a277473e28239a59dd48f77d7",
+    "executable_sha256": "8c556397e37e6d3f7bed9b8dae417cf4629c0a3fe3ce0537192d4a34662d6e64",
+    "producer_commit": "618c5e7883bf6ee02f1a0f202dbec1f3a9e15a0b"
+  },
+  "command": "artifacts/math/G-0132/target/release/g0132-member-global-normal-form --self-test",
+  "checks": [
+    {
+      "name": "frozen_release_self_test",
+      "command": "artifacts/math/G-0132/target/release/g0132-member-global-normal-form --self-test",
+      "status": "PASS",
+      "exit_code": 0,
+      "stdout": "G-0132 self-test PASS"
+    },
+    {
+      "name": "release_unit_self_test",
+      "command": "cargo test --release tests::producer_self_test -- --exact",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_passed": 1
+    },
+    {
+      "name": "maximum_support_bigint_pinned_crosscheck",
+      "command": "cargo test --release tests::maximum_support_bigint_matches_pinned -- --ignored --exact",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_passed": 1
+    },
+    {
+      "name": "release_clippy_warnings_denied",
+      "command": "cargo clippy --release -- -D warnings",
+      "status": "PASS",
+      "exit_code": 0
+    },
+    {
+      "name": "real_input_preflight_without_publication",
+      "command": "artifacts/math/G-0132/target/release/g0132-member-global-normal-form --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "status": "PASS",
+      "exit_code": 0,
+      "stdout": "G-0132 preflight PASS: finite member admitted; 132 terms; 41 transitive inputs"
+    }
+  ],
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "publication_paths_absent_after_checks": true
+}

@@ -1,0 +1,136 @@
+{
+  "candidate_projection": {
+    "carry_directions": 68,
+    "labelled_permutations": 5269017600,
+    "last_term_drop_changes_projection": true,
+    "last_term_sequence": 161,
+    "nonzero_terms": 132,
+    "primitive_gcd": 1,
+    "selected_slots": 176,
+    "zero_slots": 44
+  },
+  "cli_path_and_branch_guards": [
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form --build-manifest artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json /tmp/g0132-forbidden-manifest.json",
+      "exit_code": 1,
+      "expected_fragment": "manifest path drift",
+      "publication_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json artifacts/math/G-0132/member_global_normal_form_manifest_v1.json /tmp/g0132-forbidden-output.json",
+      "exit_code": 1,
+      "expected_fragment": "output path drift",
+      "publication_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form --preflight /tmp/wrong-panel.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "panel path drift",
+      "publication_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form --preflight artifacts/math/G-0113/panel_solver_input_v1.json /tmp/wrong-candidate.json",
+      "exit_code": 1,
+      "expected_fragment": "candidate path drift",
+      "publication_paths_absent_after": true
+    }
+  ],
+  "exact_residual_controls": {
+    "late_linear_changed_complete_digest": true,
+    "no_op_preserved_digest": true,
+    "screening_prime_collision_nonzero": "1000000016000000063"
+  },
+  "finite_member_admission": {
+    "rank_trials": 21,
+    "terminal_rank": 176,
+    "verdict": "CONSISTENT_MEMBER"
+  },
+  "frozen_inputs": {
+    "all_rehashed": true,
+    "direct_bindings": 22,
+    "transitive_manifest_inputs": 41,
+    "unique_path_sha_pairs": 63
+  },
+  "frozen_self_test": {
+    "status": "PASS",
+    "stdout": "G-0132 self-test PASS"
+  },
+  "publication_paths_absent_after_probes": true,
+  "receipt_mutants_rejected": 6,
+  "schema": "max11-g0133-g0132-independent-probe-v1",
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "source_audit_receipt_mutants": [
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form --build-manifest artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json artifacts/math/G-0132/member_global_normal_form_manifest_v1.json",
+      "exit_code": 1,
+      "expected_fragment": "unknown field",
+      "name": "unknown_field",
+      "publication_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form --build-manifest artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json artifacts/math/G-0132/member_global_normal_form_manifest_v1.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit did not clear exact source",
+      "name": "verdict_and_observation",
+      "publication_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form --build-manifest artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json artifacts/math/G-0132/member_global_normal_form_manifest_v1.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit subject binding mismatch",
+      "name": "subject_sha",
+      "publication_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form --build-manifest artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json artifacts/math/G-0132/member_global_normal_form_manifest_v1.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit frozen-input set mismatch",
+      "name": "duplicate_frozen_input",
+      "publication_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form --build-manifest artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json artifacts/math/G-0132/member_global_normal_form_manifest_v1.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit self-test or independent-probe binding mismatch",
+      "name": "self_test_command",
+      "publication_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0132/target/release/g0132-member-global-normal-form --build-manifest artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json artifacts/math/G-0132/member_global_normal_form_manifest_v1.json",
+      "exit_code": 1,
+      "expected_fragment": "uncommitted or invalid binding",
+      "name": "uncommitted_artifact_guard",
+      "publication_paths_absent_after": true
+    }
+  ],
+  "static_reachability": {
+    "all_linear_coordinates": true,
+    "atomic_no_overwrite": true,
+    "branch_guards": true,
+    "carry_68_second_route": true,
+    "direction_and_linear_mutants": true,
+    "dynamic_hinge_map": true,
+    "embedded_drift_checks": true,
+    "exact_terminal_rule": true,
+    "full_labelled_census": true,
+    "last_term_mutant": true,
+    "modular_control_only": true,
+    "narrow_promotion_boundary": true,
+    "prime_collision": true,
+    "projection_176_to_132": true,
+    "receipt_gate_before_manifest": true,
+    "zero_and_residual_enums": true
+  },
+  "status": "PASS",
+  "subject": {
+    "commit": "618c5e7883bf6ee02f1a0f202dbec1f3a9e15a0b",
+    "hashes": {
+      "candidate": "17c4fd5c8890006feaf5b9b9d6dbd542002dfca80e85b27b2dcacec16ebca838",
+      "cargo_lock": "4b8685901b2e6783d0ffd51c2abe57d60a0e6c8a277473e28239a59dd48f77d7",
+      "cargo_manifest": "34f04114a5729d2fcd02edf4b544dda7f88762bb2decb1d6c9668375b536d2db",
+      "executable": "8c556397e37e6d3f7bed9b8dae417cf4629c0a3fe3ce0537192d4a34662d6e64",
+      "source": "27400fe972986ea29ff245059f6011bbf1a146511d30cfecbdfdd834c3a5115e"
+    }
+  }
+}
