@@ -11,8 +11,11 @@ use std::time::Instant;
 
 #[path = "../cegis_provenance.rs"]
 mod cegis_provenance;
+#[path = "../g0118_provenance.rs"]
+mod g0118_provenance;
 
 use cegis_provenance::{CertificateTerm, SourceCegis, V3_CLAIM_BOUNDARY, V3_SCHEMA};
+use g0118_provenance::{G0118_V3_CLAIM_BOUNDARY, G0118_V3_SCHEMA, SourcePrefixCegis};
 
 const PRIMES: [u64; 2] = [1_000_000_007, 1_000_000_009];
 const INPUT_SHA256: &str = "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8";
@@ -39,6 +42,8 @@ struct Certificate {
     source_exact_postprocess: Option<SourceExactPostprocess>,
     #[serde(default)]
     source_cegis: Option<SourceCegis>,
+    #[serde(default)]
+    source_prefix_cegis: Option<SourcePrefixCegis>,
     #[serde(default)]
     target_scale: Option<String>,
     terms: Vec<CertificateTerm>,
@@ -264,7 +269,8 @@ fn main() -> Result<()> {
     ensure!(
         certificate.schema == "max11-g0117-global-replay-certificate-v1"
             || certificate.schema == "max11-g0117-global-replay-certificate-v2"
-            || certificate.schema == V3_SCHEMA,
+            || certificate.schema == V3_SCHEMA
+            || certificate.schema == G0118_V3_SCHEMA,
         "certificate schema drift"
     );
     ensure!(!certificate.terms.is_empty(), "empty certificate");
@@ -278,15 +284,16 @@ fn main() -> Result<()> {
             ensure!(
                 certificate.claim_boundary.is_none()
                     && certificate.source_exact_postprocess.is_none()
-                    && certificate.source_cegis.is_none(),
+                    && certificate.source_cegis.is_none()
+                    && certificate.source_prefix_cegis.is_none(),
                 "v1 certificate contains v2 provenance fields"
             );
             ("1".to_string(), None)
         }
         "max11-g0117-global-replay-certificate-v2" => {
             ensure!(
-                certificate.source_cegis.is_none(),
-                "v2 contains v3 provenance"
+                certificate.source_cegis.is_none() && certificate.source_prefix_cegis.is_none(),
+                "v2 contains newer provenance"
             );
             ensure!(
                 certificate.claim_boundary.as_deref() == Some(V2_CLAIM_BOUNDARY),
@@ -347,8 +354,9 @@ fn main() -> Result<()> {
                 "v3 claim boundary drift"
             );
             ensure!(
-                certificate.source_exact_postprocess.is_none(),
-                "v3 contains v2 provenance"
+                certificate.source_exact_postprocess.is_none()
+                    && certificate.source_prefix_cegis.is_none(),
+                "G-0117 v3 contains another provenance shape"
             );
             let source = certificate
                 .source_cegis
@@ -364,6 +372,37 @@ fn main() -> Result<()> {
                 value,
                 &input_sha256,
                 &input.records,
+            )?;
+            v3_evidence_bindings = validated.evidence_bindings;
+            (
+                validated.target_scale.to_string(),
+                Some(validated.source_sha256),
+            )
+        }
+        G0118_V3_SCHEMA => {
+            ensure!(
+                certificate.claim_boundary.as_deref() == Some(G0118_V3_CLAIM_BOUNDARY),
+                "G-0118 v3 claim boundary drift"
+            );
+            ensure!(
+                certificate.source_exact_postprocess.is_none()
+                    && certificate.source_cegis.is_none(),
+                "G-0118 v3 contains another provenance shape"
+            );
+            let source = certificate
+                .source_prefix_cegis
+                .as_ref()
+                .context("G-0118 v3 missing prefix-CEGIS provenance")?;
+            let value = certificate
+                .target_scale
+                .as_deref()
+                .context("G-0118 v3 missing target scale")?;
+            let validated = g0118_provenance::validate_g0118_v3(
+                source,
+                &certificate.terms,
+                value,
+                &input_sha256,
+                input.records.len(),
             )?;
             v3_evidence_bindings = validated.evidence_bindings;
             (

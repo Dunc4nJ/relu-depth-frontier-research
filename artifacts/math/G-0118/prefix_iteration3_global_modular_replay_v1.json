@@ -1,0 +1,77 @@
+{
+  "schema": "max11-g0117-global-modular-replay-v1",
+  "result": "EXACT_GLOBAL_IDENTITY_REFUTED_BY_MODULAR_RESIDUAL",
+  "claim_boundary": "A nonzero modular residual exactly refutes this rational seed as a global identity. Two-prime zero is not an exact-Q identity and requires a deterministic integer bound or exact replay. Neither outcome proves family completeness or all-n.",
+  "bindings": {
+    "certificate": "b48b73cc74758d1fe772c6375038b20612907b58a6250cbe525d469fba879eaf",
+    "executable": "d702825f89cfd9a068ac0b2fa8a12508a8649301f0220b266f6ab9565cddd9a4",
+    "kernel": "84b37ea50f012bfe8310de84b1ca27a7c1b77de90978635dd483798759d4c6aa",
+    "normal_form_uniqueness": "39de1eb61aaee37a24c8a45d55cbc5fd6f27c7b68d506f8757f352881a6e0c17",
+    "panel_input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "producer": "d0496bfc9bb33ca4c21a8255a163f04bbf1cdcf60b654a58a3252d81ab504445"
+  },
+  "certificate_schema": "max11-g0117-global-replay-certificate-v2",
+  "source_provenance_sha256": "7bb06fc52d9ee5a69cab96bd4b80c5bf8514fa1be6c5f346091ae8fc24da35ff",
+  "target_scale": "624164351447045333783433866624058142511805537986985082566596499990085611820320049132868976836130",
+  "primes": [
+    1000000007,
+    1000000009
+  ],
+  "terms": 101,
+  "hinge_entries_processed": 3556887,
+  "labelled_permutations_checked": 4031596800,
+  "aggregate_hinge_support": 172454,
+  "nonzero_hinge_residue_directions": 172431,
+  "first_hinge_residual": {
+    "direction": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      -2,
+      1
+    ],
+    "residues": [
+      737152734,
+      959268884
+    ]
+  },
+  "linear_residues_after_target": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "all_hinge_and_linear_residues_zero": [
+    false,
+    false
+  ],
+  "wall_seconds": 72.942507362
+}

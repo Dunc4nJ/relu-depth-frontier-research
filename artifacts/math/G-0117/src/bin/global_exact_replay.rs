@@ -13,8 +13,11 @@ use std::time::Instant;
 
 #[path = "../cegis_provenance.rs"]
 mod cegis_provenance;
+#[path = "../g0118_provenance.rs"]
+mod g0118_provenance;
 
 use cegis_provenance::{CertificateTerm, SourceCegis, V3_CLAIM_BOUNDARY, V3_SCHEMA};
+use g0118_provenance::{G0118_V3_CLAIM_BOUNDARY, G0118_V3_SCHEMA, SourcePrefixCegis};
 
 const INPUT_SHA256: &str = "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8";
 const POSTPROCESSOR_SHA256: &str =
@@ -42,6 +45,8 @@ struct Certificate {
     source_exact_postprocess: Option<SourceExactPostprocess>,
     #[serde(default)]
     source_cegis: Option<SourceCegis>,
+    #[serde(default)]
+    source_prefix_cegis: Option<SourcePrefixCegis>,
     target_scale: String,
     terms: Vec<CertificateTerm>,
 }
@@ -207,8 +212,8 @@ fn validate_certificate(
                 "v2 claim boundary drift"
             );
             ensure!(
-                certificate.source_cegis.is_none(),
-                "v2 contains v3 provenance"
+                certificate.source_cegis.is_none() && certificate.source_prefix_cegis.is_none(),
+                "v2 contains newer provenance"
             );
             let source = certificate
                 .source_exact_postprocess
@@ -258,8 +263,9 @@ fn validate_certificate(
                 "v3 claim boundary drift"
             );
             ensure!(
-                certificate.source_exact_postprocess.is_none(),
-                "v3 contains v2 provenance"
+                certificate.source_exact_postprocess.is_none()
+                    && certificate.source_prefix_cegis.is_none(),
+                "G-0117 v3 contains another provenance shape"
             );
             let source = certificate
                 .source_cegis
@@ -271,6 +277,33 @@ fn validate_certificate(
                 &certificate.target_scale,
                 input_sha256,
                 records,
+            )?;
+            Ok(ValidatedCertificate {
+                target_scale: validated.target_scale,
+                source_sha256: validated.source_sha256,
+                evidence_bindings: validated.evidence_bindings,
+            })
+        }
+        G0118_V3_SCHEMA => {
+            ensure!(
+                certificate.claim_boundary == G0118_V3_CLAIM_BOUNDARY,
+                "G-0118 v3 claim boundary drift"
+            );
+            ensure!(
+                certificate.source_exact_postprocess.is_none()
+                    && certificate.source_cegis.is_none(),
+                "G-0118 v3 contains another provenance shape"
+            );
+            let source = certificate
+                .source_prefix_cegis
+                .as_ref()
+                .context("G-0118 v3 missing prefix-CEGIS provenance")?;
+            let validated = g0118_provenance::validate_g0118_v3(
+                source,
+                &certificate.terms,
+                &certificate.target_scale,
+                input_sha256,
+                records.len(),
             )?;
             Ok(ValidatedCertificate {
                 target_scale: validated.target_scale,
