@@ -1,0 +1,90 @@
+{
+  "schema": "max11-g0147-g0140-stage-b-final-source-audit-v1",
+  "verdict": "FAIL",
+  "result": "SOURCE_CUSTODY_AUDIT_ABORT_UPSTREAM_G0146_FAIL_T1",
+  "completed_at_utc": "2026-08-31T20:06:09Z",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "claim_boundary": "No T1 source/custody clearance is granted. This audit was aborted fail-closed because the exact frozen Stage-B producer requires the immutable G-0146 Stage-A source audit to be PASS, but that receipt is FAIL; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.",
+  "reviewer": {
+    "agent_name": "CyanSwan",
+    "program": "codex",
+    "model": "gpt-5",
+    "same_model_lineage": true,
+    "fresh_context": true
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0147-g0140-stage-b-final-source/PREREGISTRATION.md",
+    "sha256": "37293d56478afd47e29aec44038315f61ead570d85b52f64c3fdb5f584ce01d1",
+    "git_commit": "84482f363b164c470c5e134c06039f8383c00909",
+    "committed_and_pushed_before_subject_source_inspection": true,
+    "committed_and_pushed_before_runtime_checks": true
+  },
+  "subject": {
+    "git_commit": "f55df23361382a9b99b5ca3c07794611a7253c6c",
+    "commit_object_and_working_bytes_equal_for_all_bindings": true,
+    "bindings": {
+      "main_source": {
+        "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+        "sha256": "f6c4c4b210a32c8453626fd9a63bfde8a3083f6fb083dce56646a3361289390a"
+      },
+      "cargo_manifest": {
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+        "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c"
+      },
+      "cargo_lock": {
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+        "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a"
+      },
+      "release_executable": {
+        "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+        "sha256": "0dcb50e154797ee8104457a93ce172a46054d9a5836c499cf31796134ccb5050"
+      }
+    }
+  },
+  "terminal_blocker": {
+    "id": "G0147-ABORT-G0146-FROZEN-FAIL",
+    "severity": "BLOCKER",
+    "upstream_receipt": {
+      "path": "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json",
+      "git_commit": "495d36c5d403bc678493dd823776d97ea03041b3",
+      "sha256": "dc01ef4b4dcfaf8fa03662350b7cd5544c317599e7c640f29d71ad3c74d68e8d",
+      "working_bytes_equal_committed_blob": true,
+      "schema": "max11-g0146-g0140-stage-a-final-source-audit-v1",
+      "verdict": "FAIL",
+      "result": "SOURCE_CUSTODY_AUDIT_FAIL_RECURSIVE_BINDING_LOOKALIKE"
+    },
+    "frozen_stage_b_requirement": {
+      "hard_coded_path": "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json",
+      "hard_coded_schema": "max11-g0146-g0140-stage-a-final-source-audit-v1",
+      "required_verdict": "PASS",
+      "required_result": "SOURCE_CUSTODY_AUDIT_PASS_T1"
+    },
+    "deterministic_consequence": "The immutable upstream receipt fails the exact envelope that the frozen Stage-B bytes require. Replacing it under a new audit identity/path is not consumable by these frozen Stage-B bytes; new Stage-A and Stage-B frozen producer/audit lineages are required before re-audit."
+  },
+  "audit_artifacts": {
+    "checker": {
+      "path": "artifacts/reviews/G-0147-g0140-stage-b-final-source/audit_stage_b_final_source.py",
+      "sha256": "c6a97ddd0656b71efdc482a7f8f27c0ef9e5a9c7422e451c22f7e700eabbaaa0"
+    },
+    "pre_abort_check_results": {
+      "path": "artifacts/reviews/G-0147-g0140-stage-b-final-source/CHECK_RESULTS.json",
+      "sha256": "fcfb77e5d879846c240f490390247f8100dc83303308751656d0ead5fbf0b9a8",
+      "status": "PARTIAL_AUDIT_COMPLETED_BEFORE_UPSTREAM_STOP_NOTICE; not needed for terminal FAIL"
+    }
+  },
+  "scientific_manifest_observed": false,
+  "scientific_input_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "producer_runtime_modes_run": [
+    "--self-test",
+    "--preflight-static"
+  ],
+  "other_producer_modes_run": false,
+  "consumable_source_clearance": false,
+  "obligations_before_reaudit": [
+    "Repair the G-0146 recursive-binding-lookalike defect in new Stage-A producer bytes and obtain a fresh immutable PASS audit under a new receipt identity.",
+    "Freeze new Stage-B source/executable bytes that explicitly consume that fresh Stage-A audit identity, then preregister and run a new outcome-blind Stage-B source audit."
+  ],
+  "no_claim": "This FAIL grants no source clearance and makes no claim about a G-0140 scientific result, Pool128 membership, frozen-family completeness, MAX11, unrestricted two-hidden-layer representation, minimality, an all-n theorem, refereed standing, formalization, or Lean."
+}

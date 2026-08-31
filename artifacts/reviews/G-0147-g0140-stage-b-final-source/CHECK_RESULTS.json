@@ -1,0 +1,492 @@
+{
+  "allowed_runtime_modes": [
+    "subject --self-test",
+    "subject --preflight-static PANEL CANDIDATE"
+  ],
+  "checks": [
+    {
+      "evidence": {
+        "artifacts/math/G-0140/stage_b_pricer/Cargo.lock": {
+          "commit_equals_isolated": true,
+          "commit_equals_working": true,
+          "git_blob": "0d77ef12ebdf0868f9540cc81fab3e33664b0adf",
+          "git_mode": "100644",
+          "isolated_sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+          "matches_required_sha256": true,
+          "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+          "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+          "size_bytes": 7622,
+          "working_sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a"
+        },
+        "artifacts/math/G-0140/stage_b_pricer/Cargo.toml": {
+          "commit_equals_isolated": true,
+          "commit_equals_working": true,
+          "git_blob": "6ec442fd6ab0cdae930a0ccc528516304821dba2",
+          "git_mode": "100644",
+          "isolated_sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+          "matches_required_sha256": true,
+          "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+          "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+          "size_bytes": 352,
+          "working_sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c"
+        },
+        "artifacts/math/G-0140/stage_b_pricer/src/main.rs": {
+          "commit_equals_isolated": true,
+          "commit_equals_working": true,
+          "git_blob": "872a74c1bcb3977a84e69792075fb1822807bd04",
+          "git_mode": "100644",
+          "isolated_sha256": "f6c4c4b210a32c8453626fd9a63bfde8a3083f6fb083dce56646a3361289390a",
+          "matches_required_sha256": true,
+          "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+          "sha256": "f6c4c4b210a32c8453626fd9a63bfde8a3083f6fb083dce56646a3361289390a",
+          "size_bytes": 85246,
+          "working_sha256": "f6c4c4b210a32c8453626fd9a63bfde8a3083f6fb083dce56646a3361289390a"
+        },
+        "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer": {
+          "commit_equals_isolated": true,
+          "commit_equals_working": true,
+          "git_blob": "f59a0425083831c65137ddbb97110b1e41858fb7",
+          "git_mode": "100755",
+          "isolated_sha256": "0dcb50e154797ee8104457a93ce172a46054d9a5836c499cf31796134ccb5050",
+          "matches_required_sha256": true,
+          "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+          "sha256": "0dcb50e154797ee8104457a93ce172a46054d9a5836c499cf31796134ccb5050",
+          "size_bytes": 1907296,
+          "working_sha256": "0dcb50e154797ee8104457a93ce172a46054d9a5836c499cf31796134ccb5050"
+        }
+      },
+      "id": "CUSTODY_EXACT_FOUR_FILE_BINDINGS",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "failed_check_ids": [
+          "SCHEMA_ALL_INPUT_STRUCTS_DENY_UNKNOWN_FIELDS",
+          "SCHEMA_SOURCE_AUDIT_GATE_EXACT"
+        ],
+        "path": "artifacts/reviews/G-0142-g0140-stage-b-source/SOURCE_AUDIT_RECEIPT.json",
+        "sha256": "451f739cd407d2a94c42995549da1e412457cc313ae22e8f8e745ce93c9d5c02"
+      },
+      "id": "HISTORICAL_G0142_EXACT_BLOCKERS_BOUND",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "imported_record_fields": [
+          "active_vertices",
+          "negative_edges",
+          "positive_edges",
+          "sequence",
+          "signed_mass"
+        ],
+        "non_strict_types": [],
+        "real_static_preflight_accepted": true,
+        "strict_real_record_fields": [
+          "active_vertices",
+          "in_disjoint",
+          "in_shared_distinct",
+          "negative_edges",
+          "orbit_index",
+          "positive_edges",
+          "representative",
+          "sequence",
+          "signed_class_sha256",
+          "signed_mass",
+          "stage"
+        ],
+        "strict_types": [
+          "Candidate",
+          "StageAReceipt",
+          "AccumulatedDirectionCheck",
+          "StrictRecord"
+        ]
+      },
+      "id": "G0142_UNKNOWN_FIELD_BLOCKER_REPAIRED_WITH_REAL_RECORD_SCHEMA",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "required_comparisons_present": true,
+        "tokens": [
+          "value_string(receipt, \"/schema\")? == expected_schema",
+          "value_string(receipt, \"/result\")? == expected_result",
+          "value_string(receipt, \"/verdict\")? == \"PASS\"",
+          "value_string(receipt, \"/evidence_class\")? == SOURCE_AUDIT_EVIDENCE_CLASS",
+          "value_string(receipt, \"/claim_boundary\")? == expected_boundary"
+        ]
+      },
+      "id": "G0142_EXACT_SOURCE_AUDIT_SCHEMA_RESULT_BLOCKER_REPAIRED",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "consumer_field_count": 64,
+        "consumer_only": [],
+        "current_stage_a_source_sha256": "5fd91773b1e16cc54d09c20c72ef729a333bef4c8b6804f24a525a4be8258790",
+        "frozen_stage_a_source_sha256": "5fd91773b1e16cc54d09c20c72ef729a333bef4c8b6804f24a525a4be8258790",
+        "producer_field_count": 64,
+        "producer_only": []
+      },
+      "id": "CURRENT_STAGE_A_TOP_LEVEL_INTERFACE_COMPATIBLE",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "consumer_type": "Option<ExactLinear>",
+        "exact_version_serde_probe": {
+          "argv": [
+            "cargo",
+            "run",
+            "--quiet",
+            "--offline"
+          ],
+          "exit_code": 0,
+          "locked_dependency_versions": {
+            "serde": "1.0.229",
+            "serde_json": "1.0.151"
+          },
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "omitted_is_none=true explicit_null_is_none=true unknown_rejected=true\n",
+          "stdout_sha256": "8b4dea19c407890296b9bb451ecef00f9945fed346ec716a7da22516acf89295",
+          "wall_seconds": 9.664899
+        },
+        "field": "first_nonzero_linear",
+        "impact": "missing and explicit null are conflated, so the produced top-level field is not mandatory",
+        "validation": "is_none"
+      },
+      "id": "STAGE_A_RECEIPT_MISSING_NULL_FIELD_REJECTED",
+      "passed": false
+    },
+    {
+      "evidence": {
+        "field_specific_semantic_checks": {
+          "census_controls": false,
+          "coefficient_plus_one": false,
+          "independent_finite_412_row_replay": false,
+          "omitted_final_term": false,
+          "omitted_first_term_direction": false,
+          "selection_controls": false,
+          "target_coordinate_plus_one": false,
+          "target_scale_plus_one": false,
+          "term_normal_forms": true
+        },
+        "impact": "arbitrary objects/arrays satisfy mandatory mutation-control slots without their declared inner schema or result",
+        "opaque_fields": {
+          "census_controls": "Value",
+          "coefficient_plus_one": "Value",
+          "independent_finite_412_row_replay": "Value",
+          "omitted_final_term": "Value",
+          "omitted_first_term_direction": "Value",
+          "selection_controls": "Value",
+          "target_coordinate_plus_one": "Value",
+          "target_scale_plus_one": "Value",
+          "term_normal_forms": "Vec<Value>"
+        }
+      },
+      "id": "STAGE_A_MUTATION_CONTROL_SCHEMAS_COMPLETE_AND_VALIDATED",
+      "passed": false
+    },
+    {
+      "evidence": {
+        "generic_value_parser": true,
+        "impact": "an exact schema/result envelope can omit declared binding slots and satisfy them only through unknown decoy content",
+        "recursive_anywhere_binding_search": true,
+        "semantic_lookalike": {
+          "all_required_subjects_found_by_recursive_collector": true,
+          "description": "Exact envelope with no declared binding slots; required subjects occur only under an unknown decoy key.",
+          "required_subjects": [
+            "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+            "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+            "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+            "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer"
+          ],
+          "unknown_top_level_key": "unrecognized_decoy_container",
+          "witness": {
+            "claim_boundary": "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.",
+            "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+            "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+            "schema": "max11-g0147-g0140-stage-b-final-source-audit-v1",
+            "scientific_input_observed": false,
+            "scientific_manifest_observed": false,
+            "scientific_output_observed": false,
+            "scientific_replay_run": false,
+            "subject": {
+              "commit_object_and_working_bytes_equal_for_all_bindings": true,
+              "git_commit": "f55df23361382a9b99b5ca3c07794611a7253c6c"
+            },
+            "unrecognized_decoy_container": [
+              {
+                "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+                "sha256": "f6c4c4b210a32c8453626fd9a63bfde8a3083f6fb083dce56646a3361289390a"
+              },
+              {
+                "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+                "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c"
+              },
+              {
+                "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+                "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a"
+              },
+              {
+                "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+                "sha256": "0dcb50e154797ee8104457a93ce172a46054d9a5836c499cf31796134ccb5050"
+              }
+            ],
+            "verdict": "PASS"
+          }
+        }
+      },
+      "id": "SOURCE_AUDIT_CLOSED_SCHEMA_AND_BINDING_PLACEMENT",
+      "passed": false
+    },
+    {
+      "evidence": {
+        "field_count": 24,
+        "missing_required": [],
+        "optional_or_opaque_fields": {}
+      },
+      "id": "STAGE_B_TOP_LEVEL_OUTPUT_COMPLETE",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "required_path_constants": [
+          "PREREGISTRATION_PATH",
+          "PANEL_INPUT_PATH",
+          "CANDIDATE_PATH",
+          "ANCESTOR_STAGE_D_RESULT_PATH",
+          "KERNEL_PATH",
+          "G0139_AUDIT_PATH",
+          "STAGE_A_SOURCE_PATH",
+          "STAGE_A_ENGINE_PATH",
+          "STAGE_A_CARGO_PATH",
+          "STAGE_A_LOCK_PATH",
+          "STAGE_A_EXECUTABLE_PATH",
+          "STAGE_A_SOURCE_AUDIT_PATH",
+          "STAGE_B_SOURCE_PATH",
+          "STAGE_B_CARGO_PATH",
+          "STAGE_B_LOCK_PATH",
+          "STAGE_B_EXECUTABLE_PATH",
+          "STAGE_B_SOURCE_AUDIT_PATH"
+        ]
+      },
+      "id": "MANIFEST_STAGE_A_CANDIDATE_G0139_BINDINGS_MANDATORY",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "extra_fields": [],
+        "missing_fields": [],
+        "non_strict_structs": [],
+        "strict_structs": [
+          "Binding",
+          "ManifestParameters",
+          "PlannedOutput",
+          "StudyManifest"
+        ]
+      },
+      "id": "MANIFEST_SCHEMA_CLOSED_AND_COMPLETE",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "accepted_only_via_allowed_static_preflight": true,
+        "actual_candidate_opened_by_auditor": false,
+        "schema_result_hash_commit_constants_exact": true
+      },
+      "id": "CANDIDATE_EXACT_IDENTITY_CUSTODY_AND_SCHEMA",
+      "passed": true
+    },
+    {
+      "evidence": "all named Stage-A provenance bindings are path-fixed, digest-admitted by the manifest, and rehashed on disk",
+      "id": "STAGE_A_MANIFEST_PRODUCER_CANDIDATE_G0139_BINDINGS_EXACT",
+      "passed": true
+    },
+    {
+      "evidence": "exact schema/verdict/result plus exact ancestor and candidate path/SHA-256 pairs",
+      "id": "G0139_EXACT_GATE_AND_G0135_INPUT_BINDINGS",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "exact_dot_body": "{\n    terms\n        .iter()\n        .fold(BigInt::from(0), |total, (sequence, coefficient)| {\n            total + coefficient * BigInt::from(row[*sequence])\n        })\n}"
+      },
+      "id": "BIGINT_DOT_WITHOUT_NARROWING",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "cells": 20958720,
+        "directions": 128,
+        "records": 163740
+      },
+      "id": "EXACT_128_BY_163740_CENSUS",
+      "passed": true
+    },
+    {
+      "evidence": "strict signed-lex Pool128, sequence 0..163739, indexed Rayon collect, explicit transpose, indexed output checks",
+      "id": "DETERMINISTIC_DIRECTION_AND_ROW_ORDER",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "source_cargo_lock_each_embedded_verbatim_in_frozen_executable": true,
+        "static_preflight": {
+          "argv": [
+            "/home/ubuntu/.cache/tmp/g0147-frozen-custody-df38j6i4/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+            "--preflight-static",
+            "artifacts/math/G-0113/panel_solver_input_v1.json",
+            "artifacts/math/G-0135/full_family_master_result_v3.json"
+          ],
+          "exit_code": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "G-0140 Stage-B static preflight PASS: 163740 records; 135 candidate terms; future manifest/Stage-A/G-0142 receipts not consumed\n",
+          "stdout_sha256": "f0b63fe1e84bf1280bd59f4e5484a9dbe341d202fe626e1f7f352d629b557f31",
+          "wall_seconds": 34.066019
+        },
+        "subject_self_test": {
+          "argv": [
+            "/home/ubuntu/.cache/tmp/g0147-frozen-custody-df38j6i4/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+            "--self-test"
+          ],
+          "exit_code": 0,
+          "stderr": "",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout": "G-0140 Stage-B Pool128 self-test PASS\n",
+          "stdout_sha256": "cff85a3944d8d59d9e0722af5c317367d749e2cb6c3df3144be633ac3cc45f0c",
+          "wall_seconds": 0.070329
+        }
+      },
+      "id": "COMPILED_BYTE_SOURCE_CARGO_CUSTODY",
+      "passed": true
+    },
+    {
+      "evidence": "create_new temporary plus hard-link publication and directory fsync",
+      "id": "ATOMIC_OUTPUT_OVERWRITE_REFUSAL",
+      "passed": true
+    },
+    {
+      "evidence": "manifest bindings plus manifest and Stage-A receipt rehashed and compared after pricing",
+      "id": "INPUTS_REHASHED_AFTER_PRICING_BEFORE_PUBLICATION",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "executed_modes": [
+          "--self-test",
+          "--preflight-static"
+        ],
+        "scientific_mode_executed": false,
+        "static_mode_does_not_call_full_input_loader": true
+      },
+      "id": "AUDIT_RUNTIME_MODE_FIREWALL",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "final_bindings": {
+          "artifacts/math/G-0140/stage_b_pricer/Cargo.lock": {
+            "commit_equals_isolated": true,
+            "commit_equals_working": true,
+            "git_blob": "0d77ef12ebdf0868f9540cc81fab3e33664b0adf",
+            "git_mode": "100644",
+            "isolated_sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+            "matches_required_sha256": true,
+            "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+            "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+            "size_bytes": 7622,
+            "working_sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a"
+          },
+          "artifacts/math/G-0140/stage_b_pricer/Cargo.toml": {
+            "commit_equals_isolated": true,
+            "commit_equals_working": true,
+            "git_blob": "6ec442fd6ab0cdae930a0ccc528516304821dba2",
+            "git_mode": "100644",
+            "isolated_sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+            "matches_required_sha256": true,
+            "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+            "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+            "size_bytes": 352,
+            "working_sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c"
+          },
+          "artifacts/math/G-0140/stage_b_pricer/src/main.rs": {
+            "commit_equals_isolated": true,
+            "commit_equals_working": true,
+            "git_blob": "872a74c1bcb3977a84e69792075fb1822807bd04",
+            "git_mode": "100644",
+            "isolated_sha256": "f6c4c4b210a32c8453626fd9a63bfde8a3083f6fb083dce56646a3361289390a",
+            "matches_required_sha256": true,
+            "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+            "sha256": "f6c4c4b210a32c8453626fd9a63bfde8a3083f6fb083dce56646a3361289390a",
+            "size_bytes": 85246,
+            "working_sha256": "f6c4c4b210a32c8453626fd9a63bfde8a3083f6fb083dce56646a3361289390a"
+          },
+          "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer": {
+            "commit_equals_isolated": true,
+            "commit_equals_working": true,
+            "git_blob": "f59a0425083831c65137ddbb97110b1e41858fb7",
+            "git_mode": "100755",
+            "isolated_sha256": "0dcb50e154797ee8104457a93ce172a46054d9a5836c499cf31796134ccb5050",
+            "matches_required_sha256": true,
+            "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+            "sha256": "0dcb50e154797ee8104457a93ce172a46054d9a5836c499cf31796134ccb5050",
+            "size_bytes": 1907296,
+            "working_sha256": "0dcb50e154797ee8104457a93ce172a46054d9a5836c499cf31796134ccb5050"
+          }
+        },
+        "initial_equals_final": true
+      },
+      "id": "AUDIT_END_REHASH_FOUR_FILE_CUSTODY",
+      "passed": true
+    }
+  ],
+  "claim_boundary": "T1 source/custody inspection only; static preflight treated its two frozen inputs as opaque and no scientific manifest, Stage-A result, Stage-B output, or science mode was opened or run.",
+  "completed_utc": "2026-08-31T20:03:09Z",
+  "failed_check_ids": [
+    "STAGE_A_RECEIPT_MISSING_NULL_FIELD_REJECTED",
+    "STAGE_A_MUTATION_CONTROL_SCHEMAS_COMPLETE_AND_VALIDATED",
+    "SOURCE_AUDIT_CLOSED_SCHEMA_AND_BINDING_PLACEMENT"
+  ],
+  "failed_hostile_control_ids": [],
+  "hostile_controls": [
+    {
+      "id": "HOSTILE_ONE_BYTE_CUSTODY_MUTANT_REJECTED",
+      "passed": true
+    },
+    {
+      "id": "HOSTILE_REMOVED_DENY_UNKNOWN_REJECTED",
+      "passed": true
+    },
+    {
+      "id": "HOSTILE_RESULT_SUBSTRING_LOOKALIKE_REJECTED_BY_CHECKER",
+      "passed": true
+    },
+    {
+      "id": "HOSTILE_SHORT_CENSUS_REJECTED_BY_CHECKER",
+      "passed": true
+    },
+    {
+      "id": "HOSTILE_I32_NARROWING_REJECTED_BY_CHECKER",
+      "passed": true
+    },
+    {
+      "id": "HOSTILE_MISSING_OPTION_WITNESS_CONFIRMED",
+      "passed": true
+    },
+    {
+      "id": "HOSTILE_RECURSIVE_DECOY_BINDING_WITNESS_CONFIRMED",
+      "passed": true
+    }
+  ],
+  "outcome_blind": true,
+  "schema": "max11-g0147-g0140-stage-b-final-source-check-results-v1",
+  "scientific_input_observed": false,
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "started_utc": "2026-08-31T20:02:25Z",
+  "subject_commit": "f55df23361382a9b99b5ca3c07794611a7253c6c",
+  "verdict": "FAIL"
+}
