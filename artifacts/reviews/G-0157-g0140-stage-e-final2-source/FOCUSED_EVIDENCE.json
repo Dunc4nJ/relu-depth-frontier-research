@@ -1,0 +1,306 @@
+{
+  "schema": "max11-g0157-g0140-stage-e-final2-source-focused-evidence-v1",
+  "audit_result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+  "decision": "GO",
+  "frozen_subject": {
+    "git_commit": "664b95445365600aadc5a876edc6b7e97b06c1e4",
+    "resolved_commit": "664b95445365600aadc5a876edc6b7e97b06c1e4",
+    "reachable_from_confirmed_remote_master": true,
+    "subject_changed_paths": [
+      "artifacts/math/G-0140/stage_e_global_replay/src/main.rs",
+      "artifacts/math/G-0140/stage_e_global_replay/target/release/g0140-stage-e-global-replay"
+    ]
+  },
+  "preregistration_freeze": {
+    "path": "artifacts/reviews/G-0157-g0140-stage-e-final2-source/PREREGISTRATION.md",
+    "git_commit": "fc81005458e2331fecdfaed1b401c08bb28d89e7",
+    "git_blob": "f4b4e76f26a6ff6338c2452898e140d74c9114dd",
+    "sha256": "c73c2908cf9ce419397b31a90029510851ce4ea2e2eab10a3ff5487cadb34fe3",
+    "remote_master_at_confirmation": "fc81005458e2331fecdfaed1b401c08bb28d89e7",
+    "remote_blob_equal": true,
+    "confirmed_before_subject_byte_access": true,
+    "confirmed_before_runtime_checks": true
+  },
+  "binding_verification": [
+    {
+      "name": "cargo_manifest",
+      "path": "artifacts/math/G-0140/stage_e_global_replay/Cargo.toml",
+      "sha256": "a701d142aeb88cae15d30997dcc3039b5fee105cb3c26621fec9ddcca552f5c9",
+      "byte_count": 340,
+      "git_blob": "ef9363925a49f8013a16e88e7a5fd7fc9a21dace",
+      "frozen_and_working_equal": true
+    },
+    {
+      "name": "cargo_lock",
+      "path": "artifacts/math/G-0140/stage_e_global_replay/Cargo.lock",
+      "sha256": "eaaa98ae381bed0f1b48f27e5ca7c3841c2e6e1b8fa6b07e09cff11d172ef2d0",
+      "byte_count": 7610,
+      "git_blob": "fbd646e0dd6ab0baf69b7b956555e30ff856f91f",
+      "frozen_and_working_equal": true
+    },
+    {
+      "name": "main_source",
+      "path": "artifacts/math/G-0140/stage_e_global_replay/src/main.rs",
+      "sha256": "d239df56d6fee876a6eb8b12ecbc5e8fead501d7847010aaa30f11438bd001b4",
+      "byte_count": 216951,
+      "git_blob": "b1486d7b6746e6524aecce9693472e1d3e6e5ab9",
+      "frozen_and_working_equal": true
+    },
+    {
+      "name": "engine_source",
+      "path": "artifacts/math/G-0140/stage_e_global_replay/src/engine.rs",
+      "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c",
+      "byte_count": 15390,
+      "git_blob": "7440f2be7b9aad13548f305c64f41e2294861afc",
+      "frozen_and_working_equal": true
+    },
+    {
+      "name": "release_executable",
+      "path": "artifacts/math/G-0140/stage_e_global_replay/target/release/g0140-stage-e-global-replay",
+      "sha256": "b4e87e38dbde333890b84aa8c567c75d5327af691706bc653dea6a85f2a87ff4",
+      "byte_count": 2675184,
+      "git_blob": "17e21757ae0ded90cc8791567f9b82cf53fb513b",
+      "frozen_and_working_equal": true,
+      "clean_rebuild_equal": true
+    }
+  ],
+  "receipt_contract": {
+    "schema": "max11-g0157-g0140-stage-e-final2-source-audit-v1",
+    "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+    "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+    "top_level_shape_exact": true,
+    "deny_unknown_fields_preserved": true,
+    "required_check_fields": [
+      "exact_named_binding_contract",
+      "displaced_recursive_lookalikes_rejected",
+      "correct_decoy_with_missing_named_binding_rejected",
+      "duplicate_path_occurrences_rejected",
+      "unknown_envelope_fields_rejected",
+      "audit_git_commit_rejected",
+      "duplicate_json_keys_rejected",
+      "trailing_json_data_rejected",
+      "producer_self_test_passed",
+      "producer_static_preflight_passed",
+      "compiled_source_manifest_lock_match_working_bytes",
+      "engine_byte_identity_with_stage_a_verified",
+      "g0155_stage_d_source_audit_gate_verified",
+      "scientific_output_commit_chain_gate_verified",
+      "scientific_outputs_excluded_from_manifest_bindings",
+      "dynamic_stage_d_member_contract_verified",
+      "global_zero_and_residual_branches_verified",
+      "complete_label_census_and_end_rehash_verified",
+      "overwrite_refusal_verified",
+      "prohibited_scientific_modes_not_run"
+    ],
+    "field_count": 20,
+    "every_field_enforced_by_semantic_validator": true,
+    "every_receipt_check_true": true,
+    "source_references": [
+      "src/main.rs:295",
+      "src/main.rs:320",
+      "src/main.rs:1749"
+    ]
+  },
+  "scientific_output_manifest_exclusion": {
+    "direct_and_transitive_inserted_into_one_union_map": true,
+    "boundary_iterates_exact_five_path_array": true,
+    "source_references": [
+      "src/main.rs:99",
+      "src/main.rs:777",
+      "src/main.rs:2481",
+      "src/main.rs:2491"
+    ],
+    "hostile_matrix": [
+      {
+        "stage": "A",
+        "origin": "direct",
+        "path": "artifacts/math/G-0140/pool128_global_replay_v1.json",
+        "rejected": true
+      },
+      {
+        "stage": "A",
+        "origin": "transitive",
+        "path": "artifacts/math/G-0140/pool128_global_replay_v1.json",
+        "rejected": true
+      },
+      {
+        "stage": "B",
+        "origin": "direct",
+        "path": "artifacts/math/G-0140/pool128_coordinate_prices_v1.json",
+        "rejected": true
+      },
+      {
+        "stage": "B",
+        "origin": "transitive",
+        "path": "artifacts/math/G-0140/pool128_coordinate_prices_v1.json",
+        "rejected": true
+      },
+      {
+        "stage": "C",
+        "origin": "direct",
+        "path": "artifacts/math/G-0140/pool128_exact_rank_selection_v1.json",
+        "rejected": true
+      },
+      {
+        "stage": "C",
+        "origin": "transitive",
+        "path": "artifacts/math/G-0140/pool128_exact_rank_selection_v1.json",
+        "rejected": true
+      },
+      {
+        "stage": "D",
+        "origin": "direct",
+        "path": "artifacts/math/G-0140/rank_aware_master_result_v1.json",
+        "rejected": true
+      },
+      {
+        "stage": "D",
+        "origin": "transitive",
+        "path": "artifacts/math/G-0140/rank_aware_master_result_v1.json",
+        "rejected": true
+      },
+      {
+        "stage": "E",
+        "origin": "direct",
+        "path": "artifacts/math/G-0140/new_member_global_replay_v1.json",
+        "rejected": true
+      },
+      {
+        "stage": "E",
+        "origin": "transitive",
+        "path": "artifacts/math/G-0140/new_member_global_replay_v1.json",
+        "rejected": true
+      }
+    ],
+    "cases": 10,
+    "rejected_cases": 10
+  },
+  "retained_custody_controls": {
+    "exact_receipt_bindings": {
+      "B_to_A": true,
+      "C_to_A": true,
+      "C_to_B": true,
+      "D_to_A": true,
+      "D_to_B": true,
+      "D_to_C": true
+    },
+    "committed_blob_check": {
+      "git_log_commit_lookup": true,
+      "git_show_commit_path_blob_lookup": true,
+      "committed_blob_sha256_equals_working_sha256": true,
+      "A_B_C_D_paths_checked": true,
+      "source_reference": "src/main.rs:1236"
+    },
+    "ordered_ancestry": [
+      {
+        "ancestor": "manifest",
+        "descendant": "A",
+        "enforced": true
+      },
+      {
+        "ancestor": "A",
+        "descendant": "B",
+        "enforced": true
+      },
+      {
+        "ancestor": "B",
+        "descendant": "C",
+        "enforced": true
+      },
+      {
+        "ancestor": "C",
+        "descendant": "D",
+        "enforced": true
+      }
+    ],
+    "hostile_receipt_bridge_mutants_rejected": true,
+    "hostile_missing_ancestry_edges_rejected": true,
+    "source_references": [
+      "src/main.rs:2732",
+      "src/main.rs:3329",
+      "src/main.rs:3411",
+      "src/main.rs:3682",
+      "src/main.rs:3745",
+      "src/main.rs:3769"
+    ]
+  },
+  "execution_evidence": {
+    "hostile_harness": {
+      "command": "cargo test --locked --manifest-path artifacts/reviews/G-0157-g0140-stage-e-final2-source/hostile_harness/Cargo.toml -- --nocapture",
+      "tests_passed": 3,
+      "tests_failed": 0
+    },
+    "producer_cargo_test": {
+      "command": "CARGO_TARGET_DIR=<isolated>/subject-target cargo test --locked --manifest-path artifacts/math/G-0140/stage_e_global_replay/Cargo.toml",
+      "tests_passed": 2,
+      "tests_failed": 0
+    },
+    "clean_locked_release_rebuild": {
+      "command": "CARGO_TARGET_DIR=<isolated>/release-target cargo build --locked --release --manifest-path artifacts/math/G-0140/stage_e_global_replay/Cargo.toml",
+      "exit_code": 0,
+      "bound_sha256": "b4e87e38dbde333890b84aa8c567c75d5327af691706bc653dea6a85f2a87ff4",
+      "rebuilt_sha256": "b4e87e38dbde333890b84aa8c567c75d5327af691706bc653dea6a85f2a87ff4",
+      "byte_identical": true
+    },
+    "permitted_modes": [
+      {
+        "binary": "bound",
+        "mode": "--self-test",
+        "exit_code": 0,
+        "output": "G-0140 Stage E self-test PASS"
+      },
+      {
+        "binary": "bound",
+        "mode": "--preflight-static",
+        "exit_code": 0,
+        "output": "G-0140 Stage E outcome-blind static preflight PASS"
+      },
+      {
+        "binary": "rebuilt",
+        "mode": "--self-test",
+        "exit_code": 0,
+        "output": "G-0140 Stage E self-test PASS"
+      },
+      {
+        "binary": "rebuilt",
+        "mode": "--preflight-static",
+        "exit_code": 0,
+        "output": "G-0140 Stage E outcome-blind static preflight PASS"
+      }
+    ],
+    "full_preflight_run": false,
+    "scientific_mode_run": false
+  },
+  "required_check_evidence": {
+    "exact_named_binding_contract": "strict typed receipt + hostile harness",
+    "displaced_recursive_lookalikes_rejected": "producer self-test",
+    "correct_decoy_with_missing_named_binding_rejected": "producer self-test",
+    "duplicate_path_occurrences_rejected": "typed semantic validator + producer self-test",
+    "unknown_envelope_fields_rejected": "deny_unknown_fields + producer self-test",
+    "audit_git_commit_rejected": "deny_unknown_fields + producer self-test",
+    "duplicate_json_keys_rejected": "strict JSON visitor + producer self-test",
+    "trailing_json_data_rejected": "strict deserializer end check at src/main.rs:1074",
+    "producer_self_test_passed": "bound and rebuilt --self-test + cargo test",
+    "producer_static_preflight_passed": "bound and rebuilt --preflight-static",
+    "compiled_source_manifest_lock_match_working_bytes": "static preflight + independent frozen/working hashes",
+    "engine_byte_identity_with_stage_a_verified": "bound and rebuilt static preflight",
+    "g0155_stage_d_source_audit_gate_verified": "strict typed G-0155 gate + producer hostile controls",
+    "scientific_output_commit_chain_gate_verified": "source path checks + hostile harness",
+    "scientific_outputs_excluded_from_manifest_bindings": "ten-case direct/transitive hostile matrix",
+    "dynamic_stage_d_member_contract_verified": "dynamic fixtures in producer self-test + exact Stage-D loader review",
+    "global_zero_and_residual_branches_verified": "producer zero/nonzero and residual-selection fixtures",
+    "complete_label_census_and_end_rehash_verified": "producer census mutants + end-rehash source path",
+    "overwrite_refusal_verified": "producer exclusive-publication self-test",
+    "prohibited_scientific_modes_not_run": "command/mode log"
+  },
+  "outcome_blind_boundary": {
+    "future_g0140_manifest_opened": false,
+    "future_g0140_manifest_created": false,
+    "future_g0140_scientific_output_opened": false,
+    "future_g0140_scientific_output_created": false,
+    "scientific_manifest_observed": false,
+    "scientific_input_observed": false,
+    "scientific_output_observed": false,
+    "scientific_replay_run": false
+  }
+}
