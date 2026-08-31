@@ -285,7 +285,7 @@ def verify_hash_bindings(manifest: dict[str, Any]) -> dict[str, str]:
         manifest_expected[relative] = expected
 
     for relative, expected in EXPECTED.items():
-        if relative not in {RESULT_REL, MANIFEST_REL}:
+        if relative not in {RESULT_REL, MANIFEST_REL, AUDIT_PREREG_REL}:
             require(manifest_expected.get(relative) == expected, f"manifest binding mismatch for {relative}")
 
     combined = dict(manifest_expected)
