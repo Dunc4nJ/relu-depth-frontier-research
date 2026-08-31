@@ -75,8 +75,8 @@ and linear-dot receipts and was rejected.
 An independent Python BigInt/stream check re-read the complete 26 MB artifact,
 recomputed every row digest, the full hinge and linear digests, all 32 exact
 candidate dots and prime reductions, all 11 linear dots, every row statistic,
-every bound file hash, the mutation flags, and temporary-file custody.  It
-returned `PASS`; no partial temporary output remained.
+every bound file hash, and the mutation flags.  It returned `PASS` and
+confirmed that no partial temporary output remained.
 
 The producer tests passed 2/2, strict Clippy passed with warnings denied, the
 underlying literal/kernel tests passed 5/5, and the release `--self-test`

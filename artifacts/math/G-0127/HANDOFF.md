@@ -9,9 +9,9 @@ result = EXACT_FULL_FAMILY_BATCH32_COORDINATES
 sha256 = c4c5d59b13820027c81bd4e0b74c67027da851f0a6f90bd941484eb9c4533946
 ```
 
-The consumer must retain the existing 348 rows and append these 32 rows with
-exact target zero in serialized order, unless it produces an exact dependency
-certificate for a discarded row.  It must bind the full payload and verify:
+The consumer must retain the existing 348 rows and append all 32 new rows with
+exact target zero in serialized order.  It must bind the full payload and
+verify:
 
 - 32 rows by 163,740 records;
 - selected digest
