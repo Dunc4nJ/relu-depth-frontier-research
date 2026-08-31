@@ -1,0 +1,45 @@
+{
+  "schema": "max11-g0141-g0140-stage-a-outcome-blind-tests-v1",
+  "subject_commit": "1ee34276dcbbd35aedf090cb19bddf57283eb1d2",
+  "subject_executable": {
+    "path": "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay",
+    "sha256": "5632324ebf0d0b5fb0ad0a64f79e5fd08024f3251b1ec6bb616092270fe14b3c"
+  },
+  "commands": [
+    {
+      "argv": [
+        "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "stdout": "G-0140 Stage A self-test PASS\n",
+      "wall_seconds": 0.051965022,
+      "status": "PASS"
+    },
+    {
+      "argv": [
+        "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay",
+        "--preflight-static"
+      ],
+      "exit_code": 0,
+      "stdout": "G-0140 Stage A outcome-blind static preflight PASS\n",
+      "wall_seconds": 0.196048568,
+      "status": "PASS"
+    },
+    {
+      "argv": [
+        "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay",
+        "--preflight-ancestor"
+      ],
+      "exit_code": 0,
+      "stdout": "G-0140 Stage A ancestor preflight PASS: 135 terms; 100 accumulated rows; disclosed first32 reconciled\n",
+      "wall_seconds": 9.462779549,
+      "status": "PASS"
+    }
+  ],
+  "all_permitted_modes_passed": true,
+  "other_producer_modes_run": false,
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false
+}

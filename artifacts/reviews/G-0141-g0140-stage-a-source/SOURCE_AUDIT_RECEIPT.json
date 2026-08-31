@@ -1,0 +1,233 @@
+{
+  "schema": "max11-g0141-g0140-stage-a-source-audit-v1",
+  "verdict": "FAIL",
+  "completed_at_utc": "2026-08-31T18:46:16Z",
+  "evidence_class": "T1_SAME_LINEAGE_SAME_CAMPAIGN_SOURCE_AUDIT",
+  "reviewer": {
+    "agent_name": "GoldenSnow",
+    "program": "codex",
+    "model": "gpt-5",
+    "same_model_lineage": true,
+    "same_campaign": true,
+    "prior_campaign_roles": [
+      "G-0136 Stage-A source auditor",
+      "G-0139 Stage-D result auditor"
+    ]
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0141-g0140-stage-a-source/PREREGISTRATION.md",
+    "sha256": "3d54d319c78b56d4bef8b6321c13e9775a5822c517226a61d806fd2d9a29de5f",
+    "git_commit": "ba39813b58d8aaff7d34389ebbd2ac5de667c0bc",
+    "frozen_before_subject_source_inspection": true,
+    "frozen_before_audit_checker": true,
+    "frozen_before_runtime_checks": true
+  },
+  "subject": {
+    "git_commit": "1ee34276dcbbd35aedf090cb19bddf57283eb1d2",
+    "git_parent": "4ad09a05724bf686edc424b712dfd212baeadde5",
+    "git_tree": "3935d1ca0a43b324d22edd7253ad2a416e816f1a",
+    "subject_is_ancestor_of_audit_preregistration": true,
+    "bindings": {
+      "main_source": {
+        "path": "artifacts/math/G-0140/stage_a_pool/src/main.rs",
+        "sha256": "9c5051e4027a78330fcfb23a3d024b3042849215642f1bc4b4f85c6037419334",
+        "git_mode": "100644",
+        "git_blob": "ceccb8d424a6d2ebcdc12639e5fa8b89beacf933",
+        "bytes": 135449,
+        "tree_commit": "1ee34276dcbbd35aedf090cb19bddf57283eb1d2"
+      },
+      "engine_source": {
+        "path": "artifacts/math/G-0140/stage_a_pool/src/engine.rs",
+        "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c",
+        "git_mode": "100644",
+        "git_blob": "7440f2be7b9aad13548f305c64f41e2294861afc",
+        "bytes": 15390,
+        "tree_commit": "1ee34276dcbbd35aedf090cb19bddf57283eb1d2"
+      },
+      "cargo_manifest": {
+        "path": "artifacts/math/G-0140/stage_a_pool/Cargo.toml",
+        "sha256": "eb20b76b6a133a9c6e18052822974287047c9d1bd92c3b4851d20cf2c1dafc26",
+        "git_mode": "100644",
+        "git_blob": "9ed3f8e7473abaaa3812e8afaaec90c3621219a5",
+        "bytes": 348,
+        "tree_commit": "1ee34276dcbbd35aedf090cb19bddf57283eb1d2"
+      },
+      "cargo_lock": {
+        "path": "artifacts/math/G-0140/stage_a_pool/Cargo.lock",
+        "sha256": "263f994a09ef9d687136e287e300cf7b63caa744015027c051eadd59189e0eae",
+        "git_mode": "100644",
+        "git_blob": "049848c82f23bb781c3ce6f0a6db2423adc7c6af",
+        "bytes": 7618,
+        "tree_commit": "1ee34276dcbbd35aedf090cb19bddf57283eb1d2"
+      },
+      "release_executable": {
+        "path": "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay",
+        "sha256": "5632324ebf0d0b5fb0ad0a64f79e5fd08024f3251b1ec6bb616092270fe14b3c",
+        "git_mode": "100755",
+        "git_blob": "f42d0a5a61c5626351d627535ab4357adafca998",
+        "bytes": 2102784,
+        "elf_build_id_sha1": "aa203929a53a6080b94167bc66c91a05de1b47b6",
+        "tree_commit": "1ee34276dcbbd35aedf090cb19bddf57283eb1d2"
+      }
+    },
+    "commit_object_and_working_bytes_equal_for_all_bindings": true
+  },
+  "ancestor_bindings": {
+    "g0140_preregistration": {
+      "path": "artifacts/math/G-0140/PREREGISTRATION.md",
+      "sha256": "e358f0ef9a6dcdcc798ec3cee780f3d220200bf70a2eaf2755060354e28dddb4",
+      "git_commit": "af7ff480359c59544293c492b8f2913ab94773a2",
+      "is_ancestor_of_subject": true
+    },
+    "g0135_stage_d_result": {
+      "path": "artifacts/math/G-0135/new_member_global_replay_v1.json",
+      "sha256": "d576e142f213cd1f6b125246d22a766894ada4ade23de575ac5b14c9fd18f875",
+      "git_commit": "270a62455097cbaf0a8f80426c54b6121d1afcba",
+      "is_ancestor_of_subject": true
+    },
+    "g0139_result_audit": {
+      "path": "artifacts/reviews/G-0139-g0135-result/RESULT_AUDIT_RECEIPT.json",
+      "sha256": "282fba3591b656164d7cce728121de357ad793aa66339813101eb410e988399f",
+      "git_commit": "0bfdbf2db065d8517ad2d98d762473fed052cb54",
+      "subject_is_ancestor_of_this_commit": true,
+      "actual_receipt_satisfies_frozen_semantic_predicate": true
+    }
+  },
+  "audit_artifacts": {
+    "source_audit_report": {
+      "path": "artifacts/reviews/G-0141-g0140-stage-a-source/SOURCE_AUDIT_REPORT.md",
+      "sha256": "005ce8ca184dcde81c2882152360a75ed72b02f5c6d65f4ea4dbfcefba938987"
+    },
+    "audit_checker": {
+      "path": "artifacts/reviews/G-0141-g0140-stage-a-source/audit_source.py",
+      "sha256": "8da6c4673d09513a76b2dd4f768d4d88a3b2426bef751c9c34f1134068702a5d",
+      "status": "PASS"
+    },
+    "hostile_fixture_receipt": {
+      "path": "artifacts/reviews/G-0141-g0140-stage-a-source/HOSTILE_FIXTURE_RECEIPT.json",
+      "sha256": "f624265978a890b3e47814c773a877e454f1a2cd59416177e7296a0cde266654",
+      "status": "FAIL_G0139_SEMANTIC_ADMISSION",
+      "probe_method": "static source extraction plus an exact source-modeled predicate; the private Rust function was not invoked directly",
+      "fixtures_accepted_by_implemented_gate": 6,
+      "fixtures_accepted_by_frozen_semantic_gate": 0
+    },
+    "self_test_receipt": {
+      "path": "artifacts/reviews/G-0141-g0140-stage-a-source/SELF_TEST_RECEIPT.json",
+      "sha256": "fc851d338fd49b8b579fbdbce4a1aed0a6378fd6d08e87047bab8e847e9a3949",
+      "status": "PASS"
+    }
+  },
+  "compiled_byte_custody": {
+    "main_engine_cargo_lock_embedded_with_include_bytes": true,
+    "embedded_bytes_compared_to_contained_working_files": true,
+    "working_files_required_to_equal_reachable_committed_blobs": true,
+    "running_executable_required_at_canonical_release_path": true,
+    "running_executable_required_to_equal_reachable_committed_blob": true,
+    "static_preflight_passed_on_exact_subject_executable": true,
+    "locked_release_rebuild_performed": false,
+    "boundary": "This audit establishes the inspected embedded-byte and committed-executable custody path. It does not claim path-independent reproducible-build identity or clean-room recompilation."
+  },
+  "runtime_checks": {
+    "self_test": "PASS",
+    "preflight_static": "PASS",
+    "preflight_ancestor": "PASS",
+    "other_producer_modes_run": false
+  },
+  "blocking_findings": [
+    {
+      "id": "G0141-F1",
+      "severity": "BLOCKER",
+      "title": "G-0139 semantic admission accepts deficient committed receipts",
+      "source_locations": [
+        "artifacts/math/G-0140/stage_a_pool/src/main.rs:1103",
+        "artifacts/math/G-0140/stage_a_pool/src/main.rs:1127"
+      ],
+      "implemented_fields": [
+        "schema",
+        "verdict",
+        "result",
+        "one recursive exact Stage-D path/SHA binding"
+      ],
+      "omitted_required_fields": [
+        "subject.git_commit",
+        "evidence_class",
+        "reviewer.same_model_lineage",
+        "preregistration.outcome_aware",
+        "claim_boundary",
+        "source_audit_anchor",
+        "input_custody fixed and transitive bindings"
+      ],
+      "hostile_fixtures_accepted": 6,
+      "manifest_sha_mitigation_acknowledged": true,
+      "committed_receipt_mitigation_acknowledged": true
+    },
+    {
+      "id": "G0141-F2",
+      "severity": "BLOCKER",
+      "title": "One-shot G-0140 manifest bytes are not required to be committed",
+      "source_locations": [
+        "artifacts/math/G-0140/stage_a_pool/src/main.rs:1459",
+        "artifacts/math/G-0140/stage_a_pool/src/main.rs:1622"
+      ],
+      "future_manifest_commit_check_present": false,
+      "impact": "A well-formed uncommitted manifest can pass the parser and reach the scientific path, contrary to the preregistered pre-execution commit boundary."
+    }
+  ],
+  "required_checks": {
+    "exact_subject_binding": "PASS",
+    "compiled_source_executable_custody": "PASS_WITH_BOUNDARY",
+    "ancestor_stage_d_anchors": "PASS",
+    "g0139_semantic_admission": "FAIL",
+    "strict_g0140_manifest_shape": "PASS",
+    "one_shot_manifest_git_custody": "FAIL",
+    "deterministic_output_contract": "PASS_SOURCE_ONLY",
+    "exclusive_no_overwrite_publication": "PASS",
+    "built_in_scientific_mutation_controls": "PASS_SOURCE_ONLY",
+    "g0139_admission_mutation_controls": "FAIL",
+    "claim_boundary": "PASS"
+  },
+  "obligations_before_reaudit": [
+    "Require the exact G-0139 subject commit, evidence class, same-lineage/outcome-aware disclosure, claim boundary, source-audit anchor, and fixed/transitive custody semantics.",
+    "Add must-fail G-0139 semantic fixtures to the built-in outcome-blind self-test.",
+    "Require the future G-0140 manifest itself to equal a reachable committed blob and enforce the intended ancestry order before science.",
+    "Freeze a new source/executable commit and obtain a new outcome-blind source audit."
+  ],
+  "anti_ceremony_honesty_disposition": {
+    "classification": "HEALTHY_GATE",
+    "bounded_work_item_counts": {
+      "user": 0,
+      "enabler": 1,
+      "process": 0
+    },
+    "runtime_gate_consumer": "validate_source_audit",
+    "retirement_condition": "Superseded as the active gate after a repaired frozen producer receives a new outcome-blind source audit; retained as immutable history.",
+    "target_source_or_gate_weakened": false,
+    "tests_or_thresholds_weakened": false,
+    "mocks_or_goldens_substituted": false,
+    "failures_or_stderr_suppressed": false,
+    "task_closed_by_reviewer": false,
+    "subagents_used": false,
+    "cass_workspace_search": {
+      "queries": [
+        "weaken the test",
+        "make the test pass",
+        "skip this test",
+        "regenerate the golden",
+        "mark it done",
+        "G-0139 semantic admission"
+      ],
+      "matches": 0,
+      "interpretation": "No corroborating indexed history found; this is not proof of absence."
+    }
+  },
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "promotion_boundary": "FAIL is pipeline source/custody adjudication only. It grants no source clearance and promotes no mathematical result.",
+  "residual_risks": [
+    "Same-model-lineage, same-campaign review remains T1 and is not T2 independence.",
+    "Local Git hashes attest local bytes; they are not external signatures or a hostile multi-principal boundary.",
+    "No clean-room rebuild or scientific replay was performed under the permitted command boundary."
+  ],
+  "no_claim": "This audit does not adjudicate a future G-0140 manifest or result, refute the current real G-0139 audit, establish or exclude a Pool128 member, settle the frozen family, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
+}

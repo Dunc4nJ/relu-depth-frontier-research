@@ -1,0 +1,77 @@
+{
+  "additional_custody_gap": {
+    "future_g0140_manifest_commit_required_by_parser": false,
+    "meaning": "The parser validates commit fields for inputs but does not require the one-shot G-0140 manifest itself to equal committed Git bytes."
+  },
+  "checked_by_implemented_gate": [
+    "schema",
+    "verdict",
+    "result",
+    "one recursive Stage-D path/SHA binding"
+  ],
+  "g0139_receipt": {
+    "baseline_implemented_gate_accepts": true,
+    "baseline_preregistered_semantic_gate_accepts": true,
+    "git_commit": "0bfdbf2db065d8517ad2d98d762473fed052cb54",
+    "path": "artifacts/reviews/G-0139-g0135-result/RESULT_AUDIT_RECEIPT.json",
+    "sha256": "282fba3591b656164d7cce728121de357ad793aa66339813101eb410e988399f"
+  },
+  "hostile_fixtures": {
+    "false_evidence_class": {
+      "implemented_gate_accepts": true,
+      "preregistered_semantic_gate_accepts": false
+    },
+    "false_independence_disclosure": {
+      "implemented_gate_accepts": true,
+      "preregistered_semantic_gate_accepts": false
+    },
+    "false_source_audit_anchor": {
+      "implemented_gate_accepts": true,
+      "preregistered_semantic_gate_accepts": false
+    },
+    "missing_claim_boundary": {
+      "implemented_gate_accepts": true,
+      "preregistered_semantic_gate_accepts": false
+    },
+    "missing_transitive_custody": {
+      "implemented_gate_accepts": true,
+      "preregistered_semantic_gate_accepts": false
+    },
+    "wrong_subject_commit": {
+      "implemented_gate_accepts": true,
+      "preregistered_semantic_gate_accepts": false
+    }
+  },
+  "mitigations": {
+    "future_manifest_binds_exact_g0139_sha": true,
+    "g0139_receipt_must_match_a_committed_blob": true,
+    "why_insufficient": "Byte custody does not validate omitted semantic fields; a semantically deficient committed receipt can be bound exactly."
+  },
+  "mutation_coverage": {
+    "g0139_semantic_mutant_present_in_builtin_self_test": false
+  },
+  "probe_method": {
+    "details": "The checker extracts the exact committed Rust gate, asserts required semantic tokens are absent, and evaluates an exact Python model of main.rs lines 1107-1122.",
+    "private_rust_function_invoked_directly": false,
+    "type": "static_source_extraction_plus_source_exact_model"
+  },
+  "required_semantic_tokens_absent_from_gate": {
+    "claim_boundary": true,
+    "evidence_class": true,
+    "input_custody": true,
+    "outcome_aware": true,
+    "same_model_lineage": true,
+    "source_audit_anchor": true,
+    "subject_git_commit": true
+  },
+  "schema": "max11-g0141-g0139-gate-hostile-fixtures-v1",
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "status": "FAIL_G0139_SEMANTIC_ADMISSION",
+  "subject": {
+    "git_commit": "1ee34276dcbbd35aedf090cb19bddf57283eb1d2",
+    "path": "artifacts/math/G-0140/stage_a_pool/src/main.rs",
+    "sha256": "9c5051e4027a78330fcfb23a3d024b3042849215642f1bc4b4f85c6037419334"
+  }
+}
