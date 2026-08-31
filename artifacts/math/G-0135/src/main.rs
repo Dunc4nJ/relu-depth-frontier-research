@@ -2795,14 +2795,16 @@ fn preflight(input_path: PathBuf, candidate_path: PathBuf) -> Result<()> {
         "run from repository root"
     );
     let (_, candidate, transitive) = load_and_validate_inputs(&root, &input_path, &candidate_path)?;
+    let transitive_count = transitive.len();
     ensure!(
-        candidate.terms.len() == TERMS && transitive.len() == 41,
+        candidate.terms.len() == TERMS && transitive_count == 41,
         "preflight census drift"
     );
+    let _ = expected_manifest(&root, transitive)?;
     println!(
-        "G-0135 preflight PASS: finite member admitted; {} terms; {} transitive inputs",
+        "G-0135 preflight PASS: finite member and source-audit chain admitted; {} terms; {} transitive inputs",
         candidate.terms.len(),
-        transitive.len()
+        transitive_count
     );
     Ok(())
 }
