@@ -1,0 +1,51 @@
+{
+  "schema": "max11-g0136-g0135-source-self-test-v1",
+  "status": "PASS",
+  "generated_at_utc": "2026-08-31T16:23:34Z",
+  "subject": {
+    "git_commit": "e2f20e14076863737ea3c01fa78073f2c704eceb",
+    "source_sha256": "6786760c2d9c6d11782ae0f2e7a7efed19ddb026e959cf50701b473a1d979668",
+    "cargo_manifest_sha256": "9d3db2f04d56a9979ca605a177b0a097ff1e44288c7b1a444a5281b3c524664b",
+    "cargo_lock_sha256": "bb4c2eec22788cd3f705330b163a19638f7f55e87c4b6d659754a0485632811c",
+    "executable_sha256": "f96dbdf5a8998f11629477e81ac0b8ef3fa860fb4e7e813e3ff5b2ccead2d897"
+  },
+  "checks": [
+    {
+      "command": "artifacts/math/G-0135/target/release/g0135-batch32-global-replay --self-test",
+      "exit_code": 0,
+      "result": "PASS",
+      "stdout": "G-0135 self-test PASS"
+    },
+    {
+      "command": "cargo test --release --locked --manifest-path artifacts/math/G-0135/Cargo.toml tests::producer_self_test -- --exact --nocapture",
+      "exit_code": 0,
+      "result": "PASS",
+      "tests_passed": 1,
+      "tests_failed": 0
+    },
+    {
+      "command": "cargo test --release --locked --manifest-path artifacts/math/G-0135/Cargo.toml tests::maximum_support_bigint_matches_pinned -- --ignored --exact --nocapture",
+      "exit_code": 0,
+      "result": "PASS",
+      "tests_passed": 1,
+      "tests_failed": 0,
+      "fixture": "active-10 signed-mass-five near-frontier exact-BigInt versus pinned-kernel cross-check"
+    },
+    {
+      "command": "cargo clippy --release --locked --manifest-path artifacts/math/G-0135/Cargo.toml -- -D warnings",
+      "exit_code": 0,
+      "result": "PASS",
+      "warnings": 0
+    },
+    {
+      "command": "artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "result": "EXPECTED_FAIL",
+      "expected_fragment": "artifacts/reviews/G-0136-g0135-source/SOURCE_AUDIT_RECEIPT.json",
+      "reason": "positive preflight is fail-closed until the committed source-audit chain exists"
+    }
+  ],
+  "subject_hashes_unchanged_after_checks": true,
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false
+}

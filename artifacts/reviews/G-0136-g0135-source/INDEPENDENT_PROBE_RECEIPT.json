@@ -1,0 +1,286 @@
+{
+  "candidate_projection": {
+    "carry_directions": 68,
+    "complete_labelled_permutations": 5269017600,
+    "last_term_sequence": 161,
+    "nonzero_terms": 132,
+    "primitive_gcd": 1,
+    "projection_exact": true,
+    "selected_slots": 176,
+    "zero_selected_coefficients": 44
+  },
+  "exact_vs_pinned": {
+    "active10_near_frontier_checked": true,
+    "cases": [
+      {
+        "active_vertices": 8,
+        "coefficients": [
+          123648,
+          0,
+          0,
+          0,
+          0
+        ],
+        "linear": [
+          0,
+          725760,
+          2741760,
+          6410880,
+          11419200,
+          17090880,
+          22734912,
+          27925056,
+          32614272,
+          36984960,
+          40936320
+        ],
+        "name": "panel_sequence_0"
+      },
+      {
+        "active_vertices": 10,
+        "coefficients": [
+          33792,
+          0,
+          0,
+          23520,
+          420
+        ],
+        "linear": [
+          0,
+          0,
+          1693440,
+          5806080,
+          11640960,
+          17758080,
+          23197056,
+          27999744,
+          32667648,
+          37210752,
+          41610240
+        ],
+        "name": "panel_sequence_1"
+      },
+      {
+        "active_vertices": 10,
+        "coefficients": [
+          0,
+          0,
+          0,
+          0,
+          640
+        ],
+        "linear": [
+          0,
+          0,
+          2419200,
+          8064000,
+          14803200,
+          20400000,
+          24599040,
+          28116480,
+          31123200,
+          33770880,
+          36288000
+        ],
+        "name": "active10_near_frontier"
+      }
+    ],
+    "coefficient_digest_mutant_rejected": true,
+    "coefficient_plus_one_mutant_rejected": true,
+    "coefficient_stream_sha256": "6d401fc863bb2db9b5b987ce1ba1478225156622514b9e321066eb9d83231d6b",
+    "direction_reorder_mutant_rejected": true,
+    "direction_stream_sha256": "b89d95e718044752b2d4d1b537891e99b47a9449111bee7a87ed0783d631635b",
+    "directions_checked_per_case": 5,
+    "linear_plus_one_mutant_rejected": true,
+    "method": "fresh_python_arbitrary_precision_dp_vs_temporary_rust_pinned_g0117_helper",
+    "missing_lf_mutant_rejected": true,
+    "noncanonical_decimal_mutants_rejected": true,
+    "planted_known_answer": {
+      "eight_minus_six": 786432,
+      "seven_minus_six": 662784
+    }
+  },
+  "frozen_inputs": {
+    "all_rehashed": true,
+    "direct_bindings": 46,
+    "producer_set_equality_reached_later_uncommitted_guard": true,
+    "transitive_manifest_inputs": 41,
+    "unique_path_sha_pairs": 87
+  },
+  "independent_hostile_mutants": {
+    "coefficient_plus_one_rejected": true,
+    "direction_order_rejected": true,
+    "omitted_contribution_rejected": true,
+    "one_labelled_permutation_census_deficit_rejected": true,
+    "residual_digest_mutation_rejected": true
+  },
+  "preflight_and_path_failures": [
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "artifacts/reviews/G-0136-g0135-source/SOURCE_AUDIT_RECEIPT.json",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight /tmp/g0136-wrong-panel.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "panel path drift",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json /tmp/g0136-wrong-candidate.json",
+      "exit_code": 1,
+      "expected_fragment": "candidate path drift",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --build-manifest artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json /tmp/g0136-forbidden-manifest.json",
+      "exit_code": 1,
+      "expected_fragment": "manifest path drift",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json artifacts/math/G-0135/batch32_global_replay_manifest_v1.json /tmp/g0136-forbidden-output.json",
+      "exit_code": 1,
+      "expected_fragment": "output path drift",
+      "scientific_paths_absent_after": true
+    }
+  ],
+  "prior_g0132_reconciliation": {
+    "aggregate_hinge_support": 163036,
+    "carry_zero_count": 68,
+    "first_coefficient": "363926958096805201036820427711562039306502598983761375638772015048437029843340726060005211433825934240455425251219346437121889771857125452344913600504791360",
+    "first_direction": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      -3,
+      -2,
+      1,
+      3
+    ],
+    "hash": "d720d38f98057535f31b06a038bf96c2ea17486431f32d49ae48b2b207a6ff50",
+    "labelled_permutations": 5269017600,
+    "linear_zero_count": 11,
+    "nonzero_hinge_directions": 162929,
+    "terms": 132
+  },
+  "receipt_mutants_rejected": 9,
+  "release_self_test": {
+    "status": "PASS",
+    "stdout": "G-0135 self-test PASS"
+  },
+  "schema": "max11-g0136-g0135-independent-probe-v1",
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "scientific_paths_absent_after_probes": true,
+  "source_audit_receipt_mutants": [
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "unknown field",
+      "name": "unknown_field",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit did not clear exact source",
+      "name": "verdict_and_observation",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit subject binding mismatch",
+      "name": "source_sha",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit subject binding mismatch",
+      "name": "source_commit",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit frozen-input set mismatch",
+      "name": "duplicate_frozen_input",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit frozen-input set mismatch",
+      "name": "frozen_input_sha",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit self-test or independent-probe binding mismatch",
+      "name": "self_test_command",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "source audit self-test or independent-probe binding mismatch",
+      "name": "audit_artifact_sha",
+      "scientific_paths_absent_after": true
+    },
+    {
+      "command": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0135/target/release/g0135-batch32-global-replay --preflight artifacts/math/G-0113/panel_solver_input_v1.json artifacts/math/G-0128/full_family_master_result_v2.json",
+      "exit_code": 1,
+      "expected_fragment": "uncommitted or invalid binding",
+      "name": "uncommitted_artifact_guard",
+      "scientific_paths_absent_after": true
+    }
+  ],
+  "static_source_controls": {
+    "all_11_linear_zero_gate": true,
+    "all_68_carry_zero_gate": true,
+    "arbitrary_precision_aggregate": true,
+    "atomic_no_overwrite": true,
+    "branch_guard": true,
+    "coefficient_decimal_lf": true,
+    "compiled_source_cargo_lock": true,
+    "complete_labelled_census": true,
+    "direction_i8_bytes": true,
+    "end_rehash_before_publication": true,
+    "exact_then_bounded_crosscheck": true,
+    "g0132_full_anchor_set": true,
+    "g0132_reconciliation_precedes_selection": true,
+    "hostile_controls_reachable": true,
+    "manifest_calls_source_audit": true,
+    "manifest_end_rehash": true,
+    "no_modular_selection": true,
+    "path_containment_and_no_symlinks": true,
+    "pinned_bound_cannot_decide": true,
+    "preflight_calls_source_audit_chain": true,
+    "projection_176_to_132": true,
+    "receipt_checks_all_four_nonfinal_commits": true,
+    "receipt_checks_observation_flags": true,
+    "science_boundary_literal": true,
+    "signed_lex_nonzero_first32": true,
+    "subject_hash_literal": true,
+    "target_subtraction_bigint": true
+  },
+  "status": "PASS",
+  "subject": {
+    "commit": "e2f20e14076863737ea3c01fa78073f2c704eceb",
+    "hashes": {
+      "candidate": "17c4fd5c8890006feaf5b9b9d6dbd542002dfca80e85b27b2dcacec16ebca838",
+      "cargo_lock": "bb4c2eec22788cd3f705330b163a19638f7f55e87c4b6d659754a0485632811c",
+      "cargo_manifest": "9d3db2f04d56a9979ca605a177b0a097ff1e44288c7b1a444a5281b3c524664b",
+      "executable": "f96dbdf5a8998f11629477e81ac0b8ef3fa860fb4e7e813e3ff5b2ccead2d897",
+      "source": "6786760c2d9c6d11782ae0f2e7a7efed19ddb026e959cf50701b473a1d979668"
+    }
+  }
+}
