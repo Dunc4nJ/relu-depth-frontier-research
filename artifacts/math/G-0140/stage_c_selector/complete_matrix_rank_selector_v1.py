@@ -79,21 +79,29 @@ G0117_EXACT_PATH = ROOT / "artifacts/math/G-0117/fresh_q_cegis_exact.py"
 G0139_RECEIPT_PATH = (
     ROOT / "artifacts/reviews/G-0139-g0135-result/RESULT_AUDIT_RECEIPT.json"
 )
-G0146_SOURCE_AUDIT_PATH = (
+G0150_SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0150-g0140-stage-a-final2-source/SOURCE_AUDIT_RECEIPT.json"
 )
-G0147_SOURCE_AUDIT_PATH = (
+G0150_AUDIT_PREREGISTRATION_PATH = (
     ROOT
-    / "artifacts/reviews/G-0147-g0140-stage-b-final-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0150-g0140-stage-a-final2-source/PREREGISTRATION.md"
 )
-G0148_SOURCE_AUDIT_PATH = (
+G0151_SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0148-g0140-stage-c-final-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0151-g0140-stage-b-final2-source/SOURCE_AUDIT_RECEIPT.json"
 )
-G0148_AUDIT_PREREGISTRATION_PATH = (
+G0151_AUDIT_PREREGISTRATION_PATH = (
     ROOT
-    / "artifacts/reviews/G-0148-g0140-stage-c-final-source/PREREGISTRATION.md"
+    / "artifacts/reviews/G-0151-g0140-stage-b-final2-source/PREREGISTRATION.md"
+)
+G0152_SOURCE_AUDIT_PATH = (
+    ROOT
+    / "artifacts/reviews/G-0152-g0140-stage-c-final2-source/SOURCE_AUDIT_RECEIPT.json"
+)
+G0152_AUDIT_PREREGISTRATION_PATH = (
+    ROOT
+    / "artifacts/reviews/G-0152-g0140-stage-c-final2-source/PREREGISTRATION.md"
 )
 
 STAGE_A_SOURCE_PATH = ROOT / "artifacts/math/G-0140/stage_a_pool/src/main.rs"
@@ -160,26 +168,68 @@ OUTPUT_SCHEMA = "max11-g0140-pool128-exact-rank-selection-v1"
 MASTER_OUTPUT_SCHEMA = "max11-g0140-rank-aware-master-result-v1"
 GLOBAL_REPLAY_OUTPUT_SCHEMA = "max11-g0140-new-member-global-replay-v1"
 G0139_SCHEMA = "max11-g0139-g0135-result-audit-v1"
-G0146_SCHEMA = "max11-g0146-g0140-stage-a-final-source-audit-v1"
-G0147_SCHEMA = "max11-g0147-g0140-stage-b-final-source-audit-v1"
-G0148_SCHEMA = "max11-g0148-g0140-stage-c-final-source-audit-v1"
+G0150_SCHEMA = "max11-g0150-g0140-stage-a-final2-source-audit-v1"
+G0151_SCHEMA = "max11-g0151-g0140-stage-b-final2-source-audit-v1"
+G0152_SCHEMA = "max11-g0152-g0140-stage-c-final2-source-audit-v1"
 SOURCE_CUSTODY_PASS_RESULT = "SOURCE_CUSTODY_AUDIT_PASS_T1"
 SOURCE_AUDIT_EVIDENCE_CLASS = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT"
-G0146_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
-G0147_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
-G0148_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-C producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
-G0148_NO_CLAIM = "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
-G0148_REQUIRED_CHECKS = {
-    "exact_subject_binding": "PASS",
-    "compiled_source_executable_custody": "PASS",
-    "complete_basis_protocol": "PASS",
-    "full_pool_dependency_compatibility_scan": "PASS",
-    "receipt_admission_strictness": "PASS",
-    "committed_blob_custody": "PASS",
-    "self_test": "PASS",
-    "native_oracle": "PASS",
-    "static_preflight": "PASS",
-    "claim_boundary": "PASS",
+G0150_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
+G0151_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
+G0152_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-C producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
+G0150_NO_CLAIM = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 member, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
+G0151_NO_CLAIM = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 coordinate matrix or exact-rank selection, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
+G0152_NO_CLAIM = "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
+G0150_REQUIRED_CHECKS = {
+    "exact_named_binding_contract": True,
+    "displaced_recursive_lookalikes_rejected": True,
+    "correct_decoy_with_missing_named_binding_rejected": True,
+    "duplicate_path_occurrences_rejected": True,
+    "unknown_envelope_fields_rejected": True,
+    "audit_git_commit_rejected": True,
+    "duplicate_json_keys_rejected": True,
+    "trailing_json_data_rejected": True,
+    "producer_self_test_passed": True,
+    "producer_static_preflight_passed": True,
+    "producer_ancestor_preflight_passed": True,
+    "prohibited_scientific_modes_not_run": True,
+}
+G0151_REQUIRED_CHECKS = {
+    "exact_named_binding_contract": True,
+    "displaced_recursive_lookalikes_rejected": True,
+    "correct_decoy_with_missing_named_binding_rejected": True,
+    "duplicate_path_occurrences_rejected": True,
+    "unknown_envelope_fields_rejected": True,
+    "audit_git_commit_rejected": True,
+    "duplicate_json_keys_rejected": True,
+    "trailing_json_data_rejected": True,
+    "stage_a_missing_nullable_field_rejected": True,
+    "stage_a_mutation_control_schemas_validated": True,
+    "stage_a_source_audit_exact_contract_validated": True,
+    "compiled_source_manifest_lock_match_working_bytes": True,
+    "overwrite_refusal_verified": True,
+    "end_rehash_verified": True,
+    "bigint_unconditional_paths_verified": True,
+    "producer_self_test_passed": True,
+    "producer_static_preflight_passed": True,
+    "prohibited_scientific_modes_not_run": True,
+}
+G0152_REQUIRED_CHECKS = {
+    "exact_named_binding_contract": True,
+    "displaced_recursive_lookalikes_rejected": True,
+    "correct_decoy_with_missing_named_binding_rejected": True,
+    "duplicate_path_occurrences_rejected": True,
+    "unknown_envelope_fields_rejected": True,
+    "audit_git_commit_rejected": True,
+    "duplicate_json_keys_rejected": True,
+    "trailing_json_data_rejected": True,
+    "complete_basis_protocol_verified": True,
+    "full_pool_dependency_compatibility_scan_verified": True,
+    "committed_blob_custody_verified": True,
+    "native_build_custody_verified": True,
+    "producer_self_test_passed": True,
+    "native_oracle_passed": True,
+    "producer_static_preflight_passed": True,
+    "prohibited_scientific_modes_not_run": True,
 }
 NATIVE_PROPOSER_SCHEMA = "max11-g0140-ffpack-modular-pivots-v1"
 NATIVE_EXECUTION_SCHEMA = "max11-g0140-native-modular-proposal-receipt-v1"
@@ -243,10 +293,15 @@ def no_duplicate_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return result
 
 
+def strict_json_text(raw: str, label: str) -> object:
+    try:
+        return json.loads(raw, object_pairs_hook=no_duplicate_object)
+    except json.JSONDecodeError as error:
+        raise SelectorError(f"malformed or trailing JSON in {label}: {error}") from error
+
+
 def load_json(path: Path) -> dict[str, Any]:
-    value = json.loads(
-        path.read_text(encoding="utf-8"), object_pairs_hook=no_duplicate_object
-    )
+    value = strict_json_text(path.read_text(encoding="utf-8"), str(path))
     require(isinstance(value, dict), f"top-level JSON object required: {path}")
     return value
 
@@ -1623,6 +1678,41 @@ MANIFEST_KEYS = {
     "planned_outputs",
 }
 BINDING_KEYS = {"path", "sha256"}
+SOURCE_AUDIT_KEYS = {
+    "schema",
+    "verdict",
+    "result",
+    "evidence_class",
+    "claim_boundary",
+    "reviewer",
+    "preregistration",
+    "subject",
+    "required_checks",
+    "scientific_manifest_observed",
+    "scientific_input_observed",
+    "scientific_output_observed",
+    "scientific_replay_run",
+    "no_claim",
+}
+SOURCE_AUDIT_REVIEWER_KEYS = {
+    "agent_name",
+    "program",
+    "model",
+    "same_model_lineage",
+    "fresh_context",
+}
+SOURCE_AUDIT_PREREGISTRATION_KEYS = {
+    "path",
+    "sha256",
+    "git_commit",
+    "committed_and_pushed_before_subject_source_inspection",
+    "committed_and_pushed_before_runtime_checks",
+}
+SOURCE_AUDIT_SUBJECT_KEYS = {
+    "git_commit",
+    "commit_object_and_working_bytes_equal_for_all_bindings",
+    "bindings",
+}
 
 
 def validate_direction(raw: object, label: str) -> list[int]:
@@ -1654,7 +1744,7 @@ def validate_direction(raw: object, label: str) -> list[int]:
     return direction
 
 
-def validate_binding(value: object, label: str) -> tuple[str, str]:
+def validate_binding_shape(value: object, label: str) -> tuple[str, str]:
     require(
         isinstance(value, dict) and set(value) == BINDING_KEYS,
         f"{label} binding schema drift",
@@ -1669,10 +1759,15 @@ def validate_binding(value: object, label: str) -> tuple[str, str]:
         and is_sha256(digest),
         f"{label} binding malformed",
     )
+    return path, str(digest)
+
+
+def validate_binding(value: object, label: str) -> tuple[str, str]:
+    path, digest = validate_binding_shape(value, label)
     resolved = contained(ROOT / path)
     require(resolved.is_file(), f"{label} bound file missing: {path}")
     require_digest(sha256_path(resolved), digest, label)
-    return path, str(digest)
+    return path, digest
 
 
 def git_commit_for_path(path: Path) -> str:
@@ -1930,9 +2025,9 @@ def validate_manifest(
             STAGE_B_SOURCE_PATH.parent.parent
             / "target/release/g0140-stage-b-pool128-coordinate-pricer"
         ): None,
-        relative(G0146_SOURCE_AUDIT_PATH): None,
-        relative(G0147_SOURCE_AUDIT_PATH): None,
-        relative(G0148_SOURCE_AUDIT_PATH): None,
+        relative(G0150_SOURCE_AUDIT_PATH): None,
+        relative(G0151_SOURCE_AUDIT_PATH): None,
+        relative(G0152_SOURCE_AUDIT_PATH): None,
     }
     for path, expected in required.items():
         require(path in snapshot, f"manifest omits required Stage-C input: {path}")
@@ -1946,8 +2041,8 @@ def validate_manifest(
     require(
         producer_commit == git_commit_for_path(STAGE_A_SOURCE_PATH)
         and stage_a_source_audit_commit
-        == git_commit_for_path(G0146_SOURCE_AUDIT_PATH),
-        "manifest producer/G-0146 commit semantics drift",
+        == git_commit_for_path(G0150_SOURCE_AUDIT_PATH),
+        "manifest producer/G-0150 commit semantics drift",
     )
     git_is_ancestor(
         preregistration_commit,
@@ -1957,12 +2052,12 @@ def validate_manifest(
     git_is_ancestor(
         producer_commit,
         stage_a_source_audit_commit,
-        "Stage-A producer -> G-0146 source audit",
+        "Stage-A producer -> G-0150 source audit",
     )
     git_is_ancestor(
         stage_a_source_audit_commit,
         manifest_commit,
-        "G-0146 source audit -> shared manifest",
+        "G-0150 source audit -> shared manifest",
     )
 
     stage_c_subjects = (
@@ -1982,40 +2077,46 @@ def validate_manifest(
         )
 
     validate_source_audit_receipt(
-        load_json(G0146_SOURCE_AUDIT_PATH),
-        audit_path=G0146_SOURCE_AUDIT_PATH,
-        schema=G0146_SCHEMA,
-        claim_boundary=G0146_CLAIM_BOUNDARY,
+        load_json(G0150_SOURCE_AUDIT_PATH),
+        audit_path=G0150_SOURCE_AUDIT_PATH,
+        schema=G0150_SCHEMA,
+        claim_boundary=G0150_CLAIM_BOUNDARY,
+        no_claim=G0150_NO_CLAIM,
+        required_checks=G0150_REQUIRED_CHECKS,
+        preregistration_path=G0150_AUDIT_PREREGISTRATION_PATH,
         snapshot=snapshot,
-        subjects=(
-            STAGE_A_SOURCE_PATH,
-            STAGE_A_SOURCE_PATH.parent / "engine.rs",
-            STAGE_A_SOURCE_PATH.parent.parent / "Cargo.toml",
-            STAGE_A_SOURCE_PATH.parent.parent / "Cargo.lock",
-            STAGE_A_SOURCE_PATH.parent.parent
+        named_subjects={
+            "main_source": STAGE_A_SOURCE_PATH,
+            "engine_source": STAGE_A_SOURCE_PATH.parent / "engine.rs",
+            "cargo_manifest": STAGE_A_SOURCE_PATH.parent.parent / "Cargo.toml",
+            "cargo_lock": STAGE_A_SOURCE_PATH.parent.parent / "Cargo.lock",
+            "release_executable": STAGE_A_SOURCE_PATH.parent.parent
             / "target/release/g0140-stage-a-pool128-global-replay",
-        ),
+        },
         subject_commit=git_commit_for_path(STAGE_A_SOURCE_PATH),
         manifest_commit=manifest_commit,
     )
     validate_source_audit_receipt(
-        load_json(G0147_SOURCE_AUDIT_PATH),
-        audit_path=G0147_SOURCE_AUDIT_PATH,
-        schema=G0147_SCHEMA,
-        claim_boundary=G0147_CLAIM_BOUNDARY,
+        load_json(G0151_SOURCE_AUDIT_PATH),
+        audit_path=G0151_SOURCE_AUDIT_PATH,
+        schema=G0151_SCHEMA,
+        claim_boundary=G0151_CLAIM_BOUNDARY,
+        no_claim=G0151_NO_CLAIM,
+        required_checks=G0151_REQUIRED_CHECKS,
+        preregistration_path=G0151_AUDIT_PREREGISTRATION_PATH,
         snapshot=snapshot,
-        subjects=(
-            STAGE_B_SOURCE_PATH,
-            STAGE_B_SOURCE_PATH.parent.parent / "Cargo.toml",
-            STAGE_B_SOURCE_PATH.parent.parent / "Cargo.lock",
-            STAGE_B_SOURCE_PATH.parent.parent
+        named_subjects={
+            "main_source": STAGE_B_SOURCE_PATH,
+            "cargo_manifest": STAGE_B_SOURCE_PATH.parent.parent / "Cargo.toml",
+            "cargo_lock": STAGE_B_SOURCE_PATH.parent.parent / "Cargo.lock",
+            "release_executable": STAGE_B_SOURCE_PATH.parent.parent
             / "target/release/g0140-stage-b-pool128-coordinate-pricer",
-        ),
+        },
         subject_commit=git_commit_for_path(STAGE_B_SOURCE_PATH),
         manifest_commit=manifest_commit,
     )
-    validate_g0148_source_audit(
-        load_json(G0148_SOURCE_AUDIT_PATH),
+    validate_g0152_source_audit(
+        load_json(G0152_SOURCE_AUDIT_PATH),
         snapshot=snapshot,
         stage_c_commits=stage_c_commits,
         manifest_commit=manifest_commit,
@@ -2083,17 +2184,61 @@ def validate_g0139_admission(receipt: dict[str, Any]) -> None:
     )
 
 
-def validate_source_audit_receipt(
+def validate_source_audit_shape(
     receipt: dict[str, Any],
     *,
-    audit_path: Path,
     schema: str,
     claim_boundary: str,
-    snapshot: dict[str, str],
-    subjects: Sequence[Path],
+    no_claim: str,
+    required_checks: dict[str, bool],
+    preregistration_path: str,
+    named_bindings: dict[str, tuple[str, str]],
     subject_commit: str,
-    manifest_commit: str,
 ) -> None:
+    require(set(receipt) == SOURCE_AUDIT_KEYS, "source-audit top-level key drift")
+    reviewer = receipt.get("reviewer")
+    require(
+        isinstance(reviewer, dict)
+        and set(reviewer) == SOURCE_AUDIT_REVIEWER_KEYS
+        and isinstance(reviewer.get("agent_name"), str)
+        and bool(reviewer["agent_name"])
+        and reviewer.get("program") == "codex"
+        and isinstance(reviewer.get("model"), str)
+        and bool(reviewer["model"])
+        and reviewer.get("same_model_lineage") is True
+        and reviewer.get("fresh_context") is True,
+        "source-audit reviewer disclosure drift",
+    )
+    preregistration = receipt.get("preregistration")
+    require(
+        isinstance(preregistration, dict)
+        and set(preregistration) == SOURCE_AUDIT_PREREGISTRATION_KEYS
+        and preregistration.get("path") == preregistration_path
+        and is_sha256(preregistration.get("sha256"))
+        and isinstance(preregistration.get("git_commit"), str)
+        and len(preregistration["git_commit"]) == 40
+        and all(
+            character in "0123456789abcdef"
+            for character in preregistration["git_commit"]
+        )
+        and preregistration.get(
+            "committed_and_pushed_before_subject_source_inspection"
+        )
+        is True
+        and preregistration.get("committed_and_pushed_before_runtime_checks") is True,
+        "source-audit preregistration shape drift",
+    )
+    subject = receipt.get("subject")
+    require(
+        isinstance(subject, dict)
+        and set(subject) == SOURCE_AUDIT_SUBJECT_KEYS
+        and subject.get("git_commit") == subject_commit
+        and subject.get("commit_object_and_working_bytes_equal_for_all_bindings")
+        is True
+        and isinstance(subject.get("bindings"), dict)
+        and set(subject["bindings"]) == set(named_bindings),
+        "source-audit subject shape or identity drift",
+    )
     require(
         receipt.get("schema") == schema
         and receipt.get("verdict") == "PASS"
@@ -2104,32 +2249,81 @@ def validate_source_audit_receipt(
         and receipt.get("scientific_input_observed") is False
         and receipt.get("scientific_output_observed") is False
         and receipt.get("scientific_replay_run") is False
-        and isinstance(receipt.get("subject"), dict)
-        and receipt["subject"].get("git_commit") == subject_commit
-        and receipt["subject"].get(
-            "commit_object_and_working_bytes_equal_for_all_bindings"
-        )
-        is True,
-        f"{audit_path.name} is not the exact outcome-blind T1 PASS contract",
+        and receipt.get("required_checks") == required_checks
+        and receipt.get("no_claim") == no_claim,
+        "source audit is not the exact outcome-blind T1 PASS contract",
     )
-    observed = set(recursive_bindings(receipt))
-    for subject in subjects:
-        path = relative(subject)
+    observed_paths: list[str] = []
+    for label, expected in named_bindings.items():
+        path, digest = validate_binding_shape(subject["bindings"][label], label)
         require(
-            (path, snapshot[path]) in observed,
-            f"source audit does not bind exact subject: {path}",
+            (path, digest) == expected,
+            f"source audit does not bind exact named subject: {label}",
         )
-    for path, digest in observed:
-        resolved = contained(ROOT / path)
-        require(resolved.is_file(), f"source-audit nested binding missing: {path}")
-        require_digest(sha256_path(resolved), digest, f"source-audit nested {path}")
-
-    audit_commit = git_commit_for_path(audit_path)
-    git_is_ancestor(
-        subject_commit,
-        audit_commit,
-        f"frozen subject -> {relative(audit_path)}",
+        observed_paths.append(path)
+    require(
+        len(observed_paths) == len(set(observed_paths)),
+        "source-audit duplicate subject path drift",
     )
+
+
+def validate_source_audit_receipt(
+    receipt: dict[str, Any],
+    *,
+    audit_path: Path,
+    schema: str,
+    claim_boundary: str,
+    no_claim: str,
+    required_checks: dict[str, bool],
+    preregistration_path: Path,
+    snapshot: dict[str, str],
+    named_subjects: dict[str, Path],
+    subject_commit: str,
+    manifest_commit: str,
+) -> None:
+    expected_bindings = {
+        label: (relative(path), snapshot[relative(path)])
+        for label, path in named_subjects.items()
+    }
+    validate_source_audit_shape(
+        receipt,
+        schema=schema,
+        claim_boundary=claim_boundary,
+        no_claim=no_claim,
+        required_checks=required_checks,
+        preregistration_path=relative(preregistration_path),
+        named_bindings=expected_bindings,
+        subject_commit=subject_commit,
+    )
+    subject_bindings = receipt["subject"]["bindings"]
+    for label in named_subjects:
+        observed = validate_binding(subject_bindings[label], f"source-audit {label}")
+        require(
+            observed == expected_bindings[label],
+            f"source-audit live binding drift: {label}",
+        )
+
+    preregistration = receipt["preregistration"]
+    require_digest(
+        sha256_path(preregistration_path),
+        str(preregistration["sha256"]),
+        "source-audit preregistration",
+    )
+    prereg_commit = validate_commit(
+        preregistration["git_commit"], "source-audit preregistration"
+    )
+    require(
+        prereg_commit == git_commit_for_path(preregistration_path),
+        "source-audit preregistration Git custody drift",
+    )
+    audit_commit = git_commit_for_path(audit_path)
+    for label, path in named_subjects.items():
+        git_is_ancestor(
+            git_commit_for_path(path),
+            prereg_commit,
+            f"source-audit {label} -> preregistration",
+        )
+    git_is_ancestor(prereg_commit, audit_commit, "source-audit preregistration -> receipt")
     git_is_ancestor(
         audit_commit,
         manifest_commit,
@@ -2137,7 +2331,7 @@ def validate_source_audit_receipt(
     )
 
 
-def validate_g0148_source_audit(
+def validate_g0152_source_audit(
     receipt: dict[str, Any],
     *,
     snapshot: dict[str, str],
@@ -2147,55 +2341,23 @@ def validate_g0148_source_audit(
     script_commit = stage_c_commits[SCRIPT]
     validate_source_audit_receipt(
         receipt,
-        audit_path=G0148_SOURCE_AUDIT_PATH,
-        schema=G0148_SCHEMA,
-        claim_boundary=G0148_CLAIM_BOUNDARY,
+        audit_path=G0152_SOURCE_AUDIT_PATH,
+        schema=G0152_SCHEMA,
+        claim_boundary=G0152_CLAIM_BOUNDARY,
+        no_claim=G0152_NO_CLAIM,
+        required_checks=G0152_REQUIRED_CHECKS,
+        preregistration_path=G0152_AUDIT_PREREGISTRATION_PATH,
         snapshot=snapshot,
-        subjects=tuple(stage_c_commits),
+        named_subjects={
+            "selector_source": SCRIPT,
+            "native_proposer_source": NATIVE_PROPOSER_SOURCE_PATH,
+            "native_proposer_executable": NATIVE_PROPOSER_PATH,
+            "native_build_receipt": NATIVE_BUILD_RECEIPT_PATH,
+            "native_test": NATIVE_TEST_PATH,
+            "launcher": LAUNCHER_PATH,
+        },
         subject_commit=script_commit,
         manifest_commit=manifest_commit,
-    )
-    require(
-        receipt.get("no_claim") == G0148_NO_CLAIM
-        and receipt.get("required_checks") == G0148_REQUIRED_CHECKS,
-        "G-0148 obligation/no-claim semantics drift",
-    )
-    preregistration = receipt.get("preregistration")
-    require(
-        isinstance(preregistration, dict)
-        and preregistration.get("path")
-        == relative(G0148_AUDIT_PREREGISTRATION_PATH)
-        and preregistration.get("frozen_before_subject_source_inspection") is True
-        and preregistration.get("frozen_before_runtime_checks") is True
-        and preregistration.get("frozen_before_scientific_input_observation") is True,
-        "G-0148 preregistration semantics drift",
-    )
-    prereg_path = preregistration.get("path")
-    prereg_sha256 = preregistration.get("sha256")
-    require(
-        prereg_path == relative(G0148_AUDIT_PREREGISTRATION_PATH)
-        and is_sha256(prereg_sha256)
-        and sha256_path(G0148_AUDIT_PREREGISTRATION_PATH) == prereg_sha256,
-        "G-0148 preregistration byte custody drift",
-    )
-    prereg_commit = validate_commit(
-        preregistration.get("git_commit"), "G-0148 preregistration"
-    )
-    require(
-        prereg_commit == git_commit_for_path(G0148_AUDIT_PREREGISTRATION_PATH),
-        "G-0148 preregistration Git custody drift",
-    )
-    audit_commit = git_commit_for_path(G0148_SOURCE_AUDIT_PATH)
-    for path, commit in stage_c_commits.items():
-        git_is_ancestor(
-            commit,
-            prereg_commit,
-            f"Stage-C subject {relative(path)} -> G-0148 preregistration",
-        )
-    git_is_ancestor(
-        prereg_commit,
-        audit_commit,
-        "G-0148 preregistration -> audit receipt",
     )
 
 
@@ -2687,8 +2849,8 @@ def future_interface() -> dict[str, Any]:
         "launcher": relative(LAUNCHER_PATH),
         "native_test": relative(NATIVE_TEST_PATH),
         "stage_c_source_audit": {
-            "path": relative(G0148_SOURCE_AUDIT_PATH),
-            "schema": G0148_SCHEMA,
+            "path": relative(G0152_SOURCE_AUDIT_PATH),
+            "schema": G0152_SCHEMA,
         },
         "scientific_execution_enabled_after_all_frozen_gates_pass": True,
         "scientific_result_written": False,
@@ -2744,9 +2906,9 @@ def static_preflight() -> dict[str, Any]:
         "stage_a": STAGE_A_PATH,
         "stage_b": STAGE_B_PATH,
         "g0139": G0139_RECEIPT_PATH,
-        "g0146": G0146_SOURCE_AUDIT_PATH,
-        "g0147": G0147_SOURCE_AUDIT_PATH,
-        "g0148": G0148_SOURCE_AUDIT_PATH,
+        "g0150": G0150_SOURCE_AUDIT_PATH,
+        "g0151": G0151_SOURCE_AUDIT_PATH,
+        "g0152": G0152_SOURCE_AUDIT_PATH,
     }
     present = {label: path.is_file() for label, path in future_paths.items()}
     return {
@@ -2882,8 +3044,8 @@ def scientific_run(
             "sha256": prepared["snapshot"][relative(G0139_RECEIPT_PATH)],
         },
         "stage_c_source_audit": {
-            "path": relative(G0148_SOURCE_AUDIT_PATH),
-            "sha256": prepared["snapshot"][relative(G0148_SOURCE_AUDIT_PATH)],
+            "path": relative(G0152_SOURCE_AUDIT_PATH),
+            "sha256": prepared["snapshot"][relative(G0152_SOURCE_AUDIT_PATH)],
         },
         "solver": {"path": relative(SCRIPT), "sha256": prepared["script_sha256"]},
         "launcher": {
@@ -3016,6 +3178,215 @@ def self_test() -> None:
             f"G-0139 {label}",
             rejected,
         )
+
+    def audit_fixture(
+        *,
+        schema: str,
+        claim_boundary: str,
+        no_claim: str,
+        required_checks: dict[str, bool],
+        preregistration_path: Path,
+        named_bindings: dict[str, tuple[str, str]],
+    ) -> dict[str, Any]:
+        return {
+            "schema": schema,
+            "verdict": "PASS",
+            "result": SOURCE_CUSTODY_PASS_RESULT,
+            "evidence_class": SOURCE_AUDIT_EVIDENCE_CLASS,
+            "claim_boundary": claim_boundary,
+            "reviewer": {
+                "agent_name": "FreshReviewer",
+                "program": "codex",
+                "model": "gpt-5",
+                "same_model_lineage": True,
+                "fresh_context": True,
+            },
+            "preregistration": {
+                "path": relative(preregistration_path),
+                "sha256": "0" * 64,
+                "git_commit": "0" * 40,
+                "committed_and_pushed_before_subject_source_inspection": True,
+                "committed_and_pushed_before_runtime_checks": True,
+            },
+            "subject": {
+                "git_commit": "0" * 40,
+                "commit_object_and_working_bytes_equal_for_all_bindings": True,
+                "bindings": {
+                    label: {"path": path, "sha256": digest}
+                    for label, (path, digest) in named_bindings.items()
+                },
+            },
+            "required_checks": required_checks,
+            "scientific_manifest_observed": False,
+            "scientific_input_observed": False,
+            "scientific_output_observed": False,
+            "scientific_replay_run": False,
+            "no_claim": no_claim,
+        }
+
+    audit_cases = [
+        (
+            G0150_SCHEMA,
+            G0150_CLAIM_BOUNDARY,
+            G0150_NO_CLAIM,
+            G0150_REQUIRED_CHECKS,
+            G0150_AUDIT_PREREGISTRATION_PATH,
+            {
+                "main_source": (relative(STAGE_A_SOURCE_PATH), "0" * 64),
+                "engine_source": (
+                    relative(STAGE_A_SOURCE_PATH.parent / "engine.rs"),
+                    "1" * 64,
+                ),
+                "cargo_manifest": (
+                    relative(STAGE_A_SOURCE_PATH.parent.parent / "Cargo.toml"),
+                    "2" * 64,
+                ),
+                "cargo_lock": (
+                    relative(STAGE_A_SOURCE_PATH.parent.parent / "Cargo.lock"),
+                    "3" * 64,
+                ),
+                "release_executable": (
+                    relative(
+                        STAGE_A_SOURCE_PATH.parent.parent
+                        / "target/release/g0140-stage-a-pool128-global-replay"
+                    ),
+                    "4" * 64,
+                ),
+            },
+        ),
+        (
+            G0151_SCHEMA,
+            G0151_CLAIM_BOUNDARY,
+            G0151_NO_CLAIM,
+            G0151_REQUIRED_CHECKS,
+            G0151_AUDIT_PREREGISTRATION_PATH,
+            {
+                "main_source": (relative(STAGE_B_SOURCE_PATH), "5" * 64),
+                "cargo_manifest": (
+                    relative(STAGE_B_SOURCE_PATH.parent.parent / "Cargo.toml"),
+                    "6" * 64,
+                ),
+                "cargo_lock": (
+                    relative(STAGE_B_SOURCE_PATH.parent.parent / "Cargo.lock"),
+                    "7" * 64,
+                ),
+                "release_executable": (
+                    relative(
+                        STAGE_B_SOURCE_PATH.parent.parent
+                        / "target/release/g0140-stage-b-pool128-coordinate-pricer"
+                    ),
+                    "8" * 64,
+                ),
+            },
+        ),
+        (
+            G0152_SCHEMA,
+            G0152_CLAIM_BOUNDARY,
+            G0152_NO_CLAIM,
+            G0152_REQUIRED_CHECKS,
+            G0152_AUDIT_PREREGISTRATION_PATH,
+            {
+                "selector_source": (relative(SCRIPT), "9" * 64),
+                "native_proposer_source": (
+                    relative(NATIVE_PROPOSER_SOURCE_PATH),
+                    "a" * 64,
+                ),
+                "native_proposer_executable": (
+                    relative(NATIVE_PROPOSER_PATH),
+                    "b" * 64,
+                ),
+                "native_build_receipt": (
+                    relative(NATIVE_BUILD_RECEIPT_PATH),
+                    "c" * 64,
+                ),
+                "native_test": (relative(NATIVE_TEST_PATH), "d" * 64),
+                "launcher": (relative(LAUNCHER_PATH), "e" * 64),
+            },
+        ),
+    ]
+    for (
+        schema,
+        claim_boundary,
+        no_claim,
+        required_checks,
+        preregistration_path,
+        named_bindings,
+    ) in audit_cases:
+        validate_source_audit_shape(
+            audit_fixture(
+                schema=schema,
+                claim_boundary=claim_boundary,
+                no_claim=no_claim,
+                required_checks=required_checks,
+                preregistration_path=preregistration_path,
+                named_bindings=named_bindings,
+            ),
+            schema=schema,
+            claim_boundary=claim_boundary,
+            no_claim=no_claim,
+            required_checks=required_checks,
+            preregistration_path=relative(preregistration_path),
+            named_bindings=named_bindings,
+            subject_commit="0" * 40,
+        )
+
+    own_case = audit_cases[-1]
+    own_fixture = audit_fixture(
+        schema=own_case[0],
+        claim_boundary=own_case[1],
+        no_claim=own_case[2],
+        required_checks=own_case[3],
+        preregistration_path=own_case[4],
+        named_bindings=own_case[5],
+    )
+
+    def reject_audit(mutant: dict[str, Any], label: str) -> None:
+        expect_rejected(
+            lambda: validate_source_audit_shape(
+                mutant,
+                schema=own_case[0],
+                claim_boundary=own_case[1],
+                no_claim=own_case[2],
+                required_checks=own_case[3],
+                preregistration_path=relative(own_case[4]),
+                named_bindings=own_case[5],
+                subject_commit="0" * 40,
+            ),
+            label,
+            rejected,
+        )
+
+    mutant = json.loads(json.dumps(own_fixture))
+    mutant["unknown_extension"] = True
+    reject_audit(mutant, "source audit unknown envelope")
+    mutant = json.loads(json.dumps(own_fixture))
+    mutant["audit_git_commit"] = "0" * 40
+    reject_audit(mutant, "source audit self reference")
+    mutant = json.loads(json.dumps(own_fixture))
+    displaced = mutant["subject"].pop("bindings")
+    mutant["unrelated_receipt_lookalikes"] = displaced
+    reject_audit(mutant, "source audit displaced bindings")
+    mutant = json.loads(json.dumps(own_fixture))
+    decoy = mutant["subject"]["bindings"].pop("selector_source")
+    mutant["subject"]["unrelated_selector_decoy"] = decoy
+    reject_audit(mutant, "source audit missing named binding with decoy")
+    mutant = json.loads(json.dumps(own_fixture))
+    mutant["subject"]["bindings"]["native_proposer_source"]["path"] = mutant[
+        "subject"
+    ]["bindings"]["selector_source"]["path"]
+    reject_audit(mutant, "source audit duplicate subject path")
+    mutant = json.loads(json.dumps(own_fixture))
+    mutant["subject"]["unknown"] = True
+    reject_audit(mutant, "source audit unknown subject field")
+    mutant = json.loads(json.dumps(own_fixture))
+    mutant["schema"] = "lookalike-source-audit"
+    reject_audit(mutant, "source audit wrong schema")
+    mutant = json.loads(json.dumps(own_fixture))
+    mutant["required_checks"]["native_oracle_passed"] = False
+    reject_audit(mutant, "source audit false required check")
+    mutant = json.loads(json.dumps(own_fixture))
+    mutant["scientific_input_observed"] = True
+    reject_audit(mutant, "source audit scientific observation")
 
     def crosscheck_prefix_profile(
         columns: Sequence[Sequence[int]],
@@ -3347,6 +3718,11 @@ def self_test() -> None:
         rejected,
     )
     expect_rejected(
+        lambda: strict_json_text('{"first":1}{"second":2}', "trailing fixture"),
+        "trailing JSON data",
+        rejected,
+    )
+    expect_rejected(
         lambda: canonical_integer("01", "hostile integer"),
         "noncanonical integer",
         rejected,
@@ -3431,7 +3807,17 @@ def self_test() -> None:
         "G-0139 false source-audit anchor",
         "G-0139 semantic lookalike",
         "G-0139 superset binding digest",
+        "source audit unknown envelope",
+        "source audit self reference",
+        "source audit displaced bindings",
+        "source audit missing named binding with decoy",
+        "source audit duplicate subject path",
+        "source audit unknown subject field",
+        "source audit wrong schema",
+        "source audit false required check",
+        "source audit scientific observation",
         "duplicate JSON key",
+        "trailing JSON data",
         "noncanonical integer",
         "inactive direction",
         "modular terminal verdict field",
