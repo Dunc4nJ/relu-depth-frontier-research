@@ -821,6 +821,20 @@ def normalize_member(values: Sequence[Fraction]) -> tuple[list[int], int]:
     return integers, scale
 
 
+def validate_primitive_separator(separator: Sequence[int], pairing: int, target: Sequence[int]) -> None:
+    require(len(separator) == len(target) and any(separator), "separator dimension/zero drift")
+    divisor = 0
+    for value in separator:
+        divisor = math.gcd(divisor, abs(int(value)))
+    require(divisor == 1, "separator is not primitive")
+    require(next(int(value) for value in separator if value) > 0, "separator sign normalization drift")
+    require(
+        pairing == sum(int(value) * int(rhs) for value, rhs in zip(separator, target, strict=True))
+        and pairing != 0,
+        "separator target pairing drift",
+    )
+
+
 def run(manifest_path: Path, output: Path) -> dict[str, Any]:
     begun = time.perf_counter()
     manifest_path = contained(manifest_path)
@@ -874,7 +888,10 @@ def run(manifest_path: Path, output: Path) -> dict[str, Any]:
             augmented = helper.qmatrix([row + [target[index]] for index, row in enumerate(integer_rows)])
             rank = int(matrix.rank())
             augmented_rank = int(augmented.rank())
-            require(rank > previous_rank, "appended column failed exact rank increase")
+            if iteration == 0:
+                require(rank == 115, "frozen seed is not an exact rank-115 basis")
+            else:
+                require(rank == previous_rank + 1, "appended column failed unit exact rank increase")
             previous_rank = rank
             if rank == augmented_rank:
                 reduced, reduced_rank = matrix.rref()
@@ -940,6 +957,7 @@ def run(manifest_path: Path, output: Path) -> dict[str, Any]:
                 return result
 
             separator, pairing, free_row = helper.first_target_separator(matrix, integer_rows, target)
+            validate_primitive_separator(separator, pairing, target)
             violation = first_violation(cache, separator, linear, accumulated, batch)
             trial = {
                 "iteration": iteration,
@@ -1032,6 +1050,7 @@ def self_test() -> None:
         "restricted dependent-row mutation escaped all-column scan",
     )
     valid_separator_columns = [[1, 1], [2, 2]]
+    validate_primitive_separator([1, -1], 1, [1, 0])
     require(
         scan_first_violation([1, -1], len(valid_separator_columns), valid_separator_columns.__getitem__) is None,
         "valid separator control failed",
