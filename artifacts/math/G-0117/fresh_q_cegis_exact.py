@@ -35,6 +35,7 @@ PANEL_ROWS_SHA256 = "0b849d7dbb171367d9a55ad4b6da4631b4278caa38d9b5f9cbda04c6cb8
 CACHE_SHA256 = "da045a6fc004afeb6c9b67c8fc093a191ed3e9c515bc8e97901a6e64cb125c5b"
 COORDINATE_SHA256 = "c9acf62ea84d7e3d0405f2a5f778f431f8c3a1b16c8b9aefa453b62cfc929071"
 PREREGISTRATION_SHA256 = "57c43026da21ead61e9fc0a7330e763809e9bd565ce7854eef03ef14803a2c46"
+PATH_ADDENDUM_SHA256 = "10756e6f9fd36d797dd52917523605ff4807fb13780164ed04547f83f75c9a4b"
 DIRECTION = [0, 0, 0, 0, 0, 0, 0, 0, 1, -5, 4]
 CERTIFICATE_SCHEMA = "max11-g0117-global-replay-certificate-v3"
 CERTIFICATE_BOUNDARY = (
@@ -256,6 +257,7 @@ def solve(
     started = time.perf_counter()
     require(output_path != certificate_path, "output paths alias")
     require(not output_path.exists() and not certificate_path.exists(), "refusing overwrite")
+    result_path = workspace_relative(output_path)
     python_executable = Path(sys.executable).absolute()
     paths = {
         "panel_input": workspace_relative(input_path),
@@ -279,6 +281,11 @@ def solve(
         sha256_path(HERE / "ITERATION1_V3_CERTIFICATE_PREREGISTRATION.md")
         == PREREGISTRATION_SHA256,
         "v3 preregistration drift",
+    )
+    require(
+        sha256_path(HERE / "ITERATION1_V3_CERTIFICATE_PATH_ADDENDUM.md")
+        == PATH_ADDENDUM_SHA256,
+        "v3 path addendum drift",
     )
 
     source = json.loads(input_path.read_text(encoding="utf-8"))
@@ -476,6 +483,7 @@ def solve(
                     "claim_boundary": CERTIFICATE_BOUNDARY,
                     "source_cegis": {
                         "sha256": result_sha256,
+                        "result_path": result_path,
                         "schema": result["schema"],
                         "result": result["result"],
                         "paths": paths,
