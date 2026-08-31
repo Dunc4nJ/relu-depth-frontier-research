@@ -292,3 +292,14 @@ result_summary = "Among 384,425 active signed-mass-five records, exactly 96,054 
 status = "complete"
 author_path = "filter-author/lilacbridge"
 created = 2026-08-30T20:48:54Z
+
+[[experiment]]
+id = "EXP-0026"
+route = "H-0001"
+design = "Before any global residual was computed, freeze the G-0126 protocol, the exact 131-term G-0121 candidate, the G-0117 complete normal-form kernel and uniqueness lemma, and the producer source/executable. Enumerate exactly 131*11! labelled permutations; require all 36 previously imposed hinge rows and the complete linear target to replay; screen every aggregate hinge at primes 1,000,000,007 and 1,000,000,009; exact-price the deterministic first 32 signed-lexicographic violations; and trigger a complete BigInt replay only if both modular normal forms vanish."
+family = "max11-full-family-member-global-replay-v1"
+prereg = true
+result_summary = "The finite 348-row member is globally refuted. All 36 carried hinge rows and all eleven linear residuals are zero, but 178,040 of 178,145 supported hinge directions are nonzero modulo at least one prime after all 5,229,100,800 labelled permutations. Every selected next-batch residual is an independently re-reduced exact nonzero integer. This refutes only the bound 131-term coefficient vector, not the 163,740-record family, MAX11, or two-hidden-layer realizability."
+status = "complete"
+author_path = "research-lead/cobaltmaple"
+created = 2026-08-31T02:53:00Z

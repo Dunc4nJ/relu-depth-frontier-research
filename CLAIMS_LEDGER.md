@@ -536,3 +536,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0023` [complete] family `leaf-bridge-semantic-status-v1` arm — prereg=False · trace:e5b8ff77
 - `EXP-0024` [complete] family `max11-joint-semantic-incidence-v1` arm — prereg=True · trace:1e8b8933
 - `EXP-0025` [complete] family `degree-five-full-dimensional-filter-v1` arm — prereg=False · trace:1ba2022b
+- `EXP-0026` [complete] family `max11-full-family-member-global-replay-v1` arm — prereg=True · trace:3dd6654f
