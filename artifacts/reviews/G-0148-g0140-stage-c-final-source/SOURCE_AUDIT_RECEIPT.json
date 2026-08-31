@@ -1,0 +1,186 @@
+{
+  "schema": "max11-g0148-g0140-stage-c-final-source-audit-v1",
+  "verdict": "FAIL",
+  "result": "SOURCE_CUSTODY_AUDIT_ABORT_UPSTREAM_G0146_FAIL",
+  "completed_at_utc": "2026-08-31T20:08:17Z",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "claim_boundary": "No G-0148 source/custody clearance is granted. The exact frozen Stage-C producer is presently inadmissible because its mandatory G-0146 Stage-A source-audit path contains a frozen FAIL receipt; the remaining Stage-C audit checks were intentionally not completed after the gate owner ordered an early stop.",
+  "no_claim": "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem.",
+  "scientific_manifest_observed": false,
+  "scientific_input_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "subject_source_inspection_began_before_abort": true,
+  "selector_runtime_checks_run": false,
+  "native_runtime_checks_run": false,
+  "subject": {
+    "git_commit": "848382ea3d9fb21ece3a4a7203a563daf497cf96",
+    "commit_object_and_working_bytes_equal_for_all_bindings": true,
+    "bindings": {
+      "selector": {
+        "path": "artifacts/math/G-0140/stage_c_selector/complete_matrix_rank_selector_v1.py",
+        "sha256": "950dc5edbae0c43f60e6fb2dd1c8dbb86d2c86d5766699ee513bd66469be38b9"
+      },
+      "native_source": {
+        "path": "artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots.cpp",
+        "sha256": "198262e449c901f70b1e26cd260cbd5ade4e6eaf2868659e4cfd59a1ab72d9c7"
+      },
+      "native_executable": {
+        "path": "artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots_v1",
+        "sha256": "207fcf88fe3f89c8119bd6b38037d9f0919165eecf04b48d1b0aaae039843171"
+      },
+      "native_build_receipt": {
+        "path": "artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots_v1.build.json",
+        "sha256": "5157c020cc343de6bb891fb339a1027a9f8f3059aa03ea2a32722bc13d0fff76"
+      },
+      "native_test": {
+        "path": "artifacts/math/G-0140/stage_c_selector/test_ffpack_modular_pivots_v1.py",
+        "sha256": "5d2b920f06100a2a7bd4069ebe4f009d4c2ba8aecea8872c9d4c58abe9296b94"
+      },
+      "launcher": {
+        "path": "artifacts/math/G-0140/stage_c_selector/run-stage-c-selector-v1",
+        "sha256": "786b42f28d4720ca2578de78a3e312ce0186b8609d2b2c9c85c8f76bdd409d78"
+      }
+    },
+    "last_touch_commits": {
+      "selector": "848382ea3d9fb21ece3a4a7203a563daf497cf96",
+      "native_source": "2bdc6f5c7132b0ed30d291c5ba116e84fda5044e",
+      "native_executable": "2bdc6f5c7132b0ed30d291c5ba116e84fda5044e",
+      "native_build_receipt": "2bdc6f5c7132b0ed30d291c5ba116e84fda5044e",
+      "native_test": "2bdc6f5c7132b0ed30d291c5ba116e84fda5044e",
+      "launcher": "2bdc6f5c7132b0ed30d291c5ba116e84fda5044e"
+    },
+    "all_last_touch_commits_precede_preregistration": true
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0148-g0140-stage-c-final-source/PREREGISTRATION.md",
+    "sha256": "aa72d723f0ed0f474e18ee23ae0beae69c90a449e668fe0a44e274e5a9ffe156",
+    "git_commit": "46069f2f8209c9983e39009104f6b1c8aea4232e",
+    "frozen_before_subject_source_inspection": true,
+    "frozen_before_runtime_checks": true,
+    "frozen_before_scientific_input_observation": true
+  },
+  "terminal_blockers": [
+    {
+      "id": "G0148-B01-UPSTREAM-G0146-FAIL",
+      "severity": "BLOCKING",
+      "path": "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json",
+      "sha256": "dc01ef4b4dcfaf8fa03662350b7cd5544c317599e7c640f29d71ad3c74d68e8d",
+      "git_commit": "495d36c5d403bc678493dd823776d97ea03041b3",
+      "schema": "max11-g0146-g0140-stage-a-final-source-audit-v1",
+      "verdict": "FAIL",
+      "result": "SOURCE_CUSTODY_AUDIT_FAIL_RECURSIVE_BINDING_LOOKALIKE",
+      "blocking_findings": 1,
+      "effect": "The frozen Stage-C selector requires an exact PASS at this mandatory G-0146 path. The currently frozen upstream receipt is FAIL, so no current Stage-C scientific manifest can satisfy the admission chain and this G-0148 audit cannot issue a consumable PASS.",
+      "resolution": "Supersede the affected producer lineage after the upstream parser is repaired and independently re-audited; then run a new outcome-blind Stage-C audit against newly frozen bytes."
+    }
+  ],
+  "required_checks": {
+    "exact_subject_binding": "PASS",
+    "compiled_source_executable_custody": "NOT_RUN_ABORTED_AFTER_UPSTREAM_GATE_FAIL",
+    "complete_basis_protocol": "NOT_RUN_ABORTED_AFTER_UPSTREAM_GATE_FAIL",
+    "full_pool_dependency_compatibility_scan": "NOT_RUN_ABORTED_AFTER_UPSTREAM_GATE_FAIL",
+    "receipt_admission_strictness": "ABORTED_UPSTREAM_G0146_RECEIPT_IS_FAIL",
+    "committed_blob_custody": "PASS",
+    "self_test": "NOT_RUN_ABORTED_AFTER_UPSTREAM_GATE_FAIL",
+    "native_oracle": "NOT_RUN_ABORTED_AFTER_UPSTREAM_GATE_FAIL",
+    "static_preflight": "NOT_RUN_ABORTED_AFTER_UPSTREAM_GATE_FAIL",
+    "claim_boundary": "PASS_FOR_FAIL_RECEIPT_ONLY"
+  },
+  "evidence": {
+    "decisive_check": {
+      "kind": "inline strict-JSON and Git-custody probe; no separate checker artifact was created after the early-stop order",
+      "commands": [
+        "sha256sum -- artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json",
+        "git log -1 --format=%H -- artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json",
+        "python3 -B - artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json (strict object_pairs_hook; print schema/verdict/result/evidence class/four scientific flags/blocker count)"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "observed": {
+        "sha256": "dc01ef4b4dcfaf8fa03662350b7cd5544c317599e7c640f29d71ad3c74d68e8d",
+        "last_touch": "495d36c5d403bc678493dd823776d97ea03041b3",
+        "schema": "max11-g0146-g0140-stage-a-final-source-audit-v1",
+        "verdict": "FAIL",
+        "result": "SOURCE_CUSTODY_AUDIT_FAIL_RECURSIVE_BINDING_LOOKALIKE",
+        "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+        "scientific_manifest_observed": false,
+        "scientific_input_observed": false,
+        "scientific_output_observed": false,
+        "scientific_replay_run": false,
+        "blocking_findings": 1
+      }
+    },
+    "subject_custody_check": {
+      "method": "For each of the six supplied paths, hash git-show bytes at 848382ea3d9fb21ece3a4a7203a563daf497cf96 and working-tree bytes independently; inspect git ls-tree mode, stat type/mode, last-touch commit, and last-touch ancestry to preregistration commit 46069f2f8209c9983e39009104f6b1c8aea4232e.",
+      "exit_code": 0,
+      "stderr": "",
+      "all_expected_hashes_equal": true,
+      "all_commit_and_worktree_hashes_equal": true,
+      "all_regular_files": true,
+      "all_last_touch_commits_precede_preregistration": true
+    },
+    "not_run": "No selector self-test, selector static preflight, native oracle, native rebuild, synthetic scientific-rank fixture, future manifest read, or scientific replay was run."
+  },
+  "scope_termination": {
+    "ordered_by": "parent gate owner",
+    "reason": "G-0146 is frozen FAIL and the frozen Stage-C subject will be superseded.",
+    "remaining_obligations_intentionally_unadjudicated": true,
+    "additional_source_findings_promoted": false
+  },
+  "anti_ceremony": {
+    "creation_gate": {
+      "initial_preinspection_classification": "LEGITIMATE_PROCESS_GATE",
+      "postinspection_correction": "The selector validates both this preregistration and the final receipt, so these artifacts are more accurately ENABLER/runtime admission state; the earlier conservative process classification is corrected here.",
+      "consumer": "the frozen Stage-C selector and the parent gate owner",
+      "gate": "a consumable Stage-C run cannot proceed without a valid G-0148 receipt",
+      "observed_defect": "the mandatory G-0146 upstream receipt is a committed FAIL",
+      "retirement": "this FAIL remains only as provenance for the aborted frozen subject and creates no additional review round"
+    },
+    "real_work_audit": {
+      "window": "this G-0148 session through the upstream-gate abort",
+      "classification_counts": {
+        "USER": 0,
+        "ENABLER": 2,
+        "PROCESS": 0,
+        "UNKNOWN": 0
+      },
+      "most_user_visible": "No user-facing feature shipped; the decision-changing output is the non-consumable gate that prevents an inadmissible scientific run.",
+      "without_these_artifacts": "The failed upstream dependency could be obscured and the obsolete Stage-C subject could be mistaken for cleared bytes.",
+      "enabler_consumer": "the Stage-C source-audit admission path and parent orchestration decision",
+      "oldest_user_item": "Not inspected because the operator bounded this session to G-0148 and then ordered immediate termination.",
+      "swarm_close_farming": "None; this reviewer delegated nothing and closed no tracker item.",
+      "plan_or_followup_laundering": "None; no project plan/spec was edited and no follow-up was minted to claim completion.",
+      "verdict": "HEALTHY_BOUNDED_GATE_WITH_EARLY_ABORT"
+    }
+  },
+  "honesty_inventory": {
+    "session_window": "RusticIbis G-0148 session from preregistration through upstream-gate abort",
+    "q01_test_weakening": "No (checked: this reviewer edited only G-0148 review artifacts and did not edit, delete, skip, or ignore any subject test or CI configuration).",
+    "q02_specialized_mock": "No (checked: no mock, fixture, stub, or test double was created).",
+    "q03_golden_regeneration": "No (checked: no golden or snapshot artifact was regenerated).",
+    "q04_gate_or_suppression_edit": "No (checked: no validator, subject gate, CI file, suppression pragma, bypass flag, timeout, retry, or tolerance was edited).",
+    "q05_reward_hack": "No (checked: the terminal FAIL follows the first decisive upstream blocker and does not narrow or hard-code a positive path).",
+    "q06_zero_run_green": "No (checked: the unrun required checks are explicitly NOT_RUN and no overall green result is claimed).",
+    "q07_unrun_command_claim": "No (checked: each claimed command was observed; selector/native checks are explicitly recorded as unrun).",
+    "q08_lower_evidence_laundering": "No (checked: Git/hash inspection and a strict receipt parse are reported only as T1 source/custody evidence, never scientific proof).",
+    "q09_buried_failure": "No (checked: the G-0146 FAIL is the first terminal blocker and is stated in the result, boundary, blocker list, and check matrix).",
+    "q10_silenced_stderr": "No (checked: evidence-bearing commands retained stderr; the observed decisive check had empty stderr).",
+    "q11_false_close": "No (checked: no Bead or campaign gap was closed by this reviewer, and the receipt verdict is FAIL).",
+    "q12_spec_rewrite": "No (checked: the frozen subject, historical receipts, specifications, and plans were not modified).",
+    "q13_agent_close": "No (checked: no subagent was used and no tracker close was issued).",
+    "q14_gameable_dispatch": "No (checked: no subagent dispatch occurred).",
+    "q15_unverified_subagent_report": "No (checked: no subagent report was received or relied upon).",
+    "q16_refusal_farming": "No (checked: the abort is the requested response to a committed terminal prerequisite failure, not a positive-capability close).",
+    "q17_correlated_agreement": "No (checked: the conclusion rests on the committed receipt bytes, Git commit, and strict parse, not agent agreement).",
+    "q18_posthoc_denominator": "No (checked: no metric or comparative denominator is reported).",
+    "q19_explain_before_replay": "Yes: the preregistration creation-gate note initially called the file process because source inspection was forbidden at that point; later source inspection showed the selector validates it indirectly. This is corrected explicitly in anti_ceremony.creation_gate and changes no audit outcome.",
+    "q20_strongest_reexecutible_evidence": "The SHA-256 dc01ef4b4dcfaf8fa03662350b7cd5544c317599e7c640f29d71ad3c74d68e8d receipt at commit 495d36c5d403bc678493dd823776d97ea03041b3 parses strictly to verdict FAIL/result SOURCE_CUSTODY_AUDIT_FAIL_RECURSIVE_BINDING_LOOKALIKE.",
+    "disposition": {
+      "correction_on_record": true,
+      "failure_disclosed_to_operator": true,
+      "countermeasure": "Treat pre-source boundary classifications as provisional and revise them explicitly once a frozen consumer proves runtime dependence; never convert an upstream FAIL into downstream clearance.",
+      "uncorrected_or_concealed_issue": false
+    }
+  }
+}
