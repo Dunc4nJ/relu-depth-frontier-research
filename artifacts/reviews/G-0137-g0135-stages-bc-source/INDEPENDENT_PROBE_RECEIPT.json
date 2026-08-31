@@ -1,0 +1,279 @@
+{
+  "bindings": {
+    "audit_preregistration": {
+      "path": "artifacts/reviews/G-0137-g0135-stages-bc-source/PREREGISTRATION.md",
+      "sha256": "e2bda62986001208e4e611ae147071b6932dc9ed99449aa4f54fcd178771948f"
+    },
+    "python_wheel_hashes": {
+      "path": "environment/python-wheel-hashes.txt",
+      "sha256": "68c90da2eecf3285c99ad135ef142070c830fe4b14a4a35ebec265e6ffb3b311"
+    },
+    "requirements_lock": {
+      "path": "requirements-solvers.lock",
+      "sha256": "dae95ec0dd59c0b30ea69bfe541248049cee612a92d56c4d18e0c3217c170fb8"
+    },
+    "stage_b_cargo_lock": {
+      "git_commit": "73ec8f6d29f7308b18be4d49f990bf3b29a400d0",
+      "path": "artifacts/math/G-0135/stage_b_pricer/Cargo.lock",
+      "sha256": "72315f7a541bf34fe135a25e651d2d85a885652944bdcac6862fb770d29669d3"
+    },
+    "stage_b_cargo_manifest": {
+      "git_commit": "73ec8f6d29f7308b18be4d49f990bf3b29a400d0",
+      "path": "artifacts/math/G-0135/stage_b_pricer/Cargo.toml",
+      "sha256": "a4057885f58199feb18e733ca01c7ec2a00dc05d8f2700a6dcb04f56825af11d"
+    },
+    "stage_b_executable": {
+      "git_commit": "0291920fde55fd9cf6f2429fe64bb52cc83326b8",
+      "path": "artifacts/math/G-0135/stage_b_pricer/target/release/g0135-stage-b-batch32-coordinate-pricer",
+      "sha256": "e2e84801749bc0f2ca7bf18a149895531038ee0eab68f964b01ad25f1a3de7ef"
+    },
+    "stage_b_kernel": {
+      "path": "artifacts/math/G-0117/src/lib.rs",
+      "sha256": "2bb97bb05e32816a77d438a14b049cbf5b003d6ba164b7f0088422d49f80afa6"
+    },
+    "stage_b_source": {
+      "git_commit": "0291920fde55fd9cf6f2429fe64bb52cc83326b8",
+      "path": "artifacts/math/G-0135/stage_b_pricer/src/main.rs",
+      "sha256": "c591504757815ff63c46d29cfcc2ac10568bea92212ade32490def93b5d862b2"
+    },
+    "stage_c_ancestor": {
+      "path": "artifacts/math/G-0128/full_family_master_v2.py",
+      "sha256": "cfdb3f3d758d8cc5cc81c8ad9a71f4b9bd5c2001f1ff2f8a646715a4c6ca3da8"
+    },
+    "stage_c_exact_helper": {
+      "path": "artifacts/math/G-0117/fresh_q_cegis_exact.py",
+      "sha256": "ee422e6e36085e26ddd83a75f8901c6a6efbe3fd2a99e80e280f9449d0ed8281"
+    },
+    "stage_c_executable_source": {
+      "git_commit": "ff579acd4dcad838a582cd6c8411fdec5650d94e",
+      "path": "artifacts/math/G-0135/stage_c_master/full_family_master_v3.py",
+      "sha256": "c84f259d393756c9ff658aab9a1488b145b9607a939dbccfce47069168b40a1a"
+    },
+    "stage_c_executable_wrapper": {
+      "git_commit": "0291920fde55fd9cf6f2429fe64bb52cc83326b8",
+      "path": "artifacts/math/G-0135/stage_c_master/run-full-family-master-v3",
+      "sha256": "b125566098be17edc0a572b776e1887813758afc7412324c29408592275ab508"
+    },
+    "toolchain_description": {
+      "path": "TOOLCHAIN.md",
+      "sha256": "ffc55f711d52c90f4a1710cfd55366b2d1249a736db97f17c3a1c3e52188f150"
+    },
+    "toolchain_manifest": {
+      "path": "environment/toolchain-manifest.txt",
+      "sha256": "a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
+    }
+  },
+  "cli": {
+    "pinned_python_version": "3.13.7",
+    "pinned_stage_c_invocation_required": true,
+    "python_flint_hashed_files_verified": 114,
+    "python_flint_imported_version": "0.9.0",
+    "python_flint_record_rows": 139,
+    "python_flint_record_sha256": "4157ce9fde01368d5ad3a215d94073a0706b62253bc53170f33c00633629b088",
+    "python_flint_verified_before_import": true,
+    "python_flint_version": "0.9.0",
+    "scientific_outputs_absent_after": true,
+    "stage_b_self_test": "G-0135 Stage-B self-test PASS",
+    "stage_b_static_preflight": "G-0135 Stage-B static preflight PASS: 163740 records; 132 candidate terms; future Stage-A receipt not consumed",
+    "stage_c_committed_wrapper_self_test": "g0135-stage-c-master-self-test: PASS (15 hostile controls plus exact member/nonmember routes)",
+    "stage_c_system_python_exit_code": 1,
+    "stage_c_system_python_rejected_as_unpinned": true
+  },
+  "schema": "max11-g0137-g0135-stages-bc-independent-probe-v1",
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "stage_b": {
+    "arbitrary_precision_dot_exceeds_i128": true,
+    "census_truncation_rejected": true,
+    "coefficient_plus_one_mutant_rejected": true,
+    "coordinate_mutant_rejected": true,
+    "decimal_lf_exact_dot_sha256": "7a33045596ba34ad70d0c91f933de1134fe01ed81bb4df81285a2da2cdfca6ae",
+    "direction_major_i64le_sha256": "0cd80d876c9abd3521cc392ff14febc5bf8ce77fb4d827ceefdd1ccdd864ffd1",
+    "direction_order_mutant_rejected": true,
+    "directions": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -2,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -2,
+        0,
+        1
+      ]
+    ],
+    "frozen_kernel_prices": [
+      [
+        322560,
+        282240,
+        282240,
+        282240,
+        241920,
+        241920,
+        241920,
+        241920
+      ],
+      [
+        80640,
+        70560,
+        70560,
+        70560,
+        60480,
+        60480,
+        60480,
+        60480
+      ]
+    ],
+    "literal_equals_independent_dp_equals_frozen_kernel": true,
+    "literal_support_sizes": [
+      120,
+      120
+    ],
+    "production_coordinate_census": 5239680,
+    "records": 2,
+    "residual_decimal_mutant_rejected": true,
+    "signed_i8_direction_sha256": "57bf233d5b59554e1ced970d6cf6650e1c3e9681fe144da8c886f6abf939ac93"
+  },
+  "stage_c": {
+    "coefficient_plus_one_mutant_rejected": true,
+    "member_and_nonmember_branches_exercised": true,
+    "member_fixture": {
+      "all_rows_replayed": true,
+      "final_augmented_rank": 3,
+      "final_rank": 3,
+      "first_violating_sequence": 2,
+      "integer_coefficients": [
+        "1",
+        "1",
+        "-2"
+      ],
+      "seed_augmented_rank": 3,
+      "seed_rank": 2
+    },
+    "nonmember_fixture": {
+      "all_columns_annihilated": true,
+      "augmented_rank": 3,
+      "primitive_separator": [
+        "1",
+        "1",
+        "-1"
+      ],
+      "rank": 2,
+      "target_pairing": "2"
+    },
+    "omitted_column_census_rejected": true,
+    "row_order_mutant_rejected": true,
+    "separator_coordinate_mutant_rejected": true,
+    "separator_pairing_mutant_rejected": true,
+    "separator_sign_mutant_rejected": true,
+    "target_scale_mutant_rejected": true
+  },
+  "static_contract": {
+    "stage_b_manifest_schema_and_path_checks_reachable": true,
+    "stage_b_required_call_paths": 8,
+    "stage_b_shared_manifest_denies_unknown_fields": true,
+    "stage_c_exact_planned_output_contract_reachable": true,
+    "stage_c_installed_bytes_attested_before_native_import": true,
+    "stage_c_required_call_paths": 18,
+    "stage_c_runtime_attestation_reachable_from_fixed_input_validation": true,
+    "stage_c_runtime_attestation_reachable_from_self_test": true,
+    "stage_c_shared_manifest_requires_exact_top_level_key_set": true
+  },
+  "status": "PASS",
+  "command": ".venv/bin/python -B artifacts/reviews/G-0137-g0135-stages-bc-source/independent_probe.py",
+  "completed_at_utc": "2026-08-31T15:26:37Z"
+}

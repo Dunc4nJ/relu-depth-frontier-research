@@ -1,0 +1,112 @@
+{
+  "schema": "max11-g0137-g0135-stages-bc-self-test-v1",
+  "status": "PASS",
+  "completed_at_utc": "2026-08-31T15:27:00Z",
+  "reviewer": {
+    "agent_name": "EmeraldHollow",
+    "program": "codex",
+    "model": "gpt-5.3"
+  },
+  "subjects": {
+    "stage_b_source_sha256": "c591504757815ff63c46d29cfcc2ac10568bea92212ade32490def93b5d862b2",
+    "stage_b_executable_sha256": "e2e84801749bc0f2ca7bf18a149895531038ee0eab68f964b01ad25f1a3de7ef",
+    "stage_c_source_sha256": "c84f259d393756c9ff658aab9a1488b145b9607a939dbccfce47069168b40a1a",
+    "stage_c_wrapper_sha256": "b125566098be17edc0a572b776e1887813758afc7412324c29408592275ab508"
+  },
+  "checks": [
+    {
+      "command": "cargo fmt --check",
+      "cwd": "artifacts/math/G-0135/stage_b_pricer",
+      "status": "PASS"
+    },
+    {
+      "command": "cargo clippy --release --locked -- -D warnings",
+      "cwd": "artifacts/math/G-0135/stage_b_pricer",
+      "status": "PASS"
+    },
+    {
+      "command": "cargo test --release --locked",
+      "cwd": "artifacts/math/G-0135/stage_b_pricer",
+      "status": "PASS",
+      "tests_passed": 3,
+      "tests_failed": 0
+    },
+    {
+      "command": "cargo build --release --locked",
+      "cwd": "artifacts/math/G-0135/stage_b_pricer",
+      "status": "PASS",
+      "rebuilt_executable_sha256": "e2e84801749bc0f2ca7bf18a149895531038ee0eab68f964b01ad25f1a3de7ef"
+    },
+    {
+      "command": "uvx ruff check artifacts/math/G-0135/stage_c_master/full_family_master_v3.py artifacts/reviews/G-0137-g0135-stages-bc-source/independent_probe.py",
+      "status": "PASS",
+      "ruff_version": "0.16.5"
+    },
+    {
+      "command": ".venv/bin/python -B -c <AST parse of Stage C and independent probe>",
+      "status": "PASS"
+    },
+    {
+      "command": "sh -n artifacts/math/G-0135/stage_c_master/run-full-family-master-v3",
+      "status": "PASS"
+    },
+    {
+      "command": "artifacts/math/G-0135/stage_c_master/run-full-family-master-v3 --self-test",
+      "status": "PASS",
+      "controls": "15 hostile controls plus exact member/nonmember routes"
+    },
+    {
+      "command": "scripts/verify-toolchain.sh",
+      "status": "PASS",
+      "controls": [
+        "toolchain-known-answer-controls",
+        "cvc5-cli-known-answer",
+        "lean-mathlib-smoke"
+      ]
+    },
+    {
+      "command": "./skill-runtime verify-quick",
+      "status": "PASS",
+      "findings": 0
+    },
+    {
+      "command": "/usr/bin/python3 -B artifacts/math/G-0135/stage_c_master/full_family_master_v3.py --self-test",
+      "status": "EXPECTED_REJECTION",
+      "exit_code": 1,
+      "reason": "unpinned system Python rejected"
+    },
+    {
+      "control": "Stage B output path outside frozen location",
+      "status": "EXPECTED_REJECTION",
+      "exit_code": 1,
+      "reason": "output path drift"
+    },
+    {
+      "control": "Stage C output path outside workspace",
+      "status": "EXPECTED_REJECTION",
+      "exit_code": 1,
+      "reason": "path escapes workspace"
+    },
+    {
+      "command": ".venv/bin/python -B artifacts/reviews/G-0137-g0135-stages-bc-source/independent_probe.py",
+      "status": "PASS",
+      "receipt_path": "artifacts/reviews/G-0137-g0135-stages-bc-source/INDEPENDENT_PROBE_RECEIPT.json",
+      "receipt_sha256": "84800509b538a62adec401450045fdd429b8a4b7f44b179b772fade67ed1789b"
+    }
+  ],
+  "runtime_attestation": {
+    "python": "3.13.7",
+    "python_flint": "0.9.0",
+    "python_flint_record_sha256": "4157ce9fde01368d5ad3a215d94073a0706b62253bc53170f33c00633629b088",
+    "record_rows": 139,
+    "hashed_installed_files_verified_before_native_import": 114
+  },
+  "scientific_paths_checked_absent": [
+    "artifacts/math/G-0135/batch32_global_replay_manifest_v1.json",
+    "artifacts/math/G-0135/batch32_global_replay_v1.json",
+    "artifacts/math/G-0135/batch32_coordinate_prices_v1.json",
+    "artifacts/math/G-0135/full_family_master_result_v3.json"
+  ],
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false
+}
