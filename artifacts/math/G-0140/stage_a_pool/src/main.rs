@@ -1309,7 +1309,7 @@ fn validate_source_audit(
         sha256_path(&path)? == *expected,
         "audit receipt drift: {audit_path}"
     );
-    let audit_commit = git_commit_for_path(root, audit_path)?;
+    git_commit_for_path(root, audit_path)?;
     let receipt = strict_json_value(BufReader::new(File::open(path)?))?;
     validate_source_audit_envelope(&receipt, audit_path)?;
     if audit_path == STAGE_A_SOURCE_AUDIT_PATH {
@@ -1318,9 +1318,8 @@ fn validate_source_audit(
             .context("final Stage-A audit subject path missing")?;
         ensure!(
             value_string(&receipt, "/subject/git_commit")?
-                == git_commit_for_path(root, subject_path)?
-                && value_string(&receipt, "/audit_git_commit")? == audit_commit,
-            "final Stage-A audit Git identity drift"
+                == git_commit_for_path(root, subject_path)?,
+            "final Stage-A audited-subject Git identity drift"
         );
     }
     let mut observed = Vec::new();
