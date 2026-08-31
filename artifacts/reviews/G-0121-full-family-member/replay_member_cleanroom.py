@@ -525,8 +525,8 @@ def parse_result_and_transcript(
     selected = validate_unique_sequences(result.get("selected_sequences"), "selected_sequences", SELECTED_COLUMNS)
     support = validate_unique_sequences(result.get("support_sequences"), "support_sequences", SELECTED_COLUMNS)
     require(support == selected, "support_sequences differs from selected_sequences")
+    require(selected == sorted(selected), "selected sequences are not in increasing family order")
     seed = validate_unique_sequences(manifest.get("seed_sequences"), "manifest seed_sequences", SEED_COLUMNS)
-    require(selected[:SEED_COLUMNS] == seed, "selected sequence seed prefix mismatch")
 
     raw_coefficients = result.get("integer_coefficients")
     require(isinstance(raw_coefficients, list) and len(raw_coefficients) == SELECTED_COLUMNS, "coefficient shape")
@@ -574,7 +574,8 @@ def parse_result_and_transcript(
             appended.append(sequence)
         else:
             require(trial.get("result") == "EXACT_Q_MEMBER", "final trial branch")
-    require(seed + appended == selected, "seed-plus-trial selected transcript mismatch")
+    require(len(set(seed + appended)) == SELECTED_COLUMNS, "seed/appended transcript has duplicates")
+    require(sorted(seed + appended) == selected, "sorted seed-plus-trial union differs from selected basis")
 
     return {
         "selected": selected,
@@ -646,10 +647,13 @@ def run_audit() -> dict[str, Any]:
 
     rank_receipts: list[dict[str, Any]] = []
     previous_rank: int | None = None
+    column_by_sequence = dict(zip(selected, columns, strict=True))
     for iteration, trial in enumerate(transcript["trials"]):
-        column_count = SEED_COLUMNS + min(iteration, RANK_TRIALS - 1)
+        trial_sequences = transcript["seed"] + transcript["appended"][:iteration]
+        column_count = len(trial_sequences)
+        trial_columns = [column_by_sequence[sequence] for sequence in trial_sequences]
         rank_started = time.monotonic()
-        rank, augmented = rank_pair(columns[:column_count], target)
+        rank, augmented = rank_pair(trial_columns, target)
         reported_rank = exact_json_int(trial.get("rank"), f"trial {iteration} reported rank")
         reported_augmented = exact_json_int(trial.get("augmented_rank"), f"trial {iteration} reported augmented rank")
         require(rank == reported_rank, f"trial {iteration} rank mismatch {rank} != {reported_rank}")
