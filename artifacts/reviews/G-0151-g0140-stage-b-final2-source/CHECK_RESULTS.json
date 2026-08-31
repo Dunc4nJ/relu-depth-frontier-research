@@ -1,0 +1,781 @@
+{
+  "schema": "max11-g0151-g0140-stage-b-final2-source-check-results-v1",
+  "verdict": "PASS",
+  "started_at_utc": "2026-08-31T21:20:10Z",
+  "completed_at_utc": "2026-08-31T21:21:09Z",
+  "reviewer": {
+    "agent_name": "CalmBarn",
+    "program": "codex",
+    "model": "gpt-5"
+  },
+  "frozen_commit": "19de7da8fe62629780fd7c7cf9b6d08d66e03fd2",
+  "preregistration_commit": "e380d54cc5476dbb4028e10ffd1a11a35c1d07a8",
+  "checks": [
+    {
+      "id": "FROZEN_COMMIT_RESOLVES_EXACTLY",
+      "passed": true,
+      "evidence": {
+        "selector": "19de7da",
+        "resolved": "19de7da8fe62629780fd7c7cf9b6d08d66e03fd2",
+        "on_origin_master": true
+      }
+    },
+    {
+      "id": "EXACT_FOUR_FROZEN_AND_WORKING_BINDINGS",
+      "passed": true,
+      "evidence": {
+        "main_source": {
+          "mode": "100644",
+          "type": "blob",
+          "object_id": "d70030c03b223ace97966fff0b12aea551deefde",
+          "bytes": 118605,
+          "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+          "frozen_sha256": "daf902233012749b51ae4bb11565f1e31f2a1f5b78c50e5a395645b777c01324",
+          "working_sha256": "daf902233012749b51ae4bb11565f1e31f2a1f5b78c50e5a395645b777c01324",
+          "working_bytes": 118605,
+          "working_is_symlink": false,
+          "working_executable": false,
+          "equal": true
+        },
+        "cargo_manifest": {
+          "mode": "100644",
+          "type": "blob",
+          "object_id": "6ec442fd6ab0cdae930a0ccc528516304821dba2",
+          "bytes": 352,
+          "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+          "frozen_sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+          "working_sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+          "working_bytes": 352,
+          "working_is_symlink": false,
+          "working_executable": false,
+          "equal": true
+        },
+        "cargo_lock": {
+          "mode": "100644",
+          "type": "blob",
+          "object_id": "0d77ef12ebdf0868f9540cc81fab3e33664b0adf",
+          "bytes": 7622,
+          "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+          "frozen_sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+          "working_sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+          "working_bytes": 7622,
+          "working_is_symlink": false,
+          "working_executable": false,
+          "equal": true
+        },
+        "release_executable": {
+          "mode": "100755",
+          "type": "blob",
+          "object_id": "83a02b0edaba78176acf9713f50b42d5e46bdc78",
+          "bytes": 2179192,
+          "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+          "frozen_sha256": "528afddba827e7165f43014416ef1e994191e9744c5e62054aebe2b9b8280806",
+          "working_sha256": "528afddba827e7165f43014416ef1e994191e9744c5e62054aebe2b9b8280806",
+          "working_bytes": 2179192,
+          "working_is_symlink": false,
+          "working_executable": true,
+          "equal": true
+        }
+      }
+    },
+    {
+      "id": "SUBJECT_PATHS_GIT_CLEAN_AT_OPEN",
+      "passed": true,
+      "evidence": {
+        "porcelain": ""
+      }
+    },
+    {
+      "id": "PREREGISTRATION_COMMITTED_AND_PUSHED_FIRST",
+      "passed": true,
+      "evidence": {
+        "path": "artifacts/reviews/G-0151-g0140-stage-b-final2-source/PREREGISTRATION.md",
+        "sha256": "10680c6915cb272cc9d381f7a0abc09c773e3462225138eabcd60e0b1c3cbab8",
+        "git_commit": "e380d54cc5476dbb4028e10ffd1a11a35c1d07a8",
+        "on_origin_master": true,
+        "session_order": "commit and push completed before frozen source resolution/inspection and runtime checks"
+      }
+    },
+    {
+      "id": "STAGE_A_MISSING_NULLABLE_REPAIRED",
+      "passed": true,
+      "evidence": {
+        "stage_a_required_nullable": true,
+        "stage_a_typed_control_schemas": true,
+        "stage_a_control_semantics": true,
+        "source_audit_exact_contracts": true,
+        "strict_duplicate_and_trailing_json": true,
+        "g0142_repairs": true,
+        "bigint_no_narrowing": true,
+        "census_and_order": true,
+        "compiled_embeddings": true,
+        "overwrite_refusal": true,
+        "end_rehash": true,
+        "mode_and_failure_dispatch": true
+      }
+    },
+    {
+      "id": "STAGE_A_NINE_TYPED_CONTROLS_DENY_UNKNOWN",
+      "passed": true,
+      "evidence": {
+        "typed_fields": [
+          "independent_finite_412_row_replay",
+          "term_normal_forms",
+          "coefficient_plus_one",
+          "target_scale_plus_one",
+          "target_coordinate_plus_one",
+          "omitted_final_term",
+          "omitted_first_term_direction",
+          "census_controls",
+          "selection_controls"
+        ],
+        "assessment": {
+          "stage_a_required_nullable": true,
+          "stage_a_typed_control_schemas": true,
+          "stage_a_control_semantics": true,
+          "source_audit_exact_contracts": true,
+          "strict_duplicate_and_trailing_json": true,
+          "g0142_repairs": true,
+          "bigint_no_narrowing": true,
+          "census_and_order": true,
+          "compiled_embeddings": true,
+          "overwrite_refusal": true,
+          "end_rehash": true,
+          "mode_and_failure_dispatch": true
+        }
+      }
+    },
+    {
+      "id": "STAGE_A_TYPED_CONTROLS_SEMANTICALLY_CHECKED",
+      "passed": true,
+      "evidence": {
+        "finite_dimensions_digest_mutant": true,
+        "ordered_term_receipts": 135,
+        "global_censuses": [
+          5388768000,
+          4409740
+        ],
+        "exact_mutation_controls": 5,
+        "census_and_selection_booleans_checked": true
+      }
+    },
+    {
+      "id": "G0150_AND_G0151_EXACT_TYPED_AUDIT_CONTRACTS",
+      "passed": true,
+      "evidence": {
+        "g0150_schema": "max11-g0150-g0140-stage-a-final2-source-audit-v1",
+        "g0151_schema": "max11-g0151-g0140-stage-b-final2-source-audit-v1",
+        "g0151_exact_named_bindings": [
+          "main_source",
+          "cargo_manifest",
+          "cargo_lock",
+          "release_executable"
+        ],
+        "g0151_exact_required_checks": [
+          "exact_named_binding_contract",
+          "displaced_recursive_lookalikes_rejected",
+          "correct_decoy_with_missing_named_binding_rejected",
+          "duplicate_path_occurrences_rejected",
+          "unknown_envelope_fields_rejected",
+          "audit_git_commit_rejected",
+          "duplicate_json_keys_rejected",
+          "trailing_json_data_rejected",
+          "stage_a_missing_nullable_field_rejected",
+          "stage_a_mutation_control_schemas_validated",
+          "stage_a_source_audit_exact_contract_validated",
+          "compiled_source_manifest_lock_match_working_bytes",
+          "overwrite_refusal_verified",
+          "end_rehash_verified",
+          "bigint_unconditional_paths_verified",
+          "producer_self_test_passed",
+          "producer_static_preflight_passed",
+          "prohibited_scientific_modes_not_run"
+        ],
+        "recursive_collector_used_by_source_audit": false,
+        "strict_duplicate_and_trailing_parser": true
+      }
+    },
+    {
+      "id": "HISTORICAL_G0142_AND_G0147_BLOCKERS_BOUND",
+      "passed": true,
+      "evidence": {
+        "g0142_failed_check_ids": [
+          "SCHEMA_ALL_INPUT_STRUCTS_DENY_UNKNOWN_FIELDS",
+          "SCHEMA_SOURCE_AUDIT_GATE_EXACT"
+        ],
+        "g0147_failed_check_ids": [
+          "STAGE_A_RECEIPT_MISSING_NULL_FIELD_REJECTED",
+          "STAGE_A_MUTATION_CONTROL_SCHEMAS_COMPLETE_AND_VALIDATED",
+          "SOURCE_AUDIT_CLOSED_SCHEMA_AND_BINDING_PLACEMENT"
+        ],
+        "g0147_checker_reused": false,
+        "g0147_recursive_witness_closure_used": false
+      }
+    },
+    {
+      "id": "G0142_REPAIRS_RECHECKED",
+      "passed": true,
+      "evidence": {
+        "stage_a_required_nullable": true,
+        "stage_a_typed_control_schemas": true,
+        "stage_a_control_semantics": true,
+        "source_audit_exact_contracts": true,
+        "strict_duplicate_and_trailing_json": true,
+        "g0142_repairs": true,
+        "bigint_no_narrowing": true,
+        "census_and_order": true,
+        "compiled_embeddings": true,
+        "overwrite_refusal": true,
+        "end_rehash": true,
+        "mode_and_failure_dispatch": true
+      }
+    },
+    {
+      "id": "COMMITTED_G0150_PASS_RECEIPT_EXACTLY_COMPATIBLE",
+      "passed": true,
+      "evidence": {
+        "passed": true,
+        "receipt_sha256": "f65452749be020286410fb03a16e493c917716cecdc557456b449b5fe8223b4e",
+        "receipt_commit": "7d4bf71a4995fbead527e0e1ce645cec5acb86b8",
+        "subject_commit": "b59c5f8763a06bae36ffe0b8d93e14a0bfe9f741",
+        "strict_shape_errors": [],
+        "bindings": {
+          "main_source": {
+            "path": "artifacts/math/G-0140/stage_a_pool/src/main.rs",
+            "receipt_sha256": "51936022553a284d672187bd2c2ac4b51a8d60b99d8977593bd80a8a4ae4b7fc",
+            "subject_commit_sha256": "51936022553a284d672187bd2c2ac4b51a8d60b99d8977593bd80a8a4ae4b7fc",
+            "working_sha256": "51936022553a284d672187bd2c2ac4b51a8d60b99d8977593bd80a8a4ae4b7fc",
+            "all_equal": true
+          },
+          "engine_source": {
+            "path": "artifacts/math/G-0140/stage_a_pool/src/engine.rs",
+            "receipt_sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c",
+            "subject_commit_sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c",
+            "working_sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c",
+            "all_equal": true
+          },
+          "cargo_manifest": {
+            "path": "artifacts/math/G-0140/stage_a_pool/Cargo.toml",
+            "receipt_sha256": "eb20b76b6a133a9c6e18052822974287047c9d1bd92c3b4851d20cf2c1dafc26",
+            "subject_commit_sha256": "eb20b76b6a133a9c6e18052822974287047c9d1bd92c3b4851d20cf2c1dafc26",
+            "working_sha256": "eb20b76b6a133a9c6e18052822974287047c9d1bd92c3b4851d20cf2c1dafc26",
+            "all_equal": true
+          },
+          "cargo_lock": {
+            "path": "artifacts/math/G-0140/stage_a_pool/Cargo.lock",
+            "receipt_sha256": "263f994a09ef9d687136e287e300cf7b63caa744015027c051eadd59189e0eae",
+            "subject_commit_sha256": "263f994a09ef9d687136e287e300cf7b63caa744015027c051eadd59189e0eae",
+            "working_sha256": "263f994a09ef9d687136e287e300cf7b63caa744015027c051eadd59189e0eae",
+            "all_equal": true
+          },
+          "release_executable": {
+            "path": "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay",
+            "receipt_sha256": "902520adff7cdfd1196eb2c95ab6815b554958727693d997477fe319b4cb9f39",
+            "subject_commit_sha256": "902520adff7cdfd1196eb2c95ab6815b554958727693d997477fe319b4cb9f39",
+            "working_sha256": "902520adff7cdfd1196eb2c95ab6815b554958727693d997477fe319b4cb9f39",
+            "all_equal": true
+          }
+        },
+        "preregistration_sha256": "8a778e0366498b1c9b0ed682e2df38731a80474d011f4079e48d1630cba68d59",
+        "working_receipt_clean": true
+      }
+    },
+    {
+      "id": "FRESH_STATIC_MUTATION_PROBES_DISCRIMINATE",
+      "passed": true,
+      "evidence": {
+        "passed": true,
+        "cases": [
+          {
+            "label": "top-level-nullable-to-option",
+            "expected_red_check": "stage_a_required_nullable",
+            "caught": true
+          },
+          {
+            "label": "nested-nullable-to-option",
+            "expected_red_check": "stage_a_required_nullable",
+            "caught": true
+          },
+          {
+            "label": "formerly-opaque-field-1",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "formerly-opaque-field-2",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "formerly-opaque-field-3",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "formerly-opaque-field-4",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "formerly-opaque-field-5",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "formerly-opaque-field-6",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "formerly-opaque-field-7",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "formerly-opaque-field-8",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "formerly-opaque-field-9",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "nested-deny-unknown-removed",
+            "expected_red_check": "stage_a_typed_control_schemas",
+            "caught": true
+          },
+          {
+            "label": "stage-a-semantic-call-removed",
+            "expected_red_check": "stage_a_control_semantics",
+            "caught": true
+          },
+          {
+            "label": "term-global-census-removed",
+            "expected_red_check": "stage_a_control_semantics",
+            "caught": true
+          },
+          {
+            "label": "census-control-boolean-removed",
+            "expected_red_check": "stage_a_control_semantics",
+            "caught": true
+          },
+          {
+            "label": "selection-control-boolean-removed",
+            "expected_red_check": "stage_a_control_semantics",
+            "caught": true
+          },
+          {
+            "label": "stage-b-binding-displaced",
+            "expected_red_check": "source_audit_exact_contracts",
+            "caught": true
+          },
+          {
+            "label": "stage-b-required-check-removed",
+            "expected_red_check": "source_audit_exact_contracts",
+            "caught": true
+          },
+          {
+            "label": "strict-audit-parser-bypassed",
+            "expected_red_check": "source_audit_exact_contracts",
+            "caught": true
+          },
+          {
+            "label": "duplicate-key-check-disabled",
+            "expected_red_check": "strict_duplicate_and_trailing_json",
+            "caught": true
+          },
+          {
+            "label": "trailing-data-check-disabled",
+            "expected_red_check": "strict_duplicate_and_trailing_json",
+            "caught": true
+          },
+          {
+            "label": "bigint-coordinate-narrowed",
+            "expected_red_check": "bigint_no_narrowing",
+            "caught": true
+          },
+          {
+            "label": "pool-census-changed",
+            "expected_red_check": "census_and_order",
+            "caught": true
+          },
+          {
+            "label": "compiled-source-binding-removed",
+            "expected_red_check": "compiled_embeddings",
+            "caught": true
+          },
+          {
+            "label": "exclusive-create-disabled",
+            "expected_red_check": "overwrite_refusal",
+            "caught": true
+          },
+          {
+            "label": "closing-custody-comparison-disabled",
+            "expected_red_check": "end_rehash",
+            "caught": true
+          }
+        ],
+        "case_count": 26
+      }
+    },
+    {
+      "id": "BIGINT_PATH_HAS_NO_NARROWING",
+      "passed": true,
+      "evidence": {
+        "stage_a_required_nullable": true,
+        "stage_a_typed_control_schemas": true,
+        "stage_a_control_semantics": true,
+        "source_audit_exact_contracts": true,
+        "strict_duplicate_and_trailing_json": true,
+        "g0142_repairs": true,
+        "bigint_no_narrowing": true,
+        "census_and_order": true,
+        "compiled_embeddings": true,
+        "overwrite_refusal": true,
+        "end_rehash": true,
+        "mode_and_failure_dispatch": true
+      }
+    },
+    {
+      "id": "EXACT_128_BY_163740_CENSUS_AND_ORDER",
+      "passed": true,
+      "evidence": {
+        "stage_a_required_nullable": true,
+        "stage_a_typed_control_schemas": true,
+        "stage_a_control_semantics": true,
+        "source_audit_exact_contracts": true,
+        "strict_duplicate_and_trailing_json": true,
+        "g0142_repairs": true,
+        "bigint_no_narrowing": true,
+        "census_and_order": true,
+        "compiled_embeddings": true,
+        "overwrite_refusal": true,
+        "end_rehash": true,
+        "mode_and_failure_dispatch": true
+      }
+    },
+    {
+      "id": "COMPILED_EMBEDDINGS_MATCH_STATIC_CONTRACT",
+      "passed": true,
+      "evidence": {
+        "stage_a_required_nullable": true,
+        "stage_a_typed_control_schemas": true,
+        "stage_a_control_semantics": true,
+        "source_audit_exact_contracts": true,
+        "strict_duplicate_and_trailing_json": true,
+        "g0142_repairs": true,
+        "bigint_no_narrowing": true,
+        "census_and_order": true,
+        "compiled_embeddings": true,
+        "overwrite_refusal": true,
+        "end_rehash": true,
+        "mode_and_failure_dispatch": true
+      }
+    },
+    {
+      "id": "OVERWRITE_REFUSAL_PRESENT_AND_SELF_TESTED",
+      "passed": true,
+      "evidence": {
+        "stage_a_required_nullable": true,
+        "stage_a_typed_control_schemas": true,
+        "stage_a_control_semantics": true,
+        "source_audit_exact_contracts": true,
+        "strict_duplicate_and_trailing_json": true,
+        "g0142_repairs": true,
+        "bigint_no_narrowing": true,
+        "census_and_order": true,
+        "compiled_embeddings": true,
+        "overwrite_refusal": true,
+        "end_rehash": true,
+        "mode_and_failure_dispatch": true
+      }
+    },
+    {
+      "id": "END_REHASH_FAILS_CLOSED",
+      "passed": true,
+      "evidence": {
+        "stage_a_required_nullable": true,
+        "stage_a_typed_control_schemas": true,
+        "stage_a_control_semantics": true,
+        "source_audit_exact_contracts": true,
+        "strict_duplicate_and_trailing_json": true,
+        "g0142_repairs": true,
+        "bigint_no_narrowing": true,
+        "census_and_order": true,
+        "compiled_embeddings": true,
+        "overwrite_refusal": true,
+        "end_rehash": true,
+        "mode_and_failure_dispatch": true
+      }
+    },
+    {
+      "id": "FAILURE_PROPAGATES_THROUGH_RESULT_MAIN",
+      "passed": true,
+      "evidence": {
+        "stage_a_required_nullable": true,
+        "stage_a_typed_control_schemas": true,
+        "stage_a_control_semantics": true,
+        "source_audit_exact_contracts": true,
+        "strict_duplicate_and_trailing_json": true,
+        "g0142_repairs": true,
+        "bigint_no_narrowing": true,
+        "census_and_order": true,
+        "compiled_embeddings": true,
+        "overwrite_refusal": true,
+        "end_rehash": true,
+        "mode_and_failure_dispatch": true
+      }
+    },
+    {
+      "id": "CANONICAL_PRODUCER_SELF_TEST_PASSES",
+      "passed": true,
+      "evidence": {
+        "argv": [
+          "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+          "--self-test"
+        ],
+        "exit_code": 0,
+        "stdout": "G-0140 Stage-B Pool128 self-test PASS\n",
+        "stderr": "",
+        "stdout_sha256": "cff85a3944d8d59d9e0722af5c317367d749e2cb6c3df3144be633ac3cc45f0c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "wall_seconds": 0.078399
+      }
+    },
+    {
+      "id": "CANONICAL_STATIC_PREFLIGHT_PASSES_OPAQUE_PATHS",
+      "passed": true,
+      "evidence": {
+        "argv": [
+          "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+          "--preflight-static",
+          "artifacts/math/G-0113/panel_solver_input_v1.json",
+          "artifacts/math/G-0135/full_family_master_result_v3.json"
+        ],
+        "exit_code": 0,
+        "stdout": "G-0140 Stage-B static preflight PASS: 163740 records; 135 candidate terms; future manifest/Stage-A/G-0142 receipts not consumed\n",
+        "stderr": "",
+        "stdout_sha256": "f0b63fe1e84bf1280bd59f4e5484a9dbe341d202fe626e1f7f352d629b557f31",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "wall_seconds": 34.832661
+      }
+    },
+    {
+      "id": "STATIC_PREFLIGHT_FAILURES_PROPAGATE_NONZERO",
+      "passed": true,
+      "evidence": {
+        "wrong_panel": {
+          "argv": [
+            "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+            "--preflight-static",
+            "artifacts/math/G-0113/panel_solver_input_v1.json.decoy",
+            "artifacts/math/G-0135/full_family_master_result_v3.json"
+          ],
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Error: static input path drift\n",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e7b17bf77b4eff512a63475f66e4a8e890076464a57f4879218fa890b13bef0e",
+          "wall_seconds": 0.068595
+        },
+        "wrong_candidate": {
+          "argv": [
+            "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+            "--preflight-static",
+            "artifacts/math/G-0113/panel_solver_input_v1.json",
+            "artifacts/math/G-0135/full_family_master_result_v3.json.decoy"
+          ],
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "Error: static input path drift\n",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e7b17bf77b4eff512a63475f66e4a8e890076464a57f4879218fa890b13bef0e",
+          "wall_seconds": 0.061785
+        }
+      }
+    },
+    {
+      "id": "EXACT_FROZEN_RUST_CONTRACT_MATRIX_PASSES",
+      "passed": true,
+      "evidence": {
+        "argv": [
+          "cargo",
+          "run",
+          "--offline",
+          "--locked",
+          "--quiet",
+          "--manifest-path",
+          "artifacts/reviews/G-0151-g0140-stage-b-final2-source/contract_probe/Cargo.toml"
+        ],
+        "exit_code": 0,
+        "stdout": "ACCEPT frozen-subject-self-test\nACCEPT g0150-exact-valid\nREJECT g0150-wrong-schema: final Stage-A source audit semantic boundary drift\nREJECT g0150-wrong-result: final Stage-A source audit semantic boundary drift\nREJECT g0150-wrong-verdict: final Stage-A source audit semantic boundary drift\nREJECT g0150-wrong-no-claim: final Stage-A source audit semantic boundary drift\nREJECT g0150-scientific-observation-true: final Stage-A source audit semantic boundary drift\nREJECT g0150-unknown-root: strict final Stage-A source-audit schema validation\nREJECT g0150-audit-git-commit: strict final Stage-A source-audit schema validation\nREJECT g0150-unknown-subject: strict final Stage-A source-audit schema validation\nREJECT g0150-unknown-binding: strict final Stage-A source-audit schema validation\nREJECT g0150-unknown-required-check: strict final Stage-A source-audit schema validation\nREJECT g0150-missing-required-check: strict final Stage-A source-audit schema validation\nREJECT g0150-false-required-check: final Stage-A source audit required-check drift\nREJECT g0150-displaced-bindings: strict final Stage-A source-audit schema validation\nREJECT g0150-missing-main-plus-decoy: strict final Stage-A source-audit schema validation\nREJECT g0150-duplicate-subject-path: final Stage-A source audit named binding drift: artifacts/math/G-0140/stage_a_pool/src/engine.rs\nREJECT g0150-wrong-named-path: final Stage-A source audit named binding drift: artifacts/math/G-0140/stage_a_pool/src/main.rs\nREJECT g0150-wrong-preregistration-path: final Stage-A source audit semantic boundary drift\nREJECT g0150-duplicate-root-key: duplicate JSON key: schema at line 1 column 1730\nREJECT g0150-duplicate-nested-key: duplicate JSON key: agent_name at line 1 column 1557\nREJECT g0150-trailing-data: trailing characters at line 2 column 1\nACCEPT g0150-strict-json-roundtrip\nACCEPT g0151-exact-valid\nREJECT g0151-wrong-schema: final Stage-B source audit semantic boundary drift\nREJECT g0151-wrong-result: final Stage-B source audit semantic boundary drift\nREJECT g0151-wrong-verdict: final Stage-B source audit semantic boundary drift\nREJECT g0151-wrong-no-claim: final Stage-B source audit semantic boundary drift\nREJECT g0151-scientific-observation-true: final Stage-B source audit semantic boundary drift\nREJECT g0151-unknown-root: strict final Stage-B source-audit schema validation\nREJECT g0151-audit-git-commit: strict final Stage-B source-audit schema validation\nREJECT g0151-unknown-subject: strict final Stage-B source-audit schema validation\nREJECT g0151-unknown-binding: strict final Stage-B source-audit schema validation\nREJECT g0151-unknown-required-check: strict final Stage-B source-audit schema validation\nREJECT g0151-missing-required-check: strict final Stage-B source-audit schema validation\nREJECT g0151-false-required-check: final Stage-B source audit required-check drift\nREJECT g0151-displaced-bindings: strict final Stage-B source-audit schema validation\nREJECT g0151-missing-main-plus-decoy: strict final Stage-B source-audit schema validation\nREJECT g0151-duplicate-subject-path: final Stage-B source audit named binding drift: artifacts/math/G-0140/stage_b_pricer/Cargo.toml\nREJECT g0151-wrong-named-path: final Stage-B source audit named binding drift: artifacts/math/G-0140/stage_b_pricer/src/main.rs\nREJECT g0151-wrong-preregistration-path: final Stage-B source audit semantic boundary drift\nREJECT g0151-duplicate-root-key: duplicate JSON key: schema at line 1 column 2034\nREJECT g0151-duplicate-nested-key: duplicate JSON key: agent_name at line 1 column 1861\nREJECT g0151-trailing-data: trailing characters at line 2 column 1\nACCEPT g0151-strict-json-roundtrip\nG-0151 exact frozen Rust contract probe PASS: stage_a_cases=22 stage_b_cases=22\n",
+        "stderr": "",
+        "stdout_sha256": "7b18b888d354fdc4cd8cbef6c8c51cad6a686566d5e3c67540cb0d7deff2a2b2",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "wall_seconds": 17.839815
+      }
+    },
+    {
+      "id": "FINAL_SUBJECT_REHASH_MATCHES_OPEN_AND_FROZEN",
+      "passed": true,
+      "evidence": {
+        "main_source": {
+          "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+          "opening_sha256": "daf902233012749b51ae4bb11565f1e31f2a1f5b78c50e5a395645b777c01324",
+          "final_sha256": "daf902233012749b51ae4bb11565f1e31f2a1f5b78c50e5a395645b777c01324",
+          "frozen_sha256": "daf902233012749b51ae4bb11565f1e31f2a1f5b78c50e5a395645b777c01324",
+          "all_equal": true
+        },
+        "cargo_manifest": {
+          "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+          "opening_sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+          "final_sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+          "frozen_sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+          "all_equal": true
+        },
+        "cargo_lock": {
+          "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+          "opening_sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+          "final_sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+          "frozen_sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+          "all_equal": true
+        },
+        "release_executable": {
+          "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+          "opening_sha256": "528afddba827e7165f43014416ef1e994191e9744c5e62054aebe2b9b8280806",
+          "final_sha256": "528afddba827e7165f43014416ef1e994191e9744c5e62054aebe2b9b8280806",
+          "frozen_sha256": "528afddba827e7165f43014416ef1e994191e9744c5e62054aebe2b9b8280806",
+          "all_equal": true
+        }
+      }
+    },
+    {
+      "id": "PROPOSED_RECEIPT_EXACT_FROZEN_RUST_ADMISSION",
+      "passed": true,
+      "evidence": {
+        "preliminary_failures": [],
+        "shape_errors": [],
+        "rust_probe": {
+          "argv": [
+            "cargo",
+            "run",
+            "--offline",
+            "--locked",
+            "--quiet",
+            "--manifest-path",
+            "artifacts/reviews/G-0151-g0140-stage-b-final2-source/contract_probe/Cargo.toml",
+            "--",
+            "--receipt",
+            "/home/ubuntu/.cache/tmp/g0151-contract-probe-116d6vp3/PROPOSED_SOURCE_AUDIT_RECEIPT.json"
+          ],
+          "exit_code": 0,
+          "stdout": "G-0151 proposed receipt accepted by exact frozen Rust envelope\n",
+          "stderr": "",
+          "stdout_sha256": "03678ea85195ee7ec5585e583d82244df76fa922d361987aef770fb8821160ed",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "wall_seconds": 0.08568
+        },
+        "proposed_sha256": "f8a03d46c024c8bfd2caec9020562a0a5d2fef6717438d6dece36a9f2f174de3"
+      }
+    },
+    {
+      "id": "NO_SCIENCE_BOUNDARY_HELD",
+      "passed": true,
+      "evidence": {
+        "producer_modes_run": [
+          "--self-test",
+          "--preflight-static",
+          "--preflight-static",
+          "--preflight-static"
+        ],
+        "allowed_producer_modes": [
+          "--self-test",
+          "--preflight-static"
+        ],
+        "opaque_static_paths": [
+          "artifacts/math/G-0113/panel_solver_input_v1.json",
+          "artifacts/math/G-0135/full_family_master_result_v3.json"
+        ],
+        "no_science_flags": {
+          "g0140_scientific_manifest_opened_or_created": false,
+          "stage_a_scientific_output_opened_or_created": false,
+          "stage_b_output_opened_or_created": false,
+          "preflight_default_or_science_mode_executed": false
+        }
+      }
+    }
+  ],
+  "failed_check_ids": [],
+  "producer_runtime_commands": [
+    {
+      "argv": [
+        "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "stdout": "G-0140 Stage-B Pool128 self-test PASS\n",
+      "stderr": "",
+      "stdout_sha256": "cff85a3944d8d59d9e0722af5c317367d749e2cb6c3df3144be633ac3cc45f0c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wall_seconds": 0.078399
+    },
+    {
+      "argv": [
+        "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+        "--preflight-static",
+        "artifacts/math/G-0113/panel_solver_input_v1.json",
+        "artifacts/math/G-0135/full_family_master_result_v3.json"
+      ],
+      "exit_code": 0,
+      "stdout": "G-0140 Stage-B static preflight PASS: 163740 records; 135 candidate terms; future manifest/Stage-A/G-0142 receipts not consumed\n",
+      "stderr": "",
+      "stdout_sha256": "f0b63fe1e84bf1280bd59f4e5484a9dbe341d202fe626e1f7f352d629b557f31",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wall_seconds": 34.832661
+    },
+    {
+      "argv": [
+        "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+        "--preflight-static",
+        "artifacts/math/G-0113/panel_solver_input_v1.json.decoy",
+        "artifacts/math/G-0135/full_family_master_result_v3.json"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Error: static input path drift\n",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e7b17bf77b4eff512a63475f66e4a8e890076464a57f4879218fa890b13bef0e",
+      "wall_seconds": 0.068595
+    },
+    {
+      "argv": [
+        "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+        "--preflight-static",
+        "artifacts/math/G-0113/panel_solver_input_v1.json",
+        "artifacts/math/G-0135/full_family_master_result_v3.json.decoy"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Error: static input path drift\n",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e7b17bf77b4eff512a63475f66e4a8e890076464a57f4879218fa890b13bef0e",
+      "wall_seconds": 0.061785
+    }
+  ],
+  "producer_modes_run": [
+    "--self-test",
+    "--preflight-static",
+    "--preflight-static",
+    "--preflight-static"
+  ],
+  "no_science_flags": {
+    "g0140_scientific_manifest_opened_or_created": false,
+    "stage_a_scientific_output_opened_or_created": false,
+    "stage_b_output_opened_or_created": false,
+    "preflight_default_or_science_mode_executed": false
+  },
+  "receipt_sha256": "f8a03d46c024c8bfd2caec9020562a0a5d2fef6717438d6dece36a9f2f174de3",
+  "claim_boundary": "Fresh T1 source/custody and admission audit of exactly four frozen Stage-B artifacts; no G-0140 scientific manifest or Stage-A/Stage-B scientific output was opened or created, and no scientific producer mode ran."
+}
