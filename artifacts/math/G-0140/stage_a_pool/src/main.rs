@@ -70,7 +70,11 @@ const STAGE_C_OUTPUT_PATH: &str = "artifacts/math/G-0140/pool128_exact_rank_sele
 const STAGE_D_OUTPUT_PATH: &str = "artifacts/math/G-0140/rank_aware_master_result_v1.json";
 const STAGE_E_OUTPUT_PATH: &str = "artifacts/math/G-0140/new_member_global_replay_v1.json";
 const STAGE_A_SOURCE_AUDIT_PATH: &str =
-    "artifacts/reviews/G-0141-g0140-stage-a-source/SOURCE_AUDIT_RECEIPT.json";
+    "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json";
+const STAGE_A_SOURCE_AUDIT_SCHEMA: &str = "max11-g0146-g0140-stage-a-final-source-audit-v1";
+const SOURCE_CUSTODY_PASS_RESULT: &str = "SOURCE_CUSTODY_AUDIT_PASS_T1";
+const STAGE_A_SOURCE_AUDIT_EVIDENCE_CLASS: &str = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT";
+const STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY: &str = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.";
 const PRIOR_MASTER_RESULT_PATH: &str = "artifacts/math/G-0128/full_family_master_result_v2.json";
 const PRIOR_MASTER_MANIFEST_PATH: &str =
     "artifacts/math/G-0128/full_family_master_manifest_v2.json";
@@ -1247,6 +1251,49 @@ fn collect_recursive_bindings(value: &Value, output: &mut Vec<Binding>) {
     }
 }
 
+fn source_audit_contract(audit_path: &str) -> Result<(&'static str, Option<&'static str>)> {
+    match audit_path {
+        STAGE_A_AUDIT_PATH => Ok(("max11-g0136-g0135-source-audit-v1", None)),
+        STAGE_BC_AUDIT_PATH => Ok(("max11-g0137-g0135-stages-bc-source-audit-v1", None)),
+        STAGE_D_AUDIT_PATH => Ok(("max11-g0138-g0135-stage-d-source-audit-v1", None)),
+        STAGE_A_SOURCE_AUDIT_PATH => Ok((
+            STAGE_A_SOURCE_AUDIT_SCHEMA,
+            Some(SOURCE_CUSTODY_PASS_RESULT),
+        )),
+        _ => anyhow::bail!("unknown source-audit contract: {audit_path}"),
+    }
+}
+
+fn validate_source_audit_envelope(receipt: &Value, audit_path: &str) -> Result<()> {
+    let (expected_schema, expected_result) = source_audit_contract(audit_path)?;
+    let result_matches = match expected_result {
+        Some(result) => value_string(receipt, "/result")? == result,
+        None => true,
+    };
+    ensure!(
+        value_string(receipt, "/schema")? == expected_schema
+            && value_string(receipt, "/verdict")? == "PASS"
+            && !value_bool(receipt, "/scientific_manifest_observed")?
+            && !value_bool(receipt, "/scientific_output_observed")?
+            && result_matches,
+        "source audit is not the exact outcome-blind PASS contract for {audit_path}"
+    );
+    if audit_path == STAGE_A_SOURCE_AUDIT_PATH {
+        ensure!(
+            value_string(receipt, "/evidence_class")? == STAGE_A_SOURCE_AUDIT_EVIDENCE_CLASS
+                && value_string(receipt, "/claim_boundary")? == STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY
+                && !value_bool(receipt, "/scientific_input_observed")?
+                && !value_bool(receipt, "/scientific_replay_run")?
+                && value_bool(
+                    receipt,
+                    "/subject/commit_object_and_working_bytes_equal_for_all_bindings"
+                )?,
+            "final Stage-A source audit semantic boundary drift"
+        );
+    }
+    Ok(())
+}
+
 fn validate_source_audit(
     root: &Path,
     manifest: &ManifestSnapshot,
@@ -1262,16 +1309,20 @@ fn validate_source_audit(
         sha256_path(&path)? == *expected,
         "audit receipt drift: {audit_path}"
     );
+    let audit_commit = git_commit_for_path(root, audit_path)?;
     let receipt = strict_json_value(BufReader::new(File::open(path)?))?;
-    ensure!(
-        value_string(&receipt, "/verdict")? == "PASS",
-        "source audit is not PASS"
-    );
-    ensure!(
-        !value_bool(&receipt, "/scientific_manifest_observed")?
-            && !value_bool(&receipt, "/scientific_output_observed")?,
-        "source audit was not outcome-blind"
-    );
+    validate_source_audit_envelope(&receipt, audit_path)?;
+    if audit_path == STAGE_A_SOURCE_AUDIT_PATH {
+        let subject_path = required_subject_paths
+            .first()
+            .context("final Stage-A audit subject path missing")?;
+        ensure!(
+            value_string(&receipt, "/subject/git_commit")?
+                == git_commit_for_path(root, subject_path)?
+                && value_string(&receipt, "/audit_git_commit")? == audit_commit,
+            "final Stage-A audit Git identity drift"
+        );
+    }
     let mut observed = Vec::new();
     collect_recursive_bindings(&receipt, &mut observed);
     for required in required_subject_paths {
@@ -2908,6 +2959,44 @@ fn self_test() -> Result<()> {
         .iter()
         .all(|mutant| validate_g0139_semantics(mutant).is_err()),
         "G-0139 semantic hostile control escaped"
+    );
+    let source_audit = serde_json::json!({
+        "schema": STAGE_A_SOURCE_AUDIT_SCHEMA,
+        "verdict": "PASS",
+        "result": SOURCE_CUSTODY_PASS_RESULT,
+        "evidence_class": STAGE_A_SOURCE_AUDIT_EVIDENCE_CLASS,
+        "claim_boundary": STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY,
+        "scientific_manifest_observed": false,
+        "scientific_input_observed": false,
+        "scientific_output_observed": false,
+        "scientific_replay_run": false,
+        "subject": {
+            "commit_object_and_working_bytes_equal_for_all_bindings": true
+        }
+    });
+    validate_source_audit_envelope(&source_audit, STAGE_A_SOURCE_AUDIT_PATH)?;
+    let mut source_audit_schema_mutant = source_audit.clone();
+    source_audit_schema_mutant["schema"] = Value::String("lookalike-source-audit".to_string());
+    let mut source_audit_result_mutant = source_audit;
+    source_audit_result_mutant["result"] = Value::String("LOOKALIKE_PASS".to_string());
+    let mut source_audit_observation_mutant = source_audit_result_mutant.clone();
+    source_audit_observation_mutant["result"] =
+        Value::String(SOURCE_CUSTODY_PASS_RESULT.to_string());
+    source_audit_observation_mutant["scientific_input_observed"] = Value::Bool(true);
+    ensure!(
+        validate_source_audit_envelope(&source_audit_schema_mutant, STAGE_A_SOURCE_AUDIT_PATH)
+            .is_err()
+            && validate_source_audit_envelope(
+                &source_audit_result_mutant,
+                STAGE_A_SOURCE_AUDIT_PATH
+            )
+            .is_err()
+            && validate_source_audit_envelope(
+                &source_audit_observation_mutant,
+                STAGE_A_SOURCE_AUDIT_PATH
+            )
+            .is_err(),
+        "Stage-A source-audit schema/result hostile control escaped"
     );
     for valid in ["0", "1", "-1", "12345678901234567890"] {
         ensure!(canonical_integer(valid), "valid integer rejected");
