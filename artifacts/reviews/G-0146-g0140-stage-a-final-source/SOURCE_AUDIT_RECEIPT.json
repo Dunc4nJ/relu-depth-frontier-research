@@ -1,0 +1,182 @@
+{
+  "schema": "max11-g0146-g0140-stage-a-final-source-audit-v1",
+  "verdict": "FAIL",
+  "result": "SOURCE_CUSTODY_AUDIT_FAIL_RECURSIVE_BINDING_LOOKALIKE",
+  "completed_at_utc": "2026-08-31T19:53:28Z",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "claim_boundary": "No T1 source/custody clearance is granted. This FAIL applies only to admission behavior for the exact frozen Stage-A producer bytes; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.",
+  "reviewer": {
+    "agent_name": "GoldWaterfall",
+    "program": "codex",
+    "model": "gpt-5",
+    "same_model_lineage": true,
+    "fresh_context": true
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0146-g0140-stage-a-final-source/PREREGISTRATION.md",
+    "sha256": "b77a8bdac2346648797cc4aa2cde7b1ce798f90343e8b83474434fb80d0b04a9",
+    "git_commit": "381adc68e82f53f8bfee750793233b56b0a875b8",
+    "committed_and_pushed_before_subject_source_inspection": true,
+    "committed_and_pushed_before_runtime_checks": true
+  },
+  "subject": {
+    "git_commit": "2157fd2a9776277354c45487ae1cbc0670ffc9b8",
+    "commit_object_and_working_bytes_equal_for_all_bindings": true,
+    "bindings": {
+      "main_source": {
+        "path": "artifacts/math/G-0140/stage_a_pool/src/main.rs",
+        "sha256": "5fd91773b1e16cc54d09c20c72ef729a333bef4c8b6804f24a525a4be8258790"
+      },
+      "engine_source": {
+        "path": "artifacts/math/G-0140/stage_a_pool/src/engine.rs",
+        "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c"
+      },
+      "cargo_manifest": {
+        "path": "artifacts/math/G-0140/stage_a_pool/Cargo.toml",
+        "sha256": "eb20b76b6a133a9c6e18052822974287047c9d1bd92c3b4851d20cf2c1dafc26"
+      },
+      "cargo_lock": {
+        "path": "artifacts/math/G-0140/stage_a_pool/Cargo.lock",
+        "sha256": "263f994a09ef9d687136e287e300cf7b63caa744015027c051eadd59189e0eae"
+      },
+      "release_executable": {
+        "path": "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay",
+        "sha256": "366acb1e70a2699e3a26089263173f142af021b4a6379632e4786d460bf00f4a"
+      }
+    }
+  },
+  "historical_g0141_blocker_repairs": {
+    "exact_g0139_semantic_and_custody_admission": {
+      "status": "PASS_FOR_EXACT_FROZEN_FULL_GATE",
+      "exact_receipt_sha256_and_commit_pinned": true,
+      "baseline_accepted": true,
+      "wrong_subject_commit_rejected": true,
+      "wrong_evidence_class_rejected": true,
+      "wrong_lineage_rejected": true,
+      "wrong_outcome_awareness_rejected": true,
+      "wrong_claim_boundary_rejected": true,
+      "wrong_custody_rejected": true,
+      "wrong_source_audit_anchor_rejected": true
+    },
+    "g0140_manifest_working_bytes_equal_committed_blob": {
+      "status": "PASS",
+      "commit_check_precedes_parse": true,
+      "generic_committed_positive_control_accepted": true,
+      "generic_mutated_working_bytes_rejected": true,
+      "actual_g0140_scientific_manifest_opened": false
+    }
+  },
+  "blocking_findings": [
+    {
+      "id": "G0146-F1",
+      "severity": "BLOCKER",
+      "title": "Final source-audit admission accepts recursive binding lookalikes",
+      "source_locations": [
+        "artifacts/math/G-0140/stage_a_pool/src/main.rs:1267",
+        "artifacts/math/G-0140/stage_a_pool/src/main.rs:1297",
+        "artifacts/math/G-0140/stage_a_pool/src/main.rs:1325"
+      ],
+      "implemented_behavior": "The validator recursively accepts any path/SHA-shaped objects anywhere in the receipt and does not reject unknown final-audit fields.",
+      "hostile_fixture": "The five named subject bindings are removed and the same correct pairs are placed under unrelated lookalike objects; an explicitly prohibited self-identity field and another unknown field are added.",
+      "implemented_predicate_accepts_hostile_fixture": true,
+      "producer_declared_exact_nested_contract_accepts_hostile_fixture": false,
+      "private_rust_function_invoked_directly": false,
+      "probe_method": "Exact frozen Rust decision-source extraction plus a source-exact Python predicate with positive and negative controls.",
+      "why_outer_hash_custody_is_insufficient": "A future manifest could bind and commit the hostile receipt exactly; byte identity would not establish that the five bindings occupy the required semantic structure."
+    }
+  ],
+  "hostile_control_results": {
+    "exact_baseline_accepted": true,
+    "missing_required_pair_entirely_rejected": true,
+    "wrong_required_hash_rejected": true,
+    "wrong_subject_commit_rejected": true,
+    "scientific_observation_rejected": true,
+    "displaced_named_bindings_into_lookalikes_rejected": false,
+    "unknown_final_audit_fields_rejected": false,
+    "duplicate_json_keys_rejected": true,
+    "trailing_json_data_rejected": true,
+    "path_escape_and_symlink_rejected": true,
+    "compiled_main_engine_cargo_lock_mismatch_rejected": true,
+    "mutable_inputs_revalidated_at_end": true
+  },
+  "runtime_checks": {
+    "checker_self_test": {
+      "command": "python3 -B artifacts/reviews/G-0146-g0140-stage-a-final-source/audit_final_source.py --self-test",
+      "exit_code": 0,
+      "stderr": "",
+      "status": "PASS"
+    },
+    "checker_audit": {
+      "command": "python3 -B artifacts/reviews/G-0146-g0140-stage-a-final-source/audit_final_source.py",
+      "exit_code": 1,
+      "stderr": "",
+      "status": "EXPECTED_FAIL_G0146_F1"
+    },
+    "producer_self_test": {
+      "command": "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay --self-test",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "G-0140 Stage A self-test PASS"
+    },
+    "producer_static_preflight": {
+      "command": "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay --preflight-static",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "G-0140 Stage A outcome-blind static preflight PASS"
+    },
+    "producer_ancestor_preflight": {
+      "command": "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay --preflight-ancestor",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "G-0140 Stage A ancestor preflight PASS: 135 terms; 100 accumulated rows; disclosed first32 reconciled"
+    },
+    "other_producer_modes_run": false
+  },
+  "audit_artifacts": {
+    "checker": {
+      "path": "artifacts/reviews/G-0146-g0140-stage-a-final-source/audit_final_source.py",
+      "sha256": "c98eb6e9cc3f8cb136af66ce2ff99ad6393ec9d027955f739cc31e0502746d49"
+    },
+    "report": {
+      "path": "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_REPORT.md",
+      "sha256": "fe9dc50a287dc0084e81220ba3804ddbf1ca57770ca04891ef830e237dde6b39"
+    },
+    "honesty_inventory": {
+      "path": "artifacts/reviews/G-0146-g0140-stage-a-final-source/HONESTY_INVENTORY.md",
+      "sha256": "854fb604a2012491fd5123ca1cb7437ead82331d104c35b152273a505bf6ddf5"
+    }
+  },
+  "anti_ceremony_honesty_disposition": {
+    "classification": "LEGITIMATE_BOUNDED_GATE",
+    "work_item_counts": {
+      "user": 0,
+      "enabler": 1,
+      "process": 0,
+      "unknown": 0
+    },
+    "target_source_or_historical_receipt_modified": false,
+    "tests_or_thresholds_weakened": false,
+    "failures_or_stderr_suppressed": false,
+    "subagents_used": false,
+    "task_closed_by_reviewer": false,
+    "checker_exits_nonzero_on_audit_fail": true
+  },
+  "scientific_manifest_observed": false,
+  "scientific_input_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "obligations_before_reaudit": [
+    "Use a dedicated deny-unknown-fields type for the final G-0146 source-audit receipt.",
+    "Require exactly the five named subject binding objects at their declared locations; reject recursive decoys, displaced bindings, and duplicate path occurrences.",
+    "Reject prohibited self-identity and all other unknown final-audit fields.",
+    "Add built-in must-fail fixtures for displaced bindings, correct decoys paired with missing named bindings, duplicate correct pairs, unknown fields, and self-reference.",
+    "Rebuild and freeze new producer source/executable bytes and obtain a fresh outcome-blind source audit."
+  ],
+  "residual_risks": [
+    "The hostile final-audit receipt was evaluated with exact source extraction and a source-modeled predicate rather than direct invocation of the private Rust function.",
+    "The G-0139 semantic helper alone does not inspect every non-anchor transitive value, although the exact frozen full gate rejects any changed receipt byte through its pinned SHA and commit.",
+    "Same-model-lineage review remains T1 and is not T2 independence.",
+    "Local Git hashes attest local bytes; they are not external signatures or a hostile multi-principal custody boundary."
+  ],
+  "no_claim": "This FAIL grants no source clearance and makes no claim about a G-0140 scientific result, a Pool128 member, frozen-family completeness, MAX11, unrestricted two-hidden-layer representation, minimality, an all-n theorem, refereed standing, formalization, or Lean."
+}
