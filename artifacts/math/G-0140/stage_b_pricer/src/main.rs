@@ -50,14 +50,20 @@ const STAGE_A_LOCK_PATH: &str = "artifacts/math/G-0140/stage_a_pool/Cargo.lock";
 const STAGE_A_EXECUTABLE_PATH: &str =
     "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay";
 const STAGE_A_SOURCE_AUDIT_PATH: &str =
-    "artifacts/reviews/G-0141-g0140-stage-a-source/SOURCE_AUDIT_RECEIPT.json";
+    "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json";
+const STAGE_A_SOURCE_AUDIT_SCHEMA: &str = "max11-g0146-g0140-stage-a-final-source-audit-v1";
 const STAGE_B_SOURCE_PATH: &str = "artifacts/math/G-0140/stage_b_pricer/src/main.rs";
 const STAGE_B_CARGO_PATH: &str = "artifacts/math/G-0140/stage_b_pricer/Cargo.toml";
 const STAGE_B_LOCK_PATH: &str = "artifacts/math/G-0140/stage_b_pricer/Cargo.lock";
 const STAGE_B_EXECUTABLE_PATH: &str =
     "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer";
 const STAGE_B_SOURCE_AUDIT_PATH: &str =
-    "artifacts/reviews/G-0142-g0140-stage-b-source/SOURCE_AUDIT_RECEIPT.json";
+    "artifacts/reviews/G-0147-g0140-stage-b-final-source/SOURCE_AUDIT_RECEIPT.json";
+const STAGE_B_SOURCE_AUDIT_SCHEMA: &str = "max11-g0147-g0140-stage-b-final-source-audit-v1";
+const SOURCE_CUSTODY_PASS_RESULT: &str = "SOURCE_CUSTODY_AUDIT_PASS_T1";
+const SOURCE_AUDIT_EVIDENCE_CLASS: &str = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT";
+const STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY: &str = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.";
+const STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY: &str = "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.";
 
 const PANEL_INPUT_SHA256: &str = "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8";
 const CANDIDATE_SHA256: &str = "ef1cbdf3abfd32326c35e511057a3450b4942ae9aa901ead8e8b86133c564db8";
@@ -728,7 +734,7 @@ fn make_expected_binding(root: &Path, raw: &str, expected: &str) -> Result<Bindi
 }
 
 fn git_commit_for_path(root: &Path, raw: &str) -> Result<String> {
-    checked_repo_path(root, raw)?;
+    let path = checked_repo_path(root, raw)?;
     let output = Command::new("git")
         .args(["log", "-1", "--format=%H", "--", raw])
         .current_dir(root)
@@ -742,6 +748,16 @@ fn git_commit_for_path(root: &Path, raw: &str) -> Result<String> {
                 .bytes()
                 .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte)),
         "untracked or malformed Git ancestry for {raw}"
+    );
+    let blob = Command::new("git")
+        .args(["show", &format!("{commit}:{raw}")])
+        .current_dir(root)
+        .output()
+        .with_context(|| format!("inspect committed blob for {raw}"))?;
+    ensure!(blob.status.success(), "git show failed for {raw}");
+    ensure!(
+        sha256_bytes(&blob.stdout) == sha256_path(&path)?,
+        "working bytes differ from committed binding: {raw}"
     );
     Ok(commit)
 }
@@ -1083,28 +1099,38 @@ fn value_bool(value: &Value, pointer: &str) -> Result<bool> {
         .with_context(|| format!("missing boolean at {pointer}"))
 }
 
-fn source_audit_contract(audit_path: &str) -> Result<(&'static str, &'static str)> {
+fn source_audit_contract(audit_path: &str) -> Result<(&'static str, &'static str, &'static str)> {
     match audit_path {
         STAGE_A_SOURCE_AUDIT_PATH => Ok((
-            "max11-g0141-g0140-stage-a-source-audit-v1",
-            "SOURCE_CUSTODY_AUDIT_PASS_T1",
+            STAGE_A_SOURCE_AUDIT_SCHEMA,
+            SOURCE_CUSTODY_PASS_RESULT,
+            STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY,
         )),
         STAGE_B_SOURCE_AUDIT_PATH => Ok((
-            "max11-g0142-g0140-stage-b-source-audit-v1",
-            "SOURCE_CUSTODY_AUDIT_PASS_T1",
+            STAGE_B_SOURCE_AUDIT_SCHEMA,
+            SOURCE_CUSTODY_PASS_RESULT,
+            STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY,
         )),
         _ => anyhow::bail!("unknown source-audit contract: {audit_path}"),
     }
 }
 
 fn validate_source_audit_envelope(receipt: &Value, audit_path: &str) -> Result<()> {
-    let (expected_schema, expected_result) = source_audit_contract(audit_path)?;
+    let (expected_schema, expected_result, expected_boundary) = source_audit_contract(audit_path)?;
     ensure!(
         value_string(receipt, "/schema")? == expected_schema
             && value_string(receipt, "/verdict")? == "PASS"
             && value_string(receipt, "/result")? == expected_result
+            && value_string(receipt, "/evidence_class")? == SOURCE_AUDIT_EVIDENCE_CLASS
+            && value_string(receipt, "/claim_boundary")? == expected_boundary
             && !value_bool(receipt, "/scientific_manifest_observed")?
-            && !value_bool(receipt, "/scientific_output_observed")?,
+            && !value_bool(receipt, "/scientific_input_observed")?
+            && !value_bool(receipt, "/scientific_output_observed")?
+            && !value_bool(receipt, "/scientific_replay_run")?
+            && value_bool(
+                receipt,
+                "/subject/commit_object_and_working_bytes_equal_for_all_bindings"
+            )?,
         "source audit is not the exact outcome-blind PASS contract for {audit_path}"
     );
     Ok(())
@@ -1150,6 +1176,13 @@ fn validate_source_audit(
     git_commit_for_path(root, audit_path)?;
     let receipt = strict_json_value(File::open(path)?)?;
     validate_source_audit_envelope(&receipt, audit_path)?;
+    let subject_path = required_subjects
+        .first()
+        .context("source-audit subject path missing")?;
+    ensure!(
+        value_string(&receipt, "/subject/git_commit")? == git_commit_for_path(root, subject_path)?,
+        "source-audit subject Git identity drift"
+    );
     let mut observed = Vec::new();
     collect_recursive_bindings(&receipt, &mut observed);
     for subject in required_subjects {
@@ -1756,11 +1789,18 @@ fn self_test() -> Result<()> {
     );
 
     let audit_fixture = serde_json::json!({
-        "schema": "max11-g0141-g0140-stage-a-source-audit-v1",
+        "schema": STAGE_A_SOURCE_AUDIT_SCHEMA,
         "verdict": "PASS",
-        "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+        "result": SOURCE_CUSTODY_PASS_RESULT,
+        "evidence_class": SOURCE_AUDIT_EVIDENCE_CLASS,
+        "claim_boundary": STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY,
         "scientific_manifest_observed": false,
-        "scientific_output_observed": false
+        "scientific_input_observed": false,
+        "scientific_output_observed": false,
+        "scientific_replay_run": false,
+        "subject": {
+            "commit_object_and_working_bytes_equal_for_all_bindings": true
+        }
     });
     validate_source_audit_envelope(&audit_fixture, STAGE_A_SOURCE_AUDIT_PATH)?;
     let mut audit_schema_mutant = audit_fixture.clone();
@@ -1773,11 +1813,18 @@ fn self_test() -> Result<()> {
                 .is_err()
             && validate_source_audit_envelope(
                 &serde_json::json!({
-                    "schema": "max11-g0142-g0140-stage-b-source-audit-v1",
+                    "schema": STAGE_B_SOURCE_AUDIT_SCHEMA,
                     "verdict": "PASS",
-                    "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+                    "result": SOURCE_CUSTODY_PASS_RESULT,
+                    "evidence_class": SOURCE_AUDIT_EVIDENCE_CLASS,
+                    "claim_boundary": STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY,
                     "scientific_manifest_observed": false,
-                    "scientific_output_observed": false
+                    "scientific_input_observed": false,
+                    "scientific_output_observed": false,
+                    "scientific_replay_run": false,
+                    "subject": {
+                        "commit_object_and_working_bytes_equal_for_all_bindings": true
+                    }
                 }),
                 STAGE_B_SOURCE_AUDIT_PATH
             )
