@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+launcher_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)"
+project_root="$(git -C "$launcher_dir" rev-parse --show-toplevel)"
+python_runtime="$project_root/.venv/bin/python"
+selector="$launcher_dir/complete_matrix_rank_selector_v1.py"
+
+if [[ ! -x "$python_runtime" ]]; then
+  echo "missing executable project Python runtime: $python_runtime" >&2
+  exit 2
+fi
+if [[ ! -f "$selector" || -L "$selector" ]]; then
+  echo "missing or symlinked Stage-C selector: $selector" >&2
+  exit 2
+fi
+
+exec "$python_runtime" "$selector" "$@"

@@ -1,0 +1,23 @@
+{
+  "architecture": "x86_64",
+  "binary": {
+    "path": "artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots_v1",
+    "sha256": "207fcf88fe3f89c8119bd6b38037d9f0919165eecf04b48d1b0aaae039843171"
+  },
+  "byte_order": "little",
+  "command": "g++ -O2 -std=c++17 -fopenmp artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots.cpp -o artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots_v1 -lblas -llapack -lgivaro -lgmpxx -lgmp",
+  "compiler": "g++ (Ubuntu 15.2.0-4ubuntu4) 15.2.0",
+  "schema": "max11-g0140-ffpack-native-build-v1",
+  "source": {
+    "path": "artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots.cpp",
+    "sha256": "198262e449c901f70b1e26cd260cbd5ade4e6eaf2868659e4cfd59a1ab72d9c7"
+  },
+  "toolchain": {
+    "path": "TOOLCHAIN.md",
+    "sha256": "ffc55f711d52c90f4a1710cfd55366b2d1249a736db97f17c3a1c3e52188f150"
+  },
+  "toolchain_manifest": {
+    "path": "environment/toolchain-manifest.txt",
+    "sha256": "a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
+  }
+}
