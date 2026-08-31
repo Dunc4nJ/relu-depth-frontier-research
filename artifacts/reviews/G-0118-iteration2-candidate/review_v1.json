@@ -1,0 +1,2955 @@
+{
+  "bindings": {
+    "cache_prefix_sha256": "d88dc897dbbfd77b98dd4edf2cecfd9696c5760e7c0dd3f2184b626659af7cde",
+    "candidate": "1d3fd50449fd63c0f8d795cb4d1428fd7a89ef97bcd709c01c579115ea8ccb4b",
+    "candidate_declared_inputs": {
+      "artifacts/math/G-0113/panel_retained_columns_v1.json": "615e264dd64e43c8374131e6934e9728ee4c043a8b15f19ed50ec8d676fe1393",
+      "artifacts/math/G-0113/panel_scan_v1.json": "6f3f52bf9709cda495258f760bf51bdde33eea015e0db499cacf04c28eabb85e",
+      "artifacts/math/G-0113/panel_solver_input_v1.json": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+      "artifacts/math/G-0117/fresh_q_cegis_exact.py": "ee422e6e36085e26ddd83a75f8901c6a6efbe3fd2a99e80e280f9449d0ed8281",
+      "artifacts/math/G-0117/fresh_q_cegis_iteration1_coordinate_v1.json": "c9acf62ea84d7e3d0405f2a5f778f431f8c3a1b16c8b9aefa453b62cfc929071",
+      "artifacts/math/G-0118/iteration2_residual_coordinate_v1.json": "41255b1176ca95ac8f2d43e35c8396266cf9d2c71fcae77c14dffb54ffc58a3f",
+      "artifacts/math/G-0118/prefix_exact_cegis.py": "6a152c1fbfe72101affeff05aea35367a0ae14d293c633c13f51ec7b260d14bf",
+      "artifacts/math/G-0118/prefix_exact_cegis_v1.json": "bad55cb45134cfdab3be86b3d3c676807acb402d69b6d37d0af59767152e531c",
+      "artifacts/math/G-0118/prefix_global_modular_replay_v1.json": "ee7ccc77c34454845b59e709507b901d814263242d8ff9b66e4257f06e0e90d4"
+    },
+    "candidate_declared_inputs_stable_after_run": true,
+    "preregistration": "0ec5215fc8271396fe47a86eb0f2bda636f0d27b51b1e9651b0652b213704c05",
+    "producer_hashed_not_executed": "58f47514f90ee0a227a79b12ad278bc6390bec04e83fdb849c5714acdeef5b6d",
+    "review_cpp": "cb5422128c22019b6d40626cb97c7e1ec33adb53fcefea6a2384db4a69682885",
+    "review_preregistration": "674916b5fd5c49c7bfe93d6ba344d2879cb3f4bcb5fcf97229994419a1b37fb8",
+    "review_python": "1133c4fa3ec6b6c1c644b82434a8d2384ee31a866d4fc3b04a76e06136fe955a"
+  },
+  "claim_boundary": "Exact 314-row membership is finite membership only. Modular zero is only a screen. A nonzero global residual refutes only this exact candidate, not the frozen family, family completeness, unrestricted two-hidden-layer MAX11, or the all-arity target.",
+  "compiler": {
+    "binary_sha256": "da5a435b8966bbbf680771e322987b744ca89a1f636dce7389a0b24f9cba49be",
+    "compile_command": [
+      "g++",
+      "-std=c++20",
+      "-O3",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "/data/projects/relu-depth-frontier-research/artifacts/reviews/G-0118-iteration2-candidate/cleanroom_global_replay.cpp",
+      "-o",
+      "/tmp/<binary>"
+    ],
+    "compiler": "g++ (Ubuntu 15.2.0-4ubuntu4) 15.2.0",
+    "source_sha256": "cb5422128c22019b6d40626cb97c7e1ec33adb53fcefea6a2384db4a69682885"
+  },
+  "controls": {
+    "all_plus_one_coefficient_mutants_rejected": true,
+    "cpp_self_test": {
+      "active_hinges": 3,
+      "edge_mutant_rejected": true,
+      "linear_correction_omission_rejected": true,
+      "literal_permutations": 120,
+      "raw_words": 11,
+      "result": "PASS",
+      "schema": "g0118-iteration2-cleanroom-global-self-test-v1",
+      "vertex_relabelling_invariant": true
+    },
+    "factorial_10_target_rejected": true,
+    "plus_one_mutants": [
+      {
+        "decimal_rows_sha256": "5f14ab88f1bb4186975da96325f2c300a846119961de420e9b161fa05e98a201",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1269724",
+        "nonzero_rows": 311,
+        "sequence": 0,
+        "term_index": 0
+      },
+      {
+        "decimal_rows_sha256": "601cb726e566a534e3ceb390c837fefdc22d2c4f70890c5a826f10a9eaa10a49",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 1,
+        "term_index": 1
+      },
+      {
+        "decimal_rows_sha256": "fb2d5fb8c65b5122171c492633e92c6817224a13296c9938764a486087369af9",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271630",
+        "nonzero_rows": 310,
+        "sequence": 2,
+        "term_index": 2
+      },
+      {
+        "decimal_rows_sha256": "67719727ff697d37bbddfc85c577b7b8409948c4458755f9e64bb8178227a246",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 3,
+        "term_index": 3
+      },
+      {
+        "decimal_rows_sha256": "cd68bf5ca80ca8cee4eb8967f0a3e0e60ce156d5f0f52975dffe960c7c1cb01d",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271750",
+        "nonzero_rows": 310,
+        "sequence": 5,
+        "term_index": 4
+      },
+      {
+        "decimal_rows_sha256": "d471e524ebb901c6194ef3e70987025e80e42f0fe4b511c7f2397dc771a16f59",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271610",
+        "nonzero_rows": 310,
+        "sequence": 6,
+        "term_index": 5
+      },
+      {
+        "decimal_rows_sha256": "5814c2315270d7c1a2a1e267ab6226eb3f2049cf7810ddaa78f700469921487b",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 8,
+        "term_index": 6
+      },
+      {
+        "decimal_rows_sha256": "31b1b89a670db58a9324f16417536a7092cdbc9f7976a68040ad0e02fa2e428f",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271610",
+        "nonzero_rows": 310,
+        "sequence": 9,
+        "term_index": 7
+      },
+      {
+        "decimal_rows_sha256": "8bf4a1ecad1feefeddd503a1d5ea84b061daa4914ca3d3c054a1073fabe1b861",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271950",
+        "nonzero_rows": 310,
+        "sequence": 10,
+        "term_index": 8
+      },
+      {
+        "decimal_rows_sha256": "2bd2aed2b09853ad4692a4ac35785d26f0aeeb3eb2d8fc903c70c768cfe4b9fd",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271690",
+        "nonzero_rows": 310,
+        "sequence": 11,
+        "term_index": 9
+      },
+      {
+        "decimal_rows_sha256": "93c378a415fd3d830848bf5469652c5f660b5b2854dcda929bb1a7b0cf765508",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271570",
+        "nonzero_rows": 310,
+        "sequence": 12,
+        "term_index": 10
+      },
+      {
+        "decimal_rows_sha256": "2b044953456a97a5153cfc12353fcc9d162a3fe5f9ba98341a4caade537eb632",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271770",
+        "nonzero_rows": 310,
+        "sequence": 13,
+        "term_index": 11
+      },
+      {
+        "decimal_rows_sha256": "a0f3c43dbae3d912e28f594dea1899ebe4fd033e31a2aefd7e1f96f04572bebf",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1269684",
+        "nonzero_rows": 311,
+        "sequence": 14,
+        "term_index": 12
+      },
+      {
+        "decimal_rows_sha256": "417abea47ac8507d6f12b18fa2e76675a1b5d7e28bed59278720c1c5c92b481f",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271950",
+        "nonzero_rows": 310,
+        "sequence": 15,
+        "term_index": 13
+      },
+      {
+        "decimal_rows_sha256": "0cecfea72cc1d51f8fe9527c5d935c7b3169444b4f2b7012c992f9a75beb39d5",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1269764",
+        "nonzero_rows": 311,
+        "sequence": 16,
+        "term_index": 14
+      },
+      {
+        "decimal_rows_sha256": "23af113bffbb6c2b9a354a356f882e115a5cfbc0aba0009c94cb4ff6272375f1",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271830",
+        "nonzero_rows": 310,
+        "sequence": 17,
+        "term_index": 15
+      },
+      {
+        "decimal_rows_sha256": "4f66762eb3ac84b0a6c3ffaced2b7af352bd608e64d65109bac7cff94a8540cc",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 18,
+        "term_index": 16
+      },
+      {
+        "decimal_rows_sha256": "d1f881fb7c02b098859812df8703359cddf6cc630953fb17b32825ee9dc8ce31",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271710",
+        "nonzero_rows": 310,
+        "sequence": 19,
+        "term_index": 17
+      },
+      {
+        "decimal_rows_sha256": "8cfd8b6b78207010736fc34d93d6bf574439ac2e6a490bbe1ecf9f55456baaba",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271890",
+        "nonzero_rows": 310,
+        "sequence": 20,
+        "term_index": 18
+      },
+      {
+        "decimal_rows_sha256": "753859ae3ac6f4c153d350ab78ff5ba587e538766c70a35872e9134cd465d5e8",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 21,
+        "term_index": 19
+      },
+      {
+        "decimal_rows_sha256": "f425eb71b975c02eac2e117fba49008c7c2ec86a323c172e81281f00cef28eee",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1269964",
+        "nonzero_rows": 311,
+        "sequence": 23,
+        "term_index": 20
+      },
+      {
+        "decimal_rows_sha256": "b42c7450da2880ebf42cb3bea03847929681cb37650a51ac51e256be401f8ac5",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271530",
+        "nonzero_rows": 310,
+        "sequence": 24,
+        "term_index": 21
+      },
+      {
+        "decimal_rows_sha256": "3b203f9e6342760a0b62492d587cb3f8619cd52438f499554a8ba68c6a2976cc",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 25,
+        "term_index": 22
+      },
+      {
+        "decimal_rows_sha256": "8c4ff6357ad013747b5e641acd761c1eb17df80198c875447347374041746570",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271790",
+        "nonzero_rows": 310,
+        "sequence": 26,
+        "term_index": 23
+      },
+      {
+        "decimal_rows_sha256": "b36a1a5251d5321f3a8eb0f2b8b0c02a5427343c2ea4e83144fb2d9727c5ac7a",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271950",
+        "nonzero_rows": 311,
+        "sequence": 27,
+        "term_index": 24
+      },
+      {
+        "decimal_rows_sha256": "1f46faf567adfb1c149862ae47c8163446944c535e9b1ca5f8240659dfa5e3f3",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1269724",
+        "nonzero_rows": 311,
+        "sequence": 28,
+        "term_index": 25
+      },
+      {
+        "decimal_rows_sha256": "c162ecebfa4d021c4c11134e3ffa7519aaff2917324fecb13276deeeba0e8d91",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271690",
+        "nonzero_rows": 310,
+        "sequence": 29,
+        "term_index": 26
+      },
+      {
+        "decimal_rows_sha256": "f4760b93c96c4d39a49bc923974358f6fa07c625ae6ecd24d5b2ff725e8d80c9",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271790",
+        "nonzero_rows": 310,
+        "sequence": 30,
+        "term_index": 27
+      },
+      {
+        "decimal_rows_sha256": "649676ff4b4bba8d422e0233e9bc969285f0a36657c9cc768f58a42f78fdeba8",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271490",
+        "nonzero_rows": 310,
+        "sequence": 31,
+        "term_index": 28
+      },
+      {
+        "decimal_rows_sha256": "4e21de63ab710391a98738ce31e7e500997ea46f8a423f002de2a3b49088797e",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271470",
+        "nonzero_rows": 310,
+        "sequence": 32,
+        "term_index": 29
+      },
+      {
+        "decimal_rows_sha256": "891285c6df1564281dfb7bf700ed12113a4ec1a25420985234f5d410e8b6f1b5",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271830",
+        "nonzero_rows": 310,
+        "sequence": 34,
+        "term_index": 30
+      },
+      {
+        "decimal_rows_sha256": "cfa96455a84003269d900faeb3a2ef2440abe98d22c452d72b3cbdebdf1d32ed",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271790",
+        "nonzero_rows": 310,
+        "sequence": 35,
+        "term_index": 31
+      },
+      {
+        "decimal_rows_sha256": "212c4b4ede5458bd77d3234dcde4908a6d39905fd48248c4da97ad2d6ef07c50",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 36,
+        "term_index": 32
+      },
+      {
+        "decimal_rows_sha256": "bf5498457afbdc21b29a68f5aaeafde1d736c11070edc0222cd8506e5a678169",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271490",
+        "nonzero_rows": 310,
+        "sequence": 37,
+        "term_index": 33
+      },
+      {
+        "decimal_rows_sha256": "a9703b6de3e8e3a6d4d233d4e036fca76755f38d9dab3c3fc8c832809b06359a",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 38,
+        "term_index": 34
+      },
+      {
+        "decimal_rows_sha256": "2e61d0973b2af38ab8bafa216579915aea8e9c4b9e5d85c7fdc5669bd45712a2",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 39,
+        "term_index": 35
+      },
+      {
+        "decimal_rows_sha256": "9f614bea95c9499f7a25b32b0a05c47a34586a5532b59f7726db59618b9fada9",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 40,
+        "term_index": 36
+      },
+      {
+        "decimal_rows_sha256": "f8439f60b7f9e6783b6a1cbbc54211cf9248f1f9166508390bdae9c511db2022",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 311,
+        "sequence": 41,
+        "term_index": 37
+      },
+      {
+        "decimal_rows_sha256": "6cab50a97c77baa82590a4788f8eafda0f3db21158ba886fdf1450ef67b510bf",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271690",
+        "nonzero_rows": 310,
+        "sequence": 42,
+        "term_index": 38
+      },
+      {
+        "decimal_rows_sha256": "e04bd9cff176c9bf8c57c9bb0af297f154b2e56a5932a90a35603425017208d5",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271770",
+        "nonzero_rows": 310,
+        "sequence": 43,
+        "term_index": 39
+      },
+      {
+        "decimal_rows_sha256": "ea027a1c0e7fba3c0262546fe7301bf2747c5127d2e24398fc34b25e97b021b0",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271850",
+        "nonzero_rows": 310,
+        "sequence": 44,
+        "term_index": 40
+      },
+      {
+        "decimal_rows_sha256": "7a783804e55691daa1fc16c240086626b0734559b0ec92d11d88cdf5ccaf94a1",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1269724",
+        "nonzero_rows": 311,
+        "sequence": 45,
+        "term_index": 41
+      },
+      {
+        "decimal_rows_sha256": "679249b2ec6f01277ff5a259344e309ec4078264fd3ff499bf2711e839c86ef0",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 46,
+        "term_index": 42
+      },
+      {
+        "decimal_rows_sha256": "7468fa7d35e4195d8158bcfdc20984416426b134dce46272793307406ddb999b",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271830",
+        "nonzero_rows": 310,
+        "sequence": 47,
+        "term_index": 43
+      },
+      {
+        "decimal_rows_sha256": "34f9ae527a9b5e36cbf6aaa2bef905c14119022343c605ba06d5ee1569449f5c",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1269744",
+        "nonzero_rows": 311,
+        "sequence": 48,
+        "term_index": 44
+      },
+      {
+        "decimal_rows_sha256": "ef0888bfcecb03fe660f624d5b62d2f9ce6e1309230702561e20ef14df8cc042",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271830",
+        "nonzero_rows": 310,
+        "sequence": 49,
+        "term_index": 45
+      },
+      {
+        "decimal_rows_sha256": "5c57eafd6e6adc4e50563635dc6faa579730f7397f84cc2d7e49a3e6780426cc",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271810",
+        "nonzero_rows": 310,
+        "sequence": 50,
+        "term_index": 46
+      },
+      {
+        "decimal_rows_sha256": "648862d6192b952a2355845ed239c72e6e5df4f50a5f257234238a0d03d6e11d",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271770",
+        "nonzero_rows": 310,
+        "sequence": 51,
+        "term_index": 47
+      },
+      {
+        "decimal_rows_sha256": "a475fb992173dfee7fae37d28214b188de89ee6e65429909e9fa5129f1382b15",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271890",
+        "nonzero_rows": 311,
+        "sequence": 52,
+        "term_index": 48
+      },
+      {
+        "decimal_rows_sha256": "7951069638293ae965d16645ad376e14be5b06d4440f69a44055f14ea9c3f7bc",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271550",
+        "nonzero_rows": 310,
+        "sequence": 53,
+        "term_index": 49
+      },
+      {
+        "decimal_rows_sha256": "b4dd2c3df4e3dcdf788be871e458eeb8fe493a00ae52fd19e93e7da5c2bcda00",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271630",
+        "nonzero_rows": 310,
+        "sequence": 54,
+        "term_index": 50
+      },
+      {
+        "decimal_rows_sha256": "37e6263ffb7c7071d7c7b7a91b62c23e6968261a528fa19b46da30c2d0083d4a",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271530",
+        "nonzero_rows": 310,
+        "sequence": 55,
+        "term_index": 51
+      },
+      {
+        "decimal_rows_sha256": "b38878362580136289e6bb05970e2fb0fb24a21da83a5f7c40e2d01746c6c9bb",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 56,
+        "term_index": 52
+      },
+      {
+        "decimal_rows_sha256": "f71ddae5670b53e7b7df7a5b11a3ed5743a83750c2ef261c15396fc8f913fe5e",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271650",
+        "nonzero_rows": 310,
+        "sequence": 58,
+        "term_index": 53
+      },
+      {
+        "decimal_rows_sha256": "e5e1850657d7ab49f16bb0fb85b4bd5349db64d22ddc77035fb8af33b70e62b7",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271490",
+        "nonzero_rows": 310,
+        "sequence": 59,
+        "term_index": 54
+      },
+      {
+        "decimal_rows_sha256": "c83787d7291f4541694570229bc0bff70a0b66ed3ba1203469357b6f8facfaec",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271430",
+        "nonzero_rows": 310,
+        "sequence": 60,
+        "term_index": 55
+      },
+      {
+        "decimal_rows_sha256": "7150f6002be8493e1932aeb7cfd33c7b1aca12feb12af80f1a43a778ba1cbacc",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 61,
+        "term_index": 56
+      },
+      {
+        "decimal_rows_sha256": "56c0f42b8aa893dd0dab740274e2b74991116e377fa2a4e71678f03b997c51d8",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271770",
+        "nonzero_rows": 310,
+        "sequence": 62,
+        "term_index": 57
+      },
+      {
+        "decimal_rows_sha256": "8b51bbd92f00fca5bd91551359c9d953a97e02cc6ed81d9f025508154076ebb1",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 63,
+        "term_index": 58
+      },
+      {
+        "decimal_rows_sha256": "fba978e412ca6926b9e6022210dd72ae7cca4ba91277b03c0b2a2628197ca1b2",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271530",
+        "nonzero_rows": 310,
+        "sequence": 64,
+        "term_index": 59
+      },
+      {
+        "decimal_rows_sha256": "6babdf776873ee7fd7abe72a9c4335b63cb41fda7d88d91d65c542436664e582",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271830",
+        "nonzero_rows": 310,
+        "sequence": 66,
+        "term_index": 60
+      },
+      {
+        "decimal_rows_sha256": "5b506400a9158916664a20a3eab1199d4f15536cba1c8232656fa08e7fd1a1ec",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271850",
+        "nonzero_rows": 310,
+        "sequence": 67,
+        "term_index": 61
+      },
+      {
+        "decimal_rows_sha256": "b644567e4cd4a7d42f0ed086ba984255149d3791512e027f55919b7d8942a958",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271850",
+        "nonzero_rows": 310,
+        "sequence": 68,
+        "term_index": 62
+      },
+      {
+        "decimal_rows_sha256": "3700b92be6bc55388c3a7f9da53ee1723e7187191a02fb1b7eabd8f3b194bb3d",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 69,
+        "term_index": 63
+      },
+      {
+        "decimal_rows_sha256": "7479262638c6d40bf80389c84f40a0c8a7621832f273a2ec8ee60d1133895cc7",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271830",
+        "nonzero_rows": 310,
+        "sequence": 70,
+        "term_index": 64
+      },
+      {
+        "decimal_rows_sha256": "e59c3364be6536c9589c0df5c2706d25e8573cb70970016a5f48e2cdf2f479f1",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 71,
+        "term_index": 65
+      },
+      {
+        "decimal_rows_sha256": "762d331c476a55b36be8c971558c976b30f89abbb43336e9542aa87ffbd61026",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 72,
+        "term_index": 66
+      },
+      {
+        "decimal_rows_sha256": "57ac6db43738f4cd283e095eb5f537f5edaabc0442fcd1f316d7ae2ad5191d19",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271910",
+        "nonzero_rows": 310,
+        "sequence": 73,
+        "term_index": 67
+      },
+      {
+        "decimal_rows_sha256": "0cbfa2056e3a1dfa5b77398ca4ff5c128e8afda687dabb2e7c37c0650469633e",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271590",
+        "nonzero_rows": 310,
+        "sequence": 74,
+        "term_index": 68
+      },
+      {
+        "decimal_rows_sha256": "98103c84a0feda751210ad4606ae95ff6da3089313bb657b53cc2495c0e5ddcb",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271610",
+        "nonzero_rows": 310,
+        "sequence": 75,
+        "term_index": 69
+      },
+      {
+        "decimal_rows_sha256": "5509ddee3b8183ce05378e13285fbb294d8092eb114864919161ae74ddbf93d9",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1269564",
+        "nonzero_rows": 311,
+        "sequence": 76,
+        "term_index": 70
+      },
+      {
+        "decimal_rows_sha256": "0e34177e6d817ec7aea99116ec6fe89fd040c9fa08d7c4f75a471f7f2cf6bba0",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1272030",
+        "nonzero_rows": 310,
+        "sequence": 77,
+        "term_index": 71
+      },
+      {
+        "decimal_rows_sha256": "096ce0d0fd658d4469d8958cb1014efb3c80e45a8896ec35e5c150b5854d88af",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271530",
+        "nonzero_rows": 310,
+        "sequence": 78,
+        "term_index": 72
+      },
+      {
+        "decimal_rows_sha256": "dfe1450eac0d5cab12afc9ce504ba047659f498ba7d07bfd5d47eccac12b2cb7",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271590",
+        "nonzero_rows": 310,
+        "sequence": 79,
+        "term_index": 73
+      },
+      {
+        "decimal_rows_sha256": "7cc1f09152970131eccf16e6f7d0dc6e714921351e7e1776e2cc33b7c6fd6e11",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271790",
+        "nonzero_rows": 310,
+        "sequence": 80,
+        "term_index": 74
+      },
+      {
+        "decimal_rows_sha256": "0c5c160ec6580b8677ac6d2da2722af4e9bcc300f3e8e52b04296d854cc94be1",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271550",
+        "nonzero_rows": 310,
+        "sequence": 81,
+        "term_index": 75
+      },
+      {
+        "decimal_rows_sha256": "c4e8e8599fec278df0f9b979079f144d66c19fec6c30337071b36cbd3b32618c",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271490",
+        "nonzero_rows": 310,
+        "sequence": 82,
+        "term_index": 76
+      },
+      {
+        "decimal_rows_sha256": "73ca0ce4a00d68e419fd0b21954c0bc08d850922f15414cc0bd58fa3798efb70",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271610",
+        "nonzero_rows": 310,
+        "sequence": 83,
+        "term_index": 77
+      },
+      {
+        "decimal_rows_sha256": "56073537f4d681ed56cb88c49a9bc516be4b324d07366867791e21509e537d49",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271750",
+        "nonzero_rows": 310,
+        "sequence": 84,
+        "term_index": 78
+      },
+      {
+        "decimal_rows_sha256": "0d6967e8642768dae78a8d4f545a404a4c51989d93eccbea55f39e981a5b786f",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271910",
+        "nonzero_rows": 310,
+        "sequence": 85,
+        "term_index": 79
+      },
+      {
+        "decimal_rows_sha256": "46787f4c8ce02c34205c36a615dfc18c56c1f5a29ef5ac889400a8b2d18391c6",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271750",
+        "nonzero_rows": 310,
+        "sequence": 86,
+        "term_index": 80
+      },
+      {
+        "decimal_rows_sha256": "6d3b311a7d5934a3116d6730c7f0798207c64be838f7a40e9c6267eb132a0211",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271770",
+        "nonzero_rows": 310,
+        "sequence": 87,
+        "term_index": 81
+      },
+      {
+        "decimal_rows_sha256": "cf821dd1abe1fbf759368afd0cefcf32db9d88dc10f7cf966d135fc85456a3e1",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271830",
+        "nonzero_rows": 310,
+        "sequence": 88,
+        "term_index": 82
+      },
+      {
+        "decimal_rows_sha256": "99344362669cc6ba6322d7b7508b70dbcaa82a6c1677718608d87ee6e47ac3b8",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 89,
+        "term_index": 83
+      },
+      {
+        "decimal_rows_sha256": "b86bc4d4938392424cbfa167a8113e8ef3444809829afed1424b635f05eb1edf",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271790",
+        "nonzero_rows": 310,
+        "sequence": 90,
+        "term_index": 84
+      },
+      {
+        "decimal_rows_sha256": "0bed12eb2df7419a935b5cf1c1c03f2c56519935445cbca41cdb8db387e1aa53",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271950",
+        "nonzero_rows": 310,
+        "sequence": 91,
+        "term_index": 85
+      },
+      {
+        "decimal_rows_sha256": "eb720f857f18030eb0a0a4b1e9cd8b9f2808ae8869c8b74290218d458224e8c9",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271670",
+        "nonzero_rows": 310,
+        "sequence": 92,
+        "term_index": 86
+      },
+      {
+        "decimal_rows_sha256": "361b2aa12a3e2306a21b250a268d7e30eb7943383443fd2bd3d82eeebb8a9644",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271570",
+        "nonzero_rows": 310,
+        "sequence": 93,
+        "term_index": 87
+      },
+      {
+        "decimal_rows_sha256": "87737c309cec8ef9a73a8e60e851164c2d6188ecf39ae378632c21f323c82958",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271610",
+        "nonzero_rows": 310,
+        "sequence": 94,
+        "term_index": 88
+      },
+      {
+        "decimal_rows_sha256": "b694cc6682c241f92e23d5a457a3b9edc17d9e91432cc882e60842a3c32864aa",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271750",
+        "nonzero_rows": 310,
+        "sequence": 95,
+        "term_index": 89
+      },
+      {
+        "decimal_rows_sha256": "94d893c3cd7448ca69782318480eab58cd5bf60ee1ea2e9d916eacdf6614ede7",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271610",
+        "nonzero_rows": 310,
+        "sequence": 96,
+        "term_index": 90
+      },
+      {
+        "decimal_rows_sha256": "4fac5b2e675b5902fa046b83c22004dd906ec915feb5d20d2b30ecfd74e1710a",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271730",
+        "nonzero_rows": 310,
+        "sequence": 97,
+        "term_index": 91
+      },
+      {
+        "decimal_rows_sha256": "86e134f3e89d8677c9df5fb313c0b67c6b26e1ed43387fc46f81255772ea9d10",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271830",
+        "nonzero_rows": 310,
+        "sequence": 98,
+        "term_index": 92
+      },
+      {
+        "decimal_rows_sha256": "5e5da66513d6aae270839ba400b707fced1c7035aacfe65131ef6d09f3e9054b",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271590",
+        "nonzero_rows": 310,
+        "sequence": 99,
+        "term_index": 93
+      },
+      {
+        "decimal_rows_sha256": "878d90717657e6ab419ccdebf8260a41feb78ddccda7a61c110e1a0814b28534",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271610",
+        "nonzero_rows": 310,
+        "sequence": 100,
+        "term_index": 94
+      },
+      {
+        "decimal_rows_sha256": "956597824d529471d1059c1b2d6e631f4a1bc64faf4734bb3c9b8e8dea4556d7",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271850",
+        "nonzero_rows": 310,
+        "sequence": 101,
+        "term_index": 95
+      },
+      {
+        "decimal_rows_sha256": "22f130cfd681aa861a8584ba8795890b8b01f24f064c3645fa3eb5c3e617e40c",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271770",
+        "nonzero_rows": 310,
+        "sequence": 102,
+        "term_index": 96
+      },
+      {
+        "decimal_rows_sha256": "6103f84f21da42835e5f8234def6e713e7b75a1b329fe377ab3f2cd5b185c42d",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271750",
+        "nonzero_rows": 310,
+        "sequence": 103,
+        "term_index": 97
+      },
+      {
+        "decimal_rows_sha256": "4529b439c9d5882028d25e86ddb4b47a0b1e42f546f0bf6e0737aefe748b3843",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271790",
+        "nonzero_rows": 310,
+        "sequence": 104,
+        "term_index": 98
+      },
+      {
+        "decimal_rows_sha256": "9d88afa740f607dc4724b587def2cfbe8c14e2011dac71afc853a814c22c9f2a",
+        "first_nonzero_row": 0,
+        "first_nonzero_value": "1271690",
+        "nonzero_rows": 310,
+        "sequence": 105,
+        "term_index": 99
+      }
+    ],
+    "python_self_test": {
+      "active_hinges": 3,
+      "edge_mutant_rejected": true,
+      "hinge_coordinate_dp_matches_literal": true,
+      "linear_dp_matches_literal": true,
+      "literal_permutations": 120,
+      "raw_words": 11,
+      "result": "PASS"
+    },
+    "row_order_mutant_rejected": true,
+    "sequence_mapping_swap_rejected": true,
+    "structural_mutants": {
+      "binding_hash": "binding digest mismatch",
+      "duplicate_support": "support is not strictly increasing and unique",
+      "term_sequence_projection": "sparse term projection mismatch"
+    },
+    "target_scale_plus_one_rejected": true,
+    "wrong_linear_target_coordinate_rejected": true
+  },
+  "coordinate_streams": [
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -5,
+        4
+      ],
+      "hinge_coefficients_i64_le_sha256": "c812bb4833289cbc79c68b0bf41ce8e36fbf263e822a0761a24a05877103a22c",
+      "linear_vectors_i64_le_sha256": "84cc206d635fa7f651578ab46cda56f6154d0ebd22ca2be26ceeffcf0594aa51",
+      "maximum_hinge_coefficient": 80640,
+      "nonzero_hinge_coefficients": 105,
+      "records": 163740
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -4,
+        3
+      ],
+      "hinge_coefficients_i64_le_sha256": "7252a7c025f560f6c71332d044ffee5fc8517d7f7a45e4c14b0bec7593f962af",
+      "linear_vectors_i64_le_sha256": "84cc206d635fa7f651578ab46cda56f6154d0ebd22ca2be26ceeffcf0594aa51",
+      "maximum_hinge_coefficient": 161280,
+      "nonzero_hinge_coefficients": 2861,
+      "records": 163740
+    }
+  ],
+  "exact_first_global_residual": {
+    "contributions": [
+      {
+        "coefficient": "52458940569952461489858286041792712873227856689424591032040405084531648321782226669075224206029",
+        "contribution": "1410096322520322164847390728803388122032364787811733006941246088672210706889506252864742026658059520",
+        "price": 26880,
+        "sequence": 11
+      },
+      {
+        "coefficient": "98678975710092938638747766682169760137650474608005740787696189028489649873250166043568153611808",
+        "contribution": "1326245433543649095304769984208361576250022378731597156186636780542900894296482231625555984542699520",
+        "price": 13440,
+        "sequence": 13
+      },
+      {
+        "coefficient": "62009101553545870941243811793081242602170980450125371538906995028464736241917732802580225726235",
+        "contribution": "5000413949277939032701900982994071403439067863498109960897460079095396330548245973200069402563590400",
+        "price": 80640,
+        "sequence": 14
+      },
+      {
+        "coefficient": "-109532079998472784801256173955426816936759388022607110308848333094043899480780727351542547445146",
+        "contribution": "-981407436786316151819255318640624279753364116682559708367281064522633339347795317069821225108508160",
+        "price": 8960,
+        "sequence": 18
+      },
+      {
+        "coefficient": "-269688632296721750902256450437778703506715027204283412205285030238734090607484371433058446914125",
+        "contribution": "-18123076090339701660631633469418728875651249828127845300195154032042930888822949760301527632629200000",
+        "price": 67200,
+        "sequence": 29
+      },
+      {
+        "coefficient": "-48992247200759636464806851042837631083178156394239941794283661431342748246682798440203076403495",
+        "contribution": "-1316911604756419028174008156031475523515828843877169635430344819274493072870833622072658693725945600",
+        "price": 26880,
+        "sequence": 37
+      },
+      {
+        "coefficient": "95520771612097789873386962193306954926231591504435965223180668120478978790785870566066201559124",
+        "contribution": "1797318838653232014257649080629263663891973625747467121639367451354932464927426940571101648536477184",
+        "price": 18816,
+        "sequence": 46
+      },
+      {
+        "coefficient": "383704003476563597136461743324880695151875984306223057805590746912033548635545144313179370798225",
+        "contribution": "1031396361345002949102809166057279308568242645815127579381427927699546178732345347913826148705628800",
+        "price": 2688,
+        "sequence": 47
+      },
+      {
+        "coefficient": "-190437367378385682946831074101789572514705213285834769361302003149775455180791000241881806390739",
+        "contribution": "-5118956435131007157610819271856103709195276133123238600431797844665964235259662086501782955783064320",
+        "price": 26880,
+        "sequence": 48
+      },
+      {
+        "coefficient": "142060660143592886137804115571989775022281862428864465160773500370940671176526022578663796068205",
+        "contribution": "636431757443296129897362437762514192099822743681312803920265281661814206870836581152413806385558400",
+        "price": 4480,
+        "sequence": 49
+      },
+      {
+        "coefficient": "66057223135823737955574643117312831884654039772827680707809257955221545973046551798729400623002",
+        "contribution": "665856809209103278592192402622513345397312720910103021534717320188633183408309242131192358279860160",
+        "price": 10080,
+        "sequence": 50
+      },
+      {
+        "coefficient": "-150526033605088301444954697099147164441589706721503107580256999982888345133461903119243868496332",
+        "contribution": "-4046139783304773542840382258025075780189931316674003531757308159540038717187455955845275185181404160",
+        "price": 26880,
+        "sequence": 51
+      },
+      {
+        "coefficient": "31153118683257940046209185972692816067905789730280690511230257602979962418827093452046788614721",
+        "contribution": "2512187490617920285326308756837948687715922883849834882825607973104304169454216815973053033891101440",
+        "price": 80640,
+        "sequence": 60
+      },
+      {
+        "coefficient": "113818961802562473876478102656846092519059436588581776054754939288828183024148220526062866425773",
+        "contribution": "611890738650575859559946279883204593382463531100215628070362553616740311937820833548113969904955648",
+        "price": 5376,
+        "sequence": 71
+      },
+      {
+        "coefficient": "228724203422405738683264512726246278216143762835359632296675069874961943623089514464233156560255",
+        "contribution": "2049368862664755418602050034027166652816648115004822305378208626079659014862882049599529082779884800",
+        "price": 8960,
+        "sequence": 72
+      },
+      {
+        "coefficient": "291098323030695076027638612001593268310158478498346695351406985803522639244850350535184510839984",
+        "contribution": "7824722923065083643622925890602827052177059902035559171045819778398688542901577422385759651378769920",
+        "price": 26880,
+        "sequence": 73
+      },
+      {
+        "coefficient": "21853348066261009041427791019358112907537975734174095876764866998061806160077124812775376332488",
+        "contribution": "97902999336849320505596503766724345825770131289099949527906604151316891597145519161233685969546240",
+        "price": 4480,
+        "sequence": 77
+      },
+      {
+        "coefficient": "-562480764747297675687664660758775737898696669092552643462481550078804808811720942908512581472673",
+        "contribution": "-6047793182562944608993770432478356733886786586083126022508601626447309304343623578152327275994180096",
+        "price": 10752,
+        "sequence": 85
+      },
+      {
+        "coefficient": "483994027511868197726211453628338013829511758193457117216737101171200485191682279207007090499263",
+        "contribution": "6504879729759508577440281936764862905868638030120063655392946639740934520976209832542175296310094720",
+        "price": 13440,
+        "sequence": 87
+      },
+      {
+        "coefficient": "516181761358167862860352132431161902610960961111320977996332011888079322513642827749272129512058",
+        "contribution": "4624988581769184051228755106583210647394210211557435962847134826517190729722239736633478280428039680",
+        "price": 8960,
+        "sequence": 89
+      },
+      {
+        "coefficient": "108196283837818361073316431399456890238392619261673892558435770197123455293186040175389624995394",
+        "contribution": "969438703186852515216915225339133736535997868584598077323584500966226159426946919971491039958730240",
+        "price": 8960,
+        "sequence": 90
+      },
+      {
+        "coefficient": "-47246781867079394410759184852524104816311452434516428698150555574514442768070416462855448110344",
+        "contribution": "-158749187073386765220150861104480992182806480179975200425785866730368527700716599315194305650755840",
+        "price": 3360,
+        "sequence": 91
+      },
+      {
+        "coefficient": "-191352588875433742330663673506736993716024366654688584206274889814860430149909636601269962628554",
+        "contribution": "-857259598161943165641373257310181731847789162613004857244111506370574727071595171973689432575921920",
+        "price": 4480,
+        "sequence": 92
+      },
+      {
+        "coefficient": "-791860325802280797590803929172661849369669647728850723874729628490107602014557220453893249995149",
+        "contribution": "-7095068519188435946413603205387050170352240043650502485917577471271364114050432695266883519956535040",
+        "price": 8960,
+        "sequence": 104
+      }
+    ],
+    "direction": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      -3,
+      2
+    ],
+    "method": "Python BigInt coefficient accumulation over independently targeted active-vertex rank-injection prices; no C++ direction histogram reused",
+    "nonzero_term_prices": 24,
+    "residues": [
+      272554640,
+      538760177
+    ],
+    "value": "-6682222336261653691138141713369607563179755071274345059365269959075182620102873087225424810312518464"
+  },
+  "finite_replay": {
+    "aggregate_decimal_sha256": "a46bcf54e4d540cbd18235ecf4a4c578430b4e0e01efa1b33b1d567ea5a3c210",
+    "all_314_rows_exact": true,
+    "factorial_11": 39916800,
+    "hinge_rows": 2,
+    "hinge_rows_exact": true,
+    "linear_rows": 11,
+    "linear_rows_exact": true,
+    "panel_rows": 301,
+    "panel_rows_exact": true,
+    "rows": 314,
+    "scaled_target_decimal_sha256": "a46bcf54e4d540cbd18235ecf4a4c578430b4e0e01efa1b33b1d567ea5a3c210",
+    "target_scale": "2562036758834510313270775026773080011923812272203083694548782285403474149231739438641248098950",
+    "unscaled_target_decimal_sha256": "45b04644beca530e4c59bac1a2b6d31f5c0e198671e7db750e315bfde594ca27"
+  },
+  "global_modular_replay": {
+    "aggregate_hinge_directions": 170547,
+    "atom_hinge_entries": 3499662,
+    "both_primes_global_zero": false,
+    "first_nonzero_hinge_direction": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      -3,
+      2
+    ],
+    "first_nonzero_hinge_residues": [
+      272554640,
+      538760177
+    ],
+    "first_nonzero_linear_coordinate": null,
+    "labelled_permutations": 3991680000,
+    "linear_residues": {
+      "1000000007": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "1000000009": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "nonzero_hinge_directions": 170525,
+    "primes": [
+      1000000007,
+      1000000009
+    ],
+    "raw_histogram_entries": 7076902,
+    "result": "GLOBAL_MODULAR_NONZERO",
+    "schema": "g0118-iteration2-cleanroom-global-modular-replay-v1",
+    "term_linear_vectors": [
+      {
+        "linear": [
+          0,
+          725760,
+          2741760,
+          6410880,
+          11419200,
+          17090880,
+          22734912,
+          27925056,
+          32614272,
+          36984960,
+          40936320
+        ],
+        "sequence": 0
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          5806080,
+          11640960,
+          17758080,
+          23197056,
+          27999744,
+          32667648,
+          37210752,
+          41610240
+        ],
+        "sequence": 1
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2096640,
+          6511680,
+          12313440,
+          18069120,
+          23193072,
+          27892080,
+          32349624,
+          36521664,
+          40636680
+        ],
+        "sequence": 2
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          6007680,
+          12191040,
+          18384960,
+          23497728,
+          28181856,
+          32421376,
+          36521776,
+          40684144
+        ],
+        "sequence": 3
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1612800,
+          5604480,
+          11275200,
+          17260080,
+          22949856,
+          28241484,
+          33003712,
+          37598668,
+          42037720
+        ],
+        "sequence": 5
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2177280,
+          6773760,
+          12231360,
+          17735040,
+          23035968,
+          28013856,
+          32554816,
+          36581920,
+          40480000
+        ],
+        "sequence": 6
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          5987520,
+          11378880,
+          16985280,
+          22434144,
+          27806496,
+          32935136,
+          37677824,
+          42443360
+        ],
+        "sequence": 8
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2177280,
+          6370560,
+          11903040,
+          17808960,
+          23343936,
+          28186848,
+          32454240,
+          36625056,
+          40714080
+        ],
+        "sequence": 9
+      },
+      {
+        "linear": [
+          0,
+          0,
+          806400,
+          4314240,
+          10726560,
+          17852640,
+          23772528,
+          28674360,
+          33253416,
+          37815336,
+          42368520
+        ],
+        "sequence": 10
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1854720,
+          5685120,
+          10945440,
+          16912560,
+          22868496,
+          28298940,
+          33131916,
+          37741788,
+          42145020
+        ],
+        "sequence": 11
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2338560,
+          6894720,
+          12196800,
+          17232960,
+          22411824,
+          27516216,
+          32393488,
+          37288384,
+          41311048
+        ],
+        "sequence": 12
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1532160,
+          5765760,
+          11675520,
+          17545920,
+          22797504,
+          27775776,
+          32697936,
+          37538784,
+          42254640
+        ],
+        "sequence": 13
+      },
+      {
+        "linear": [
+          0,
+          725760,
+          2903040,
+          6229440,
+          10477440,
+          15465120,
+          21023520,
+          26960640,
+          33022080,
+          38848320,
+          43928640
+        ],
+        "sequence": 14
+      },
+      {
+        "linear": [
+          0,
+          0,
+          806400,
+          3991680,
+          9780480,
+          16823040,
+          23424960,
+          29005920,
+          33794880,
+          38583840,
+          43372800
+        ],
+        "sequence": 15
+      },
+      {
+        "linear": [
+          0,
+          725760,
+          2580480,
+          6007680,
+          10892160,
+          16606080,
+          22377216,
+          27722112,
+          32686848,
+          37638144,
+          42347520
+        ],
+        "sequence": 16
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1290240,
+          5503680,
+          11750400,
+          18227520,
+          23710464,
+          28262688,
+          32639232,
+          36955296,
+          41244480
+        ],
+        "sequence": 17
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          6229440,
+          11947680,
+          17792640,
+          23180544,
+          28102056,
+          32602000,
+          36852520,
+          40941760
+        ],
+        "sequence": 18
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1774080,
+          5967360,
+          11888640,
+          18093120,
+          23578800,
+          28269048,
+          32578068,
+          36691704,
+          40743180
+        ],
+        "sequence": 19
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1048320,
+          4596480,
+          10310400,
+          16799760,
+          22909056,
+          28381152,
+          33548688,
+          38553264,
+          43436880
+        ],
+        "sequence": 20
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          6350400,
+          12251520,
+          18279360,
+          23530368,
+          28029504,
+          32320576,
+          36419392,
+          40467520
+        ],
+        "sequence": 21
+      },
+      {
+        "linear": [
+          0,
+          725760,
+          1774080,
+          4475520,
+          9397440,
+          15975360,
+          22882176,
+          28903392,
+          33814368,
+          38483424,
+          43152480
+        ],
+        "sequence": 23
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2499840,
+          6652800,
+          11701440,
+          17302560,
+          22836768,
+          27901584,
+          32442752,
+          36975408,
+          41270848
+        ],
+        "sequence": 24
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          6088320,
+          12188160,
+          18248640,
+          23550144,
+          28149024,
+          32445568,
+          36569632,
+          40651072
+        ],
+        "sequence": 25
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1451520,
+          5181120,
+          10745280,
+          17179200,
+          23339712,
+          28601376,
+          33214752,
+          37694880,
+          42176160
+        ],
+        "sequence": 26
+      },
+      {
+        "linear": [
+          0,
+          0,
+          806400,
+          3911040,
+          9413280,
+          16150080,
+          22753440,
+          28625280,
+          34057440,
+          39415680,
+          44451360
+        ],
+        "sequence": 27
+      },
+      {
+        "linear": [
+          0,
+          725760,
+          2741760,
+          6330240,
+          11168640,
+          16679040,
+          22290048,
+          27614208,
+          32544000,
+          37269504,
+          42220800
+        ],
+        "sequence": 28
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1854720,
+          6249600,
+          11482560,
+          16901760,
+          22289664,
+          27603168,
+          32955392,
+          37935776,
+          42311360
+        ],
+        "sequence": 29
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1451520,
+          5382720,
+          11183040,
+          17386560,
+          23126400,
+          28293888,
+          33023328,
+          37589184,
+          42147360
+        ],
+        "sequence": 30
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2661120,
+          7378560,
+          13144320,
+          19017600,
+          24131136,
+          28180512,
+          31643712,
+          35042400,
+          38384640
+        ],
+        "sequence": 31
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2741760,
+          7378560,
+          12769920,
+          18123360,
+          23105568,
+          27696528,
+          31983696,
+          36016848,
+          39767760
+        ],
+        "sequence": 32
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1290240,
+          5060160,
+          10681920,
+          16803840,
+          22893696,
+          28645152,
+          33518688,
+          38069664,
+          42620640
+        ],
+        "sequence": 34
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1451520,
+          4798080,
+          10080000,
+          16476480,
+          22885248,
+          28583616,
+          33580384,
+          38453632,
+          43275040
+        ],
+        "sequence": 35
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          6249600,
+          11537280,
+          16956480,
+          22318080,
+          27657216,
+          32868672,
+          37637952,
+          42423360
+        ],
+        "sequence": 36
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2661120,
+          6854400,
+          11761920,
+          17032320,
+          22422720,
+          27639744,
+          32635104,
+          37207296,
+          41369376
+        ],
+        "sequence": 37
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          5463360,
+          10975680,
+          17335680,
+          23338944,
+          28435008,
+          32970720,
+          37454208,
+          41916960
+        ],
+        "sequence": 38
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          5725440,
+          11390400,
+          17480640,
+          23275200,
+          28331712,
+          32827552,
+          37266432,
+          41593184
+        ],
+        "sequence": 39
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          6249600,
+          12286080,
+          18294720,
+          23600448,
+          28277280,
+          32388128,
+          36409504,
+          40384800
+        ],
+        "sequence": 40
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          5140800,
+          9756000,
+          15053760,
+          20989728,
+          27462816,
+          33985152,
+          40150944,
+          45351360
+        ],
+        "sequence": 41
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1854720,
+          5785920,
+          11496960,
+          17952960,
+          23776704,
+          28516128,
+          32716224,
+          36733536,
+          40750848
+        ],
+        "sequence": 42
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1532160,
+          5785920,
+          11767680,
+          17908800,
+          23536512,
+          28568928,
+          32900480,
+          36848480,
+          40735040
+        ],
+        "sequence": 43
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1209600,
+          4717440,
+          10563840,
+          17485440,
+          23697408,
+          28642176,
+          33252864,
+          37756032,
+          42259200
+        ],
+        "sequence": 44
+      },
+      {
+        "linear": [
+          0,
+          725760,
+          2741760,
+          6632640,
+          12061440,
+          17924160,
+          23248608,
+          27813312,
+          32036832,
+          36262368,
+          40137120
+        ],
+        "sequence": 45
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          5564160,
+          11136960,
+          17327040,
+          23184960,
+          28334112,
+          32965312,
+          37492576,
+          41885440
+        ],
+        "sequence": 46
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1290240,
+          4999680,
+          10524960,
+          16698240,
+          22820256,
+          28563840,
+          33657792,
+          38236992,
+          42792000
+        ],
+        "sequence": 47
+      },
+      {
+        "linear": [
+          0,
+          725760,
+          2661120,
+          6088320,
+          10830240,
+          16396320,
+          22199808,
+          27774912,
+          32922432,
+          37712448,
+          42272640
+        ],
+        "sequence": 48
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1290240,
+          5140800,
+          11016000,
+          17458560,
+          23293440,
+          28329600,
+          33117680,
+          37709760,
+          42227920
+        ],
+        "sequence": 49
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1370880,
+          5382720,
+          10910880,
+          17028000,
+          23109408,
+          28535256,
+          33321024,
+          37799352,
+          42126480
+        ],
+        "sequence": 50
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1532160,
+          5564160,
+          11017440,
+          16664640,
+          22599360,
+          28226640,
+          33217440,
+          38073840,
+          42688320
+        ],
+        "sequence": 51
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1048320,
+          4435200,
+          9876960,
+          16153440,
+          22398432,
+          28294944,
+          33812736,
+          39259968,
+          44304000
+        ],
+        "sequence": 52
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2419200,
+          7217280,
+          12844800,
+          18353280,
+          23399616,
+          27911424,
+          31983168,
+          35856192,
+          39599040
+        ],
+        "sequence": 53
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2096640,
+          5523840,
+          9828000,
+          15300000,
+          21744000,
+          28397088,
+          34292736,
+          38898144,
+          43503552
+        ],
+        "sequence": 54
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2499840,
+          7277760,
+          13263840,
+          19072800,
+          23978304,
+          28071768,
+          31733448,
+          35158680,
+          38527560
+        ],
+        "sequence": 55
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          6269760,
+          12350880,
+          18710400,
+          24133152,
+          28435392,
+          32234688,
+          35924928,
+          39589440
+        ],
+        "sequence": 56
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2016000,
+          6330240,
+          12018240,
+          17930880,
+          23455296,
+          28200192,
+          32367808,
+          36580224,
+          40685120
+        ],
+        "sequence": 58
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2661120,
+          6995520,
+          12312000,
+          18131520,
+          23495424,
+          28043424,
+          32283840,
+          35996256,
+          39664896
+        ],
+        "sequence": 59
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2903040,
+          6693120,
+          11473920,
+          16561920,
+          21820224,
+          27297120,
+          32539296,
+          37685280,
+          42610080
+        ],
+        "sequence": 60
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          5080320,
+          9763200,
+          15690240,
+          22208832,
+          28433664,
+          33883488,
+          38824128,
+          43764768
+        ],
+        "sequence": 61
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1532160,
+          5664960,
+          11522880,
+          17593920,
+          23141568,
+          28194816,
+          32901536,
+          37385600,
+          41646560
+        ],
+        "sequence": 62
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          6209280,
+          12159360,
+          18336000,
+          23616960,
+          28209600,
+          32393232,
+          36376032,
+          40348176
+        ],
+        "sequence": 63
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2499840,
+          6935040,
+          12437280,
+          18260640,
+          23645376,
+          28215048,
+          32199024,
+          35864232,
+          39527520
+        ],
+        "sequence": 64
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1290240,
+          5100480,
+          10836000,
+          17050080,
+          22924464,
+          28279440,
+          33150720,
+          38025696,
+          42926880
+        ],
+        "sequence": 66
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1209600,
+          4556160,
+          10094400,
+          16919040,
+          23497152,
+          28960128,
+          33677760,
+          38115840,
+          42553920
+        ],
+        "sequence": 67
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1209600,
+          5201280,
+          11200320,
+          17705280,
+          23744448,
+          28640256,
+          33014304,
+          37294272,
+          41574240
+        ],
+        "sequence": 68
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          6007680,
+          11206080,
+          16925760,
+          22723968,
+          28155552,
+          33014784,
+          37527456,
+          42087360
+        ],
+        "sequence": 69
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1290240,
+          5664960,
+          12430080,
+          18794880,
+          23889120,
+          28288248,
+          32385160,
+          36415432,
+          40425880
+        ],
+        "sequence": 70
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          5745600,
+          11324160,
+          17290560,
+          22940736,
+          28123200,
+          32944992,
+          37491072,
+          42030240
+        ],
+        "sequence": 71
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          5967360,
+          11664000,
+          17544960,
+          22979712,
+          27969408,
+          32746816,
+          37297024,
+          41721280
+        ],
+        "sequence": 72
+      },
+      {
+        "linear": [
+          0,
+          0,
+          967680,
+          4656960,
+          10592640,
+          16929600,
+          22795008,
+          28371264,
+          33517728,
+          38504256,
+          43248864
+        ],
+        "sequence": 73
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2257920,
+          6612480,
+          12332160,
+          18443520,
+          23890944,
+          28283520,
+          32150048,
+          35957888,
+          39655520
+        ],
+        "sequence": 74
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2177280,
+          6410880,
+          12026880,
+          18028800,
+          23521920,
+          28201248,
+          32385440,
+          36426272,
+          40405280
+        ],
+        "sequence": 75
+      },
+      {
+        "linear": [
+          0,
+          725760,
+          3386880,
+          7237440,
+          11649600,
+          16557120,
+          21936960,
+          27398880,
+          32369760,
+          36776160,
+          41545440
+        ],
+        "sequence": 76
+      },
+      {
+        "linear": [
+          0,
+          0,
+          483840,
+          3911040,
+          10180800,
+          17207040,
+          23364672,
+          28643904,
+          33718176,
+          38611008,
+          43463520
+        ],
+        "sequence": 77
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2499840,
+          6955200,
+          12489120,
+          18340320,
+          23733216,
+          28252032,
+          32134976,
+          35800736,
+          39378560
+        ],
+        "sequence": 78
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2257920,
+          6975360,
+          12712320,
+          17984640,
+          23090400,
+          28002768,
+          32221952,
+          36155568,
+          40183072
+        ],
+        "sequence": 79
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1451520,
+          5544000,
+          11312640,
+          17595840,
+          23532288,
+          28559520,
+          32955968,
+          37200416,
+          41431808
+        ],
+        "sequence": 80
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2419200,
+          6894720,
+          12551040,
+          18431040,
+          23686272,
+          28103424,
+          32117952,
+          35908032,
+          39472320
+        ],
+        "sequence": 81
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2661120,
+          6693120,
+          11462400,
+          16973760,
+          22721472,
+          28190544,
+          32951436,
+          36965568,
+          40964580
+        ],
+        "sequence": 82
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2177280,
+          6854400,
+          13098240,
+          19278720,
+          24252864,
+          28103424,
+          31676832,
+          35222304,
+          38919936
+        ],
+        "sequence": 83
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1612800,
+          5675040,
+          11639520,
+          17984640,
+          23538144,
+          28249872,
+          32703216,
+          36962928,
+          41217840
+        ],
+        "sequence": 84
+      },
+      {
+        "linear": [
+          0,
+          0,
+          967680,
+          4717440,
+          10814400,
+          17654400,
+          23614272,
+          28448832,
+          33174912,
+          37817664,
+          42374400
+        ],
+        "sequence": 85
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1612800,
+          5594400,
+          11507040,
+          17992800,
+          23739552,
+          28408896,
+          32653152,
+          37022400,
+          41052960
+        ],
+        "sequence": 86
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1532160,
+          5463360,
+          11387520,
+          17910240,
+          23648928,
+          28361040,
+          32793168,
+          37133904,
+          41353680
+        ],
+        "sequence": 87
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1290240,
+          5040000,
+          10823040,
+          17413440,
+          23551296,
+          28741632,
+          33316128,
+          37574784,
+          41833440
+        ],
+        "sequence": 88
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          6572160,
+          12395520,
+          17989440,
+          23202432,
+          28089408,
+          32424704,
+          36569600,
+          40405376
+        ],
+        "sequence": 89
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1451520,
+          5826240,
+          11900160,
+          18043200,
+          23500992,
+          28257024,
+          32648896,
+          36899648,
+          41056320
+        ],
+        "sequence": 90
+      },
+      {
+        "linear": [
+          0,
+          0,
+          806400,
+          4354560,
+          10261440,
+          16818720,
+          23033472,
+          28665024,
+          33755256,
+          38558208,
+          43330920
+        ],
+        "sequence": 91
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1935360,
+          6048000,
+          11759040,
+          17823360,
+          23362944,
+          28237536,
+          32676416,
+          36830624,
+          40910720
+        ],
+        "sequence": 92
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2338560,
+          6632640,
+          12271680,
+          18168000,
+          23468736,
+          28032096,
+          32212320,
+          36239328,
+          40220640
+        ],
+        "sequence": 93
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2177280,
+          6672960,
+          12332160,
+          18194880,
+          23602752,
+          28230912,
+          32230576,
+          36113920,
+          40028560
+        ],
+        "sequence": 94
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1612800,
+          6007680,
+          12196800,
+          18557760,
+          23960448,
+          28410144,
+          32495328,
+          36279456,
+          40063584
+        ],
+        "sequence": 95
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2177280,
+          6410880,
+          11959200,
+          17941200,
+          23558208,
+          28349232,
+          32444352,
+          36452448,
+          40291200
+        ],
+        "sequence": 96
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1693440,
+          5705280,
+          11180160,
+          17085120,
+          22772448,
+          28015392,
+          32907200,
+          37760960,
+          42464000
+        ],
+        "sequence": 97
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1290240,
+          4959360,
+          10319040,
+          16412160,
+          22563840,
+          28407360,
+          33744480,
+          38544000,
+          43343520
+        ],
+        "sequence": 98
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2257920,
+          6451200,
+          11783520,
+          17574960,
+          23302320,
+          28432548,
+          32694216,
+          36638196,
+          40449120
+        ],
+        "sequence": 99
+      },
+      {
+        "linear": [
+          0,
+          0,
+          2177280,
+          6632640,
+          12366720,
+          18036480,
+          23194176,
+          27913824,
+          32191488,
+          36425952,
+          40645440
+        ],
+        "sequence": 100
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1209600,
+          5402880,
+          11891520,
+          18410880,
+          23673600,
+          28260672,
+          32675072,
+          36905344,
+          41154432
+        ],
+        "sequence": 101
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1532160,
+          5564160,
+          11617920,
+          18134640,
+          23762160,
+          28364796,
+          32673216,
+          36871788,
+          41063160
+        ],
+        "sequence": 102
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1612800,
+          5745600,
+          11590560,
+          17620800,
+          23099520,
+          28146648,
+          32920240,
+          37294552,
+          41553280
+        ],
+        "sequence": 103
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1451520,
+          5866560,
+          12087360,
+          17991360,
+          23371392,
+          28150848,
+          32596384,
+          36910336,
+          41158240
+        ],
+        "sequence": 104
+      },
+      {
+        "linear": [
+          0,
+          0,
+          1854720,
+          6350400,
+          12487680,
+          18423360,
+          23436288,
+          28274112,
+          32287488,
+          36273984,
+          40195968
+        ],
+        "sequence": 105
+      }
+    ],
+    "terms": 100,
+    "wall_seconds": 46.7817
+  },
+  "independence": {
+    "exact_residual_method": "independent Python active-injection coordinate DP or sign-state linear DP",
+    "finite_method": "Python BigInt accumulation from frozen panel/coordinate records",
+    "global_method": "independent C++ full-permutation subset histogram and normal form",
+    "iteration2_solver_executed": false,
+    "iteration2_solver_imported": false,
+    "reviewer": "CrimsonSpire / Codex / same-lineage fresh context (T1)"
+  },
+  "independent_coordinate_semantics": {
+    "first_hinge_prices_exact": true,
+    "linear_vectors_exact": true,
+    "second_hinge_prices_exact": true,
+    "support_sequences_checked": 123
+  },
+  "result": "CANDIDATE_GLOBALLY_REFUTED",
+  "schema": "g0118-iteration2-independent-candidate-review-v1",
+  "sequence_and_support": {
+    "common_panel_basis_sequences": 115,
+    "coordinate_rows": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      35,
+      38,
+      41,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      58,
+      59,
+      61,
+      62,
+      63,
+      64,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      120,
+      121,
+      122,
+      123,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      157,
+      158,
+      165,
+      166,
+      167,
+      168,
+      169,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      224,
+      225,
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      312,
+      313
+    ],
+    "coordinate_rows_sha256": "01532b90b7552fe2bdd489ff1b3dc0aba709e91870a02e2cdd83d5dac66f8661",
+    "family_sequences": 40003,
+    "gcd_of_scale_and_all_serialized_coefficients": "1",
+    "nonzero_terms": 100,
+    "omitted_zero_sequences": [
+      4,
+      7,
+      22,
+      33,
+      57,
+      65,
+      108,
+      109,
+      135,
+      273,
+      279,
+      302,
+      392,
+      631,
+      691,
+      1297,
+      2642,
+      2847,
+      14347,
+      18112,
+      40313,
+      133458,
+      136630
+    ],
+    "omitted_zero_slots": 23,
+    "prefix_bytes": 192640000,
+    "prefix_records": 40000,
+    "prefix_sha256": "d88dc897dbbfd77b98dd4edf2cecfd9696c5760e7c0dd3f2184b626659af7cde",
+    "rank_growing_added_sequences": [
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "retained_overlap_sequences_checked": 115,
+    "selected_basis_i128le_sha256": "53c437c654295a6e2ea8e595401b5b7a41dcb80c36d99c85ce1534dd08f38071",
+    "support_sequences_sha256": "3c98a64ff646ac6f685029e74232e99c19d4cff9eede92f78c7f68d7057eaddd",
+    "support_slots": 123
+  }
+}
