@@ -1,0 +1,32 @@
+{
+  "atomic_write": {
+    "failure_paths_rejected": 5
+  },
+  "exact_algebra": {
+    "coefficient_permutation_cases": 201,
+    "member_cases": 250,
+    "non_unit_rank_mutants": 1,
+    "rank_cases": 400,
+    "rank_growth_cases": 230,
+    "separator_cases": 230
+  },
+  "path_and_seed": {
+    "components_loaded": 1,
+    "production_mutations_rejected": 4
+  },
+  "result": "PASS",
+  "scan": {
+    "failure_index": 3,
+    "final_column_visits": 5,
+    "null_scan_visits": 5
+  },
+  "schema": "g0128-round2-independent-probes-v1",
+  "scientific_manifest_observed": false,
+  "scientific_result_observed": false,
+  "source_sha256": "cfdb3f3d758d8cc5cc81c8ad9a71f4b9bd5c2001f1ff2f8a646715a4c6ca3da8",
+  "target_and_row_order": {
+    "hinge_rows": 68,
+    "target_decimal_lf_sha256": "dbd973914dc41f82d6404b21412762e5541f2be580b44d12f3caa5bf371b862d",
+    "target_entries": 380
+  }
+}
