@@ -46,10 +46,10 @@ STAGE_C_PATH = ROOT / "artifacts/math/G-0140/pool128_exact_rank_selection_v1.jso
 OUTPUT_PATH = ROOT / "artifacts/math/G-0140/rank_aware_master_result_v1.json"
 SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0153-g0140-stage-d-master-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0155-g0140-stage-d-master-final2-source/SOURCE_AUDIT_RECEIPT.json"
 )
 AUDIT_PREREGISTRATION_PATH = (
-    ROOT / "artifacts/reviews/G-0153-g0140-stage-d-master-source/PREREGISTRATION.md"
+    ROOT / "artifacts/reviews/G-0155-g0140-stage-d-master-final2-source/PREREGISTRATION.md"
 )
 
 N = 11
@@ -59,7 +59,7 @@ POOL_ROWS = 128
 ADMIT_LIMIT = 32
 INITIAL_RANK = 204
 
-SELECTOR_SHA256 = "3f2dde3fdf2f458adc90f5d4e8ed2e5338013c95bab8b296d5136fb529a06838"
+SELECTOR_SHA256 = "9c5e0e7e40c7f12b8d299148fa7f9a942207eacdc26aa6662c59bb86f481b9b0"
 G0135_MASTER_SHA256 = (
     "c84f259d393756c9ff658aab9a1488b145b9607a939dbccfce47069168b40a1a"
 )
@@ -72,7 +72,7 @@ STAGE_C_SCHEMA = "max11-g0140-pool128-exact-rank-selection-v1"
 OUTPUT_SCHEMA = "max11-g0140-rank-aware-master-result-v1"
 MEMBER_RESULT = "RANK_AWARE_SELECTED_ROWS_EXACT_Q_MEMBER"
 NONMEMBER_RESULT = "FROZEN_163740_FAMILY_EXACT_Q_NONMEMBER"
-SOURCE_AUDIT_SCHEMA = "max11-g0153-g0140-stage-d-master-source-audit-v1"
+SOURCE_AUDIT_SCHEMA = "max11-g0155-g0140-stage-d-master-final2-source-audit-v1"
 SOURCE_AUDIT_RESULT = "SOURCE_CUSTODY_AUDIT_PASS_T1"
 SOURCE_AUDIT_EVIDENCE = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT"
 SOURCE_AUDIT_CLAIM = "T1 source/custody clearance for the exact frozen G-0140 reopened-master producer bytes only; no scientific manifest, input, or output was observed, no scientific column-generation run was executed, and no mathematical claim is promoted."
@@ -333,6 +333,13 @@ def validate_source_audit(selector: Any, snapshot: dict[str, str]) -> None:
     script_commit = selector.git_commit_for_path(SCRIPT)
     receipt = selector.load_json(SOURCE_AUDIT_PATH)
     expected_binding = (script_name, snapshot[script_name])
+    observed_checks = receipt.get("required_checks")
+    require(
+        isinstance(observed_checks, dict)
+        and set(observed_checks) == set(SOURCE_AUDIT_CHECKS)
+        and all(type(value) is bool for value in observed_checks.values()),
+        "G-0155 required checks must be exact JSON booleans",
+    )
     selector.validate_source_audit_shape(
         receipt,
         schema=SOURCE_AUDIT_SCHEMA,
@@ -345,9 +352,9 @@ def validate_source_audit(selector: Any, snapshot: dict[str, str]) -> None:
     )
     observed_binding = selector.validate_binding(
         receipt["subject"]["bindings"]["master_source"],
-        "G-0153 reopened-master source",
+        "G-0155 reopened-master source",
     )
-    require(observed_binding == expected_binding, "G-0153 live subject binding drift")
+    require(observed_binding == expected_binding, "G-0155 live subject binding drift")
     preregistration = receipt.get("preregistration")
     preregistration_name = relative(AUDIT_PREREGISTRATION_PATH)
     require(
@@ -361,20 +368,20 @@ def validate_source_audit(selector: Any, snapshot: dict[str, str]) -> None:
         )
         is True
         and preregistration.get("committed_and_pushed_before_runtime_checks") is True,
-        "G-0153 preregistration semantic/byte custody drift",
+        "G-0155 preregistration semantic/byte custody drift",
     )
     prereg_commit = selector.validate_commit(
-        preregistration.get("git_commit"), "G-0153 preregistration"
+        preregistration.get("git_commit"), "G-0155 preregistration"
     )
     require(
         prereg_commit == selector.git_commit_for_path(AUDIT_PREREGISTRATION_PATH),
-        "G-0153 preregistration Git custody drift",
+        "G-0155 preregistration Git custody drift",
     )
     audit_commit = selector.git_commit_for_path(SOURCE_AUDIT_PATH)
     manifest_commit = selector.git_commit_for_path(MANIFEST_PATH)
-    selector.git_is_ancestor(script_commit, prereg_commit, "master source -> G-0153 prereg")
-    selector.git_is_ancestor(prereg_commit, audit_commit, "G-0153 prereg -> receipt")
-    selector.git_is_ancestor(audit_commit, manifest_commit, "G-0153 receipt -> manifest")
+    selector.git_is_ancestor(script_commit, prereg_commit, "master source -> G-0155 prereg")
+    selector.git_is_ancestor(prereg_commit, audit_commit, "G-0155 prereg -> receipt")
+    selector.git_is_ancestor(audit_commit, manifest_commit, "G-0155 receipt -> manifest")
 
 
 def validate_stage_c_receipt(
@@ -417,7 +424,7 @@ def validate_stage_c_receipt(
         and receipt.get("g0139_admission_receipt")
         == bound(selector.G0139_RECEIPT_PATH)
         and receipt.get("stage_c_source_audit")
-        == bound(selector.G0152_SOURCE_AUDIT_PATH)
+        == bound(selector.G0154_SOURCE_AUDIT_PATH)
         and receipt.get("solver")
         == {"path": relative(SELECTOR_PATH), "sha256": SELECTOR_SHA256}
         and receipt.get("launcher") == bound(selector.LAUNCHER_PATH)
@@ -1089,6 +1096,24 @@ def self_test() -> None:
     except selector.SelectorError:
         displaced_rejected = True
     require(displaced_rejected, "source-audit displaced-binding fixture escaped")
+
+    integer_check = json.loads(json.dumps(audit_fixture))
+    integer_check["required_checks"]["producer_self_test_passed"] = 1
+    integer_check_rejected = False
+    try:
+        selector.validate_source_audit_shape(
+            integer_check,
+            schema=SOURCE_AUDIT_SCHEMA,
+            claim_boundary=SOURCE_AUDIT_CLAIM,
+            no_claim=SOURCE_AUDIT_NO_CLAIM,
+            required_checks=SOURCE_AUDIT_CHECKS,
+            preregistration_path=relative(AUDIT_PREREGISTRATION_PATH),
+            named_bindings={"master_source": audit_binding},
+            subject_commit="0" * 40,
+        )
+    except selector.SelectorError:
+        integer_check_rejected = True
+    require(integer_check_rejected, "source-audit integer boolean fixture escaped")
 
     member_columns = [[1, 0], [0, 1]]
     member = core.exact_column_generation(

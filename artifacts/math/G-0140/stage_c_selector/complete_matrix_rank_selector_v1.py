@@ -95,13 +95,13 @@ G0151_AUDIT_PREREGISTRATION_PATH = (
     ROOT
     / "artifacts/reviews/G-0151-g0140-stage-b-final2-source/PREREGISTRATION.md"
 )
-G0152_SOURCE_AUDIT_PATH = (
+G0154_SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0152-g0140-stage-c-final2-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0154-g0140-stage-c-final3-source/SOURCE_AUDIT_RECEIPT.json"
 )
-G0152_AUDIT_PREREGISTRATION_PATH = (
+G0154_AUDIT_PREREGISTRATION_PATH = (
     ROOT
-    / "artifacts/reviews/G-0152-g0140-stage-c-final2-source/PREREGISTRATION.md"
+    / "artifacts/reviews/G-0154-g0140-stage-c-final3-source/PREREGISTRATION.md"
 )
 
 STAGE_A_SOURCE_PATH = ROOT / "artifacts/math/G-0140/stage_a_pool/src/main.rs"
@@ -170,15 +170,15 @@ GLOBAL_REPLAY_OUTPUT_SCHEMA = "max11-g0140-new-member-global-replay-v1"
 G0139_SCHEMA = "max11-g0139-g0135-result-audit-v1"
 G0150_SCHEMA = "max11-g0150-g0140-stage-a-final2-source-audit-v1"
 G0151_SCHEMA = "max11-g0151-g0140-stage-b-final2-source-audit-v1"
-G0152_SCHEMA = "max11-g0152-g0140-stage-c-final2-source-audit-v1"
+G0154_SCHEMA = "max11-g0154-g0140-stage-c-final3-source-audit-v1"
 SOURCE_CUSTODY_PASS_RESULT = "SOURCE_CUSTODY_AUDIT_PASS_T1"
 SOURCE_AUDIT_EVIDENCE_CLASS = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT"
 G0150_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
 G0151_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
-G0152_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-C producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
+G0154_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-C producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
 G0150_NO_CLAIM = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 member, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
 G0151_NO_CLAIM = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 coordinate matrix or exact-rank selection, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
-G0152_NO_CLAIM = "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
+G0154_NO_CLAIM = "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
 G0150_REQUIRED_CHECKS = {
     "exact_named_binding_contract": True,
     "displaced_recursive_lookalikes_rejected": True,
@@ -213,7 +213,7 @@ G0151_REQUIRED_CHECKS = {
     "producer_static_preflight_passed": True,
     "prohibited_scientific_modes_not_run": True,
 }
-G0152_REQUIRED_CHECKS = {
+G0154_REQUIRED_CHECKS = {
     "exact_named_binding_contract": True,
     "displaced_recursive_lookalikes_rejected": True,
     "correct_decoy_with_missing_named_binding_rejected": True,
@@ -2027,7 +2027,7 @@ def validate_manifest(
         ): None,
         relative(G0150_SOURCE_AUDIT_PATH): None,
         relative(G0151_SOURCE_AUDIT_PATH): None,
-        relative(G0152_SOURCE_AUDIT_PATH): None,
+        relative(G0154_SOURCE_AUDIT_PATH): None,
     }
     for path, expected in required.items():
         require(path in snapshot, f"manifest omits required Stage-C input: {path}")
@@ -2115,8 +2115,8 @@ def validate_manifest(
         subject_commit=git_commit_for_path(STAGE_B_SOURCE_PATH),
         manifest_commit=manifest_commit,
     )
-    validate_g0152_source_audit(
-        load_json(G0152_SOURCE_AUDIT_PATH),
+    validate_g0154_source_audit(
+        load_json(G0154_SOURCE_AUDIT_PATH),
         snapshot=snapshot,
         stage_c_commits=stage_c_commits,
         manifest_commit=manifest_commit,
@@ -2239,6 +2239,14 @@ def validate_source_audit_shape(
         and set(subject["bindings"]) == set(named_bindings),
         "source-audit subject shape or identity drift",
     )
+    observed_required_checks = receipt.get("required_checks")
+    require(
+        isinstance(observed_required_checks, dict)
+        and set(observed_required_checks) == set(required_checks)
+        and all(type(value) is bool for value in observed_required_checks.values())
+        and observed_required_checks == required_checks,
+        "source-audit required-check boolean contract drift",
+    )
     require(
         receipt.get("schema") == schema
         and receipt.get("verdict") == "PASS"
@@ -2249,7 +2257,6 @@ def validate_source_audit_shape(
         and receipt.get("scientific_input_observed") is False
         and receipt.get("scientific_output_observed") is False
         and receipt.get("scientific_replay_run") is False
-        and receipt.get("required_checks") == required_checks
         and receipt.get("no_claim") == no_claim,
         "source audit is not the exact outcome-blind T1 PASS contract",
     )
@@ -2331,7 +2338,7 @@ def validate_source_audit_receipt(
     )
 
 
-def validate_g0152_source_audit(
+def validate_g0154_source_audit(
     receipt: dict[str, Any],
     *,
     snapshot: dict[str, str],
@@ -2341,12 +2348,12 @@ def validate_g0152_source_audit(
     script_commit = stage_c_commits[SCRIPT]
     validate_source_audit_receipt(
         receipt,
-        audit_path=G0152_SOURCE_AUDIT_PATH,
-        schema=G0152_SCHEMA,
-        claim_boundary=G0152_CLAIM_BOUNDARY,
-        no_claim=G0152_NO_CLAIM,
-        required_checks=G0152_REQUIRED_CHECKS,
-        preregistration_path=G0152_AUDIT_PREREGISTRATION_PATH,
+        audit_path=G0154_SOURCE_AUDIT_PATH,
+        schema=G0154_SCHEMA,
+        claim_boundary=G0154_CLAIM_BOUNDARY,
+        no_claim=G0154_NO_CLAIM,
+        required_checks=G0154_REQUIRED_CHECKS,
+        preregistration_path=G0154_AUDIT_PREREGISTRATION_PATH,
         snapshot=snapshot,
         named_subjects={
             "selector_source": SCRIPT,
@@ -2849,8 +2856,8 @@ def future_interface() -> dict[str, Any]:
         "launcher": relative(LAUNCHER_PATH),
         "native_test": relative(NATIVE_TEST_PATH),
         "stage_c_source_audit": {
-            "path": relative(G0152_SOURCE_AUDIT_PATH),
-            "schema": G0152_SCHEMA,
+            "path": relative(G0154_SOURCE_AUDIT_PATH),
+            "schema": G0154_SCHEMA,
         },
         "scientific_execution_enabled_after_all_frozen_gates_pass": True,
         "scientific_result_written": False,
@@ -2908,7 +2915,7 @@ def static_preflight() -> dict[str, Any]:
         "g0139": G0139_RECEIPT_PATH,
         "g0150": G0150_SOURCE_AUDIT_PATH,
         "g0151": G0151_SOURCE_AUDIT_PATH,
-        "g0152": G0152_SOURCE_AUDIT_PATH,
+        "g0154": G0154_SOURCE_AUDIT_PATH,
     }
     present = {label: path.is_file() for label, path in future_paths.items()}
     return {
@@ -3044,8 +3051,8 @@ def scientific_run(
             "sha256": prepared["snapshot"][relative(G0139_RECEIPT_PATH)],
         },
         "stage_c_source_audit": {
-            "path": relative(G0152_SOURCE_AUDIT_PATH),
-            "sha256": prepared["snapshot"][relative(G0152_SOURCE_AUDIT_PATH)],
+            "path": relative(G0154_SOURCE_AUDIT_PATH),
+            "sha256": prepared["snapshot"][relative(G0154_SOURCE_AUDIT_PATH)],
         },
         "solver": {"path": relative(SCRIPT), "sha256": prepared["script_sha256"]},
         "launcher": {
@@ -3280,11 +3287,11 @@ def self_test() -> None:
             },
         ),
         (
-            G0152_SCHEMA,
-            G0152_CLAIM_BOUNDARY,
-            G0152_NO_CLAIM,
-            G0152_REQUIRED_CHECKS,
-            G0152_AUDIT_PREREGISTRATION_PATH,
+            G0154_SCHEMA,
+            G0154_CLAIM_BOUNDARY,
+            G0154_NO_CLAIM,
+            G0154_REQUIRED_CHECKS,
+            G0154_AUDIT_PREREGISTRATION_PATH,
             {
                 "selector_source": (relative(SCRIPT), "9" * 64),
                 "native_proposer_source": (
@@ -3384,6 +3391,9 @@ def self_test() -> None:
     mutant = json.loads(json.dumps(own_fixture))
     mutant["required_checks"]["native_oracle_passed"] = False
     reject_audit(mutant, "source audit false required check")
+    mutant = json.loads(json.dumps(own_fixture))
+    mutant["required_checks"]["native_oracle_passed"] = 1
+    reject_audit(mutant, "source audit integer required check")
     mutant = json.loads(json.dumps(own_fixture))
     mutant["scientific_input_observed"] = True
     reject_audit(mutant, "source audit scientific observation")
@@ -3815,6 +3825,7 @@ def self_test() -> None:
         "source audit unknown subject field",
         "source audit wrong schema",
         "source audit false required check",
+        "source audit integer required check",
         "source audit scientific observation",
         "duplicate JSON key",
         "trailing JSON data",
