@@ -50,20 +50,26 @@ const STAGE_A_LOCK_PATH: &str = "artifacts/math/G-0140/stage_a_pool/Cargo.lock";
 const STAGE_A_EXECUTABLE_PATH: &str =
     "artifacts/math/G-0140/stage_a_pool/target/release/g0140-stage-a-pool128-global-replay";
 const STAGE_A_SOURCE_AUDIT_PATH: &str =
-    "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json";
-const STAGE_A_SOURCE_AUDIT_SCHEMA: &str = "max11-g0146-g0140-stage-a-final-source-audit-v1";
+    "artifacts/reviews/G-0150-g0140-stage-a-final2-source/SOURCE_AUDIT_RECEIPT.json";
+const STAGE_A_SOURCE_AUDIT_PREREG_PATH: &str =
+    "artifacts/reviews/G-0150-g0140-stage-a-final2-source/PREREGISTRATION.md";
+const STAGE_A_SOURCE_AUDIT_SCHEMA: &str = "max11-g0150-g0140-stage-a-final2-source-audit-v1";
 const STAGE_B_SOURCE_PATH: &str = "artifacts/math/G-0140/stage_b_pricer/src/main.rs";
 const STAGE_B_CARGO_PATH: &str = "artifacts/math/G-0140/stage_b_pricer/Cargo.toml";
 const STAGE_B_LOCK_PATH: &str = "artifacts/math/G-0140/stage_b_pricer/Cargo.lock";
 const STAGE_B_EXECUTABLE_PATH: &str =
     "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer";
 const STAGE_B_SOURCE_AUDIT_PATH: &str =
-    "artifacts/reviews/G-0147-g0140-stage-b-final-source/SOURCE_AUDIT_RECEIPT.json";
-const STAGE_B_SOURCE_AUDIT_SCHEMA: &str = "max11-g0147-g0140-stage-b-final-source-audit-v1";
+    "artifacts/reviews/G-0151-g0140-stage-b-final2-source/SOURCE_AUDIT_RECEIPT.json";
+const STAGE_B_SOURCE_AUDIT_PREREG_PATH: &str =
+    "artifacts/reviews/G-0151-g0140-stage-b-final2-source/PREREGISTRATION.md";
+const STAGE_B_SOURCE_AUDIT_SCHEMA: &str = "max11-g0151-g0140-stage-b-final2-source-audit-v1";
 const SOURCE_CUSTODY_PASS_RESULT: &str = "SOURCE_CUSTODY_AUDIT_PASS_T1";
 const SOURCE_AUDIT_EVIDENCE_CLASS: &str = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT";
 const STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY: &str = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.";
 const STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY: &str = "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.";
+const STAGE_A_SOURCE_AUDIT_NO_CLAIM: &str = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 member, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem.";
+const STAGE_B_SOURCE_AUDIT_NO_CLAIM: &str = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 coordinate matrix or exact-rank selection, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem.";
 
 const PANEL_INPUT_SHA256: &str = "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8";
 const CANDIDATE_SHA256: &str = "ef1cbdf3abfd32326c35e511057a3450b4942ae9aa901ead8e8b86133c564db8";
@@ -108,6 +114,139 @@ const COMPILED_KERNEL: &[u8] = include_bytes!("../../../G-0117/src/lib.rs");
 struct Binding {
     path: String,
     sha256: String,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct SourceAuditReviewer {
+    agent_name: String,
+    program: String,
+    model: String,
+    same_model_lineage: bool,
+    fresh_context: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct SourceAuditPreregistration {
+    path: String,
+    sha256: String,
+    git_commit: String,
+    committed_and_pushed_before_subject_source_inspection: bool,
+    committed_and_pushed_before_runtime_checks: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditBindings {
+    main_source: Binding,
+    engine_source: Binding,
+    cargo_manifest: Binding,
+    cargo_lock: Binding,
+    release_executable: Binding,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditSubject {
+    git_commit: String,
+    commit_object_and_working_bytes_equal_for_all_bindings: bool,
+    bindings: FinalStageASourceAuditBindings,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditChecks {
+    exact_named_binding_contract: bool,
+    displaced_recursive_lookalikes_rejected: bool,
+    correct_decoy_with_missing_named_binding_rejected: bool,
+    duplicate_path_occurrences_rejected: bool,
+    unknown_envelope_fields_rejected: bool,
+    audit_git_commit_rejected: bool,
+    duplicate_json_keys_rejected: bool,
+    trailing_json_data_rejected: bool,
+    producer_self_test_passed: bool,
+    producer_static_preflight_passed: bool,
+    producer_ancestor_preflight_passed: bool,
+    prohibited_scientific_modes_not_run: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditReceipt {
+    schema: String,
+    verdict: String,
+    result: String,
+    evidence_class: String,
+    claim_boundary: String,
+    reviewer: SourceAuditReviewer,
+    preregistration: SourceAuditPreregistration,
+    subject: FinalStageASourceAuditSubject,
+    required_checks: FinalStageASourceAuditChecks,
+    scientific_manifest_observed: bool,
+    scientific_input_observed: bool,
+    scientific_output_observed: bool,
+    scientific_replay_run: bool,
+    no_claim: String,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageBSourceAuditBindings {
+    main_source: Binding,
+    cargo_manifest: Binding,
+    cargo_lock: Binding,
+    release_executable: Binding,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageBSourceAuditSubject {
+    git_commit: String,
+    commit_object_and_working_bytes_equal_for_all_bindings: bool,
+    bindings: FinalStageBSourceAuditBindings,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageBSourceAuditChecks {
+    exact_named_binding_contract: bool,
+    displaced_recursive_lookalikes_rejected: bool,
+    correct_decoy_with_missing_named_binding_rejected: bool,
+    duplicate_path_occurrences_rejected: bool,
+    unknown_envelope_fields_rejected: bool,
+    audit_git_commit_rejected: bool,
+    duplicate_json_keys_rejected: bool,
+    trailing_json_data_rejected: bool,
+    stage_a_missing_nullable_field_rejected: bool,
+    stage_a_mutation_control_schemas_validated: bool,
+    stage_a_source_audit_exact_contract_validated: bool,
+    compiled_source_manifest_lock_match_working_bytes: bool,
+    overwrite_refusal_verified: bool,
+    end_rehash_verified: bool,
+    bigint_unconditional_paths_verified: bool,
+    producer_self_test_passed: bool,
+    producer_static_preflight_passed: bool,
+    prohibited_scientific_modes_not_run: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageBSourceAuditReceipt {
+    schema: String,
+    verdict: String,
+    result: String,
+    evidence_class: String,
+    claim_boundary: String,
+    reviewer: SourceAuditReviewer,
+    preregistration: SourceAuditPreregistration,
+    subject: FinalStageBSourceAuditSubject,
+    required_checks: FinalStageBSourceAuditChecks,
+    scientific_manifest_observed: bool,
+    scientific_input_observed: bool,
+    scientific_output_observed: bool,
+    scientific_replay_run: bool,
+    no_claim: String,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
@@ -328,6 +467,114 @@ struct ExactLinear {
     coefficient: String,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct RequiredNullable<T>(Option<T>);
+
+impl<'de, T> Deserialize<'de> for RequiredNullable<T>
+where
+    T: DeserializeOwned,
+{
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = Value::deserialize(deserializer)?;
+        if value.is_null() {
+            Ok(Self(None))
+        } else {
+            serde_json::from_value(value)
+                .map(Some)
+                .map(Self)
+                .map_err(de::Error::custom)
+        }
+    }
+}
+
+#[allow(dead_code)]
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct TermNormalFormReceipt {
+    sequence: usize,
+    active_vertices: usize,
+    enumeration_mode: String,
+    compressed_leaves_generated: u64,
+    compressed_leaves_visited: u64,
+    compressed_leaves_accepted: u64,
+    inactive_label_multiplicity: u64,
+    generated_labelled_permutations: u64,
+    visited_labelled_permutations: u64,
+    accepted_labelled_permutations: u64,
+    skipped_labelled_permutations: u64,
+    unclassified_labelled_permutations: u64,
+    failed_labelled_permutations: u64,
+    hinge_entries: usize,
+    normal_form_sha256: String,
+    scientific_coefficient_arithmetic: String,
+    independent_exact_linear_crosscheck: bool,
+    bounded_kernel_crosscheck: bool,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct FiniteCoefficientMutant {
+    sequence: usize,
+    coefficient_delta: String,
+    first_nonzero_residual_row: usize,
+    residuals_decimal_lf_sha256: String,
+    rejected: bool,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct FiniteReplayReceipt {
+    rows: usize,
+    panel_rows: usize,
+    linear_rows: usize,
+    accumulated_hinge_rows: usize,
+    cache_layout: String,
+    arithmetic: String,
+    all_rows_exactly_replayed: bool,
+    residuals_decimal_lf_sha256: String,
+    coefficient_plus_one_mutant: FiniteCoefficientMutant,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct MutationControl {
+    name: String,
+    first_nonzero_hinge: RequiredNullable<ExactHinge>,
+    first_nonzero_linear: RequiredNullable<ExactLinear>,
+    baseline_complete_residual_sha256: String,
+    mutated_complete_residual_sha256: String,
+    changed_from_baseline: bool,
+    detected: bool,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct CensusControls {
+    dynamic_term_count: usize,
+    factorial_11: u64,
+    expected_labelled_permutations: u64,
+    observed_labelled_permutations: u64,
+    per_term_generated_equals_visited_equals_accepted: bool,
+    zero_skipped_unclassified_failed: bool,
+    omitted_last_orbit_rejected: bool,
+    decremented_global_census_rejected: bool,
+    accumulated_direction_count_100: bool,
+    omitted_accumulated_direction_rejected: bool,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct SelectionControls {
+    exact_batch_count_or_zero_terminal: bool,
+    strict_signed_lexicographic_order: bool,
+    excludes_accumulated_directions: bool,
+    direction_reordering_changes_digest: bool,
+    coefficient_plus_one_changes_digest: bool,
+}
+
 #[allow(dead_code)]
 #[derive(Clone, Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -373,7 +620,7 @@ struct StageAReceipt {
     stage_c_primitive_denominator_clearing: bool,
     stage_c_coefficient_plus_one_mutant_rejected: bool,
     stage_c_prior_scale_carryover_mutant_rejected: bool,
-    independent_finite_412_row_replay: Value,
+    independent_finite_412_row_replay: FiniteReplayReceipt,
     arithmetic: String,
     decision_rule: String,
     complete_global_replay: bool,
@@ -387,25 +634,25 @@ struct StageAReceipt {
     nonzero_hinge_decimal_lf_sha256: String,
     complete_residual_decimal_lf_sha256: String,
     term_normal_form_transcript_sha256: String,
-    term_normal_forms: Vec<Value>,
+    term_normal_forms: Vec<TermNormalFormReceipt>,
     accumulated_direction_checks: Vec<AccumulatedDirectionCheck>,
     all_100_accumulated_directions_exact_zero: bool,
     linear_residuals_after_target: Vec<String>,
     all_11_linear_residuals_exact_zero: bool,
-    first_nonzero_hinge: Option<ExactHinge>,
-    first_nonzero_linear: Option<ExactLinear>,
+    first_nonzero_hinge: RequiredNullable<ExactHinge>,
+    first_nonzero_linear: RequiredNullable<ExactLinear>,
     pool_k: usize,
     pool_count: usize,
     pool_directions_i8_sha256: String,
     pool_exact_residuals_decimal_lf_sha256: String,
     pool: Vec<ExactHinge>,
-    coefficient_plus_one: Value,
-    target_scale_plus_one: Value,
-    target_coordinate_plus_one: Value,
-    omitted_final_term: Value,
-    omitted_first_term_direction: Value,
-    census_controls: Value,
-    selection_controls: Value,
+    coefficient_plus_one: MutationControl,
+    target_scale_plus_one: MutationControl,
+    target_coordinate_plus_one: MutationControl,
+    omitted_final_term: MutationControl,
+    omitted_first_term_direction: MutationControl,
+    census_controls: CensusControls,
+    selection_controls: SelectionControls,
     inputs_rehashed_at_end: bool,
     manifest_rehashed_at_end: bool,
     candidate_rehashed_at_end: bool,
@@ -1092,48 +1339,194 @@ fn value_string<'a>(value: &'a Value, pointer: &str) -> Result<&'a str> {
         .with_context(|| format!("missing string at {pointer}"))
 }
 
-fn value_bool(value: &Value, pointer: &str) -> Result<bool> {
-    value
-        .pointer(pointer)
-        .and_then(Value::as_bool)
-        .with_context(|| format!("missing boolean at {pointer}"))
+fn source_audit_reviewer_is_valid(reviewer: &SourceAuditReviewer) -> bool {
+    !reviewer.agent_name.is_empty()
+        && reviewer.program == "codex"
+        && !reviewer.model.is_empty()
+        && reviewer.same_model_lineage
+        && reviewer.fresh_context
 }
 
-fn source_audit_contract(audit_path: &str) -> Result<(&'static str, &'static str, &'static str)> {
-    match audit_path {
-        STAGE_A_SOURCE_AUDIT_PATH => Ok((
-            STAGE_A_SOURCE_AUDIT_SCHEMA,
-            SOURCE_CUSTODY_PASS_RESULT,
-            STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY,
-        )),
-        STAGE_B_SOURCE_AUDIT_PATH => Ok((
-            STAGE_B_SOURCE_AUDIT_SCHEMA,
-            SOURCE_CUSTODY_PASS_RESULT,
-            STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY,
-        )),
-        _ => anyhow::bail!("unknown source-audit contract: {audit_path}"),
+fn source_audit_preregistration_is_valid(
+    preregistration: &SourceAuditPreregistration,
+    expected_path: &str,
+) -> bool {
+    preregistration.path == expected_path
+        && canonical_sha256(&preregistration.sha256)
+        && preregistration.git_commit.len() == 40
+        && preregistration
+            .git_commit
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit())
+        && preregistration.committed_and_pushed_before_subject_source_inspection
+        && preregistration.committed_and_pushed_before_runtime_checks
+}
+
+fn final_stage_a_source_audit_bindings(
+    receipt: &FinalStageASourceAuditReceipt,
+) -> [(&'static str, &Binding); 5] {
+    [
+        (STAGE_A_SOURCE_PATH, &receipt.subject.bindings.main_source),
+        (STAGE_A_ENGINE_PATH, &receipt.subject.bindings.engine_source),
+        (STAGE_A_CARGO_PATH, &receipt.subject.bindings.cargo_manifest),
+        (STAGE_A_LOCK_PATH, &receipt.subject.bindings.cargo_lock),
+        (
+            STAGE_A_EXECUTABLE_PATH,
+            &receipt.subject.bindings.release_executable,
+        ),
+    ]
+}
+
+fn final_stage_b_source_audit_bindings(
+    receipt: &FinalStageBSourceAuditReceipt,
+) -> [(&'static str, &Binding); 4] {
+    [
+        (STAGE_B_SOURCE_PATH, &receipt.subject.bindings.main_source),
+        (STAGE_B_CARGO_PATH, &receipt.subject.bindings.cargo_manifest),
+        (STAGE_B_LOCK_PATH, &receipt.subject.bindings.cargo_lock),
+        (
+            STAGE_B_EXECUTABLE_PATH,
+            &receipt.subject.bindings.release_executable,
+        ),
+    ]
+}
+
+fn final_stage_a_source_audit_receipt(receipt: &Value) -> Result<FinalStageASourceAuditReceipt> {
+    serde_json::from_value(receipt.clone())
+        .context("strict final Stage-A source-audit schema validation")
+}
+
+fn final_stage_b_source_audit_receipt(receipt: &Value) -> Result<FinalStageBSourceAuditReceipt> {
+    serde_json::from_value(receipt.clone())
+        .context("strict final Stage-B source-audit schema validation")
+}
+
+fn validate_final_stage_a_source_audit_semantics(
+    receipt: &FinalStageASourceAuditReceipt,
+) -> Result<()> {
+    ensure!(
+        receipt.schema == STAGE_A_SOURCE_AUDIT_SCHEMA
+            && receipt.verdict == "PASS"
+            && receipt.result == SOURCE_CUSTODY_PASS_RESULT
+            && receipt.evidence_class == SOURCE_AUDIT_EVIDENCE_CLASS
+            && receipt.claim_boundary == STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY
+            && receipt.no_claim == STAGE_A_SOURCE_AUDIT_NO_CLAIM
+            && !receipt.scientific_manifest_observed
+            && !receipt.scientific_input_observed
+            && !receipt.scientific_output_observed
+            && !receipt.scientific_replay_run
+            && source_audit_reviewer_is_valid(&receipt.reviewer)
+            && source_audit_preregistration_is_valid(
+                &receipt.preregistration,
+                STAGE_A_SOURCE_AUDIT_PREREG_PATH,
+            )
+            && receipt.subject.git_commit.len() == 40
+            && receipt
+                .subject
+                .git_commit
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+            && receipt
+                .subject
+                .commit_object_and_working_bytes_equal_for_all_bindings,
+        "final Stage-A source audit semantic boundary drift"
+    );
+    for (expected_path, binding) in final_stage_a_source_audit_bindings(receipt) {
+        ensure!(
+            binding.path == expected_path && canonical_sha256(&binding.sha256),
+            "final Stage-A source audit named binding drift: {expected_path}"
+        );
     }
+    let checks = &receipt.required_checks;
+    ensure!(
+        checks.exact_named_binding_contract
+            && checks.displaced_recursive_lookalikes_rejected
+            && checks.correct_decoy_with_missing_named_binding_rejected
+            && checks.duplicate_path_occurrences_rejected
+            && checks.unknown_envelope_fields_rejected
+            && checks.audit_git_commit_rejected
+            && checks.duplicate_json_keys_rejected
+            && checks.trailing_json_data_rejected
+            && checks.producer_self_test_passed
+            && checks.producer_static_preflight_passed
+            && checks.producer_ancestor_preflight_passed
+            && checks.prohibited_scientific_modes_not_run,
+        "final Stage-A source audit required-check drift"
+    );
+    Ok(())
+}
+
+fn validate_final_stage_b_source_audit_semantics(
+    receipt: &FinalStageBSourceAuditReceipt,
+) -> Result<()> {
+    ensure!(
+        receipt.schema == STAGE_B_SOURCE_AUDIT_SCHEMA
+            && receipt.verdict == "PASS"
+            && receipt.result == SOURCE_CUSTODY_PASS_RESULT
+            && receipt.evidence_class == SOURCE_AUDIT_EVIDENCE_CLASS
+            && receipt.claim_boundary == STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY
+            && receipt.no_claim == STAGE_B_SOURCE_AUDIT_NO_CLAIM
+            && !receipt.scientific_manifest_observed
+            && !receipt.scientific_input_observed
+            && !receipt.scientific_output_observed
+            && !receipt.scientific_replay_run
+            && source_audit_reviewer_is_valid(&receipt.reviewer)
+            && source_audit_preregistration_is_valid(
+                &receipt.preregistration,
+                STAGE_B_SOURCE_AUDIT_PREREG_PATH,
+            )
+            && receipt.subject.git_commit.len() == 40
+            && receipt
+                .subject
+                .git_commit
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+            && receipt
+                .subject
+                .commit_object_and_working_bytes_equal_for_all_bindings,
+        "final Stage-B source audit semantic boundary drift"
+    );
+    for (expected_path, binding) in final_stage_b_source_audit_bindings(receipt) {
+        ensure!(
+            binding.path == expected_path && canonical_sha256(&binding.sha256),
+            "final Stage-B source audit named binding drift: {expected_path}"
+        );
+    }
+    let checks = &receipt.required_checks;
+    ensure!(
+        checks.exact_named_binding_contract
+            && checks.displaced_recursive_lookalikes_rejected
+            && checks.correct_decoy_with_missing_named_binding_rejected
+            && checks.duplicate_path_occurrences_rejected
+            && checks.unknown_envelope_fields_rejected
+            && checks.audit_git_commit_rejected
+            && checks.duplicate_json_keys_rejected
+            && checks.trailing_json_data_rejected
+            && checks.stage_a_missing_nullable_field_rejected
+            && checks.stage_a_mutation_control_schemas_validated
+            && checks.stage_a_source_audit_exact_contract_validated
+            && checks.compiled_source_manifest_lock_match_working_bytes
+            && checks.overwrite_refusal_verified
+            && checks.end_rehash_verified
+            && checks.bigint_unconditional_paths_verified
+            && checks.producer_self_test_passed
+            && checks.producer_static_preflight_passed
+            && checks.prohibited_scientific_modes_not_run,
+        "final Stage-B source audit required-check drift"
+    );
+    Ok(())
 }
 
 fn validate_source_audit_envelope(receipt: &Value, audit_path: &str) -> Result<()> {
-    let (expected_schema, expected_result, expected_boundary) = source_audit_contract(audit_path)?;
-    ensure!(
-        value_string(receipt, "/schema")? == expected_schema
-            && value_string(receipt, "/verdict")? == "PASS"
-            && value_string(receipt, "/result")? == expected_result
-            && value_string(receipt, "/evidence_class")? == SOURCE_AUDIT_EVIDENCE_CLASS
-            && value_string(receipt, "/claim_boundary")? == expected_boundary
-            && !value_bool(receipt, "/scientific_manifest_observed")?
-            && !value_bool(receipt, "/scientific_input_observed")?
-            && !value_bool(receipt, "/scientific_output_observed")?
-            && !value_bool(receipt, "/scientific_replay_run")?
-            && value_bool(
-                receipt,
-                "/subject/commit_object_and_working_bytes_equal_for_all_bindings"
-            )?,
-        "source audit is not the exact outcome-blind PASS contract for {audit_path}"
-    );
-    Ok(())
+    match audit_path {
+        STAGE_A_SOURCE_AUDIT_PATH => validate_final_stage_a_source_audit_semantics(
+            &final_stage_a_source_audit_receipt(receipt)?,
+        ),
+        STAGE_B_SOURCE_AUDIT_PATH => validate_final_stage_b_source_audit_semantics(
+            &final_stage_b_source_audit_receipt(receipt)?,
+        ),
+        _ => anyhow::bail!("unknown source-audit contract: {audit_path}"),
+    }
 }
 
 fn validate_g0139_gate(root: &Path, manifest: &ManifestSnapshot) -> Result<Binding> {
@@ -1176,25 +1569,78 @@ fn validate_source_audit(
     git_commit_for_path(root, audit_path)?;
     let receipt = strict_json_value(File::open(path)?)?;
     validate_source_audit_envelope(&receipt, audit_path)?;
-    let subject_path = required_subjects
-        .first()
-        .context("source-audit subject path missing")?;
-    ensure!(
-        value_string(&receipt, "/subject/git_commit")? == git_commit_for_path(root, subject_path)?,
-        "source-audit subject Git identity drift"
-    );
-    let mut observed = Vec::new();
-    collect_recursive_bindings(&receipt, &mut observed);
-    for subject in required_subjects {
-        let expected = manifest_binding(manifest, subject)?;
-        ensure!(
-            observed
-                .iter()
-                .any(|item| item.path == *subject && item.sha256 == expected),
-            "source audit does not bind exact subject: {subject}"
-        );
+    match audit_path {
+        STAGE_A_SOURCE_AUDIT_PATH => {
+            ensure!(
+                required_subjects
+                    == [
+                        STAGE_A_SOURCE_PATH,
+                        STAGE_A_ENGINE_PATH,
+                        STAGE_A_CARGO_PATH,
+                        STAGE_A_LOCK_PATH,
+                        STAGE_A_EXECUTABLE_PATH,
+                    ],
+                "final Stage-A source-audit call contract drift"
+            );
+            let receipt = final_stage_a_source_audit_receipt(&receipt)?;
+            ensure!(
+                receipt.subject.git_commit == git_commit_for_path(root, STAGE_A_SOURCE_PATH)?,
+                "final Stage-A source-audit subject Git identity drift"
+            );
+            ensure!(
+                sha256_path(&checked_repo_path(root, STAGE_A_SOURCE_AUDIT_PREREG_PATH)?)?
+                    == receipt.preregistration.sha256
+                    && git_commit_for_path(root, STAGE_A_SOURCE_AUDIT_PREREG_PATH)?
+                        == receipt.preregistration.git_commit,
+                "final Stage-A source-audit preregistration custody drift"
+            );
+            for (subject, binding) in final_stage_a_source_audit_bindings(&receipt) {
+                let expected = manifest_binding(manifest, subject)?;
+                ensure!(
+                    binding.sha256 == expected
+                        && sha256_path(&checked_repo_path(root, subject)?)? == binding.sha256
+                        && !git_commit_for_path(root, subject)?.is_empty(),
+                    "final Stage-A source audit does not bind exact named subject: {subject}"
+                );
+            }
+            Ok(())
+        }
+        STAGE_B_SOURCE_AUDIT_PATH => {
+            ensure!(
+                required_subjects
+                    == [
+                        STAGE_B_SOURCE_PATH,
+                        STAGE_B_CARGO_PATH,
+                        STAGE_B_LOCK_PATH,
+                        STAGE_B_EXECUTABLE_PATH,
+                    ],
+                "final Stage-B source-audit call contract drift"
+            );
+            let receipt = final_stage_b_source_audit_receipt(&receipt)?;
+            ensure!(
+                receipt.subject.git_commit == git_commit_for_path(root, STAGE_B_SOURCE_PATH)?,
+                "final Stage-B source-audit subject Git identity drift"
+            );
+            ensure!(
+                sha256_path(&checked_repo_path(root, STAGE_B_SOURCE_AUDIT_PREREG_PATH)?)?
+                    == receipt.preregistration.sha256
+                    && git_commit_for_path(root, STAGE_B_SOURCE_AUDIT_PREREG_PATH)?
+                        == receipt.preregistration.git_commit,
+                "final Stage-B source-audit preregistration custody drift"
+            );
+            for (subject, binding) in final_stage_b_source_audit_bindings(&receipt) {
+                let expected = manifest_binding(manifest, subject)?;
+                ensure!(
+                    binding.sha256 == expected
+                        && sha256_path(&checked_repo_path(root, subject)?)? == binding.sha256
+                        && !git_commit_for_path(root, subject)?.is_empty(),
+                    "final Stage-B source audit does not bind exact named subject: {subject}"
+                );
+            }
+            Ok(())
+        }
+        _ => anyhow::bail!("unknown source-audit contract: {audit_path}"),
     }
-    Ok(())
 }
 
 fn validate_compiled_and_static(root: &Path) -> Result<()> {
@@ -1427,6 +1873,179 @@ fn validate_current_release(root: &Path, manifest: &ManifestSnapshot) -> Result<
     Ok(binding)
 }
 
+fn validate_exact_hinge(value: &ExactHinge) -> Result<()> {
+    validate_direction(&value.direction)?;
+    ensure!(
+        canonical_integer(&value.coefficient) && value.coefficient != "0",
+        "nonzero hinge receipt coefficient drift"
+    );
+    Ok(())
+}
+
+fn validate_exact_linear(value: &ExactLinear) -> Result<()> {
+    ensure!(
+        value.coordinate < N && canonical_integer(&value.coefficient) && value.coefficient != "0",
+        "nonzero linear receipt drift"
+    );
+    Ok(())
+}
+
+fn validate_term_normal_form_receipts(
+    receipts: &[TermNormalFormReceipt],
+    candidate: &Candidate,
+) -> Result<()> {
+    ensure!(
+        receipts.len() == candidate.terms.len()
+            && receipts
+                .iter()
+                .map(|receipt| receipt.sequence)
+                .eq(candidate.terms.iter().map(|term| term.sequence)),
+        "Stage-A term normal-form transcript order drift"
+    );
+    let mut total = 0u64;
+    for receipt in receipts {
+        let inactive_multiplier = N.checked_sub(receipt.active_vertices).map(factorial);
+        let expected_leaves = inactive_multiplier.map(|value| factorial(N) / value);
+        ensure!(
+            receipt.enumeration_mode
+                == "exact_active_vertex_injections_with_inactive_label_factorial_multiplicity"
+                && receipt.active_vertices <= N
+                && inactive_multiplier == Some(receipt.inactive_label_multiplicity)
+                && expected_leaves == Some(receipt.compressed_leaves_generated)
+                && receipt.compressed_leaves_generated == receipt.compressed_leaves_visited
+                && receipt.compressed_leaves_visited == receipt.compressed_leaves_accepted
+                && receipt
+                    .compressed_leaves_accepted
+                    .checked_mul(receipt.inactive_label_multiplicity)
+                    == Some(factorial(N))
+                && receipt.generated_labelled_permutations == factorial(N)
+                && receipt.visited_labelled_permutations == factorial(N)
+                && receipt.accepted_labelled_permutations == factorial(N)
+                && receipt.skipped_labelled_permutations == 0
+                && receipt.unclassified_labelled_permutations == 0
+                && receipt.failed_labelled_permutations == 0
+                && canonical_sha256(&receipt.normal_form_sha256)
+                && receipt.scientific_coefficient_arithmetic == "signed_num_bigint_BigInt"
+                && receipt.independent_exact_linear_crosscheck
+                && receipt.bounded_kernel_crosscheck,
+            "Stage-A term normal-form receipt drift at sequence {}",
+            receipt.sequence
+        );
+        total = total
+            .checked_add(receipt.visited_labelled_permutations)
+            .context("Stage-A term transcript census overflow")?;
+    }
+    ensure!(
+        total == EXPECTED_LABELLED_PERMUTATIONS,
+        "Stage-A term transcript global census drift"
+    );
+    Ok(())
+}
+
+fn validate_mutation_control(
+    control: &MutationControl,
+    expected_name: &str,
+    baseline_digest: &str,
+) -> Result<()> {
+    if let Some(hinge) = &control.first_nonzero_hinge.0 {
+        validate_exact_hinge(hinge)?;
+    }
+    if let Some(linear) = &control.first_nonzero_linear.0 {
+        validate_exact_linear(linear)?;
+    }
+    ensure!(
+        control.name == expected_name
+            && control.baseline_complete_residual_sha256 == baseline_digest
+            && canonical_sha256(&control.mutated_complete_residual_sha256)
+            && control.mutated_complete_residual_sha256 != baseline_digest
+            && control.changed_from_baseline
+            && control.detected
+            && (control.first_nonzero_hinge.0.is_some()
+                || control.first_nonzero_linear.0.is_some()),
+        "Stage-A mutation-control semantic drift: {expected_name}"
+    );
+    Ok(())
+}
+
+fn validate_stage_a_structured_controls(
+    receipt: &StageAReceipt,
+    candidate: &Candidate,
+) -> Result<()> {
+    let finite = &receipt.independent_finite_412_row_replay;
+    let finite_mutant = &finite.coefficient_plus_one_mutant;
+    let zero_residual_digest = sha256_bytes("0\n".repeat(ROWS).as_bytes());
+    ensure!(
+        finite.rows == ROWS
+            && finite.panel_rows == 301
+            && finite.linear_rows == N
+            && finite.accumulated_hinge_rows == CARRY_DIRECTIONS
+            && finite.cache_layout
+                == "sequence-major: offset=((sequence*301)+row)*16; signed little-endian i128"
+            && finite.arithmetic == "signed_num_bigint_BigInt"
+            && finite.all_rows_exactly_replayed
+            && finite.residuals_decimal_lf_sha256 == zero_residual_digest
+            && finite_mutant.sequence
+                == candidate
+                    .terms
+                    .first()
+                    .context("Stage-A finite replay candidate has no term")?
+                    .sequence
+            && finite_mutant.coefficient_delta == "+1"
+            && finite_mutant.first_nonzero_residual_row < ROWS
+            && canonical_sha256(&finite_mutant.residuals_decimal_lf_sha256)
+            && finite_mutant.residuals_decimal_lf_sha256 != zero_residual_digest
+            && finite_mutant.rejected,
+        "Stage-A independent finite replay receipt drift"
+    );
+    validate_term_normal_form_receipts(&receipt.term_normal_forms, candidate)?;
+    for (control, expected_name) in [
+        (
+            &receipt.coefficient_plus_one,
+            "first_nonzero_coefficient_plus_one",
+        ),
+        (&receipt.target_scale_plus_one, "target_scale_plus_one"),
+        (
+            &receipt.target_coordinate_plus_one,
+            "target_coordinate_10_plus_one",
+        ),
+        (&receipt.omitted_final_term, "omitted_final_nonzero_term"),
+        (
+            &receipt.omitted_first_term_direction,
+            "omitted_first_term_active_direction",
+        ),
+    ] {
+        validate_mutation_control(
+            control,
+            expected_name,
+            &receipt.complete_residual_decimal_lf_sha256,
+        )?;
+    }
+    let census = &receipt.census_controls;
+    ensure!(
+        census.dynamic_term_count == TERMS
+            && census.factorial_11 == factorial(N)
+            && census.expected_labelled_permutations == EXPECTED_LABELLED_PERMUTATIONS
+            && census.observed_labelled_permutations == EXPECTED_LABELLED_PERMUTATIONS
+            && census.per_term_generated_equals_visited_equals_accepted
+            && census.zero_skipped_unclassified_failed
+            && census.omitted_last_orbit_rejected
+            && census.decremented_global_census_rejected
+            && census.accumulated_direction_count_100
+            && census.omitted_accumulated_direction_rejected,
+        "Stage-A census-control receipt drift"
+    );
+    let selection = &receipt.selection_controls;
+    ensure!(
+        selection.exact_batch_count_or_zero_terminal
+            && selection.strict_signed_lexicographic_order
+            && selection.excludes_accumulated_directions
+            && selection.direction_reordering_changes_digest
+            && selection.coefficient_plus_one_changes_digest,
+        "Stage-A Pool128 selection-control receipt drift"
+    );
+    Ok(())
+}
+
 fn validate_stage_a_receipt(
     root: &Path,
     manifest: &ManifestSnapshot,
@@ -1537,11 +2156,11 @@ fn validate_stage_a_receipt(
                 .iter()
                 .all(|value| value == "0")
             && receipt.all_11_linear_residuals_exact_zero
-            && receipt.first_nonzero_linear.is_none(),
+            && receipt.first_nonzero_linear.0.is_none(),
         "Stage-A linear reconciliation drift"
     );
     ensure!(
-        receipt.first_nonzero_hinge.as_ref()
+        receipt.first_nonzero_hinge.0.as_ref()
             == Some(&ExactHinge {
                 direction: EXPECTED_FIRST_DIRECTION,
                 coefficient: EXPECTED_FIRST_COEFFICIENT.to_string(),
@@ -1550,6 +2169,7 @@ fn validate_stage_a_receipt(
             && receipt.pool_count == K,
         "Stage-A first residual or Pool128 census drift"
     );
+    validate_stage_a_structured_controls(&receipt, candidate)?;
     validate_pool(
         &receipt.pool,
         &receipt.pool_directions_i8_sha256,
@@ -1735,6 +2355,123 @@ fn rejects_unknown_field<T: DeserializeOwned>() -> bool {
         .is_err_and(|error| error.to_string().contains("unknown field"))
 }
 
+fn source_audit_binding_fixture(path: &str) -> Value {
+    serde_json::json!({"path": path, "sha256": "0".repeat(64)})
+}
+
+fn stage_a_source_audit_fixture() -> Value {
+    serde_json::json!({
+        "schema": STAGE_A_SOURCE_AUDIT_SCHEMA,
+        "verdict": "PASS",
+        "result": SOURCE_CUSTODY_PASS_RESULT,
+        "evidence_class": SOURCE_AUDIT_EVIDENCE_CLASS,
+        "claim_boundary": STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY,
+        "reviewer": {
+            "agent_name": "FreshReviewer",
+            "program": "codex",
+            "model": "gpt-5",
+            "same_model_lineage": true,
+            "fresh_context": true
+        },
+        "preregistration": {
+            "path": STAGE_A_SOURCE_AUDIT_PREREG_PATH,
+            "sha256": "0".repeat(64),
+            "git_commit": "0".repeat(40),
+            "committed_and_pushed_before_subject_source_inspection": true,
+            "committed_and_pushed_before_runtime_checks": true
+        },
+        "subject": {
+            "git_commit": "0".repeat(40),
+            "commit_object_and_working_bytes_equal_for_all_bindings": true,
+            "bindings": {
+                "main_source": source_audit_binding_fixture(STAGE_A_SOURCE_PATH),
+                "engine_source": source_audit_binding_fixture(STAGE_A_ENGINE_PATH),
+                "cargo_manifest": source_audit_binding_fixture(STAGE_A_CARGO_PATH),
+                "cargo_lock": source_audit_binding_fixture(STAGE_A_LOCK_PATH),
+                "release_executable": source_audit_binding_fixture(STAGE_A_EXECUTABLE_PATH)
+            }
+        },
+        "required_checks": {
+            "exact_named_binding_contract": true,
+            "displaced_recursive_lookalikes_rejected": true,
+            "correct_decoy_with_missing_named_binding_rejected": true,
+            "duplicate_path_occurrences_rejected": true,
+            "unknown_envelope_fields_rejected": true,
+            "audit_git_commit_rejected": true,
+            "duplicate_json_keys_rejected": true,
+            "trailing_json_data_rejected": true,
+            "producer_self_test_passed": true,
+            "producer_static_preflight_passed": true,
+            "producer_ancestor_preflight_passed": true,
+            "prohibited_scientific_modes_not_run": true
+        },
+        "scientific_manifest_observed": false,
+        "scientific_input_observed": false,
+        "scientific_output_observed": false,
+        "scientific_replay_run": false,
+        "no_claim": STAGE_A_SOURCE_AUDIT_NO_CLAIM
+    })
+}
+
+fn stage_b_source_audit_fixture() -> Value {
+    serde_json::json!({
+        "schema": STAGE_B_SOURCE_AUDIT_SCHEMA,
+        "verdict": "PASS",
+        "result": SOURCE_CUSTODY_PASS_RESULT,
+        "evidence_class": SOURCE_AUDIT_EVIDENCE_CLASS,
+        "claim_boundary": STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY,
+        "reviewer": {
+            "agent_name": "FreshReviewer",
+            "program": "codex",
+            "model": "gpt-5",
+            "same_model_lineage": true,
+            "fresh_context": true
+        },
+        "preregistration": {
+            "path": STAGE_B_SOURCE_AUDIT_PREREG_PATH,
+            "sha256": "0".repeat(64),
+            "git_commit": "0".repeat(40),
+            "committed_and_pushed_before_subject_source_inspection": true,
+            "committed_and_pushed_before_runtime_checks": true
+        },
+        "subject": {
+            "git_commit": "0".repeat(40),
+            "commit_object_and_working_bytes_equal_for_all_bindings": true,
+            "bindings": {
+                "main_source": source_audit_binding_fixture(STAGE_B_SOURCE_PATH),
+                "cargo_manifest": source_audit_binding_fixture(STAGE_B_CARGO_PATH),
+                "cargo_lock": source_audit_binding_fixture(STAGE_B_LOCK_PATH),
+                "release_executable": source_audit_binding_fixture(STAGE_B_EXECUTABLE_PATH)
+            }
+        },
+        "required_checks": {
+            "exact_named_binding_contract": true,
+            "displaced_recursive_lookalikes_rejected": true,
+            "correct_decoy_with_missing_named_binding_rejected": true,
+            "duplicate_path_occurrences_rejected": true,
+            "unknown_envelope_fields_rejected": true,
+            "audit_git_commit_rejected": true,
+            "duplicate_json_keys_rejected": true,
+            "trailing_json_data_rejected": true,
+            "stage_a_missing_nullable_field_rejected": true,
+            "stage_a_mutation_control_schemas_validated": true,
+            "stage_a_source_audit_exact_contract_validated": true,
+            "compiled_source_manifest_lock_match_working_bytes": true,
+            "overwrite_refusal_verified": true,
+            "end_rehash_verified": true,
+            "bigint_unconditional_paths_verified": true,
+            "producer_self_test_passed": true,
+            "producer_static_preflight_passed": true,
+            "prohibited_scientific_modes_not_run": true
+        },
+        "scientific_manifest_observed": false,
+        "scientific_input_observed": false,
+        "scientific_output_observed": false,
+        "scientific_replay_run": false,
+        "no_claim": STAGE_B_SOURCE_AUDIT_NO_CLAIM
+    })
+}
+
 fn self_test() -> Result<()> {
     for valid in ["0", "1", "-1", "123456789012345678901234567890"] {
         ensure!(canonical_integer(valid), "valid integer rejected");
@@ -1788,48 +2525,111 @@ fn self_test() -> Result<()> {
         "unknown imported Record field accepted"
     );
 
-    let audit_fixture = serde_json::json!({
-        "schema": STAGE_A_SOURCE_AUDIT_SCHEMA,
-        "verdict": "PASS",
-        "result": SOURCE_CUSTODY_PASS_RESULT,
-        "evidence_class": SOURCE_AUDIT_EVIDENCE_CLASS,
-        "claim_boundary": STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY,
-        "scientific_manifest_observed": false,
-        "scientific_input_observed": false,
-        "scientific_output_observed": false,
-        "scientific_replay_run": false,
-        "subject": {
-            "commit_object_and_working_bytes_equal_for_all_bindings": true
-        }
-    });
-    validate_source_audit_envelope(&audit_fixture, STAGE_A_SOURCE_AUDIT_PATH)?;
-    let mut audit_schema_mutant = audit_fixture.clone();
-    audit_schema_mutant["schema"] = Value::String("lookalike-audit-v1".to_string());
-    let mut audit_result_mutant = audit_fixture;
-    audit_result_mutant["result"] = Value::String("LOOKALIKE_PASS".to_string());
+    #[derive(Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct RequiredNullableFixture {
+        first_nonzero_linear: RequiredNullable<ExactLinear>,
+    }
+    let explicit_null: RequiredNullableFixture =
+        serde_json::from_value(serde_json::json!({"first_nonzero_linear": null}))?;
     ensure!(
-        validate_source_audit_envelope(&audit_schema_mutant, STAGE_A_SOURCE_AUDIT_PATH).is_err()
-            && validate_source_audit_envelope(&audit_result_mutant, STAGE_A_SOURCE_AUDIT_PATH)
-                .is_err()
-            && validate_source_audit_envelope(
-                &serde_json::json!({
-                    "schema": STAGE_B_SOURCE_AUDIT_SCHEMA,
-                    "verdict": "PASS",
-                    "result": SOURCE_CUSTODY_PASS_RESULT,
-                    "evidence_class": SOURCE_AUDIT_EVIDENCE_CLASS,
-                    "claim_boundary": STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY,
-                    "scientific_manifest_observed": false,
-                    "scientific_input_observed": false,
-                    "scientific_output_observed": false,
-                    "scientific_replay_run": false,
-                    "subject": {
-                        "commit_object_and_working_bytes_equal_for_all_bindings": true
-                    }
-                }),
+        explicit_null.first_nonzero_linear.0.is_none()
+            && serde_json::from_value::<RequiredNullableFixture>(serde_json::json!({})).is_err(),
+        "required-nullable missing/null distinction failed"
+    );
+    let mutation_fixture = serde_json::json!({
+        "name": "target_scale_plus_one",
+        "first_nonzero_hinge": null,
+        "first_nonzero_linear": {"coordinate": 10, "coefficient": "-39916800"},
+        "baseline_complete_residual_sha256": "0".repeat(64),
+        "mutated_complete_residual_sha256": "1".repeat(64),
+        "changed_from_baseline": true,
+        "detected": true
+    });
+    let mut missing_mutation_nullable = mutation_fixture.clone();
+    missing_mutation_nullable
+        .as_object_mut()
+        .context("mutation-control fixture drift")?
+        .remove("first_nonzero_linear");
+    let mut unknown_mutation_field = mutation_fixture.clone();
+    unknown_mutation_field["unknown"] = Value::Bool(true);
+    ensure!(
+        serde_json::from_value::<MutationControl>(mutation_fixture).is_ok()
+            && serde_json::from_value::<MutationControl>(missing_mutation_nullable).is_err()
+            && serde_json::from_value::<MutationControl>(unknown_mutation_field).is_err()
+            && serde_json::from_value::<FiniteReplayReceipt>(serde_json::json!([])).is_err()
+            && serde_json::from_value::<TermNormalFormReceipt>(serde_json::json!([])).is_err()
+            && serde_json::from_value::<CensusControls>(serde_json::json!([])).is_err()
+            && serde_json::from_value::<SelectionControls>(serde_json::json!([])).is_err(),
+        "Stage-A structured mutation/census receipt schema control failed"
+    );
+
+    let stage_a_audit = stage_a_source_audit_fixture();
+    let stage_b_audit = stage_b_source_audit_fixture();
+    validate_source_audit_envelope(&stage_a_audit, STAGE_A_SOURCE_AUDIT_PATH)?;
+    validate_source_audit_envelope(&stage_b_audit, STAGE_B_SOURCE_AUDIT_PATH)?;
+    let mut audit_schema_mutant = stage_a_audit.clone();
+    audit_schema_mutant["schema"] = Value::String("lookalike-audit-v1".to_string());
+    let mut audit_result_mutant = stage_a_audit.clone();
+    audit_result_mutant["result"] = Value::String("LOOKALIKE_PASS".to_string());
+    let mut audit_unknown_mutant = stage_a_audit.clone();
+    audit_unknown_mutant["unknown_extension"] = Value::Bool(true);
+    let mut audit_self_reference_mutant = stage_a_audit.clone();
+    audit_self_reference_mutant["audit_git_commit"] = Value::String("0".repeat(40));
+    let mut audit_displaced_mutant = stage_a_audit.clone();
+    let displaced_bindings = audit_displaced_mutant["subject"]
+        .as_object_mut()
+        .context("Stage-A source-audit subject fixture drift")?
+        .remove("bindings")
+        .context("Stage-A source-audit bindings fixture drift")?;
+    audit_displaced_mutant["unrelated_receipt_lookalikes"] = displaced_bindings;
+    let mut audit_decoy_mutant = stage_a_audit.clone();
+    let main_source_decoy = audit_decoy_mutant["subject"]["bindings"]
+        .as_object_mut()
+        .context("Stage-A named source-audit binding fixture drift")?
+        .remove("main_source")
+        .context("Stage-A source-audit main-source fixture drift")?;
+    audit_decoy_mutant["subject"]["unrelated_main_source_decoy"] = main_source_decoy;
+    let mut audit_duplicate_path_mutant = stage_a_audit;
+    audit_duplicate_path_mutant["subject"]["bindings"]["engine_source"]["path"] =
+        Value::String(STAGE_A_SOURCE_PATH.to_string());
+
+    let mut stage_b_displaced_mutant = stage_b_audit.clone();
+    let displaced_bindings = stage_b_displaced_mutant["subject"]
+        .as_object_mut()
+        .context("Stage-B source-audit subject fixture drift")?
+        .remove("bindings")
+        .context("Stage-B source-audit bindings fixture drift")?;
+    stage_b_displaced_mutant["unrelated_receipt_lookalikes"] = displaced_bindings;
+    let mut stage_b_duplicate_path_mutant = stage_b_audit.clone();
+    stage_b_duplicate_path_mutant["subject"]["bindings"]["cargo_manifest"]["path"] =
+        Value::String(STAGE_B_SOURCE_PATH.to_string());
+    let mut stage_b_unknown_mutant = stage_b_audit;
+    stage_b_unknown_mutant["unknown_extension"] = Value::Bool(true);
+    ensure!(
+        [
+            audit_schema_mutant,
+            audit_result_mutant,
+            audit_unknown_mutant,
+            audit_self_reference_mutant,
+            audit_displaced_mutant,
+            audit_decoy_mutant,
+            audit_duplicate_path_mutant,
+        ]
+        .iter()
+        .all(|mutant| validate_source_audit_envelope(mutant, STAGE_A_SOURCE_AUDIT_PATH).is_err())
+            && [
+                stage_b_displaced_mutant,
+                stage_b_duplicate_path_mutant,
+                stage_b_unknown_mutant,
+            ]
+            .iter()
+            .all(|mutant| validate_source_audit_envelope(
+                mutant,
                 STAGE_B_SOURCE_AUDIT_PATH
             )
-            .is_ok(),
-        "exact source-audit schema/result hostile controls failed"
+            .is_err()),
+        "exact named source-audit hostile control escaped"
     );
 
     let manifest_fixture = serde_json::json!({
