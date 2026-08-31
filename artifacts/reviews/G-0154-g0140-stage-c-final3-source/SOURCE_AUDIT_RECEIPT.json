@@ -1,0 +1,74 @@
+{
+  "schema": "max11-g0154-g0140-stage-c-final3-source-audit-v1",
+  "verdict": "PASS",
+  "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "claim_boundary": "T1 source/custody clearance for the exact frozen Stage-C producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.",
+  "reviewer": {
+    "agent_name": "IvoryKite",
+    "program": "codex",
+    "model": "gpt-5.4",
+    "same_model_lineage": true,
+    "fresh_context": true
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0154-g0140-stage-c-final3-source/PREREGISTRATION.md",
+    "sha256": "e4ac4c6772fc1a36a3d316b15381afd89978e9c1367a9f254d725894ccf49297",
+    "git_commit": "91288fd5405d11258107bd2c5061bd7ced3e4d36",
+    "committed_and_pushed_before_subject_source_inspection": true,
+    "committed_and_pushed_before_runtime_checks": true
+  },
+  "subject": {
+    "git_commit": "69a3449c7bc291f283c10c669e5d39f2a1212782",
+    "commit_object_and_working_bytes_equal_for_all_bindings": true,
+    "bindings": {
+      "selector_source": {
+        "path": "artifacts/math/G-0140/stage_c_selector/complete_matrix_rank_selector_v1.py",
+        "sha256": "9c5e0e7e40c7f12b8d299148fa7f9a942207eacdc26aa6662c59bb86f481b9b0"
+      },
+      "native_proposer_source": {
+        "path": "artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots.cpp",
+        "sha256": "198262e449c901f70b1e26cd260cbd5ade4e6eaf2868659e4cfd59a1ab72d9c7"
+      },
+      "native_proposer_executable": {
+        "path": "artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots_v1",
+        "sha256": "207fcf88fe3f89c8119bd6b38037d9f0919165eecf04b48d1b0aaae039843171"
+      },
+      "native_build_receipt": {
+        "path": "artifacts/math/G-0140/stage_c_selector/ffpack_modular_pivots_v1.build.json",
+        "sha256": "5157c020cc343de6bb891fb339a1027a9f8f3059aa03ea2a32722bc13d0fff76"
+      },
+      "native_test": {
+        "path": "artifacts/math/G-0140/stage_c_selector/test_ffpack_modular_pivots_v1.py",
+        "sha256": "5d2b920f06100a2a7bd4069ebe4f009d4c2ba8aecea8872c9d4c58abe9296b94"
+      },
+      "launcher": {
+        "path": "artifacts/math/G-0140/stage_c_selector/run-stage-c-selector-v1",
+        "sha256": "786b42f28d4720ca2578de78a3e312ce0186b8609d2b2c9c85c8f76bdd409d78"
+      }
+    }
+  },
+  "required_checks": {
+    "exact_named_binding_contract": true,
+    "displaced_recursive_lookalikes_rejected": true,
+    "correct_decoy_with_missing_named_binding_rejected": true,
+    "duplicate_path_occurrences_rejected": true,
+    "unknown_envelope_fields_rejected": true,
+    "audit_git_commit_rejected": true,
+    "duplicate_json_keys_rejected": true,
+    "trailing_json_data_rejected": true,
+    "complete_basis_protocol_verified": true,
+    "full_pool_dependency_compatibility_scan_verified": true,
+    "committed_blob_custody_verified": true,
+    "native_build_custody_verified": true,
+    "producer_self_test_passed": true,
+    "native_oracle_passed": true,
+    "producer_static_preflight_passed": true,
+    "prohibited_scientific_modes_not_run": true
+  },
+  "scientific_manifest_observed": false,
+  "scientific_input_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "no_claim": "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
+}
