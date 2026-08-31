@@ -151,32 +151,113 @@ struct Term {
 
 #[allow(dead_code)]
 #[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
 struct Candidate {
     schema: String,
     result: String,
     claim_boundary: String,
     manifest_path: String,
     manifest_sha256: String,
+    solver: Binding,
+    stage_a_receipt: Binding,
+    stage_b_receipt: Binding,
+    prior_master_result: Binding,
+    prior_master_manifest: Binding,
+    audited_exact_q_core: Value,
     records: usize,
     old_rows: usize,
     appended_rows: usize,
     rows: usize,
+    target: Vec<i64>,
+    target_i128le_sha256: String,
+    target_construction: String,
+    prior_target_scale_not_reused: bool,
+    row_order: Vec<String>,
+    stage_a_selected_directions_i8_sha256: String,
+    stage_a_selected_exact_residuals_decimal_lf_sha256: String,
+    stage_b_direction_major_hinge_i64_le_sha256: String,
+    stage_b_exact_candidate_dots_decimal_lf_sha256: String,
+    warm_seed_policy: String,
+    initial_selected_sequences: Vec<usize>,
+    initial_selected_sequences_u64le_sha256: String,
+    initial_rank: usize,
+    max_rank_increases: usize,
+    all_columns_reopened: bool,
+    canonical_column_order: bool,
+    no_modular_terminal_decision: bool,
+    no_support_freeze: bool,
+    no_zero_price_column_deletion: bool,
+    no_row_dependency_deletion: bool,
+    no_preferred_sparsity_search: bool,
+    old_member_validation: Value,
+    input_snapshot_sha256: String,
     all_412_rows_replayed: bool,
     rank: usize,
     augmented_rank: usize,
     selected_sequences: Vec<usize>,
     support_sequences: Vec<usize>,
     coordinate_rows: Vec<usize>,
+    selected_basis_i128le_sha256: String,
+    rational_coefficients: Vec<String>,
+    rational_coefficients_lf_sha256: String,
     integer_coefficients: Vec<String>,
+    integer_coefficients_decimal_lf_sha256: String,
     target_scale: String,
     terms: Vec<Term>,
     support_receipt: CandidateSupportReceipt,
     replay_receipt: CandidateReplayReceipt,
     coefficient_plus_one_mutant: CandidateCoefficientMutant,
     prior_target_scale_carryover_mutant_rejected: bool,
+    trials: Vec<Value>,
     inputs_rehashed_at_end: bool,
     wall_seconds: f64,
     maximum_rss_kib: u64,
+}
+
+#[allow(dead_code)]
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct StrictRepresentative {
+    left_added_edge: [usize; 2],
+    right_added_edge: [usize; 2],
+    source_term: usize,
+}
+
+#[allow(dead_code)]
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct StrictRecord {
+    stage: String,
+    orbit_index: usize,
+    representative: StrictRepresentative,
+    signed_class_sha256: String,
+    sequence: usize,
+    signed_mass: usize,
+    active_vertices: usize,
+    negative_edges: Vec<[usize; 2]>,
+    positive_edges: Vec<[usize; 2]>,
+    in_disjoint: bool,
+    in_shared_distinct: bool,
+}
+
+impl From<StrictRecord> for Record {
+    fn from(value: StrictRecord) -> Self {
+        Self {
+            sequence: value.sequence,
+            signed_mass: value.signed_mass,
+            active_vertices: value.active_vertices,
+            negative_edges: value.negative_edges,
+            positive_edges: value.positive_edges,
+        }
+    }
+}
+
+fn deserialize_records_strict<'de, D>(deserializer: D) -> std::result::Result<Vec<Record>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    Vec::<StrictRecord>::deserialize(deserializer)
+        .map(|records| records.into_iter().map(Record::from).collect())
 }
 
 #[allow(dead_code)]
@@ -221,6 +302,7 @@ struct PanelInput {
     schema: String,
     control_sequences: Vec<usize>,
     primes: [u64; 2],
+    #[serde(deserialize_with = "deserialize_records_strict")]
     records: Vec<Record>,
     rows_path: String,
     target: Vec<i64>,
@@ -242,44 +324,64 @@ struct ExactLinear {
 
 #[allow(dead_code)]
 #[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct AccumulatedDirectionCheck {
     index: usize,
+    source: String,
+    source_index: usize,
     direction: [i8; N],
+    aggregate_coefficient: String,
+    direct_dp_coefficient: String,
     routes_agree: bool,
     exact_zero: bool,
 }
 
 #[allow(dead_code)]
 #[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct StageAReceipt {
     schema: String,
     result: String,
     claim_boundary: String,
-    manifest_path: String,
-    manifest_sha256: String,
+    g0140_manifest: Binding,
+    g0135_manifest: Binding,
     protocol: Binding,
     producer_source: Binding,
     producer_engine: Binding,
     producer_executable: Binding,
     g0139_result_audit: Binding,
+    ancestor_stage_d_result: Binding,
     stage_c_member: Binding,
     source_and_audit_bindings: BTreeMap<String, Binding>,
     candidate_schema: String,
     candidate_result: String,
     rows: usize,
     records: usize,
+    selected_rank: usize,
+    support_columns: usize,
     terms: usize,
+    target_scale: String,
+    target_subtraction_coordinate_10: String,
+    stage_c_all_412_rational_rows_replayed: bool,
+    stage_c_all_412_integer_rows_replayed: bool,
+    stage_c_primitive_denominator_clearing: bool,
+    stage_c_coefficient_plus_one_mutant_rejected: bool,
+    stage_c_prior_scale_carryover_mutant_rejected: bool,
+    independent_finite_412_row_replay: Value,
     arithmetic: String,
     decision_rule: String,
     complete_global_replay: bool,
     all_hinge_and_linear_residuals_zero: bool,
+    labelled_permutations_expected: u64,
     hinge_entries_processed: u64,
     labelled_permutations_checked: u64,
     aggregate_hinge_support: usize,
     nonzero_hinge_directions: usize,
     aggregate_hinge_decimal_lf_sha256: String,
     nonzero_hinge_decimal_lf_sha256: String,
+    complete_residual_decimal_lf_sha256: String,
     term_normal_form_transcript_sha256: String,
+    term_normal_forms: Vec<Value>,
     accumulated_direction_checks: Vec<AccumulatedDirectionCheck>,
     all_100_accumulated_directions_exact_zero: bool,
     linear_residuals_after_target: Vec<String>,
@@ -291,6 +393,13 @@ struct StageAReceipt {
     pool_directions_i8_sha256: String,
     pool_exact_residuals_decimal_lf_sha256: String,
     pool: Vec<ExactHinge>,
+    coefficient_plus_one: Value,
+    target_scale_plus_one: Value,
+    target_coordinate_plus_one: Value,
+    omitted_final_term: Value,
+    omitted_first_term_direction: Value,
+    census_controls: Value,
+    selection_controls: Value,
     inputs_rehashed_at_end: bool,
     manifest_rehashed_at_end: bool,
     candidate_rehashed_at_end: bool,
@@ -974,6 +1083,33 @@ fn value_bool(value: &Value, pointer: &str) -> Result<bool> {
         .with_context(|| format!("missing boolean at {pointer}"))
 }
 
+fn source_audit_contract(audit_path: &str) -> Result<(&'static str, &'static str)> {
+    match audit_path {
+        STAGE_A_SOURCE_AUDIT_PATH => Ok((
+            "max11-g0141-g0140-stage-a-source-audit-v1",
+            "SOURCE_CUSTODY_AUDIT_PASS_T1",
+        )),
+        STAGE_B_SOURCE_AUDIT_PATH => Ok((
+            "max11-g0142-g0140-stage-b-source-audit-v1",
+            "SOURCE_CUSTODY_AUDIT_PASS_T1",
+        )),
+        _ => anyhow::bail!("unknown source-audit contract: {audit_path}"),
+    }
+}
+
+fn validate_source_audit_envelope(receipt: &Value, audit_path: &str) -> Result<()> {
+    let (expected_schema, expected_result) = source_audit_contract(audit_path)?;
+    ensure!(
+        value_string(receipt, "/schema")? == expected_schema
+            && value_string(receipt, "/verdict")? == "PASS"
+            && value_string(receipt, "/result")? == expected_result
+            && !value_bool(receipt, "/scientific_manifest_observed")?
+            && !value_bool(receipt, "/scientific_output_observed")?,
+        "source audit is not the exact outcome-blind PASS contract for {audit_path}"
+    );
+    Ok(())
+}
+
 fn validate_g0139_gate(root: &Path, manifest: &ManifestSnapshot) -> Result<Binding> {
     let binding = make_binding(root, G0139_AUDIT_PATH)?;
     ensure!(
@@ -1013,12 +1149,7 @@ fn validate_source_audit(
     ensure!(sha256_path(&path)? == expected, "source audit digest drift");
     git_commit_for_path(root, audit_path)?;
     let receipt = strict_json_value(File::open(path)?)?;
-    ensure!(
-        value_string(&receipt, "/verdict")? == "PASS"
-            && !value_bool(&receipt, "/scientific_manifest_observed")?
-            && !value_bool(&receipt, "/scientific_output_observed")?,
-        "source audit is not an outcome-blind PASS"
-    );
+    validate_source_audit_envelope(&receipt, audit_path)?;
     let mut observed = Vec::new();
     collect_recursive_bindings(&receipt, &mut observed);
     for subject in required_subjects {
@@ -1279,13 +1410,21 @@ fn validate_stage_a_receipt(
         receipt.schema == STAGE_A_SCHEMA
             && receipt.result == STAGE_A_RESULT
             && !receipt.claim_boundary.is_empty()
-            && receipt.manifest_path == MANIFEST_PATH
-            && receipt.manifest_sha256 == manifest.sha256
+            && receipt.g0140_manifest.path == MANIFEST_PATH
+            && receipt.g0140_manifest.sha256 == manifest.sha256
             && receipt.candidate_schema == CANDIDATE_SCHEMA
             && receipt.candidate_result == CANDIDATE_RESULT
             && receipt.rows == ROWS
             && receipt.records == RECORDS
+            && receipt.selected_rank == candidate.rank
+            && receipt.support_columns == candidate.support_sequences.len()
             && receipt.terms == TERMS
+            && receipt.target_scale == TARGET_SCALE
+            && receipt.stage_c_all_412_rational_rows_replayed
+            && receipt.stage_c_all_412_integer_rows_replayed
+            && receipt.stage_c_primitive_denominator_clearing
+            && receipt.stage_c_coefficient_plus_one_mutant_rejected
+            && receipt.stage_c_prior_scale_carryover_mutant_rejected
             && receipt.arithmetic == "signed_num_bigint_BigInt_unconditional_exact"
             && receipt.decision_rule
                 == "complete_arbitrary_precision_ordered_chamber_normal_form_aggregate"
@@ -1294,22 +1433,28 @@ fn validate_stage_a_receipt(
         "Stage-A Pool128 identity/arithmetic drift"
     );
     for binding in [
+        &receipt.g0135_manifest,
         &receipt.protocol,
         &receipt.producer_source,
         &receipt.producer_engine,
         &receipt.producer_executable,
         &receipt.g0139_result_audit,
+        &receipt.ancestor_stage_d_result,
         &receipt.stage_c_member,
     ] {
         binding_matches(root, manifest, binding)?;
     }
     ensure!(
-        receipt.protocol.path == PREREGISTRATION_PATH
+        receipt.g0135_manifest.path == candidate.manifest_path
+            && receipt.g0135_manifest.sha256 == candidate.manifest_sha256
+            && receipt.protocol.path == PREREGISTRATION_PATH
             && receipt.protocol.sha256 == PREREGISTRATION_SHA256
             && receipt.producer_source.path == STAGE_A_SOURCE_PATH
             && receipt.producer_engine.path == STAGE_A_ENGINE_PATH
             && receipt.producer_executable.path == STAGE_A_EXECUTABLE_PATH
             && receipt.g0139_result_audit.path == G0139_AUDIT_PATH
+            && receipt.ancestor_stage_d_result.path == ANCESTOR_STAGE_D_RESULT_PATH
+            && receipt.ancestor_stage_d_result.sha256 == ANCESTOR_STAGE_D_RESULT_SHA256
             && receipt.stage_c_member.path == CANDIDATE_PATH
             && receipt.stage_c_member.sha256 == CANDIDATE_SHA256,
         "Stage-A source/admission/candidate binding drift"
@@ -1318,13 +1463,16 @@ fn validate_stage_a_receipt(
         binding_matches(root, manifest, binding)?;
     }
     ensure!(
-        receipt.hinge_entries_processed == EXPECTED_HINGE_ENTRIES_PROCESSED
+        receipt.labelled_permutations_expected == EXPECTED_LABELLED_PERMUTATIONS
+            && receipt.hinge_entries_processed == EXPECTED_HINGE_ENTRIES_PROCESSED
             && receipt.labelled_permutations_checked == EXPECTED_LABELLED_PERMUTATIONS
             && receipt.aggregate_hinge_support == EXPECTED_AGGREGATE_HINGE_SUPPORT
             && receipt.nonzero_hinge_directions == EXPECTED_NONZERO_HINGE_DIRECTIONS
             && receipt.aggregate_hinge_decimal_lf_sha256 == EXPECTED_AGGREGATE_HINGE_SHA256
             && receipt.nonzero_hinge_decimal_lf_sha256 == EXPECTED_NONZERO_HINGE_SHA256
-            && receipt.term_normal_form_transcript_sha256 == EXPECTED_TERM_TRANSCRIPT_SHA256,
+            && canonical_sha256(&receipt.complete_residual_decimal_lf_sha256)
+            && receipt.term_normal_form_transcript_sha256 == EXPECTED_TERM_TRANSCRIPT_SHA256
+            && receipt.term_normal_forms.len() == TERMS,
         "Stage-A disclosed exact replay anchor drift"
     );
     ensure!(
@@ -1338,6 +1486,10 @@ fn validate_stage_a_receipt(
         validate_direction(&check.direction)?;
         ensure!(
             check.index == index
+                && check.source_index < CARRY_DIRECTIONS
+                && !check.source.is_empty()
+                && check.aggregate_coefficient == "0"
+                && check.direct_dp_coefficient == "0"
                 && check.routes_agree
                 && check.exact_zero
                 && seen.insert(check.direction),
@@ -1545,6 +1697,11 @@ fn make_input_mutation_controls(
     })
 }
 
+fn rejects_unknown_field<T: DeserializeOwned>() -> bool {
+    serde_json::from_value::<T>(serde_json::json!({"__unexpected": true}))
+        .is_err_and(|error| error.to_string().contains("unknown field"))
+}
+
 fn self_test() -> Result<()> {
     for valid in ["0", "1", "-1", "123456789012345678901234567890"] {
         ensure!(canonical_integer(valid), "valid integer rejected");
@@ -1564,6 +1721,68 @@ fn self_test() -> Result<()> {
             && serde_json::from_str::<Term>(r#"{"sequence":0,"coefficient":"1","extra":2}"#)
                 .is_err(),
         "duplicate or unknown term field accepted"
+    );
+    let mut candidate_unknown = strict_json_value(COMPILED_CANDIDATE)?;
+    candidate_unknown["__unexpected"] = Value::Bool(true);
+    let strict_record_fixture = serde_json::json!({
+        "stage": "DISJOINT",
+        "orbit_index": 0,
+        "representative": {
+            "left_added_edge": [0, 1],
+            "right_added_edge": [0, 1],
+            "source_term": 0
+        },
+        "signed_class_sha256": "0".repeat(64),
+        "sequence": 0,
+        "signed_mass": 1,
+        "active_vertices": 2,
+        "negative_edges": [[0, 1]],
+        "positive_edges": [[0, 1]],
+        "in_disjoint": true,
+        "in_shared_distinct": true
+    });
+    ensure!(
+        serde_json::from_value::<Candidate>(candidate_unknown).is_err()
+            && rejects_unknown_field::<StageAReceipt>()
+            && rejects_unknown_field::<AccumulatedDirectionCheck>()
+            && serde_json::from_value::<StrictRecord>(strict_record_fixture.clone()).is_ok(),
+        "strict Candidate/Stage-A/nested input schema control failed"
+    );
+    let mut strict_record_unknown = strict_record_fixture;
+    strict_record_unknown["__unexpected"] = Value::Bool(true);
+    ensure!(
+        serde_json::from_value::<StrictRecord>(strict_record_unknown).is_err(),
+        "unknown imported Record field accepted"
+    );
+
+    let audit_fixture = serde_json::json!({
+        "schema": "max11-g0141-g0140-stage-a-source-audit-v1",
+        "verdict": "PASS",
+        "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+        "scientific_manifest_observed": false,
+        "scientific_output_observed": false
+    });
+    validate_source_audit_envelope(&audit_fixture, STAGE_A_SOURCE_AUDIT_PATH)?;
+    let mut audit_schema_mutant = audit_fixture.clone();
+    audit_schema_mutant["schema"] = Value::String("lookalike-audit-v1".to_string());
+    let mut audit_result_mutant = audit_fixture;
+    audit_result_mutant["result"] = Value::String("LOOKALIKE_PASS".to_string());
+    ensure!(
+        validate_source_audit_envelope(&audit_schema_mutant, STAGE_A_SOURCE_AUDIT_PATH).is_err()
+            && validate_source_audit_envelope(&audit_result_mutant, STAGE_A_SOURCE_AUDIT_PATH)
+                .is_err()
+            && validate_source_audit_envelope(
+                &serde_json::json!({
+                    "schema": "max11-g0142-g0140-stage-b-source-audit-v1",
+                    "verdict": "PASS",
+                    "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+                    "scientific_manifest_observed": false,
+                    "scientific_output_observed": false
+                }),
+                STAGE_B_SOURCE_AUDIT_PATH
+            )
+            .is_ok(),
+        "exact source-audit schema/result hostile controls failed"
     );
 
     let manifest_fixture = serde_json::json!({
