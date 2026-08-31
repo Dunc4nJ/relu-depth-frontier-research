@@ -1,0 +1,5 @@
+__pycache__/
+*.npy
+/ffpack_modular_solve
+/modular_full_replay
+/ffpack_fixture.cpp
