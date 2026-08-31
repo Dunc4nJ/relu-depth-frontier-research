@@ -1,0 +1,18 @@
+[package]
+name = "g0135-batch32-global-replay"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0"
+g0117-global-coordinate-pricer = { path = "../G-0117" }
+num-bigint = "0.5"
+rayon = "1.11"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha2 = "0.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
