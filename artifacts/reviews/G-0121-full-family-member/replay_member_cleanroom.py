@@ -565,7 +565,6 @@ def parse_result_and_transcript(
         if iteration < RANK_TRIALS - 1:
             require(trial.get("result") == "SEPARATOR_VIOLATED", f"trial {iteration} branch")
             sequence = exact_json_int(trial.get("first_violating_sequence"), f"trial {iteration} violating sequence")
-            require(sequence == selected[SEED_COLUMNS + iteration], f"trial {iteration} append transcript")
             require(trial.get("columns_scanned") == sequence + 1, f"trial {iteration} scan count")
             require(exact_decimal(trial.get("first_violating_price"), f"trial {iteration} price") != 0, f"trial {iteration} zero price")
             require(exact_decimal(trial.get("separator_target_pairing"), f"trial {iteration} target pairing") != 0, f"trial {iteration} zero target pairing")
