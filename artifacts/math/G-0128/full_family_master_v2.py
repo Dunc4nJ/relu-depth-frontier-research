@@ -258,6 +258,30 @@ def canonical_integer(value: object, label: str, *, positive: bool = False, nonz
     return integer
 
 
+def validate_direction(direction: object) -> list[int]:
+    require(
+        isinstance(direction, list)
+        and len(direction) == N
+        and all(isinstance(value, int) and -128 <= value <= 127 for value in direction),
+        "direction i8 shape drift",
+    )
+    values = [int(value) for value in direction]
+    require(sum(values) == 0, "direction must sum to zero")
+    first_nonzero = next((value for value in values if value), None)
+    require(first_nonzero is not None and first_nonzero > 0, "direction orientation drift")
+    divisor = 0
+    for value in values:
+        divisor = math.gcd(divisor, abs(value))
+    require(divisor == 1, "direction is not primitive")
+    prefix = 0
+    active = False
+    for value in values[:-1]:
+        prefix += value
+        active = active or prefix < 0
+    require(active, "direction is linear on the ordered cone")
+    return values
+
+
 def validate_selected_records(
     selected: object,
     expected_count: int,
@@ -272,12 +296,7 @@ def validate_selected_records(
     require(
         directions == sorted(directions)
         and len({tuple(direction) for direction in directions}) == expected_count
-        and all(
-            isinstance(direction, list)
-            and len(direction) == N
-            and all(isinstance(value, int) and -128 <= value <= 127 for value in direction)
-            for direction in directions
-        ),
+        and all(validate_direction(direction) == direction for direction in directions),
         "selected direction order/shape drift",
     )
     require(
@@ -1303,8 +1322,8 @@ def self_test() -> None:
     require(values == [6, -4] and scale == 9, "primitive member normalization failed")
 
     sample = [
-        {"direction": [0] * 10 + [1], "residues": [1, 2]},
-        {"direction": [0] * 9 + [1, 0], "residues": [3, 4]},
+        {"direction": [0] * 8 + [1, -2, 1], "residues": [1, 2]},
+        {"direction": [0] * 7 + [1, -3, 0, 2], "residues": [3, 4]},
     ]
     sample_digest = digest_selected(sample)
     validate_selected_records(sample, 2, sample_digest)
@@ -1317,6 +1336,30 @@ def self_test() -> None:
     expect_rejected(
         "G-0126 selected residue mutation",
         lambda: validate_selected_records(changed_residue, 2, sample_digest),
+    )
+    nonzero_sum = copy.deepcopy(sample)
+    nonzero_sum[0]["direction"][-1] += 1
+    expect_rejected(
+        "G-0126 nonzero-sum direction mutation",
+        lambda: validate_selected_records(nonzero_sum, 2, sample_digest),
+    )
+    reversed_orientation = copy.deepcopy(sample)
+    reversed_orientation[0]["direction"] = [-value for value in reversed_orientation[0]["direction"]]
+    expect_rejected(
+        "G-0126 reversed direction mutation",
+        lambda: validate_selected_records(reversed_orientation, 2, sample_digest),
+    )
+    nonprimitive = copy.deepcopy(sample)
+    nonprimitive[0]["direction"] = [2 * value for value in nonprimitive[0]["direction"]]
+    expect_rejected(
+        "G-0126 nonprimitive direction mutation",
+        lambda: validate_selected_records(nonprimitive, 2, sample_digest),
+    )
+    inactive = copy.deepcopy(sample)
+    inactive[0]["direction"] = [0] * 9 + [1, -1]
+    expect_rejected(
+        "G-0126 inactive direction mutation",
+        lambda: validate_selected_records(inactive, 2, sample_digest),
     )
     exact_values = [5, -7]
     require(
@@ -1426,6 +1469,10 @@ def self_test() -> None:
     required_controls = {
         "G-0126 selected order mutation",
         "G-0126 selected residue mutation",
+        "G-0126 nonzero-sum direction mutation",
+        "G-0126 reversed direction mutation",
+        "G-0126 nonprimitive direction mutation",
+        "G-0126 inactive direction mutation",
         "G-0127 row truncation",
         "G-0127 record order mutation",
         "G-0127 extrema mutation",
