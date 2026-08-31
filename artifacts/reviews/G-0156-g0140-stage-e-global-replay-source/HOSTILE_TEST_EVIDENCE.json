@@ -1,0 +1,41 @@
+{
+  "schema": "g0156-focused-hostile-source-audit-evidence-v1",
+  "result": "PASS",
+  "subject_commit": "af608ad38dde2a9b4d25aaefca8bd8407c9a0699",
+  "preregistration_commit": "15a9d2cca19532593b76d91b62b9da92fed58720",
+  "harness": {
+    "path": "artifacts/reviews/G-0156-g0140-stage-e-global-replay-source/hostile_source_audit.py",
+    "sha256": "1f8f80b94af96c63f3465215409878ae57f7f189143b43a05071f0b8cd9ca782",
+    "command": "python3 artifacts/reviews/G-0156-g0140-stage-e-global-replay-source/hostile_source_audit.py --repo-root /data/projects/relu-depth-frontier-research --rebuilt-binary /tmp/g0156-cargo.OBji6wPw/target/release/g0140-stage-e-global-replay",
+    "exit_status": 0,
+    "bound_files_rehashed": 5,
+    "structural_and_numeric_mutants_rejected": 10,
+    "source_gate_shapes_verified": 12,
+    "scientific_artifacts_opened": 0,
+    "scientific_modes_run": 0
+  },
+  "clean_locked_build": {
+    "command": "CARGO_TARGET_DIR=/tmp/g0156-cargo.OBji6wPw/target cargo build --release --locked --manifest-path artifacts/math/G-0140/stage_e_global_replay/Cargo.toml",
+    "exit_status": 0,
+    "rebuilt_executable_sha256": "a2151ab92ad732fecaa48d41ebfa8e574db93720393b8afe72c29ca170f1aeb8",
+    "bound_executable_sha256": "a2151ab92ad732fecaa48d41ebfa8e574db93720393b8afe72c29ca170f1aeb8",
+    "byte_identical": true
+  },
+  "source_only_tests": {
+    "command": "CARGO_TARGET_DIR=/tmp/g0156-cargo.OBji6wPw/target cargo test --locked --manifest-path artifacts/math/G-0140/stage_e_global_replay/Cargo.toml",
+    "exit_status": 0,
+    "tests_run": 2,
+    "tests_passed": 2,
+    "tests_failed": 0
+  },
+  "bound_release_modes": {
+    "self_test_exit_status": 0,
+    "self_test_stdout": "G-0140 Stage E self-test PASS",
+    "static_preflight_exit_status": 0,
+    "static_preflight_stdout": "G-0140 Stage E outcome-blind static preflight PASS",
+    "self_test_openat_trace_sha256": "db19665e4ef6278a7b46226109f357d0548ea4874739e45c0a5e8844ad7f5e3a",
+    "static_preflight_openat_trace_sha256": "56fe3219a81c1bbfd216fb7b8e59c7eeb5da1a9f047c2cb628a8ca68bedb0261",
+    "forbidden_scientific_path_open_matches": 0
+  },
+  "receipt_sha256_before_evidence_files": "a1a877e24dd21177253c78086bcc819fb567acff29095807a6864ca0344c6dea"
+}
