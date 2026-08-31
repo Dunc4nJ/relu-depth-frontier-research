@@ -1,0 +1,57 @@
+{
+  "schema": "max11-g0117-global-exact-replay-v1",
+  "result": "EXACT_GLOBAL_NORMAL_FORM_RESIDUAL",
+  "claim_boundary": "Exact integer replay of one denominator-cleared certificate over the fixed G-0113 family. Zero is an ordered-chamber normal-form identity pending symmetry and architecture compilation; nonzero is a normal-form residual pending the separately reviewed uniqueness lemma. Neither outcome proves family completeness or all-n.",
+  "bindings": {
+    "certificate": "4d78265c654e3b1d3ec0cb2059e820d1796cd6fbc977015ec5bd64cde1f205be",
+    "executable": "3dcb3b43c4075f1206ecda874bd9013dd9328eb67e1b9a2f59b21391882c4574",
+    "kernel": "84b37ea50f012bfe8310de84b1ca27a7c1b77de90978635dd483798759d4c6aa",
+    "normal_form_uniqueness": "39de1eb61aaee37a24c8a45d55cbc5fd6f27c7b68d506f8757f352881a6e0c17",
+    "panel_input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "preregistration": "a76f3ee0bf77f8c5a2180830b2879cf9b1b75fbac797a166a19fb605706a0a12",
+    "producer": "1232548952fee91827f8dfddf26dd01eacfc49c57a448f6d258add9b778f414a"
+  },
+  "certificate_schema": "max11-g0117-global-replay-certificate-v2",
+  "source_exact_postprocess_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "target_scale": "14",
+  "terms": 2,
+  "hinge_entries_processed": 52762,
+  "labelled_permutations_checked": 79833600,
+  "aggregate_hinge_support_including_zeros": 40923,
+  "exact_nonzero_hinge_directions": 40689,
+  "first_hinge_residual": {
+    "direction": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      -2,
+      1
+    ],
+    "coefficient": "786432"
+  },
+  "linear_residuals": [
+    "0",
+    "5806080",
+    "11773440",
+    "16450560",
+    "21507840",
+    "30178560",
+    "42696960",
+    "55401984",
+    "64908288",
+    "72615168",
+    "-481006080"
+  ],
+  "first_linear_residual": {
+    "coordinate": 1,
+    "coefficient": "5806080"
+  },
+  "all_hinge_and_linear_residuals_exactly_zero": false,
+  "wall_seconds": 11.206362557
+}

@@ -1,77 +1,85 @@
-# G-0117 — exact global residual machinery
+# G-0117 — exact global residual CEGIS
 
-## Result
+## Current bounded result
 
-The missing computational bridge from a finite G-0113 panel seed to global
-ordered-cone CEGIS is operational.
+The missing bridge from the finite G-0113 panel to exact global
+ordered-chamber verification is operational and has completed its first real
+iteration.
 
-For a fixed primitive active direction `d`, the subset-DP implementation
-computes `h_d(W)` for every one of the 163,740 frozen G-0113 atoms, together
-with every atom's 11 exact linear coordinates.  On the registered benchmark
-direction the first bounded run completed in 13.30 seconds.  After an
-adversarially found public-API overflow was repaired, the current-source rerun
-completed in 21.95 seconds under heavier concurrent load, used at most 110,992
-KiB RSS, and reproduced the same scientific hashes exactly:
+The corrected exhaustive G-0113 scan returned an exact rational member on all
+301 preregistered panel rows.  The binding-clean converter independently reran
+the frozen exact postprocessor on the actual scan and retained-column files,
+then denominator-cleared the result to a v2 certificate with 92 nonzero
+integer-weighted atoms.  Its bindings are frozen in
+`PANEL_SEED_HANDOFF_FROZEN.md`.
+
+Complete modular normal-form replay of that real seed processed 3,672,345,600
+labelled permutations and refuted the seed globally.  The first canonical
+nonzero hinge direction was
 
 ```text
-hinge row:   6d4e03e0f16ab19d0d16810aa7e5e47ca9d87548b9c6f03a2229ad91ba334816
-linear rows: 84cc206d635fa7f651578ab46cda56f6154d0ebd22ca2be26ceeffcf0594aa51
+(0,0,0,0,0,0,0,0,1,-5,4)
 ```
 
-There were 125,562 nonzero entries in that hinge row and the maximum entry was
-777,168.  The current bound benchmark report is
-`coordinate_pricer_benchmark_v2.json`; v1 is retained as the pre-fix
-superseded execution record.
+with residues
 
-The companion factorial-orbit kernel aggregates a sparse rational
-certificate's complete ordered-cone normal form modulo two fresh primes.  A
-nonzero modular residual rigorously refutes that rational seed as a global
-identity; a two-prime zero remains pending an exact magnitude bound or exact
-replay.
+```text
+mod 1,000,000,007: 482,908,994
+mod 1,000,000,009:  83,090,671
+```
 
-## Exact checks completed
+One nonzero residue is already a characteristic-zero refutation because the
+certificate was cleared to integers.  This outcome therefore does not rely on
+the false converse that two modular zeros imply an exact zero.  The direction
+is the first exact counterexample row for full-family fresh-Q CEGIS.  It does
+not refute the 163,740-column family, much less unrestricted two-hidden-layer
+MAX11.
 
-- Four release unit tests pass, including complete equality between the
-  subset DP and literal permutation enumeration on a nontrivial atom.
-- The clean-room reviewer supplied the valid direction
-  `(0,1,-26,25,0,0,0,0,0,0,0)`, which exposed `i8` multiplication overflow
-  outside the mass-five generated direction universe.  The comparison now
-  uses `i16`; that direction is accepted and returns exact coefficient zero.
-- The explicit frozen G-0109 integration test matches all supported hinge
-  coefficients and the complete linear vector on loopless records, including
-  the active-11 sequence `6,972,321`; 16 directions absent from that atom's
-  frozen support price to exact zero.
-- Full normal forms for G-0113 control sequences 0 and 3 evaluate on all 301
-  formal-profile rows to the independently frozen hashes
-  `f09264...3c58` and `475f46...2099` exactly.  Sequence 3 is cyclic and
-  active on all 11 vertices.
-- Branch swap and vertex relabelling preserve hinge prices; a changed edge
-  changes the complete semantics; malformed direction orientations are
-  rejected.
-- On the planted rational certificate
-  `1/2 * F_0 - 3/7 * F_1`, the factorial-orbit route selected direction
-  `(0,0,0,0,0,0,0,0,1,-2,1)`.  Independent subset-DP prices were
-  `h_0=123,648` and `h_1=33,792`, giving exact residual
-  `331,392/7`.  Its residues matched both modular replay fields exactly.
-- `cargo test --release` and clippy with `-D warnings` pass.  The two
-  full-artifact checks are explicit ignored tests and both pass when invoked.
+## Exact machinery now frozen
 
-An independent clean-room review is still completing its post-fix replay.
-These remain same-family checks and do not satisfy the campaign's unavailable
-T2 promotion requirement.
+- The subset-DP coordinate pricer computes one hinge row over all 163,740
+  atoms together with every atom's 11 exact linear coordinates.
+- The certificate converter hashes the actual G-0113 input, rows, scan,
+  retained columns, postprocessor, and preregistration; reruns the frozen exact
+  postprocessor; compares every decision-bearing field; and only then clears
+  denominators.
+- The modular replay supports the integer-scaled v2 certificate and rejects
+  stale sources, stale binaries, malformed integers, unknown fields, forged
+  receipts, duplicate sequences, and input drift.
+- The exact replay independently aggregates the full normal form with
+  arbitrary-precision integers.  Exact zero, hinge-residual, linear-residual,
+  large-integer, and coefficient-mutation paths are exercised.
+- `NORMAL_FORM_UNIQUENESS_LEMMA.md` proves that distinct normalized active
+  directions give distinct chamber-crossing hyperplanes.  Consequently a
+  nonzero hinge coefficient rigorously refutes equality on the open ordered
+  chamber.
 
-## Why this changes the search
+The post-fix fresh-context review found no arithmetic or uniqueness-lemma
+defect and assigned the exact replay seam `PASS_BOUNDED`.  It remains a T1
+same-model-family review; the campaign has no available T2 transport.
 
-The previous exact panel evaluator takes roughly an hour to traverse the full
-family.  Once one failed global replay exposes a hinge direction, G-0117 can
-price the corresponding new exact CEGIS row family-wide in seconds.  The
-expensive global normal-form enumeration is needed only on the current sparse
-certificate, not on all 163,740 candidates.
+## Next exact decision
+
+`FULL_FAMILY_CEGIS_PREREGISTRATION.md` governs the live branch.  The next
+solve must:
+
+1. bind the complete 301 by 163,740 i128 panel cache to the corrected scan;
+2. add all 11 linear normal-form rows and the new hinge row above;
+3. reopen all 163,740 columns under fresh modular support selection;
+4. solve over Q and exactly replay every accumulated row; and
+5. either globally replay the new member or verify an exact left separator
+   against every column.
+
+The old 92-term support is a seed only.  Freezing it, freezing its denominator
+scale, or declaring nonmembership from a support-restricted solve would be an
+invalid inference.
 
 ## Claim boundary
 
-This is verified research machinery, not a MAX11 result.  It proves neither
-that the live 301-row scan has a rational seed nor that repeated residual rows
-will converge.  A negative result remains restricted to the fixed G-0113
-family unless a separate completeness theorem is proved.  A positive panel
-seed is not global until the complete normal-form residual is zero over `Q`.
+No MAX11 identity or unrestricted lower bound has been obtained.  The earned
+claims are: an exact finite-panel member, an exact global refutation of that
+particular seed, an explicit new CEGIS row, and adversarially tested machinery
+for continuing the finite-family search.  A family member becomes a MAX11
+candidate only after exact global normal-form zero and still requires an
+audited compilation into the declared two-hidden-layer architecture before
+Lean formalization.

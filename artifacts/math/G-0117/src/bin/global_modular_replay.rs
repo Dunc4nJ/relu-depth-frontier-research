@@ -10,6 +10,13 @@ use std::path::{Path, PathBuf};
 use std::time::Instant;
 
 const PRIMES: [u64; 2] = [1_000_000_007, 1_000_000_009];
+const INPUT_SHA256: &str = "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8";
+const POSTPROCESSOR_SHA256: &str =
+    "07f20ee167483aedc0c06f40650fd3edc671ef7fc5cf1e1050b1ad388ba3ec48";
+const V2_CLAIM_BOUNDARY: &str = "Denominator-cleared exact-Q finite-panel seed for complete global replay; not a global identity, family-completeness theorem, or MAX11 result.";
+const COMPILED_PRODUCER: &[u8] = include_bytes!("global_modular_replay.rs");
+const COMPILED_KERNEL: &[u8] = include_bytes!("../lib.rs");
+const COMPILED_UNIQUENESS_LEMMA: &[u8] = include_bytes!("../../NORMAL_FORM_UNIQUENESS_LEMMA.md");
 
 #[derive(Deserialize)]
 struct PanelInput {
@@ -18,15 +25,53 @@ struct PanelInput {
 }
 
 #[derive(Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct CertificateTerm {
     sequence: usize,
     coefficient: String,
 }
 
 #[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
 struct Certificate {
     schema: String,
+    #[serde(default)]
+    claim_boundary: Option<String>,
+    #[serde(default)]
+    source_exact_postprocess: Option<SourceExactPostprocess>,
+    #[serde(default)]
+    target_scale: Option<String>,
     terms: Vec<CertificateTerm>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct SourceExactPostprocess {
+    sha256: String,
+    schema: String,
+    result: String,
+    bindings: SourceBindings,
+    verification: SourceVerification,
+}
+
+#[derive(Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
+struct SourceBindings {
+    input: String,
+    rows: String,
+    report: String,
+    retained: String,
+    producer: String,
+    preregistration: String,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct SourceVerification {
+    decision_projection_recomputed: bool,
+    postprocess_sha256: String,
+    python_executable_sha256: String,
+    actual_artifact_bindings: SourceBindings,
 }
 
 #[derive(Default)]
@@ -50,6 +95,8 @@ struct Output {
     result: &'static str,
     claim_boundary: &'static str,
     bindings: BTreeMap<String, String>,
+    certificate_schema: String,
+    target_scale: String,
     primes: [u64; 2],
     terms: usize,
     hinge_entries_processed: u64,
@@ -76,6 +123,17 @@ fn sha256_path(path: &Path) -> Result<String> {
     Ok(format!("{:x}", digest.finalize()))
 }
 
+fn sha256_bytes(value: &[u8]) -> String {
+    format!("{:x}", Sha256::digest(value))
+}
+
+fn canonical_sha256(raw: &str) -> bool {
+    raw.len() == 64
+        && raw
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+}
+
 fn decimal_mod(raw: &str, prime: u64) -> Result<u64> {
     ensure!(!raw.is_empty(), "empty integer");
     let (negative, digits) = raw
@@ -94,6 +152,20 @@ fn decimal_mod(raw: &str, prime: u64) -> Result<u64> {
     } else {
         value
     })
+}
+
+fn canonical_integer(raw: &str) -> bool {
+    if raw == "0" {
+        return true;
+    }
+    let digits = raw.strip_prefix('-').unwrap_or(raw);
+    !digits.is_empty()
+        && !digits.starts_with('0')
+        && digits.bytes().all(|byte| byte.is_ascii_digit())
+}
+
+fn canonical_positive_integer(raw: &str) -> bool {
+    canonical_integer(raw) && raw != "0" && !raw.starts_with('-')
 }
 
 fn modular_power(mut base: u64, mut exponent: u64, prime: u64) -> u64 {
@@ -179,6 +251,8 @@ fn main() -> Result<()> {
     let output_path = PathBuf::from(&args[3]);
     ensure!(!output_path.exists(), "refusing to overwrite output");
     let started = Instant::now();
+    let input_sha256 = sha256_path(&input_path)?;
+    ensure!(input_sha256 == INPUT_SHA256, "panel-input binding drift");
     let input: PanelInput = serde_json::from_reader(BufReader::new(File::open(&input_path)?))?;
     let certificate: Certificate =
         serde_json::from_reader(BufReader::new(File::open(&certificate_path)?))?;
@@ -187,10 +261,80 @@ fn main() -> Result<()> {
         "panel-input schema drift"
     );
     ensure!(
-        certificate.schema == "max11-g0117-global-replay-certificate-v1",
+        certificate.schema == "max11-g0117-global-replay-certificate-v1"
+            || certificate.schema == "max11-g0117-global-replay-certificate-v2",
         "certificate schema drift"
     );
     ensure!(!certificate.terms.is_empty(), "empty certificate");
+    let target_scale = match certificate.schema.as_str() {
+        "max11-g0117-global-replay-certificate-v1" => {
+            ensure!(
+                certificate.target_scale.is_none(),
+                "v1 certificate must have implicit target scale one"
+            );
+            ensure!(
+                certificate.claim_boundary.is_none()
+                    && certificate.source_exact_postprocess.is_none(),
+                "v1 certificate contains v2 provenance fields"
+            );
+            "1".to_string()
+        }
+        "max11-g0117-global-replay-certificate-v2" => {
+            ensure!(
+                certificate.claim_boundary.as_deref() == Some(V2_CLAIM_BOUNDARY),
+                "v2 claim boundary drift"
+            );
+            let source = certificate
+                .source_exact_postprocess
+                .as_ref()
+                .context("v2 certificate missing exact-postprocess provenance")?;
+            ensure!(
+                canonical_sha256(&source.sha256),
+                "v2 source postprocess hash drift"
+            );
+            ensure!(
+                source.schema == "max11-g0113-panel-exact-postprocess-v1"
+                    && source.result == "EXACT_Q_MEMBER_FINITE_PANEL",
+                "v2 source exact-postprocess identity drift"
+            );
+            ensure!(
+                source.bindings.input == input_sha256
+                    && source.bindings.producer == POSTPROCESSOR_SHA256,
+                "v2 source input/producer binding drift"
+            );
+            ensure!(
+                source.verification.decision_projection_recomputed
+                    && source.verification.postprocess_sha256 == source.sha256
+                    && canonical_sha256(&source.verification.python_executable_sha256)
+                    && source.verification.actual_artifact_bindings == source.bindings,
+                "v2 source clean-recomputation binding drift"
+            );
+            for value in [
+                &source.bindings.rows,
+                &source.bindings.report,
+                &source.bindings.retained,
+                &source.bindings.preregistration,
+            ] {
+                ensure!(canonical_sha256(value), "v2 source binding hash drift");
+            }
+            let value = certificate
+                .target_scale
+                .as_deref()
+                .context("v2 certificate missing target scale")?;
+            ensure!(
+                canonical_positive_integer(value),
+                "v2 target scale must be a canonical positive integer"
+            );
+            for term in &certificate.terms {
+                ensure!(
+                    canonical_integer(&term.coefficient) && term.coefficient != "0",
+                    "v2 coefficients must be nonzero canonical integers"
+                );
+            }
+            value.to_string()
+        }
+        _ => unreachable!(),
+    };
     ensure!(
         input
             .records
@@ -238,7 +382,8 @@ fn main() -> Result<()> {
     let mut linear = aggregate.linear;
     let target = (1..=N as u64).product::<u64>();
     for (field, &prime) in PRIMES.iter().enumerate() {
-        linear[field][N - 1] = (linear[field][N - 1] + prime - target % prime) % prime;
+        let scaled_target = (target % prime) * decimal_mod(&target_scale, prime)? % prime;
+        linear[field][N - 1] = (linear[field][N - 1] + prime - scaled_target) % prime;
     }
     let first = aggregate
         .hinges
@@ -266,28 +411,47 @@ fn main() -> Result<()> {
     } else {
         "EXACT_GLOBAL_IDENTITY_REFUTED_BY_MODULAR_RESIDUAL"
     };
-    let mut bindings = BTreeMap::new();
-    bindings.insert("panel_input".to_string(), sha256_path(&input_path)?);
-    bindings.insert("certificate".to_string(), sha256_path(&certificate_path)?);
-    bindings.insert(
-        "kernel".to_string(),
-        sha256_path(Path::new(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/src/lib.rs"
-        )))?,
+    let producer_path = Path::new(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/src/bin/global_modular_replay.rs"
+    ));
+    let kernel_path = Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/src/lib.rs"));
+    let uniqueness_path = Path::new(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/NORMAL_FORM_UNIQUENESS_LEMMA.md"
+    ));
+    let producer_sha256 = sha256_path(producer_path)?;
+    let kernel_sha256 = sha256_path(kernel_path)?;
+    let uniqueness_sha256 = sha256_path(uniqueness_path)?;
+    ensure!(
+        producer_sha256 == sha256_bytes(COMPILED_PRODUCER),
+        "running binary was compiled from a different producer source"
     );
+    ensure!(
+        kernel_sha256 == sha256_bytes(COMPILED_KERNEL),
+        "running binary was compiled from a different kernel source"
+    );
+    ensure!(
+        uniqueness_sha256 == sha256_bytes(COMPILED_UNIQUENESS_LEMMA),
+        "running binary was compiled against a different uniqueness lemma"
+    );
+    let mut bindings = BTreeMap::new();
+    bindings.insert("panel_input".to_string(), input_sha256);
+    bindings.insert("certificate".to_string(), sha256_path(&certificate_path)?);
+    bindings.insert("kernel".to_string(), kernel_sha256);
+    bindings.insert("producer".to_string(), producer_sha256);
+    bindings.insert("normal_form_uniqueness".to_string(), uniqueness_sha256);
     bindings.insert(
-        "producer".to_string(),
-        sha256_path(Path::new(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/src/bin/global_modular_replay.rs"
-        )))?,
+        "executable".to_string(),
+        sha256_path(&std::env::current_exe().context("resolve current executable")?)?,
     );
     let output = Output {
         schema: "max11-g0117-global-modular-replay-v1",
         result,
         claim_boundary: "A nonzero modular residual exactly refutes this rational seed as a global identity. Two-prime zero is not an exact-Q identity and requires a deterministic integer bound or exact replay. Neither outcome proves family completeness or all-n.",
         bindings,
+        certificate_schema: certificate.schema,
+        target_scale,
         primes: PRIMES,
         terms: aggregate.terms,
         hinge_entries_processed: aggregate.hinge_entries_processed,
@@ -309,4 +473,44 @@ fn main() -> Result<()> {
     writer.flush()?;
     println!("{}", serde_json::to_string(&output)?);
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn canonical_integer_parser_is_fail_closed() {
+        for accepted in ["0", "1", "-1", "14", "-600000000000000000000"] {
+            assert!(canonical_integer(accepted));
+        }
+        for rejected in ["", "+1", "00", "01", "-0", "-01", "1/2", " 1", "1 "] {
+            assert!(!canonical_integer(rejected));
+        }
+        assert!(canonical_positive_integer("14"));
+        for rejected in ["0", "-1", "01", "1/2"] {
+            assert!(!canonical_positive_integer(rejected));
+        }
+    }
+
+    #[test]
+    fn denominator_clearing_is_fieldwise_equivalent() {
+        for prime in PRIMES {
+            let scale = decimal_mod("14", prime).unwrap();
+            assert_eq!(
+                fraction_mod("1/2", prime).unwrap() * scale % prime,
+                decimal_mod("7", prime).unwrap()
+            );
+            assert_eq!(
+                fraction_mod("-3/7", prime).unwrap() * scale % prime,
+                decimal_mod("-6", prime).unwrap()
+            );
+            let target = (1..=N as u64).product::<u64>() % prime;
+            assert_eq!(target * scale % prime, target * 14 % prime);
+            assert_ne!(
+                (decimal_mod("7", prime).unwrap() + 1) % prime,
+                decimal_mod("7", prime).unwrap()
+            );
+        }
+    }
 }

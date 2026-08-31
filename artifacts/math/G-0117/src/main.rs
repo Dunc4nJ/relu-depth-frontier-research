@@ -9,6 +9,9 @@ use std::io::{BufReader, BufWriter, Read, Write};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
+const COMPILED_PRODUCER: &[u8] = include_bytes!("main.rs");
+const COMPILED_KERNEL: &[u8] = include_bytes!("lib.rs");
+
 #[derive(Deserialize)]
 struct PanelInput {
     schema: String,
@@ -57,6 +60,10 @@ fn sha256_path(path: &Path) -> Result<String> {
         digest.update(&buffer[..read]);
     }
     Ok(format!("{:x}", digest.finalize()))
+}
+
+fn sha256_bytes(value: &[u8]) -> String {
+    format!("{:x}", Sha256::digest(value))
 }
 
 fn digest_i64<'a>(values: impl Iterator<Item = &'a i64>) -> String {
@@ -119,22 +126,26 @@ fn main() -> Result<()> {
     let linear_vectors = computed.iter().map(|item| item.1).collect::<Vec<_>>();
     let linear_digest = digest_i64(linear_vectors.iter().flat_map(|row| row.iter()));
     let hinge_digest = digest_i64(hinge_coefficients.iter());
+    let producer_path = Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/src/main.rs"));
+    let kernel_path = Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/src/lib.rs"));
+    let producer_sha256 = sha256_path(producer_path)?;
+    let kernel_sha256 = sha256_path(kernel_path)?;
+    ensure!(
+        producer_sha256 == sha256_bytes(COMPILED_PRODUCER),
+        "running binary was compiled from a different producer source"
+    );
+    ensure!(
+        kernel_sha256 == sha256_bytes(COMPILED_KERNEL),
+        "running binary was compiled from a different kernel source"
+    );
     let mut bindings = BTreeMap::new();
     bindings.insert("panel_input".to_string(), sha256_path(&input_path)?);
     bindings.insert("query".to_string(), sha256_path(&query_path)?);
+    bindings.insert("producer".to_string(), producer_sha256);
+    bindings.insert("kernel".to_string(), kernel_sha256);
     bindings.insert(
-        "producer".to_string(),
-        sha256_path(Path::new(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/src/main.rs"
-        )))?,
-    );
-    bindings.insert(
-        "kernel".to_string(),
-        sha256_path(Path::new(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/src/lib.rs"
-        )))?,
+        "executable".to_string(),
+        sha256_path(&std::env::current_exe().context("resolve current executable")?)?,
     );
     let output = Output {
         schema: "max11-g0117-coordinate-price-v1",
