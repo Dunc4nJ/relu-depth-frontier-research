@@ -258,6 +258,101 @@ const FROZEN_DIRECT_BINDINGS: &[(&str, &str, &str)] = &[
         "artifacts/cleanroom/G-0038/loop_inclusive_signed_degree5_stream_verification_v1.json",
         "8379177a8597fcfca9e291fd354289af4950976b32d8238b44caa4a2035cf542",
     ),
+    (
+        "stages_bc_source_audit_preregistration",
+        "artifacts/reviews/G-0137-g0135-stages-bc-source/PREREGISTRATION.md",
+        "e2bda62986001208e4e611ae147071b6932dc9ed99449aa4f54fcd178771948f",
+    ),
+    (
+        "stages_bc_source_audit_receipt",
+        "artifacts/reviews/G-0137-g0135-stages-bc-source/SOURCE_AUDIT_RECEIPT.json",
+        "9b6c8cb9492cb57cbf4dff589ed0d97437ae195ed0635eeaf0fe9b12052f956d",
+    ),
+    (
+        "stage_d_source_audit_preregistration",
+        "artifacts/reviews/G-0138-g0135-stage-d-source/PREREGISTRATION.md",
+        "b63b0ee0d36b1a91da3a35740ab026b7cec833950715189cef473ef1a86e6b8a",
+    ),
+    (
+        "stage_d_source_audit_receipt",
+        "artifacts/reviews/G-0138-g0135-stage-d-source/SOURCE_AUDIT_RECEIPT.json",
+        "f4e62ee4cd5311f74393e3141161512b62c65ebc9409c1ba5a8811019a2ec944",
+    ),
+    (
+        "stage_b_source",
+        "artifacts/math/G-0135/stage_b_pricer/src/main.rs",
+        "c591504757815ff63c46d29cfcc2ac10568bea92212ade32490def93b5d862b2",
+    ),
+    (
+        "stage_b_cargo_manifest",
+        "artifacts/math/G-0135/stage_b_pricer/Cargo.toml",
+        "a4057885f58199feb18e733ca01c7ec2a00dc05d8f2700a6dcb04f56825af11d",
+    ),
+    (
+        "stage_b_cargo_lock",
+        "artifacts/math/G-0135/stage_b_pricer/Cargo.lock",
+        "72315f7a541bf34fe135a25e651d2d85a885652944bdcac6862fb770d29669d3",
+    ),
+    (
+        "stage_b_executable",
+        "artifacts/math/G-0135/stage_b_pricer/target/release/g0135-stage-b-batch32-coordinate-pricer",
+        "e2e84801749bc0f2ca7bf18a149895531038ee0eab68f964b01ad25f1a3de7ef",
+    ),
+    (
+        "stage_c_source",
+        "artifacts/math/G-0135/stage_c_master/full_family_master_v3.py",
+        "c84f259d393756c9ff658aab9a1488b145b9607a939dbccfce47069168b40a1a",
+    ),
+    (
+        "stage_c_executable",
+        "artifacts/math/G-0135/stage_c_master/run-full-family-master-v3",
+        "b125566098be17edc0a572b776e1887813758afc7412324c29408592275ab508",
+    ),
+    (
+        "python_solver_requirements",
+        "requirements-solvers.lock",
+        "dae95ec0dd59c0b30ea69bfe541248049cee612a92d56c4d18e0c3217c170fb8",
+    ),
+    (
+        "python_solver_wheel_hashes",
+        "environment/python-wheel-hashes.txt",
+        "68c90da2eecf3285c99ad135ef142070c830fe4b14a4a35ebec265e6ffb3b311",
+    ),
+    (
+        "solver_toolchain_manifest",
+        "environment/toolchain-manifest.txt",
+        "a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e",
+    ),
+    (
+        "solver_toolchain_document",
+        "TOOLCHAIN.md",
+        "ffc55f711d52c90f4a1710cfd55366b2d1249a736db97f17c3a1c3e52188f150",
+    ),
+    (
+        "stage_d_source",
+        "artifacts/math/G-0135/stage_d_global_replay/src/main.rs",
+        "e120f0b1ef7b8465cfcd6d8ae1cd389b6554c19cff1d6f7ae3e8fbc8bace8665",
+    ),
+    (
+        "stage_d_engine",
+        "artifacts/math/G-0135/stage_d_global_replay/src/engine.rs",
+        "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c",
+    ),
+    (
+        "stage_d_cargo_manifest",
+        "artifacts/math/G-0135/stage_d_global_replay/Cargo.toml",
+        "0dc8c61a7114b7b3625f86f550ae682ac650b21081b7b0a70d19802a337bb4da",
+    ),
+    (
+        "stage_d_cargo_lock",
+        "artifacts/math/G-0135/stage_d_global_replay/Cargo.lock",
+        "13f29a23a9883e0ec61774532534819df16dcc86599b427952c06da6600f8d18",
+    ),
+    (
+        "stage_d_executable",
+        "artifacts/math/G-0135/stage_d_global_replay/target/release/g0135-stage-d-global-replay",
+        "1d4142782ff6a81e77162b5c599a71985c934f455b128507519c911a749e63b4",
+    ),
 ];
 
 #[derive(Deserialize)]
@@ -427,6 +522,13 @@ struct ManifestEnvironment {
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
+struct PlannedOutput {
+    path: String,
+    schema: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
 struct StudyManifest {
     schema: String,
     selected_branch: String,
@@ -438,6 +540,8 @@ struct StudyManifest {
     transitive_inputs: Vec<Binding>,
     parameters: ManifestParameters,
     environment: ManifestEnvironment,
+    stage_order: Vec<String>,
+    planned_outputs: BTreeMap<String, PlannedOutput>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
@@ -2194,7 +2298,7 @@ fn validate_source_audit(
     let path = checked_repo_path(root, SOURCE_AUDIT_RECEIPT_PATH)?;
     let receipt: SourceAuditReceipt = serde_json::from_reader(BufReader::new(File::open(path)?))?;
     ensure!(
-        receipt.schema == "max11-g0133-g0135-source-audit-receipt-v1"
+        receipt.schema == "max11-g0136-g0135-source-audit-v1"
             && receipt.verdict == "PASS"
             && !receipt.scientific_manifest_observed
             && !receipt.scientific_output_observed
@@ -2370,6 +2474,42 @@ fn expected_manifest(root: &Path, transitive_inputs: Vec<Binding>) -> Result<Stu
             decision_rule: EXACT_DECISION_RULE.to_string(),
         },
         environment: manifest_environment()?,
+        stage_order: vec![
+            "A_REPLAY_SELECT".to_string(),
+            "B_PRICE".to_string(),
+            "C_MASTER".to_string(),
+            "D_GLOBAL_REPLAY_IF_MEMBER".to_string(),
+        ],
+        planned_outputs: BTreeMap::from([
+            (
+                "A".to_string(),
+                PlannedOutput {
+                    path: MEMBER_RESULT_PATH.to_string(),
+                    schema: "max11-g0135-batch32-global-replay-v1".to_string(),
+                },
+            ),
+            (
+                "B".to_string(),
+                PlannedOutput {
+                    path: "artifacts/math/G-0135/batch32_coordinate_prices_v1.json".to_string(),
+                    schema: "max11-g0135-batch32-coordinate-prices-v1".to_string(),
+                },
+            ),
+            (
+                "C".to_string(),
+                PlannedOutput {
+                    path: "artifacts/math/G-0135/full_family_master_result_v3.json".to_string(),
+                    schema: "max11-g0135-full-family-master-result-v3".to_string(),
+                },
+            ),
+            (
+                "D".to_string(),
+                PlannedOutput {
+                    path: "artifacts/math/G-0135/new_member_global_replay_v1.json".to_string(),
+                    schema: "max11-g0135-new-member-global-replay-v1".to_string(),
+                },
+            ),
+        ]),
     })
 }
 
