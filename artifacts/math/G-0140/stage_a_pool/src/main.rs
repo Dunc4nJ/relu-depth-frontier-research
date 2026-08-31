@@ -70,11 +70,14 @@ const STAGE_C_OUTPUT_PATH: &str = "artifacts/math/G-0140/pool128_exact_rank_sele
 const STAGE_D_OUTPUT_PATH: &str = "artifacts/math/G-0140/rank_aware_master_result_v1.json";
 const STAGE_E_OUTPUT_PATH: &str = "artifacts/math/G-0140/new_member_global_replay_v1.json";
 const STAGE_A_SOURCE_AUDIT_PATH: &str =
-    "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json";
-const STAGE_A_SOURCE_AUDIT_SCHEMA: &str = "max11-g0146-g0140-stage-a-final-source-audit-v1";
+    "artifacts/reviews/G-0150-g0140-stage-a-final2-source/SOURCE_AUDIT_RECEIPT.json";
+const STAGE_A_SOURCE_AUDIT_PREREG_PATH: &str =
+    "artifacts/reviews/G-0150-g0140-stage-a-final2-source/PREREGISTRATION.md";
+const STAGE_A_SOURCE_AUDIT_SCHEMA: &str = "max11-g0150-g0140-stage-a-final2-source-audit-v1";
 const SOURCE_CUSTODY_PASS_RESULT: &str = "SOURCE_CUSTODY_AUDIT_PASS_T1";
 const STAGE_A_SOURCE_AUDIT_EVIDENCE_CLASS: &str = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT";
 const STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY: &str = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.";
+const STAGE_A_SOURCE_AUDIT_NO_CLAIM: &str = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 member, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem.";
 const PRIOR_MASTER_RESULT_PATH: &str = "artifacts/math/G-0128/full_family_master_result_v2.json";
 const PRIOR_MASTER_MANIFEST_PATH: &str =
     "artifacts/math/G-0128/full_family_master_manifest_v2.json";
@@ -183,6 +186,80 @@ const REQUIRED_MANIFEST_PATHS: &[&str] = &[
 struct Binding {
     path: String,
     sha256: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditReviewer {
+    agent_name: String,
+    program: String,
+    model: String,
+    same_model_lineage: bool,
+    fresh_context: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditPreregistration {
+    path: String,
+    sha256: String,
+    git_commit: String,
+    committed_and_pushed_before_subject_source_inspection: bool,
+    committed_and_pushed_before_runtime_checks: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditBindings {
+    main_source: Binding,
+    engine_source: Binding,
+    cargo_manifest: Binding,
+    cargo_lock: Binding,
+    release_executable: Binding,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditSubject {
+    git_commit: String,
+    commit_object_and_working_bytes_equal_for_all_bindings: bool,
+    bindings: FinalStageASourceAuditBindings,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditChecks {
+    exact_named_binding_contract: bool,
+    displaced_recursive_lookalikes_rejected: bool,
+    correct_decoy_with_missing_named_binding_rejected: bool,
+    duplicate_path_occurrences_rejected: bool,
+    unknown_envelope_fields_rejected: bool,
+    audit_git_commit_rejected: bool,
+    duplicate_json_keys_rejected: bool,
+    trailing_json_data_rejected: bool,
+    producer_self_test_passed: bool,
+    producer_static_preflight_passed: bool,
+    producer_ancestor_preflight_passed: bool,
+    prohibited_scientific_modes_not_run: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FinalStageASourceAuditReceipt {
+    schema: String,
+    verdict: String,
+    result: String,
+    evidence_class: String,
+    claim_boundary: String,
+    reviewer: FinalStageASourceAuditReviewer,
+    preregistration: FinalStageASourceAuditPreregistration,
+    subject: FinalStageASourceAuditSubject,
+    required_checks: FinalStageASourceAuditChecks,
+    scientific_manifest_observed: bool,
+    scientific_input_observed: bool,
+    scientific_output_observed: bool,
+    scientific_replay_run: bool,
+    no_claim: String,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
@@ -1251,6 +1328,110 @@ fn collect_recursive_bindings(value: &Value, output: &mut Vec<Binding>) {
     }
 }
 
+fn final_stage_a_source_audit_bindings(
+    receipt: &FinalStageASourceAuditReceipt,
+) -> [(&'static str, &Binding); 5] {
+    [
+        (PRODUCER_SOURCE_PATH, &receipt.subject.bindings.main_source),
+        (
+            PRODUCER_ENGINE_PATH,
+            &receipt.subject.bindings.engine_source,
+        ),
+        (
+            PRODUCER_CARGO_PATH,
+            &receipt.subject.bindings.cargo_manifest,
+        ),
+        (PRODUCER_LOCK_PATH, &receipt.subject.bindings.cargo_lock),
+        (
+            PRODUCER_EXECUTABLE_PATH,
+            &receipt.subject.bindings.release_executable,
+        ),
+    ]
+}
+
+fn final_stage_a_source_audit_receipt(receipt: &Value) -> Result<FinalStageASourceAuditReceipt> {
+    serde_json::from_value(receipt.clone())
+        .context("strict final Stage-A source-audit schema validation")
+}
+
+fn validate_final_stage_a_source_audit_semantics(
+    receipt: &FinalStageASourceAuditReceipt,
+) -> Result<()> {
+    ensure!(
+        receipt.schema == STAGE_A_SOURCE_AUDIT_SCHEMA
+            && receipt.verdict == "PASS"
+            && receipt.result == SOURCE_CUSTODY_PASS_RESULT
+            && receipt.evidence_class == STAGE_A_SOURCE_AUDIT_EVIDENCE_CLASS
+            && receipt.claim_boundary == STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY
+            && receipt.no_claim == STAGE_A_SOURCE_AUDIT_NO_CLAIM
+            && !receipt.scientific_manifest_observed
+            && !receipt.scientific_input_observed
+            && !receipt.scientific_output_observed
+            && !receipt.scientific_replay_run,
+        "final Stage-A source audit semantic boundary drift"
+    );
+    ensure!(
+        !receipt.reviewer.agent_name.is_empty()
+            && receipt.reviewer.program == "codex"
+            && !receipt.reviewer.model.is_empty()
+            && receipt.reviewer.same_model_lineage
+            && receipt.reviewer.fresh_context,
+        "final Stage-A source audit reviewer disclosure drift"
+    );
+    ensure!(
+        receipt.preregistration.path == STAGE_A_SOURCE_AUDIT_PREREG_PATH
+            && is_sha256(&receipt.preregistration.sha256)
+            && receipt.preregistration.git_commit.len() == 40
+            && receipt
+                .preregistration
+                .git_commit
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+            && receipt
+                .preregistration
+                .committed_and_pushed_before_subject_source_inspection
+            && receipt
+                .preregistration
+                .committed_and_pushed_before_runtime_checks,
+        "final Stage-A source audit preregistration drift"
+    );
+    ensure!(
+        receipt.subject.git_commit.len() == 40
+            && receipt
+                .subject
+                .git_commit
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+            && receipt
+                .subject
+                .commit_object_and_working_bytes_equal_for_all_bindings,
+        "final Stage-A source audit subject custody drift"
+    );
+    for (expected_path, binding) in final_stage_a_source_audit_bindings(receipt) {
+        ensure!(
+            binding.path == expected_path && is_sha256(&binding.sha256),
+            "final Stage-A source audit named binding drift: {expected_path}"
+        );
+    }
+    let checks = &receipt.required_checks;
+    ensure!(
+        checks.exact_named_binding_contract
+            && checks.displaced_recursive_lookalikes_rejected
+            && checks.correct_decoy_with_missing_named_binding_rejected
+            && checks.duplicate_path_occurrences_rejected
+            && checks.unknown_envelope_fields_rejected
+            && checks.audit_git_commit_rejected
+            && checks.duplicate_json_keys_rejected
+            && checks.trailing_json_data_rejected
+            && checks.producer_self_test_passed
+            && checks.producer_static_preflight_passed
+            && checks.producer_ancestor_preflight_passed
+            && checks.prohibited_scientific_modes_not_run,
+        "final Stage-A source audit required-check drift"
+    );
+    Ok(())
+}
+
 fn source_audit_contract(audit_path: &str) -> Result<(&'static str, Option<&'static str>)> {
     match audit_path {
         STAGE_A_AUDIT_PATH => Ok(("max11-g0136-g0135-source-audit-v1", None)),
@@ -1265,6 +1446,11 @@ fn source_audit_contract(audit_path: &str) -> Result<(&'static str, Option<&'sta
 }
 
 fn validate_source_audit_envelope(receipt: &Value, audit_path: &str) -> Result<()> {
+    if audit_path == STAGE_A_SOURCE_AUDIT_PATH {
+        return validate_final_stage_a_source_audit_semantics(&final_stage_a_source_audit_receipt(
+            receipt,
+        )?);
+    }
     let (expected_schema, expected_result) = source_audit_contract(audit_path)?;
     let result_matches = match expected_result {
         Some(result) => value_string(receipt, "/result")? == result,
@@ -1278,19 +1464,6 @@ fn validate_source_audit_envelope(receipt: &Value, audit_path: &str) -> Result<(
             && result_matches,
         "source audit is not the exact outcome-blind PASS contract for {audit_path}"
     );
-    if audit_path == STAGE_A_SOURCE_AUDIT_PATH {
-        ensure!(
-            value_string(receipt, "/evidence_class")? == STAGE_A_SOURCE_AUDIT_EVIDENCE_CLASS
-                && value_string(receipt, "/claim_boundary")? == STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY
-                && !value_bool(receipt, "/scientific_input_observed")?
-                && !value_bool(receipt, "/scientific_replay_run")?
-                && value_bool(
-                    receipt,
-                    "/subject/commit_object_and_working_bytes_equal_for_all_bindings"
-                )?,
-            "final Stage-A source audit semantic boundary drift"
-        );
-    }
     Ok(())
 }
 
@@ -1313,14 +1486,44 @@ fn validate_source_audit(
     let receipt = strict_json_value(BufReader::new(File::open(path)?))?;
     validate_source_audit_envelope(&receipt, audit_path)?;
     if audit_path == STAGE_A_SOURCE_AUDIT_PATH {
-        let subject_path = required_subject_paths
-            .first()
-            .context("final Stage-A audit subject path missing")?;
         ensure!(
-            value_string(&receipt, "/subject/git_commit")?
-                == git_commit_for_path(root, subject_path)?,
+            required_subject_paths
+                == [
+                    PRODUCER_SOURCE_PATH,
+                    PRODUCER_ENGINE_PATH,
+                    PRODUCER_CARGO_PATH,
+                    PRODUCER_LOCK_PATH,
+                    PRODUCER_EXECUTABLE_PATH,
+                ],
+            "final Stage-A audit named-subject call contract drift"
+        );
+        let receipt = final_stage_a_source_audit_receipt(&receipt)?;
+        ensure!(
+            receipt.subject.git_commit == git_commit_for_path(root, PRODUCER_SOURCE_PATH)?,
             "final Stage-A audited-subject Git identity drift"
         );
+        let preregistration_path = checked_repo_path(root, STAGE_A_SOURCE_AUDIT_PREREG_PATH)?;
+        ensure!(
+            sha256_path(&preregistration_path)? == receipt.preregistration.sha256
+                && git_commit_for_path(root, STAGE_A_SOURCE_AUDIT_PREREG_PATH)?
+                    == receipt.preregistration.git_commit,
+            "final Stage-A audit preregistration custody drift"
+        );
+        for (required, binding) in final_stage_a_source_audit_bindings(&receipt) {
+            let expected = manifest
+                .bindings_by_path
+                .get(required)
+                .with_context(|| format!("shared manifest omits audited subject {required}"))?;
+            ensure!(
+                binding.sha256 == *expected,
+                "final Stage-A source audit does not bind exact named subject: {required}"
+            );
+            ensure!(
+                sha256_path(&checked_repo_path(root, required)?)? == binding.sha256,
+                "final Stage-A source audit named binding drift: {required}"
+            );
+        }
+        return Ok(());
     }
     let mut observed = Vec::new();
     collect_recursive_bindings(&receipt, &mut observed);
@@ -2959,43 +3162,104 @@ fn self_test() -> Result<()> {
         .all(|mutant| validate_g0139_semantics(mutant).is_err()),
         "G-0139 semantic hostile control escaped"
     );
+    let zero_sha256 = "0".repeat(64);
+    let zero_commit = "0".repeat(40);
     let source_audit = serde_json::json!({
         "schema": STAGE_A_SOURCE_AUDIT_SCHEMA,
         "verdict": "PASS",
         "result": SOURCE_CUSTODY_PASS_RESULT,
         "evidence_class": STAGE_A_SOURCE_AUDIT_EVIDENCE_CLASS,
         "claim_boundary": STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY,
+        "reviewer": {
+            "agent_name": "FreshReviewer",
+            "program": "codex",
+            "model": "gpt-5",
+            "same_model_lineage": true,
+            "fresh_context": true
+        },
+        "preregistration": {
+            "path": STAGE_A_SOURCE_AUDIT_PREREG_PATH,
+            "sha256": zero_sha256.clone(),
+            "git_commit": zero_commit.clone(),
+            "committed_and_pushed_before_subject_source_inspection": true,
+            "committed_and_pushed_before_runtime_checks": true
+        },
+        "subject": {
+            "git_commit": zero_commit,
+            "commit_object_and_working_bytes_equal_for_all_bindings": true,
+            "bindings": {
+                "main_source": {"path": PRODUCER_SOURCE_PATH, "sha256": zero_sha256.clone()},
+                "engine_source": {"path": PRODUCER_ENGINE_PATH, "sha256": zero_sha256.clone()},
+                "cargo_manifest": {"path": PRODUCER_CARGO_PATH, "sha256": zero_sha256.clone()},
+                "cargo_lock": {"path": PRODUCER_LOCK_PATH, "sha256": zero_sha256.clone()},
+                "release_executable": {
+                    "path": PRODUCER_EXECUTABLE_PATH,
+                    "sha256": zero_sha256
+                }
+            }
+        },
+        "required_checks": {
+            "exact_named_binding_contract": true,
+            "displaced_recursive_lookalikes_rejected": true,
+            "correct_decoy_with_missing_named_binding_rejected": true,
+            "duplicate_path_occurrences_rejected": true,
+            "unknown_envelope_fields_rejected": true,
+            "audit_git_commit_rejected": true,
+            "duplicate_json_keys_rejected": true,
+            "trailing_json_data_rejected": true,
+            "producer_self_test_passed": true,
+            "producer_static_preflight_passed": true,
+            "producer_ancestor_preflight_passed": true,
+            "prohibited_scientific_modes_not_run": true
+        },
         "scientific_manifest_observed": false,
         "scientific_input_observed": false,
         "scientific_output_observed": false,
         "scientific_replay_run": false,
-        "subject": {
-            "commit_object_and_working_bytes_equal_for_all_bindings": true
-        }
+        "no_claim": STAGE_A_SOURCE_AUDIT_NO_CLAIM
     });
     validate_source_audit_envelope(&source_audit, STAGE_A_SOURCE_AUDIT_PATH)?;
     let mut source_audit_schema_mutant = source_audit.clone();
     source_audit_schema_mutant["schema"] = Value::String("lookalike-source-audit".to_string());
-    let mut source_audit_result_mutant = source_audit;
+    let mut source_audit_result_mutant = source_audit.clone();
     source_audit_result_mutant["result"] = Value::String("LOOKALIKE_PASS".to_string());
-    let mut source_audit_observation_mutant = source_audit_result_mutant.clone();
-    source_audit_observation_mutant["result"] =
-        Value::String(SOURCE_CUSTODY_PASS_RESULT.to_string());
+    let mut source_audit_observation_mutant = source_audit.clone();
     source_audit_observation_mutant["scientific_input_observed"] = Value::Bool(true);
+    let mut source_audit_displaced_bindings = source_audit.clone();
+    let displaced = source_audit_displaced_bindings["subject"]
+        .as_object_mut()
+        .context("Stage-A audit subject fixture drift")?
+        .remove("bindings")
+        .context("Stage-A audit binding fixture drift")?;
+    source_audit_displaced_bindings["unrelated_receipt_lookalikes"] = displaced;
+    let mut source_audit_missing_named_with_decoy = source_audit.clone();
+    let decoy = source_audit_missing_named_with_decoy["subject"]["bindings"]
+        .as_object_mut()
+        .context("Stage-A named binding fixture drift")?
+        .remove("main_source")
+        .context("Stage-A main-source fixture drift")?;
+    source_audit_missing_named_with_decoy["subject"]["unrelated_main_source_decoy"] = decoy;
+    let mut source_audit_duplicate_path = source_audit.clone();
+    source_audit_duplicate_path["subject"]["bindings"]["engine_source"]["path"] =
+        Value::String(PRODUCER_SOURCE_PATH.to_string());
+    let mut source_audit_unknown_envelope = source_audit.clone();
+    source_audit_unknown_envelope["unknown_extension"] = Value::Bool(true);
+    let mut source_audit_self_reference = source_audit.clone();
+    source_audit_self_reference["audit_git_commit"] = Value::String("0".repeat(40));
     ensure!(
-        validate_source_audit_envelope(&source_audit_schema_mutant, STAGE_A_SOURCE_AUDIT_PATH)
-            .is_err()
-            && validate_source_audit_envelope(
-                &source_audit_result_mutant,
-                STAGE_A_SOURCE_AUDIT_PATH
-            )
-            .is_err()
-            && validate_source_audit_envelope(
-                &source_audit_observation_mutant,
-                STAGE_A_SOURCE_AUDIT_PATH
-            )
-            .is_err(),
-        "Stage-A source-audit schema/result hostile control escaped"
+        [
+            source_audit_schema_mutant,
+            source_audit_result_mutant,
+            source_audit_observation_mutant,
+            source_audit_displaced_bindings,
+            source_audit_missing_named_with_decoy,
+            source_audit_duplicate_path,
+            source_audit_unknown_envelope,
+            source_audit_self_reference,
+        ]
+        .iter()
+        .all(|mutant| validate_source_audit_envelope(mutant, STAGE_A_SOURCE_AUDIT_PATH).is_err()),
+        "Stage-A source-audit exact-schema hostile control escaped"
     );
     for valid in ["0", "1", "-1", "12345678901234567890"] {
         ensure!(canonical_integer(valid), "valid integer rejected");
