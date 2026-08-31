@@ -1,0 +1,765 @@
+{
+  "schema": "max11-g0118-batch32-global-modular-replay-v1",
+  "result": "BATCH_RESIDUAL_PREFIX_SELECTED",
+  "claim_boundary": "A nonzero two-prime residual exactly refutes candidate 4; selected rows are deterministic finite-family CEGIS inputs. Two-prime zero remains a screen. No outcome proves family completeness or MAX11.",
+  "bindings": {
+    "candidate": "728c06bd02f03367fbfa9f50c0353dc74b708a6ef576520cc0eaa72e2e472e1b",
+    "candidate_recheck": "f29c7095a60ab945293bb1b182afde372405e3cb45c3509080f766aebf46911f",
+    "executable": "23cdb95471ec6213152b4c51f8efd6c9cf9699dbb19c44377b29c56d6d55d61c",
+    "kernel": "2bb97bb05e32816a77d438a14b049cbf5b003d6ba164b7f0088422d49f80afa6",
+    "normal_form_uniqueness": "39de1eb61aaee37a24c8a45d55cbc5fd6f27c7b68d506f8757f352881a6e0c17",
+    "panel_input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "preregistration": "54a329587786c8824e8eede13a6165983ecc64c27a7f758be9676583bd283feb",
+    "producer": "172be64103b9ebf7516514923c94bc7de8ee63bfc92a776e321c87c469a58db9"
+  },
+  "candidate_schema": "max11-g0118-prefix-exact-cegis-accumulated-v1",
+  "candidate_result": "PREFIX_EXACT_Q_MEMBER_ALL_316_ROWS",
+  "target_scale": "2649674637206521884315520999124701758918964118077166516712310601573977524795555143104370988800212110",
+  "primes": [
+    1000000007,
+    1000000009
+  ],
+  "batch_k": 32,
+  "selection_rule": "After target subtraction, require accumulated d1..d4 zero in both fields; retain every hinge direction nonzero in either field; signed-i8 tuple lexicographic ascending; take first min(32,count).",
+  "complete_global_replay": true,
+  "terms": 102,
+  "hinge_entries_processed": 3585323,
+  "labelled_permutations_checked": 4071513600,
+  "aggregate_hinge_support": 172454,
+  "nonzero_hinge_residue_directions": 172430,
+  "accumulated_row_checks": [
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -5,
+        4
+      ],
+      "residues": [
+        0,
+        0
+      ],
+      "zero_in_both_fields": true
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -4,
+        3
+      ],
+      "residues": [
+        0,
+        0
+      ],
+      "zero_in_both_fields": true
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -3,
+        2
+      ],
+      "residues": [
+        0,
+        0
+      ],
+      "zero_in_both_fields": true
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        1
+      ],
+      "residues": [
+        0,
+        0
+      ],
+      "zero_in_both_fields": true
+    }
+  ],
+  "linear_residues_after_target": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "all_hinge_and_linear_residues_zero": [
+    false,
+    false
+  ],
+  "selected_count": 32,
+  "selected_prefix_i8_u64_le_sha256": "78c3f84bfd8f4361d594cef39b7406f79c9e3f2fc7e93b21def6c2edfad950f8",
+  "selected": [
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        -3,
+        1
+      ],
+      "residues": [
+        469475727,
+        88067972
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -5,
+        2,
+        2
+      ],
+      "residues": [
+        111769409,
+        499589249
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -4,
+        0,
+        3
+      ],
+      "residues": [
+        858266318,
+        883971228
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -4,
+        1,
+        2
+      ],
+      "residues": [
+        745516949,
+        516430867
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -4,
+        2,
+        1
+      ],
+      "residues": [
+        908241537,
+        465252823
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -4,
+        4,
+        -1
+      ],
+      "residues": [
+        858266318,
+        883971228
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -3,
+        -1,
+        3
+      ],
+      "residues": [
+        617796628,
+        481488140
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -3,
+        0,
+        2
+      ],
+      "residues": [
+        872556081,
+        654337919
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -3,
+        1,
+        1
+      ],
+      "residues": [
+        392354906,
+        8581587
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -3,
+        2,
+        0
+      ],
+      "residues": [
+        594827141,
+        449190032
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -3,
+        3,
+        -1
+      ],
+      "residues": [
+        877516102,
+        730670361
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        -2,
+        3
+      ],
+      "residues": [
+        415396475,
+        620679335
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        -1,
+        2
+      ],
+      "residues": [
+        700694048,
+        214523234
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        0,
+        1
+      ],
+      "residues": [
+        848565665,
+        143123543
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        1,
+        0
+      ],
+      "residues": [
+        92188675,
+        36382508
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        2,
+        -1
+      ],
+      "residues": [
+        551046882,
+        459031150
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -2,
+        3,
+        -2
+      ],
+      "residues": [
+        983877284,
+        647918839
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1,
+        -3,
+        3
+      ],
+      "residues": [
+        180775078,
+        797778384
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1,
+        -2,
+        2
+      ],
+      "residues": [
+        853952923,
+        414588910
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1,
+        -1,
+        1
+      ],
+      "residues": [
+        324554520,
+        929318457
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -3,
+        2
+      ],
+      "residues": [
+        75705564,
+        630830291
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -2,
+        1
+      ],
+      "residues": [
+        434018343,
+        491133356
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        -4,
+        2
+      ],
+      "residues": [
+        340996350,
+        131755236
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        -3,
+        1
+      ],
+      "residues": [
+        909655359,
+        994895075
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        -5,
+        2
+      ],
+      "residues": [
+        193132939,
+        979063282
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        -4,
+        1
+      ],
+      "residues": [
+        37631607,
+        721419012
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        -5,
+        1,
+        2
+      ],
+      "residues": [
+        596566473,
+        489531641
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        -5,
+        2,
+        1
+      ],
+      "residues": [
+        596566473,
+        489531641
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        -4,
+        1,
+        1
+      ],
+      "residues": [
+        51709957,
+        524310316
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        -3,
+        -2,
+        3
+      ],
+      "residues": [
+        454798582,
+        652768826
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        -3,
+        -1,
+        2
+      ],
+      "residues": [
+        799421185,
+        759439175
+      ]
+    },
+    {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        -3,
+        0,
+        1
+      ],
+      "residues": [
+        49815667,
+        685735519
+      ]
+    }
+  ],
+  "coefficient_plus_one_mutant": {
+    "sequence": 0,
+    "coefficient_delta": "+1",
+    "accumulated_rows_all_zero": false,
+    "linear_residues_match": false,
+    "selected_prefix_matches": false,
+    "rejected": true
+  },
+  "wall_seconds": 84.981045431
+}
