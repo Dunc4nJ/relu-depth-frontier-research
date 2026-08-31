@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Exact-Q 412-row all-column master for G-0135 Stage C.
 
 This producer validates the sealed G-0128 380-row member, the future G-0135
@@ -11,13 +10,17 @@ or preflight mode.
 from __future__ import annotations
 
 import argparse
+import base64
+import csv
 import hashlib
+import importlib.metadata
 import importlib.util
 import json
 import math
 import mmap
 import os
 import resource
+import sys
 import tempfile
 import time
 from collections.abc import Callable, Iterable, Sequence
@@ -91,6 +94,11 @@ TOOLCHAIN_MANIFEST_SHA256 = (
     "a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
 )
 TOOLCHAIN_SHA256 = "ffc55f711d52c90f4a1710cfd55366b2d1249a736db97f17c3a1c3e52188f150"
+PYTHON_FLINT_RECORD_SHA256 = (
+    "4157ce9fde01368d5ad3a215d94073a0706b62253bc53170f33c00633629b088"
+)
+PYTHON_FLINT_RECORD_ROWS = 139
+PYTHON_FLINT_HASHED_FILES = 114
 EXPECTED_FIRST_DIRECTION = [0, 0, 0, 0, 0, 0, 1, -3, -2, 1, 3]
 EXPECTED_FIRST_COEFFICIENT = "363926958096805201036820427711562039306502598983761375638772015048437029843340726060005211433825934240455425251219346437121889771857125452344913600504791360"
 
@@ -354,7 +362,73 @@ def validate_exact_target(observed: object, expected: Sequence[int]) -> list[int
     return [int(value) for value in observed]
 
 
+def validate_python_runtime() -> dict[str, object]:
+    expected_prefix = contained(ROOT / ".venv")
+    require(
+        Path(sys.prefix).resolve() == expected_prefix
+        and sys.version_info[:3] == (3, 13, 7),
+        "Stage C must run in the pinned CPython 3.13.7 .venv",
+    )
+    try:
+        distribution = importlib.metadata.distribution("python-flint")
+        flint = importlib.import_module("flint")
+    except (ImportError, importlib.metadata.PackageNotFoundError) as error:
+        raise MasterError("pinned python-flint runtime is unavailable") from error
+    require(
+        distribution.version == "0.9.0" and flint.__version__ == "0.9.0",
+        "python-flint version drift",
+    )
+    record_path = contained(
+        Path(distribution.locate_file("python_flint-0.9.0.dist-info/RECORD"))
+    )
+    require_digest(
+        sha256_path(record_path), PYTHON_FLINT_RECORD_SHA256, "python-flint RECORD"
+    )
+    with record_path.open("r", encoding="utf-8", newline="") as source:
+        rows = list(csv.reader(source))
+    require(
+        len(rows) == PYTHON_FLINT_RECORD_ROWS and all(len(row) == 3 for row in rows),
+        "python-flint RECORD census/shape drift",
+    )
+    hashed = 0
+    for name, digest_field, size_field in rows:
+        if not digest_field:
+            continue
+        algorithm, separator, encoded = digest_field.partition("=")
+        require(
+            algorithm == "sha256" and separator == "=" and bool(encoded),
+            f"python-flint RECORD hash format drift: {name}",
+        )
+        installed = contained(Path(distribution.locate_file(name)))
+        require(installed.is_file(), f"python-flint installed file missing: {name}")
+        actual_hex = sha256_path(installed)
+        actual_encoded = (
+            base64.urlsafe_b64encode(bytes.fromhex(actual_hex))
+            .decode("ascii")
+            .rstrip("=")
+        )
+        require(
+            actual_encoded == encoded
+            and size_field.isdigit()
+            and installed.stat().st_size == int(size_field),
+            f"python-flint installed file drift: {name}",
+        )
+        hashed += 1
+    require(
+        hashed == PYTHON_FLINT_HASHED_FILES,
+        "python-flint hashed-file census drift",
+    )
+    return {
+        "python": ".".join(str(value) for value in sys.version_info[:3]),
+        "python_flint": distribution.version,
+        "record_sha256": PYTHON_FLINT_RECORD_SHA256,
+        "record_rows": len(rows),
+        "hashed_files_verified": hashed,
+    }
+
+
 def validate_fixed_inputs() -> dict[str, str]:
+    validate_python_runtime()
     expected = {
         relative(PREREGISTRATION_PATH): PREREGISTRATION_SHA256,
         relative(G0128_SOURCE_PATH): G0128_SOURCE_SHA256,
@@ -2108,6 +2182,19 @@ def run(
 
 def self_test() -> None:
     rejected: list[str] = []
+
+    runtime = validate_python_runtime()
+    require(
+        runtime
+        == {
+            "python": "3.13.7",
+            "python_flint": "0.9.0",
+            "record_sha256": PYTHON_FLINT_RECORD_SHA256,
+            "record_rows": PYTHON_FLINT_RECORD_ROWS,
+            "hashed_files_verified": PYTHON_FLINT_HASHED_FILES,
+        },
+        "pinned Python runtime receipt drift",
+    )
 
     def rejected_control(label: str, action: Callable[[], object]) -> None:
         try:
