@@ -9,6 +9,11 @@ use std::io::{BufReader, BufWriter, Read, Write};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
+#[path = "../cegis_provenance.rs"]
+mod cegis_provenance;
+
+use cegis_provenance::{CertificateTerm, SourceCegis, V3_CLAIM_BOUNDARY, V3_SCHEMA};
+
 const PRIMES: [u64; 2] = [1_000_000_007, 1_000_000_009];
 const INPUT_SHA256: &str = "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8";
 const POSTPROCESSOR_SHA256: &str =
@@ -24,13 +29,6 @@ struct PanelInput {
     records: Vec<Record>,
 }
 
-#[derive(Clone, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct CertificateTerm {
-    sequence: usize,
-    coefficient: String,
-}
-
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Certificate {
@@ -39,6 +37,8 @@ struct Certificate {
     claim_boundary: Option<String>,
     #[serde(default)]
     source_exact_postprocess: Option<SourceExactPostprocess>,
+    #[serde(default)]
+    source_cegis: Option<SourceCegis>,
     #[serde(default)]
     target_scale: Option<String>,
     terms: Vec<CertificateTerm>,
@@ -96,6 +96,7 @@ struct Output {
     claim_boundary: &'static str,
     bindings: BTreeMap<String, String>,
     certificate_schema: String,
+    source_provenance_sha256: Option<String>,
     target_scale: String,
     primes: [u64; 2],
     terms: usize,
@@ -262,11 +263,13 @@ fn main() -> Result<()> {
     );
     ensure!(
         certificate.schema == "max11-g0117-global-replay-certificate-v1"
-            || certificate.schema == "max11-g0117-global-replay-certificate-v2",
+            || certificate.schema == "max11-g0117-global-replay-certificate-v2"
+            || certificate.schema == V3_SCHEMA,
         "certificate schema drift"
     );
     ensure!(!certificate.terms.is_empty(), "empty certificate");
-    let target_scale = match certificate.schema.as_str() {
+    let mut v3_evidence_bindings = BTreeMap::new();
+    let (target_scale, source_provenance_sha256) = match certificate.schema.as_str() {
         "max11-g0117-global-replay-certificate-v1" => {
             ensure!(
                 certificate.target_scale.is_none(),
@@ -274,12 +277,17 @@ fn main() -> Result<()> {
             );
             ensure!(
                 certificate.claim_boundary.is_none()
-                    && certificate.source_exact_postprocess.is_none(),
+                    && certificate.source_exact_postprocess.is_none()
+                    && certificate.source_cegis.is_none(),
                 "v1 certificate contains v2 provenance fields"
             );
-            "1".to_string()
+            ("1".to_string(), None)
         }
         "max11-g0117-global-replay-certificate-v2" => {
+            ensure!(
+                certificate.source_cegis.is_none(),
+                "v2 contains v3 provenance"
+            );
             ensure!(
                 certificate.claim_boundary.as_deref() == Some(V2_CLAIM_BOUNDARY),
                 "v2 claim boundary drift"
@@ -331,7 +339,37 @@ fn main() -> Result<()> {
                     "v2 coefficients must be nonzero canonical integers"
                 );
             }
-            value.to_string()
+            (value.to_string(), Some(source.sha256.clone()))
+        }
+        V3_SCHEMA => {
+            ensure!(
+                certificate.claim_boundary.as_deref() == Some(V3_CLAIM_BOUNDARY),
+                "v3 claim boundary drift"
+            );
+            ensure!(
+                certificate.source_exact_postprocess.is_none(),
+                "v3 contains v2 provenance"
+            );
+            let source = certificate
+                .source_cegis
+                .as_ref()
+                .context("v3 certificate missing fresh-Q provenance")?;
+            let value = certificate
+                .target_scale
+                .as_deref()
+                .context("v3 certificate missing target scale")?;
+            let validated = cegis_provenance::validate_v3(
+                source,
+                &certificate.terms,
+                value,
+                &input_sha256,
+                &input.records,
+            )?;
+            v3_evidence_bindings = validated.evidence_bindings;
+            (
+                validated.target_scale.to_string(),
+                Some(validated.source_sha256),
+            )
         }
         _ => unreachable!(),
     };
@@ -441,6 +479,7 @@ fn main() -> Result<()> {
     bindings.insert("kernel".to_string(), kernel_sha256);
     bindings.insert("producer".to_string(), producer_sha256);
     bindings.insert("normal_form_uniqueness".to_string(), uniqueness_sha256);
+    bindings.extend(v3_evidence_bindings);
     bindings.insert(
         "executable".to_string(),
         sha256_path(&std::env::current_exe().context("resolve current executable")?)?,
@@ -451,6 +490,7 @@ fn main() -> Result<()> {
         claim_boundary: "A nonzero modular residual exactly refutes this rational seed as a global identity. Two-prime zero is not an exact-Q identity and requires a deterministic integer bound or exact replay. Neither outcome proves family completeness or all-n.",
         bindings,
         certificate_schema: certificate.schema,
+        source_provenance_sha256,
         target_scale,
         primes: PRIMES,
         terms: aggregate.terms,

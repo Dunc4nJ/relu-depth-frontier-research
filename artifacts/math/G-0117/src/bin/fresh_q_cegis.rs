@@ -35,11 +35,15 @@ const LINEAR_STREAM_I64_SHA256: &str =
 const RANK_SOURCE_SHA256: &str = "006968bbf4f428e4fa492d06b61b43d64b25e5febcc0751ec81c07d90a399994";
 const V3_PREREGISTRATION_SHA256: &str =
     "57c43026da21ead61e9fc0a7330e763809e9bd565ce7854eef03ef14803a2c46";
+const V3_PATH_ADDENDUM_SHA256: &str =
+    "10756e6f9fd36d797dd52917523605ff4807fb13780164ed04547f83f75c9a4b";
 
 const COMPILED_PRODUCER: &[u8] = include_bytes!("fresh_q_cegis.rs");
 const COMPILED_RANK: &[u8] = include_bytes!("../../../G-0113/src/rank.rs");
 const COMPILED_V3_PREREGISTRATION: &[u8] =
     include_bytes!("../../ITERATION1_V3_CERTIFICATE_PREREGISTRATION.md");
+const COMPILED_V3_PATH_ADDENDUM: &[u8] =
+    include_bytes!("../../ITERATION1_V3_CERTIFICATE_PATH_ADDENDUM.md");
 
 #[path = "../../../G-0113/src/rank.rs"]
 #[allow(dead_code)]
@@ -181,6 +185,7 @@ fn check_compiled_sources() -> Result<BTreeMap<String, String>> {
     let producer_path = source_path("src/bin/fresh_q_cegis.rs");
     let rank_path = source_path("../G-0113/src/rank.rs");
     let preregistration_path = source_path("ITERATION1_V3_CERTIFICATE_PREREGISTRATION.md");
+    let path_addendum_path = source_path("ITERATION1_V3_CERTIFICATE_PATH_ADDENDUM.md");
     let producer = sha256_path(&producer_path)?;
     ensure!(
         producer == sha256_bytes(COMPILED_PRODUCER),
@@ -200,10 +205,20 @@ fn check_compiled_sources() -> Result<BTreeMap<String, String>> {
         preregistration == sha256_bytes(COMPILED_V3_PREREGISTRATION),
         "compiled v3 preregistration drift"
     );
+    let path_addendum = require_hash(
+        &path_addendum_path,
+        V3_PATH_ADDENDUM_SHA256,
+        "v3 path addendum",
+    )?;
+    ensure!(
+        path_addendum == sha256_bytes(COMPILED_V3_PATH_ADDENDUM),
+        "compiled v3 path addendum drift"
+    );
     Ok(BTreeMap::from([
         ("producer".to_string(), producer),
         ("rank_source".to_string(), rank),
         ("v3_preregistration".to_string(), preregistration),
+        ("v3_path_addendum".to_string(), path_addendum),
     ]))
 }
 

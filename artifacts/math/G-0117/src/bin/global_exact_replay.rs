@@ -11,11 +11,16 @@ use std::io::{BufReader, BufWriter, Read, Write};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
+#[path = "../cegis_provenance.rs"]
+mod cegis_provenance;
+
+use cegis_provenance::{CertificateTerm, SourceCegis, V3_CLAIM_BOUNDARY, V3_SCHEMA};
+
 const INPUT_SHA256: &str = "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8";
 const POSTPROCESSOR_SHA256: &str =
     "07f20ee167483aedc0c06f40650fd3edc671ef7fc5cf1e1050b1ad388ba3ec48";
-const CERTIFICATE_SCHEMA: &str = "max11-g0117-global-replay-certificate-v2";
-const CLAIM_BOUNDARY: &str = "Denominator-cleared exact-Q finite-panel seed for complete global replay; not a global identity, family-completeness theorem, or MAX11 result.";
+const V2_CERTIFICATE_SCHEMA: &str = "max11-g0117-global-replay-certificate-v2";
+const V2_CLAIM_BOUNDARY: &str = "Denominator-cleared exact-Q finite-panel seed for complete global replay; not a global identity, family-completeness theorem, or MAX11 result.";
 const COMPILED_PRODUCER: &[u8] = include_bytes!("global_exact_replay.rs");
 const COMPILED_KERNEL: &[u8] = include_bytes!("../lib.rs");
 const COMPILED_PREREGISTRATION: &[u8] =
@@ -28,19 +33,15 @@ struct PanelInput {
     records: Vec<Record>,
 }
 
-#[derive(Clone, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct CertificateTerm {
-    sequence: usize,
-    coefficient: String,
-}
-
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Certificate {
     schema: String,
     claim_boundary: String,
-    source_exact_postprocess: SourceExactPostprocess,
+    #[serde(default)]
+    source_exact_postprocess: Option<SourceExactPostprocess>,
+    #[serde(default)]
+    source_cegis: Option<SourceCegis>,
     target_scale: String,
     terms: Vec<CertificateTerm>,
 }
@@ -113,8 +114,8 @@ struct Output {
     result: &'static str,
     claim_boundary: &'static str,
     bindings: BTreeMap<String, String>,
-    certificate_schema: &'static str,
-    source_exact_postprocess_sha256: String,
+    certificate_schema: String,
+    source_provenance_sha256: String,
     target_scale: String,
     terms: usize,
     hinge_entries_processed: u64,
@@ -126,6 +127,12 @@ struct Output {
     first_linear_residual: Option<FirstLinearResidual>,
     all_hinge_and_linear_residuals_exactly_zero: bool,
     wall_seconds: f64,
+}
+
+struct ValidatedCertificate {
+    target_scale: BigInt,
+    source_sha256: String,
+    evidence_bindings: BTreeMap<String, String>,
 }
 
 fn sha256_path(path: &Path) -> Result<String> {
@@ -175,56 +182,16 @@ fn parse_bigint(raw: &str) -> Result<BigInt> {
 fn validate_certificate(
     certificate: &Certificate,
     input_sha256: &str,
-    records: usize,
-) -> Result<BigInt> {
-    ensure!(
-        certificate.schema == CERTIFICATE_SCHEMA,
-        "certificate schema drift"
-    );
-    ensure!(
-        certificate.claim_boundary == CLAIM_BOUNDARY,
-        "claim boundary drift"
-    );
+    records: &[Record],
+) -> Result<ValidatedCertificate> {
     ensure!(!certificate.terms.is_empty(), "empty certificate");
     ensure!(
         canonical_positive_integer(&certificate.target_scale),
         "target scale must be a canonical positive integer"
     );
-    let source = &certificate.source_exact_postprocess;
-    ensure!(
-        canonical_sha256(&source.sha256),
-        "source postprocess hash drift"
-    );
-    ensure!(
-        source.schema == "max11-g0113-panel-exact-postprocess-v1"
-            && source.result == "EXACT_Q_MEMBER_FINITE_PANEL",
-        "source exact-postprocess identity drift"
-    );
-    ensure!(
-        source.bindings.input == input_sha256 && source.bindings.producer == POSTPROCESSOR_SHA256,
-        "source input/producer binding drift"
-    );
-    for value in [
-        &source.bindings.rows,
-        &source.bindings.report,
-        &source.bindings.retained,
-        &source.bindings.preregistration,
-    ] {
-        ensure!(
-            canonical_sha256(value),
-            "source artifact binding hash drift"
-        );
-    }
-    ensure!(
-        source.verification.decision_projection_recomputed
-            && source.verification.postprocess_sha256 == source.sha256
-            && canonical_sha256(&source.verification.python_executable_sha256)
-            && source.verification.actual_artifact_bindings == source.bindings,
-        "source clean-recomputation binding drift"
-    );
-    let mut seen = vec![false; records];
+    let mut seen = vec![false; records.len()];
     for term in &certificate.terms {
-        ensure!(term.sequence < records, "sequence outside family");
+        ensure!(term.sequence < records.len(), "sequence outside family");
         ensure!(!seen[term.sequence], "duplicate certificate sequence");
         seen[term.sequence] = true;
         ensure!(
@@ -233,7 +200,86 @@ fn validate_certificate(
         );
         parse_bigint(&term.coefficient)?;
     }
-    parse_bigint(&certificate.target_scale)
+    match certificate.schema.as_str() {
+        V2_CERTIFICATE_SCHEMA => {
+            ensure!(
+                certificate.claim_boundary == V2_CLAIM_BOUNDARY,
+                "v2 claim boundary drift"
+            );
+            ensure!(
+                certificate.source_cegis.is_none(),
+                "v2 contains v3 provenance"
+            );
+            let source = certificate
+                .source_exact_postprocess
+                .as_ref()
+                .context("v2 certificate missing exact-postprocess provenance")?;
+            ensure!(
+                canonical_sha256(&source.sha256),
+                "source postprocess hash drift"
+            );
+            ensure!(
+                source.schema == "max11-g0113-panel-exact-postprocess-v1"
+                    && source.result == "EXACT_Q_MEMBER_FINITE_PANEL",
+                "source exact-postprocess identity drift"
+            );
+            ensure!(
+                source.bindings.input == input_sha256
+                    && source.bindings.producer == POSTPROCESSOR_SHA256,
+                "source input/producer binding drift"
+            );
+            for value in [
+                &source.bindings.rows,
+                &source.bindings.report,
+                &source.bindings.retained,
+                &source.bindings.preregistration,
+            ] {
+                ensure!(
+                    canonical_sha256(value),
+                    "source artifact binding hash drift"
+                );
+            }
+            ensure!(
+                source.verification.decision_projection_recomputed
+                    && source.verification.postprocess_sha256 == source.sha256
+                    && canonical_sha256(&source.verification.python_executable_sha256)
+                    && source.verification.actual_artifact_bindings == source.bindings,
+                "source clean-recomputation binding drift"
+            );
+            Ok(ValidatedCertificate {
+                target_scale: parse_bigint(&certificate.target_scale)?,
+                source_sha256: source.sha256.clone(),
+                evidence_bindings: BTreeMap::new(),
+            })
+        }
+        V3_SCHEMA => {
+            ensure!(
+                certificate.claim_boundary == V3_CLAIM_BOUNDARY,
+                "v3 claim boundary drift"
+            );
+            ensure!(
+                certificate.source_exact_postprocess.is_none(),
+                "v3 contains v2 provenance"
+            );
+            let source = certificate
+                .source_cegis
+                .as_ref()
+                .context("v3 certificate missing fresh-Q provenance")?;
+            let validated = cegis_provenance::validate_v3(
+                source,
+                &certificate.terms,
+                &certificate.target_scale,
+                input_sha256,
+                records,
+            )?;
+            Ok(ValidatedCertificate {
+                target_scale: validated.target_scale,
+                source_sha256: validated.source_sha256,
+                evidence_bindings: validated.evidence_bindings,
+            })
+        }
+        _ => anyhow::bail!("certificate schema drift"),
+    }
 }
 
 fn add_term(aggregate: &mut ExactAggregate, form: FullNormalForm, coefficient: &BigInt) {
@@ -276,7 +322,7 @@ fn main() -> Result<()> {
     let args = std::env::args().collect::<Vec<_>>();
     ensure!(
         args.len() == 4,
-        "usage: global_exact_replay PANEL_INPUT.json CERTIFICATE_V2.json OUTPUT.json"
+        "usage: global_exact_replay PANEL_INPUT.json CERTIFICATE_V2_OR_V3.json OUTPUT.json"
     );
     rayon::ThreadPoolBuilder::new()
         .num_threads(12)
@@ -306,7 +352,8 @@ fn main() -> Result<()> {
     );
     let certificate: Certificate =
         serde_json::from_reader(BufReader::new(File::open(&certificate_path)?))?;
-    let target_scale = validate_certificate(&certificate, &input_sha256, input.records.len())?;
+    let validated = validate_certificate(&certificate, &input_sha256, &input.records)?;
+    let target_scale = validated.target_scale;
 
     let mut aggregate = certificate
         .terms
@@ -398,6 +445,7 @@ fn main() -> Result<()> {
     bindings.insert("kernel".to_string(), kernel_sha256);
     bindings.insert("preregistration".to_string(), preregistration_sha256);
     bindings.insert("normal_form_uniqueness".to_string(), uniqueness_sha256);
+    bindings.extend(validated.evidence_bindings);
     bindings.insert(
         "executable".to_string(),
         sha256_path(&std::env::current_exe().context("resolve current executable")?)?,
@@ -411,8 +459,8 @@ fn main() -> Result<()> {
         },
         claim_boundary: "Exact integer replay of one denominator-cleared certificate over the fixed G-0113 family. Zero is an ordered-chamber normal-form identity pending symmetry and architecture compilation; nonzero is a normal-form residual pending the separately reviewed uniqueness lemma. Neither outcome proves family completeness or all-n.",
         bindings,
-        certificate_schema: CERTIFICATE_SCHEMA,
-        source_exact_postprocess_sha256: certificate.source_exact_postprocess.sha256,
+        certificate_schema: certificate.schema,
+        source_provenance_sha256: validated.source_sha256,
         target_scale: target_scale.to_string(),
         terms: aggregate.terms,
         hinge_entries_processed: aggregate.hinge_entries_processed,
