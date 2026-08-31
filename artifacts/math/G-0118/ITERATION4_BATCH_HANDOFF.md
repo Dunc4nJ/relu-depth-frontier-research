@@ -68,7 +68,7 @@ subtracting 11! times target_scale, is exactly zero.
 
 The next exact solve may append these rows with target zero in their frozen
 order, discarding only rows proved exactly rank-dependent on the existing
-305-row system. It must reopen all 163,740 frozen columns using the completed
+316-row system. It must reopen all 163,740 frozen columns using the completed
 301-row cache and the exact batch rows. The large cache payload is intentionally
 not committed; its small manifest binds the 788,571,840-byte payload.
 
