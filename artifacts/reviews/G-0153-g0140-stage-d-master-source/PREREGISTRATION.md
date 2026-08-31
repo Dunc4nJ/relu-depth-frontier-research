@@ -45,3 +45,25 @@ On PASS, emit one minimal source-audit receipt bound exactly to the frozen commi
 - No audit-tooling expansion is credited as research yield; only the smallest machinery needed to apply this fixed battery may be created.
 - Agreement with the source is not independence. Independent recomputation must use separately written logic at every load-bearing replay.
 - PASS would mean this exact frozen source cleared this source/custody battery. It would not promote G-0140, validate any Stage-D output, or discharge a mathematics evidence gate.
+
+## Pre-access clarification (binding correction)
+
+This clarification was written before the reviewer opened, read, hashed, imported, or executed the
+frozen subject source. It corrects two outcome-blind drafting errors above while preserving the
+original preregistration history.
+
+1. Item 7's `204` is **not a random/control seed**. It is the deterministic expected initial exact
+   rank and the count of the `204` G-0135 selected column sequences. The audit will statically
+   verify both exact bindings, reject coercions or alternate values in synthetic fixtures, and
+   verify that the source does not reinterpret `204` as randomness.
+2. Because future G-0140 manifests and scientific Stage A/B/C/D outputs are forbidden, items 5,
+   6, 8, 9, and 10 mean **source-level static verification plus synthetic fixtures only**. They
+   ask whether the frozen code is structurally bound to perform exact Stage-C basis/minor/selection
+   replay, selected loading and exact-zero checking, reopening/reconciling all `163740` members,
+   exact per-member replay, and terminal-separator replay with rejecting mutants when future bound
+   inputs exist. The reviewer will not perform those checks on unopened future artifacts and will
+   not claim that synthetic fixtures are live scientific evidence.
+
+Accordingly, a PASS can certify only the frozen source/custody contract and the potency of its
+static/synthetic enforcement paths. It cannot certify live G-0140 science, any unseen input or
+output, or successful execution of the future Stage-D computation.
