@@ -79,17 +79,21 @@ G0117_EXACT_PATH = ROOT / "artifacts/math/G-0117/fresh_q_cegis_exact.py"
 G0139_RECEIPT_PATH = (
     ROOT / "artifacts/reviews/G-0139-g0135-result/RESULT_AUDIT_RECEIPT.json"
 )
-G0141_SOURCE_AUDIT_PATH = (
+G0146_SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0141-g0140-stage-a-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0146-g0140-stage-a-final-source/SOURCE_AUDIT_RECEIPT.json"
 )
-G0142_SOURCE_AUDIT_PATH = (
+G0147_SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0142-g0140-stage-b-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0147-g0140-stage-b-final-source/SOURCE_AUDIT_RECEIPT.json"
 )
-G0143_SOURCE_AUDIT_PATH = (
+G0148_SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0143-g0140-stage-c-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0148-g0140-stage-c-final-source/SOURCE_AUDIT_RECEIPT.json"
+)
+G0148_AUDIT_PREREGISTRATION_PATH = (
+    ROOT
+    / "artifacts/reviews/G-0148-g0140-stage-c-final-source/PREREGISTRATION.md"
 )
 
 STAGE_A_SOURCE_PATH = ROOT / "artifacts/math/G-0140/stage_a_pool/src/main.rs"
@@ -120,6 +124,19 @@ G0135_RESULT_SHA256 = (
 G0135_STAGE_D_SHA256 = (
     "d576e142f213cd1f6b125246d22a766894ada4ade23de575ac5b14c9fd18f875"
 )
+G0135_STAGE_D_COMMIT = "270a62455097cbaf0a8f80426c54b6121d1afcba"
+G0139_RECEIPT_SHA256 = (
+    "282fba3591b656164d7cce728121de357ad793aa66339813101eb410e988399f"
+)
+G0139_RECEIPT_COMMIT = "0bfdbf2db065d8517ad2d98d762473fed052cb54"
+G0139_EVIDENCE_CLASS = "T1_SAME_LINEAGE_OUTCOME_AWARE_RESULT_AUDIT"
+G0139_CLAIM_BOUNDARY = "Consistency only for the exact committed 135-term Stage-C member and exact G-0135 Stage-D result bytes. Same-lineage outcome-aware T1 evidence; no T2 independence, family completeness, frozen-family nonmembership, MAX11 lower bound, unrestricted nonrepresentability, all-n theorem, refereed status, formalization, or Lean theorem."
+G0138_SOURCE_AUDIT_RELATIVE_PATH = (
+    "artifacts/reviews/G-0138-g0135-stage-d-source/SOURCE_AUDIT_RECEIPT.json"
+)
+G0138_SOURCE_AUDIT_SHA256 = (
+    "f4e62ee4cd5311f74393e3141161512b62c65ebc9409c1ba5a8811019a2ec944"
+)
 G0117_EXACT_SHA256 = (
     "ee422e6e36085e26ddd83a75f8901c6a6efbe3fd2a99e80e280f9449d0ed8281"
 )
@@ -143,7 +160,27 @@ OUTPUT_SCHEMA = "max11-g0140-pool128-exact-rank-selection-v1"
 MASTER_OUTPUT_SCHEMA = "max11-g0140-rank-aware-master-result-v1"
 GLOBAL_REPLAY_OUTPUT_SCHEMA = "max11-g0140-new-member-global-replay-v1"
 G0139_SCHEMA = "max11-g0139-g0135-result-audit-v1"
-G0143_SCHEMA = "max11-g0143-g0140-stage-c-source-audit-v1"
+G0146_SCHEMA = "max11-g0146-g0140-stage-a-final-source-audit-v1"
+G0147_SCHEMA = "max11-g0147-g0140-stage-b-final-source-audit-v1"
+G0148_SCHEMA = "max11-g0148-g0140-stage-c-final-source-audit-v1"
+SOURCE_CUSTODY_PASS_RESULT = "SOURCE_CUSTODY_AUDIT_PASS_T1"
+SOURCE_AUDIT_EVIDENCE_CLASS = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT"
+G0146_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
+G0147_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
+G0148_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-C producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
+G0148_NO_CLAIM = "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
+G0148_REQUIRED_CHECKS = {
+    "exact_subject_binding": "PASS",
+    "compiled_source_executable_custody": "PASS",
+    "complete_basis_protocol": "PASS",
+    "full_pool_dependency_compatibility_scan": "PASS",
+    "receipt_admission_strictness": "PASS",
+    "committed_blob_custody": "PASS",
+    "self_test": "PASS",
+    "native_oracle": "PASS",
+    "static_preflight": "PASS",
+    "claim_boundary": "PASS",
+}
 NATIVE_PROPOSER_SCHEMA = "max11-g0140-ffpack-modular-pivots-v1"
 NATIVE_EXECUTION_SCHEMA = "max11-g0140-native-modular-proposal-receipt-v1"
 NATIVE_BUILD_SCHEMA = "max11-g0140-ffpack-native-build-v1"
@@ -1430,7 +1467,7 @@ def exact_rank_selection(
     )
     growth = transcript["rank_growing_indices"]
     provisional_selected = growth[:admit_rows]
-    rank_cap_stop_exclusive = (
+    admission_cap_stop_exclusive = (
         provisional_selected[-1] + 1
         if len(provisional_selected) == admit_rows
         else pool_rows
@@ -1438,23 +1475,33 @@ def exact_rank_selection(
 
     dependency_certificates: list[dict[str, Any]] = []
     selected_indices: list[int] = []
+    rank_basis_indices: list[int] = []
     processed_dependent: list[int] = []
     incompatible: dict[str, Any] | None = None
     processed_stop_exclusive = 0
-    for pool_index in range(rank_cap_stop_exclusive):
+    # The cap limits only downstream admission.  Target compatibility is a
+    # statement on the full base+pool row system, so every later row is still
+    # processed.  Post-cap rank-growing rows join the dependency basis without
+    # joining the admitted set.
+    for pool_index in range(pool_rows):
         processed_stop_exclusive = pool_index + 1
         if transcript["increments"][pool_index] == 1:
-            selected_indices.append(pool_index)
+            rank_basis_indices.append(pool_index)
+            if len(selected_indices) < admit_rows:
+                selected_indices.append(pool_index)
             continue
-        preceding = list(range(base_rows)) + [
-            base_rows + index for index in selected_indices
+        candidate_logical_row = base_rows + pool_index
+        preceding = [
+            logical_row
+            for logical_row in transcript["ordered_independent_logical_rows"]
+            if logical_row < candidate_logical_row
         ]
         certificate = exact_dependency_certificate(
             complete_basis_rows=basis_rows,
             basis_sequences=basis_sequences,
             logical_target=target,
             preceding_logical_rows=preceding,
-            candidate_logical_row=base_rows + pool_index,
+            candidate_logical_row=candidate_logical_row,
         )
         certificate["pool_index"] = pool_index
         dependency_certificates.append(certificate)
@@ -1477,8 +1524,13 @@ def exact_rank_selection(
 
     require(
         incompatible is not None
-        or selected_indices == provisional_selected,
-        "sequential admission diverged without an incompatible dependency",
+        or (
+            processed_stop_exclusive == pool_rows
+            and selected_indices == provisional_selected
+            and rank_basis_indices == growth
+            and processed_dependent == transcript["dependent_indices"]
+        ),
+        "full-pool compatibility scan diverged without an incompatible dependency",
     )
     post_terminal = (
         list(range(processed_stop_exclusive, pool_rows))
@@ -1486,7 +1538,7 @@ def exact_rank_selection(
         else []
     )
     post_cap = (
-        list(range(processed_stop_exclusive, pool_rows))
+        list(range(admission_cap_stop_exclusive, pool_rows))
         if incompatible is None and len(selected_indices) == admit_rows
         else []
     )
@@ -1540,9 +1592,16 @@ def exact_rank_selection(
         "full_pool_rank_transcript_precomputed_before_target_compatibility_checks": True,
         "selected_pool_indices": selected_indices,
         "selected_count": len(selected_indices),
-        "dependent_pool_indices_before_terminal_or_cap": processed_dependent,
+        "rank_basis_pool_indices_before_terminal": rank_basis_indices,
+        "dependent_pool_indices_before_terminal": processed_dependent,
         "post_cap_unadmitted_pool_indices": post_cap,
         "post_terminal_unprocessed_pool_indices": post_terminal,
+        "all_pool_rows_compatibility_checked": (
+            incompatible is None and processed_stop_exclusive == pool_rows
+        ),
+        "compatibility_decision_complete": (
+            incompatible is not None or processed_stop_exclusive == pool_rows
+        ),
         "dependency_certificates": dependency_certificates,
         "incompatible_dependency": incompatible,
         "selected_system_rank": selected_rank,
@@ -1617,8 +1676,9 @@ def validate_binding(value: object, label: str) -> tuple[str, str]:
 
 
 def git_commit_for_path(path: Path) -> str:
+    relative_path = relative(path)
     process = subprocess.run(
-        ["git", "log", "-1", "--format=%H", "--", relative(path)],
+        ["git", "log", "-1", "--format=%H", "--", relative_path],
         cwd=ROOT,
         check=True,
         capture_output=True,
@@ -1628,6 +1688,17 @@ def git_commit_for_path(path: Path) -> str:
     require(
         len(commit) == 40 and all(character in "0123456789abcdef" for character in commit),
         f"no canonical Git commit for {path}",
+    )
+    blob = subprocess.run(
+        ["git", "show", f"{commit}:{relative_path}"],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+    )
+    require(blob.returncode == 0, f"cannot read committed blob for {path}")
+    require(
+        hashlib.sha256(blob.stdout).hexdigest() == sha256_path(path),
+        f"working bytes differ from committed binding: {path}",
     )
     return commit
 
@@ -1835,7 +1906,7 @@ def validate_manifest(
         relative(PREREGISTRATION_PATH): PREREGISTRATION_SHA256,
         relative(G0135_RESULT_PATH): G0135_RESULT_SHA256,
         relative(G0135_STAGE_D_PATH): G0135_STAGE_D_SHA256,
-        relative(G0139_RECEIPT_PATH): sha256_path(G0139_RECEIPT_PATH),
+        relative(G0139_RECEIPT_PATH): G0139_RECEIPT_SHA256,
         relative(SCRIPT): script_sha256,
         relative(NATIVE_PROPOSER_SOURCE_PATH): sha256_path(
             NATIVE_PROPOSER_SOURCE_PATH
@@ -1845,10 +1916,23 @@ def validate_manifest(
         relative(NATIVE_TEST_PATH): sha256_path(NATIVE_TEST_PATH),
         relative(LAUNCHER_PATH): sha256_path(LAUNCHER_PATH),
         relative(STAGE_A_SOURCE_PATH): None,
+        relative(STAGE_A_SOURCE_PATH.parent / "engine.rs"): None,
+        relative(STAGE_A_SOURCE_PATH.parent.parent / "Cargo.toml"): None,
+        relative(STAGE_A_SOURCE_PATH.parent.parent / "Cargo.lock"): None,
+        relative(
+            STAGE_A_SOURCE_PATH.parent.parent
+            / "target/release/g0140-stage-a-pool128-global-replay"
+        ): None,
         relative(STAGE_B_SOURCE_PATH): None,
-        relative(G0141_SOURCE_AUDIT_PATH): None,
-        relative(G0142_SOURCE_AUDIT_PATH): None,
-        relative(G0143_SOURCE_AUDIT_PATH): None,
+        relative(STAGE_B_SOURCE_PATH.parent.parent / "Cargo.toml"): None,
+        relative(STAGE_B_SOURCE_PATH.parent.parent / "Cargo.lock"): None,
+        relative(
+            STAGE_B_SOURCE_PATH.parent.parent
+            / "target/release/g0140-stage-b-pool128-coordinate-pricer"
+        ): None,
+        relative(G0146_SOURCE_AUDIT_PATH): None,
+        relative(G0147_SOURCE_AUDIT_PATH): None,
+        relative(G0148_SOURCE_AUDIT_PATH): None,
     }
     for path, expected in required.items():
         require(path in snapshot, f"manifest omits required Stage-C input: {path}")
@@ -1862,8 +1946,8 @@ def validate_manifest(
     require(
         producer_commit == git_commit_for_path(STAGE_A_SOURCE_PATH)
         and stage_a_source_audit_commit
-        == git_commit_for_path(G0141_SOURCE_AUDIT_PATH),
-        "manifest producer/G-0141 commit semantics drift",
+        == git_commit_for_path(G0146_SOURCE_AUDIT_PATH),
+        "manifest producer/G-0146 commit semantics drift",
     )
     git_is_ancestor(
         preregistration_commit,
@@ -1873,47 +1957,123 @@ def validate_manifest(
     git_is_ancestor(
         producer_commit,
         stage_a_source_audit_commit,
-        "Stage-A producer -> G-0141 source audit",
+        "Stage-A producer -> G-0146 source audit",
     )
     git_is_ancestor(
         stage_a_source_audit_commit,
         manifest_commit,
-        "G-0141 source audit -> shared manifest",
+        "G-0146 source audit -> shared manifest",
     )
 
-    stage_c_commits = {
-        git_commit_for_path(SCRIPT),
-        git_commit_for_path(NATIVE_PROPOSER_SOURCE_PATH),
-        git_commit_for_path(NATIVE_PROPOSER_PATH),
-        git_commit_for_path(NATIVE_BUILD_RECEIPT_PATH),
-        git_commit_for_path(NATIVE_TEST_PATH),
-        git_commit_for_path(LAUNCHER_PATH),
-    }
-    require(
-        len(stage_c_commits) == 1,
-        "Stage-C Python/native source/frozen binary commit split",
+    stage_c_subjects = (
+        SCRIPT,
+        NATIVE_PROPOSER_SOURCE_PATH,
+        NATIVE_PROPOSER_PATH,
+        NATIVE_BUILD_RECEIPT_PATH,
+        NATIVE_TEST_PATH,
+        LAUNCHER_PATH,
     )
-    stage_c_commit = next(iter(stage_c_commits))
-    git_is_ancestor(
-        preregistration_commit,
-        stage_c_commit,
-        "G-0140 preregistration -> Stage-C producer",
-    )
-    validate_g0143_source_audit(
-        load_json(G0143_SOURCE_AUDIT_PATH),
+    stage_c_commits = {path: git_commit_for_path(path) for path in stage_c_subjects}
+    for path, commit in stage_c_commits.items():
+        git_is_ancestor(
+            preregistration_commit,
+            commit,
+            f"G-0140 preregistration -> Stage-C subject {relative(path)}",
+        )
+
+    validate_source_audit_receipt(
+        load_json(G0146_SOURCE_AUDIT_PATH),
+        audit_path=G0146_SOURCE_AUDIT_PATH,
+        schema=G0146_SCHEMA,
+        claim_boundary=G0146_CLAIM_BOUNDARY,
         snapshot=snapshot,
-        stage_c_commit=stage_c_commit,
+        subjects=(
+            STAGE_A_SOURCE_PATH,
+            STAGE_A_SOURCE_PATH.parent / "engine.rs",
+            STAGE_A_SOURCE_PATH.parent.parent / "Cargo.toml",
+            STAGE_A_SOURCE_PATH.parent.parent / "Cargo.lock",
+            STAGE_A_SOURCE_PATH.parent.parent
+            / "target/release/g0140-stage-a-pool128-global-replay",
+        ),
+        subject_commit=git_commit_for_path(STAGE_A_SOURCE_PATH),
+        manifest_commit=manifest_commit,
+    )
+    validate_source_audit_receipt(
+        load_json(G0147_SOURCE_AUDIT_PATH),
+        audit_path=G0147_SOURCE_AUDIT_PATH,
+        schema=G0147_SCHEMA,
+        claim_boundary=G0147_CLAIM_BOUNDARY,
+        snapshot=snapshot,
+        subjects=(
+            STAGE_B_SOURCE_PATH,
+            STAGE_B_SOURCE_PATH.parent.parent / "Cargo.toml",
+            STAGE_B_SOURCE_PATH.parent.parent / "Cargo.lock",
+            STAGE_B_SOURCE_PATH.parent.parent
+            / "target/release/g0140-stage-b-pool128-coordinate-pricer",
+        ),
+        subject_commit=git_commit_for_path(STAGE_B_SOURCE_PATH),
+        manifest_commit=manifest_commit,
+    )
+    validate_g0148_source_audit(
+        load_json(G0148_SOURCE_AUDIT_PATH),
+        snapshot=snapshot,
+        stage_c_commits=stage_c_commits,
         manifest_commit=manifest_commit,
     )
     return snapshot
 
 
 def validate_g0139_admission(receipt: dict[str, Any]) -> None:
+    custody = receipt.get("input_custody")
+    require(isinstance(custody, dict), "G-0139 input-custody object missing")
+    fixed = custody.get("fixed_inputs")
+    transitive = custody.get("transitive_bound_inputs")
+    require(
+        isinstance(fixed, dict) and isinstance(transitive, dict),
+        "G-0139 fixed/transitive custody maps missing",
+    )
     require(
         receipt.get("schema") == G0139_SCHEMA
         and receipt.get("verdict") == "PASS"
-        and receipt.get("result") == "CONSISTENT_RESIDUAL_T1",
-        "G-0139 admission gate is not the frozen PASS/result",
+        and receipt.get("result") == "CONSISTENT_RESIDUAL_T1"
+        and receipt.get("evidence_class") == G0139_EVIDENCE_CLASS
+        and receipt.get("claim_boundary") == G0139_CLAIM_BOUNDARY
+        and isinstance(receipt.get("reviewer"), dict)
+        and receipt["reviewer"].get("same_model_lineage") is True
+        and isinstance(receipt.get("preregistration"), dict)
+        and receipt["preregistration"].get("outcome_aware") is True
+        and receipt.get("subject")
+        == {
+            "git_commit": G0135_STAGE_D_COMMIT,
+            "path": relative(G0135_STAGE_D_PATH),
+            "result_observed_before_checker": "EXACT_RESIDUAL_BATCH_CONTINUE",
+            "sha256": G0135_STAGE_D_SHA256,
+        }
+        and isinstance(receipt.get("git_custody"), dict)
+        and receipt["git_custody"].get("subject_commit") == G0135_STAGE_D_COMMIT
+        and receipt["git_custody"].get("strict_linear_ancestry") is True
+        and receipt.get("source_audit_anchor")
+        == {
+            "path": G0138_SOURCE_AUDIT_RELATIVE_PATH,
+            "sha256": G0138_SOURCE_AUDIT_SHA256,
+            "verdict": "PASS",
+        }
+        and isinstance(receipt.get("clean_room_execution_boundary"), dict)
+        and receipt["clean_room_execution_boundary"].get(
+            "stage_d_bound_bytes_consumed_as_hashes_only"
+        )
+        is True
+        and receipt["clean_room_execution_boundary"].get(
+            "stage_d_scientific_replay_rerun"
+        )
+        is False
+        and custody.get("entry_exit_rehash_equal") is True
+        and custody.get("fixed_input_count") == len(fixed) == 8
+        and fixed.get(relative(G0135_STAGE_D_PATH)) == G0135_STAGE_D_SHA256
+        and fixed.get(G0138_SOURCE_AUDIT_RELATIVE_PATH)
+        == G0138_SOURCE_AUDIT_SHA256
+        and custody.get("transitive_bound_input_count") == len(transitive) == 92,
+        "G-0139 semantic/custody admission drift",
     )
 
     observed = set(recursive_bindings(receipt))
@@ -1923,49 +2083,119 @@ def validate_g0139_admission(receipt: dict[str, Any]) -> None:
     )
 
 
-def validate_g0143_source_audit(
+def validate_source_audit_receipt(
     receipt: dict[str, Any],
     *,
+    audit_path: Path,
+    schema: str,
+    claim_boundary: str,
     snapshot: dict[str, str],
-    stage_c_commit: str,
+    subjects: Sequence[Path],
+    subject_commit: str,
     manifest_commit: str,
 ) -> None:
     require(
-        receipt.get("schema") == G0143_SCHEMA
+        receipt.get("schema") == schema
         and receipt.get("verdict") == "PASS"
+        and receipt.get("result") == SOURCE_CUSTODY_PASS_RESULT
+        and receipt.get("evidence_class") == SOURCE_AUDIT_EVIDENCE_CLASS
+        and receipt.get("claim_boundary") == claim_boundary
         and receipt.get("scientific_manifest_observed") is False
-        and receipt.get("scientific_output_observed") is False,
-        "G-0143 is not the frozen outcome-blind PASS",
+        and receipt.get("scientific_input_observed") is False
+        and receipt.get("scientific_output_observed") is False
+        and receipt.get("scientific_replay_run") is False
+        and isinstance(receipt.get("subject"), dict)
+        and receipt["subject"].get("git_commit") == subject_commit
+        and receipt["subject"].get(
+            "commit_object_and_working_bytes_equal_for_all_bindings"
+        )
+        is True,
+        f"{audit_path.name} is not the exact outcome-blind T1 PASS contract",
     )
     observed = set(recursive_bindings(receipt))
-    for subject in (
-        SCRIPT,
-        NATIVE_PROPOSER_SOURCE_PATH,
-        NATIVE_PROPOSER_PATH,
-        NATIVE_BUILD_RECEIPT_PATH,
-        NATIVE_TEST_PATH,
-        LAUNCHER_PATH,
-    ):
+    for subject in subjects:
         path = relative(subject)
         require(
             (path, snapshot[path]) in observed,
-            f"G-0143 does not bind exact Stage-C subject: {path}",
+            f"source audit does not bind exact subject: {path}",
         )
     for path, digest in observed:
         resolved = contained(ROOT / path)
-        require(resolved.is_file(), f"G-0143 nested binding missing: {path}")
-        require_digest(sha256_path(resolved), digest, f"G-0143 nested {path}")
+        require(resolved.is_file(), f"source-audit nested binding missing: {path}")
+        require_digest(sha256_path(resolved), digest, f"source-audit nested {path}")
 
-    audit_commit = git_commit_for_path(G0143_SOURCE_AUDIT_PATH)
+    audit_commit = git_commit_for_path(audit_path)
     git_is_ancestor(
-        stage_c_commit,
+        subject_commit,
         audit_commit,
-        "Stage-C producer -> G-0143 source audit",
+        f"frozen subject -> {relative(audit_path)}",
     )
     git_is_ancestor(
         audit_commit,
         manifest_commit,
-        "G-0143 source audit -> shared manifest",
+        f"{relative(audit_path)} -> shared manifest",
+    )
+
+
+def validate_g0148_source_audit(
+    receipt: dict[str, Any],
+    *,
+    snapshot: dict[str, str],
+    stage_c_commits: dict[Path, str],
+    manifest_commit: str,
+) -> None:
+    script_commit = stage_c_commits[SCRIPT]
+    validate_source_audit_receipt(
+        receipt,
+        audit_path=G0148_SOURCE_AUDIT_PATH,
+        schema=G0148_SCHEMA,
+        claim_boundary=G0148_CLAIM_BOUNDARY,
+        snapshot=snapshot,
+        subjects=tuple(stage_c_commits),
+        subject_commit=script_commit,
+        manifest_commit=manifest_commit,
+    )
+    require(
+        receipt.get("no_claim") == G0148_NO_CLAIM
+        and receipt.get("required_checks") == G0148_REQUIRED_CHECKS,
+        "G-0148 obligation/no-claim semantics drift",
+    )
+    preregistration = receipt.get("preregistration")
+    require(
+        isinstance(preregistration, dict)
+        and preregistration.get("path")
+        == relative(G0148_AUDIT_PREREGISTRATION_PATH)
+        and preregistration.get("frozen_before_subject_source_inspection") is True
+        and preregistration.get("frozen_before_runtime_checks") is True
+        and preregistration.get("frozen_before_scientific_input_observation") is True,
+        "G-0148 preregistration semantics drift",
+    )
+    prereg_path = preregistration.get("path")
+    prereg_sha256 = preregistration.get("sha256")
+    require(
+        prereg_path == relative(G0148_AUDIT_PREREGISTRATION_PATH)
+        and is_sha256(prereg_sha256)
+        and sha256_path(G0148_AUDIT_PREREGISTRATION_PATH) == prereg_sha256,
+        "G-0148 preregistration byte custody drift",
+    )
+    prereg_commit = validate_commit(
+        preregistration.get("git_commit"), "G-0148 preregistration"
+    )
+    require(
+        prereg_commit == git_commit_for_path(G0148_AUDIT_PREREGISTRATION_PATH),
+        "G-0148 preregistration Git custody drift",
+    )
+    audit_commit = git_commit_for_path(G0148_SOURCE_AUDIT_PATH)
+    for path, commit in stage_c_commits.items():
+        git_is_ancestor(
+            commit,
+            prereg_commit,
+            f"Stage-C subject {relative(path)} -> G-0148 preregistration",
+        )
+    git_is_ancestor(
+        prereg_commit,
+        audit_commit,
+        "G-0148 preregistration -> audit receipt",
     )
 
 
@@ -2088,12 +2318,58 @@ STAGE_B_ROW_KEYS = {
     "hinge_coefficients_i64_le_sha256",
     "hinge_coefficients",
 }
+STAGE_B_OUTPUT_KEYS = {
+    "schema",
+    "result",
+    "claim_boundary",
+    "manifest_path",
+    "manifest_sha256",
+    "source_and_input_bindings",
+    "stage_a_receipt",
+    "candidate",
+    "g0139_result_audit",
+    "pool_k",
+    "records",
+    "hinge_entries",
+    "pool_count",
+    "pool_directions_i8_sha256",
+    "pool_exact_residuals_decimal_lf_sha256",
+    "directions",
+    "direction_major_hinge_i64_le_sha256",
+    "exact_candidate_dots_decimal_lf_sha256",
+    "exact_candidate_dots",
+    "rows",
+    "input_mutation_controls",
+    "coefficient_plus_one_mutant",
+    "inputs_rehashed_at_end",
+    "wall_seconds",
+}
+STAGE_B_INPUT_MUTATION_CONTROL_KEYS = {
+    "pool_count_mutant_rejected",
+    "pool_order_mutant_rejected",
+    "pool_duplicate_mutant_rejected",
+    "direction_invalidity_mutant_rejected",
+    "residual_plus_one_mutant_rejected",
+    "record_census_truncation_rejected",
+    "record_order_mutant_rejected",
+    "all_rejected",
+}
+STAGE_B_COEFFICIENT_MUTANT_KEYS = {
+    "sequence",
+    "coefficient_delta",
+    "baseline_exact_dots_decimal_lf_sha256",
+    "mutated_exact_dots_decimal_lf_sha256",
+    "changed_rows",
+    "rejected",
+}
+STAGE_B_CLAIM_BOUNDARY = "Exact 128-row ordered-cone hinge coordinates over the frozen 163,740-record family, in deterministic G-0140 Stage-A pool order, with arbitrary-precision 135-term member dot bridges. This is complete-matrix rank-selection input only, not a membership decision, family-completeness theorem, global MAX11 identity, lower bound, minimality result, or Lean theorem."
 
 
 def validate_stage_b_prices(
     receipt: dict[str, Any],
     *,
     manifest_sha256: str,
+    manifest_bindings: dict[str, str],
     stage_a_sha256: str,
     directions: Sequence[Sequence[int]],
     residuals: Sequence[int],
@@ -2101,8 +2377,12 @@ def validate_stage_b_prices(
     expected_records: int = RECORDS,
 ) -> list[list[int]]:
     require(
-        receipt.get("schema") == STAGE_B_SCHEMA
+        set(receipt) == STAGE_B_OUTPUT_KEYS
+        and receipt.get("schema") == STAGE_B_SCHEMA
         and receipt.get("result") == "EXACT_FULL_FAMILY_POOL128_COORDINATES"
+        and receipt.get("claim_boundary") == STAGE_B_CLAIM_BOUNDARY
+        and receipt.get("manifest_path") == relative(MANIFEST_PATH)
+        and receipt.get("manifest_sha256") == manifest_sha256
         and receipt.get("pool_k") == POOL_ROWS
         and receipt.get("pool_count") == POOL_ROWS
         and receipt.get("records") == expected_records
@@ -2112,32 +2392,38 @@ def validate_stage_b_prices(
         and receipt.get("pool_exact_residuals_decimal_lf_sha256")
         == digest_decimal_lf(residuals)
         and receipt.get("directions") == list(directions)
-        and receipt.get("inputs_rehashed_at_end") is True,
+        and receipt.get("inputs_rehashed_at_end") is True
+        and isinstance(receipt.get("wall_seconds"), (int, float))
+        and not isinstance(receipt.get("wall_seconds"), bool)
+        and math.isfinite(receipt["wall_seconds"])
+        and receipt["wall_seconds"] > 0,
         "Stage-B Pool128 identity/census/digest drift",
     )
-    if "manifest_path" in receipt or "manifest_sha256" in receipt:
-        require(
-            receipt.get("manifest_path") == relative(MANIFEST_PATH)
-            and receipt.get("manifest_sha256") == manifest_sha256,
-            "Stage-B manifest binding drift",
+    require(
+        receipt.get("stage_a_receipt")
+        == {"path": relative(STAGE_A_PATH), "sha256": stage_a_sha256}
+        and receipt.get("candidate")
+        == {"path": relative(G0135_RESULT_PATH), "sha256": G0135_RESULT_SHA256}
+        and receipt.get("g0139_result_audit")
+        == {"path": relative(G0139_RECEIPT_PATH), "sha256": G0139_RECEIPT_SHA256},
+        "Stage-B mandatory input binding drift",
+    )
+    expected_source_bindings = dict(manifest_bindings)
+    expected_source_bindings[relative(MANIFEST_PATH)] = manifest_sha256
+    expected_source_bindings[relative(STAGE_A_PATH)] = stage_a_sha256
+    raw_source_bindings = receipt.get("source_and_input_bindings")
+    require(
+        isinstance(raw_source_bindings, dict)
+        and set(raw_source_bindings) == set(expected_source_bindings),
+        "Stage-B source/input custody key drift",
+    )
+    for key, expected_digest in expected_source_bindings.items():
+        path, digest = validate_binding(
+            raw_source_bindings[key], f"Stage-B source/input {key}"
         )
-    if "g0140_manifest" in receipt:
         require(
-            receipt.get("g0140_manifest")
-            == {"path": relative(MANIFEST_PATH), "sha256": manifest_sha256},
-            "Stage-B G-0140 manifest binding drift",
-        )
-    if "stage_a_receipt" in receipt:
-        require(
-            receipt.get("stage_a_receipt")
-            == {"path": relative(STAGE_A_PATH), "sha256": stage_a_sha256},
-            "Stage-B Stage-A binding drift",
-        )
-    if "candidate" in receipt:
-        require(
-            receipt.get("candidate")
-            == {"path": relative(G0135_RESULT_PATH), "sha256": G0135_RESULT_SHA256},
-            "Stage-B candidate binding drift",
+            path == key and digest == expected_digest,
+            f"Stage-B source/input custody drift: {key}",
         )
 
     raw_rows = receipt.get("rows")
@@ -2216,13 +2502,31 @@ def validate_stage_b_prices(
         "Stage-B aggregate coordinate/exact-dot bridge drift",
     )
     controls = receipt.get("input_mutation_controls")
-    if controls is not None:
-        require(
-            isinstance(controls, dict)
-            and controls
-            and all(value is True for value in controls.values()),
-            "Stage-B input mutation controls drift",
-        )
+    require(
+        isinstance(controls, dict)
+        and set(controls) == STAGE_B_INPUT_MUTATION_CONTROL_KEYS
+        and all(value is True for value in controls.values()),
+        "Stage-B input mutation controls drift",
+    )
+    mutant = receipt.get("coefficient_plus_one_mutant")
+    require(
+        isinstance(mutant, dict)
+        and set(mutant) == STAGE_B_COEFFICIENT_MUTANT_KEYS
+        and isinstance(mutant.get("sequence"), int)
+        and not isinstance(mutant.get("sequence"), bool)
+        and 0 <= mutant["sequence"] < expected_records
+        and mutant.get("coefficient_delta") == "+1"
+        and mutant.get("baseline_exact_dots_decimal_lf_sha256")
+        == receipt.get("exact_candidate_dots_decimal_lf_sha256")
+        and is_sha256(mutant.get("mutated_exact_dots_decimal_lf_sha256"))
+        and mutant.get("mutated_exact_dots_decimal_lf_sha256")
+        != mutant.get("baseline_exact_dots_decimal_lf_sha256")
+        and isinstance(mutant.get("changed_rows"), int)
+        and not isinstance(mutant.get("changed_rows"), bool)
+        and 0 < mutant["changed_rows"] <= POOL_ROWS
+        and mutant.get("rejected") is True,
+        "Stage-B coefficient-plus-one hostile control drift",
+    )
     return rows
 
 
@@ -2275,6 +2579,13 @@ def load_validated_future_inputs(
         "future G-0140 manifest/Stage-A/Stage-B input missing",
     )
     require(G0139_RECEIPT_PATH.is_file(), "mandatory G-0139 audit receipt missing")
+    require_digest(
+        sha256_path(G0139_RECEIPT_PATH), G0139_RECEIPT_SHA256, "G-0139 receipt"
+    )
+    require(
+        git_commit_for_path(G0139_RECEIPT_PATH) == G0139_RECEIPT_COMMIT,
+        "G-0139 receipt Git commit drift",
+    )
 
     runtime = validate_python_runtime()
     native_build = validate_native_build_receipt()
@@ -2293,6 +2604,7 @@ def load_validated_future_inputs(
     stage_b_rows = validate_stage_b_prices(
         stage_b,
         manifest_sha256=manifest_sha256,
+        manifest_bindings=manifest_bindings,
         stage_a_sha256=stage_a_sha256,
         directions=directions,
         residuals=residuals,
@@ -2314,7 +2626,7 @@ def load_validated_future_inputs(
     snapshot_add(
         snapshot,
         relative(G0139_RECEIPT_PATH),
-        sha256_path(G0139_RECEIPT_PATH),
+        G0139_RECEIPT_SHA256,
         "G-0139",
     )
     snapshot_add(snapshot, relative(MANIFEST_PATH), manifest_sha256, "manifest")
@@ -2375,8 +2687,8 @@ def future_interface() -> dict[str, Any]:
         "launcher": relative(LAUNCHER_PATH),
         "native_test": relative(NATIVE_TEST_PATH),
         "stage_c_source_audit": {
-            "path": relative(G0143_SOURCE_AUDIT_PATH),
-            "schema": G0143_SCHEMA,
+            "path": relative(G0148_SOURCE_AUDIT_PATH),
+            "schema": G0148_SCHEMA,
         },
         "scientific_execution_enabled_after_all_frozen_gates_pass": True,
         "scientific_result_written": False,
@@ -2421,6 +2733,7 @@ def static_preflight() -> dict[str, Any]:
     ):
         resolved = contained(path)
         require(resolved.is_file(), f"Stage-C frozen subject missing: {path}")
+        git_commit_for_path(resolved)
     require(
         os.access(NATIVE_PROPOSER_PATH, os.X_OK),
         "frozen native proposer is not executable",
@@ -2431,9 +2744,9 @@ def static_preflight() -> dict[str, Any]:
         "stage_a": STAGE_A_PATH,
         "stage_b": STAGE_B_PATH,
         "g0139": G0139_RECEIPT_PATH,
-        "g0141": G0141_SOURCE_AUDIT_PATH,
-        "g0142": G0142_SOURCE_AUDIT_PATH,
-        "g0143": G0143_SOURCE_AUDIT_PATH,
+        "g0146": G0146_SOURCE_AUDIT_PATH,
+        "g0147": G0147_SOURCE_AUDIT_PATH,
+        "g0148": G0148_SOURCE_AUDIT_PATH,
     }
     present = {label: path.is_file() for label, path in future_paths.items()}
     return {
@@ -2569,8 +2882,8 @@ def scientific_run(
             "sha256": prepared["snapshot"][relative(G0139_RECEIPT_PATH)],
         },
         "stage_c_source_audit": {
-            "path": relative(G0143_SOURCE_AUDIT_PATH),
-            "sha256": prepared["snapshot"][relative(G0143_SOURCE_AUDIT_PATH)],
+            "path": relative(G0148_SOURCE_AUDIT_PATH),
+            "sha256": prepared["snapshot"][relative(G0148_SOURCE_AUDIT_PATH)],
         },
         "solver": {"path": relative(SCRIPT), "sha256": prepared["script_sha256"]},
         "launcher": {
@@ -2676,6 +2989,33 @@ def fixture_complete_basis(
 def self_test() -> None:
     rejected: list[str] = []
     validate_python_runtime()
+
+    g0139 = load_json(G0139_RECEIPT_PATH)
+    validate_g0139_admission(g0139)
+    g0139_mutants: list[tuple[str, dict[str, Any]]] = []
+    for label in (
+        "wrong subject commit",
+        "false evidence class",
+        "false lineage and outcome awareness",
+        "empty claim boundary",
+        "missing custody",
+        "false source-audit anchor",
+    ):
+        g0139_mutants.append((label, json.loads(json.dumps(g0139))))
+    g0139_mutants[0][1]["subject"]["git_commit"] = "0" * 40
+    g0139_mutants[1][1]["evidence_class"] = "T2_INDEPENDENT_REPLAY"
+    g0139_mutants[2][1]["reviewer"]["same_model_lineage"] = False
+    g0139_mutants[2][1]["preregistration"]["outcome_aware"] = False
+    g0139_mutants[3][1]["claim_boundary"] = ""
+    del g0139_mutants[4][1]["input_custody"]
+    g0139_mutants[5][1]["source_audit_anchor"]["sha256"] = "0" * 64
+    g0139_mutants[5][1]["source_audit_anchor"]["verdict"] = "FAIL"
+    for label, mutant in g0139_mutants:
+        expect_rejected(
+            lambda mutant=mutant: validate_g0139_admission(mutant),
+            f"G-0139 {label}",
+            rejected,
+        )
 
     def crosscheck_prefix_profile(
         columns: Sequence[Sequence[int]],
@@ -2850,8 +3190,72 @@ def self_test() -> None:
     require(
         capped["result"] == "SYNTHETIC_EXACT_RANK_LIMIT_SELECTED"
         and capped["selected_pool_indices"] == [1, 2]
+        and capped["rank_basis_pool_indices_before_terminal"] == [1, 2, 3]
         and capped["post_cap_unadmitted_pool_indices"] == [3],
         "first-rank-growing admission cap fixture drift",
+    )
+
+    # Reaching the admission cap must not suppress a later incompatible
+    # dependency.  The final row is e1+e2, while its target value violates the
+    # implied relation.  This is the exact regression that the frozen G-0143
+    # adversarial audit found.
+    late_rows = [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+        [1, 1, 0],
+    ]
+    late_columns, late_basis = fixture_complete_basis(late_rows)
+    late = exact_rank_selection(
+        column_loader=late_columns.__getitem__,
+        complete_basis=late_basis,
+        target=[1, 0, 0, 0],
+        base_rows=1,
+        pool_rows=3,
+        admit_rows=2,
+        record_count=3,
+    )
+    require(
+        late["result"] == "SYNTHETIC_INCOMPATIBLE_DEPENDENCY"
+        and late["selected_pool_indices"] == [0, 1]
+        and late["incompatible_dependency"]["pool_index"] == 2
+        and late["incompatible_dependency"]["separator"] == [1, 1, 0, -1]
+        and late["incompatible_dependency"]["separator_replay"]["target_pairing"]
+        == "1",
+        "post-cap incompatible dependency escaped",
+    )
+
+    # A later rank-growing row is not admitted, but it must enter the basis
+    # used to certify dependencies that follow it.
+    post_cap_growth_rows = [
+        [1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1],
+        [0, 0, 1, 1],
+    ]
+    post_cap_columns, post_cap_basis = fixture_complete_basis(post_cap_growth_rows)
+    post_cap_growth = exact_rank_selection(
+        column_loader=post_cap_columns.__getitem__,
+        complete_basis=post_cap_basis,
+        target=[0, 0, 0, 0, 1],
+        base_rows=1,
+        pool_rows=4,
+        admit_rows=1,
+        record_count=4,
+    )
+    require(
+        post_cap_growth["result"] == "SYNTHETIC_INCOMPATIBLE_DEPENDENCY"
+        and post_cap_growth["selected_pool_indices"] == [0]
+        and post_cap_growth["rank_basis_pool_indices_before_terminal"] == [0, 1, 2]
+        and post_cap_growth["incompatible_dependency"]["pool_index"] == 3
+        and post_cap_growth["incompatible_dependency"]["separator"]
+        == [0, 0, 1, 1, -1]
+        and post_cap_growth["incompatible_dependency"]["separator_replay"][
+            "target_pairing"
+        ]
+        == "-1",
+        "post-cap rank-growth dependency basis drift",
     )
 
     less_rows = [[1], [2], [3]]
@@ -2908,7 +3312,10 @@ def self_test() -> None:
             "M-transpose stream order fixture drift",
         )
 
-    extra_metadata_gate = {
+    extra_metadata_gate = json.loads(json.dumps(g0139))
+    extra_metadata_gate["audit_note"] = "nonsemantic provenance metadata is allowed"
+    validate_g0139_admission(extra_metadata_gate)
+    minimal_gate = {
         "schema": G0139_SCHEMA,
         "verdict": "PASS",
         "result": "CONSISTENT_RESIDUAL_T1",
@@ -2919,8 +3326,12 @@ def self_test() -> None:
             "result": "FULL_GLOBAL_EXACT_NONZERO_RESIDUAL",
         },
     }
-    validate_g0139_admission(extra_metadata_gate)
-    bad_gate = json.loads(json.dumps(extra_metadata_gate))
+    expect_rejected(
+        lambda: validate_g0139_admission(minimal_gate),
+        "G-0139 semantic lookalike",
+        rejected,
+    )
+    bad_gate = json.loads(json.dumps(g0139))
     bad_gate["subject"]["sha256"] = "0" * 64
     expect_rejected(
         lambda: validate_g0139_admission(bad_gate),
@@ -3012,6 +3423,13 @@ def self_test() -> None:
     required_rejections = {
         "omitted final column census",
         "separator coordinate plus one",
+        "G-0139 wrong subject commit",
+        "G-0139 false evidence class",
+        "G-0139 false lineage and outcome awareness",
+        "G-0139 empty claim boundary",
+        "G-0139 missing custody",
+        "G-0139 false source-audit anchor",
+        "G-0139 semantic lookalike",
         "G-0139 superset binding digest",
         "duplicate JSON key",
         "noncanonical integer",
