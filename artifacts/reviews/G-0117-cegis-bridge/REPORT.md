@@ -4,23 +4,105 @@ MATERIAL_INCREMENT
 
 ## Typed verdict
 
-**Overall: `PASS_WITH_OBLIGATIONS` — the algebraic CEGIS design is sound, but the current bridge is
-not binding-clean and is not yet capable of certifying exact global success.**
+**Overall: `PASS_WITH_OBLIGATIONS` — the exact replay and normal-form uniqueness seam now pass
+bounded adversarial review, but no real G-0113 member has entered the bridge and the full cache /
+fresh-Q CEGIS loop is not yet operational.**
 
 Sub-verdicts:
 
-- `PASS_BOUNDED`: denominator clearing, nonzero-modular-residual logic, panel/global normalization,
-  and the proposed full-column exact-Q residual-row loop.
-- `FAIL_INVALID` for the live *binding-clean handoff* executable at the audit cut: the stale replay
-  binary accepted unknown/bogus provenance fields while self-attesting the hash of newer source.
-  An initially accepted fabricated postprocess exposed a second gap; the author repaired that gap
-  in source during review, but no real G-0113 member artifact yet exists for an end-to-end replay.
-- `INDETERMINATE` for exact global success: at the audit cut, exact-integer replay exists as a
-  preregistration and new dependencies, not as a frozen passing executable.  The available replay
-  can refute a seed on a nonzero modular residual but cannot promote two-prime zero.
+- `PASS_BOUNDED`: denominator clearing, exact BigInt aggregation, exact-zero / hinge / linear
+  branching, nonzero-modular-residual logic, panel/global normalization, the normal-form uniqueness
+  lemma, and the proposed full-column exact-Q residual-row loop.
+- `RESOLVED_EXECUTED`: the former stale-binary and permissive-schema defects.  Rebuilt standalone
+  binaries reject unknown fields, mismatched receipts, stale source, stale kernel/lemma inputs, and
+  old forged certificates without writing scientific output; emitted results bind the executable,
+  source, kernel, and uniqueness lemma.
+- `PASS_WITH_OBLIGATIONS` for provenance: the production converter now rehashes the real artifact
+  chain and cleanly reruns the exact postprocessor, but the replay layer checks only the receipt's
+  syntax and self-consistency.  A real subject and its source artifacts remain necessary.
+- `INDETERMINATE` for a scientific MAX11 result: the machinery can now decide a supplied sparse
+  certificate exactly, but the planted controls are deliberately non-identities and no live exact-Q
+  panel member has yet been handed to it.
 
 This is fresh-context, same-model-family T1 review.  It cannot satisfy the campaign's unavailable
 T2 promotion gate.
+
+## Post-fix review update (current cut)
+
+The post-fix tests were frozen in `POSTFIX_PREREGISTRATION.md` before the new exact implementation
+was inspected.  `postfix_checker.py` is an independent Python control; its passing receipt is
+`postfix_controls.json` (`82656d3a...017b`).
+
+Current bound objects:
+
+```text
+global_exact_replay executable:    3dcb3b43c4075f1206ecda874bd9013dd9328eb67e1b9a2f59b21391882c4574
+global_exact_replay source:        1232548952fee91827f8dfddf26dd01eacfc49c57a448f6d258add9b778f414a
+global_modular_replay executable:  7c8c83b668026e1e15be89a1459c8e23c79937582d245464ce0a6b5e49b9925b
+global_modular_replay source:      d27ece785362d84aea134e04893449f4bca926243aba29ec4fef377fb7a7003e
+normal-form kernel:                84b37ea50f012bfe8310de84b1ca27a7c1b77de90978635dd483798759d4c6aa
+normal-form uniqueness lemma:      39de1eb61aaee37a24c8a45d55cbc5fd6f27c7b68d506f8757f352881a6e0c17
+exact-replay preregistration:      a76f3ee0bf77f8c5a2180830b2879cf9b1b75fbac797a166a19fb605706a0a12
+```
+
+Fresh executions against these exact binaries established:
+
+- the planted certificate's first exact hinge residual is `662784`; changing its first coefficient
+  from 7 to 8 gives the preregistered `786432` mutant;
+- an independent targeted subset DP gives `h_0=123648` and `h_1=33792`, hence
+  `7 h_0 - 6 h_1=662784` and `8 h_0 - 6 h_1=786432`; independent linear DPs reproduce every one of
+  the 11 emitted exact linear coordinates;
+- sequence 5341 has zero hinge support under independent literal active-rank enumeration and reaches
+  the genuine linear fallback, whose first residual is coordinate 1 with coefficient `2903040`;
+- a 79-digit coefficient, larger than `2^256`, produces exactly `123648` times that coefficient at
+  the first hinge, with all hinge and linear values agreeing with their reductions modulo both
+  replay primes;
+- the production exact accumulator's synthetic cancellation reaches exact zero, while independent
+  hinge and linear mutants remain nonzero.  This is a unit-level zero control, not a claim that a
+  real zero certificate has been found;
+- `cargo test --release --all-targets` passes 8 executed tests (the two expensive frozen-artifact
+  tests remain explicitly ignored in this command), and `cargo clippy --release --all-targets --
+  -D warnings` passes.
+
+The hostile controls also pass.  Unknown-field certificates, the old forged certificate, and an
+internally mismatched recomputation receipt all exit nonzero without creating their requested output.
+The repaired converter self-test rejects seven mutants, and a forged postprocess supplied with fake
+report/retained artifacts is stopped by the actual-hash comparison.  Finally, an isolated copy was
+built and then mutated: the exact binary rejected changed producer source, while the modular binary
+rejected a changed uniqueness lemma.  Thus the stale-input checks were executed, not inferred from
+source inspection.
+
+### Normal-form uniqueness statement match (`PASS_BOUNDED`)
+
+`active_direction` returns true exactly when a proper prefix sum is negative.  The generator's raw
+word has sum zero because the positive and negative edge masses agree; division by its coordinate
+gcd makes it primitive; orienting by the first nonzero coordinate makes it first-positive.  These
+are conditions 1--3 of the lemma, while `active_direction` is condition 4.  When condition 4 fails,
+all proper prefix sums are nonnegative and summation by parts makes `d.x<0` on the open ordered
+chamber, so omitting that ReLU is correct.  For a negative-first raw word, the implementation uses
+`ReLU(-z)=ReLU(z)-z`; its added raw-word linear correction has the correct sign.
+
+For retained directions, the first nonzero prefix is positive and an active prefix is negative, so
+the hinge hyperplane meets the chamber interior.  Primitive first-positive directions give distinct
+hyperplanes.  At a generic point of one such hyperplane, the gradient jump is exactly `c_d d`, which
+forces `c_d=0` in any linear identity.  The written proof is therefore sufficient: one nonzero exact
+hinge coefficient refutes equality on the ordered chamber; after all hinges vanish, the explicit
+linear vector decides equality.  The replay outputs now embed and bind this lemma's hash.
+
+This does **not** promote a fixed-family residual into an unrestricted lower bound.  A negative
+certificate excludes only that coefficient vector; a completed all-column separator would exclude
+only the frozen 163,740-atom family.  A positive exact zero would still need the separately audited
+atom-to-two-hidden-layer compilation.
+
+### Remaining provenance caveat
+
+The replay parser intentionally accepts the planted receipt's syntactically valid placeholder
+hashes; it cannot establish from the certificate alone that those external artifacts existed or
+were recomputed.  The production converter is the external trust boundary: it rehashes the actual
+input, rows, report, retained columns, postprocessor, and preregistration and performs a clean exact
+postprocess rerun.  Publication-grade evidence must ship those artifacts and rerun that converter.
+Because no real G-0113 member artifact exists yet, this remains an explicit obligation rather than a
+defect in the exact residual arithmetic.
 
 ## Scope adjudication
 
@@ -35,9 +117,9 @@ The same coefficient vector is valid across the two row systems.  A G-0113 panel
 coefficient of the same full-orbit function `F_W`.  Dividing some equations and their targets by
 known nonzero stabilizers does not rescale the unknown atom coefficients.
 
-## Concrete hostile findings
+## Historical hostile findings and their repairs
 
-### 1. Live stale executable self-attested newer source (`FAIL_INVALID`, repairable)
+### 1. Live stale executable self-attested newer source (historical `FAIL_INVALID`, now resolved)
 
 At the audit cut:
 
@@ -102,7 +184,7 @@ real subject until the live G-0113 scan and exact postprocess finish; therefore 
 In any event, a bogus seed could not forge a global identity once exact global replay independently
 recomputes every selected atom; provenance and mathematical truth remain separate obligations.
 
-### 3. Exact success path not yet executable (`INDETERMINATE`)
+### 3. Exact success path absent at the original audit cut (historical; now resolved)
 
 The modular replay's nonzero result is sound: if cleared integer/rational residual were exactly
 zero, reduction modulo every prime at which the rational is defined would be zero.  One nonzero
@@ -116,8 +198,9 @@ The converse is false.  The nonzero integer
 
 vanishes modulo both replay primes.  The current result name
 `TWO_PRIME_ZERO_PENDING_EXACT_BOUND` is therefore correct and must remain non-promotional.
-`EXACT_GLOBAL_REPLAY_PREREGISTRATION.md` specifies the appropriate arbitrary-precision replay, but
-no frozen outcome-producing exact binary was present at this audit cut.
+`EXACT_GLOBAL_REPLAY_PREREGISTRATION.md` specified the appropriate arbitrary-precision replay, but
+no frozen outcome-producing exact binary was present at the original audit cut.  The post-fix update
+above supersedes that historical limitation.
 
 The v2 integer form makes completion straightforward.  For `S=sum_j |a_j|` and target scale `L`,
 the following conservative bounds follow directly from the full `S_11` census:
@@ -244,17 +327,16 @@ solutions.
 
 ## Conditions to lift this verdict
 
-1. Rebuild and freeze the standalone replay binary from the embedded-source-checking code; show the
-   hostile unknown-field and stale-source controls fail before scientific output.
-2. Make G-0113 provenance real rather than syntactic, or demote the handoff wording explicitly.
-3. Implement and independently replay exact BigInt global aggregation, including exact-zero,
-   hinge-residual, linear-residual, coefficient mutation, and stale-binary controls.
-4. Freeze the cache schema and run full-census reconciliation against the corrected G-0113 scan.
-5. Implement fresh-Q, full-family residual-row re-solving and exact all-row replay.
-6. Pin/review the normal-form uniqueness lemma above.
-7. If exact global zero occurs, audit the algebraic compilation into the declared two-hidden-layer
+1. Produce a real G-0113 exact-Q member and package the postprocess, report, retained-column, and
+   converter-recomputation artifacts so their receipt can be independently replayed.
+2. Freeze the cache schema and run full-census reconciliation against the corrected G-0113 scan.
+3. Implement fresh-Q, full-family residual-row re-solving and exact all-row replay.
+4. Run the exact-zero path end to end on any real surviving certificate; the current zero control is
+   necessarily synthetic because no such candidate exists yet.
+5. If exact global zero occurs, audit the algebraic compilation into the declared two-hidden-layer
    network before beginning Lean formalization.
 
 Until those obligations are discharged, the honest statement is: **the bridge now has a sound
-mathematical design and a fast exact coordinate oracle, but it has not yet earned an exact global
-MAX11 result or a bounded full-family obstruction.**
+mathematical design, a fast exact coordinate oracle, an exact BigInt certificate decider, and a
+reviewed uniqueness lemma—but it has not yet earned an exact global MAX11 result or a bounded
+full-family obstruction.**

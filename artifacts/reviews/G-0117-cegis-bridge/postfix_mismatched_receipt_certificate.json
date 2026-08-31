@@ -1,0 +1,37 @@
+{
+  "schema": "max11-g0117-global-replay-certificate-v2",
+  "claim_boundary": "Denominator-cleared exact-Q finite-panel seed for complete global replay; not a global identity, family-completeness theorem, or MAX11 result.",
+  "source_exact_postprocess": {
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "schema": "max11-g0113-panel-exact-postprocess-v1",
+    "result": "EXACT_Q_MEMBER_FINITE_PANEL",
+    "bindings": {
+      "input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+      "rows": "1111111111111111111111111111111111111111111111111111111111111111",
+      "report": "2222222222222222222222222222222222222222222222222222222222222222",
+      "retained": "3333333333333333333333333333333333333333333333333333333333333333",
+      "producer": "07f20ee167483aedc0c06f40650fd3edc671ef7fc5cf1e1050b1ad388ba3ec48",
+      "preregistration": "4444444444444444444444444444444444444444444444444444444444444444"
+    },
+    "verification": {
+      "decision_projection_recomputed": true,
+      "postprocess_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "python_executable_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "actual_artifact_bindings": {
+        "input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+        "rows": "1111111111111111111111111111111111111111111111111111111111111111",
+        "report": "2222222222222222222222222222222222222222222222222222222222222222",
+        "retained": "3333333333333333333333333333333333333333333333333333333333333333",
+        "producer": "07f20ee167483aedc0c06f40650fd3edc671ef7fc5cf1e1050b1ad388ba3ec48",
+        "preregistration": "4444444444444444444444444444444444444444444444444444444444444444"
+      }
+    }
+  },
+  "target_scale": "1",
+  "terms": [
+    {
+      "sequence": 0,
+      "coefficient": "1"
+    }
+  ]
+}

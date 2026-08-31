@@ -1,0 +1,62 @@
+{
+  "bigint": {
+    "coefficient_digits": 79,
+    "exact_first_hinge_equals_coefficient_times_123648": true,
+    "larger_than_2_pow_256": true
+  },
+  "bindings": {
+    "exact_executable": "3dcb3b43c4075f1206ecda874bd9013dd9328eb67e1b9a2f59b21391882c4574",
+    "exact_preregistration": "a76f3ee0bf77f8c5a2180830b2879cf9b1b75fbac797a166a19fb605706a0a12",
+    "exact_source": "1232548952fee91827f8dfddf26dd01eacfc49c57a448f6d258add9b778f414a",
+    "kernel": "84b37ea50f012bfe8310de84b1ca27a7c1b77de90978635dd483798759d4c6aa",
+    "modular_executable": "7c8c83b668026e1e15be89a1459c8e23c79937582d245464ce0a6b5e49b9925b",
+    "modular_source": "d27ece785362d84aea134e04893449f4bca926243aba29ec4fef377fb7a7003e",
+    "uniqueness_lemma": "39de1eb61aaee37a24c8a45d55cbc5fd6f27c7b68d506f8757f352881a6e0c17"
+  },
+  "exact_modular_agreement": {
+    "large_bigint": true,
+    "linear_fallback": true,
+    "planted": true,
+    "primes": [
+      1000000007,
+      1000000009
+    ]
+  },
+  "independent_normal_form_controls": {
+    "labelled_permutations_for_literal_control": 39916800,
+    "literal_injection_sequence": 5341,
+    "mutant_first_residual": 786432,
+    "planted_first_residual": 662784,
+    "sequence_0_first_hinge": 123648,
+    "sequence_1_first_hinge": 33792,
+    "sequence_5341_first_linear_residual": 2903040,
+    "sequence_5341_hinge_support": 0,
+    "statement_match": "Every retained direction is zero-sum, primitive, first-positive, and has a negative proper prefix; omitted first-positive directions have only nonnegative proper prefixes and their ReLU vanishes on the open chamber.",
+    "targeted_subset_dp_sequences": [
+      0,
+      1
+    ]
+  },
+  "negative_controls": {
+    "forbidden_outputs_absent": [
+      "postfix_current_exact_hostile_should_not_exist.json",
+      "postfix_current_modular_hostile_should_not_exist.json",
+      "postfix_exact_forged_should_not_exist.json",
+      "postfix_modular_forged_should_not_exist.json",
+      "postfix_exact_mismatched_receipt_should_not_exist.json",
+      "postfix_modular_mismatched_receipt_should_not_exist.json",
+      "postfix_converter_forged_should_not_exist.json",
+      "postfix_isolated_stale_exact_should_not_exist.json",
+      "postfix_isolated_stale_lemma_should_not_exist.json"
+    ],
+    "forged_converter_chain_rejected": true,
+    "isolated_stale_source_rejected": true,
+    "isolated_stale_uniqueness_lemma_rejected": true,
+    "mismatched_receipt_rejected": true,
+    "old_forged_certificate_rejected": true,
+    "unknown_fields_rejected": true
+  },
+  "result": "PASS_BOUNDED_WITH_EXTERNAL_PROVENANCE_OBLIGATION",
+  "schema": "max11-g0117-postfix-independent-controls-v1",
+  "scope_caveat": "The replay layer checks receipt syntax and internal consistency, not the external postprocess/report/retained files. The production converter is the trust boundary that rehashes and cleanly reruns those artifacts; a real subject replay is pending."
+}
