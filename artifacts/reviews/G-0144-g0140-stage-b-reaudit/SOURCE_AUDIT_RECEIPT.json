@@ -1,0 +1,116 @@
+{
+  "schema": "max11-g0144-g0140-stage-b-reaudit-v1",
+  "verdict": "FAIL",
+  "result": "SOURCE_CUSTODY_REAUDIT_FAIL_T1",
+  "started_utc": "2026-08-31T18:57:57Z",
+  "completed_utc": "2026-08-31T19:12:12Z",
+  "auditor": {
+    "agent_name": "BronzeRobin",
+    "program": "codex",
+    "model": "gpt-5.2-codex",
+    "same_campaign": true,
+    "same_model_family": true,
+    "independence_tier": "T1"
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0144-g0140-stage-b-reaudit/PREREGISTRATION.md",
+    "git_commit": "2b342c033a0314539f07f0d032bb7d4e3433f1c4",
+    "sha256": "03707d8abc6f1a86b3431e1adde5040aa86e7a664b0fb3000c5d13368276f980"
+  },
+  "subject": {
+    "git_commit": "25629769a711c286d867969653b7ad398d64e87a",
+    "bindings": {
+      "artifacts/math/G-0140/stage_b_pricer/src/main.rs": {
+        "git_blob": "e94ac07165cad20732aebbc897a8854d031d99f2",
+        "git_mode": "100644",
+        "size_bytes": 82475,
+        "sha256": "2eb0959c1c3fcb0d0e7754a964bcb25121273c6d77eb178882d7ccc8571620d2"
+      },
+      "artifacts/math/G-0140/stage_b_pricer/Cargo.toml": {
+        "git_blob": "6ec442fd6ab0cdae930a0ccc528516304821dba2",
+        "git_mode": "100644",
+        "size_bytes": 352,
+        "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c"
+      },
+      "artifacts/math/G-0140/stage_b_pricer/Cargo.lock": {
+        "git_blob": "0d77ef12ebdf0868f9540cc81fab3e33664b0adf",
+        "git_mode": "100644",
+        "size_bytes": 7622,
+        "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a"
+      },
+      "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer": {
+        "git_blob": "fd815739d51628015d02896eebf97942765b8dff",
+        "git_mode": "100755",
+        "size_bytes": 1898728,
+        "sha256": "8b3918582f2b36da9ea9055ed26c608cdbe85d004e89754ff6685acd6b81d515"
+      }
+    }
+  },
+  "decision_bearing_receipts": {
+    "g0141": {
+      "path": "artifacts/reviews/G-0141-g0140-stage-a-source/SOURCE_AUDIT_RECEIPT.json",
+      "git_commit": "352b054cf03217a058399209ae387d1882fab5f7",
+      "sha256": "c1b857b1f44bc9f906b6716bc6360fac0ce7160ace2740db73c9dfed2c16b413",
+      "schema": "max11-g0141-g0140-stage-a-source-audit-v1",
+      "verdict": "FAIL",
+      "result": null
+    },
+    "g0142": {
+      "path": "artifacts/reviews/G-0142-g0140-stage-b-source/SOURCE_AUDIT_RECEIPT.json",
+      "git_commit": "9553446f4c2a87e5a02ff12347ebe77d7e8fb9fc",
+      "sha256": "451f739cd407d2a94c42995549da1e412457cc313ae22e8f8e745ce93c9d5c02",
+      "schema": "max11-g0142-g0140-stage-b-source-audit-v1",
+      "verdict": "FAIL",
+      "result": "SOURCE_CUSTODY_AUDIT_FAIL_T1"
+    }
+  },
+  "checks": [
+    {
+      "id": "BIND_EXACT_REPAIRED_SUBJECT",
+      "passed": true,
+      "evidence": "All four committed Stage-B producer bytes were read from Git tree 25629769a711c286d867969653b7ad398d64e87a and independently SHA-256 hashed."
+    },
+    {
+      "id": "GATE_EXACT_PASS_SEMANTICS",
+      "passed": true,
+      "evidence": "Source lines 1086-1110 require the exact G-0141/G-0142 schema, verdict PASS, result SOURCE_CUSTODY_AUDIT_PASS_T1, and both outcome-blind booleans false."
+    },
+    {
+      "id": "GATE_CURRENT_FROZEN_RECEIPTS_ADMISSIBLE",
+      "passed": false,
+      "evidence": "The exact G-0141 receipt at commit 352b054… has verdict FAIL and null result; the exact G-0142 receipt at commit 9553446… has verdict FAIL and result SOURCE_CUSTODY_AUDIT_FAIL_T1. Both necessarily fail lines 1103-1108."
+    },
+    {
+      "id": "GATE_REPLACEMENT_G0144_RECEIPT_CONSUMABLE",
+      "passed": false,
+      "evidence": "Source lines 52-60 hard-code only the G-0141 and G-0142 receipt paths; lines 1086-1097 recognize only those two contracts; lines 1354-1376 require both. The exact source contains no G-0144 path, schema, or contract."
+    }
+  ],
+  "failed_check_ids": [
+    "GATE_CURRENT_FROZEN_RECEIPTS_ADMISSIBLE",
+    "GATE_REPLACEMENT_G0144_RECEIPT_CONSUMABLE"
+  ],
+  "findings": [
+    {
+      "id": "G0144-F01",
+      "severity": "BLOCKING",
+      "title": "The repaired producer has no live admission path for its replacement audits",
+      "evidence": "Commit 2562976 hard-codes the immutable G-0141/G-0142 paths and requires PASS; the receipts frozen at those paths are FAIL; the new G-0144 receipt is not a recognized input.",
+      "impact": "A manifest that honestly binds the current frozen audit receipts cannot pass Stage-B validate_manifest, so preflight and scientific execution are unreachable. This is a liveness/custody failure, not evidence about the pricing mathematics.",
+      "required_remediation": "After the replacement Stage-A and Stage-B audits are frozen, revise the producer to bind their new exact paths, schemas, results, commits, and hashes; rebuild the tracked executable; then perform a fresh exact-commit audit. Do not overwrite or relabel the historical FAIL receipts."
+    }
+  ],
+  "scope_short_circuited": true,
+  "short_circuit_basis": "The preregistered verdict rule states that one decisive failure yields FAIL. The admission dead end is upstream of all pricing and cannot be repaired in W2 audit mode.",
+  "not_executed_after_decisive_falsifier": [
+    "broad nested-schema hostile fixture matrix",
+    "actual 163740-record positive static preflight",
+    "full 20958720-cell source-path audit",
+    "release self-test and isolated rebuild comparison",
+    "output overwrite and end-rehash hostile fixtures"
+  ],
+  "inputs_rehashed_at_end": true,
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "claim_boundary": "This FAIL establishes only that exact Stage-B revision 25629769a711c286d867969653b7ad398d64e87a cannot honestly consume the current frozen G-0141/G-0142 FAIL receipts or this G-0144 replacement receipt. It does not establish that the repaired strict parsers, arithmetic, pricing loop, or custody mechanisms are otherwise wrong; it does not run or validate a scientific pricing result, target membership, family completeness, MAX11, an unrestricted ReLU theorem, or T2 independence."
+}
