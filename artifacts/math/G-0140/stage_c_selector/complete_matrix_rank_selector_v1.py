@@ -87,21 +87,21 @@ G0150_AUDIT_PREREGISTRATION_PATH = (
     ROOT
     / "artifacts/reviews/G-0150-g0140-stage-a-final2-source/PREREGISTRATION.md"
 )
-G0151_SOURCE_AUDIT_PATH = (
+STAGE_B_SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0151-g0140-stage-b-final2-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0158-g0140-stage-b-final3-source/SOURCE_AUDIT_RECEIPT.json"
 )
-G0151_AUDIT_PREREGISTRATION_PATH = (
+STAGE_B_AUDIT_PREREGISTRATION_PATH = (
     ROOT
-    / "artifacts/reviews/G-0151-g0140-stage-b-final2-source/PREREGISTRATION.md"
+    / "artifacts/reviews/G-0158-g0140-stage-b-final3-source/PREREGISTRATION.md"
 )
-G0154_SOURCE_AUDIT_PATH = (
+STAGE_C_SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0154-g0140-stage-c-final3-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0159-g0140-stage-c-final4-source/SOURCE_AUDIT_RECEIPT.json"
 )
-G0154_AUDIT_PREREGISTRATION_PATH = (
+STAGE_C_AUDIT_PREREGISTRATION_PATH = (
     ROOT
-    / "artifacts/reviews/G-0154-g0140-stage-c-final3-source/PREREGISTRATION.md"
+    / "artifacts/reviews/G-0159-g0140-stage-c-final4-source/PREREGISTRATION.md"
 )
 
 STAGE_A_SOURCE_PATH = ROOT / "artifacts/math/G-0140/stage_a_pool/src/main.rs"
@@ -169,16 +169,16 @@ MASTER_OUTPUT_SCHEMA = "max11-g0140-rank-aware-master-result-v1"
 GLOBAL_REPLAY_OUTPUT_SCHEMA = "max11-g0140-new-member-global-replay-v1"
 G0139_SCHEMA = "max11-g0139-g0135-result-audit-v1"
 G0150_SCHEMA = "max11-g0150-g0140-stage-a-final2-source-audit-v1"
-G0151_SCHEMA = "max11-g0151-g0140-stage-b-final2-source-audit-v1"
-G0154_SCHEMA = "max11-g0154-g0140-stage-c-final3-source-audit-v1"
+STAGE_B_SOURCE_AUDIT_SCHEMA = "max11-g0158-g0140-stage-b-final3-source-audit-v1"
+STAGE_C_SOURCE_AUDIT_SCHEMA = "max11-g0159-g0140-stage-c-final4-source-audit-v1"
 SOURCE_CUSTODY_PASS_RESULT = "SOURCE_CUSTODY_AUDIT_PASS_T1"
 SOURCE_AUDIT_EVIDENCE_CLASS = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT"
 G0150_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
-G0151_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
-G0154_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-C producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
+STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
+STAGE_C_SOURCE_AUDIT_CLAIM_BOUNDARY = "T1 source/custody clearance for the exact frozen Stage-C producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted."
 G0150_NO_CLAIM = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 member, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
-G0151_NO_CLAIM = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 coordinate matrix or exact-rank selection, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
-G0154_NO_CLAIM = "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
+STAGE_B_SOURCE_AUDIT_NO_CLAIM = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 coordinate matrix or exact-rank selection, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
+STAGE_C_SOURCE_AUDIT_NO_CLAIM = "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
 G0150_REQUIRED_CHECKS = {
     "exact_named_binding_contract": True,
     "displaced_recursive_lookalikes_rejected": True,
@@ -193,7 +193,7 @@ G0150_REQUIRED_CHECKS = {
     "producer_ancestor_preflight_passed": True,
     "prohibited_scientific_modes_not_run": True,
 }
-G0151_REQUIRED_CHECKS = {
+STAGE_B_SOURCE_AUDIT_REQUIRED_CHECKS = {
     "exact_named_binding_contract": True,
     "displaced_recursive_lookalikes_rejected": True,
     "correct_decoy_with_missing_named_binding_rejected": True,
@@ -205,6 +205,7 @@ G0151_REQUIRED_CHECKS = {
     "stage_a_missing_nullable_field_rejected": True,
     "stage_a_mutation_control_schemas_validated": True,
     "stage_a_source_audit_exact_contract_validated": True,
+    "g0139_subject_and_exact_fixed_inputs_gate_verified": True,
     "compiled_source_manifest_lock_match_working_bytes": True,
     "overwrite_refusal_verified": True,
     "end_rehash_verified": True,
@@ -213,7 +214,7 @@ G0151_REQUIRED_CHECKS = {
     "producer_static_preflight_passed": True,
     "prohibited_scientific_modes_not_run": True,
 }
-G0154_REQUIRED_CHECKS = {
+STAGE_C_SOURCE_AUDIT_REQUIRED_CHECKS = {
     "exact_named_binding_contract": True,
     "displaced_recursive_lookalikes_rejected": True,
     "correct_decoy_with_missing_named_binding_rejected": True,
@@ -226,6 +227,8 @@ G0154_REQUIRED_CHECKS = {
     "full_pool_dependency_compatibility_scan_verified": True,
     "committed_blob_custody_verified": True,
     "native_build_custody_verified": True,
+    "g0139_subject_and_exact_fixed_inputs_gate_verified": True,
+    "stage_b_final3_source_audit_exact_contract_validated": True,
     "producer_self_test_passed": True,
     "native_oracle_passed": True,
     "producer_static_preflight_passed": True,
@@ -2026,8 +2029,8 @@ def validate_manifest(
             / "target/release/g0140-stage-b-pool128-coordinate-pricer"
         ): None,
         relative(G0150_SOURCE_AUDIT_PATH): None,
-        relative(G0151_SOURCE_AUDIT_PATH): None,
-        relative(G0154_SOURCE_AUDIT_PATH): None,
+        relative(STAGE_B_SOURCE_AUDIT_PATH): None,
+        relative(STAGE_C_SOURCE_AUDIT_PATH): None,
     }
     for path, expected in required.items():
         require(path in snapshot, f"manifest omits required Stage-C input: {path}")
@@ -2097,13 +2100,13 @@ def validate_manifest(
         manifest_commit=manifest_commit,
     )
     validate_source_audit_receipt(
-        load_json(G0151_SOURCE_AUDIT_PATH),
-        audit_path=G0151_SOURCE_AUDIT_PATH,
-        schema=G0151_SCHEMA,
-        claim_boundary=G0151_CLAIM_BOUNDARY,
-        no_claim=G0151_NO_CLAIM,
-        required_checks=G0151_REQUIRED_CHECKS,
-        preregistration_path=G0151_AUDIT_PREREGISTRATION_PATH,
+        load_json(STAGE_B_SOURCE_AUDIT_PATH),
+        audit_path=STAGE_B_SOURCE_AUDIT_PATH,
+        schema=STAGE_B_SOURCE_AUDIT_SCHEMA,
+        claim_boundary=STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY,
+        no_claim=STAGE_B_SOURCE_AUDIT_NO_CLAIM,
+        required_checks=STAGE_B_SOURCE_AUDIT_REQUIRED_CHECKS,
+        preregistration_path=STAGE_B_AUDIT_PREREGISTRATION_PATH,
         snapshot=snapshot,
         named_subjects={
             "main_source": STAGE_B_SOURCE_PATH,
@@ -2115,8 +2118,8 @@ def validate_manifest(
         subject_commit=git_commit_for_path(STAGE_B_SOURCE_PATH),
         manifest_commit=manifest_commit,
     )
-    validate_g0154_source_audit(
-        load_json(G0154_SOURCE_AUDIT_PATH),
+    validate_stage_c_source_audit(
+        load_json(STAGE_C_SOURCE_AUDIT_PATH),
         snapshot=snapshot,
         stage_c_commits=stage_c_commits,
         manifest_commit=manifest_commit,
@@ -2171,6 +2174,7 @@ def validate_g0139_admission(receipt: dict[str, Any]) -> None:
         and custody.get("entry_exit_rehash_equal") is True
         and custody.get("fixed_input_count") == len(fixed) == 8
         and fixed.get(relative(G0135_STAGE_D_PATH)) == G0135_STAGE_D_SHA256
+        and fixed.get(relative(G0135_RESULT_PATH)) == G0135_RESULT_SHA256
         and fixed.get(G0138_SOURCE_AUDIT_RELATIVE_PATH)
         == G0138_SOURCE_AUDIT_SHA256
         and custody.get("transitive_bound_input_count") == len(transitive) == 92,
@@ -2338,7 +2342,7 @@ def validate_source_audit_receipt(
     )
 
 
-def validate_g0154_source_audit(
+def validate_stage_c_source_audit(
     receipt: dict[str, Any],
     *,
     snapshot: dict[str, str],
@@ -2348,12 +2352,12 @@ def validate_g0154_source_audit(
     script_commit = stage_c_commits[SCRIPT]
     validate_source_audit_receipt(
         receipt,
-        audit_path=G0154_SOURCE_AUDIT_PATH,
-        schema=G0154_SCHEMA,
-        claim_boundary=G0154_CLAIM_BOUNDARY,
-        no_claim=G0154_NO_CLAIM,
-        required_checks=G0154_REQUIRED_CHECKS,
-        preregistration_path=G0154_AUDIT_PREREGISTRATION_PATH,
+        audit_path=STAGE_C_SOURCE_AUDIT_PATH,
+        schema=STAGE_C_SOURCE_AUDIT_SCHEMA,
+        claim_boundary=STAGE_C_SOURCE_AUDIT_CLAIM_BOUNDARY,
+        no_claim=STAGE_C_SOURCE_AUDIT_NO_CLAIM,
+        required_checks=STAGE_C_SOURCE_AUDIT_REQUIRED_CHECKS,
+        preregistration_path=STAGE_C_AUDIT_PREREGISTRATION_PATH,
         snapshot=snapshot,
         named_subjects={
             "selector_source": SCRIPT,
@@ -2856,8 +2860,8 @@ def future_interface() -> dict[str, Any]:
         "launcher": relative(LAUNCHER_PATH),
         "native_test": relative(NATIVE_TEST_PATH),
         "stage_c_source_audit": {
-            "path": relative(G0154_SOURCE_AUDIT_PATH),
-            "schema": G0154_SCHEMA,
+            "path": relative(STAGE_C_SOURCE_AUDIT_PATH),
+            "schema": STAGE_C_SOURCE_AUDIT_SCHEMA,
         },
         "scientific_execution_enabled_after_all_frozen_gates_pass": True,
         "scientific_result_written": False,
@@ -2914,8 +2918,8 @@ def static_preflight() -> dict[str, Any]:
         "stage_b": STAGE_B_PATH,
         "g0139": G0139_RECEIPT_PATH,
         "g0150": G0150_SOURCE_AUDIT_PATH,
-        "g0151": G0151_SOURCE_AUDIT_PATH,
-        "g0154": G0154_SOURCE_AUDIT_PATH,
+        "stage_b_source_audit": STAGE_B_SOURCE_AUDIT_PATH,
+        "stage_c_source_audit": STAGE_C_SOURCE_AUDIT_PATH,
     }
     present = {label: path.is_file() for label, path in future_paths.items()}
     return {
@@ -3051,8 +3055,8 @@ def scientific_run(
             "sha256": prepared["snapshot"][relative(G0139_RECEIPT_PATH)],
         },
         "stage_c_source_audit": {
-            "path": relative(G0154_SOURCE_AUDIT_PATH),
-            "sha256": prepared["snapshot"][relative(G0154_SOURCE_AUDIT_PATH)],
+            "path": relative(STAGE_C_SOURCE_AUDIT_PATH),
+            "sha256": prepared["snapshot"][relative(STAGE_C_SOURCE_AUDIT_PATH)],
         },
         "solver": {"path": relative(SCRIPT), "sha256": prepared["script_sha256"]},
         "launcher": {
@@ -3179,6 +3183,25 @@ def self_test() -> None:
     del g0139_mutants[4][1]["input_custody"]
     g0139_mutants[5][1]["source_audit_anchor"]["sha256"] = "0" * 64
     g0139_mutants[5][1]["source_audit_anchor"]["verdict"] = "FAIL"
+    missing_candidate = json.loads(json.dumps(g0139))
+    del missing_candidate["input_custody"]["fixed_inputs"][relative(G0135_RESULT_PATH)]
+    missing_candidate["input_custody"]["fixed_inputs"]["fixture/replacement"] = (
+        "6" * 64
+    )
+    g0139_mutants.append(("missing candidate fixed binding", missing_candidate))
+    wrong_candidate = json.loads(json.dumps(g0139))
+    wrong_candidate["input_custody"]["fixed_inputs"][relative(G0135_RESULT_PATH)] = (
+        "f" * 64
+    )
+    g0139_mutants.append(("wrong candidate fixed binding", wrong_candidate))
+    displaced_candidate = json.loads(json.dumps(missing_candidate))
+    displaced_candidate["unrelated_recursive_decoy"] = {
+        "path": relative(G0135_RESULT_PATH),
+        "sha256": G0135_RESULT_SHA256,
+    }
+    g0139_mutants.append(
+        ("missing candidate with recursive decoy", displaced_candidate)
+    )
     for label, mutant in g0139_mutants:
         expect_rejected(
             lambda mutant=mutant: validate_g0139_admission(mutant),
@@ -3262,11 +3285,11 @@ def self_test() -> None:
             },
         ),
         (
-            G0151_SCHEMA,
-            G0151_CLAIM_BOUNDARY,
-            G0151_NO_CLAIM,
-            G0151_REQUIRED_CHECKS,
-            G0151_AUDIT_PREREGISTRATION_PATH,
+            STAGE_B_SOURCE_AUDIT_SCHEMA,
+            STAGE_B_SOURCE_AUDIT_CLAIM_BOUNDARY,
+            STAGE_B_SOURCE_AUDIT_NO_CLAIM,
+            STAGE_B_SOURCE_AUDIT_REQUIRED_CHECKS,
+            STAGE_B_AUDIT_PREREGISTRATION_PATH,
             {
                 "main_source": (relative(STAGE_B_SOURCE_PATH), "5" * 64),
                 "cargo_manifest": (
@@ -3287,11 +3310,11 @@ def self_test() -> None:
             },
         ),
         (
-            G0154_SCHEMA,
-            G0154_CLAIM_BOUNDARY,
-            G0154_NO_CLAIM,
-            G0154_REQUIRED_CHECKS,
-            G0154_AUDIT_PREREGISTRATION_PATH,
+            STAGE_C_SOURCE_AUDIT_SCHEMA,
+            STAGE_C_SOURCE_AUDIT_CLAIM_BOUNDARY,
+            STAGE_C_SOURCE_AUDIT_NO_CLAIM,
+            STAGE_C_SOURCE_AUDIT_REQUIRED_CHECKS,
+            STAGE_C_AUDIT_PREREGISTRATION_PATH,
             {
                 "selector_source": (relative(SCRIPT), "9" * 64),
                 "native_proposer_source": (
@@ -3397,6 +3420,59 @@ def self_test() -> None:
     mutant = json.loads(json.dumps(own_fixture))
     mutant["scientific_input_observed"] = True
     reject_audit(mutant, "source audit scientific observation")
+
+    stage_b_case = audit_cases[-2]
+    stage_b_fixture = audit_fixture(
+        schema=stage_b_case[0],
+        claim_boundary=stage_b_case[1],
+        no_claim=stage_b_case[2],
+        required_checks=stage_b_case[3],
+        preregistration_path=stage_b_case[4],
+        named_bindings=stage_b_case[5],
+    )
+
+    def reject_stage_b_audit(mutant: dict[str, Any], label: str) -> None:
+        expect_rejected(
+            lambda: validate_source_audit_shape(
+                mutant,
+                schema=stage_b_case[0],
+                claim_boundary=stage_b_case[1],
+                no_claim=stage_b_case[2],
+                required_checks=stage_b_case[3],
+                preregistration_path=relative(stage_b_case[4]),
+                named_bindings=stage_b_case[5],
+                subject_commit="0" * 40,
+            ),
+            label,
+            rejected,
+        )
+
+    mutant = json.loads(json.dumps(stage_b_fixture))
+    mutant["schema"] = "max11-g0151-g0140-stage-b-final2-source-audit-v1"
+    reject_stage_b_audit(mutant, "Stage-B audit retired schema")
+    mutant = json.loads(json.dumps(stage_b_fixture))
+    del mutant["required_checks"][
+        "g0139_subject_and_exact_fixed_inputs_gate_verified"
+    ]
+    reject_stage_b_audit(mutant, "Stage-B audit missing G-0139 gate check")
+    mutant = json.loads(json.dumps(stage_b_fixture))
+    mutant["required_checks"][
+        "g0139_subject_and_exact_fixed_inputs_gate_verified"
+    ] = False
+    reject_stage_b_audit(mutant, "Stage-B audit false G-0139 gate check")
+    mutant = json.loads(json.dumps(stage_b_fixture))
+    mutant["required_checks"][
+        "g0139_subject_and_exact_fixed_inputs_gate_verified"
+    ] = 1
+    reject_stage_b_audit(mutant, "Stage-B audit integer G-0139 gate check")
+    mutant = json.loads(json.dumps(stage_b_fixture))
+    del mutant["required_checks"][
+        "g0139_subject_and_exact_fixed_inputs_gate_verified"
+    ]
+    mutant["unrelated_recursive_decoy"] = {
+        "g0139_subject_and_exact_fixed_inputs_gate_verified": True
+    }
+    reject_stage_b_audit(mutant, "Stage-B audit displaced G-0139 gate check")
 
     def crosscheck_prefix_profile(
         columns: Sequence[Sequence[int]],
@@ -3815,6 +3891,9 @@ def self_test() -> None:
         "G-0139 empty claim boundary",
         "G-0139 missing custody",
         "G-0139 false source-audit anchor",
+        "G-0139 missing candidate fixed binding",
+        "G-0139 wrong candidate fixed binding",
+        "G-0139 missing candidate with recursive decoy",
         "G-0139 semantic lookalike",
         "G-0139 superset binding digest",
         "source audit unknown envelope",
@@ -3827,6 +3906,11 @@ def self_test() -> None:
         "source audit false required check",
         "source audit integer required check",
         "source audit scientific observation",
+        "Stage-B audit retired schema",
+        "Stage-B audit missing G-0139 gate check",
+        "Stage-B audit false G-0139 gate check",
+        "Stage-B audit integer G-0139 gate check",
+        "Stage-B audit displaced G-0139 gate check",
         "duplicate JSON key",
         "trailing JSON data",
         "noncanonical integer",
