@@ -3073,6 +3073,7 @@ fn static_preflight() -> Result<()> {
         "run from repository root"
     );
     validate_compiled_bytes(&root)?;
+    validate_current_release_executable(&root)?;
     for path in [
         PRODUCER_SOURCE_PATH,
         PRODUCER_ENGINE_PATH,
