@@ -44,7 +44,11 @@ const COMPILED_RECHECK: &[u8] =
 #[serde(deny_unknown_fields)]
 struct PanelInput {
     schema: String,
+    control_sequences: Vec<usize>,
+    primes: [u64; 2],
     records: Vec<Record>,
+    rows_path: String,
+    target: Vec<i64>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
@@ -315,6 +319,13 @@ fn main() -> Result<()> {
     ensure!(
         input.schema == "max11-g0113-panel-solver-input-v1",
         "panel-input schema drift"
+    );
+    ensure!(
+        input.control_sequences == [0, 1, 284, 5_341, 30_223, 133_449, 134_301]
+            && input.primes == [2_000_081, 3_000_017]
+            && input.rows_path == "artifacts/math/G-0111/dual_rows_v1.json"
+            && input.target.len() == 301,
+        "panel-input auxiliary metadata drift"
     );
     ensure!(input.records.len() == 163_740, "record census drift");
     ensure!(
