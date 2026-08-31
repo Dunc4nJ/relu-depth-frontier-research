@@ -1,0 +1,38 @@
+{
+  "schema": "max11-g0117-full-family-panel-cache-v1",
+  "result": "EXACT_PANEL_CACHE_REPRODUCED",
+  "claim_boundary": "Exact sequence-major cache of the frozen 301-row finite panel over 163,740 columns; not a global identity, Q membership decision, family-completeness theorem, or MAX11 result.",
+  "bindings": {
+    "completed_scan": "6f3f52bf9709cda495258f760bf51bdde33eea015e0db499cacf04c28eabb85e",
+    "corrected_scan_producer": "8be4583119a49d63ef41ab4c86d2f9eb1ee473c99578047c8c62bdcaa01ed47f",
+    "evaluator": "875b0046e24f32d9649fe0d9c5295dfbd75678fea46df96f6d9f287c6a987bfd",
+    "evaluator_gate": "94d54b1a64340ff49d6bbdf35cc429e71a25628ba6764b16039d15c258176310",
+    "executable": "a30d31436dec763c783d7f46fab297025d915728f6f7c03483b97e3b3c5c7337",
+    "input": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "preregistration": "ac6cecfe4702866d8177dbeefd81b71a3933578a6f88b1f9cbcbc12f0cfb1022",
+    "producer": "99ecda05de53f261ad4aa2d9a8c0e746bab1f51c35044dd9778edcc961c89435",
+    "rows": "0b849d7dbb171367d9a55ad4b6da4631b4278caa38d9b5f9cbda04c6cb80535c"
+  },
+  "records": 163740,
+  "rows": 301,
+  "entry_bytes": 16,
+  "payload_bytes": 788571840,
+  "layout": "sequence-major: offset=((sequence*301)+row)*16",
+  "integer_width": "signed i128",
+  "endianness": "little",
+  "data_sha256": "da045a6fc004afeb6c9b67c8fc093a191ed3e9c515bc8e97901a6e64cb125c5b",
+  "ordered_vector_digests_sha256": "0d6dadb15a8e72cf37c119c2d73f0750e38f5708f09a98c48f36b4f44b59815b",
+  "control_vector_sha256": {
+    "0": "f09264dcc0b2d4bd3c9513b82b66aee22cd52cfe380e592f42cf7c5a454a3c58",
+    "1": "20aae137437ff17f5bac7f85b4e0be62655731be66f741c1889467d731052c94",
+    "3": "475f46c40f0ee5994d15d5f36140fe78c20f6aaf46857b95be2b142f5a8d2099",
+    "284": "cc617c5722253273c0dd29496b7cbf9e908e09d13ee5b50a4aea7475dbc1f559",
+    "5341": "2edd9faf75a4960c4c1e03338710c46257fa57469a828aaa4a3831661bedba39",
+    "30223": "0d4f4459bb76732cd4f10aeee1850c81bfed70537c792980eec4d187a8e4e395",
+    "133449": "e33be8f4531de9d063e129be88ecfe35049a0cfb531e63efd468c0ee266a65a7",
+    "134301": "66ed0bc898b1a38da30e030b6ba08c10c76b9a1c4062bad4c6dd074fd34ff8f8"
+  },
+  "value_minimum": 271530,
+  "value_maximum": 58253040,
+  "wall_seconds": 4225.978527974
+}

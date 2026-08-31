@@ -132,23 +132,40 @@ fn matching_injections(table: &[Vec<i8>], active: usize, direction: &[i8; N], sc
     current[full]
 }
 
-/// Exact coefficient of one primitive, first-positive, ordered-cone-active
-/// direction in the full S_11 orbit sum of a loopless degree-five atom.
-pub fn hinge_coefficient(record: &Record, direction: &[i8; N]) -> Result<i64> {
-    validate_direction(direction)?;
-    let table = increments(record)?;
+fn hinge_coefficient_from_table(record: &Record, table: &[Vec<i8>], direction: &[i8; N]) -> i64 {
     let mut unlabelled = 0u64;
     for scale in -5i8..=5 {
         if scale == 0 {
             continue;
         }
         unlabelled += u64::from(scale.unsigned_abs())
-            * matching_injections(&table, record.active_vertices, direction, scale);
+            * matching_injections(table, record.active_vertices, direction, scale);
     }
     let labelled = unlabelled
         .checked_mul(factorial(N - record.active_vertices))
         .expect("hinge coefficient overflow");
-    Ok(i64::try_from(labelled).expect("hinge coefficient exceeds i64"))
+    i64::try_from(labelled).expect("hinge coefficient exceeds i64")
+}
+
+/// Exact coefficients of several primitive, first-positive,
+/// ordered-cone-active directions in the full S_11 orbit sum of a loopless
+/// degree-five atom. The record increment table is constructed once and shared
+/// by all requested directions.
+pub fn hinge_coefficients(record: &Record, directions: &[[i8; N]]) -> Result<Vec<i64>> {
+    for direction in directions {
+        validate_direction(direction)?;
+    }
+    let table = increments(record)?;
+    Ok(directions
+        .iter()
+        .map(|direction| hinge_coefficient_from_table(record, &table, direction))
+        .collect())
+}
+
+/// Exact coefficient of one primitive, first-positive, ordered-cone-active
+/// direction in the full S_11 orbit sum of a loopless degree-five atom.
+pub fn hinge_coefficient(record: &Record, direction: &[i8; N]) -> Result<i64> {
+    Ok(hinge_coefficients(record, std::slice::from_ref(direction))?[0])
 }
 
 fn next_sign(status: usize, increment: i8) -> usize {
@@ -462,6 +479,22 @@ mod tests {
         );
         for (direction, coefficient) in &expected.hinges {
             assert_eq!(hinge_coefficient(&record, direction).unwrap(), *coefficient);
+        }
+    }
+
+    #[test]
+    fn shared_increment_batch_matches_literal_coefficients_in_order() {
+        let record = sample();
+        let expected = literal(&record);
+        let directions = expected.hinges.keys().take(8).copied().collect::<Vec<_>>();
+        let values = hinge_coefficients(&record, &directions).unwrap();
+        assert_eq!(values.len(), directions.len());
+        for ((direction, value), expected_value) in directions.iter().zip(values.iter()).zip(
+            directions
+                .iter()
+                .map(|direction| expected.hinges[direction]),
+        ) {
+            assert_eq!(*value, expected_value, "direction {direction:?}");
         }
     }
 
