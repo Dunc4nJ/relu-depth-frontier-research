@@ -124,6 +124,7 @@ const REQUIRED_MANIFEST_PATHS: &[&str] = &[
 ];
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
 struct Binding {
     path: String,
     sha256: String,
@@ -198,6 +199,7 @@ struct Term {
 }
 
 #[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct SupportReceipt {
     selected_columns: usize,
     support_columns: usize,
@@ -208,6 +210,7 @@ struct SupportReceipt {
 }
 
 #[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct ReplayReceipt {
     rows: usize,
     rational_all_rows_replayed: bool,
@@ -218,6 +221,7 @@ struct ReplayReceipt {
 }
 
 #[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct CoefficientMutantReceipt {
     support_index: usize,
     sequence: usize,
@@ -228,6 +232,7 @@ struct CoefficientMutantReceipt {
 }
 
 #[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct StageCMember {
     schema: String,
     result: String,
@@ -291,6 +296,7 @@ struct StageCMember {
 }
 
 #[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct StageACarry {
     index: usize,
     direction: [i8; N],
@@ -299,6 +305,7 @@ struct StageACarry {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
 struct ExactHinge {
     direction: [i8; N],
     coefficient: String,
@@ -2460,6 +2467,10 @@ fn self_test() -> Result<()> {
         strict_json_value(std::io::Cursor::new(br#"{"ok":[1,true,null]}"#)).is_ok()
             && strict_json_value(std::io::Cursor::new(br#"{"x":1,"x":2}"#)).is_err()
             && strict_json::<StudyManifest>(std::io::Cursor::new(br#"{}"#)).is_err()
+            && strict_json::<Binding>(std::io::Cursor::new(
+                br#"{"path":"x","sha256":"0000000000000000000000000000000000000000000000000000000000000000","extra":true}"#,
+            ))
+            .is_err()
             && validate_stage_c_member_keys(&serde_json::json!({"schema": STAGE_C_SCHEMA}))
                 .is_err()
             && strict_json::<StageCMember>(std::io::Cursor::new(
