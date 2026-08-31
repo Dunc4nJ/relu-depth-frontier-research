@@ -1,0 +1,424 @@
+{
+  "schema": "max11-g0135-batch32-global-replay-manifest-v1",
+  "selected_branch": "MEMBER",
+  "output_path": "artifacts/math/G-0135/batch32_global_replay_v1.json",
+  "preregistration_git_commit": "30b285dadc05825b7cd4ecb37b19f9d2299f1afb",
+  "producer_git_commit": "e2f20e14076863737ea3c01fa78073f2c704eceb",
+  "source_audit_git_commit": "0bd7dc17f7e8fc05f3a140dc68faa872aa416dd1",
+  "bindings": {
+    "candidate_manifest": {
+      "path": "artifacts/math/G-0128/full_family_master_manifest_v2.json",
+      "sha256": "79078391da63eb25b09f90f8e9335e614db46bcf69edac5d2ca8386131c3f6ec"
+    },
+    "candidate_preregistration": {
+      "path": "artifacts/math/G-0128/FULL_FAMILY_MASTER_ROUND2_PREREGISTRATION.md",
+      "sha256": "ed33f3349780c1e73d64b1a9a75e2a070ae554bd1313dc081187a8d2554e5a9f"
+    },
+    "candidate_result": {
+      "path": "artifacts/math/G-0128/full_family_master_result_v2.json",
+      "sha256": "17c4fd5c8890006feaf5b9b9d6dbd542002dfca80e85b27b2dcacec16ebca838"
+    },
+    "candidate_solver": {
+      "path": "artifacts/math/G-0128/full_family_master_v2.py",
+      "sha256": "cfdb3f3d758d8cc5cc81c8ad9a71f4b9bd5c2001f1ff2f8a646715a4c6ca3da8"
+    },
+    "candidate_source_audit": {
+      "path": "artifacts/reviews/G-0128-round2-master/AUDIT_VERDICT.md",
+      "sha256": "049a0a85bfec5b3ab053208da825a173dbd16302af72004c47f54a906a2ae4ed"
+    },
+    "cargo_lock": {
+      "path": "artifacts/math/G-0135/Cargo.lock",
+      "sha256": "bb4c2eec22788cd3f705330b163a19638f7f55e87c4b6d659754a0485632811c"
+    },
+    "cargo_manifest": {
+      "path": "artifacts/math/G-0135/Cargo.toml",
+      "sha256": "9d3db2f04d56a9979ca605a177b0a097ff1e44288c7b1a444a5281b3c524664b"
+    },
+    "degree5_transfer_readme": {
+      "path": "artifacts/math/G-0044/README.md",
+      "sha256": "7a7b763dbfba826b2366139176f6b26611c8f1eac0df8f26fd68fa1b928730cb"
+    },
+    "denominator_independent_census": {
+      "path": "artifacts/cleanroom/G-0038/independent_loop_inclusive_census.py",
+      "sha256": "16bf2f5182162698a5812d88635286803b9961cea887a436e809c0c9ca0982cb"
+    },
+    "denominator_independent_census_receipt": {
+      "path": "artifacts/cleanroom/G-0038/independent_loop_inclusive_census_v1.json",
+      "sha256": "98469e1cdaaaeac411db16439bbc7f2226b9416ee32d9df1e78f214c2cda0078"
+    },
+    "denominator_manifest": {
+      "path": "artifacts/math/G-0038/loop_inclusive_signed_degree5_universe_manifest_v1.json",
+      "sha256": "1d6d7ce58c4302b899e922939030706428c54870d32cc5b0e60f43e2c25ee640"
+    },
+    "denominator_stream": {
+      "path": "artifacts/math/G-0038/loop_inclusive_signed_degree5_universe_v1.jsonl.gz",
+      "sha256": "e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd"
+    },
+    "denominator_stream_verification": {
+      "path": "artifacts/cleanroom/G-0038/loop_inclusive_signed_degree5_stream_verification_v1.json",
+      "sha256": "8379177a8597fcfca9e291fd354289af4950976b32d8238b44caa4a2035cf542"
+    },
+    "denominator_stream_verifier": {
+      "path": "artifacts/cleanroom/G-0038/verify_loop_inclusive_denominator_stream.py",
+      "sha256": "215e7eb359d01078131e3266487f35658cf922f1285d33dec972f51f9e33d165"
+    },
+    "denominator_streamer": {
+      "path": "artifacts/math/G-0038/stream_loop_inclusive_denominator.py",
+      "sha256": "c22c29072f1b046a76c6d3767f7054efa44852fbdb88ae506ba561c5781a1acf"
+    },
+    "executable": {
+      "path": "artifacts/math/G-0135/target/release/g0135-batch32-global-replay",
+      "sha256": "f96dbdf5a8998f11629477e81ac0b8ef3fa860fb4e7e813e3ff5b2ccead2d897"
+    },
+    "finite_audit_checker": {
+      "path": "artifacts/reviews/G-0131-g0128-result/replay_member_cleanroom.py",
+      "sha256": "41b4b5d0266ea8b3724dd93938013d02829bbf1bf16ba3be2655369014fece7a"
+    },
+    "finite_audit_preregistration": {
+      "path": "artifacts/reviews/G-0131-g0128-result/PREREGISTRATION.md",
+      "sha256": "74594f4a88a840dd144b69d154a7b77445d13b20ff55630e9b5d932253e1d799"
+    },
+    "finite_audit_receipt": {
+      "path": "artifacts/reviews/G-0131-g0128-result/cleanroom_member_audit_v1.json",
+      "sha256": "0159910b476b1cac9ea0e8f6ad05e16e061036b361efc8b2f5a3a1aa02c09926"
+    },
+    "finite_audit_report": {
+      "path": "artifacts/reviews/G-0131-g0128-result/REPORT.md",
+      "sha256": "15f3f0f8bd4952d7773effa393a5cecbd0d6f74895ded134efeb5e3701ebb197"
+    },
+    "g0135_preregistration": {
+      "path": "artifacts/math/G-0135/PREREGISTRATION.md",
+      "sha256": "ca9ed1930a8b7539d92d7651caadd06c6bd77742ce11adff682af9ac067fe5ec"
+    },
+    "loop_inclusive_schema": {
+      "path": "artifacts/math/G-0028/LOOP_INCLUSIVE_SIGNED_W_SCHEMA.md",
+      "sha256": "5652b1136a56294ef6fdbba164e66dd489c86a66675901b45e9a2ed5ab0cc40c"
+    },
+    "model_boundary_audit": {
+      "path": "artifacts/reviews/G-0130-model-boundary/AUDIT_VERDICT.md",
+      "sha256": "53f90bacf3271ffb94174eb1a7e6bc5a525b36d86bb722ef2c595f111043bfdf"
+    },
+    "prior_global_replay_manifest": {
+      "path": "artifacts/math/G-0132/member_global_normal_form_manifest_v1.json",
+      "sha256": "b4c37ce45d70647a2537ca2e05ecaeb75a47edf29427767a6eff9744f31b0732"
+    },
+    "prior_global_replay_result": {
+      "path": "artifacts/math/G-0132/member_global_normal_form_replay_v1.json",
+      "sha256": "d720d38f98057535f31b06a038bf96c2ea17486431f32d49ae48b2b207a6ff50"
+    },
+    "prior_result_audit_checker": {
+      "path": "artifacts/reviews/G-0134-g0132-result/cleanroom_residual_reprice.py",
+      "sha256": "40109063ed2210b3a9ba11d52618d28e55eac9e5da7146d4bb0377b8da6fa9ee"
+    },
+    "prior_result_audit_receipt": {
+      "path": "artifacts/reviews/G-0134-g0132-result/RESIDUAL_AUDIT_RECEIPT.json",
+      "sha256": "a00aaca7aeb8f960d6fa5a264b72a13c797ae30a75c4eec5eaa90a5a455e2f56"
+    },
+    "prior_result_audit_report": {
+      "path": "artifacts/reviews/G-0134-g0132-result/REPORT.md",
+      "sha256": "98f592ccf0e4541fd596aea7691561342c761cb1e168a2fa1f1bec22c260d9f4"
+    },
+    "producer": {
+      "path": "artifacts/math/G-0135/src/main.rs",
+      "sha256": "6786760c2d9c6d11782ae0f2e7a7efed19ddb026e959cf50701b473a1d979668"
+    },
+    "python_solver_requirements": {
+      "path": "requirements-solvers.lock",
+      "sha256": "dae95ec0dd59c0b30ea69bfe541248049cee612a92d56c4d18e0c3217c170fb8"
+    },
+    "python_solver_wheel_hashes": {
+      "path": "environment/python-wheel-hashes.txt",
+      "sha256": "68c90da2eecf3285c99ad135ef142070c830fe4b14a4a35ebec265e6ffb3b311"
+    },
+    "result_audit_preregistration": {
+      "path": "artifacts/reviews/G-0134-g0132-result/PREREGISTRATION.md",
+      "sha256": "5f0ec755c8aa96bccde392be97e3189f6eb1fc9dfbff508a5ced13ecd9fca6d2"
+    },
+    "solver_toolchain_document": {
+      "path": "TOOLCHAIN.md",
+      "sha256": "ffc55f711d52c90f4a1710cfd55366b2d1249a736db97f17c3a1c3e52188f150"
+    },
+    "solver_toolchain_manifest": {
+      "path": "environment/toolchain-manifest.txt",
+      "sha256": "a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
+    },
+    "source_audit_preregistration": {
+      "path": "artifacts/reviews/G-0136-g0135-source/PREREGISTRATION.md",
+      "sha256": "ec8004a00549d205827c283a3d0f3665ebb4260ddc2964c9654869afd0fee66d"
+    },
+    "source_audit_receipt": {
+      "path": "artifacts/reviews/G-0136-g0135-source/SOURCE_AUDIT_RECEIPT.json",
+      "sha256": "e6655b5bf8ee52f098455178899dac9fea94a4fd8b8d0d6e14de490f232e45a6"
+    },
+    "stage_b_cargo_lock": {
+      "path": "artifacts/math/G-0135/stage_b_pricer/Cargo.lock",
+      "sha256": "72315f7a541bf34fe135a25e651d2d85a885652944bdcac6862fb770d29669d3"
+    },
+    "stage_b_cargo_manifest": {
+      "path": "artifacts/math/G-0135/stage_b_pricer/Cargo.toml",
+      "sha256": "a4057885f58199feb18e733ca01c7ec2a00dc05d8f2700a6dcb04f56825af11d"
+    },
+    "stage_b_executable": {
+      "path": "artifacts/math/G-0135/stage_b_pricer/target/release/g0135-stage-b-batch32-coordinate-pricer",
+      "sha256": "e2e84801749bc0f2ca7bf18a149895531038ee0eab68f964b01ad25f1a3de7ef"
+    },
+    "stage_b_source": {
+      "path": "artifacts/math/G-0135/stage_b_pricer/src/main.rs",
+      "sha256": "c591504757815ff63c46d29cfcc2ac10568bea92212ade32490def93b5d862b2"
+    },
+    "stage_c_executable": {
+      "path": "artifacts/math/G-0135/stage_c_master/run-full-family-master-v3",
+      "sha256": "b125566098be17edc0a572b776e1887813758afc7412324c29408592275ab508"
+    },
+    "stage_c_source": {
+      "path": "artifacts/math/G-0135/stage_c_master/full_family_master_v3.py",
+      "sha256": "c84f259d393756c9ff658aab9a1488b145b9607a939dbccfce47069168b40a1a"
+    },
+    "stage_d_cargo_lock": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/Cargo.lock",
+      "sha256": "13f29a23a9883e0ec61774532534819df16dcc86599b427952c06da6600f8d18"
+    },
+    "stage_d_cargo_manifest": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/Cargo.toml",
+      "sha256": "0dc8c61a7114b7b3625f86f550ae682ac650b21081b7b0a70d19802a337bb4da"
+    },
+    "stage_d_engine": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/src/engine.rs",
+      "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c"
+    },
+    "stage_d_executable": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/target/release/g0135-stage-d-global-replay",
+      "sha256": "1d4142782ff6a81e77162b5c599a71985c934f455b128507519c911a749e63b4"
+    },
+    "stage_d_source": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/src/main.rs",
+      "sha256": "e120f0b1ef7b8465cfcd6d8ae1cd389b6554c19cff1d6f7ae3e8fbc8bace8665"
+    },
+    "stage_d_source_audit_preregistration": {
+      "path": "artifacts/reviews/G-0138-g0135-stage-d-source/PREREGISTRATION.md",
+      "sha256": "b63b0ee0d36b1a91da3a35740ab026b7cec833950715189cef473ef1a86e6b8a"
+    },
+    "stage_d_source_audit_receipt": {
+      "path": "artifacts/reviews/G-0138-g0135-stage-d-source/SOURCE_AUDIT_RECEIPT.json",
+      "sha256": "f4e62ee4cd5311f74393e3141161512b62c65ebc9409c1ba5a8811019a2ec944"
+    },
+    "stages_bc_source_audit_preregistration": {
+      "path": "artifacts/reviews/G-0137-g0135-stages-bc-source/PREREGISTRATION.md",
+      "sha256": "e2bda62986001208e4e611ae147071b6932dc9ed99449aa4f54fcd178771948f"
+    },
+    "stages_bc_source_audit_receipt": {
+      "path": "artifacts/reviews/G-0137-g0135-stages-bc-source/SOURCE_AUDIT_RECEIPT.json",
+      "sha256": "9b6c8cb9492cb57cbf4dff589ed0d97437ae195ed0635eeaf0fe9b12052f956d"
+    }
+  },
+  "transitive_inputs": [
+    {
+      "path": "artifacts/math/G-0111/dual_rows_v1.json",
+      "sha256": "0b849d7dbb171367d9a55ad4b6da4631b4278caa38d9b5f9cbda04c6cb80535c"
+    },
+    {
+      "path": "artifacts/math/G-0113/panel_retained_columns_v1.json",
+      "sha256": "615e264dd64e43c8374131e6934e9728ee4c043a8b15f19ed50ec8d676fe1393"
+    },
+    {
+      "path": "artifacts/math/G-0113/panel_scan_v1.json",
+      "sha256": "6f3f52bf9709cda495258f760bf51bdde33eea015e0db499cacf04c28eabb85e"
+    },
+    {
+      "path": "artifacts/math/G-0113/panel_solver_input_v1.json",
+      "sha256": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8"
+    },
+    {
+      "path": "artifacts/math/G-0113/src/main.rs",
+      "sha256": "8be4583119a49d63ef41ab4c86d2f9eb1ee473c99578047c8c62bdcaa01ed47f"
+    },
+    {
+      "path": "artifacts/math/G-0116/cycle_cut_panel_benchmark_v1.json",
+      "sha256": "94d54b1a64340ff49d6bbdf35cc429e71a25628ba6764b16039d15c258176310"
+    },
+    {
+      "path": "artifacts/math/G-0116/src/main.rs",
+      "sha256": "875b0046e24f32d9649fe0d9c5295dfbd75678fea46df96f6d9f287c6a987bfd"
+    },
+    {
+      "path": "artifacts/math/G-0117/FULL_FAMILY_CEGIS_PREREGISTRATION.md",
+      "sha256": "ac6cecfe4702866d8177dbeefd81b71a3933578a6f88b1f9cbcbc12f0cfb1022"
+    },
+    {
+      "path": "artifacts/math/G-0117/NORMAL_FORM_UNIQUENESS_LEMMA.md",
+      "sha256": "39de1eb61aaee37a24c8a45d55cbc5fd6f27c7b68d506f8757f352881a6e0c17"
+    },
+    {
+      "path": "artifacts/math/G-0117/fresh_q_cegis_exact.py",
+      "sha256": "ee422e6e36085e26ddd83a75f8901c6a6efbe3fd2a99e80e280f9449d0ed8281"
+    },
+    {
+      "path": "artifacts/math/G-0117/fresh_q_cegis_iteration1_coordinate_v1.json",
+      "sha256": "c9acf62ea84d7e3d0405f2a5f778f431f8c3a1b16c8b9aefa453b62cfc929071"
+    },
+    {
+      "path": "artifacts/math/G-0117/full_family_cache_manifest_v1.json",
+      "sha256": "e546f65429c33012c638b0be3b37cf9af4228070c00136e05914e701436e44bf"
+    },
+    {
+      "path": "artifacts/math/G-0117/full_family_cache_v1.i128le",
+      "sha256": "da045a6fc004afeb6c9b67c8fc093a191ed3e9c515bc8e97901a6e64cb125c5b"
+    },
+    {
+      "path": "artifacts/math/G-0117/src/bin/full_family_cache.rs",
+      "sha256": "99ecda05de53f261ad4aa2d9a8c0e746bab1f51c35044dd9778edcc961c89435"
+    },
+    {
+      "path": "artifacts/math/G-0117/src/bin/g0118_batch_coordinate_pricer.rs",
+      "sha256": "35cabc07a3e6a50366c584c737493b393b202092d64f0951a37dde4f515d3058"
+    },
+    {
+      "path": "artifacts/math/G-0117/src/bin/g0118_batch_modular_replay.rs",
+      "sha256": "172be64103b9ebf7516514923c94bc7de8ee63bfc92a776e321c87c469a58db9"
+    },
+    {
+      "path": "artifacts/math/G-0117/src/lib.rs",
+      "sha256": "2bb97bb05e32816a77d438a14b049cbf5b003d6ba164b7f0088422d49f80afa6"
+    },
+    {
+      "path": "artifacts/math/G-0118/BATCH32_ITERATION4_PREREGISTRATION.md",
+      "sha256": "54a329587786c8824e8eede13a6165983ecc64c27a7f758be9676583bd283feb"
+    },
+    {
+      "path": "artifacts/math/G-0118/iteration2_residual_coordinate_v1.json",
+      "sha256": "41255b1176ca95ac8f2d43e35c8396266cf9d2c71fcae77c14dffb54ffc58a3f"
+    },
+    {
+      "path": "artifacts/math/G-0118/iteration3_residual_coordinate_v1.json",
+      "sha256": "58139181228fc2400298f400f1b80c083b72747f8d1ba3830fe4f3ee8b787f48"
+    },
+    {
+      "path": "artifacts/math/G-0118/iteration4_batch32_exact_prices_v1.json",
+      "sha256": "349e63a7a2f254a2b0d4c05a4ce4c088afa7ff859675876e2b8c3bac05b6547b"
+    },
+    {
+      "path": "artifacts/math/G-0118/iteration4_batch32_global_modular_replay_v1.json",
+      "sha256": "c402c0c9e89c2d8a95fc8b40c44346f9eaeae3c2ade5a7662d97cda04680ad80"
+    },
+    {
+      "path": "artifacts/math/G-0118/iteration4_residual_coordinate_v1.json",
+      "sha256": "862dbbbd6c2bee9424b8faf4e8cb0a2e7b4c76c94ef0a6bd78bc3e14b90258cb"
+    },
+    {
+      "path": "artifacts/math/G-0118/prefix_exact_cegis_iteration4_recheck_v1.json",
+      "sha256": "f29c7095a60ab945293bb1b182afde372405e3cb45c3509080f766aebf46911f"
+    },
+    {
+      "path": "artifacts/math/G-0118/prefix_exact_cegis_iteration4_v1.json",
+      "sha256": "728c06bd02f03367fbfa9f50c0353dc74b708a6ef576520cc0eaa72e2e472e1b"
+    },
+    {
+      "path": "artifacts/math/G-0121/FULL_FAMILY_MASTER_PREREGISTRATION.md",
+      "sha256": "e7e2f6de986d839aef8614ae81d91357b34bccfb5b9ec065fd8aa5bd1a689952"
+    },
+    {
+      "path": "artifacts/math/G-0121/full_family_master_manifest_v1.json",
+      "sha256": "9234415af8719ea0f46eaf7952d76cab006afe44e4d7e111813fde61e4a5032c"
+    },
+    {
+      "path": "artifacts/math/G-0121/full_family_master_result_v1.json",
+      "sha256": "53bc7d8894a3552c226ca64f51bf7b369ce1d7c71f532241b14271964abc1036"
+    },
+    {
+      "path": "artifacts/math/G-0123/full_family_master.py",
+      "sha256": "dc77467b31c12b40eaec8b33bbe806d0c6f2ea8e2dac3f2731324deb3c1b9cac"
+    },
+    {
+      "path": "artifacts/math/G-0126/Cargo.lock",
+      "sha256": "316421f8f8907349b9fb9b54a10ebe6bd4c3d4ddb9b44bc0294ff382f96dd45f"
+    },
+    {
+      "path": "artifacts/math/G-0126/Cargo.toml",
+      "sha256": "14300697a23f010c349bcd2581f62ce85f1efa3b5a759c70d94b7894a8dedb6a"
+    },
+    {
+      "path": "artifacts/math/G-0126/GLOBAL_REPLAY_PREREGISTRATION.md",
+      "sha256": "d6dd969ae558c7e36eb420c1fa4fa2c1254875eeff073b8580809b6a50a2fadb"
+    },
+    {
+      "path": "artifacts/math/G-0126/global_replay_v1.json",
+      "sha256": "bd0410d861978956502e9d4c4fc1cd159565f2e170d70509abd0f3eb21b771ea"
+    },
+    {
+      "path": "artifacts/math/G-0126/src/main.rs",
+      "sha256": "a59f51ed491d50fb8d8e3e93e1a0f53dbc351a67a84fc2ae1f51bd18f74991f3"
+    },
+    {
+      "path": "artifacts/math/G-0127/BATCH32_COORDINATE_PRICING_PREREGISTRATION.md",
+      "sha256": "ddd823a8c63e42c74e07fd1cbee6a7c5fca573f10ab3deb8138674092bde0070"
+    },
+    {
+      "path": "artifacts/math/G-0127/Cargo.lock",
+      "sha256": "467388a6341a27cc751bf29015a7e62ee98a0f2b8b3bd6560904669e440ec940"
+    },
+    {
+      "path": "artifacts/math/G-0127/Cargo.toml",
+      "sha256": "653934f2c34d5bee798cdaf9d9cc9bfd49ed070c8034621a2e0d98a24f81180c"
+    },
+    {
+      "path": "artifacts/math/G-0127/batch32_coordinate_prices_v1.json",
+      "sha256": "c4c5d59b13820027c81bd4e0b74c67027da851f0a6f90bd941484eb9c4533946"
+    },
+    {
+      "path": "artifacts/math/G-0127/src/main.rs",
+      "sha256": "68a9062fa28a5ad5da614634066685cc7e66f709fe6309f553317b483ba23cd8"
+    },
+    {
+      "path": "artifacts/reviews/G-0118-iteration4-batch/review_v1.json",
+      "sha256": "e7905d258ed05e004c51b449494c9cd7094e967cdf3c29380646f55caaf2b569"
+    },
+    {
+      "path": "artifacts/reviews/G-0123-full-family-master/AUDIT_VERDICT.md",
+      "sha256": "28404e3832c4f98e14f54abad1c278d4d2e153bca35977783854c8f96e4030dc"
+    }
+  ],
+  "parameters": {
+    "n": 11,
+    "rows": 380,
+    "records": 163740,
+    "terms": 132,
+    "batch_k": 32,
+    "selected_slots": 176,
+    "carry_directions": 68,
+    "target_coordinate": 10,
+    "labelled_permutations": 5269017600,
+    "threads": 12,
+    "arithmetic": "signed_num_bigint_BigInt_unconditional_exact",
+    "decision_rule": "complete_arbitrary_precision_ordered_chamber_normal_form_aggregate"
+  },
+  "environment": {
+    "os": "linux",
+    "arch": "x86_64",
+    "rustc_verbose": "rustc 1.95.0-nightly (5c49c4f7c 2026-01-20)\nbinary: rustc\ncommit-hash: 5c49c4f7c8393c861b849441d27f5d40e0f1e33b\ncommit-date: 2026-01-20\nhost: x86_64-unknown-linux-gnu\nrelease: 1.95.0-nightly\nLLVM version: 21.1.8",
+    "available_parallelism": 16
+  },
+  "stage_order": [
+    "A_REPLAY_SELECT",
+    "B_PRICE",
+    "C_MASTER",
+    "D_GLOBAL_REPLAY_IF_MEMBER"
+  ],
+  "planned_outputs": {
+    "A": {
+      "path": "artifacts/math/G-0135/batch32_global_replay_v1.json",
+      "schema": "max11-g0135-batch32-global-replay-v1"
+    },
+    "B": {
+      "path": "artifacts/math/G-0135/batch32_coordinate_prices_v1.json",
+      "schema": "max11-g0135-batch32-coordinate-prices-v1"
+    },
+    "C": {
+      "path": "artifacts/math/G-0135/full_family_master_result_v3.json",
+      "schema": "max11-g0135-full-family-master-result-v3"
+    },
+    "D": {
+      "path": "artifacts/math/G-0135/new_member_global_replay_v1.json",
+      "schema": "max11-g0135-new-member-global-replay-v1"
+    }
+  }
+}
