@@ -45,6 +45,7 @@ I128_BYTES = 16
 COLUMN_BYTES = PANEL_ROWS * I128_BYTES
 CACHE_BYTES = RECORDS * COLUMN_BYTES
 PRIMES = [1_000_000_007, 1_000_000_009]
+PANEL_PRIMES = [2_000_081, 3_000_017]
 MAX_RANK_INCREASES = ROWS - 115
 
 COORDINATES: list[tuple[Path, list[int]]] = [
@@ -652,8 +653,8 @@ def build_manifest(output: Path) -> dict[str, Any]:
 def load_panel_seed() -> list[int]:
     scan = load_json(PANEL_SCAN_PATH)
     primes = scan.get("primes")
-    require(isinstance(primes, list) and len(primes) == len(PRIMES), "panel prime census drift")
-    require([int(item.get("prime")) for item in primes] == PRIMES, "panel prime order drift")
+    require(isinstance(primes, list) and len(primes) == len(PANEL_PRIMES), "panel prime census drift")
+    require([int(item.get("prime")) for item in primes] == PANEL_PRIMES, "panel prime order drift")
     bases = [item.get("selected_sequences") for item in primes]
     require(all(isinstance(base, list) for base in bases), "panel bases missing")
     seed = [int(value) for value in bases[0]]
