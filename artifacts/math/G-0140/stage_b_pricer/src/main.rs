@@ -1903,6 +1903,7 @@ fn validate_term_normal_form_receipts(
         "Stage-A term normal-form transcript order drift"
     );
     let mut total = 0u64;
+    let mut hinge_entries = 0u64;
     for receipt in receipts {
         let inactive_multiplier = N.checked_sub(receipt.active_vertices).map(factorial);
         let expected_leaves = inactive_multiplier.map(|value| factorial(N) / value);
@@ -1934,10 +1935,14 @@ fn validate_term_normal_form_receipts(
         total = total
             .checked_add(receipt.visited_labelled_permutations)
             .context("Stage-A term transcript census overflow")?;
+        hinge_entries = hinge_entries
+            .checked_add(u64::try_from(receipt.hinge_entries)?)
+            .context("Stage-A hinge-entry transcript census overflow")?;
     }
     ensure!(
-        total == EXPECTED_LABELLED_PERMUTATIONS,
-        "Stage-A term transcript global census drift"
+        total == EXPECTED_LABELLED_PERMUTATIONS
+            && hinge_entries == EXPECTED_HINGE_ENTRIES_PROCESSED,
+        "Stage-A term transcript global census or hinge-entry drift"
     );
     Ok(())
 }
