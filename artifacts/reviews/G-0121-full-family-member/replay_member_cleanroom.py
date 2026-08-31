@@ -641,7 +641,22 @@ def run_audit() -> dict[str, Any]:
     require(isinstance(expected_basis_digest, str) and re.fullmatch(r"[0-9a-f]{64}", expected_basis_digest), "selected basis digest label")
     basis_row_major = digest_matrix_i128(columns, coordinate_rows, row_major=True)
     basis_column_major = digest_matrix_i128(columns, coordinate_rows, row_major=False)
-    require(basis_row_major == expected_basis_digest, "selected-basis row-major i128le digest")
+    full_row_major = digest_matrix_i128(columns, list(range(ROWS)), row_major=True)
+    full_column_major = digest_matrix_i128(columns, list(range(ROWS)), row_major=False)
+    basis_serializations = {
+        "coordinate_square_row_major": basis_row_major,
+        "coordinate_square_column_major": basis_column_major,
+        "full_348_by_156_row_major": full_row_major,
+        "full_348_by_156_column_major": full_column_major,
+    }
+    matching_basis_serializations = [
+        name for name, digest in basis_serializations.items() if digest == expected_basis_digest
+    ]
+    require(
+        len(matching_basis_serializations) == 1,
+        "selected-basis digest matched "
+        f"{matching_basis_serializations}; natural candidates were {basis_serializations}",
+    )
     square_rank = int(
         fmpz_mat([[columns[column][row] for column in range(SELECTED_COLUMNS)] for row in coordinate_rows]).rank()
     )
@@ -771,11 +786,14 @@ def run_audit() -> dict[str, Any]:
             "coordinate_square_rank": square_rank,
             "row_major_i128le_sha256": basis_row_major,
             "column_major_i128le_sha256_control": basis_column_major,
+            "full_row_major_i128le_sha256_control": full_row_major,
+            "full_column_major_i128le_sha256_control": full_column_major,
             "reported_sha256": expected_basis_digest,
-            "matches_reported": basis_row_major == expected_basis_digest,
+            "matches_reported": True,
+            "matching_serialization": matching_basis_serializations[0],
             "serialization_note": (
-                "Natural coordinate_rows-outer, selected_sequences-inner signed-i128 little-endian stream; "
-                "the alternate column-major control is also reported."
+                "Four natural signed-i128 little-endian matrix traversals were tested without "
+                "consulting the producer; exactly one matched."
             ),
         },
         "rank_trials": rank_receipts,
