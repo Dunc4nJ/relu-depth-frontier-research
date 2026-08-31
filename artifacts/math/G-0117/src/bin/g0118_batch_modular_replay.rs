@@ -181,6 +181,29 @@ fn canonical_positive_integer(raw: &str) -> bool {
     canonical_integer(raw) && raw != "0" && !raw.starts_with('-')
 }
 
+fn nonzero_term_projection(sequences: &[usize], coefficients: &[String]) -> Result<Vec<Term>> {
+    ensure!(
+        sequences.len() == coefficients.len(),
+        "basis coefficient census drift"
+    );
+    ensure!(
+        coefficients
+            .iter()
+            .all(|coefficient| canonical_integer(coefficient)),
+        "noncanonical basis coefficient"
+    );
+    Ok(sequences
+        .iter()
+        .copied()
+        .zip(coefficients.iter())
+        .filter(|(_, coefficient)| coefficient.as_str() != "0")
+        .map(|(sequence, coefficient)| Term {
+            sequence,
+            coefficient: coefficient.clone(),
+        })
+        .collect())
+}
+
 fn decimal_mod(raw: &str, prime: u64) -> Result<u64> {
     ensure!(canonical_integer(raw), "noncanonical integer");
     let (negative, digits) = raw
@@ -369,18 +392,11 @@ fn main() -> Result<()> {
         "candidate target scale drift"
     );
     ensure!(
-        candidate.support_sequences.len() == candidate.integer_coefficients.len()
-            && candidate.terms
-                == candidate
-                    .support_sequences
-                    .iter()
-                    .copied()
-                    .zip(candidate.integer_coefficients.iter().cloned())
-                    .map(|(sequence, coefficient)| Term {
-                        sequence,
-                        coefficient
-                    })
-                    .collect::<Vec<_>>(),
+        candidate.terms
+            == nonzero_term_projection(
+                &candidate.support_sequences,
+                &candidate.integer_coefficients,
+            )?,
         "candidate term projection drift"
     );
     let mut seen = vec![false; input.records.len()];
@@ -630,5 +646,34 @@ mod tests {
         values.swap(0, 1);
         values[0].residues[0] += 1;
         assert_ne!(digest_selected(&values), expected);
+    }
+
+    #[test]
+    fn nonzero_term_projection_filters_only_canonical_zeroes() {
+        let sequences = [3, 7, 9];
+        let coefficients = ["5".to_string(), "0".to_string(), "-2".to_string()];
+        let expected = vec![
+            Term {
+                sequence: 3,
+                coefficient: "5".to_string(),
+            },
+            Term {
+                sequence: 9,
+                coefficient: "-2".to_string(),
+            },
+        ];
+        assert_eq!(
+            nonzero_term_projection(&sequences, &coefficients).unwrap(),
+            expected
+        );
+        let mut zero_to_plus_one = coefficients.clone();
+        zero_to_plus_one[1] = "1".to_string();
+        assert_ne!(
+            nonzero_term_projection(&sequences, &zero_to_plus_one).unwrap(),
+            expected
+        );
+        assert!(
+            nonzero_term_projection(&sequences, &["5".into(), "00".into(), "-2".into()]).is_err()
+        );
     }
 }
