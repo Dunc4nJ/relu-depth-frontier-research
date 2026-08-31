@@ -624,7 +624,10 @@ def run_audit() -> dict[str, Any]:
 
     residuals = identity_residuals(columns, transcript["coefficients"], target, transcript["scale"])
     nonzero_rows = [index for index, value in enumerate(residuals) if value != 0]
-    require(not nonzero_rows, f"denominator-cleared identity fails first at row {nonzero_rows[0]}")
+    if nonzero_rows:
+        raise AuditFailure(
+            f"denominator-cleared identity fails first at row {nonzero_rows[0]}"
+        )
 
     first_nonzero = next(index for index, value in enumerate(transcript["coefficients"]) if value != 0)
     mutant_coefficients = list(transcript["coefficients"])
