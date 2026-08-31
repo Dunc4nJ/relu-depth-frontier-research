@@ -1,0 +1,46 @@
+{
+  "schema": "max11-g0139-clean-room-checker-self-test-v1",
+  "checker": {
+    "path": "artifacts/reviews/G-0139-g0135-result/src/main.rs",
+    "sha256": "29f157e6109c7c8a6d28faac9980c94a8e6cddc8aab25505d3488c018e25aa55"
+  },
+  "release_executable": {
+    "path": "artifacts/reviews/G-0139-g0135-result/target/release/g0139-cleanroom-result-audit",
+    "sha256": "c6a327cba0cbe14e7b7fe7599d2444b4e0bc721b01a3480a35e27607c92e440c",
+    "committed": false
+  },
+  "checks": [
+    {
+      "command": "cargo fmt --check --manifest-path artifacts/reviews/G-0139-g0135-result/Cargo.toml",
+      "exit_code": 0
+    },
+    {
+      "command": "cargo clippy --release --locked --manifest-path artifacts/reviews/G-0139-g0135-result/Cargo.toml -- -D warnings",
+      "exit_code": 0
+    },
+    {
+      "command": "artifacts/reviews/G-0139-g0135-result/target/release/g0139-cleanroom-result-audit --self-test",
+      "exit_code": 0,
+      "stdout": "G-0139 clean-room checker self-test PASS"
+    },
+    {
+      "command": "RAYON_NUM_THREADS=12 artifacts/reviews/G-0139-g0135-result/target/release/g0139-cleanroom-result-audit --output artifacts/reviews/G-0139-g0135-result/RESULT_AUDIT_RECEIPT.json",
+      "exit_code": 0,
+      "stdout_terminal": "G-0139 PASS CONSISTENT_RESIDUAL_T1",
+      "wall_seconds": 83.691
+    },
+    {
+      "command": "./skill-runtime verify-quick",
+      "exit_code": 0,
+      "summary": "verify-ledger: 0 finding(s); retry scan: 6 dead ends, 0 fired"
+    }
+  ],
+  "result_receipt": {
+    "path": "artifacts/reviews/G-0139-g0135-result/RESULT_AUDIT_RECEIPT.json",
+    "sha256": "282fba3591b656164d7cce728121de357ad793aa66339813101eb410e988399f",
+    "schema": "max11-g0139-g0135-result-audit-v1",
+    "verdict": "PASS",
+    "result": "CONSISTENT_RESIDUAL_T1"
+  },
+  "zero_run_green_used_as_evidence": false
+}
