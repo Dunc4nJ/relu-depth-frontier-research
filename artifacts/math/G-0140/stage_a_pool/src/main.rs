@@ -59,6 +59,10 @@ const ANCESTOR_FIRST32_RESIDUALS_SHA256: &str =
 const ANCESTOR_FIRST_DIRECTION: [i8; N] = [0, 0, 0, 0, 0, 0, 1, -2, -2, 1, 2];
 const ANCESTOR_FIRST_COEFFICIENT: &str = "511838695529252537134751622979004566912532181650940275812075139014937590867028110892243795641237175143066549672701558636166678186077128694292857947716107231627691338960";
 const G0139_AUDIT_PATH: &str = "artifacts/reviews/G-0139-g0135-result/RESULT_AUDIT_RECEIPT.json";
+const G0139_AUDIT_SHA256: &str = "282fba3591b656164d7cce728121de357ad793aa66339813101eb410e988399f";
+const G0139_AUDIT_COMMIT: &str = "0bfdbf2db065d8517ad2d98d762473fed052cb54";
+const G0139_EVIDENCE_CLASS: &str = "T1_SAME_LINEAGE_OUTCOME_AWARE_RESULT_AUDIT";
+const G0139_CLAIM_BOUNDARY: &str = "Consistency only for the exact committed 135-term Stage-C member and exact G-0135 Stage-D result bytes. Same-lineage outcome-aware T1 evidence; no T2 independence, family completeness, frozen-family nonmembership, MAX11 lower bound, unrestricted nonrepresentability, all-n theorem, refereed status, formalization, or Lean theorem.";
 const G0140_MANIFEST_PATH: &str = "artifacts/math/G-0140/pool128_manifest_v1.json";
 const OUTPUT_PATH: &str = "artifacts/math/G-0140/pool128_global_replay_v1.json";
 const STAGE_B_OUTPUT_PATH: &str = "artifacts/math/G-0140/pool128_coordinate_prices_v1.json";
@@ -108,6 +112,8 @@ const STAGE_BC_AUDIT_PATH: &str =
     "artifacts/reviews/G-0137-g0135-stages-bc-source/SOURCE_AUDIT_RECEIPT.json";
 const STAGE_D_AUDIT_PATH: &str =
     "artifacts/reviews/G-0138-g0135-stage-d-source/SOURCE_AUDIT_RECEIPT.json";
+const STAGE_D_AUDIT_SHA256: &str =
+    "f4e62ee4cd5311f74393e3141161512b62c65ebc9409c1ba5a8811019a2ec944";
 
 const MANIFEST_SCHEMA: &str = "max11-g0135-batch32-global-replay-manifest-v1";
 const STAGE_A_SCHEMA: &str = "max11-g0135-batch32-global-replay-v1";
@@ -135,6 +141,8 @@ const COMPILED_PREREGISTRATION: &[u8] = include_bytes!("../../PREREGISTRATION.md
 const COMPILED_KERNEL: &[u8] = include_bytes!("../../../G-0117/src/lib.rs");
 const COMPILED_UNIQUENESS: &[u8] =
     include_bytes!("../../../G-0117/NORMAL_FORM_UNIQUENESS_LEMMA.md");
+const COMPILED_G0139_AUDIT: &[u8] =
+    include_bytes!("../../../../reviews/G-0139-g0135-result/RESULT_AUDIT_RECEIPT.json");
 
 const REQUIRED_MANIFEST_PATHS: &[&str] = &[
     ANCESTOR_PREREGISTRATION_PATH,
@@ -1100,17 +1108,71 @@ fn validate_ancestor_stage_d(root: &Path) -> Result<Vec<ExactHinge>> {
     Ok(selected)
 }
 
+fn validate_g0139_semantics(receipt: &Value) -> Result<()> {
+    let custody = receipt
+        .pointer("/input_custody")
+        .and_then(Value::as_object)
+        .context("G-0139 input-custody object missing")?;
+    let fixed = custody
+        .get("fixed_inputs")
+        .and_then(Value::as_object)
+        .context("G-0139 fixed-input map missing")?;
+    let transitive = custody
+        .get("transitive_bound_inputs")
+        .and_then(Value::as_object)
+        .context("G-0139 transitive-input map missing")?;
+    ensure!(
+        value_string(receipt, "/schema")? == "max11-g0139-g0135-result-audit-v1"
+            && value_string(receipt, "/verdict")? == "PASS"
+            && value_string(receipt, "/result")? == "CONSISTENT_RESIDUAL_T1"
+            && value_string(receipt, "/evidence_class")? == G0139_EVIDENCE_CLASS
+            && value_string(receipt, "/claim_boundary")? == G0139_CLAIM_BOUNDARY
+            && value_bool(receipt, "/reviewer/same_model_lineage")?
+            && value_bool(receipt, "/preregistration/outcome_aware")?
+            && value_string(receipt, "/subject/path")? == ANCESTOR_STAGE_D_RESULT_PATH
+            && value_string(receipt, "/subject/sha256")? == ANCESTOR_STAGE_D_RESULT_SHA256
+            && value_string(receipt, "/subject/git_commit")? == ANCESTOR_STAGE_D_COMMIT
+            && value_string(receipt, "/subject/result_observed_before_checker")?
+                == ANCESTOR_RESIDUAL_RESULT
+            && value_string(receipt, "/git_custody/subject_commit")? == ANCESTOR_STAGE_D_COMMIT
+            && value_bool(receipt, "/git_custody/strict_linear_ancestry")?
+            && value_string(receipt, "/source_audit_anchor/path")? == STAGE_D_AUDIT_PATH
+            && value_string(receipt, "/source_audit_anchor/sha256")? == STAGE_D_AUDIT_SHA256
+            && value_string(receipt, "/source_audit_anchor/verdict")? == "PASS"
+            && value_bool(
+                receipt,
+                "/clean_room_execution_boundary/stage_d_bound_bytes_consumed_as_hashes_only"
+            )?
+            && !value_bool(
+                receipt,
+                "/clean_room_execution_boundary/stage_d_scientific_replay_rerun"
+            )?
+            && value_bool(receipt, "/input_custody/entry_exit_rehash_equal")?
+            && value_u64(receipt, "/input_custody/fixed_input_count")? == fixed.len() as u64
+            && fixed.len() == 8
+            && fixed
+                .get(ANCESTOR_STAGE_D_RESULT_PATH)
+                .and_then(Value::as_str)
+                == Some(ANCESTOR_STAGE_D_RESULT_SHA256)
+            && fixed.get(STAGE_D_AUDIT_PATH).and_then(Value::as_str) == Some(STAGE_D_AUDIT_SHA256)
+            && value_u64(receipt, "/input_custody/transitive_bound_input_count")?
+                == transitive.len() as u64
+            && transitive.len() == 92,
+        "G-0139 semantic/custody admission drift"
+    );
+    Ok(())
+}
+
 fn validate_g0139_gate(root: &Path) -> Result<Binding> {
     let path = checked_repo_path(root, G0139_AUDIT_PATH)?;
     let sha256 = sha256_path(&path)?;
-    git_commit_for_path(root, G0139_AUDIT_PATH)?;
-    let receipt = strict_json_value(BufReader::new(File::open(path)?))?;
+    ensure!(sha256 == G0139_AUDIT_SHA256, "G-0139 receipt digest drift");
     ensure!(
-        value_string(&receipt, "/schema")? == "max11-g0139-g0135-result-audit-v1"
-            && value_string(&receipt, "/verdict")? == "PASS"
-            && value_string(&receipt, "/result")? == "CONSISTENT_RESIDUAL_T1",
-        "G-0139 did not publish the preregistered T1 PASS"
+        git_commit_for_path(root, G0139_AUDIT_PATH)? == G0139_AUDIT_COMMIT,
+        "G-0139 receipt commit drift"
     );
+    let receipt = strict_json_value(BufReader::new(File::open(path)?))?;
+    validate_g0139_semantics(&receipt)?;
     let mut nested = Vec::new();
     collect_recursive_bindings(&receipt, &mut nested);
     ensure!(
@@ -1244,6 +1306,7 @@ fn validate_compiled_bytes(root: &Path) -> Result<()> {
         (COMPILED_PREREGISTRATION, PREREGISTRATION_PATH),
         (COMPILED_KERNEL, KERNEL_PATH),
         (COMPILED_UNIQUENESS, UNIQUENESS_PATH),
+        (COMPILED_G0139_AUDIT, G0139_AUDIT_PATH),
     ] {
         ensure!(
             sha256_bytes(compiled) == sha256_path(&checked_repo_path(root, path)?)?,
@@ -1458,6 +1521,7 @@ fn validate_shared_manifest(root: &Path) -> Result<ManifestSnapshot> {
 
 fn validate_g0140_manifest(root: &Path) -> Result<ManifestSnapshot> {
     let manifest_path = checked_repo_path(root, G0140_MANIFEST_PATH)?;
+    git_commit_for_path(root, G0140_MANIFEST_PATH)?;
     let sha256 = sha256_path(&manifest_path)?;
     let manifest: G0140Manifest = strict_json(BufReader::new(File::open(manifest_path)?))?;
     let commits = [
@@ -2812,6 +2876,38 @@ fn self_test() -> Result<()> {
             ))
             .is_err(),
         "malformed manifest/result or duplicate JSON control escaped"
+    );
+    let g0139 = strict_json_value(std::io::Cursor::new(COMPILED_G0139_AUDIT))?;
+    validate_g0139_semantics(&g0139)?;
+    let mut wrong_subject_commit = g0139.clone();
+    wrong_subject_commit["subject"]["git_commit"] = Value::String("0".repeat(40));
+    let mut false_evidence_class = g0139.clone();
+    false_evidence_class["evidence_class"] = Value::String("T2_INDEPENDENT_REPLAY".to_string());
+    let mut false_lineage = g0139.clone();
+    false_lineage["reviewer"]["same_model_lineage"] = Value::Bool(false);
+    false_lineage["preregistration"]["outcome_aware"] = Value::Bool(false);
+    let mut missing_boundary = g0139.clone();
+    missing_boundary["claim_boundary"] = Value::String(String::new());
+    let mut missing_custody = g0139.clone();
+    missing_custody
+        .as_object_mut()
+        .context("G-0139 self-test object drift")?
+        .remove("input_custody");
+    let mut false_source_audit = g0139;
+    false_source_audit["source_audit_anchor"]["sha256"] = Value::String("0".repeat(64));
+    false_source_audit["source_audit_anchor"]["verdict"] = Value::String("FAIL".to_string());
+    ensure!(
+        [
+            wrong_subject_commit,
+            false_evidence_class,
+            false_lineage,
+            missing_boundary,
+            missing_custody,
+            false_source_audit,
+        ]
+        .iter()
+        .all(|mutant| validate_g0139_semantics(mutant).is_err()),
+        "G-0139 semantic hostile control escaped"
     );
     for valid in ["0", "1", "-1", "12345678901234567890"] {
         ensure!(canonical_integer(valid), "valid integer rejected");
