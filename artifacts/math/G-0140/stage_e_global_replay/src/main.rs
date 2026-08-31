@@ -79,10 +79,10 @@ const STAGE_E_LOCK_PATH: &str = "artifacts/math/G-0140/stage_e_global_replay/Car
 const STAGE_E_EXECUTABLE_PATH: &str =
     "artifacts/math/G-0140/stage_e_global_replay/target/release/g0140-stage-e-global-replay";
 const STAGE_E_SOURCE_AUDIT_PATH: &str =
-    "artifacts/reviews/G-0156-g0140-stage-e-global-replay-source/SOURCE_AUDIT_RECEIPT.json";
+    "artifacts/reviews/G-0157-g0140-stage-e-final2-source/SOURCE_AUDIT_RECEIPT.json";
 const STAGE_E_SOURCE_AUDIT_PREREG_PATH: &str =
-    "artifacts/reviews/G-0156-g0140-stage-e-global-replay-source/PREREGISTRATION.md";
-const STAGE_E_SOURCE_AUDIT_SCHEMA: &str = "max11-g0156-g0140-stage-e-global-replay-source-audit-v1";
+    "artifacts/reviews/G-0157-g0140-stage-e-final2-source/PREREGISTRATION.md";
+const STAGE_E_SOURCE_AUDIT_SCHEMA: &str = "max11-g0157-g0140-stage-e-final2-source-audit-v1";
 const STAGE_E_SOURCE_AUDIT_EVIDENCE_CLASS: &str = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT";
 const STAGE_E_SOURCE_AUDIT_CLAIM_BOUNDARY: &str = "T1 source/custody clearance for the exact frozen G-0140 Stage-E complete-global-replay producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.";
 const STAGE_E_SOURCE_AUDIT_NO_CLAIM: &str = "This source audit does not adjudicate any future G-0140 scientific manifest or result, establish or exclude a global exact identity, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem.";
@@ -96,6 +96,13 @@ const G0140_STAGE_A_SOURCE_AUDIT_EVIDENCE_CLASS: &str =
     "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT";
 const G0140_STAGE_A_SOURCE_AUDIT_CLAIM_BOUNDARY: &str = "T1 source/custody clearance for the exact frozen Stage-A producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.";
 const G0140_STAGE_A_SOURCE_AUDIT_NO_CLAIM: &str = "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 member, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem.";
+const G0140_SCIENTIFIC_OUTPUT_PATHS: [&str; 5] = [
+    G0140_STAGE_A_RESULT_PATH,
+    STAGE_B_OUTPUT_PATH,
+    STAGE_C_OUTPUT_PATH,
+    STAGE_D_OUTPUT_PATH,
+    STAGE_E_OUTPUT_PATH,
+];
 const PRIOR_MASTER_RESULT_PATH: &str = "artifacts/math/G-0128/full_family_master_result_v2.json";
 const PRIOR_MASTER_MANIFEST_PATH: &str =
     "artifacts/math/G-0128/full_family_master_manifest_v2.json";
@@ -300,6 +307,7 @@ struct StageESourceAuditChecks {
     engine_byte_identity_with_stage_a_verified: bool,
     g0155_stage_d_source_audit_gate_verified: bool,
     scientific_output_commit_chain_gate_verified: bool,
+    scientific_outputs_excluded_from_manifest_bindings: bool,
     dynamic_stage_d_member_contract_verified: bool,
     global_zero_and_residual_branches_verified: bool,
     complete_label_census_and_end_rehash_verified: bool,
@@ -764,6 +772,16 @@ struct StageBReceipt {
 struct ManifestSnapshot {
     sha256: String,
     bindings_by_path: BTreeMap<String, String>,
+}
+
+fn validate_protocol_manifest_output_boundary(protocol: &ManifestSnapshot) -> Result<()> {
+    for output_path in G0140_SCIENTIFIC_OUTPUT_PATHS {
+        ensure!(
+            !protocol.bindings_by_path.contains_key(output_path),
+            "G-0140 manifest circularly prebinds future scientific output: {output_path}"
+        );
+    }
+    Ok(())
 }
 
 #[derive(Default)]
@@ -1804,6 +1822,7 @@ fn validate_stage_e_source_audit_semantics(receipt: &StageESourceAuditReceipt) -
             && checks.engine_byte_identity_with_stage_a_verified
             && checks.g0155_stage_d_source_audit_gate_verified
             && checks.scientific_output_commit_chain_gate_verified
+            && checks.scientific_outputs_excluded_from_manifest_bindings
             && checks.dynamic_stage_d_member_contract_verified
             && checks.global_zero_and_residual_branches_verified
             && checks.complete_label_census_and_end_rehash_verified
@@ -1823,21 +1842,21 @@ fn validate_stage_e_source_audit_gate(root: &Path, protocol: &ManifestSnapshot) 
     git_commit_for_path(root, STAGE_E_SOURCE_AUDIT_PATH)?;
     ensure!(
         receipt.subject.git_commit == git_commit_for_path(root, STAGE_E_SOURCE_PATH)?,
-        "G-0156 subject commit does not match Stage-E source"
+        "G-0157 subject commit does not match Stage-E source"
     );
     let preregistration = checked_repo_path(root, STAGE_E_SOURCE_AUDIT_PREREG_PATH)?;
     ensure!(
         sha256_path(&preregistration)? == receipt.preregistration.sha256
             && git_commit_for_path(root, STAGE_E_SOURCE_AUDIT_PREREG_PATH)?
                 == receipt.preregistration.git_commit,
-        "G-0156 preregistration custody drift"
+        "G-0157 preregistration custody drift"
     );
     for (expected_path, binding) in stage_e_source_audit_bindings(&receipt) {
         binding_matches(root, binding, expected_path)?;
         git_commit_for_path(root, expected_path)?;
         ensure!(
             protocol.bindings_by_path.get(expected_path) == Some(&binding.sha256),
-            "G-0140 manifest omits exact G-0156 subject binding: {expected_path}"
+            "G-0140 manifest omits exact G-0157 subject binding: {expected_path}"
         );
     }
     let audit_binding = Binding {
@@ -1846,7 +1865,7 @@ fn validate_stage_e_source_audit_gate(root: &Path, protocol: &ManifestSnapshot) 
     };
     ensure!(
         protocol.bindings_by_path.get(STAGE_E_SOURCE_AUDIT_PATH) == Some(&audit_binding.sha256),
-        "G-0140 manifest omits exact G-0156 receipt binding"
+        "G-0140 manifest omits exact G-0157 receipt binding"
     );
     let audit_commit = git_commit_for_path(root, STAGE_E_SOURCE_AUDIT_PATH)?;
     let manifest_commit = git_commit_for_path(root, G0140_MANIFEST_PATH)?;
@@ -1854,19 +1873,19 @@ fn validate_stage_e_source_audit_gate(root: &Path, protocol: &ManifestSnapshot) 
         root,
         &receipt.subject.git_commit,
         &receipt.preregistration.git_commit,
-        "Stage-E source -> G-0156 preregistration",
+        "Stage-E source -> G-0157 preregistration",
     )?;
     git_is_ancestor(
         root,
         &receipt.preregistration.git_commit,
         &audit_commit,
-        "G-0156 preregistration -> receipt",
+        "G-0157 preregistration -> receipt",
     )?;
     git_is_ancestor(
         root,
         &audit_commit,
         &manifest_commit,
-        "G-0156 receipt -> G-0140 manifest",
+        "G-0157 receipt -> G-0140 manifest",
     )?;
     Ok(audit_binding)
 }
@@ -2528,6 +2547,7 @@ fn validate_g0140_manifest(root: &Path) -> Result<ManifestSnapshot> {
         sha256,
         bindings_by_path,
     };
+    validate_protocol_manifest_output_boundary(&snapshot)?;
     validate_source_audit(
         root,
         &snapshot,
@@ -3417,13 +3437,10 @@ fn load_and_validate_stage_d_member(
         STAGE_D_SOURCE_AUDIT_PATH_G0140,
     )?;
     validate_stage_d_source_audit_gate(root, protocol, &candidate.source_audit)?;
-    for candidate_binding in [
-        &candidate.stage_a_receipt,
-        &candidate.stage_b_receipt,
-        &candidate.stage_c_receipt,
-        &candidate.source_audit,
-        &candidate.solver,
-    ] {
+    // Frozen sources and audits are manifest-bound. Scientific outputs cannot be:
+    // their exact bindings are carried by downstream receipts and authenticated by
+    // the committed manifest -> A -> B -> C -> D ancestry chain below.
+    for candidate_binding in [&candidate.source_audit, &candidate.solver] {
         ensure!(
             protocol.bindings_by_path.get(&candidate_binding.path)
                 == Some(&candidate_binding.sha256),
@@ -4354,6 +4371,21 @@ fn self_test() -> Result<()> {
             .is_err(),
         "malformed manifest/result or duplicate JSON control escaped"
     );
+    let empty_protocol = ManifestSnapshot {
+        sha256: "0".repeat(64),
+        bindings_by_path: BTreeMap::new(),
+    };
+    validate_protocol_manifest_output_boundary(&empty_protocol)?;
+    for output_path in G0140_SCIENTIFIC_OUTPUT_PATHS {
+        let mut circular_protocol = empty_protocol.clone();
+        circular_protocol
+            .bindings_by_path
+            .insert(output_path.to_string(), "0".repeat(64));
+        ensure!(
+            validate_protocol_manifest_output_boundary(&circular_protocol).is_err(),
+            "future scientific-output manifest cycle escaped: {output_path}"
+        );
+    }
     let g0139 = strict_json_value(std::io::Cursor::new(COMPILED_G0139_AUDIT))?;
     validate_g0139_semantics(&g0139)?;
     let mut wrong_subject_commit = g0139.clone();
@@ -4520,6 +4552,7 @@ fn self_test() -> Result<()> {
         "engine_byte_identity_with_stage_a_verified": true,
         "g0155_stage_d_source_audit_gate_verified": true,
         "scientific_output_commit_chain_gate_verified": true,
+        "scientific_outputs_excluded_from_manifest_bindings": true,
         "dynamic_stage_d_member_contract_verified": true,
         "global_zero_and_residual_branches_verified": true,
         "complete_label_census_and_end_rehash_verified": true,
@@ -5033,7 +5066,7 @@ fn stage_e_full_preflight(manifest_path: &Path, candidate_path: &Path) -> Result
         INHERITED_DIRECTIONS + inputs.candidate.appended_rows,
     )?;
     println!(
-        "G-0140 Stage E preflight PASS: {} appended rows; {} selected/support columns; {} nonzero terms; {} accumulated directions; G0156 {}; executable {}; no scientific output written",
+        "G-0140 Stage E preflight PASS: {} appended rows; {} selected/support columns; {} nonzero terms; {} accumulated directions; G0157 {}; executable {}; no scientific output written",
         inputs.candidate.appended_rows,
         inputs.candidate.rank,
         inputs.candidate.terms.len(),
