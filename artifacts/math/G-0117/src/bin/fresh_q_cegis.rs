@@ -754,6 +754,12 @@ fn scan(
 }
 
 fn self_test() -> Result<()> {
+    let digest_values = [1i64, -2i64];
+    ensure!(
+        digest_i64(digest_values.iter())
+            == "ad47ab1aede0a7b8af007a36d82ccbbee709bec1066af6f44fed82bd2cb490ed",
+        "i64 stream hashing is not the frozen single-update convention"
+    );
     for prime in PRIMES {
         let matrix = vec![vec![1, 2, 0], vec![0, 1, 1], vec![2, 0, 1]];
         let inverse = invert(matrix.clone(), prime)?;
