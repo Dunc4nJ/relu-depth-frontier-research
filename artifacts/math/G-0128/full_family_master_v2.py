@@ -222,6 +222,14 @@ def require_future_frozen() -> None:
     require(is_sha256(G0127_EXECUTABLE_SHA256), "future executable not frozen")
 
 
+def validate_file_digest(path: Path, expected: str, label: str) -> str:
+    require(is_sha256(expected), f"malformed expected SHA-256: {label}")
+    require(path.is_file(), f"missing input: {label}")
+    actual = sha256_path(path)
+    require_digest(actual, expected, f"input {label}")
+    return actual
+
+
 def validate_expected_inputs(*, include_future: bool = True) -> dict[str, str]:
     if include_future:
         require_future_frozen()
@@ -231,13 +239,10 @@ def validate_expected_inputs(*, include_future: bool = True) -> dict[str, str]:
     observed: dict[str, str] = {}
     resolved_paths: set[Path] = set()
     for name, expected in frozen.items():
-        require(is_sha256(expected), f"malformed expected SHA-256: {name}")
         path = contained(ROOT / name)
-        require(path.is_file(), f"missing input: {name}")
         require(path not in resolved_paths, f"duplicate resolved input: {name}")
         resolved_paths.add(path)
-        actual = sha256_path(path)
-        require_digest(actual, expected, f"input {name}")
+        actual = validate_file_digest(path, expected, name)
         observed[name] = actual
     require_digest(sha256_path(PREREGISTRATION), PREREGISTRATION_SHA256, "G-0128 preregistration")
     require_digest(sha256_path(G0126_EXECUTABLE_PATH), "ae7f64ce737d8f12d9f4a3d5695fe8ded4b5a89720eff8a0f5a537b2126bfa28", "G-0126 executable")
@@ -316,14 +321,12 @@ def validate_selected_records(
     return selected
 
 
-def validate_prior_artifacts(
+def validate_prior_documents(
+    manifest: dict[str, Any],
+    prior_result: dict[str, Any],
     old_replay: dict[str, Any],
     old_price: dict[str, Any],
 ) -> tuple[dict[str, Any], dict[str, Any], list[tuple[int, int]]]:
-    require_digest(sha256_path(PRIOR_MANIFEST_PATH), PRIOR_MANIFEST_SHA256, "prior master manifest")
-    require_digest(sha256_path(PRIOR_RESULT_PATH), PRIOR_RESULT_SHA256, "prior master result")
-    manifest = load_json(PRIOR_MANIFEST_PATH)
-    prior_result = load_json(PRIOR_RESULT_PATH)
     AUDITED.validate_master_manifest(
         manifest,
         ANCESTOR_SHA256,
@@ -415,6 +418,20 @@ def validate_prior_artifacts(
     return manifest, prior_result, terms
 
 
+def validate_prior_artifacts(
+    old_replay: dict[str, Any],
+    old_price: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any], list[tuple[int, int]]]:
+    require_digest(sha256_path(PRIOR_MANIFEST_PATH), PRIOR_MANIFEST_SHA256, "prior master manifest")
+    require_digest(sha256_path(PRIOR_RESULT_PATH), PRIOR_RESULT_SHA256, "prior master result")
+    return validate_prior_documents(
+        load_json(PRIOR_MANIFEST_PATH),
+        load_json(PRIOR_RESULT_PATH),
+        old_replay,
+        old_price,
+    )
+
+
 G0126_BINDINGS = {
     "candidate": PRIOR_RESULT_SHA256,
     "cargo_lock": STATIC_EXPECTED_INPUTS["artifacts/math/G-0126/Cargo.lock"],
@@ -431,8 +448,11 @@ G0126_BINDINGS = {
 }
 
 
-def validate_g0126_receipt(old_directions: list[list[int]]) -> tuple[dict[str, Any], list[dict[str, Any]], list[int]]:
-    receipt = load_json(G0126_RECEIPT_PATH)
+def validate_g0126_document(
+    receipt: dict[str, Any],
+    old_directions: list[list[int]],
+    prior: dict[str, Any],
+) -> tuple[dict[str, Any], list[dict[str, Any]], list[int]]:
     expected_keys = {
         "schema", "result", "claim_boundary", "bindings", "candidate_schema", "candidate_result",
         "target_scale", "primes", "batch_k", "selection_rule", "complete_global_replay", "terms",
@@ -447,16 +467,19 @@ def validate_g0126_receipt(old_directions: list[list[int]]) -> tuple[dict[str, A
     require(
         receipt.get("schema") == "max11-g0126-global-replay-v1"
         and receipt.get("result") == "GLOBAL_MODULAR_RESIDUAL"
+        and receipt.get("claim_boundary")
+        == "A modular or exact nonzero residual refutes only the bound 131-term candidate. Exact global zero would establish the frozen symmetric orbit identity, pending independent replay and architecture compilation; no result proves family completeness, an unrestricted lower bound, induction, or a Lean theorem."
         and receipt.get("bindings") == G0126_BINDINGS
         and receipt.get("candidate_schema") == "max11-g0121-full-family-master-result-v1"
         and receipt.get("candidate_result") == "FULL_FAMILY_EXACT_Q_MEMBER"
         and receipt.get("primes") == PRIMES
         and int(receipt.get("batch_k")) == NEW_BATCH_ROWS
+        and receipt.get("selection_rule")
+        == "After target subtraction and 36 carry-forward zero checks, retain every hinge direction nonzero in either field; signed-i8 tuple lexicographic ascending; take first min(32,count)."
         and receipt.get("complete_global_replay") is True
         and int(receipt.get("terms")) == 131,
         "G-0126 identity/protocol drift",
     )
-    prior = load_json(PRIOR_RESULT_PATH)
     require(receipt.get("target_scale") == prior.get("target_scale"), "G-0126 target-scale bridge drift")
     require(
         int(receipt.get("hinge_entries_processed")) == 4_667_940
@@ -526,6 +549,13 @@ def validate_g0126_receipt(old_directions: list[list[int]]) -> tuple[dict[str, A
         "G-0126 mutant drift",
     )
     return receipt, selected, exact_values
+
+
+def validate_g0126_receipt(
+    old_directions: list[list[int]],
+    prior: dict[str, Any],
+) -> tuple[dict[str, Any], list[dict[str, Any]], list[int]]:
+    return validate_g0126_document(load_json(G0126_RECEIPT_PATH), old_directions, prior)
 
 
 def validate_g0127_price_row(
@@ -614,13 +644,13 @@ def expected_g0127_bindings() -> dict[str, str]:
     }
 
 
-def validate_g0127_receipt(
+def validate_g0127_document(
+    price: dict[str, Any],
     selected: list[dict[str, Any]],
     exact_residuals: list[int],
     prior_terms: list[tuple[int, int]],
     prior_scale: int,
 ) -> tuple[dict[str, Any], list[list[int]], list[list[int]]]:
-    price = load_json(G0127_PRICE_PATH)
     require(set(price) == G0127_TOP_LEVEL_KEYS, "G-0127 top-level key drift")
     require(
         price.get("schema") == "max11-g0127-batch32-coordinate-prices-v1"
@@ -714,6 +744,17 @@ def validate_g0127_receipt(
     return price, rows, linear
 
 
+def validate_g0127_receipt(
+    selected: list[dict[str, Any]],
+    exact_residuals: list[int],
+    prior_terms: list[tuple[int, int]],
+    prior_scale: int,
+) -> tuple[dict[str, Any], list[list[int]], list[list[int]]]:
+    return validate_g0127_document(
+        load_json(G0127_PRICE_PATH), selected, exact_residuals, prior_terms, prior_scale
+    )
+
+
 def load_validated_components() -> dict[str, Any]:
     validate_expected_inputs(include_future=True)
     AUDITED.validate_cache_receipt()
@@ -728,10 +769,10 @@ def load_validated_components() -> dict[str, Any]:
         and len(old_linear) == RECORDS,
         "old row component census drift",
     )
-    _, prior_result, prior_terms = validate_prior_artifacts(old_replay, old_price)
+    prior_manifest, prior_result, prior_terms = validate_prior_artifacts(old_replay, old_price)
     prior_scale = canonical_integer(prior_result["target_scale"], "prior target scale", positive=True)
     old_directions = prior_result["hinge_directions"]
-    g0126, selected, exact_residuals = validate_g0126_receipt(old_directions)
+    g0126, selected, exact_residuals = validate_g0126_receipt(old_directions, prior_result)
     g0127, new_batch, new_linear = validate_g0127_receipt(selected, exact_residuals, prior_terms, prior_scale)
     require(old_linear == new_linear, "old/G-0127 linear vectors differ")
     return {
@@ -742,6 +783,13 @@ def load_validated_components() -> dict[str, Any]:
         "accumulated": accumulated,
         "linear": old_linear,
         "old_batch": old_batch,
+        "old_batch_block": {
+            "role": "old_batch32",
+            "selection_receipt": relative(AUDITED.REPLAY_PATH),
+            "price_receipt": relative(AUDITED.PRICE_PATH),
+            "rows": old_batch,
+        },
+        "prior_manifest": prior_manifest,
         "prior_result": prior_result,
         "prior_terms": prior_terms,
         "prior_scale": prior_scale,
@@ -750,7 +798,47 @@ def load_validated_components() -> dict[str, Any]:
         "new_exact_residuals": exact_residuals,
         "g0127": g0127,
         "new_batch": new_batch,
+        "new_batch_block": {
+            "role": "new_batch32",
+            "selection_receipt": relative(G0126_RECEIPT_PATH),
+            "price_receipt": relative(G0127_PRICE_PATH),
+            "rows": new_batch,
+        },
     }
+
+
+def ordered_hinge_rows(
+    accumulated: Sequence[Sequence[int]],
+    old_block: object,
+    new_block: object,
+) -> list[Sequence[int]]:
+    require(
+        isinstance(old_block, dict)
+        and set(old_block) == {"role", "selection_receipt", "price_receipt", "rows"}
+        and old_block.get("role") == "old_batch32"
+        and old_block.get("selection_receipt") == relative(AUDITED.REPLAY_PATH)
+        and old_block.get("price_receipt") == relative(AUDITED.PRICE_PATH),
+        "old hinge row-block provenance/order drift",
+    )
+    require(
+        isinstance(new_block, dict)
+        and set(new_block) == {"role", "selection_receipt", "price_receipt", "rows"}
+        and new_block.get("role") == "new_batch32"
+        and new_block.get("selection_receipt") == relative(G0126_RECEIPT_PATH)
+        and new_block.get("price_receipt") == relative(G0127_PRICE_PATH),
+        "new hinge row-block provenance/order drift",
+    )
+    old_batch = old_block["rows"]
+    new_batch = new_block["rows"]
+    require(
+        len(accumulated) == ACCUMULATED_ROWS
+        and len(old_batch) == OLD_BATCH_ROWS
+        and len(new_batch) == NEW_BATCH_ROWS,
+        "hinge row-block census drift",
+    )
+    rows = list(accumulated) + list(old_batch) + list(new_batch)
+    require(len(rows) == ACCUMULATED_ROWS + OLD_BATCH_ROWS + NEW_BATCH_ROWS, "hinge row assembly drift")
+    return rows
 
 
 def old_column(
@@ -758,12 +846,22 @@ def old_column(
     sequence: int,
     linear: Sequence[Sequence[int]],
     accumulated: Sequence[Sequence[int]],
-    old_batch: Sequence[Sequence[int]],
+    old_block: object,
 ) -> list[int]:
     result = AUDITED.panel_column(cache, sequence)
     result.extend(int(value) for value in linear[sequence])
-    result.extend(int(row[sequence]) for row in accumulated)
-    result.extend(int(row[sequence]) for row in old_batch)
+    require(
+        isinstance(old_block, dict)
+        and set(old_block) == {"role", "selection_receipt", "price_receipt", "rows"}
+        and old_block.get("role") == "old_batch32"
+        and old_block.get("selection_receipt") == relative(AUDITED.REPLAY_PATH)
+        and old_block.get("price_receipt") == relative(AUDITED.PRICE_PATH),
+        "old block provenance drift",
+    )
+    old_batch = old_block.get("rows")
+    require(isinstance(old_batch, list), "old block rows missing")
+    require(len(accumulated) == ACCUMULATED_ROWS and len(old_batch) == OLD_BATCH_ROWS, "old hinge block census drift")
+    result.extend(int(row[sequence]) for row in list(accumulated) + list(old_batch))
     require(len(result) == OLD_ROWS, "old column dimension drift")
     return result
 
@@ -773,11 +871,15 @@ def full_column(
     sequence: int,
     linear: Sequence[Sequence[int]],
     accumulated: Sequence[Sequence[int]],
-    old_batch: Sequence[Sequence[int]],
-    new_batch: Sequence[Sequence[int]],
+    old_block: object,
+    new_block: object,
 ) -> list[int]:
-    result = old_column(cache, sequence, linear, accumulated, old_batch)
-    result.extend(int(row[sequence]) for row in new_batch)
+    result = AUDITED.panel_column(cache, sequence)
+    result.extend(int(value) for value in linear[sequence])
+    result.extend(
+        int(row[sequence])
+        for row in ordered_hinge_rows(accumulated, old_block, new_block)
+    )
     require(len(result) == ROWS, "full column dimension drift")
     return result
 
@@ -842,6 +944,17 @@ def build_target() -> list[int]:
     return target
 
 
+def validate_target_record(observed: object, expected: Sequence[int]) -> list[int]:
+    require(
+        isinstance(observed, list)
+        and len(observed) == ROWS
+        and all(isinstance(value, int) for value in observed)
+        and observed == list(expected),
+        "manifest exact target drift",
+    )
+    return [int(value) for value in observed]
+
+
 def validate_manifest_input_records(items: object, expected: dict[str, str]) -> dict[str, str]:
     require(isinstance(items, list) and len(items) == len(expected), "manifest input census drift")
     names: list[str] = []
@@ -866,7 +979,8 @@ def manifest_row_decisions(components: dict[str, Any]) -> list[dict[str, Any]]:
     decisions = [
         {
             "row_index": OLD_ROWS - OLD_BATCH_ROWS + index,
-            "source": "G-0118",
+            "selection_receipt": relative(AUDITED.REPLAY_PATH),
+            "price_receipt": relative(AUDITED.PRICE_PATH),
             "receipt_index": index,
             "direction": item["direction"],
             "decision": "KEPT_CONSERVATIVELY",
@@ -876,7 +990,8 @@ def manifest_row_decisions(components: dict[str, Any]) -> list[dict[str, Any]]:
     decisions.extend(
         {
             "row_index": OLD_ROWS + index,
-            "source": "G-0126",
+            "selection_receipt": relative(G0126_RECEIPT_PATH),
+            "price_receipt": relative(G0127_PRICE_PATH),
             "receipt_index": index,
             "direction": item["direction"],
             "decision": "KEPT_CONSERVATIVELY",
@@ -891,22 +1006,22 @@ MANIFEST_KEYS = {
     "schema", "result", "claim_boundary", "solver", "preregistration", "audited_ancestor",
     "prior_master_manifest", "prior_master_result", "g0126_receipt", "g0127_price_receipt",
     "expected_inputs", "records", "panel_rows", "linear_rows", "accumulated_rows",
-    "old_batch_rows", "new_batch_rows", "rows", "row_order", "batch_row_policy",
-    "batch_row_decisions", "discarded_rows", "warm_seed_policy", "seed_sequences",
+    "old_batch_rows", "new_batch_rows", "rows", "target", "row_order", "batch_row_policy",
+    "batch_row_decisions", "discarded_rows", "row_dependency_pivot_enrichment_columns",
+    "warm_seed_policy", "seed_sequences",
     "initial_rank", "max_rank_increases", "prior_candidate_terms", "old_batch_residuals_decimal_lf_sha256",
     "new_selected_prefix_i8_u64_le_sha256", "new_exact_residuals_decimal_lf_sha256",
     "complete_arithmetic_bridge", "wall_seconds",
 }
 
 
-def build_manifest(output: Path) -> dict[str, Any]:
-    begun = time.perf_counter()
-    output = contained(output)
-    require(output == MANIFEST_PATH, "manifest output path drift")
-    require(not output.exists(), "refusing to overwrite manifest")
-    components = load_validated_components()
-    inputs = validate_expected_inputs(include_future=True)
-    script_sha256 = sha256_path(SCRIPT)
+def make_manifest_document(
+    components: dict[str, Any],
+    inputs: dict[str, str],
+    script_sha256: str,
+    target: list[int],
+    wall_seconds: float,
+) -> dict[str, Any]:
     result: dict[str, Any] = {
         "schema": "max11-g0128-full-family-master-manifest-v2",
         "result": "BOUND_380ROW_INPUTS_VALIDATED",
@@ -926,10 +1041,12 @@ def build_manifest(output: Path) -> dict[str, Any]:
         "old_batch_rows": OLD_BATCH_ROWS,
         "new_batch_rows": NEW_BATCH_ROWS,
         "rows": ROWS,
+        "target": target,
         "row_order": ["panel:301", "linear:11", "accumulated:G-0117/G-0118:4", "batch:G-0118:32", "batch:G-0126:32"],
         "batch_row_policy": "All prior 32 and new 32 Batch32 rows retained in source-receipt order; no dependency discard attempted.",
         "batch_row_decisions": manifest_row_decisions(components),
         "discarded_rows": [],
+        "row_dependency_pivot_enrichment_columns": [],
         "warm_seed_policy": "The sealed G-0121 selected_sequences/support_sequences basis, independently replayed on 348 rows and exact-rank checked again on 380 rows.",
         "seed_sequences": components["prior_result"]["selected_sequences"],
         "initial_rank": INITIAL_RANK,
@@ -939,9 +1056,24 @@ def build_manifest(output: Path) -> dict[str, Any]:
         "new_selected_prefix_i8_u64_le_sha256": NEW_SELECTED_DIGEST,
         "new_exact_residuals_decimal_lf_sha256": NEW_EXACT_RESIDUAL_DIGEST,
         "complete_arithmetic_bridge": True,
-        "wall_seconds": time.perf_counter() - begun,
+        "wall_seconds": wall_seconds,
     }
     require(set(result) == MANIFEST_KEYS, "manifest key census drift")
+    return result
+
+
+def build_manifest(output: Path) -> dict[str, Any]:
+    begun = time.perf_counter()
+    output = contained(output)
+    require(output == MANIFEST_PATH, "manifest output path drift")
+    require(not output.exists(), "refusing to overwrite manifest")
+    components = load_validated_components()
+    inputs = validate_expected_inputs(include_future=True)
+    script_sha256 = sha256_path(SCRIPT)
+    target = build_target()
+    result = make_manifest_document(
+        components, inputs, script_sha256, target, time.perf_counter() - begun
+    )
     require_digest(sha256_path(SCRIPT), script_sha256, "solver during manifest build")
     validate_expected_inputs(include_future=True)
     write_exclusive(output, result)
@@ -952,6 +1084,7 @@ def validate_master_manifest(
     manifest: dict[str, Any],
     script_sha256: str,
     components: dict[str, Any],
+    target: Sequence[int],
 ) -> None:
     require(set(manifest) == MANIFEST_KEYS, "master manifest key drift")
     require(
@@ -986,12 +1119,14 @@ def validate_master_manifest(
         and manifest.get("complete_arithmetic_bridge") is True,
         "master manifest dimension/protocol drift",
     )
+    validate_target_record(manifest.get("target"), target)
     require(
         manifest.get("row_order") == ["panel:301", "linear:11", "accumulated:G-0117/G-0118:4", "batch:G-0118:32", "batch:G-0126:32"]
         and manifest.get("batch_row_policy")
         == "All prior 32 and new 32 Batch32 rows retained in source-receipt order; no dependency discard attempted."
         and manifest.get("batch_row_decisions") == manifest_row_decisions(components)
-        and manifest.get("discarded_rows") == [],
+        and manifest.get("discarded_rows") == []
+        and manifest.get("row_dependency_pivot_enrichment_columns") == [],
         "master manifest row order/policy drift",
     )
     require(
@@ -1005,22 +1140,24 @@ def validate_master_manifest(
     )
 
 
-def validate_warm_start(
-    cache: mmap.mmap,
-    components: dict[str, Any],
+def validate_warm_start_matrices(
+    prior: dict[str, Any],
+    old_rows: list[list[int]],
+    rows: list[list[int]],
     helper: Any,
     target: list[int],
-) -> tuple[list[int], list[list[int]]]:
-    prior = components["prior_result"]
+) -> list[int]:
     selected = [int(value) for value in prior["selected_sequences"]]
     require(selected == sorted(set(selected)) and len(selected) == INITIAL_RANK, "warm seed drift")
-    old_columns = [
-        old_column(cache, sequence, components["linear"], components["accumulated"], components["old_batch"])
-        for sequence in selected
-    ]
-    old_rows = matrix_rows(old_columns, OLD_ROWS)
+    require(
+        len(old_rows) == OLD_ROWS
+        and len(rows) == ROWS
+        and all(len(row) == INITIAL_RANK for row in old_rows + rows),
+        "warm seed matrix dimensions drift",
+    )
     require(
         digest_i128(old_rows[row][column] for row in range(OLD_ROWS) for column in range(INITIAL_RANK))
+        == prior.get("selected_basis_i128le_sha256")
         == OLD_SELECTED_DIGEST,
         "warm seed prior basis digest drift",
     )
@@ -1036,17 +1173,45 @@ def validate_warm_start(
         ),
         "warm seed prior 348-row identity replay drift",
     )
-    columns = [
-        full_column(
-            cache, sequence, components["linear"], components["accumulated"], components["old_batch"], components["new_batch"]
-        )
-        for sequence in selected
-    ]
-    rows = matrix_rows(columns)
     matrix = helper.qmatrix(rows)
     augmented = helper.qmatrix([row + [target[index]] for index, row in enumerate(rows)])
     require(int(matrix.rank()) == INITIAL_RANK, "warm seed 380-row exact rank drift")
     require(int(augmented.rank()) == INITIAL_RANK + 1, "new rows did not exactly reject warm-seed member")
+    return selected
+
+
+def validate_warm_start(
+    cache: mmap.mmap,
+    components: dict[str, Any],
+    helper: Any,
+    target: list[int],
+) -> tuple[list[int], list[list[int]]]:
+    prior = components["prior_result"]
+    selected = [int(value) for value in prior["selected_sequences"]]
+    old_columns = [
+        old_column(
+            cache,
+            sequence,
+            components["linear"],
+            components["accumulated"],
+            components["old_batch_block"],
+        )
+        for sequence in selected
+    ]
+    old_rows = matrix_rows(old_columns, OLD_ROWS)
+    columns = [
+        full_column(
+            cache,
+            sequence,
+            components["linear"],
+            components["accumulated"],
+            components["old_batch_block"],
+            components["new_batch_block"],
+        )
+        for sequence in selected
+    ]
+    rows = matrix_rows(columns)
+    validate_warm_start_matrices(prior, old_rows, rows, helper, target)
     return selected, columns
 
 
@@ -1061,9 +1226,9 @@ def run(manifest_path: Path, output: Path) -> dict[str, Any]:
     manifest = load_json(manifest_path)
     script_sha256 = sha256_path(SCRIPT)
     require(manifest.get("solver") == {"path": relative(SCRIPT), "sha256": script_sha256}, "solver binding drift")
-    components = load_validated_components()
-    validate_master_manifest(manifest, script_sha256, components)
     target = build_target()
+    components = load_validated_components()
+    validate_master_manifest(manifest, script_sha256, components, target)
     helper = AUDITED.load_module(AUDITED.HELPER_PATH, "g0128_exact_helper")
     rhs = helper.qmatrix([[value] for value in target])
     trials: list[dict[str, Any]] = []
@@ -1082,8 +1247,8 @@ def run(manifest_path: Path, output: Path) -> dict[str, Any]:
                     sequence,
                     components["linear"],
                     components["accumulated"],
-                    components["old_batch"],
-                    components["new_batch"],
+                    components["old_batch_block"],
+                    components["new_batch_block"],
                 )
                 for sequence in selected
             ]
@@ -1201,8 +1366,8 @@ def run(manifest_path: Path, output: Path) -> dict[str, Any]:
                     sequence,
                     components["linear"],
                     components["accumulated"],
-                    components["old_batch"],
-                    components["new_batch"],
+                    components["old_batch_block"],
+                    components["new_batch_block"],
                 ),
             )
             trial = {
@@ -1230,8 +1395,8 @@ def run(manifest_path: Path, output: Path) -> dict[str, Any]:
                         sequence,
                         components["linear"],
                         components["accumulated"],
-                        components["old_batch"],
-                        components["new_batch"],
+                        components["old_batch_block"],
+                        components["new_batch_block"],
                     ),
                 )
                 mutant_pairing = sum(
@@ -1361,13 +1526,6 @@ def self_test() -> None:
         "G-0126 inactive direction mutation",
         lambda: validate_selected_records(inactive, 2, sample_digest),
     )
-    exact_values = [5, -7]
-    require(
-        hashlib.sha256(("\n".join(str(value) for value in exact_values) + "\n").encode()).hexdigest()
-        != hashlib.sha256(("5\n-8\n").encode()).hexdigest(),
-        "exact residual stream mutant escaped",
-    )
-
     coefficients = [1, -2, 0]
     selected_item = sample[0]
     price_row = {
@@ -1420,18 +1578,6 @@ def self_test() -> None:
         lambda: validate_g0127_price_row(wrong_exact, selected_item, 5, 0, 3),
     )
 
-    bindings = expected_g0127_bindings()
-    changed_bindings = dict(bindings)
-    changed_bindings["candidate"] = "0" * 64
-    expect_rejected(
-        "G-0127 binding mutation",
-        lambda: require(changed_bindings == bindings, "G-0127 binding drift"),
-    )
-    require(
-        ["old-0", "old-1"] + ["new-0", "new-1"]
-        != ["new-0", "new-1"] + ["old-0", "old-1"],
-        "old/new Batch32 source-confusion control failed",
-    )
     expect_rejected("stale source", lambda: require_digest("0" * 64, "1" * 64, "source"))
     expect_rejected("stale preregistration", lambda: require_digest("2" * 64, "3" * 64, "preregistration"))
     expect_rejected("stale prior result", lambda: require_digest("4" * 64, "5" * 64, "prior result"))
@@ -1450,6 +1596,14 @@ def self_test() -> None:
         lambda: validate_manifest_input_records([small_items[0], copy.deepcopy(small_items[0])], small_expected),
     )
     expect_rejected("noncanonical coefficient", lambda: canonical_integer("+1", "coefficient"))
+    exact_target = build_target()
+    validate_target_record(exact_target, exact_target)
+    contaminated_target = exact_target[:]
+    contaminated_target[PANEL_ROWS + N - 1] *= 2
+    expect_rejected(
+        "manifest target-scale contamination",
+        lambda: validate_target_record(contaminated_target, exact_target),
+    )
 
     with tempfile.TemporaryDirectory(dir=HERE) as raw:
         path = Path(raw) / "exclusive.json"
@@ -1458,6 +1612,15 @@ def self_test() -> None:
         partial = Path(raw) / "serialization-abort.json"
         expect_rejected("serialization abort", lambda: write_exclusive(partial, {"bad": {1}}))
         require(not partial.exists(), "serialization abort left a final-path artifact")
+        bound_input = Path(raw) / "bound-input.bin"
+        bound_input.write_bytes(b"frozen")
+        bound_digest = sha256_path(bound_input)
+        validate_file_digest(bound_input, bound_digest, "synthetic bound input")
+        bound_input.write_bytes(b"mutated")
+        expect_rejected(
+            "underlying input byte mutation",
+            lambda: validate_file_digest(bound_input, bound_digest, "synthetic bound input"),
+        )
 
     components = load_validated_components()
     require(
@@ -1465,6 +1628,254 @@ def self_test() -> None:
         and len(components["old_batch"]) == OLD_BATCH_ROWS
         and len(components["prior_terms"]) == 131,
         "full input-validation reachability control failed",
+    )
+
+    prior = components["prior_result"]
+    old_directions = prior["hinge_directions"]
+
+    def reject_prior_mutation(label: str, mutate) -> None:
+        document = copy.deepcopy(prior)
+        mutate(document)
+        expect_rejected(
+            label,
+            lambda: validate_prior_documents(
+                components["prior_manifest"],
+                document,
+                components["old_replay"],
+                components["old_price"],
+            ),
+        )
+
+    reject_prior_mutation(
+        "G-0121 warm seed reorder",
+        lambda document: document["selected_sequences"].__setitem__(
+            slice(0, 2), list(reversed(document["selected_sequences"][:2]))
+        ),
+    )
+    reject_prior_mutation(
+        "G-0121 support mismatch",
+        lambda document: document["support_sequences"].__setitem__(0, RECORDS - 1),
+    )
+    reject_prior_mutation(
+        "G-0121 basis digest mutation",
+        lambda document: document.__setitem__("selected_basis_i128le_sha256", "0" * 64),
+    )
+    reject_prior_mutation(
+        "G-0121 term projection mutation",
+        lambda document: document["terms"][0].__setitem__(
+            "coefficient", str(int(document["terms"][0]["coefficient"]) + 1)
+        ),
+    )
+    reject_prior_mutation(
+        "G-0121 coefficient projection mutation",
+        lambda document: document["integer_coefficients"].__setitem__(
+            0, str(int(document["integer_coefficients"][0]) + 1)
+        ),
+    )
+
+    def reject_g0126_mutation(label: str, mutate) -> None:
+        document = copy.deepcopy(components["g0126"])
+        mutate(document)
+        expect_rejected(
+            label,
+            lambda: validate_g0126_document(document, old_directions, prior),
+        )
+
+    def swap_first_two(items: list[Any]) -> None:
+        items[0], items[1] = items[1], items[0]
+
+    reject_g0126_mutation(
+        "G-0126 production selected row order mutation",
+        lambda document: swap_first_two(document["selected"]),
+    )
+    reject_g0126_mutation(
+        "G-0126 production exact residual mutation",
+        lambda document: document["exact_selected_prices"][0].__setitem__(
+            "exact_residual",
+            str(int(document["exact_selected_prices"][0]["exact_residual"]) + 1),
+        ),
+    )
+
+    def reject_g0127_mutation(label: str, mutate) -> None:
+        document = copy.deepcopy(components["g0127"])
+        mutate(document)
+        expect_rejected(
+            label,
+            lambda: validate_g0127_document(
+                document,
+                components["selected"],
+                components["new_exact_residuals"],
+                components["prior_terms"],
+                components["prior_scale"],
+            ),
+        )
+
+    reject_g0127_mutation(
+        "G-0127 production binding mutation",
+        lambda document: document["bindings"].__setitem__("candidate", "0" * 64),
+    )
+    reject_g0127_mutation(
+        "G-0127 production 32-row order mutation",
+        lambda document: swap_first_two(document["rows"]),
+    )
+    reject_g0127_mutation(
+        "G-0127 production row duplication",
+        lambda document: document["rows"].__setitem__(1, copy.deepcopy(document["rows"][0])),
+    )
+    reject_g0127_mutation(
+        "G-0127 production aggregate hinge mutation",
+        lambda document: document.__setitem__("direction_major_hinge_i64_le_sha256", "0" * 64),
+    )
+    reject_g0127_mutation(
+        "G-0127 production linear stream mutation",
+        lambda document: document.__setitem__("linear_vectors_i64_le_sha256", "0" * 64),
+    )
+    reject_g0127_mutation(
+        "G-0127 production exact residual mutation",
+        lambda document: document["rows"][0].__setitem__(
+            "exact_candidate_residual",
+            str(int(document["rows"][0]["exact_candidate_residual"]) + 1),
+        ),
+    )
+    reject_g0127_mutation(
+        "G-0127 old/new source swap mutation",
+        lambda document: document["rows"][0].__setitem__(
+            "hinge_coefficients",
+            components["old_price"]["rows"][0]["hinge_coefficients"],
+        ),
+    )
+
+    sample_accumulated = [[index] for index in range(ACCUMULATED_ROWS)]
+    sample_old_rows = [[ACCUMULATED_ROWS + index] for index in range(OLD_BATCH_ROWS)]
+    sample_new_rows = [
+        [ACCUMULATED_ROWS + OLD_BATCH_ROWS + index] for index in range(NEW_BATCH_ROWS)
+    ]
+    sample_old_block = {
+        "role": "old_batch32",
+        "selection_receipt": relative(AUDITED.REPLAY_PATH),
+        "price_receipt": relative(AUDITED.PRICE_PATH),
+        "rows": sample_old_rows,
+    }
+    sample_new_block = {
+        "role": "new_batch32",
+        "selection_receipt": relative(G0126_RECEIPT_PATH),
+        "price_receipt": relative(G0127_PRICE_PATH),
+        "rows": sample_new_rows,
+    }
+    assembled = ordered_hinge_rows(
+        sample_accumulated, sample_old_block, sample_new_block
+    )
+    require(
+        [row[0] for row in assembled]
+        == list(range(ACCUMULATED_ROWS + OLD_BATCH_ROWS + NEW_BATCH_ROWS)),
+        "production old/new row assembly order failed",
+    )
+    expect_rejected(
+        "old/new block concatenation mutation",
+        lambda: ordered_hinge_rows(
+            sample_accumulated, sample_new_block, sample_old_block
+        ),
+    )
+
+    target = build_target()
+    with AUDITED.CACHE_PATH.open("rb") as cache_file, mmap.mmap(
+        cache_file.fileno(), 0, access=mmap.ACCESS_READ
+    ) as cache:
+        seed = prior["selected_sequences"]
+        old_rows = matrix_rows(
+            [
+                old_column(
+                    cache,
+                    sequence,
+                    components["linear"],
+                    components["accumulated"],
+                    components["old_batch_block"],
+                )
+                for sequence in seed
+            ],
+            OLD_ROWS,
+        )
+        all_rows = matrix_rows(
+            [
+                full_column(
+                    cache,
+                    sequence,
+                    components["linear"],
+                    components["accumulated"],
+                    components["old_batch_block"],
+                    components["new_batch_block"],
+                )
+                for sequence in seed
+            ]
+        )
+    validate_warm_start_matrices(prior, old_rows, all_rows, helper, target)
+
+    def reject_warm_mutation(label: str, mutate) -> None:
+        document = copy.deepcopy(prior)
+        mutate(document)
+        expect_rejected(
+            label,
+            lambda: validate_warm_start_matrices(
+                document, old_rows, all_rows, helper, target
+            ),
+        )
+
+    reject_warm_mutation(
+        "warm-start coefficient arithmetic mutation",
+        lambda document: document["integer_coefficients"].__setitem__(
+            0, str(int(document["integer_coefficients"][0]) + 1)
+        ),
+    )
+    reject_warm_mutation(
+        "warm-start target scale arithmetic mutation",
+        lambda document: document.__setitem__(
+            "target_scale", str(int(document["target_scale"]) + 1)
+        ),
+    )
+    reject_warm_mutation(
+        "warm-start coefficient/support permutation",
+        lambda document: swap_first_two(document["integer_coefficients"]),
+    )
+
+    script_sha256 = sha256_path(SCRIPT)
+    in_memory_manifest = make_manifest_document(
+        components, expected_inputs(), script_sha256, target, 0.0
+    )
+    validate_master_manifest(in_memory_manifest, script_sha256, components, target)
+
+    def reject_manifest_mutation(label: str, mutate) -> None:
+        document = copy.deepcopy(in_memory_manifest)
+        mutate(document)
+        expect_rejected(
+            label,
+            lambda: validate_master_manifest(document, script_sha256, components, target),
+        )
+
+    reject_manifest_mutation(
+        "production manifest exact-target mutation",
+        lambda document: document["target"].__setitem__(PANEL_ROWS + N - 1, 2 * math.factorial(N)),
+    )
+    reject_manifest_mutation(
+        "production manifest underlying-input mutation",
+        lambda document: document["expected_inputs"][0].__setitem__("sha256", "0" * 64),
+    )
+    reject_manifest_mutation(
+        "production stale manifest solver mutation",
+        lambda document: document["solver"].__setitem__("sha256", "0" * 64),
+    )
+    reject_manifest_mutation(
+        "production manifest pivot-enrichment mutation",
+        lambda document: document["row_dependency_pivot_enrichment_columns"].append(0),
+    )
+    reject_manifest_mutation(
+        "production manifest row-receipt ambiguity mutation",
+        lambda document: document["batch_row_decisions"][-1].__setitem__(
+            "price_receipt", relative(G0126_RECEIPT_PATH)
+        ),
+    )
+    reject_manifest_mutation(
+        "production manifest warm-seed mutation",
+        lambda document: swap_first_two(document["seed_sequences"]),
     )
     required_controls = {
         "G-0126 selected order mutation",
@@ -1479,7 +1890,6 @@ def self_test() -> None:
         "G-0127 nonzero census mutation",
         "G-0127 row digest mutation",
         "G-0127 exact residual mutation",
-        "G-0127 binding mutation",
         "stale source",
         "stale preregistration",
         "stale prior result",
@@ -1488,8 +1898,34 @@ def self_test() -> None:
         "ragged 380-row matrix",
         "duplicate manifest input",
         "noncanonical coefficient",
+        "manifest target-scale contamination",
         "output overwrite",
         "serialization abort",
+        "underlying input byte mutation",
+        "G-0121 warm seed reorder",
+        "G-0121 support mismatch",
+        "G-0121 basis digest mutation",
+        "G-0121 term projection mutation",
+        "G-0121 coefficient projection mutation",
+        "G-0126 production selected row order mutation",
+        "G-0126 production exact residual mutation",
+        "G-0127 production binding mutation",
+        "G-0127 production 32-row order mutation",
+        "G-0127 production row duplication",
+        "G-0127 production aggregate hinge mutation",
+        "G-0127 production linear stream mutation",
+        "G-0127 production exact residual mutation",
+        "G-0127 old/new source swap mutation",
+        "old/new block concatenation mutation",
+        "warm-start coefficient arithmetic mutation",
+        "warm-start target scale arithmetic mutation",
+        "warm-start coefficient/support permutation",
+        "production manifest exact-target mutation",
+        "production manifest underlying-input mutation",
+        "production stale manifest solver mutation",
+        "production manifest pivot-enrichment mutation",
+        "production manifest row-receipt ambiguity mutation",
+        "production manifest warm-seed mutation",
     }
     require(set(rejected_controls) == required_controls, "G-0128 hostile control census drift")
     print(
