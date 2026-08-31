@@ -1,0 +1,102 @@
+{
+  "schema": "max11-g0138-g0135-stage-d-source-audit-v1",
+  "verdict": "PASS",
+  "evidence_class": "T1_SOURCE_CLEARANCE",
+  "completed_at_utc": "2026-08-31T15:34:27Z",
+  "reviewer": {
+    "agent_name": "ChartreuseThrush",
+    "program": "codex",
+    "model": "gpt-5.3"
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0138-g0135-stage-d-source/PREREGISTRATION.md",
+    "sha256": "b63b0ee0d36b1a91da3a35740ab026b7cec833950715189cef473ef1a86e6b8a"
+  },
+  "subject": {
+    "git_commit": "1189d0f6e5446e78abc4a5546f1b02fd2815954f",
+    "git_parent": "8744bebc48bc57e35feeeb7e8b2262e523f97f70",
+    "git_tree": "a3ab403b05e19c1cd8da3ba72baa5d631bf3c89e",
+    "source": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/src/main.rs",
+      "sha256": "e120f0b1ef7b8465cfcd6d8ae1cd389b6554c19cff1d6f7ae3e8fbc8bace8665",
+      "tree_commit": "1189d0f6e5446e78abc4a5546f1b02fd2815954f",
+      "bytes": 117118
+    },
+    "engine": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/src/engine.rs",
+      "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c",
+      "tree_commit": "1189d0f6e5446e78abc4a5546f1b02fd2815954f",
+      "bytes": 15390
+    },
+    "cargo_manifest": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/Cargo.toml",
+      "sha256": "0dc8c61a7114b7b3625f86f550ae682ac650b21081b7b0a70d19802a337bb4da",
+      "tree_commit": "1189d0f6e5446e78abc4a5546f1b02fd2815954f",
+      "bytes": 340
+    },
+    "cargo_lock": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/Cargo.lock",
+      "sha256": "13f29a23a9883e0ec61774532534819df16dcc86599b427952c06da6600f8d18",
+      "tree_commit": "1189d0f6e5446e78abc4a5546f1b02fd2815954f",
+      "bytes": 7610
+    },
+    "release_executable": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/target/release/g0135-stage-d-global-replay",
+      "sha256": "1d4142782ff6a81e77162b5c599a71985c934f455b128507519c911a749e63b4",
+      "tree_commit": "1189d0f6e5446e78abc4a5546f1b02fd2815954f",
+      "bytes": 2009032,
+      "canonical_path_locked_rebuild_byte_identical": true
+    }
+  },
+  "audit_artifacts": {
+    "source_audit_report": {
+      "path": "artifacts/reviews/G-0138-g0135-stage-d-source/SOURCE_AUDIT_REPORT.md",
+      "sha256": "3a722b2224dad07b890a7b76048af21d864eb8a7b9a74d76deab000f0a2fb014"
+    },
+    "self_test_receipt": {
+      "path": "artifacts/reviews/G-0138-g0135-stage-d-source/SELF_TEST_RECEIPT.json",
+      "sha256": "eff6a5e7b3805fbd71ff8d1e8e8f66d678f544dfaeac5aea374b1f2edb12e573",
+      "status": "PASS"
+    },
+    "independent_probe_source": {
+      "path": "artifacts/reviews/G-0138-g0135-stage-d-source/independent_probe.py",
+      "sha256": "4d31f23ef30eb6995a5048586fd9f5ba64ed84da3183a34f7af65b3b6ff9a1d3"
+    },
+    "independent_probe_receipt": {
+      "path": "artifacts/reviews/G-0138-g0135-stage-d-source/INDEPENDENT_PROBE_RECEIPT.json",
+      "sha256": "181cbbb5205b93dcc398bf1fb8ef5f8988219e6964bc1443d85a7c991e9b2ed7",
+      "status": "PASS",
+      "checks_passed": 20,
+      "checks_failed": 0
+    }
+  },
+  "required_checks": {
+    "source_inspection": "PASS",
+    "exact_candidate_admission_and_412_row_replay": "PASS",
+    "strict_manifest_and_stage_c_member_parsing": "PASS",
+    "complete_variable_term_orbit_census": "PASS",
+    "signed_arbitrary_precision_scientific_arithmetic": "PASS",
+    "independent_100_direction_and_11_linear_replay": "PASS",
+    "complete_global_hinge_union_terminal": "PASS",
+    "signed_lexicographic_batch32_and_both_digests": "PASS",
+    "hostile_mutants": "PASS",
+    "entry_exit_transitive_custody": "PASS",
+    "atomic_no_overwrite_publication": "PASS",
+    "locked_tests_2_of_2": "PASS",
+    "locked_clippy_warnings_denied": "PASS",
+    "locked_release_rebuild_identical": "PASS",
+    "committed_binary_self_test": "PASS",
+    "outcome_blind_static_preflight": "PASS",
+    "independent_probe": "PASS"
+  },
+  "scientific_replay_run": false,
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "promotion_boundary": "T1 source clearance for this exact committed Stage-D producer and executable only; no scientific manifest or output was observed, and no mathematical result is promoted by this receipt.",
+  "residual_risks": [
+    "Same-lineage review remains T1 and is not T2 independence.",
+    "The executable embeds the canonical source path; this receipt binds the canonical-path build and does not claim path-independent binary reproducibility.",
+    "Future manifest and scientific input contents were not observed; their exact bindings and a separate scientific result review remain mandatory."
+  ],
+  "no_claim": "No future Stage-C member, global identity, residual, frozen-family conclusion, family completeness result, unrestricted MAX11 result, lower bound, minimality result, all-n theorem, or Lean theorem is established by this source audit."
+}

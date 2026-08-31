@@ -1,0 +1,51 @@
+{
+  "checks": {
+    "arbitrary_precision_product_exceeds_256_bits": true,
+    "candidate_axis_mutant_rejected": true,
+    "candidate_extra_key_mutant_rejected": true,
+    "candidate_omitted_term_mutant_rejected": true,
+    "canonical_decimal_lf_digest": true,
+    "coefficient_plus_one_mutant_rejected": true,
+    "custody_hash_mutant_rejected": true,
+    "decremented_census_rejected": true,
+    "direction_order_mutant_rejected": true,
+    "duplicate_json_key_mutant_rejected": true,
+    "exact_nonzero_branch": true,
+    "exact_zero_branch": true,
+    "independent_direction_pricing_agrees": true,
+    "omitted_column_mutant_rejected": true,
+    "planted_exact_normal_form_complete": true,
+    "signed_i8_digest_two_routes_agree": true,
+    "signed_tuple_order": true,
+    "target_coordinate_mutant_rejected": true,
+    "target_scale_mutant_rejected": true,
+    "variable_term_census_exact": true
+  },
+  "checks_failed": 0,
+  "checks_passed": 20,
+  "no_claim": "Synthetic source-level probes only; no Stage-C member, scientific replay, global identity, residual, family conclusion, unrestricted MAX11 result, or Lean theorem is established.",
+  "normal_form_fixture": {
+    "active_vertices": 6,
+    "compressed_leaves": 332640,
+    "hinge_directions": 1441,
+    "labelled_permutations": 39916800
+  },
+  "probe_source": {
+    "path": "artifacts/reviews/G-0138-g0135-stage-d-source/independent_probe.py",
+    "sha256": "4d31f23ef30eb6995a5048586fd9f5ba64ed84da3183a34f7af65b3b6ff9a1d3"
+  },
+  "python": "3.13.7",
+  "schema": "max11-g0138-stage-d-independent-probe-v1",
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "selected_count": 32,
+  "selected_directions_i8_sha256": "7e59719db6d9cd954843b793e1560a09685f85bc0e48bb558cbeedb60eb82ece",
+  "selected_exact_residuals_decimal_lf_sha256": "8b7c5133176abe5bca499b0d9ba989a9c71b7012f780134a99fc1d613927f8bc",
+  "variable_term_census": {
+    "1": 39916800,
+    "101": 4031596800,
+    "3": 119750400,
+    "7": 279417600
+  },
+  "verdict": "PASS"
+}

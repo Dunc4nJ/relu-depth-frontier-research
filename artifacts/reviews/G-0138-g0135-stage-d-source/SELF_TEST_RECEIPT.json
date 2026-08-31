@@ -1,0 +1,97 @@
+{
+  "schema": "max11-g0138-stage-d-self-test-receipt-v1",
+  "verdict": "PASS",
+  "generated_at_utc": "2026-08-31T15:34:27Z",
+  "auditor": {
+    "agent_name": "ChartreuseThrush",
+    "program": "codex",
+    "model": "gpt-5.3",
+    "independence_tier": "T1"
+  },
+  "subject_git_commit": "1189d0f6e5446e78abc4a5546f1b02fd2815954f",
+  "subject_git_parent": "8744bebc48bc57e35feeeb7e8b2262e523f97f70",
+  "subject_git_tree": "a3ab403b05e19c1cd8da3ba72baa5d631bf3c89e",
+  "subject_bindings": {
+    "source": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/src/main.rs",
+      "sha256": "e120f0b1ef7b8465cfcd6d8ae1cd389b6554c19cff1d6f7ae3e8fbc8bace8665"
+    },
+    "engine": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/src/engine.rs",
+      "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c"
+    },
+    "cargo_manifest": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/Cargo.toml",
+      "sha256": "0dc8c61a7114b7b3625f86f550ae682ac650b21081b7b0a70d19802a337bb4da"
+    },
+    "cargo_lock": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/Cargo.lock",
+      "sha256": "13f29a23a9883e0ec61774532534819df16dcc86599b427952c06da6600f8d18"
+    },
+    "release_executable": {
+      "path": "artifacts/math/G-0135/stage_d_global_replay/target/release/g0135-stage-d-global-replay",
+      "sha256": "1d4142782ff6a81e77162b5c599a71985c934f455b128507519c911a749e63b4"
+    }
+  },
+  "environment": {
+    "rustc": "rustc 1.95.0-nightly (5c49c4f7c 2026-01-20)",
+    "rustc_commit": "5c49c4f7c8393c861b849441d27f5d40e0f1e33b",
+    "cargo": "cargo 1.95.0-nightly (85eff7c80 2026-01-15)",
+    "python": "3.13.7",
+    "host": "x86_64-unknown-linux-gnu"
+  },
+  "checks": [
+    {
+      "name": "committed_object_and_worktree_byte_equality",
+      "command": "git cat-file blob COMMIT:PATH | sha256sum; sha256sum PATH; git diff --quiet COMMIT -- PATH",
+      "result": "PASS",
+      "files_checked": 5
+    },
+    {
+      "name": "locked_tests_from_exact_archived_commit",
+      "command": "CARGO_TARGET_DIR=<isolated> CARGO_INCREMENTAL=0 cargo test --locked --all-targets",
+      "result": "PASS",
+      "tests_passed": 2,
+      "tests_failed": 0,
+      "tests_ignored": 0
+    },
+    {
+      "name": "locked_clippy_from_exact_archived_commit",
+      "command": "CARGO_TARGET_DIR=<isolated> CARGO_INCREMENTAL=0 cargo clippy --locked --all-targets -- -D warnings",
+      "result": "PASS",
+      "warnings": 0
+    },
+    {
+      "name": "canonical_path_locked_release_rebuild",
+      "command": "CARGO_TARGET_DIR=<isolated> CARGO_INCREMENTAL=0 cargo build --release --locked",
+      "result": "PASS",
+      "rebuilt_sha256": "1d4142782ff6a81e77162b5c599a71985c934f455b128507519c911a749e63b4",
+      "committed_sha256": "1d4142782ff6a81e77162b5c599a71985c934f455b128507519c911a749e63b4",
+      "byte_identical": true,
+      "bytes": 2009032
+    },
+    {
+      "name": "committed_release_self_test",
+      "command": "artifacts/math/G-0135/stage_d_global_replay/target/release/g0135-stage-d-global-replay --self-test",
+      "result": "PASS",
+      "stdout": "G-0135 Stage D self-test PASS"
+    },
+    {
+      "name": "committed_release_outcome_blind_static_preflight",
+      "command": "artifacts/math/G-0135/stage_d_global_replay/target/release/g0135-stage-d-global-replay --preflight-static",
+      "result": "PASS",
+      "stdout": "G-0135 Stage D outcome-blind static preflight PASS"
+    },
+    {
+      "name": "independent_probe",
+      "command": "python3 artifacts/reviews/G-0138-g0135-stage-d-source/independent_probe.py --output artifacts/reviews/G-0138-g0135-stage-d-source/INDEPENDENT_PROBE_RECEIPT.json",
+      "result": "PASS",
+      "checks_passed": 20,
+      "checks_failed": 0
+    }
+  ],
+  "scientific_replay_run": false,
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "no_claim": "These checks clear only the exact committed Stage-D source and executable at T1. They do not establish a Stage-C member, global identity, residual, frozen-family conclusion, unrestricted MAX11 result, or Lean theorem."
+}
