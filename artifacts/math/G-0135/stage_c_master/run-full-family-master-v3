@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+stage_c_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+repo_root=$(CDPATH= cd -- "$stage_c_dir/../../../.." && pwd)
+
+exec "$repo_root/.venv/bin/python" -B "$stage_c_dir/full_family_master_v3.py" "$@"

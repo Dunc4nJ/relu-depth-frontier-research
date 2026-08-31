@@ -28,6 +28,11 @@ from typing import Any
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 SCRIPT = Path(__file__).resolve()
+EXECUTABLE_PATH = HERE / "run-full-family-master-v3"
+REQUIREMENTS_PATH = ROOT / "requirements-solvers.lock"
+PYTHON_WHEEL_HASHES_PATH = ROOT / "environment/python-wheel-hashes.txt"
+TOOLCHAIN_MANIFEST_PATH = ROOT / "environment/toolchain-manifest.txt"
+TOOLCHAIN_PATH = ROOT / "TOOLCHAIN.md"
 
 PREREGISTRATION_PATH = ROOT / "artifacts/math/G-0135/PREREGISTRATION.md"
 SHARED_MANIFEST_PATH = (
@@ -77,6 +82,15 @@ G0134_RECEIPT_SHA256 = (
     "a00aaca7aeb8f960d6fa5a264b72a13c797ae30a75c4eec5eaa90a5a455e2f56"
 )
 G0117_EXACT_SHA256 = "ee422e6e36085e26ddd83a75f8901c6a6efbe3fd2a99e80e280f9449d0ed8281"
+EXECUTABLE_SHA256 = "b125566098be17edc0a572b776e1887813758afc7412324c29408592275ab508"
+REQUIREMENTS_SHA256 = "dae95ec0dd59c0b30ea69bfe541248049cee612a92d56c4d18e0c3217c170fb8"
+PYTHON_WHEEL_HASHES_SHA256 = (
+    "68c90da2eecf3285c99ad135ef142070c830fe4b14a4a35ebec265e6ffb3b311"
+)
+TOOLCHAIN_MANIFEST_SHA256 = (
+    "a4e7b09efb4d445b9a34217f0aff478771c36542ca8c4d58e5b15e9d6273b81e"
+)
+TOOLCHAIN_SHA256 = "ffc55f711d52c90f4a1710cfd55366b2d1249a736db97f17c3a1c3e52188f150"
 EXPECTED_FIRST_DIRECTION = [0, 0, 0, 0, 0, 0, 1, -3, -2, 1, 3]
 EXPECTED_FIRST_COEFFICIENT = "363926958096805201036820427711562039306502598983761375638772015048437029843340726060005211433825934240455425251219346437121889771857125452344913600504791360"
 
@@ -350,6 +364,11 @@ def validate_fixed_inputs() -> dict[str, str]:
         relative(G0132_RESULT_PATH): G0132_RESULT_SHA256,
         relative(G0134_RECEIPT_PATH): G0134_RECEIPT_SHA256,
         relative(G0117_EXACT_PATH): G0117_EXACT_SHA256,
+        relative(EXECUTABLE_PATH): EXECUTABLE_SHA256,
+        relative(REQUIREMENTS_PATH): REQUIREMENTS_SHA256,
+        relative(PYTHON_WHEEL_HASHES_PATH): PYTHON_WHEEL_HASHES_SHA256,
+        relative(TOOLCHAIN_MANIFEST_PATH): TOOLCHAIN_MANIFEST_SHA256,
+        relative(TOOLCHAIN_PATH): TOOLCHAIN_SHA256,
     }
     for name, digest in expected.items():
         path = contained(ROOT / name)
@@ -417,11 +436,42 @@ def validate_binding(record: object, label: str) -> tuple[str, str]:
     return name, digest
 
 
-def validate_shared_manifest(
-    manifest: dict[str, Any], manifest_sha256: str, script_sha256: str
-) -> dict[str, str]:
+def expected_planned_outputs() -> dict[str, dict[str, str]]:
+    return {
+        "A": {
+            "path": relative(STAGE_A_RECEIPT_PATH),
+            "schema": STAGE_A_SCHEMA,
+        },
+        "B": {
+            "path": relative(STAGE_B_RECEIPT_PATH),
+            "schema": STAGE_B_SCHEMA,
+        },
+        "C": {"path": relative(RESULT_PATH), "schema": RESULT_SCHEMA},
+        "D": {
+            "path": "artifacts/math/G-0135/new_member_global_replay_v1.json",
+            "schema": "max11-g0135-new-member-global-replay-v1",
+        },
+    }
+
+
+def validate_shared_manifest_envelope(manifest: dict[str, Any]) -> None:
     require(
-        manifest.get("schema") == SHARED_MANIFEST_SCHEMA
+        set(manifest)
+        == {
+            "schema",
+            "selected_branch",
+            "output_path",
+            "preregistration_git_commit",
+            "producer_git_commit",
+            "source_audit_git_commit",
+            "bindings",
+            "transitive_inputs",
+            "parameters",
+            "environment",
+            "stage_order",
+            "planned_outputs",
+        }
+        and manifest.get("schema") == SHARED_MANIFEST_SCHEMA
         and manifest.get("selected_branch") == "MEMBER"
         and manifest.get("output_path") == relative(STAGE_A_RECEIPT_PATH)
         and manifest.get("stage_order")
@@ -431,11 +481,15 @@ def validate_shared_manifest(
             "C_MASTER",
             "D_GLOBAL_REPLAY_IF_MEMBER",
         ]
-        and isinstance(manifest.get("planned_outputs"), dict)
-        and manifest["planned_outputs"].get("C")
-        == {"path": relative(RESULT_PATH), "schema": RESULT_SCHEMA},
+        and manifest.get("planned_outputs") == expected_planned_outputs(),
         "shared manifest identity drift",
     )
+
+
+def validate_shared_manifest(
+    manifest: dict[str, Any], manifest_sha256: str, script_sha256: str
+) -> dict[str, str]:
+    validate_shared_manifest_envelope(manifest)
     for field in [
         "preregistration_git_commit",
         "producer_git_commit",
@@ -483,6 +537,11 @@ def validate_shared_manifest(
         relative(G0132_RESULT_PATH): G0132_RESULT_SHA256,
         relative(G0134_RECEIPT_PATH): G0134_RECEIPT_SHA256,
         relative(G0117_EXACT_PATH): G0117_EXACT_SHA256,
+        relative(EXECUTABLE_PATH): EXECUTABLE_SHA256,
+        relative(REQUIREMENTS_PATH): REQUIREMENTS_SHA256,
+        relative(PYTHON_WHEEL_HASHES_PATH): PYTHON_WHEEL_HASHES_SHA256,
+        relative(TOOLCHAIN_MANIFEST_PATH): TOOLCHAIN_MANIFEST_SHA256,
+        relative(TOOLCHAIN_PATH): TOOLCHAIN_SHA256,
         relative(SCRIPT): script_sha256,
     }
     require(
@@ -2149,6 +2208,39 @@ def self_test() -> None:
         "planted exact nonmember route failed",
     )
 
+    manifest_fixture: dict[str, Any] = {
+        "schema": SHARED_MANIFEST_SCHEMA,
+        "selected_branch": "MEMBER",
+        "output_path": relative(STAGE_A_RECEIPT_PATH),
+        "preregistration_git_commit": "0" * 40,
+        "producer_git_commit": "1" * 40,
+        "source_audit_git_commit": "2" * 40,
+        "bindings": {},
+        "transitive_inputs": [],
+        "parameters": {},
+        "environment": {},
+        "stage_order": [
+            "A_REPLAY_SELECT",
+            "B_PRICE",
+            "C_MASTER",
+            "D_GLOBAL_REPLAY_IF_MEMBER",
+        ],
+        "planned_outputs": expected_planned_outputs(),
+    }
+    validate_shared_manifest_envelope(manifest_fixture)
+    top_level_unknown = dict(manifest_fixture)
+    top_level_unknown["extra"] = True
+    rejected_control(
+        "manifest top-level unknown field",
+        lambda: validate_shared_manifest_envelope(top_level_unknown),
+    )
+    planned_output_unknown = json.loads(json.dumps(manifest_fixture))
+    planned_output_unknown["planned_outputs"]["C"]["extra"] = True
+    rejected_control(
+        "manifest planned-output unknown field",
+        lambda: validate_shared_manifest_envelope(planned_output_unknown),
+    )
+
     duplicate_json = '{"x":1,"x":2}'
     rejected_control(
         "duplicate JSON key",
@@ -2180,6 +2272,8 @@ def self_test() -> None:
         "target scale carryover",
         "ragged dynamic matrix",
         "duplicate JSON key",
+        "manifest top-level unknown field",
+        "manifest planned-output unknown field",
         "output overwrite",
         "serialization abort",
     }

@@ -136,6 +136,14 @@ struct ManifestEnvironment {
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct PlannedOutput {
+    path: String,
+    schema: String,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
 struct SharedManifest {
     schema: String,
     selected_branch: String,
@@ -148,7 +156,7 @@ struct SharedManifest {
     parameters: ManifestParameters,
     environment: ManifestEnvironment,
     stage_order: Vec<String>,
-    planned_outputs: BTreeMap<String, Value>,
+    planned_outputs: BTreeMap<String, PlannedOutput>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
@@ -1286,14 +1294,39 @@ fn validate_shared_manifest(
             ],
         "shared-manifest stage order drift"
     );
-    let planned_b = manifest
-        .planned_outputs
-        .get("B")
-        .context("shared manifest has no planned Stage-B output")?;
+    let expected_outputs = BTreeMap::from([
+        (
+            "A".to_string(),
+            PlannedOutput {
+                path: STAGE_A_RECEIPT_PATH.to_string(),
+                schema: "max11-g0135-batch32-global-replay-v1".to_string(),
+            },
+        ),
+        (
+            "B".to_string(),
+            PlannedOutput {
+                path: OUTPUT_PATH.to_string(),
+                schema: OUTPUT_SCHEMA.to_string(),
+            },
+        ),
+        (
+            "C".to_string(),
+            PlannedOutput {
+                path: "artifacts/math/G-0135/full_family_master_result_v3.json".to_string(),
+                schema: "max11-g0135-full-family-master-result-v3".to_string(),
+            },
+        ),
+        (
+            "D".to_string(),
+            PlannedOutput {
+                path: "artifacts/math/G-0135/new_member_global_replay_v1.json".to_string(),
+                schema: "max11-g0135-new-member-global-replay-v1".to_string(),
+            },
+        ),
+    ]);
     ensure!(
-        json_string(planned_b, "/path")? == OUTPUT_PATH
-            && json_string(planned_b, "/schema")? == OUTPUT_SCHEMA,
-        "shared-manifest Stage-B output contract drift"
+        manifest.planned_outputs == expected_outputs,
+        "shared-manifest output contracts drift"
     );
     let parameters = &manifest.parameters;
     ensure!(
@@ -1574,6 +1607,56 @@ fn self_test() -> Result<()> {
     ensure!(
         serde_json::from_str::<Term>(r#"{"sequence":0,"coefficient":"1","extra":2}"#).is_err(),
         "unknown term field accepted"
+    );
+    let manifest_fixture = serde_json::json!({
+        "schema": "fixture",
+        "selected_branch": "MEMBER",
+        "output_path": STAGE_A_RECEIPT_PATH,
+        "preregistration_git_commit": "0".repeat(40),
+        "producer_git_commit": "1".repeat(40),
+        "source_audit_git_commit": "2".repeat(40),
+        "bindings": {},
+        "transitive_inputs": [],
+        "parameters": {
+            "n": N,
+            "rows": ROWS,
+            "records": RECORDS,
+            "terms": TERMS,
+            "batch_k": K,
+            "selected_slots": SELECTED_SLOTS,
+            "carry_directions": CARRY_DIRECTIONS,
+            "target_coordinate": N - 1,
+            "labelled_permutations": EXPECTED_LABELLED_PERMUTATIONS,
+            "threads": THREADS,
+            "arithmetic": "fixture",
+            "decision_rule": "fixture"
+        },
+        "environment": {
+            "os": "fixture",
+            "arch": "fixture",
+            "rustc_verbose": "fixture",
+            "available_parallelism": 1
+        },
+        "stage_order": [],
+        "planned_outputs": {
+            "A": {"path": "a", "schema": "s"},
+            "B": {"path": "b", "schema": "s"},
+            "C": {"path": "c", "schema": "s"},
+            "D": {"path": "d", "schema": "s"}
+        }
+    });
+    ensure!(
+        serde_json::from_value::<SharedManifest>(manifest_fixture.clone()).is_ok(),
+        "valid manifest shape fixture rejected"
+    );
+    let mut top_level_unknown = manifest_fixture.clone();
+    top_level_unknown["extra"] = Value::Bool(true);
+    let mut planned_output_unknown = manifest_fixture;
+    planned_output_unknown["planned_outputs"]["B"]["extra"] = Value::Bool(true);
+    ensure!(
+        serde_json::from_value::<SharedManifest>(top_level_unknown).is_err()
+            && serde_json::from_value::<SharedManifest>(planned_output_unknown).is_err(),
+        "unknown shared-manifest field accepted"
     );
 
     let transposed = transpose_record_major(vec![vec![1, 2, 3], vec![4, 5, 6]], 3)?;
