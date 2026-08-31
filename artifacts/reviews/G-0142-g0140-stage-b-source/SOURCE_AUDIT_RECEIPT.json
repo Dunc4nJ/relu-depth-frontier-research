@@ -1,0 +1,460 @@
+{
+  "auditor": {
+    "agent_name": "CobaltSpire",
+    "independence_tier": "T1",
+    "model": "gpt-5-codex",
+    "program": "codex",
+    "same_campaign": true,
+    "same_model_family": true
+  },
+  "checks": [
+    {
+      "evidence": {
+        "executable": false,
+        "git_blob": "b230c7e84fb0d008757d4d78d00a1231833f4937",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100644",
+        "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+        "sha256": "2b09a0c36d060c7cbc03fb26009cb9bba0c49ef0c14ff7d24ec52f4f6294b09b",
+        "size_bytes": 73685,
+        "worktree_equals_subject_commit": true
+      },
+      "id": "BIND_main.rs",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "executable": false,
+        "git_blob": "6ec442fd6ab0cdae930a0ccc528516304821dba2",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100644",
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+        "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+        "size_bytes": 352,
+        "worktree_equals_subject_commit": true
+      },
+      "id": "BIND_Cargo.toml",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "executable": false,
+        "git_blob": "0d77ef12ebdf0868f9540cc81fab3e33664b0adf",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100644",
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+        "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+        "size_bytes": 7622,
+        "worktree_equals_subject_commit": true
+      },
+      "id": "BIND_Cargo.lock",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "executable": true,
+        "git_blob": "60468e5db415c5abf4f46bacb897eff9b224ec3e",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100755",
+        "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+        "sha256": "13d24a884b3714f803bb1b79d879527ed4f99445788debe7922a5c53054cc79e",
+        "size_bytes": 1763456,
+        "worktree_equals_subject_commit": true
+      },
+      "id": "BIND_g0140-stage-b-pool128-coordinate-pricer",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "git_commit_prefix": "7bb0fc1",
+        "path": "artifacts/reviews/G-0142-g0140-stage-b-source/PREREGISTRATION.md",
+        "sha256": "a777e9cb0af7a0afabd122283019eae43328ffa106b1cf48499c6adc304e5895"
+      },
+      "id": "PROTOCOL_PREREGISTRATION",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "git_commit_prefix": "4e9e0bb",
+        "path": "artifacts/reviews/G-0142-g0140-stage-b-source/PREREGISTRATION_CORRECTION.md",
+        "sha256": "18809627fbcc27ac7bd42603c86fce14e2a7c919fc9b5b6b1f50dd2444fd407b"
+      },
+      "id": "PROTOCOL_PREREGISTRATION_CORRECTION",
+      "passed": true
+    },
+    {
+      "evidence": "128 * 163740 is frozen and the complete direction-major matrix is dimension-checked",
+      "id": "SEM_EXACT_CENSUS_CONSTANTS",
+      "passed": true
+    },
+    {
+      "evidence": "candidate coefficients remain BigInt through every i64 coordinate multiplication",
+      "id": "SEM_ARBITRARY_BIGINT_DOT",
+      "passed": true
+    },
+    {
+      "evidence": "Pool128 is strict signed-lex and records are exactly sequence 0..163739",
+      "id": "SEM_DIRECTION_AND_RECORD_ORDER",
+      "passed": true
+    },
+    {
+      "evidence": "all records are priced in stable record order then transposed and serialized in Pool128 order",
+      "id": "SEM_COMPLETE_DIRECTION_MAJOR_PRICING",
+      "passed": true
+    },
+    {
+      "evidence": "the bound kernel validates and prices every requested direction in supplied order",
+      "id": "SEM_KERNEL_BRIDGE",
+      "passed": true
+    },
+    {
+      "evidence": "non-strict deserializers: Candidate, AccumulatedDirectionCheck, StageAReceipt, g0117_global_coordinate_pricer::Record",
+      "id": "SCHEMA_ALL_INPUT_STRUCTS_DENY_UNKNOWN_FIELDS",
+      "passed": false
+    },
+    {
+      "evidence": "source-audit admission must check exact schema and result, not only PASS/absence flags/bindings",
+      "id": "SCHEMA_SOURCE_AUDIT_GATE_EXACT",
+      "passed": false
+    },
+    {
+      "evidence": "G-0139 exact schema/verdict/result and both G-0135 inputs are required",
+      "id": "GATE_G0139_EXACT",
+      "passed": true
+    },
+    {
+      "evidence": "scientific mode requires manifest, audits, Stage-A, embedded source bytes, and the exact current release",
+      "id": "GATE_MANIFEST_STAGE_A_AND_COMPILED_BYTES",
+      "passed": true
+    },
+    {
+      "evidence": "create-new temporary plus hard-link publication refuses overwrite and fsyncs",
+      "id": "CUSTODY_EXCLUSIVE_OUTPUT",
+      "passed": true
+    },
+    {
+      "evidence": "all manifest bindings, manifest, and Stage-A receipt are rehashed and compared at end",
+      "id": "CUSTODY_END_REHASH",
+      "passed": true
+    },
+    {
+      "evidence": "output explicitly refuses scientific and theorem cousins",
+      "id": "CLAIM_BOUNDARY_NARROW",
+      "passed": true
+    },
+    {
+      "evidence": "self-test has positive bridges and hostile must-fail controls",
+      "id": "CONTROLS_SUBJECT_SELF_TEST_NONVACUOUS",
+      "passed": true
+    },
+    {
+      "evidence": "one appended byte-range changes the bound SHA-256",
+      "id": "HOSTILE_SUBJECT_BYTE_MUTATION_REJECTED",
+      "passed": true
+    },
+    {
+      "evidence": "replacing K*RECORDS by K fails the exact-census contract",
+      "id": "HOSTILE_SHORT_CENSUS_SOURCE_MUTANT_REJECTED",
+      "passed": true
+    },
+    {
+      "evidence": "an i32 narrowing bridge fails the BigInt contract",
+      "id": "HOSTILE_NARROWING_SOURCE_MUTANT_REJECTED",
+      "passed": true
+    },
+    {
+      "evidence": "reversing the end-custody equality fails the contract",
+      "id": "HOSTILE_END_REHASH_SOURCE_MUTANT_REJECTED",
+      "passed": true
+    },
+    {
+      "evidence": "the checker distinguishes fail-closed and permissive serde structs",
+      "id": "HOSTILE_UNKNOWN_FIELD_SCHEMA_CONTROL",
+      "passed": true
+    },
+    {
+      "evidence": "the exact-schema detector has a passing positive fixture",
+      "id": "HOSTILE_LOOKALIKE_AUDIT_SCHEMA_CONTROL",
+      "passed": true
+    },
+    {
+      "evidence": "O_EXCL refuses a second publication",
+      "id": "HOSTILE_RECEIPT_OVERWRITE_REJECTED",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "argv": [
+          "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+          "--self-test"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "G-0140 Stage-B Pool128 self-test PASS\n",
+        "stdout_sha256": "cff85a3944d8d59d9e0722af5c317367d749e2cb6c3df3144be633ac3cc45f0c",
+        "wall_seconds": 0.071968
+      },
+      "id": "EXEC_SUBJECT_SELF_TEST",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "argv": [
+          "/data/projects/relu-depth-frontier-research/artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+          "--preflight-static",
+          "artifacts/math/G-0113/panel_solver_input_v1.json",
+          "artifacts/math/G-0135/full_family_master_result_v3.json"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "G-0140 Stage-B static preflight PASS: 163740 records; 135 candidate terms; future manifest/Stage-A/G-0142 receipts not consumed\n",
+        "stdout_sha256": "f0b63fe1e84bf1280bd59f4e5484a9dbe341d202fe626e1f7f352d629b557f31",
+        "wall_seconds": 32.447755
+      },
+      "id": "EXEC_SUBJECT_STATIC_PREFLIGHT",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "after_subject_self_test": {
+          "manifest_path_checked_for_existence_only": "artifacts/math/G-0140/pool128_manifest_v1.json",
+          "output_paths_checked_for_existence_only": [
+            "artifacts/math/G-0140/pool128_global_replay_v1.json",
+            "artifacts/math/G-0140/pool128_coordinate_prices_v1.json",
+            "artifacts/math/G-0140/pool128_exact_rank_selection_v1.json",
+            "artifacts/math/G-0140/rank_aware_master_result_v1.json",
+            "artifacts/math/G-0140/new_member_global_replay_v1.json"
+          ],
+          "present_output_paths": [],
+          "scientific_manifest_observed": false,
+          "scientific_output_observed": false
+        },
+        "after_subject_static_preflight": {
+          "manifest_path_checked_for_existence_only": "artifacts/math/G-0140/pool128_manifest_v1.json",
+          "output_paths_checked_for_existence_only": [
+            "artifacts/math/G-0140/pool128_global_replay_v1.json",
+            "artifacts/math/G-0140/pool128_coordinate_prices_v1.json",
+            "artifacts/math/G-0140/pool128_exact_rank_selection_v1.json",
+            "artifacts/math/G-0140/rank_aware_master_result_v1.json",
+            "artifacts/math/G-0140/new_member_global_replay_v1.json"
+          ],
+          "present_output_paths": [],
+          "scientific_manifest_observed": false,
+          "scientific_output_observed": false
+        },
+        "before": {
+          "manifest_path_checked_for_existence_only": "artifacts/math/G-0140/pool128_manifest_v1.json",
+          "output_paths_checked_for_existence_only": [
+            "artifacts/math/G-0140/pool128_global_replay_v1.json",
+            "artifacts/math/G-0140/pool128_coordinate_prices_v1.json",
+            "artifacts/math/G-0140/pool128_exact_rank_selection_v1.json",
+            "artifacts/math/G-0140/rank_aware_master_result_v1.json",
+            "artifacts/math/G-0140/new_member_global_replay_v1.json"
+          ],
+          "present_output_paths": [],
+          "scientific_manifest_observed": false,
+          "scientific_output_observed": false
+        }
+      },
+      "id": "EXEC_NO_SCIENTIFIC_ARTIFACT_OBSERVED",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "final_bindings": {
+          "artifacts/math/G-0140/stage_b_pricer/Cargo.lock": {
+            "executable": false,
+            "git_blob": "0d77ef12ebdf0868f9540cc81fab3e33664b0adf",
+            "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+            "git_mode": "100644",
+            "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+            "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+            "size_bytes": 7622,
+            "worktree_equals_subject_commit": true
+          },
+          "artifacts/math/G-0140/stage_b_pricer/Cargo.toml": {
+            "executable": false,
+            "git_blob": "6ec442fd6ab0cdae930a0ccc528516304821dba2",
+            "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+            "git_mode": "100644",
+            "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+            "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+            "size_bytes": 352,
+            "worktree_equals_subject_commit": true
+          },
+          "artifacts/math/G-0140/stage_b_pricer/src/main.rs": {
+            "executable": false,
+            "git_blob": "b230c7e84fb0d008757d4d78d00a1231833f4937",
+            "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+            "git_mode": "100644",
+            "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+            "sha256": "2b09a0c36d060c7cbc03fb26009cb9bba0c49ef0c14ff7d24ec52f4f6294b09b",
+            "size_bytes": 73685,
+            "worktree_equals_subject_commit": true
+          },
+          "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer": {
+            "executable": true,
+            "git_blob": "60468e5db415c5abf4f46bacb897eff9b224ec3e",
+            "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+            "git_mode": "100755",
+            "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+            "sha256": "13d24a884b3714f803bb1b79d879527ed4f99445788debe7922a5c53054cc79e",
+            "size_bytes": 1763456,
+            "worktree_equals_subject_commit": true
+          }
+        },
+        "initial_equals_final": true
+      },
+      "id": "CUSTODY_SUBJECT_REHASH_AT_END",
+      "passed": true
+    }
+  ],
+  "claim_boundary": "Outcome-blind audit of the frozen G-0140 Stage-B source, Cargo metadata, lockfile, and compiled executable. It does not run or validate the 128x163740 scientific pricing result, target membership, any lower bound, or a theorem.",
+  "completed_utc": "2026-08-31T18:41:35Z",
+  "dimensions": {
+    "arithmetic": "signed i64 hinge coordinates times arbitrary-precision num_bigint::BigInt candidate coefficients",
+    "candidate_terms": 135,
+    "hinge_entries": 20958720,
+    "order": "direction-major Pool128; record-minor canonical sequence 0..163739",
+    "pool_k": 128,
+    "records": 163740
+  },
+  "failed_check_ids": [
+    "SCHEMA_ALL_INPUT_STRUCTS_DENY_UNKNOWN_FIELDS",
+    "SCHEMA_SOURCE_AUDIT_GATE_EXACT"
+  ],
+  "findings": [
+    {
+      "evidence": "non-strict deserializers: Candidate, AccumulatedDirectionCheck, StageAReceipt, g0117_global_coordinate_pricer::Record",
+      "id": "G0142-F01",
+      "impact": "The producer's claimed strict-schema boundary is not true for every admitted Candidate, Stage-A, accumulated-direction, and Record object. Hash/manifest binding constrains bytes, but it does not make the deserializer fail closed on schema drift.",
+      "required_remediation": "Add deny_unknown_fields or equivalent exact-key validation for every admitted input object, then freeze and audit a new producer commit/executable.",
+      "severity": "BLOCKING",
+      "title": "Several nested/top-level input deserializers accept unknown fields"
+    },
+    {
+      "evidence": "validate_source_audit checks PASS, two absence booleans, tracked/hash-bound bytes, and recursive subject bindings, but never /schema or /result.",
+      "id": "G0142-F02",
+      "impact": "A manifest-bound lookalike JSON object can satisfy the code path without being the expected G-0141/G-0142 receipt type. This weakens the source-audit gate even though the manifest still binds exact bytes.",
+      "required_remediation": "Require the exact audit schema and result/claim fields for each Stage-A and Stage-B source-audit receipt, then freeze and audit a new producer commit/executable.",
+      "severity": "BLOCKING",
+      "title": "Source-audit admission does not authenticate an exact receipt schema/result"
+    }
+  ],
+  "inputs_rehashed_at_end": true,
+  "limitations": [
+    "FAIL does not imply the numeric pricing loop is wrong; the core loop, BigInt bridge, dimension checks, order checks, exclusive publication, and end rehash passed this bounded source inspection.",
+    "No scientific manifest or G-0140 Stage-A/B/C/D/E output was opened, parsed, created, or priced.",
+    "Same-campaign, same-lineage T1 evidence cannot establish T2 independence or promote a mathematical bottom line.",
+    "A future repaired producer requires a new exact-commit source/executable audit; this receipt cannot be carried forward."
+  ],
+  "preregistration": {
+    "correction_disclosure": "The auditor initially omitted `coordinate-` from the executable path. The path-only correction was committed before source inspection or audit execution; both documents remain bound.",
+    "original": {
+      "git_commit_prefix": "7bb0fc1",
+      "path": "artifacts/reviews/G-0142-g0140-stage-b-source/PREREGISTRATION.md",
+      "sha256": "a777e9cb0af7a0afabd122283019eae43328ffa106b1cf48499c6adc304e5895"
+    },
+    "path_correction": {
+      "git_commit_prefix": "4e9e0bb",
+      "path": "artifacts/reviews/G-0142-g0140-stage-b-source/PREREGISTRATION_CORRECTION.md",
+      "sha256": "18809627fbcc27ac7bd42603c86fce14e2a7c919fc9b5b6b1f50dd2444fd407b"
+    }
+  },
+  "result": "SOURCE_CUSTODY_AUDIT_FAIL_T1",
+  "schema": "max11-g0142-g0140-stage-b-source-audit-v1",
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "started_utc": "2026-08-31T18:41:03Z",
+  "subject": {
+    "bindings": {
+      "artifacts/math/G-0140/stage_b_pricer/Cargo.lock": {
+        "executable": false,
+        "git_blob": "0d77ef12ebdf0868f9540cc81fab3e33664b0adf",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100644",
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+        "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+        "size_bytes": 7622,
+        "worktree_equals_subject_commit": true
+      },
+      "artifacts/math/G-0140/stage_b_pricer/Cargo.toml": {
+        "executable": false,
+        "git_blob": "6ec442fd6ab0cdae930a0ccc528516304821dba2",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100644",
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+        "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+        "size_bytes": 352,
+        "worktree_equals_subject_commit": true
+      },
+      "artifacts/math/G-0140/stage_b_pricer/src/main.rs": {
+        "executable": false,
+        "git_blob": "b230c7e84fb0d008757d4d78d00a1231833f4937",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100644",
+        "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+        "sha256": "2b09a0c36d060c7cbc03fb26009cb9bba0c49ef0c14ff7d24ec52f4f6294b09b",
+        "size_bytes": 73685,
+        "worktree_equals_subject_commit": true
+      },
+      "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer": {
+        "executable": true,
+        "git_blob": "60468e5db415c5abf4f46bacb897eff9b224ec3e",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100755",
+        "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+        "sha256": "13d24a884b3714f803bb1b79d879527ed4f99445788debe7922a5c53054cc79e",
+        "size_bytes": 1763456,
+        "worktree_equals_subject_commit": true
+      }
+    },
+    "final_bindings": {
+      "artifacts/math/G-0140/stage_b_pricer/Cargo.lock": {
+        "executable": false,
+        "git_blob": "0d77ef12ebdf0868f9540cc81fab3e33664b0adf",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100644",
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+        "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a",
+        "size_bytes": 7622,
+        "worktree_equals_subject_commit": true
+      },
+      "artifacts/math/G-0140/stage_b_pricer/Cargo.toml": {
+        "executable": false,
+        "git_blob": "6ec442fd6ab0cdae930a0ccc528516304821dba2",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100644",
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+        "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c",
+        "size_bytes": 352,
+        "worktree_equals_subject_commit": true
+      },
+      "artifacts/math/G-0140/stage_b_pricer/src/main.rs": {
+        "executable": false,
+        "git_blob": "b230c7e84fb0d008757d4d78d00a1231833f4937",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100644",
+        "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+        "sha256": "2b09a0c36d060c7cbc03fb26009cb9bba0c49ef0c14ff7d24ec52f4f6294b09b",
+        "size_bytes": 73685,
+        "worktree_equals_subject_commit": true
+      },
+      "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer": {
+        "executable": true,
+        "git_blob": "60468e5db415c5abf4f46bacb897eff9b224ec3e",
+        "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+        "git_mode": "100755",
+        "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+        "sha256": "13d24a884b3714f803bb1b79d879527ed4f99445788debe7922a5c53054cc79e",
+        "size_bytes": 1763456,
+        "worktree_equals_subject_commit": true
+      }
+    },
+    "git_commit": "f603a6b8e51e31b810d957176836da52142aa0a9",
+    "initial_equals_final": true
+  },
+  "verdict": "FAIL"
+}
