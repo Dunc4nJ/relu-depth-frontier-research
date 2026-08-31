@@ -1,0 +1,91 @@
+{
+  "schema": "max11-g0145-g0140-stage-a-reaudit-abort-v1",
+  "disposition": "ABORT_NOT_ADMISSIBLE",
+  "completed_at_utc": "2026-08-31T19:09:14Z",
+  "reviewer": {
+    "agent_name": "LilacTower",
+    "program": "codex",
+    "model": "gpt-5.4",
+    "same_model_lineage": true,
+    "same_campaign": true
+  },
+  "intended_audit": {
+    "subject_git_commit": "581152f1202e469d4bb3633b93076a03b860f764",
+    "mode": "outcome-blind_source_and_custody_reaudit",
+    "preregistration_frozen": false,
+    "why_not": "The research leader disclosed the deterministic admission-path blocker before this reviewer froze a preregistration. Backfilling a preregistration would be outcome-informed and is therefore refused.",
+    "broad_checklist_executed": false
+  },
+  "subject": {
+    "git_commit": "581152f1202e469d4bb3633b93076a03b860f764",
+    "git_parent": "2b342c033a0314539f07f0d032bb7d4e3433f1c4",
+    "git_tree": "5ec47854e0c24a85f42e902edf0a823d6d69fbff",
+    "main_source": {
+      "path": "artifacts/math/G-0140/stage_a_pool/src/main.rs",
+      "sha256": "8fc34e9f66bd5b874dacc4ecedf8f2428c20fce22b78f666acfc5df61a551ffc",
+      "git_blob": "80e13b629f4cfad670d2d82771de271256bad77a"
+    },
+    "required_source_audit_receipt": {
+      "path": "artifacts/reviews/G-0141-g0140-stage-a-source/SOURCE_AUDIT_RECEIPT.json",
+      "sha256": "c1b857b1f44bc9f906b6716bc6360fac0ce7160ace2740db73c9dfed2c16b413",
+      "git_blob": "32775653453b20463dbdcad6a1766eb8fc4b8fb3",
+      "bytes": 10645,
+      "schema": "max11-g0141-g0140-stage-a-source-audit-v1",
+      "verdict": "FAIL",
+      "audited_subject_git_commit": "1ee34276dcbbd35aedf090cb19bddf57283eb1d2"
+    }
+  },
+  "direct_evidence": [
+    {
+      "location": "artifacts/math/G-0140/stage_a_pool/src/main.rs:72",
+      "observation": "STAGE_A_SOURCE_AUDIT_PATH is fixed to the G-0141 receipt path."
+    },
+    {
+      "location": "artifacts/math/G-0140/stage_a_pool/src/main.rs:1266",
+      "observation": "validate_source_audit rejects any receipt whose verdict is not exactly PASS."
+    },
+    {
+      "location": "artifacts/math/G-0140/stage_a_pool/src/main.rs:1635",
+      "observation": "The G-0140 manifest must bind that fixed G-0141 path."
+    },
+    {
+      "location": "artifacts/math/G-0140/stage_a_pool/src/main.rs:1668",
+      "observation": "validate_g0140_manifest calls validate_source_audit on the fixed G-0141 path before admission."
+    },
+    {
+      "location": "subject_commit_search",
+      "observation": "The exact subject source contains no reference to artifacts/reviews/G-0145-g0140-stage-a-reaudit."
+    }
+  ],
+  "decision": {
+    "stage_a_source_clearance": "NOT_ADMISSIBLE",
+    "reason": "At the exact subject revision, the only consumable Stage-A source-audit receipt is G-0141; its exact frozen verdict is FAIL, while the intended G-0145 receipt path is not consumable. Therefore no G-0145 PASS could unlock this revision, even if the broader repaired semantics were otherwise correct.",
+    "required_next_action": "Freeze a new producer revision whose admission path and one-shot manifest bind a fresh, outcome-blind re-audit receipt; then assign that revision to a fresh reviewer before disclosing any audit outcome.",
+    "this_is_not_a_pass_or_full_audit": true
+  },
+  "checks_performed": [
+    "Verified the exact subject commit, parent, and tree objects.",
+    "Hashed the exact committed Stage-A main source and G-0141 receipt bytes.",
+    "Inspected only the source-audit path constant, PASS predicate, manifest binding, and call site needed to adjudicate the blocker.",
+    "Confirmed the exact committed G-0141 receipt verdict is FAIL.",
+    "Confirmed the exact subject source has no G-0145 receipt-path reference."
+  ],
+  "checks_not_performed": [
+    "No Stage-A self-test, static preflight, ancestor preflight, scientific preflight, or scientific replay was run.",
+    "The six repaired G-0139 semantic mutants were not reexecuted.",
+    "Manifest committed-blob rejection was not reexecuted.",
+    "BigInt replay, census, ordering, custody, overwrite, and end-rehash logic were not broadly audited."
+  ],
+  "scientific_manifest_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "evidence_class": "ABORTED_T1_SAME_LINEAGE_SOURCE_GATE_CHECK",
+  "promotion_boundary": "This record denies admission only for exact Stage-A subject commit 581152f1202e469d4bb3633b93076a03b860f764. It is not a completed outcome-blind source audit and cannot grant clearance to this or any later revision.",
+  "no_claim": "This record does not adjudicate the repaired G-0139 semantic predicate, recompute a residual, establish family completeness or membership, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem.",
+  "anti_ceremony_creation_gate": {
+    "consumer": "The G-0140 research leader deciding whether exact Stage-A subject 581152f may enter the one-shot scientific run.",
+    "gate": "Stage-A source clearance for the one-shot G-0140 run.",
+    "observed_defect_class": "The repaired subject still consumes the superseded G-0141 FAIL receipt and cannot consume its assigned G-0145 re-audit receipt; the blocker was disclosed before preregistration.",
+    "retirement_condition": "Retire this record from active gating when a new producer revision consumes a fresh preregistered audit receipt; retain it only as immutable provenance."
+  }
+}
