@@ -371,11 +371,10 @@ def validate_python_runtime() -> dict[str, object]:
     )
     try:
         distribution = importlib.metadata.distribution("python-flint")
-        flint = importlib.import_module("flint")
-    except (ImportError, importlib.metadata.PackageNotFoundError) as error:
+    except importlib.metadata.PackageNotFoundError as error:
         raise MasterError("pinned python-flint runtime is unavailable") from error
     require(
-        distribution.version == "0.9.0" and flint.__version__ == "0.9.0",
+        distribution.version == "0.9.0",
         "python-flint version drift",
     )
     record_path = contained(
@@ -418,6 +417,11 @@ def validate_python_runtime() -> dict[str, object]:
         hashed == PYTHON_FLINT_HASHED_FILES,
         "python-flint hashed-file census drift",
     )
+    try:
+        flint = importlib.import_module("flint")
+    except ImportError as error:
+        raise MasterError("verified python-flint package cannot be imported") from error
+    require(flint.__version__ == "0.9.0", "imported python-flint version drift")
     return {
         "python": ".".join(str(value) for value in sys.version_info[:3]),
         "python_flint": distribution.version,
