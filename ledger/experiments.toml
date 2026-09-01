@@ -336,3 +336,14 @@ result_summary = "The two evaluators agree and certify q821-q1630-q2986+q3944=-2
 status = "complete"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T10:07:07Z
+
+[[experiment]]
+id = "EXP-0030"
+route = "H-0001"
+design = "After exploratory mass-at-most-three complete-normal-form solving discovered a 21-primary lift of G-0181 basis column 0, freeze candidate SHA-256 df295599ac4e0f3fc94666198d9aa075b081866efa8a7e5dcf43a67edb76220e before the independent replay. Reconstruct six STAR and 21 old-primary records directly from frozen censuses; bind the exact G-0181 basis SHA-256 56b4177d3e584bbe96eb35b17ba799e5138cf071dc7fd72895a45de6d4d68232 and require the candidate left side to equal ten times basis column 0; validate old-primary membership, looplessness, mass at most three, and one-loop STAR membership; require literal agreement of the G-0109 and G-0179 complete-normal-form evaluators and exact cancellation over every union hinge plus all eleven linear coordinates; reject a one-unit p1336 coefficient mutant; and rehash all inputs at exit. The G-0181 binding was added as a stricter promotion gate after the first clean replay exposed its omission; the frozen coefficient candidate did not change and the strengthened verifier was rerun from scratch. This is a post-discovery verification freeze, not an outcome-blind discovery preregistration."
+family = "max11-star-loop-six-term-primary-lift-v1"
+prereg = false
+result_summary = "The strengthened verifier and adversarial replay certify an exact characteristic-zero identity between ten times q447-q511-q1418-q1630+q1757+q2124 and an explicit 21-term loopless old-primary combination. The residual is zero over all 6,471 union hinge directions and eleven linear coordinates; the coefficient mutant has 2,401 nonzero hinges and ten nonzero linear coordinates. This is G-0181 basis column 0 and is independent of the G-0182 column-15 lift, so exactly two of 478 kernel directions are certified in O; 476 remain."
+status = "complete"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T10:25:00Z

@@ -36,6 +36,7 @@ residual; they are not the promotion gate.
 | object | SHA-256 |
 |---|---|
 | candidate identity | `df295599ac4e0f3fc94666198d9aa075b081866efa8a7e5dcf43a67edb76220e` |
+| G-0181 exact rational kernel basis | `56b4177d3e584bbe96eb35b17ba799e5138cf071dc7fd72895a45de6d4d68232` |
 | G-0113 old-primary solver input | `093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8` |
 | G-0179 STAR record census | `c4380bff3d96fafa084e387ef1b972a3f362a4614adaca8f596311958b54c4d4` |
 | G-0109 evaluator source | `dfe2638f33c58fd3dfc6c5bd8e6f6ad2059a6eb47986a7e9b76f255b72da2126` |
@@ -51,20 +52,26 @@ controlled records directly from the two source censuses and must not read the
 exploratory normal forms, matrix, or solution receipt. It must:
 
 1. confirm exact candidate bytes and all frozen source hashes;
-2. confirm that all 21 primary records belong to the old-primary census, are
+2. confirm that the left side is exactly ten times G-0181 basis column 0;
+3. confirm that all 21 primary records belong to the old-primary census, are
    loopless, and have signed mass at most three;
-3. confirm that all six STAR records have exactly one residual loop;
-4. run both frozen complete-normal-form implementations on one canonical input
+4. confirm that all six STAR records have exactly one residual loop;
+5. run both frozen complete-normal-form implementations on one canonical input
    and require literal equality of all 27 outputs;
-5. combine every hinge direction in the full union and all 11 linear
+6. combine every hinge direction in the full union and all 11 linear
    coordinates with the frozen coefficients, requiring an exactly zero
    characteristic-zero residual;
-6. record the raw coordinate census and canonical semantic digests;
-7. add one to the coefficient of \(p_{1336}\) and require a nonzero residual;
-8. re-hash every frozen input after replay.
+7. record the raw coordinate census and canonical semantic digests;
+8. add one to the coefficient of \(p_{1336}\) and require a nonzero residual;
+9. re-hash every frozen input after replay.
 
 Any failed gate rejects this candidate. Altering a coefficient or selecting a
 different primary column requires a new freeze.
+
+The explicit G-0181-basis hash and gate 2 were added before result promotion
+after the first clean replay exposed that the identity verifier did not itself
+bind the left side to basis column 0. The frozen candidate was not changed; the
+strengthened verifier was frozen and rerun from scratch.
 
 ## Consequence if the gate passes
 

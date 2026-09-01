@@ -113,7 +113,7 @@ created = 2026-08-30T20:48:54Z
 [[gap]]
 id = "G-0015"
 claim = "C-0002@1"
-obligation = "G-0181 now certifies over Q that the retained STAR restriction has left nullity exactly 478, and G-0182 lifts its unique support-four basis vector to an explicit seven-term complete-normal-form identity in the old span O. No basis spanning the other 477 dimensions has yet been lifted into O. Without those remaining lifts or a general loop-straightening theorem, the target-specific STAR quarantine theorem remains unproved."
+obligation = "G-0181 certifies over Q that the retained STAR restriction has left nullity exactly 478. G-0182 and G-0183 lift two independent basis vectors—columns 15 and 0—to explicit complete-normal-form identities in the old span O. No basis spanning the other 476 dimensions has yet been lifted into O. Without those remaining lifts, a sparse generating basis, or a general loop-straightening theorem, the target-specific STAR quarantine theorem remains unproved."
 status = "open"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T09:30:25Z
