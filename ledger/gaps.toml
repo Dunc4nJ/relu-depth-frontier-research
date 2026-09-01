@@ -113,7 +113,7 @@ created = 2026-08-30T20:48:54Z
 [[gap]]
 id = "G-0015"
 claim = "C-0002@1"
-obligation = "G-0181 certifies over Q that the retained STAR restriction has left nullity exactly 478. G-0182 through G-0184 lift exact basis columns 15, 0, and 130 into O, and G-0185 proves that these three vectors span the entire kernel supported on the 70 retained signed-mass-at-most-three STAR rows. Thus the bounded low-mass stratum is closed. The other 475 global kernel dimensions, including every relation that mixes in a higher-mass STAR record, still lack either explicit lifts or a general loop-straightening theorem; the full target-specific STAR quarantine remains unproved."
+obligation = "G-0181 certifies over Q that the retained STAR restriction has left nullity exactly 478. G-0182 through G-0184 lift exact basis columns 15, 0, and 130 into O, and G-0185 proves that these three vectors span the entire kernel supported on the 70 retained signed-mass-at-most-three STAR rows. Thus the bounded low-mass stratum is closed. G-0187 supplies a second exact basis with 124 support-at-most-six plus/minus-one vectors and 115,540 total terms, making staged exact lifting materially cheaper, but it adds no O-membership by itself. The other 475 global kernel dimensions, including every relation that mixes in a higher-mass STAR record, still lack either explicit lifts or a general loop-straightening theorem; the full target-specific STAR quarantine remains unproved."
 status = "open"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T09:30:25Z

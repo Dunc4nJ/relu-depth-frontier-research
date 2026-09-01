@@ -369,3 +369,14 @@ result_summary = "The clean replay and adversarial FLINT comparison prove rank_Q
 status = "complete"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T10:41:04Z
+
+[[experiment]]
+id = "EXP-0033"
+route = "H-0001"
+design = "After exploratory multi-prime rebasing produced a 478-vector candidate, freeze exact JSONL SHA-256 24ca642c27ab84508daee27a609483e860af09e8c28134cd00e859dbe443f4fe before a fresh clean promotion replay. Bind the frozen G-0180 matrix, G-0179 row census, G-0181 exact-rank receipt and canonical basis; reconstruct every primitive integer coefficient and row-to-record mapping; compute coefficient rank 478 at four fixed primes; replay all 3,248,010 entries of C^T A with a proved signed-128-bit bound; apply the rational rank sandwich in the correct directions; compare exact support metrics and basis unions; prove the support union is a kernel-subspace invariant; reject a one-unit coefficient mutant; and rehash all inputs at exit. This is a post-discovery verification freeze."
+family = "max11-star-loop-exact-sparse-kernel-basis-v1"
+prereg = false
+result_summary = "The clean replay certifies a complete exact 478-vector basis of the frozen restriction kernel. It has 115,540 nonzeros versus 228,692 in the canonical basis, median support 16 versus 32, and 124 support-at-most-six plus/minus-one relations. The 4,174-row support union is basis-invariant, so the gain is relation bookkeeping and staged local evaluation, not a smaller full STAR normal-form census. Sixty-four vectors remain above support 1,000, and no new O-membership follows from this result alone."
+status = "complete"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T10:56:23Z
