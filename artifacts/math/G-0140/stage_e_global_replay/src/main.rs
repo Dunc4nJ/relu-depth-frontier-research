@@ -62,14 +62,14 @@ const STAGE_E_OUTPUT_PATH: &str = "artifacts/math/G-0140/new_member_global_repla
 const STAGE_D_SOURCE_PATH_G0140: &str =
     "artifacts/math/G-0140/stage_d_master/rank_aware_master_v1.py";
 const STAGE_D_SOURCE_SHA256_G0140: &str =
-    "d5b5d96ccf36cf4b76ec851480b8097fb6d95e38d96e635fda60250e71835732";
-const STAGE_D_SOURCE_COMMIT_G0140: &str = "2aed47a3b359c0a6625a8f8fd58225069d6c1498";
+    "1f4e7f3a141bfbfb7a090ee681bab649ba0cebc191021b112db0368fe2256581";
+const STAGE_D_SOURCE_COMMIT_G0140: &str = "19107c5eed2cad00d48eff3dd9bea0c015ecce89";
 const STAGE_D_SOURCE_AUDIT_PATH_G0140: &str =
-    "artifacts/reviews/G-0160-g0140-stage-d-master-final3-source/SOURCE_AUDIT_RECEIPT.json";
+    "artifacts/reviews/G-0162-g0140-stage-d-master-final4-source/SOURCE_AUDIT_RECEIPT.json";
 const STAGE_D_SOURCE_AUDIT_PREREG_PATH_G0140: &str =
-    "artifacts/reviews/G-0160-g0140-stage-d-master-final3-source/PREREGISTRATION.md";
+    "artifacts/reviews/G-0162-g0140-stage-d-master-final4-source/PREREGISTRATION.md";
 const STAGE_D_SOURCE_AUDIT_SCHEMA_G0140: &str =
-    "max11-g0160-g0140-stage-d-master-final3-source-audit-v1";
+    "max11-g0162-g0140-stage-d-master-final4-source-audit-v1";
 const STAGE_D_SOURCE_AUDIT_CLAIM_G0140: &str = "T1 source/custody clearance for the exact frozen G-0140 reopened-master producer bytes only; no scientific manifest, input, or output was observed, no scientific column-generation run was executed, and no mathematical claim is promoted.";
 const STAGE_D_SOURCE_AUDIT_NO_CLAIM_G0140: &str = "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 identity, a lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem.";
 const STAGE_E_SOURCE_PATH: &str = "artifacts/math/G-0140/stage_e_global_replay/src/main.rs";
@@ -79,10 +79,10 @@ const STAGE_E_LOCK_PATH: &str = "artifacts/math/G-0140/stage_e_global_replay/Car
 const STAGE_E_EXECUTABLE_PATH: &str =
     "artifacts/math/G-0140/stage_e_global_replay/target/release/g0140-stage-e-global-replay";
 const STAGE_E_SOURCE_AUDIT_PATH: &str =
-    "artifacts/reviews/G-0161-g0140-stage-e-final3-source/SOURCE_AUDIT_RECEIPT.json";
+    "artifacts/reviews/G-0163-g0140-stage-e-final4-source/SOURCE_AUDIT_RECEIPT.json";
 const STAGE_E_SOURCE_AUDIT_PREREG_PATH: &str =
-    "artifacts/reviews/G-0161-g0140-stage-e-final3-source/PREREGISTRATION.md";
-const STAGE_E_SOURCE_AUDIT_SCHEMA: &str = "max11-g0161-g0140-stage-e-final3-source-audit-v1";
+    "artifacts/reviews/G-0163-g0140-stage-e-final4-source/PREREGISTRATION.md";
+const STAGE_E_SOURCE_AUDIT_SCHEMA: &str = "max11-g0163-g0140-stage-e-final4-source-audit-v1";
 const STAGE_E_SOURCE_AUDIT_EVIDENCE_CLASS: &str = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT";
 const STAGE_E_SOURCE_AUDIT_CLAIM_BOUNDARY: &str = "T1 source/custody clearance for the exact frozen G-0140 Stage-E complete-global-replay producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.";
 const STAGE_E_SOURCE_AUDIT_NO_CLAIM: &str = "This source audit does not adjudicate any future G-0140 scientific manifest or result, establish or exclude a global exact identity, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem.";
@@ -360,6 +360,7 @@ struct StageDSourceAuditChecks {
     trailing_json_data_rejected: bool,
     imported_exact_core_binding_verified: bool,
     future_input_gate_verified: bool,
+    stage_c_snapshot_digest_contract_verified: bool,
     exact_column_generation_protocol_verified: bool,
     member_and_separator_fixtures_verified: bool,
     committed_blob_custody_verified: bool,
@@ -1842,21 +1843,21 @@ fn validate_stage_e_source_audit_gate(root: &Path, protocol: &ManifestSnapshot) 
     git_commit_for_path(root, STAGE_E_SOURCE_AUDIT_PATH)?;
     ensure!(
         receipt.subject.git_commit == git_commit_for_path(root, STAGE_E_SOURCE_PATH)?,
-        "G-0161 subject commit does not match Stage-E source"
+        "G-0163 subject commit does not match Stage-E source"
     );
     let preregistration = checked_repo_path(root, STAGE_E_SOURCE_AUDIT_PREREG_PATH)?;
     ensure!(
         sha256_path(&preregistration)? == receipt.preregistration.sha256
             && git_commit_for_path(root, STAGE_E_SOURCE_AUDIT_PREREG_PATH)?
                 == receipt.preregistration.git_commit,
-        "G-0161 preregistration custody drift"
+        "G-0163 preregistration custody drift"
     );
     for (expected_path, binding) in stage_e_source_audit_bindings(&receipt) {
         binding_matches(root, binding, expected_path)?;
         git_commit_for_path(root, expected_path)?;
         ensure!(
             protocol.bindings_by_path.get(expected_path) == Some(&binding.sha256),
-            "G-0140 manifest omits exact G-0161 subject binding: {expected_path}"
+            "G-0140 manifest omits exact G-0163 subject binding: {expected_path}"
         );
     }
     let audit_binding = Binding {
@@ -1865,7 +1866,7 @@ fn validate_stage_e_source_audit_gate(root: &Path, protocol: &ManifestSnapshot) 
     };
     ensure!(
         protocol.bindings_by_path.get(STAGE_E_SOURCE_AUDIT_PATH) == Some(&audit_binding.sha256),
-        "G-0140 manifest omits exact G-0161 receipt binding"
+        "G-0140 manifest omits exact G-0163 receipt binding"
     );
     let audit_commit = git_commit_for_path(root, STAGE_E_SOURCE_AUDIT_PATH)?;
     let manifest_commit = git_commit_for_path(root, G0140_MANIFEST_PATH)?;
@@ -1873,19 +1874,19 @@ fn validate_stage_e_source_audit_gate(root: &Path, protocol: &ManifestSnapshot) 
         root,
         &receipt.subject.git_commit,
         &receipt.preregistration.git_commit,
-        "Stage-E source -> G-0161 preregistration",
+        "Stage-E source -> G-0163 preregistration",
     )?;
     git_is_ancestor(
         root,
         &receipt.preregistration.git_commit,
         &audit_commit,
-        "G-0161 preregistration -> receipt",
+        "G-0163 preregistration -> receipt",
     )?;
     git_is_ancestor(
         root,
         &audit_commit,
         &manifest_commit,
-        "G-0161 receipt -> G-0140 manifest",
+        "G-0163 receipt -> G-0140 manifest",
     )?;
     Ok(audit_binding)
 }
@@ -1923,13 +1924,14 @@ fn validate_stage_d_source_audit_semantics(receipt: &StageDSourceAuditReceipt) -
             && checks.trailing_json_data_rejected
             && checks.imported_exact_core_binding_verified
             && checks.future_input_gate_verified
+            && checks.stage_c_snapshot_digest_contract_verified
             && checks.exact_column_generation_protocol_verified
             && checks.member_and_separator_fixtures_verified
             && checks.committed_blob_custody_verified
             && checks.producer_self_test_passed
             && checks.producer_static_preflight_passed
             && checks.prohibited_scientific_modes_not_run,
-        "G-0160 exact source-audit PASS contract drift"
+        "G-0162 exact source-audit PASS contract drift"
     );
     ensure!(
         receipt.preregistration.path == STAGE_D_SOURCE_AUDIT_PREREG_PATH_G0140
@@ -1946,7 +1948,7 @@ fn validate_stage_d_source_audit_semantics(receipt: &StageDSourceAuditReceipt) -
             && receipt
                 .preregistration
                 .committed_and_pushed_before_runtime_checks,
-        "G-0160 preregistration disclosure drift"
+        "G-0162 preregistration disclosure drift"
     );
     Ok(())
 }
@@ -1970,12 +1972,12 @@ fn validate_stage_d_source_audit_gate(
         sha256_path(&preregistration)? == receipt.preregistration.sha256
             && git_commit_for_path(root, STAGE_D_SOURCE_AUDIT_PREREG_PATH_G0140)?
                 == receipt.preregistration.git_commit,
-        "G-0160 preregistration byte/Git custody drift"
+        "G-0162 preregistration byte/Git custody drift"
     );
     for binding in [expected, &receipt.subject.bindings.master_source] {
         ensure!(
             protocol.bindings_by_path.get(&binding.path) == Some(&binding.sha256),
-            "G-0140 manifest omits exact G-0160 custody binding: {}",
+            "G-0140 manifest omits exact G-0162 custody binding: {}",
             binding.path
         );
     }
@@ -1985,19 +1987,19 @@ fn validate_stage_d_source_audit_gate(
         root,
         STAGE_D_SOURCE_COMMIT_G0140,
         &receipt.preregistration.git_commit,
-        "Stage-D source -> G-0160 preregistration",
+        "Stage-D source -> G-0162 preregistration",
     )?;
     git_is_ancestor(
         root,
         &receipt.preregistration.git_commit,
         &audit_commit,
-        "G-0160 preregistration -> receipt",
+        "G-0162 preregistration -> receipt",
     )?;
     git_is_ancestor(
         root,
         &audit_commit,
         &manifest_commit,
-        "G-0160 receipt -> G-0140 manifest",
+        "G-0162 receipt -> G-0140 manifest",
     )?;
     Ok(expected.clone())
 }
@@ -4644,6 +4646,7 @@ fn self_test() -> Result<()> {
             "trailing_json_data_rejected": true,
             "imported_exact_core_binding_verified": true,
             "future_input_gate_verified": true,
+            "stage_c_snapshot_digest_contract_verified": true,
             "exact_column_generation_protocol_verified": true,
             "member_and_separator_fixtures_verified": true,
             "committed_blob_custody_verified": true,
@@ -4680,7 +4683,7 @@ fn self_test() -> Result<()> {
                     .is_err()
             )
             && serde_json::from_value::<StageDSourceAuditReceipt>(stage_d_unknown).is_err(),
-        "G-0160 exact typed source-audit hostile control escaped"
+        "G-0162 exact typed source-audit hostile control escaped"
     );
     for valid in ["0", "1", "-1", "12345678901234567890"] {
         ensure!(canonical_integer(valid), "valid integer rejected");
