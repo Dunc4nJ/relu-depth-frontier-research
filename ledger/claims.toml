@@ -687,3 +687,45 @@ env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d1
 data_snapshot = "sha256:508d4cec92e18da90f889bfbc1e4e34f73db5d56ee66bc0f65d21ee0a1b87121"
 author_path = "cleanroom-implementation-author/russell-2"
 created = 2026-08-30T20:48:54Z
+
+[[claim]]
+id = "C-0049"
+version = 1
+statement = "At ambient dimension eleven, the 17 frozen signed-mass-four, support-six G-0187 basis columns 12, 15, 17, 21, 24, 28, 68, 72, 75, 82, 87, 90, 91, 108, 117, 121, and 122 are exact zero complete symmetrized piecewise-linear functions: every primitive hinge coefficient and all eleven linear coordinates cancel over the integers. The 17 coefficient relations are independent over Q because they are a subset of the certified G-0187 basis. Together with the three-dimensional retained signed-mass-at-most-three subkernel placed in O by G-0185, exactly 20 independent directions of the 478-dimensional retained restriction kernel are now classified in O, leaving 458 global directions unclassified."
+role = "theorem-attempt"
+domain = "mathematics"
+depends_on = ["C-0050@1", "C-0051@1"]
+falsifier = "One nonzero complete hinge or linear residual in any listed relation; one mismatch between a listed relation and its frozen G-0187 basis column; rank below 17 for the listed coefficient vectors; one selected graph record or normal form differing under independent exact reconstruction; or survival of the hostile coefficient mutation."
+no_claim = "This is a fixed n=11 finite theorem. It does not prove a parameterized graph-exchange identity, an all-n theorem, novelty, classification of the other 458 restriction-kernel directions, the full STAR quarantine, MAX11 representability or nonrepresentability, ansatz completeness, or an unrestricted two-hidden-layer ReLU lower bound."
+not_equivalent_to = ["a complete mass-at-most-four quarantine theorem", "a classification of the 478-dimensional kernel", "a MAX11 construction", "an unrestricted neural-network lower bound", "a novelty or priority claim"]
+origin_round = "R-0002"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T11:22:14Z
+
+[[claim]]
+id = "C-0050"
+version = 1
+statement = "The preregistered G-0189 complete-normal-form outcome is identified by combined scanner/library code SHA-256 b2e2ec00fe6c14620693176d33a2f9ac3d283670f519716419c394f1c8321df1, scanner executable SHA-256 4bab8c77304c4cd7de840a1ac7082d0b2b2d113842e0e97046cff8e54d5b152f, frozen sparse-basis input SHA-256 24ca642c27ab84508daee27a609483e860af09e8c28134cd00e859dbe443f4fe, and registered-result SHA-256 e90a79984c0dd7c582ca9dbbcb7f73b08c0c1505d0597bfcd98d44361ded8005."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Producer identity only. It is not an independent replay, proof-assistant formalization, parameterized theorem, novelty adjudication, or MAX11 conclusion."
+origin_round = "R-0002"
+code_hash = "sha256:b2e2ec00fe6c14620693176d33a2f9ac3d283670f519716419c394f1c8321df1"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:24ca642c27ab84508daee27a609483e860af09e8c28134cd00e859dbe443f4fe"
+author_path = "implementation-author/rainygorge"
+created = 2026-09-01T11:22:14Z
+
+[[claim]]
+id = "C-0051"
+version = 1
+statement = "The independent G-0109 replay of G-0189 is identified by combined audit-code SHA-256 eb8efd9968c6f12bd7d1e50657ee685f44cd0d0ef0fe65cf3a7b90cd9d4e87c3, historical G-0109 executable SHA-256 e487f78b5f8c4f2f5b3b7764abbb742c6b2a47007d78561e4e125fc829498426, exact 92-record audit-input SHA-256 67b4ada6a6c5b311de23ac7b5038ddd5940159cb7fda698f5db1b06c61aa2990, regenerated evaluator-output SHA-256 76a060bd88ac3bf6c46e5123b74cd701efff95b84c8335b0215c16d38bf595d4, and audit-receipt SHA-256 501bdfc8f6f406ea915e254caf6535bbfa101cd32cd6c8ef6afaaa8f7d5db014."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Replay identity only. This is a fresh-context, same-model-family T1 audit using a historical implementation-distinct evaluator; it is not T2 or human review, a proof-assistant formalization, a parameterized theorem, a novelty adjudication, or a MAX11 conclusion."
+origin_round = "R-0002"
+code_hash = "sha256:eb8efd9968c6f12bd7d1e50657ee685f44cd0d0ef0fe65cf3a7b90cd9d4e87c3"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:67b4ada6a6c5b311de23ac7b5038ddd5940159cb7fda698f5db1b06c61aa2990"
+author_path = "implementation-auditor/g0193"
+created = 2026-09-01T11:22:14Z

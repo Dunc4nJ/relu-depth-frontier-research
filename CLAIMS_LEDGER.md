@@ -25,7 +25,7 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0002@1`
 - falsifier: An unconditional proof that no finite two-hidden-layer ReLU network over arbitrary real weights equals MAX_11 globally.
 - no-claim: A positive witness settles only n=11; failure of a rational, symmetric, pairwise-comparison, or bounded-width search does not refute this claim.
-- open gaps: G-0002, G-0005, G-0006, G-0008, G-0012, G-0014
+- open gaps: G-0002, G-0005, G-0006, G-0008, G-0012, G-0014, G-0015
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
 ### C-0003@1 — construction [mathematics]
@@ -493,6 +493,36 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Identity only. This same-model-family clean-room implementation establishes neither semantic necessity of the imposed incidence nor any MAX11 or unrestricted-network result.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0049@1 — theorem-attempt [mathematics]
+
+> At ambient dimension eleven, the 17 frozen signed-mass-four, support-six G-0187 basis columns 12, 15, 17, 21, 24, 28, 68, 72, 75, 82, 87, 90, 91, 108, 117, 121, and 122 are exact zero complete symmetrized piecewise-linear functions: every primitive hinge coefficient and all eleven linear coordinates cancel over the integers. The 17 coefficient relations are independent over Q because they are a subset of the certified G-0187 basis. Together with the three-dimensional retained signed-mass-at-most-three subkernel placed in O by G-0185, exactly 20 independent directions of the 478-dimensional retained restriction kernel are now classified in O, leaving 458 global directions unclassified.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:8cdd952e
+- evidence class: **INDEPENDENTLY_REPLAYED** · ceiling after dependencies: **INDEPENDENTLY_REPLAYED** · weakest link: `C-0049@1`
+- falsifier: One nonzero complete hinge or linear residual in any listed relation; one mismatch between a listed relation and its frozen G-0187 basis column; rank below 17 for the listed coefficient vectors; one selected graph record or normal form differing under independent exact reconstruction; or survival of the hostile coefficient mutation.
+- no-claim: This is a fixed n=11 finite theorem. It does not prove a parameterized graph-exchange identity, an all-n theorem, novelty, classification of the other 458 restriction-kernel directions, the full STAR quarantine, MAX11 representability or nonrepresentability, ansatz completeness, or an unrestricted two-hidden-layer ReLU lower bound.
+- next rung blocked by: INDEPENDENTLY_REPLAYED -> REFEREED: fresh-context referee verdict holds at tier T2+
+
+### C-0050@1 — implementation-claim [mathematics]
+
+> The preregistered G-0189 complete-normal-form outcome is identified by combined scanner/library code SHA-256 b2e2ec00fe6c14620693176d33a2f9ac3d283670f519716419c394f1c8321df1, scanner executable SHA-256 4bab8c77304c4cd7de840a1ac7082d0b2b2d113842e0e97046cff8e54d5b152f, frozen sparse-basis input SHA-256 24ca642c27ab84508daee27a609483e860af09e8c28134cd00e859dbe443f4fe, and registered-result SHA-256 e90a79984c0dd7c582ca9dbbcb7f73b08c0c1505d0597bfcd98d44361ded8005.
+
+- disposition: **open** · trace:ba177960
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0050@1`
+- falsifier: —
+- no-claim: Producer identity only. It is not an independent replay, proof-assistant formalization, parameterized theorem, novelty adjudication, or MAX11 conclusion.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0051@1 — implementation-claim [mathematics]
+
+> The independent G-0109 replay of G-0189 is identified by combined audit-code SHA-256 eb8efd9968c6f12bd7d1e50657ee685f44cd0d0ef0fe65cf3a7b90cd9d4e87c3, historical G-0109 executable SHA-256 e487f78b5f8c4f2f5b3b7764abbb742c6b2a47007d78561e4e125fc829498426, exact 92-record audit-input SHA-256 67b4ada6a6c5b311de23ac7b5038ddd5940159cb7fda698f5db1b06c61aa2990, regenerated evaluator-output SHA-256 76a060bd88ac3bf6c46e5123b74cd701efff95b84c8335b0215c16d38bf595d4, and audit-receipt SHA-256 501bdfc8f6f406ea915e254caf6535bbfa101cd32cd6c8ef6afaaa8f7d5db014.
+
+- disposition: **open** · trace:1e189307
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0051@1`
+- falsifier: —
+- no-claim: Replay identity only. This is a fresh-context, same-model-family T1 audit using a historical implementation-distinct evaluator; it is not T2 or human review, a proof-assistant formalization, a parameterized theorem, a novelty adjudication, or a MAX11 conclusion.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -508,6 +538,7 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `D-0004` Reconstruct centered MAX11 from only the eleven independently translation-normal · scope: Exactly reconstruction criteria that discard independent nor · retry_when: `regime_boundary(face-data-retains-support-heights-or-global-wall-fan)` · trace:b4306f20
 - `D-0005` Interpret the G-0099 leaf-edge/opposite-colour-edge deletion incidence as a repr · scope: Exactly the raw zero-extension on the complete n=5 degree-tw · retry_when: `regime_boundary(leaf-operator-defined-on-complete-semantic-quotient)` · trace:7b8f7884
 - `D-0006` Seek MAX11 in the 22,265-column registered-plus-all-tree-plus-5E/5L dictionary w · scope: Exactly the frozen 8,427 semantic rows, 1,387 imposed incide · retry_when: `regime_boundary(incidence-constraint-proved-semantic)` · trace:72bd986a
+- `D-0007` Repair the G-0179 STAR restriction rank deficiency by appending either 480 froze · scope: Exactly the 5,769 retained common-apex STAR records, origina · retry_when: `regime_boundary(characteristic-zero-star-kernel-quotient)` · trace:bfbe9e5a
 
 ## Experiments (multiplicity ledger)
 
@@ -537,3 +568,11 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0024` [complete] family `max11-joint-semantic-incidence-v1` arm — prereg=True · trace:1e8b8933
 - `EXP-0025` [complete] family `degree-five-full-dimensional-filter-v1` arm — prereg=False · trace:1ba2022b
 - `EXP-0026` [complete] family `max11-full-family-member-global-replay-v1` arm — prereg=True · trace:3dd6654f
+- `EXP-0027` [complete] family `max11-star-loop-quotient-rank-expansion-v1` arm — prereg=True · trace:d5504f6f
+- `EXP-0028` [complete] family `max11-star-loop-exact-rational-kernel-v1` arm — prereg=False · trace:d462a681
+- `EXP-0029` [complete] family `max11-star-loop-four-term-primary-lift-v1` arm — prereg=False · trace:250fd02c
+- `EXP-0030` [complete] family `max11-star-loop-six-term-primary-lift-v1` arm — prereg=False · trace:c997dfd7
+- `EXP-0031` [complete] family `max11-star-loop-third-six-term-primary-lift-v1` arm — prereg=False · trace:57e61560
+- `EXP-0032` [complete] family `max11-retained-low-mass-star-kernel-quarantine-v1` arm — prereg=False · trace:62f36227
+- `EXP-0033` [complete] family `max11-star-loop-exact-sparse-kernel-basis-v1` arm — prereg=False · trace:588eee71
+- `EXP-0034` [complete] family `max11-mass4-sparse-exact-zero-identities-v1` arm — prereg=True · trace:06c365dd

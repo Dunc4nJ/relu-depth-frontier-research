@@ -380,3 +380,16 @@ result_summary = "The clean replay certifies a complete exact 478-vector basis o
 status = "complete"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T10:56:23Z
+
+[[experiment]]
+id = "EXP-0034"
+route = "H-0001"
+design = "Before any selected full normal form was computed, freeze the exact G-0187 basis and deterministic stratum consisting of support-at-most-six relations whose every incident retained STAR record has signed mass four; require exactly basis columns 12,15,17,21,24,28,68,72,75,82,87,90,91,108,117,121,122, 102 incidences, and 92 unique records. Bind the G-0179 exact complete-normal-form source and all upstream row mappings, compute every unique record once, aggregate complete hinge and eleven-coordinate linear residuals with checked exact integers, preserve complete residual hashes and off-face witnesses, reject a one-unit atom mutation, and rehash all inputs. After the registered result, require a fresh-context audit to reconstruct all 92 graph records from G-0113, run the unchanged historical G-0109 evaluator, match every complete per-record canonical hash, independently re-aggregate all 17 relations, and reject the same hostile mutation."
+family = "max11-mass4-sparse-exact-zero-identities-v1"
+prereg = true
+result_summary = "The registered G-0179 scan and independent historical G-0109 replay agree exactly: every one of the 17 six-term signed-mass-four relations has zero complete hinge map and zero eleven-coordinate linear residual. A +q235 mutant has 36,026 nonzero hinges, 13,720 off the d0=0 face, and equals the q235 normal form exactly. The 17 relations are independent G-0187 basis columns, so together with the closed three-dimensional low-mass subkernel, 20 of 478 independent directions are classified in O and 458 remain."
+claims = ["C-0049@1"]
+evidence = ["E-0031", "E-0032"]
+status = "complete"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T11:22:14Z
