@@ -1,0 +1,69 @@
+{
+  "schema": "max11-g0171-g0168-first-row-source-audit-v1",
+  "verdict": "PASS",
+  "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "claim_boundary": "Source/custody clearance for the exact frozen G-0168 first-row Schur rank-gate producer bytes only; no scientific manifest, bound scientific input, scientific output, or rank outcome was inspected or created, and no outcome-bearing producer mode was run.",
+  "reviewer": {
+    "agent_name": "EmeraldElm",
+    "program": "codex",
+    "model": "GPT-5 Codex",
+    "same_model_lineage": true,
+    "fresh_context": true
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0171-g0168-first-row-source/PREREGISTRATION.md",
+    "sha256": "575f02a882fb8af583768f3e7b99e4d5210837049c93ef4829355ecb5cbdf15f",
+    "git_commit": "024df31be1ec5fd63120ff1f37ba4811a2b9d83f",
+    "committed_and_pushed_before_source_inspection": true,
+    "committed_and_pushed_before_runtime_checks": true
+  },
+  "subject": {
+    "git_commit": "22cdec783229f4d8677624189fb848b5e8677ebb",
+    "source_bindings": [
+      {
+        "name": "producer_source",
+        "path": "artifacts/math/G-0168/first_row_exact_admission.py",
+        "sha256": "0a87b415417e0af47c9a2740432846c1a1ffbb234757011cdd361c01fab00148"
+      }
+    ],
+    "transitive_build_bindings": [],
+    "commit_object_and_working_bytes_equal_for_all_bindings": true
+  },
+  "required_checks": {
+    "exact_frozen_preregistration_binding_verified": true,
+    "exact_source_and_transitive_build_bindings_verified": true,
+    "commit_object_working_bytes_and_paths_verified": true,
+    "strict_closed_schema_parsing_verified": true,
+    "hostile_receipt_parser_matrix_verified": true,
+    "canonical_163740_family_census_and_order_verified": true,
+    "certified_basis_rows_columns_and_digests_verified": true,
+    "exact_540x349_basis_and_349x349_square_reconstruction_verified": true,
+    "exact_st_solve_and_multiply_back_verified": true,
+    "canonical_denominator_clearing_verified": true,
+    "canonical_first_exact_reduced_price_scan_verified": true,
+    "modular_triage_nonterminal_verified": true,
+    "rank_growth_350_minor_identity_verified": true,
+    "rank_growth_null_vector_540_row_replay_verified": true,
+    "full_scan_dependency_relation_verified": true,
+    "dependency_separator_target_bridge_verified": true,
+    "exact_branch_totality_and_invalid_sink_verified": true,
+    "arbitrary_precision_only_verified": true,
+    "synthetic_both_scientific_branches_verified": true,
+    "mutation_and_late_column_controls_verified": true,
+    "no_hardcoded_outcome_or_fixture_laundering_verified": true,
+    "complete_input_snapshot_end_rehash_verified": true,
+    "exclusive_no_overwrite_atomic_publication_verified": true,
+    "no_partial_or_outcome_bearing_intermediate_publication_verified": true,
+    "producer_self_test_passed": true,
+    "producer_static_preflight_passed": true,
+    "live_receipt_validation_verified": true,
+    "prohibited_scientific_modes_not_run": true
+  },
+  "scientific_manifest_observed": false,
+  "scientific_input_observed": false,
+  "scientific_output_observed": false,
+  "scientific_run_executed": false,
+  "rank_outcome_observed": false,
+  "no_claim": "This audit does not establish either G-0168 scientific branch, rank 350, incompatibility of the frozen 541-row system, a Fresh128 correction, family completeness, an unrestricted depth lower bound, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
+}
