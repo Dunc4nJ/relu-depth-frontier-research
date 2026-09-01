@@ -1,0 +1,54 @@
+{
+  "schema": "max11-g0162-g0140-stage-d-master-final4-source-audit-v1",
+  "verdict": "PASS",
+  "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "claim_boundary": "T1 source/custody clearance for the exact frozen G-0140 reopened-master producer bytes only; no scientific manifest, input, or output was observed, no scientific column-generation run was executed, and no mathematical claim is promoted.",
+  "reviewer": {
+    "agent_name": "FoggyCondor",
+    "program": "codex",
+    "model": "gpt-5",
+    "same_model_lineage": true,
+    "fresh_context": true
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0162-g0140-stage-d-master-final4-source/PREREGISTRATION.md",
+    "sha256": "83a04b4ae21845b4450a31a2b17b7ac2156f3cc9ccfebd3d46b0d4bc4c4d42f8",
+    "git_commit": "a264e1c7ae1e7df7ac13b38b85d2dad7abde93e0",
+    "committed_and_pushed_before_subject_source_inspection": true,
+    "committed_and_pushed_before_runtime_checks": true
+  },
+  "subject": {
+    "git_commit": "19107c5eed2cad00d48eff3dd9bea0c015ecce89",
+    "commit_object_and_working_bytes_equal_for_all_bindings": true,
+    "bindings": {
+      "master_source": {
+        "path": "artifacts/math/G-0140/stage_d_master/rank_aware_master_v1.py",
+        "sha256": "1f4e7f3a141bfbfb7a090ee681bab649ba0cebc191021b112db0368fe2256581"
+      }
+    }
+  },
+  "required_checks": {
+    "exact_named_binding_contract": true,
+    "displaced_recursive_lookalikes_rejected": true,
+    "correct_decoy_with_missing_named_binding_rejected": true,
+    "unknown_envelope_fields_rejected": true,
+    "audit_git_commit_rejected": true,
+    "duplicate_json_keys_rejected": true,
+    "trailing_json_data_rejected": true,
+    "imported_exact_core_binding_verified": true,
+    "future_input_gate_verified": true,
+    "stage_c_snapshot_digest_contract_verified": true,
+    "exact_column_generation_protocol_verified": true,
+    "member_and_separator_fixtures_verified": true,
+    "committed_blob_custody_verified": true,
+    "producer_self_test_passed": true,
+    "producer_static_preflight_passed": true,
+    "prohibited_scientific_modes_not_run": true
+  },
+  "scientific_manifest_observed": false,
+  "scientific_input_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "no_claim": "This source audit does not adjudicate any future G-0140 scientific manifest or result and does not establish family membership, family nonmembership, a MAX11 identity, a lower bound, unrestricted nonrepresentability, minimality, an all-n theorem, refereed status, formalization, or a Lean theorem."
+}
