@@ -222,8 +222,9 @@ def check_star(path: Path) -> dict[str, Any]:
             "first nonzero coordinate is positive. The resulting primitive word has "
             "d[0] = 1; therefore d[0] = 1 coordinates can detect STAR coefficients "
             "while vanishing on every frozen loopless primary signed-W column. Every "
-            "replayed common edge is a nonloop and contributes only a pure linear "
-            "carrier after full S_11 symmetrization."
+            "replayed common edge is a nonloop and contributes only an "
+            "ordered-chamber-linear, zero-interior-hinge carrier after full S_11 "
+            "symmetrization."
         ),
     }
 
@@ -312,7 +313,7 @@ def main() -> None:
             "O is the real span of the 163,740 canonical fully S_11-symmetrized "
             "G-0113 primary columns together with the pure carriers 5E and 5L. "
             "For a degree-five pair, cancelling common edges changes the full atom "
-            "only by their additive fully symmetrized linear carriers. The replayed "
+            "only by their additive fully symmetrized carrier columns. The replayed "
             "STAR representatives have only common nonloops; more generally a change "
             "from c common loops to canonical nonloop padding adds c(L-E), which lies "
             "in O because L-E=(5L-5E)/5 over R or Q. This is a linear-span statement, "

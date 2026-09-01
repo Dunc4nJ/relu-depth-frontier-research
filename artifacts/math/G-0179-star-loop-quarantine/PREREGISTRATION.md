@@ -20,12 +20,13 @@ coefficient, or kernel was used to choose them.
 ## Exact conditional theorem
 
 Let \(O\) be the real span of the 163,740 canonical fully
-\(S_{11}\)-symmetrized G-0113 primary columns together with the pure linear
-carriers \(5E\) and \(5L\).  Let \(S\) be the full frozen uncancelled
+\(S_{11}\)-symmetrized G-0113 primary columns together with the pure
+ordered-chamber-linear (zero-interior-hinge) carriers \(5E\) and \(5L\).  Let
+\(S\) be the full frozen uncancelled
 common-apex `STAR` family.
 
 Cancelling common edges from a degree-five atom changes the fully symmetrized
-column only by additive linear carriers.  If the signed mass is \(s\) and the
+column only by additive carrier columns.  If the signed mass is \(s\) and the
 padding has \(c\) loops, replacing it by canonical nonloop padding changes the
 column by \(c(L-E)\).  Both possible carrier types are absorbed by \(O\), since
 
@@ -98,7 +99,7 @@ cannot help a selected-hinge-free target.
 | semantic controls | `f74d95d3fe443b42cfe28df9617e1435e78062418b718900b7010b7d2bd0209b` |
 | old-primary hardcode binding receipt | `4c5b6f131671892660f417359480ae3ce412bfe01a5d1f67e05c1bd1352c0327` |
 | G-0109 independent normal-form cross-check | `fb2bb557eb4e894e02c80750f731bf10917630e0f93f44724beb9c8acbc9ffb4` |
-| structural-premise receipt v2 | `a69ec8eaf4c2d56df1a898aa767e01d302299bbd6ca3944e1b86fdca79ab3405` |
+| structural-premise receipt v2 | `720b9c7d52f6f5c6e07f72dd8bebfbe65b4e5d508d10235612a66835c44de072` |
 
 The structural matching has size 5,771 but is not rank evidence.  The 256-row
 pilot is performance and density evidence only; it is neither random nor a

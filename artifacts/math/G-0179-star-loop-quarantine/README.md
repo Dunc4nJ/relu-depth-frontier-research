@@ -22,7 +22,8 @@ If the frozen square is nonsingular, the remaining `STAR` columns add a direct
 5,771-dimensional summand, but no combination of that summand can help any
 target with zero selected hinges.  Therefore, within the full frozen
 common-apex `STAR` family, `MAX11` membership is exactly the same as membership
-in the old primary span augmented by the two pure linear carriers \(5E,5L\).
+in the old primary span augmented by the two pure ordered-chamber-linear,
+zero-interior-hinge carriers \(5E,5L\).
 
 That is a target-membership theorem for this frozen extension, not a claim that
 `STAR` adds no functions, not a proof that the old family misses `MAX11`, and
