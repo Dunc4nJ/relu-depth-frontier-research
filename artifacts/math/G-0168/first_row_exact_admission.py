@@ -2,9 +2,9 @@
 """Outcome-blind exact first-row Schur gate for G-0168.
 
 Scientific mode is manifest-gated and writes exactly one exclusive receipt.
-The non-scientific self-test uses synthetic matrices only.  Static preflight
-validates frozen input identity and the already-published G-0170 dot bridge;
-it does not solve the G-0168 Schur system.
+The non-scientific self-test uses synthetic matrices only.  ``--preflight-static``
+checks only source/preregistration custody and synthetic gates; it never opens
+the scientific manifest, scientific inputs, output, or a rank outcome.
 """
 
 from __future__ import annotations
@@ -116,6 +116,12 @@ DEPENDENCY_RESULT = "FIRST_ROW_EXACT_INCOMPATIBLE_DEPENDENCY"
 SOURCE_AUDIT_SCHEMA = "max11-g0171-g0168-first-row-source-audit-v1"
 SOURCE_AUDIT_RESULT = "SOURCE_CUSTODY_AUDIT_PASS_T1"
 SOURCE_AUDIT_EVIDENCE = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT"
+SOURCE_AUDIT_PREREGISTRATION_COMMIT = (
+    "024df31be1ec5fd63120ff1f37ba4811a2b9d83f"
+)
+SOURCE_AUDIT_PREREGISTRATION_SHA256 = (
+    "575f02a882fb8af583768f3e7b99e4d5210837049c93ef4829355ecb5cbdf15f"
+)
 
 CLAIM_BOUNDARY = (
     "FIRST_ROW_EXACT_RANK_GROWTH proves only that the exact G-0170 row raises "
@@ -127,34 +133,93 @@ CLAIM_BOUNDARY = (
     "refereed status, formalization, or a Lean theorem."
 )
 SOURCE_AUDIT_CLAIM_BOUNDARY = (
-    "T1 source/custody clearance for the exact frozen G-0168 first-row Schur "
-    "producer bytes only; no G-0168 scientific manifest, coordinate input, "
-    "rank result, corrected member, or separator was observed or produced."
+    "Source/custody clearance for the exact frozen G-0168 first-row Schur "
+    "rank-gate producer bytes only; no scientific manifest, bound scientific "
+    "input, scientific output, or rank outcome was inspected or created, and "
+    "no outcome-bearing producer mode was run."
 )
 SOURCE_AUDIT_NO_CLAIM = (
-    "This source audit does not decide first-row rank growth or dependence, "
-    "establish a corrected member or separator, validate family completeness, "
-    "prove a global MAX11 identity or lower bound, establish minimality, prove "
-    "an all-n statement, or supply a Lean theorem."
+    "This audit does not establish either G-0168 scientific branch, rank 350, "
+    "incompatibility of the frozen 541-row system, a Fresh128 correction, family "
+    "completeness, an unrestricted depth lower bound, minimality, an all-n "
+    "theorem, refereed status, formalization, or a Lean theorem."
 )
 SOURCE_AUDIT_REQUIRED_CHECKS = {
-    "branch_total_rank_or_dependency_contract_verified": True,
-    "canonical_column_order_and_first_exact_witness_verified": True,
-    "canonical_null_vector_all_540_rows_replay_verified": True,
-    "corrected_541_row_member_replay_verified": True,
-    "duplicate_json_keys_and_trailing_data_rejected": True,
-    "exact_349_square_digest_gate_verified": True,
-    "exact_350_minor_determinant_and_digest_verified": True,
-    "exact_dependency_full_family_replay_verified": True,
-    "exclusive_output_publication_verified": True,
-    "g0170_exact_dot_bridge_revalidated": True,
-    "input_snapshot_and_end_rehash_verified": True,
-    "modular_arithmetic_never_terminal_verified": True,
-    "outcome_bearing_modes_not_run": True,
-    "scientific_manifest_absent_during_audit": True,
-    "synthetic_dependency_branch_passed": True,
-    "synthetic_rank_growth_branch_passed": True,
+    "exact_frozen_preregistration_binding_verified": True,
+    "exact_source_and_transitive_build_bindings_verified": True,
+    "commit_object_working_bytes_and_paths_verified": True,
+    "strict_closed_schema_parsing_verified": True,
+    "hostile_receipt_parser_matrix_verified": True,
+    "canonical_163740_family_census_and_order_verified": True,
+    "certified_basis_rows_columns_and_digests_verified": True,
+    "exact_540x349_basis_and_349x349_square_reconstruction_verified": True,
+    "exact_st_solve_and_multiply_back_verified": True,
+    "canonical_denominator_clearing_verified": True,
+    "canonical_first_exact_reduced_price_scan_verified": True,
+    "modular_triage_nonterminal_verified": True,
+    "rank_growth_350_minor_identity_verified": True,
+    "rank_growth_null_vector_540_row_replay_verified": True,
+    "full_scan_dependency_relation_verified": True,
+    "dependency_separator_target_bridge_verified": True,
+    "exact_branch_totality_and_invalid_sink_verified": True,
+    "arbitrary_precision_only_verified": True,
+    "synthetic_both_scientific_branches_verified": True,
+    "mutation_and_late_column_controls_verified": True,
+    "no_hardcoded_outcome_or_fixture_laundering_verified": True,
+    "complete_input_snapshot_end_rehash_verified": True,
+    "exclusive_no_overwrite_atomic_publication_verified": True,
+    "no_partial_or_outcome_bearing_intermediate_publication_verified": True,
+    "producer_self_test_passed": True,
+    "producer_static_preflight_passed": True,
+    "live_receipt_validation_verified": True,
+    "prohibited_scientific_modes_not_run": True,
 }
+
+SOURCE_AUDIT_TOP_LEVEL_KEYS = {
+    "schema",
+    "verdict",
+    "result",
+    "evidence_class",
+    "claim_boundary",
+    "reviewer",
+    "preregistration",
+    "subject",
+    "required_checks",
+    "scientific_manifest_observed",
+    "scientific_input_observed",
+    "scientific_output_observed",
+    "scientific_run_executed",
+    "rank_outcome_observed",
+    "no_claim",
+}
+SOURCE_AUDIT_REVIEWER_KEYS = {
+    "agent_name",
+    "program",
+    "model",
+    "same_model_lineage",
+    "fresh_context",
+}
+SOURCE_AUDIT_PREREGISTRATION_KEYS = {
+    "path",
+    "sha256",
+    "git_commit",
+    "committed_and_pushed_before_source_inspection",
+    "committed_and_pushed_before_runtime_checks",
+}
+SOURCE_AUDIT_SUBJECT_KEYS = {
+    "git_commit",
+    "source_bindings",
+    "transitive_build_bindings",
+    "commit_object_and_working_bytes_equal_for_all_bindings",
+}
+SOURCE_AUDIT_BINDING_KEYS = {"name", "path", "sha256"}
+SOURCE_AUDIT_FALSE_FLAGS = (
+    "scientific_manifest_observed",
+    "scientific_input_observed",
+    "scientific_output_observed",
+    "scientific_run_executed",
+    "rank_outcome_observed",
+)
 
 
 class AdmissionError(RuntimeError):
@@ -200,13 +265,21 @@ def no_duplicate_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return output
 
 
+def strict_json_text(raw: str, label: str) -> dict[str, Any]:
+    require(not raw.startswith("\ufeff"), f"UTF-8 BOM rejected: {label}")
+    decoder = json.JSONDecoder(object_pairs_hook=no_duplicate_object)
+    try:
+        value, end = decoder.raw_decode(raw)
+    except json.JSONDecodeError as error:
+        raise AdmissionError(f"malformed JSON: {label}: {error}") from error
+    require(not raw[end:].strip(), f"trailing JSON data: {label}")
+    require(isinstance(value, dict), f"non-object JSON: {label}")
+    return value
+
+
 def load_json(path: Path) -> dict[str, Any]:
     raw = contained(path).read_text(encoding="utf-8")
-    decoder = json.JSONDecoder(object_pairs_hook=no_duplicate_object)
-    value, end = decoder.raw_decode(raw)
-    require(not raw[end:].strip(), f"trailing JSON data: {relative(path)}")
-    require(isinstance(value, dict), f"non-object JSON: {relative(path)}")
-    return value
+    return strict_json_text(raw, relative(path))
 
 
 def load_module(path: Path, name: str) -> Any:
@@ -465,6 +538,9 @@ def exact_rank_branch(
     current_basis_coefficients: Sequence[int],
     current_scale: int,
     frozen_residual: int,
+    scan_visited: int,
+    zero_prefix_digest: str,
+    scan_digest: str,
 ) -> dict[str, Any]:
     rank = len(basis_sequences)
     require(
@@ -473,6 +549,12 @@ def exact_rank_branch(
         and len(witness_column) == len(matrix_rows)
         and witness_sequence not in set(basis_sequences),
         "rank-branch shape drift",
+    )
+    require(
+        scan_visited == witness_sequence + 1
+        and is_lower_hex(zero_prefix_digest, 64)
+        and is_lower_hex(scan_digest, 64),
+        "rank-branch canonical scan-prefix custody drift",
     )
     witness_coordinates = [int(witness_column[row]) for row in coordinate_rows]
     null = canonical_null_vector(square_rows, witness_coordinates)
@@ -567,6 +649,17 @@ def exact_rank_branch(
         "delta_denominator": str(relation["scale"]),
         "old_rank": rank,
         "new_rank": rank + 1,
+        "canonical_exact_scan_prefix": {
+            "sequence_start": 0,
+            "sequence_stop_exclusive": scan_visited,
+            "visited_columns": scan_visited,
+            "zero_prefix_columns": witness_sequence,
+            "first_nonzero_sequence": witness_sequence,
+            "zero_prefix_numerators_decimal_lf_sha256": zero_prefix_digest,
+            "visited_numerators_decimal_lf_sha256": scan_digest,
+            "includes_first_nonzero_numerator": True,
+            "canonical_sequence_order": True,
+        },
         "canonical_null_vector": {
             "basis_sequences": list(map(int, basis_sequences)),
             "basis_integer_coefficients": [str(value) for value in null_basis],
@@ -614,16 +707,73 @@ def exact_rank_branch(
 
 
 def exact_dependency_branch(
+    matrix_rows: Sequence[Sequence[int]],
     target: Sequence[int],
+    basis_sequences: Sequence[int],
     coordinate_rows: Sequence[int],
     relation: dict[str, Any],
+    current_basis_coefficients: Sequence[int],
     current_scale: int,
     frozen_residual: int,
+    hinge: Sequence[int],
+    column_loader: Callable[[int], Sequence[int]],
     scanned: int,
     residual_digest: str,
 ) -> dict[str, Any]:
     coefficients = [int(value) for value in relation["relation"]]
     scale = int(relation["scale"])
+    rank = len(basis_sequences)
+    record_count = len(hinge)
+    require(
+        len(matrix_rows) == len(target)
+        and len(coordinate_rows) == len(coefficients) == rank
+        and len(current_basis_coefficients) == rank
+        and all(len(row) == rank for row in matrix_rows)
+        and scanned == record_count
+        and is_lower_hex(residual_digest, 64),
+        "dependency branch shape/census drift",
+    )
+
+    # Recompute the frozen member premise on every old row.  The scalar bridge
+    # is not allowed to stand in for A c = s b.
+    member_old_residuals = [
+        sum(
+            int(current_basis_coefficients[column]) * int(matrix_rows[row][column])
+            for column in range(rank)
+        )
+        - current_scale * int(target[row])
+        for row in range(len(matrix_rows))
+    ]
+    require(not any(member_old_residuals), "frozen member failed independent old-row replay")
+    member_hinge_dot = sum(
+        int(current_basis_coefficients[column]) * int(hinge[basis_sequences[column]])
+        for column in range(rank)
+    )
+    require(
+        member_hinge_dot == frozen_residual,
+        "frozen member failed independent hinge-residual replay",
+    )
+
+    # Replay the cleared relation again through the canonical loader rather
+    # than promoting the first scan's zero counter into a separator claim.
+    relation_digest = hashlib.sha256()
+    relation_nonzero = 0
+    for sequence in range(record_count):
+        column = [int(value) for value in column_loader(sequence)]
+        require(len(column) == len(target), f"dependency replay column width drift at {sequence}")
+        price = sum(
+            coefficient * column[row]
+            for coefficient, row in zip(coefficients, coordinate_rows, strict=True)
+        ) - scale * int(hinge[sequence])
+        relation_digest.update(str(price).encode("ascii"))
+        relation_digest.update(b"\n")
+        relation_nonzero += int(price != 0)
+    require(relation_nonzero == 0, "cleared dependency relation failed full-family replay")
+    require(
+        relation_digest.hexdigest() == residual_digest,
+        "independent dependency replay transcript disagrees with first scan",
+    )
+
     target_pairing = sum(
         coefficient * int(target[row])
         for coefficient, row in zip(coefficients, coordinate_rows, strict=True)
@@ -633,25 +783,72 @@ def exact_dependency_branch(
         scale * frozen_residual == current_scale * target_pairing,
         "dependency separator target pairing disagrees with frozen member bridge",
     )
-    separator_values = coefficients + [-scale]
+    old_separator = [0] * len(target)
+    for row, coefficient in zip(coordinate_rows, coefficients, strict=True):
+        old_separator[row] = coefficient
+    separator_values = old_separator + [-scale]
     divisor = 0
     for value in separator_values:
         divisor = math.gcd(divisor, abs(value))
     require(divisor == 1, "dependency separator is not primitive")
+
+    mutant_index = next(index for index, value in enumerate(separator_values) if value)
+    mutant = separator_values[:]
+    mutant[mutant_index] += 1
+    mutant_first_nonzero: dict[str, str | int] | None = None
+    for sequence in range(record_count):
+        column = [int(value) for value in column_loader(sequence)] + [int(hinge[sequence])]
+        price = sum(
+            coefficient * column[row]
+            for row, coefficient in enumerate(mutant)
+            if coefficient
+        )
+        if price:
+            mutant_first_nonzero = {"sequence": sequence, "price": str(price)}
+            break
+    require(mutant_first_nonzero is not None, "separator plus-one mutant survived")
     return {
         "records_scanned": scanned,
         "all_columns_exact_zero": True,
         "schur_residuals_decimal_lf_sha256": residual_digest,
+        "independent_cleared_relation_replay": {
+            "records_scanned": record_count,
+            "all_columns_exact_zero": True,
+            "prices_decimal_lf_sha256": relation_digest.hexdigest(),
+            "agrees_with_initial_scan": True,
+        },
+        "frozen_member_replay": {
+            "rows_replayed": len(matrix_rows),
+            "all_old_rows_exact_zero": True,
+            "old_row_residuals_decimal_lf_sha256": digest_decimal_lf(
+                member_old_residuals
+            ),
+            "target_scale": str(current_scale),
+            "hinge_dot": str(member_hinge_dot),
+            "frozen_residual": str(frozen_residual),
+            "hinge_residual_exactly_replayed": True,
+        },
         "separator": {
             "old_coordinate_rows": list(map(int, coordinate_rows)),
             "old_row_integer_coefficients": [str(value) for value in coefficients],
-            "appended_row": OLD_ROWS,
+            "full_primitive_integer_coefficients": [
+                str(value) for value in separator_values
+            ],
+            "appended_row": len(target),
             "appended_row_integer_coefficient": str(-scale),
             "primitive": True,
-            "annihilates_all_163740_columns": True,
+            "records_replayed": record_count,
+            "annihilates_all_columns": True,
             "target_pairing": str(target_pairing),
             "nonzero_target_pairing": True,
+            "member_old_rows_exactly_replayed": True,
+            "member_hinge_residual_exactly_replayed": True,
             "member_bridge_identity_verified": True,
+            "coefficient_plus_one_mutant": {
+                "coefficient_index": mutant_index,
+                "first_nonzero": mutant_first_nonzero,
+                "rejected": True,
+            },
         },
     }
 
@@ -674,14 +871,18 @@ def synthetic_model(
         int(current_coefficients[sequence]) * int(hinge[sequence])
         for sequence in range(len(hinge))
     )
-    residuals = []
+    residuals: list[int] = []
+    residual_digest = hashlib.sha256()
     for sequence in range(len(hinge)):
         column = [int(row[sequence]) for row in old_matrix_rows]
         coordinates = [column[row] for row in coordinate_rows]
         delta = exact_delta_numerator(
             coordinates, int(hinge[sequence]), relation["relation"], relation["scale"]
         )
+        zero_prefix_digest = residual_digest.hexdigest()
         residuals.append(delta)
+        residual_digest.update(str(delta).encode("ascii"))
+        residual_digest.update(b"\n")
         if delta:
             branch = exact_rank_branch(
                 matrix_rows,
@@ -697,16 +898,24 @@ def synthetic_model(
                 current_coefficients[:rank],
                 current_scale,
                 frozen_residual,
+                len(residuals),
+                zero_prefix_digest,
+                residual_digest.hexdigest(),
             )
             return RANK_RESULT, branch
     branch = exact_dependency_branch(
+        matrix_rows,
         target,
+        basis,
         coordinate_rows,
         relation,
+        current_coefficients[:rank],
         current_scale,
         frozen_residual,
+        hinge,
+        lambda sequence: [int(row[sequence]) for row in old_matrix_rows],
         len(hinge),
-        digest_decimal_lf(residuals),
+        residual_digest.hexdigest(),
     )
     return DEPENDENCY_RESULT, branch
 
@@ -722,6 +931,18 @@ def self_test() -> dict[str, bool]:
     require(
         rank_result == RANK_RESULT
         and rank_branch["witness_sequence"] == 2
+        and rank_branch["canonical_exact_scan_prefix"]
+        == {
+            "sequence_start": 0,
+            "sequence_stop_exclusive": 3,
+            "visited_columns": 3,
+            "zero_prefix_columns": 2,
+            "first_nonzero_sequence": 2,
+            "zero_prefix_numerators_decimal_lf_sha256": digest_decimal_lf([0, 0]),
+            "visited_numerators_decimal_lf_sha256": digest_decimal_lf([0, 0, 3]),
+            "includes_first_nonzero_numerator": True,
+            "canonical_sequence_order": True,
+        }
         and rank_branch["corrected_member"]["appended_residual"] == "0",
         "synthetic rank-growth branch failed",
     )
@@ -756,35 +977,198 @@ def self_test() -> dict[str, bool]:
         and dependency_branch["separator"]["target_pairing"] == "5",
         "synthetic dependency branch failed",
     )
+    require(
+        dependency_branch["independent_cleared_relation_replay"][
+            "all_columns_exact_zero"
+        ]
+        is True
+        and dependency_branch["frozen_member_replay"]["all_old_rows_exact_zero"]
+        is True
+        and dependency_branch["frozen_member_replay"][
+            "hinge_residual_exactly_replayed"
+        ]
+        is True,
+        "synthetic dependency independent replay evidence drift",
+    )
+
+    bad_member_rejected = False
+    try:
+        synthetic_model(
+            [[1, 0, 1], [0, 1, 1]],
+            [1, 1],
+            [2, 3, 5],
+            [4, -1, 0],
+            1,
+        )
+    except AdmissionError:
+        bad_member_rejected = True
+    require(
+        bad_member_rejected,
+        "scalar-compatible but row-invalid frozen member escaped dependency replay",
+    )
+
+    relation_mutation_rejected = False
+    fixture_rows = [[1, 0, 1], [0, 1, 1]]
+    fixture_relation = solve_relation([[1, 0], [0, 1]], [2, 3])
+    try:
+        exact_dependency_branch(
+            [[1, 0], [0, 1]],
+            [1, 1],
+            [0, 1],
+            [0, 1],
+            fixture_relation,
+            [1, 1],
+            1,
+            5,
+            [2, 3, 5],
+            lambda sequence: (
+                [1, 2]
+                if sequence == 2
+                else [int(row[sequence]) for row in fixture_rows]
+            ),
+            3,
+            digest_decimal_lf([0, 0, 0]),
+        )
+    except AdmissionError:
+        relation_mutation_rejected = True
+    require(
+        relation_mutation_rejected,
+        "independent cleared-relation replay missed a late-column mutation",
+    )
 
     for name, malformed in [
         ("duplicate", '{"a":1,"a":2}'),
         ("trailing", '{"a":1}\n{"b":2}'),
+        ("bom", '\ufeff{"a":1}'),
+        ("non-object", '[1,2,3]'),
     ]:
-        temporary: Path | None = None
+        rejected = False
         try:
-            descriptor, raw = tempfile.mkstemp(
-                prefix=f"g0168-{name}-", suffix=".json", dir=HERE
+            strict_json_text(malformed, f"synthetic {name}")
+        except AdmissionError:
+            rejected = True
+        require(rejected, f"{name} JSON fixture survived")
+
+    subject_commit = "0" * 40
+    producer_digest = "1" * 64
+    audit_fixture: dict[str, Any] = {
+        "schema": SOURCE_AUDIT_SCHEMA,
+        "verdict": "PASS",
+        "result": SOURCE_AUDIT_RESULT,
+        "evidence_class": SOURCE_AUDIT_EVIDENCE,
+        "claim_boundary": SOURCE_AUDIT_CLAIM_BOUNDARY,
+        "reviewer": {
+            "agent_name": "FreshAuditor",
+            "program": "codex",
+            "model": "GPT-5 Codex",
+            "same_model_lineage": True,
+            "fresh_context": True,
+        },
+        "preregistration": {
+            "path": relative(SOURCE_AUDIT_PREREGISTRATION_PATH),
+            "sha256": SOURCE_AUDIT_PREREGISTRATION_SHA256,
+            "git_commit": SOURCE_AUDIT_PREREGISTRATION_COMMIT,
+            "committed_and_pushed_before_source_inspection": True,
+            "committed_and_pushed_before_runtime_checks": True,
+        },
+        "subject": {
+            "git_commit": subject_commit,
+            "source_bindings": [
+                {
+                    "name": "producer_source",
+                    "path": relative(SCRIPT),
+                    "sha256": producer_digest,
+                }
+            ],
+            "transitive_build_bindings": [],
+            "commit_object_and_working_bytes_equal_for_all_bindings": True,
+        },
+        "required_checks": dict(SOURCE_AUDIT_REQUIRED_CHECKS),
+        "scientific_manifest_observed": False,
+        "scientific_input_observed": False,
+        "scientific_output_observed": False,
+        "scientific_run_executed": False,
+        "rank_outcome_observed": False,
+        "no_claim": SOURCE_AUDIT_NO_CLAIM,
+    }
+    validate_source_audit_shape(
+        audit_fixture,
+        subject_commit=subject_commit,
+        producer_sha256=producer_digest,
+    )
+
+    hostile_receipt_mutants = 0
+
+    def reject_receipt(mutant: dict[str, Any], label: str) -> None:
+        nonlocal hostile_receipt_mutants
+        rejected = False
+        try:
+            validate_source_audit_shape(
+                mutant,
+                subject_commit=subject_commit,
+                producer_sha256=producer_digest,
             )
-            temporary = Path(raw)
-            with os.fdopen(descriptor, "w", encoding="utf-8") as destination:
-                destination.write(malformed)
-            rejected = False
-            try:
-                load_json(temporary)
-            except AdmissionError:
-                rejected = True
-            require(rejected, f"{name} JSON fixture survived")
-        finally:
-            if temporary is not None:
-                temporary.unlink(missing_ok=True)
+        except AdmissionError:
+            rejected = True
+        require(rejected, f"source-audit hostile fixture survived: {label}")
+        hostile_receipt_mutants += 1
+
+    for check in SOURCE_AUDIT_REQUIRED_CHECKS:
+        for label, replacement in (
+            ("integer", 1),
+            ("false", False),
+            ("string", "true"),
+        ):
+            mutant = json.loads(json.dumps(audit_fixture))
+            mutant["required_checks"][check] = replacement
+            reject_receipt(mutant, f"{check} {label}")
+        mutant = json.loads(json.dumps(audit_fixture))
+        del mutant["required_checks"][check]
+        reject_receipt(mutant, f"{check} missing")
+    mutant = json.loads(json.dumps(audit_fixture))
+    mutant["required_checks"]["unknown_check"] = True
+    reject_receipt(mutant, "unknown required check")
+
+    for flag in SOURCE_AUDIT_FALSE_FLAGS:
+        for label, replacement in (("integer zero", 0), ("true", True)):
+            mutant = json.loads(json.dumps(audit_fixture))
+            mutant[flag] = replacement
+            reject_receipt(mutant, f"{flag} {label}")
+    for container, field in (
+        ("reviewer", "same_model_lineage"),
+        ("reviewer", "fresh_context"),
+        ("preregistration", "committed_and_pushed_before_source_inspection"),
+        ("preregistration", "committed_and_pushed_before_runtime_checks"),
+        ("subject", "commit_object_and_working_bytes_equal_for_all_bindings"),
+    ):
+        mutant = json.loads(json.dumps(audit_fixture))
+        mutant[container][field] = 1
+        reject_receipt(mutant, f"{container}.{field} integer")
+    mutant = json.loads(json.dumps(audit_fixture))
+    mutant["subject"]["source_bindings"][0]["path"] = "../escape.py"
+    reject_receipt(mutant, "binding path traversal")
+    mutant = json.loads(json.dumps(audit_fixture))
+    mutant["subject"]["source_bindings"][0]["sha256"] = "f" * 64
+    reject_receipt(mutant, "producer binding substitution")
+    mutant = json.loads(json.dumps(audit_fixture))
+    mutant["unexpected"] = True
+    reject_receipt(mutant, "unknown top-level key")
 
     return {
         "synthetic_rank_growth_branch": True,
+        "synthetic_rank_growth_prefix_digest": True,
         "synthetic_witness_only_corrected_member": True,
         "synthetic_dependency_branch": True,
+        "synthetic_dependency_full_relation_replay": True,
+        "synthetic_bad_member_rejected": True,
+        "synthetic_late_relation_mutation_rejected": True,
+        "sealed_28_check_receipt_contract": True,
+        "required_check_integer_one_mutants_rejected": True,
+        "hostile_receipt_mutants_rejected": hostile_receipt_mutants > 0,
         "duplicate_json_key_rejected": True,
         "trailing_json_data_rejected": True,
+        "bom_rejected": True,
+        "non_object_json_rejected": True,
     }
 
 
@@ -998,68 +1382,192 @@ def validate_static_inputs() -> dict[str, Any]:
     }
 
 
-def validate_source_audit() -> dict[str, Any]:
-    require(SOURCE_AUDIT_PREREGISTRATION_PATH.is_file(), "source-audit preregistration missing")
-    require(SOURCE_AUDIT_PATH.is_file(), "source-audit receipt missing")
-    receipt = load_json(SOURCE_AUDIT_PATH)
-    expected_keys = {
-        "schema",
-        "verdict",
-        "result",
-        "evidence_class",
-        "claim_boundary",
-        "reviewer",
-        "audit_preregistration",
-        "subject",
-        "required_checks",
-        "scientific_manifest_observed",
-        "scientific_input_observed",
-        "scientific_output_observed",
-        "scientific_run_executed",
-        "no_claim",
-    }
-    require(set(receipt) == expected_keys, "source-audit top-level contract drift")
-    reviewer = receipt.get("reviewer")
-    require(
-        isinstance(reviewer, dict)
-        and set(reviewer) == {"agent_name", "model"}
-        and isinstance(reviewer.get("agent_name"), str)
-        and reviewer["agent_name"] not in {"", "ScarletCave"}
-        and isinstance(reviewer.get("model"), str)
-        and reviewer["model"],
-        "source-audit reviewer is not fresh",
+def is_lower_hex(value: object, length: int) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == length
+        and all(character in "0123456789abcdef" for character in value)
     )
-    expected_subject = {
-        "preregistration": commit_binding(PREREGISTRATION_PATH),
-        "producer": commit_binding(SCRIPT),
-        "g0164_solver": commit_binding(G0164_SOLVER_PATH),
-        "g0140_selector": commit_binding(G0140_SELECTOR_PATH),
-    }
+
+
+def validate_source_audit_shape(
+    receipt: dict[str, Any], *, subject_commit: str, producer_sha256: str
+) -> list[dict[str, str]]:
+    """Validate the exact sealed G-0171 envelope without opening a binding."""
+
+    require(
+        set(receipt) == SOURCE_AUDIT_TOP_LEVEL_KEYS,
+        "source-audit top-level contract drift",
+    )
     require(
         receipt.get("schema") == SOURCE_AUDIT_SCHEMA
         and receipt.get("verdict") == "PASS"
         and receipt.get("result") == SOURCE_AUDIT_RESULT
         and receipt.get("evidence_class") == SOURCE_AUDIT_EVIDENCE
         and receipt.get("claim_boundary") == SOURCE_AUDIT_CLAIM_BOUNDARY
-        and receipt.get("subject") == expected_subject
-        and receipt.get("required_checks") == SOURCE_AUDIT_REQUIRED_CHECKS
-        and receipt.get("scientific_manifest_observed") is False
-        and receipt.get("scientific_input_observed") is False
-        and receipt.get("scientific_output_observed") is False
-        and receipt.get("scientific_run_executed") is False
         and receipt.get("no_claim") == SOURCE_AUDIT_NO_CLAIM,
-        "source-audit typed PASS gate failed",
+        "source-audit fixed string contract drift",
     )
-    audit_preregistration = receipt.get("audit_preregistration")
+
+    reviewer = receipt.get("reviewer")
     require(
-        audit_preregistration == commit_binding(SOURCE_AUDIT_PREREGISTRATION_PATH),
-        "source-audit preregistration binding drift",
+        isinstance(reviewer, dict)
+        and set(reviewer) == SOURCE_AUDIT_REVIEWER_KEYS
+        and isinstance(reviewer.get("agent_name"), str)
+        and reviewer["agent_name"] not in {"", "ScarletCave"}
+        and reviewer.get("program") == "codex"
+        and isinstance(reviewer.get("model"), str)
+        and bool(reviewer["model"])
+        and reviewer.get("same_model_lineage") is True
+        and reviewer.get("fresh_context") is True,
+        "source-audit reviewer contract drift",
+    )
+
+    preregistration = receipt.get("preregistration")
+    require(
+        isinstance(preregistration, dict)
+        and set(preregistration) == SOURCE_AUDIT_PREREGISTRATION_KEYS
+        and preregistration.get("path")
+        == relative(SOURCE_AUDIT_PREREGISTRATION_PATH)
+        and preregistration.get("sha256")
+        == SOURCE_AUDIT_PREREGISTRATION_SHA256
+        and preregistration.get("git_commit")
+        == SOURCE_AUDIT_PREREGISTRATION_COMMIT
+        and preregistration.get("committed_and_pushed_before_source_inspection")
+        is True
+        and preregistration.get("committed_and_pushed_before_runtime_checks")
+        is True,
+        "source-audit preregistration contract drift",
+    )
+
+    subject = receipt.get("subject")
+    require(
+        isinstance(subject, dict)
+        and set(subject) == SOURCE_AUDIT_SUBJECT_KEYS
+        and is_lower_hex(subject.get("git_commit"), 40)
+        and subject.get("git_commit") == subject_commit
+        and subject.get("commit_object_and_working_bytes_equal_for_all_bindings")
+        is True,
+        "source-audit subject contract drift",
+    )
+    source_bindings = subject.get("source_bindings")
+    transitive_bindings = subject.get("transitive_build_bindings")
+    require(
+        isinstance(source_bindings, list)
+        and bool(source_bindings)
+        and isinstance(transitive_bindings, list),
+        "source-audit binding arrays missing",
+    )
+    bindings: list[dict[str, str]] = []
+    for array_name, raw_bindings in (
+        ("source", source_bindings),
+        ("transitive", transitive_bindings),
+    ):
+        names: list[str] = []
+        for index, item in enumerate(raw_bindings):
+            require(
+                isinstance(item, dict) and set(item) == SOURCE_AUDIT_BINDING_KEYS,
+                f"source-audit {array_name} binding {index} schema drift",
+            )
+            name = item.get("name")
+            path = item.get("path")
+            digest = item.get("sha256")
+            require(
+                isinstance(name, str)
+                and bool(name)
+                and name == name.strip()
+                and isinstance(path, str)
+                and bool(path)
+                and path == Path(path).as_posix()
+                and not Path(path).is_absolute()
+                and "." not in Path(path).parts
+                and ".." not in Path(path).parts
+                and is_lower_hex(digest, 64),
+                f"source-audit {array_name} binding {index} malformed",
+            )
+            names.append(name)
+            bindings.append({"name": name, "path": path, "sha256": str(digest)})
+        require(names == sorted(names), f"source-audit {array_name} bindings not name-sorted")
+
+    names = [item["name"] for item in bindings]
+    paths = [item["path"] for item in bindings]
+    require(
+        len(names) == len(set(names)) and len(paths) == len(set(paths)),
+        "source-audit duplicate binding name or path",
+    )
+    producer_matches = [
+        item
+        for item in source_bindings
+        if item.get("path") == relative(SCRIPT)
+        and item.get("sha256") == producer_sha256
+    ]
+    require(len(producer_matches) == 1, "source-audit producer binding missing or duplicated")
+    require(
+        relative(SOURCE_AUDIT_PATH) not in paths,
+        "source-audit receipt is self-referential",
+    )
+
+    checks = receipt.get("required_checks")
+    require(
+        isinstance(checks, dict)
+        and set(checks) == set(SOURCE_AUDIT_REQUIRED_CHECKS)
+        and all(type(value) is bool and value is True for value in checks.values()),
+        "source-audit required-check strict-boolean contract drift",
+    )
+    for flag in SOURCE_AUDIT_FALSE_FLAGS:
+        require(
+            type(receipt.get(flag)) is bool and receipt.get(flag) is False,
+            f"source-audit observation flag is not strict false: {flag}",
+        )
+    return bindings
+
+
+def validate_source_audit() -> dict[str, Any]:
+    require(SOURCE_AUDIT_PREREGISTRATION_PATH.is_file(), "source-audit preregistration missing")
+    require(SOURCE_AUDIT_PATH.is_file(), "source-audit receipt missing")
+    require_sha(
+        SOURCE_AUDIT_PREREGISTRATION_PATH,
+        SOURCE_AUDIT_PREREGISTRATION_SHA256,
+        "source-audit preregistration",
+    )
+    require(
+        git_commit_for_path(SOURCE_AUDIT_PREREGISTRATION_PATH)
+        == SOURCE_AUDIT_PREREGISTRATION_COMMIT,
+        "source-audit preregistration Git commit drift",
     )
     producer_commit = git_commit_for_path(SCRIPT)
-    audit_prereg_commit = git_commit_for_path(SOURCE_AUDIT_PREREGISTRATION_PATH)
+    receipt = load_json(SOURCE_AUDIT_PATH)
+    bindings = validate_source_audit_shape(
+        receipt,
+        subject_commit=producer_commit,
+        producer_sha256=sha256_path(SCRIPT),
+    )
+    for item in bindings:
+        path = contained(ROOT / item["path"])
+        require(
+            path.is_file() and not path.is_symlink(),
+            f"source-audit bound path missing, nonregular, or symlinked: {item['path']}",
+        )
+        require_sha(path, item["sha256"], f"source-audit binding {item['name']}")
+        blob = subprocess.run(
+            ["git", "show", f"{producer_commit}:{item['path']}"],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+        )
+        require(
+            blob.returncode == 0
+            and hashlib.sha256(blob.stdout).hexdigest() == item["sha256"],
+            f"source-audit binding differs from subject commit: {item['name']}",
+        )
     audit_commit = git_commit_for_path(SOURCE_AUDIT_PATH)
-    git_is_ancestor(producer_commit, audit_prereg_commit, "producer -> audit preregistration")
-    git_is_ancestor(audit_prereg_commit, audit_commit, "audit preregistration -> audit receipt")
+    require(audit_commit != producer_commit, "source-audit receipt commit is self-referential")
+    git_is_ancestor(producer_commit, audit_commit, "producer -> audit receipt")
+    git_is_ancestor(
+        SOURCE_AUDIT_PREREGISTRATION_COMMIT,
+        audit_commit,
+        "audit preregistration -> audit receipt",
+    )
     return receipt
 
 
@@ -1245,10 +1753,16 @@ def scientific_run() -> dict[str, Any]:
             g0135_prepared, cache
         )
         require(warm_receipt == state["warm_receipt"], "G-0135 warm loader drift")
+
+        def canonical_old_column(sequence: int) -> list[int]:
+            require(0 <= sequence < RECORDS, "canonical column sequence out of range")
+            loaded = [int(value) for value in inherited_loader(sequence)]
+            loaded.extend(int(row[sequence]) for row in state["all_pool_rows"])
+            require(len(loaded) == OLD_ROWS, f"old column width drift at {sequence}")
+            return loaded
+
         for sequence in range(RECORDS):
-            column = [int(value) for value in inherited_loader(sequence)]
-            column.extend(int(row[sequence]) for row in state["all_pool_rows"])
-            require(len(column) == OLD_ROWS, f"old column width drift at {sequence}")
+            column = canonical_old_column(sequence)
             coordinates = [column[row] for row in static["coordinate_rows"]]
             delta = exact_delta_numerator(
                 coordinates,
@@ -1256,6 +1770,7 @@ def scientific_run() -> dict[str, Any]:
                 relation["relation"],
                 relation["scale"],
             )
+            zero_prefix_digest = residual_digest.hexdigest()
             residual_digest.update(str(delta).encode("ascii"))
             residual_digest.update(b"\n")
             scanned += 1
@@ -1278,23 +1793,33 @@ def scientific_run() -> dict[str, Any]:
                     static["coefficients"],
                     static["current_scale"],
                     static["frozen_residual"],
+                    scanned,
+                    zero_prefix_digest,
+                    residual_digest.hexdigest(),
                 )
                 break
+        if result is None:
+            require(scanned == RECORDS, "dependency branch truncated the family scan")
+            result = DEPENDENCY_RESULT
+            branch = exact_dependency_branch(
+                matrix_rows,
+                static["target"],
+                static["basis_sequences"],
+                static["coordinate_rows"],
+                relation,
+                static["coefficients"],
+                static["current_scale"],
+                static["frozen_residual"],
+                static["hinge"],
+                canonical_old_column,
+                scanned,
+                residual_digest.hexdigest(),
+            )
 
-    if result is None:
-        require(scanned == RECORDS, "dependency branch truncated the family scan")
-        result = DEPENDENCY_RESULT
-        branch = exact_dependency_branch(
-            static["target"],
-            static["coordinate_rows"],
-            relation,
-            static["current_scale"],
-            static["frozen_residual"],
-            scanned,
-            residual_digest.hexdigest(),
-        )
-    else:
+    if result == RANK_RESULT:
         require(branch is not None and scanned == branch["witness_sequence"] + 1, "witness order drift")
+    else:
+        require(result == DEPENDENCY_RESULT, "scientific branch token drift")
 
     require(branch is not None, "scientific branch missing")
     rehash_snapshot(snapshot)
@@ -1356,17 +1881,42 @@ def scientific_run() -> dict[str, Any]:
 
 
 def static_preflight() -> dict[str, Any]:
+    """Exercise only source/synthetic gates; never open a scientific input."""
+
+    require(Path.cwd().resolve() == ROOT, "run from repository root")
     self_test()
-    static = validate_static_inputs()
+    require_sha(
+        PREREGISTRATION_PATH,
+        PREREGISTRATION_SHA256,
+        "G-0168 preregistration",
+    )
+    require_sha(
+        SOURCE_AUDIT_PREREGISTRATION_PATH,
+        SOURCE_AUDIT_PREREGISTRATION_SHA256,
+        "G-0171 audit preregistration",
+    )
+    require(
+        git_commit_for_path(PREREGISTRATION_PATH) == PREREGISTRATION_COMMIT,
+        "G-0168 preregistration commit drift",
+    )
+    require(
+        git_commit_for_path(SOURCE_AUDIT_PREREGISTRATION_PATH)
+        == SOURCE_AUDIT_PREREGISTRATION_COMMIT,
+        "G-0171 audit preregistration commit drift",
+    )
+    require(not MANIFEST_PATH.exists(), "scientific manifest exists during source audit")
+    require(not OUTPUT_PATH.exists(), "scientific output exists during source audit")
     return {
-        "status": "STATIC_PREFLIGHT_PASS",
+        "status": "PREFLIGHT_STATIC_PASS",
         "records": RECORDS,
         "old_rows": OLD_ROWS,
         "old_rank": OLD_RANK,
-        "basis_columns": len(static["basis_sequences"]),
-        "coordinate_rows": len(static["coordinate_rows"]),
-        "g0170_dot_bridge_replayed": True,
+        "sealed_required_checks": len(SOURCE_AUDIT_REQUIRED_CHECKS),
+        "sealed_false_flags": len(SOURCE_AUDIT_FALSE_FLAGS),
+        "producer_self_test_passed": True,
+        "scientific_input_observed": False,
         "scientific_manifest_consumed": False,
+        "rank_outcome_observed": False,
         "schur_solve_run": False,
         "scientific_output_created": False,
     }
@@ -1395,7 +1945,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--self-test", action="store_true")
-    modes.add_argument("--static-preflight", action="store_true")
+    modes.add_argument("--preflight-static", action="store_true")
     modes.add_argument("--print-manifest-template", action="store_true")
     modes.add_argument("--preflight", action="store_true")
     modes.add_argument("--run", action="store_true")
@@ -1404,7 +1954,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if arguments.self_test:
         print(json.dumps(self_test(), sort_keys=True))
         return 0
-    if arguments.static_preflight:
+    if arguments.preflight_static:
         print(json.dumps(static_preflight(), sort_keys=True))
         return 0
     if arguments.print_manifest_template:
