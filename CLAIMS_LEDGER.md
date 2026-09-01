@@ -523,6 +523,26 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Replay identity only. This is a fresh-context, same-model-family T1 audit using a historical implementation-distinct evaluator; it is not T2 or human review, a proof-assistant formalization, a parameterized theorem, a novelty adjudication, or a MAX11 conclusion.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0052@1 — theorem-attempt [mathematics]
+
+> For the frozen 851-row retained signed-mass-at-most-four STAR restriction block with 6,795 integer coordinates, the rank over Q is exactly 808 and the left-kernel dimension is exactly 43. The frozen G-0190 43-column coefficient matrix consists of exact independent left-null vectors and therefore is a complete basis of that left kernel. Its first 42 columns are the listed G-0187 basis columns in order, and its last column is exactly B_24+B_174+B_235-B_295+B_345.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:59934e89
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0052@1`
+- falsifier: One nonzero coordinate among the 292,185 exact C^T A equations; coefficient rank below 43; block rank over Q different from 808; one selected row, row-to-sequence map, candidate term, source-column lineage, or matrix byte differing from its bound value; or failure of the one-unit mutation control.
+- no-claim: This finite restriction-matrix theorem does not classify the 40 genuinely mass-four directions into the old-primary function span O, prove the support-34 SMT minimum without trusting Z3, settle MAX11, establish ansatz completeness, or imply an unrestricted neural-network lower bound.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0053@1 — implementation-claim [mathematics]
+
+> The G-0195 clean-room audit of the G-0190 filtration basis is identified by combined verifier/ranker code SHA-256 2f40804af58b87d2f137525835deb472c21d7c3412393fee41264c9a9b98849f, audit-receipt SHA-256 e3aa2e030fbc78d46acf994d0337b96a6a1555a8045643ba8850208f6f4967ef, compressed matrix SHA-256 84761d297bed5b5e8b6df399bf1b54cb4d99b03dbdb8674a23e6863989a46588, and decompressed matrix SHA-256 d57ec8abb9a843dc68327d88d0fe9c5843a055762cd3ae9f53ac45fb9eb50efd.
+
+- disposition: **open** · trace:e4eb280b
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0053@1`
+- falsifier: —
+- no-claim: Implementation and custody identity only. This is same-model-lineage T1 exact computation, not a T2 or human referee, a proof-assistant formalization, an old-primary classification, or a MAX11 conclusion.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
@@ -576,3 +596,4 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0032` [complete] family `max11-retained-low-mass-star-kernel-quarantine-v1` arm — prereg=False · trace:62f36227
 - `EXP-0033` [complete] family `max11-star-loop-exact-sparse-kernel-basis-v1` arm — prereg=False · trace:588eee71
 - `EXP-0034` [complete] family `max11-mass4-sparse-exact-zero-identities-v1` arm — prereg=True · trace:06c365dd
+- `EXP-0035` [complete] family `max11-mass-le4-filtration-exact-basis-v1` arm — prereg=True · trace:85641ae7

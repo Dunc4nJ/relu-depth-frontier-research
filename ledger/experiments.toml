@@ -393,3 +393,16 @@ evidence = ["E-0031", "E-0032"]
 status = "complete"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T11:22:14Z
+
+[[experiment]]
+id = "EXP-0035"
+route = "H-0001"
+design = "After freezing the G-0190 43-vector filtration candidate, require a fresh-context implementation to reconstruct the 851 retained signed-mass-at-most-four rows and every candidate vector without importing discovery code; bind the full 5769-by-6795 integer restriction matrix; replay all 292,185 exact C^T A equations; reject a one-unit mutation; compute coefficient rank 43 and restriction-block rank 808 at two fresh verified primes; verify literal G-0187 lineage; and use the rank sandwich to decide completeness over Q. Separately replay the frozen support-at-most-33 and support-34 SMT instances and rebuild the support-at-most-33 formula independently, retaining Z3 in the stated trust boundary."
+family = "max11-mass-le4-filtration-exact-basis-v1"
+prereg = true
+result_summary = "The clean-room implementation reconstructed 851 rows with mass histogram 4/66/781, found all 292,185 exact null equations zero, rejected a one-unit mutation with 368 nonzero coordinates, obtained coefficient rank 43 and block rank 808 at primes 1,000,037 and 1,000,099, and matched all 43 lineage formulas. Hence rank_Q is exactly 808, left nullity exactly 43, and the candidate is a complete exact basis. Exact-SMT replay found support<=33 UNSAT and support-34 SAT, with solver trust explicitly retained."
+claims = ["C-0052@1"]
+evidence = ["E-0033"]
+status = "complete"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T11:41:29Z

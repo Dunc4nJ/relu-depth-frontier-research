@@ -658,3 +658,26 @@ selected_by = "Fresh-context replay requested only after the preregistered G-018
 experiment = "EXP-0034"
 author_path = "cleanroom-auditor/g0193"
 created = 2026-09-01T11:22:14Z
+
+[[evidence]]
+id = "E-0033"
+bears_on = "C-0052@1"
+direction = "supports"
+kind = "computation"
+method = "fresh-context exact reconstruction of the retained signed-mass-at-most-four block and 43 candidate vectors, all-equation integer null replay, one-unit mutation, two fresh-prime FLINT rank computations for both coefficient and restriction matrices, literal G-0187 lineage checks, and independent exact-SMT formula reconstruction"
+source = "generated"
+mode = "confirmatory"
+artifact = "artifacts/math/G-0190-mass4-filtration-basis/audit/g0195_cleanroom_receipt_v1.json"
+implementation_claim = "C-0053@1"
+code_hash = "sha256:2f40804af58b87d2f137525835deb472c21d7c3412393fee41264c9a9b98849f"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:d57ec8abb9a843dc68327d88d0fe9c5843a055762cd3ae9f53ac45fb9eb50efd"
+artifact_digest = "sha256:e3aa2e030fbc78d46acf994d0337b96a6a1555a8045643ba8850208f6f4967ef"
+repro = "zstd -d artifacts/math/G-0180-star-loop-rank-expansion/results/augmented5769x6795.i64le.zst -o artifacts/math/G-0180-star-loop-rank-expansion/results/augmented5769x6795.i64le && audit_dir=$(mktemp -d) && .venv/bin/python -B artifacts/math/G-0190-mass4-filtration-basis/audit/audit_g0190_cleanroom.py --repo . --output-dir $audit_dir --rank-source artifacts/math/G-0190-mass4-filtration-basis/audit/rank_mod_flint.cpp"
+domain_checked = "Exactly 851 retained signed-mass-at-most-four rows, all 6,795 integer coordinates, all 43 candidate vectors and 560 terms, all 292,185 C^T A equations, coefficient and block ranks at primes 1,000,037 and 1,000,099, literal G-0187 lineage of all 43 vectors, and a one-unit mutation."
+detection_floor = "One changed bound byte, retained row, row-to-sequence mapping, candidate term, lineage formula, exact residual coordinate, modular pivot, rank, matrix/candidate hash, or hostile mutation. Function-space membership, higher-mass rows, MAX11, ansatz completeness, absent atoms, and unrestricted networks are outside the detection floor."
+result = "CONSISTENT"
+selected_by = "The clean-room audit was requested after the G-0190 candidate and discovery certificate were frozen at commit 81d152c; no G-0190 discovery verifier or finalizer was imported or executed."
+experiment = "EXP-0035"
+author_path = "cleanroom-auditor/g0195"
+created = 2026-09-01T11:41:29Z

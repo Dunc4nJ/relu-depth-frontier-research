@@ -729,3 +729,31 @@ env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d1
 data_snapshot = "sha256:67b4ada6a6c5b311de23ac7b5038ddd5940159cb7fda698f5db1b06c61aa2990"
 author_path = "implementation-auditor/g0193"
 created = 2026-09-01T11:22:14Z
+
+[[claim]]
+id = "C-0052"
+version = 1
+statement = "For the frozen 851-row retained signed-mass-at-most-four STAR restriction block with 6,795 integer coordinates, the rank over Q is exactly 808 and the left-kernel dimension is exactly 43. The frozen G-0190 43-column coefficient matrix consists of exact independent left-null vectors and therefore is a complete basis of that left kernel. Its first 42 columns are the listed G-0187 basis columns in order, and its last column is exactly B_24+B_174+B_235-B_295+B_345."
+role = "theorem-attempt"
+domain = "mathematics"
+depends_on = ["C-0053@1"]
+falsifier = "One nonzero coordinate among the 292,185 exact C^T A equations; coefficient rank below 43; block rank over Q different from 808; one selected row, row-to-sequence map, candidate term, source-column lineage, or matrix byte differing from its bound value; or failure of the one-unit mutation control."
+no_claim = "This finite restriction-matrix theorem does not classify the 40 genuinely mass-four directions into the old-primary function span O, prove the support-34 SMT minimum without trusting Z3, settle MAX11, establish ansatz completeness, or imply an unrestricted neural-network lower bound."
+not_equivalent_to = ["a complete mass-at-most-four old-primary quarantine theorem", "a classification of the full 478-dimensional restriction kernel", "a MAX11 construction", "an unrestricted ReLU lower bound"]
+origin_round = "R-0002"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T11:41:29Z
+
+[[claim]]
+id = "C-0053"
+version = 1
+statement = "The G-0195 clean-room audit of the G-0190 filtration basis is identified by combined verifier/ranker code SHA-256 2f40804af58b87d2f137525835deb472c21d7c3412393fee41264c9a9b98849f, audit-receipt SHA-256 e3aa2e030fbc78d46acf994d0337b96a6a1555a8045643ba8850208f6f4967ef, compressed matrix SHA-256 84761d297bed5b5e8b6df399bf1b54cb4d99b03dbdb8674a23e6863989a46588, and decompressed matrix SHA-256 d57ec8abb9a843dc68327d88d0fe9c5843a055762cd3ae9f53ac45fb9eb50efd."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Implementation and custody identity only. This is same-model-lineage T1 exact computation, not a T2 or human referee, a proof-assistant formalization, an old-primary classification, or a MAX11 conclusion."
+origin_round = "R-0002"
+code_hash = "sha256:2f40804af58b87d2f137525835deb472c21d7c3412393fee41264c9a9b98849f"
+env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d18a308"
+data_snapshot = "sha256:d57ec8abb9a843dc68327d88d0fe9c5843a055762cd3ae9f53ac45fb9eb50efd"
+author_path = "implementation-auditor/g0195"
+created = 2026-09-01T11:41:29Z
