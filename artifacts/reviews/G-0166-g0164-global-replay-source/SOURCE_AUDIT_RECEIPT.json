@@ -1,0 +1,86 @@
+{
+  "schema": "max11-g0166-g0164-global-replay-source-audit-v1",
+  "verdict": "PASS",
+  "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "claim_boundary": "T1 source/custody clearance for the exact frozen G-0164 complete-global-replay producer bytes only; no scientific manifest, finite member, or global output was observed, no scientific replay was run, and no mathematical claim is promoted.",
+  "reviewer": {
+    "agent_name": "BlackThrush",
+    "program": "codex",
+    "model": "gpt-5.4",
+    "same_model_lineage": true,
+    "fresh_context": true
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0166-g0164-global-replay-source/PREREGISTRATION.md",
+    "sha256": "c7b5a437f8f13305ce07237db57ad9a671680b3cf45b73d70aac07a6936a1fcd",
+    "git_commit": "d78325c9214320bffec2e7b4079f02129da516cd",
+    "committed_and_pushed_before_subject_source_inspection": true,
+    "committed_and_pushed_before_runtime_checks": true
+  },
+  "subject": {
+    "git_commit": "29f0610068dd47933f78a5e2222513d65e56713f",
+    "commit_object_and_working_bytes_equal_for_all_bindings": true,
+    "bindings": {
+      "main_source": {
+        "path": "artifacts/math/G-0164/stage_b_global_replay/src/main.rs",
+        "sha256": "acadf6bcbc2b0ac6d87b096ff7909d5e07cfd31cae1e84fa7301a2b1488b2ef0"
+      },
+      "candidate_source": {
+        "path": "artifacts/math/G-0164/stage_b_global_replay/src/candidate.rs",
+        "sha256": "572e2bf6bbd6e5f9b27e4f99700ec1960cc20114f0228e8a2d3343325a8b28fc"
+      },
+      "engine_source": {
+        "path": "artifacts/math/G-0164/stage_b_global_replay/src/engine.rs",
+        "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c"
+      },
+      "cargo_manifest": {
+        "path": "artifacts/math/G-0164/stage_b_global_replay/Cargo.toml",
+        "sha256": "05df37270ef89f78b8a764484ce2049b4b0bf152f1ef778b4d88352546318996"
+      },
+      "cargo_lock": {
+        "path": "artifacts/math/G-0164/stage_b_global_replay/Cargo.lock",
+        "sha256": "fc18595480e30ffeda7fcedcd6d63019744b8b9718fff7d6d31a71a373f89595"
+      },
+      "g0117_cargo_manifest": {
+        "path": "artifacts/math/G-0117/Cargo.toml",
+        "sha256": "0e2ff3c73ce82b508ae21b35bc973c202efbeae03b7e9cf78d3b784664ce5815"
+      },
+      "g0117_lib_source": {
+        "path": "artifacts/math/G-0117/src/lib.rs",
+        "sha256": "2bb97bb05e32816a77d438a14b049cbf5b003d6ba164b7f0088422d49f80afa6"
+      },
+      "release_executable": {
+        "path": "artifacts/math/G-0164/stage_b_global_replay/target/release/g0164-stage-b-global-replay",
+        "sha256": "38de94fd68af9eb0aaa4fa2f26908ab4771caa42ab89f569d8ba6b729e93ce94"
+      }
+    }
+  },
+  "required_checks": {
+    "exact_named_binding_contract": true,
+    "displaced_recursive_lookalikes_rejected": true,
+    "correct_decoy_with_missing_named_binding_rejected": true,
+    "duplicate_path_occurrences_rejected": true,
+    "unknown_envelope_fields_rejected": true,
+    "audit_git_commit_rejected": true,
+    "duplicate_json_keys_rejected": true,
+    "trailing_json_data_rejected": true,
+    "producer_self_test_passed": true,
+    "producer_static_preflight_passed": true,
+    "compiled_source_manifest_lock_match_working_bytes": true,
+    "engine_byte_identity_with_g0140_verified": true,
+    "finite_member_source_audit_gate_verified": true,
+    "finite_member_global_manifest_commit_chain_verified": true,
+    "scientific_outputs_excluded_from_manifest_bindings": true,
+    "dynamic_direct_basis_member_contract_verified": true,
+    "global_zero_and_residual_branches_verified": true,
+    "complete_label_census_and_end_rehash_verified": true,
+    "overwrite_refusal_verified": true,
+    "prohibited_scientific_modes_not_run": true
+  },
+  "scientific_manifest_observed": false,
+  "scientific_input_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "no_claim": "This source audit does not adjudicate any future G-0164 scientific manifest, finite member, or global result, establish or exclude a global exact identity, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
+}
