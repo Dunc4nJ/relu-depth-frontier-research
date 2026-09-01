@@ -1,0 +1,52 @@
+{
+  "claim_boundary": "This certifies the characteristic-zero rank and a complete exact basis of the left kernel of the frozen 5769x6795 restriction matrix. It does not show that the corresponding 478 STAR combinations lie in O, nor settle MAX11 membership or an unrestricted neural-network lower bound.",
+  "exact_replay": {
+    "all_relations_primitive": true,
+    "free_coordinate_submatrix_diagonal_nonzero": true,
+    "int64_maximum": 9223372036854775807,
+    "matrix_columns_checked_per_relation": 6795,
+    "matrix_maximum": 120960,
+    "matrix_minimum": 0,
+    "maximum_proved_int64_arithmetic_bound": 8611681743059915520,
+    "maximum_residual_abs": 0,
+    "nonzero_residual_cells": 0,
+    "relations": 478,
+    "residual_cells": 3248010,
+    "residual_i64le_bytes": 25984080,
+    "residual_i64le_sha256": "012ac2606487b7e79e0e4e6a39ad4cee0e246ac395e5de26badbb8cb8aa9a77a"
+  },
+  "inputs": {
+    "basis": {
+      "bytes": 5366383,
+      "path": "/tmp/g0189_exact_kernel_bundle/exact_left_kernel_basis_v1.jsonl",
+      "sha256": "56b4177d3e584bbe96eb35b17ba799e5138cf071dc7fd72895a45de6d4d68232"
+    },
+    "matrix": {
+      "bytes": 313602840,
+      "path": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0180-star-loop-rank-expansion/results/augmented5769x6795.i64le",
+      "sha256": "d57ec8abb9a843dc68327d88d0fe9c5843a055762cd3ae9f53ac45fb9eb50efd"
+    },
+    "modular_rank_receipt": {
+      "bytes": 26869,
+      "path": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0180-star-loop-rank-expansion/results/rank_certificate_v1/rank_directed_1024_rank_mod_1000003.json",
+      "sha256": "61925993c97c40fac1ced04f374ffa05144026f2c2c8d3a579fa483d2219178a"
+    }
+  },
+  "producer": {
+    "bytes": 8340,
+    "numpy": "2.4.2",
+    "path": "/tmp/g0189_exact_kernel_bundle/replay_exact_basis.py",
+    "python": "3.13.7 (main, Mar  3 2026, 12:19:54) [GCC 15.2.0]",
+    "sha256": "08f34d06abde94badb78ffeebb9f24c4ae1c0de6f7c33fd7c7600fc9308ae6d5"
+  },
+  "rank_sandwich": {
+    "exact_left_nullity_over_Q": 478,
+    "exact_rank_over_Q": 5291,
+    "lower_bound_over_Q": 5291,
+    "lower_bound_reason": "rank over F_1000003 is 5291, and reduction modulo a prime cannot exceed rational rank",
+    "upper_bound_over_Q": 5291,
+    "upper_bound_reason": "478 exact independent left-kernel vectors, certified by the nonzero diagonal free-coordinate submatrix"
+  },
+  "result": "EXACT_Q_RANK_5291_AND_LEFT_NULLITY_478_CERTIFIED",
+  "schema": "g0189.exact-left-kernel-replay.v1"
+}
