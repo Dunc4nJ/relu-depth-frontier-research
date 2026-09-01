@@ -33,6 +33,10 @@ reported a zero residual before this freeze; it is not the promotion gate.
 | G-0179 evaluator CLI source | `128093d8f664f70036bec75f82df107413c338703b651206221e8da8fe2ce6e2` |
 | G-0179 evaluator binary | `ba629a044408e170235523a6f578c55d3201d7be37bb07acf86e27d409a00824` |
 
+The fresh independent verifier was written after the candidate freeze and is
+itself frozen before execution at SHA-256
+`ccfdd1b9e7cd4b4f73d8911d6a761871e415d4a455a6ccc7823ccf5e99db691f`.
+
 ## Independent promotion gate
 
 A fresh verifier must reconstruct the eleven controlled records directly from
