@@ -1,0 +1,43 @@
+{
+  "schema": "max11-g0165-g0164-all128-master-source-audit-v1",
+  "status": "PASS",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "reviewer": {
+    "agent_name": "WildCliff",
+    "model": "GPT-5"
+  },
+  "preregistration": {
+    "path": "artifacts/math/G-0164/PREREGISTRATION.md",
+    "sha256": "f28813a182327e38e713c8a20e9039f12d9722861455dcb1a5fb0bb332b00c10",
+    "commit": "dbd488609efda9d6a4eba33fb2c82d67d49b9288"
+  },
+  "subject": {
+    "path": "artifacts/math/G-0164/all128_direct_basis_master_v1.py",
+    "sha256": "d8ea3d21e419f5a0fa7303a347af068e8f37e3f6fe53730879535f78b5070d90",
+    "commit": "05e8acaebf1d6e293049858e3d85a1cda9a25eae"
+  },
+  "audit_preregistration": {
+    "path": "artifacts/reviews/G-0165-g0164-all128-master-source/PREREGISTRATION.md",
+    "sha256": "839938dc414ca38d6e7d71689226ad09d0f80b9350a611a62d10b6d1e000bddc",
+    "commit": "4b8fa4e56e34ed9c260f80615410cf7b8f448c71"
+  },
+  "checks": {
+    "coefficient_mutation_control_verified": true,
+    "exact_349_square_solve_protocol_verified": true,
+    "exact_source_and_preregistration_identity_verified": true,
+    "exclusive_output_publication_verified": true,
+    "input_snapshot_end_rehash_verified": true,
+    "no_pricing_rank_scan_or_retry_verified": true,
+    "no_scientific_output_inspected_or_created": true,
+    "primitive_integer_replay_verified": true,
+    "stored_basis_digest_gates_verified": true,
+    "strict_contract_validation_verified": true,
+    "synthetic_full_row_member_fixture_passed": true,
+    "synthetic_inconsistent_extra_row_rejected": true
+  },
+  "scientific_output_inspected": false,
+  "scientific_output_created": false,
+  "scientific_run_executed": false,
+  "claim_boundary": "Source/custody clearance for the exact frozen G-0164 direct-basis producer bytes only; no G-0164 finite member or global replay output was inspected or created and no scientific solve was run.",
+  "no_claim": "This audit does not establish finite membership, a global MAX11 identity, frozen-family membership or nonmembership, a lower bound, unrestricted representability, minimality, an all-n theorem, or a Lean theorem."
+}
