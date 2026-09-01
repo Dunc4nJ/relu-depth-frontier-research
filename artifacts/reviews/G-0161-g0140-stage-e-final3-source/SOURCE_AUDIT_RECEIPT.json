@@ -1,0 +1,74 @@
+{
+  "schema": "max11-g0161-g0140-stage-e-final3-source-audit-v1",
+  "verdict": "PASS",
+  "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "claim_boundary": "T1 source/custody clearance for the exact frozen G-0140 Stage-E complete-global-replay producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.",
+  "reviewer": {
+    "agent_name": "GentleBluff",
+    "program": "codex",
+    "model": "gpt-5",
+    "same_model_lineage": true,
+    "fresh_context": true
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0161-g0140-stage-e-final3-source/PREREGISTRATION.md",
+    "sha256": "8efdf869dc376aa63c6c4d1a47baa820de20995af0358e039c0342faddd7be51",
+    "git_commit": "ddcdfe7f4cb35133bdceaf2309bcb068d6c8aba4",
+    "committed_and_pushed_before_subject_source_inspection": true,
+    "committed_and_pushed_before_runtime_checks": true
+  },
+  "subject": {
+    "git_commit": "c5294749d13d907a9c7d50408baa679ea7cc302c",
+    "commit_object_and_working_bytes_equal_for_all_bindings": true,
+    "bindings": {
+      "main_source": {
+        "path": "artifacts/math/G-0140/stage_e_global_replay/src/main.rs",
+        "sha256": "2088d854981e02fbd6c3d12ad0e4a3e9dd50b2e1d0e6d072fe5c8eb28876d023"
+      },
+      "engine_source": {
+        "path": "artifacts/math/G-0140/stage_e_global_replay/src/engine.rs",
+        "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c"
+      },
+      "cargo_manifest": {
+        "path": "artifacts/math/G-0140/stage_e_global_replay/Cargo.toml",
+        "sha256": "a701d142aeb88cae15d30997dcc3039b5fee105cb3c26621fec9ddcca552f5c9"
+      },
+      "cargo_lock": {
+        "path": "artifacts/math/G-0140/stage_e_global_replay/Cargo.lock",
+        "sha256": "eaaa98ae381bed0f1b48f27e5ca7c3841c2e6e1b8fa6b07e09cff11d172ef2d0"
+      },
+      "release_executable": {
+        "path": "artifacts/math/G-0140/stage_e_global_replay/target/release/g0140-stage-e-global-replay",
+        "sha256": "da98a55b10369b5845bb9197b652bf1eaea156e80363e7d60b8eeb0a1aa74919"
+      }
+    }
+  },
+  "required_checks": {
+    "exact_named_binding_contract": true,
+    "displaced_recursive_lookalikes_rejected": true,
+    "correct_decoy_with_missing_named_binding_rejected": true,
+    "duplicate_path_occurrences_rejected": true,
+    "unknown_envelope_fields_rejected": true,
+    "audit_git_commit_rejected": true,
+    "duplicate_json_keys_rejected": true,
+    "trailing_json_data_rejected": true,
+    "producer_self_test_passed": true,
+    "producer_static_preflight_passed": true,
+    "compiled_source_manifest_lock_match_working_bytes": true,
+    "engine_byte_identity_with_stage_a_verified": true,
+    "stage_d_source_audit_gate_verified": true,
+    "scientific_output_commit_chain_gate_verified": true,
+    "scientific_outputs_excluded_from_manifest_bindings": true,
+    "dynamic_stage_d_member_contract_verified": true,
+    "global_zero_and_residual_branches_verified": true,
+    "complete_label_census_and_end_rehash_verified": true,
+    "overwrite_refusal_verified": true,
+    "prohibited_scientific_modes_not_run": true
+  },
+  "scientific_manifest_observed": false,
+  "scientific_input_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "no_claim": "This source audit does not adjudicate any future G-0140 scientific manifest or result, establish or exclude a global exact identity, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
+}
