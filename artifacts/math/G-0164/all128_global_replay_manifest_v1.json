@@ -1,0 +1,117 @@
+{
+  "schema": "max11-g0164-all128-global-replay-manifest-v1",
+  "result": "FROZEN_BEFORE_G0164_COMPLETE_GLOBAL_REPLAY",
+  "claim_boundary": "GLOBAL_EXACT_ZERO establishes only the complete arbitrary-precision ordered-chamber normal-form identity for the exact frozen G-0164 all-128 direct-basis member. EXACT_RESIDUAL_CONTINUE refutes only that deterministic member and reports the signed-lexicographic residual prefix without opening another study. Neither branch proves family completeness, frozen-family nonmembership, an unrestricted theorem, a lower bound, minimality, the all-n target, refereed status, formalization, or a Lean theorem.",
+  "preregistration": {
+    "path": "artifacts/math/G-0164/PREREGISTRATION.md",
+    "sha256": "f28813a182327e38e713c8a20e9039f12d9722861455dcb1a5fb0bb332b00c10",
+    "git_commit": "dbd488609efda9d6a4eba33fb2c82d67d49b9288"
+  },
+  "finite_manifest": {
+    "path": "artifacts/math/G-0164/all128_manifest_v1.json",
+    "sha256": "c6d6b0f995f26d87321e3c27a36bf39ed6d8eb40a185a85f25b73a5e98120420",
+    "git_commit": "c8965eec01026c8547aeec5c65b34894f6434686"
+  },
+  "finite_member": {
+    "path": "artifacts/math/G-0164/all128_direct_basis_member_v1.json",
+    "sha256": "bc4d1c58587aef6cd3b555b166ba7ec8e0f365cb0089cfd889a235e8f2e20119",
+    "git_commit": "86491d7c2595b65216f99f4b14471b1bc408246a"
+  },
+  "producer": {
+    "git_commit": "29f0610068dd47933f78a5e2222513d65e56713f",
+    "main_source": {
+      "path": "artifacts/math/G-0164/stage_b_global_replay/src/main.rs",
+      "sha256": "acadf6bcbc2b0ac6d87b096ff7909d5e07cfd31cae1e84fa7301a2b1488b2ef0"
+    },
+    "candidate_source": {
+      "path": "artifacts/math/G-0164/stage_b_global_replay/src/candidate.rs",
+      "sha256": "572e2bf6bbd6e5f9b27e4f99700ec1960cc20114f0228e8a2d3343325a8b28fc"
+    },
+    "engine_source": {
+      "path": "artifacts/math/G-0164/stage_b_global_replay/src/engine.rs",
+      "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c"
+    },
+    "cargo_manifest": {
+      "path": "artifacts/math/G-0164/stage_b_global_replay/Cargo.toml",
+      "sha256": "05df37270ef89f78b8a764484ce2049b4b0bf152f1ef778b4d88352546318996"
+    },
+    "cargo_lock": {
+      "path": "artifacts/math/G-0164/stage_b_global_replay/Cargo.lock",
+      "sha256": "fc18595480e30ffeda7fcedcd6d63019744b8b9718fff7d6d31a71a373f89595"
+    },
+    "release_executable": {
+      "path": "artifacts/math/G-0164/stage_b_global_replay/target/release/g0164-stage-b-global-replay",
+      "sha256": "38de94fd68af9eb0aaa4fa2f26908ab4771caa42ab89f569d8ba6b729e93ce94"
+    }
+  },
+  "g0117_cargo_manifest": {
+    "path": "artifacts/math/G-0117/Cargo.toml",
+    "sha256": "0e2ff3c73ce82b508ae21b35bc973c202efbeae03b7e9cf78d3b784664ce5815",
+    "git_commit": "4824d79b13ec161ff5a4cb77d697351797dd27d3"
+  },
+  "g0117_lib_source": {
+    "path": "artifacts/math/G-0117/src/lib.rs",
+    "sha256": "2bb97bb05e32816a77d438a14b049cbf5b003d6ba164b7f0088422d49f80afa6",
+    "git_commit": "4dfad6d32cc4e593a8d981c820986dd6553be3d0"
+  },
+  "source_audit_preregistration": {
+    "path": "artifacts/reviews/G-0166-g0164-global-replay-source/PREREGISTRATION.md",
+    "sha256": "c7b5a437f8f13305ce07237db57ad9a671680b3cf45b73d70aac07a6936a1fcd",
+    "git_commit": "d78325c9214320bffec2e7b4079f02129da516cd"
+  },
+  "source_audit": {
+    "path": "artifacts/reviews/G-0166-g0164-global-replay-source/SOURCE_AUDIT_RECEIPT.json",
+    "sha256": "82637dab274c582fcdf230c69464850decdb207ee172a52f03348c8378d5c2d9",
+    "git_commit": "7503fe216187146a70884fc9b221f1ffed344c1e"
+  },
+  "parent_replay_source": {
+    "path": "artifacts/math/G-0140/stage_e_global_replay/src/main.rs",
+    "sha256": "be4852b63ff2118182cdd07ead85708f0b4ef0785445f0f873ebd4367c9e866a",
+    "git_commit": "4944a58e0816fcf8e62dbdd134448daffce10738"
+  },
+  "parent_replay_engine": {
+    "path": "artifacts/math/G-0140/stage_e_global_replay/src/engine.rs",
+    "sha256": "b92b1b1e1f3a88df5c88846f95d67175a161529733587659ddddf03c9425ae2c",
+    "git_commit": "af608ad38dde2a9b4d25aaefca8bd8407c9a0699"
+  },
+  "parent_source_audit": {
+    "path": "artifacts/reviews/G-0163-g0140-stage-e-final4-source/SOURCE_AUDIT_RECEIPT.json",
+    "sha256": "a86e851e02a9b6805060d72a6d1191ad8275693b6b396250f768de24890d51e9",
+    "git_commit": "95da06f61be488bafbb1ff0ae0bc3f996a8b3fec"
+  },
+  "parameters": {
+    "n": 11,
+    "records": 163740,
+    "base_rows": 412,
+    "appended_rows": 128,
+    "rows": 540,
+    "rank": 349,
+    "selected_pool_indices": [
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+      16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+      32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+      48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
+      64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
+      80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95,
+      96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111,
+      112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127
+    ],
+    "inherited_accumulated_directions": 100,
+    "total_accumulated_directions": 228,
+    "terms": 304,
+    "threads": 12,
+    "arithmetic": "signed_num_bigint_BigInt",
+    "decision_rule": "complete_arbitrary_precision_ordered_chamber_normal_form_aggregate",
+    "labelled_permutations": 12134707200
+  },
+  "planned_output": {
+    "path": "artifacts/math/G-0164/all128_global_replay_v1.json",
+    "schema": "max11-g0164-all128-global-replay-v1",
+    "allowed_results": [
+      "GLOBAL_EXACT_ZERO",
+      "EXACT_RESIDUAL_CONTINUE"
+    ]
+  },
+  "scientific_replay_executed": false,
+  "scientific_output_created": false
+}
