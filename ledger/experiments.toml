@@ -314,3 +314,25 @@ result_summary = "The expansion and augmented matrices have SHA-256 db6912d65015
 status = "complete"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T09:30:25Z
+
+[[experiment]]
+id = "EXP-0028"
+route = "H-0001"
+design = "After exploratory four-prime reconstruction had produced a 478-vector candidate but before a fresh clean-room replay, freeze candidate SHA-256 56b4177d3e584bbe96eb35b17ba799e5138cf071dc7fd72895a45de6d4d68232 at Git commit 27cf4ac, bind the exact 5,769 by 6,795 G-0180 integer matrix and modular rank receipt, and require a new implementation to validate every sparse relation field, primitive coefficient vector, row-to-record binding, and the diagonal 478 by 478 independence witness; check every one of the 3,248,010 entries of C^T A with a proved no-overflow bound; reject a one-unit coefficient mutant; and combine the resulting rational upper bound only with the correctly directed modular lower bound. This is a post-discovery verification freeze, not an outcome-blind discovery preregistration."
+family = "max11-star-loop-exact-rational-kernel-v1"
+prereg = false
+result_summary = "A clean-room verifier checked all 478 independent primitive relations and all 3,248,010 exact equations. Every residual is zero; the one-unit mutant produces 629 nonzero equations. The exact rank sandwich gives rank_Q(A)=5,291 and dim_Q ker(A^T)=478 for the frozen restriction matrix. This does not classify the corresponding full functions or prove their membership in O."
+status = "complete"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T10:07:07Z
+
+[[experiment]]
+id = "EXP-0029"
+route = "H-0001"
+design = "After exploratory complete-normal-form solving discovered a seven-primary lift of the unique support-four G-0181 relation, freeze the eleven-term candidate at Git commit 3322954 and freeze a fresh verifier at commit 5df2874 before its first execution. Reconstruct four STAR and seven loopless old-primary records directly from the hash-bound G-0179 and G-0113 censuses, run both frozen G-0109 and G-0179 complete-normal-form implementations on one canonical input, require literal evaluator agreement and exact cancellation on every union hinge plus all eleven linear coordinates, reject a one-unit p11134 coefficient mutant, and rehash all inputs at exit. This is a post-discovery verification freeze, not an outcome-blind discovery preregistration."
+family = "max11-star-loop-four-term-primary-lift-v1"
+prereg = false
+result_summary = "The two evaluators agree and certify q821-q1630-q2986+q3944=-2p11134-p12930+p16701+p22121+p24222+p36968-p122205 as a complete characteristic-zero function identity. The final residual is zero over all 1,379 raw union hinge directions and eleven linear coordinates; the coefficient mutant fails. This proves one exact G-0181 kernel vector lies in O, not that the other 477 do."
+status = "complete"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T10:07:07Z
