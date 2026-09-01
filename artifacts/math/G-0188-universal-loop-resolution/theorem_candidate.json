@@ -1,0 +1,41 @@
+{
+  "claim_boundary": "The lemma propagates the three stated fixed graph-template identities only. It does not classify other STAR-kernel circuits, prove a parameterized straightening family, prove the full STAR quarantine, decide MAX11, establish ansatz completeness, or imply an unrestricted neural-network lower bound.",
+  "deletion_lemma": {
+    "normalization": "Raw full S_n orbit symmetrization of a fixed signed pair-max graph template, including the frozen degree-five nonloop padding convention and inactive-label multiplicity.",
+    "recurrence": "Phi_{G,n+1}(x_1,...,x_{n+1}) = sum_{j=1}^{n+1} Phi_{G,n}(x_1,...,x_hat_j,...,x_{n+1}).",
+    "statement": "If an integer linear combination of finitely many graph-template orbit atoms, each supported on at most K labelled vertices, is exactly zero at ambient dimension K, then the same template identity is exactly zero for every ambient dimension n >= K."
+  },
+  "identities": [
+    {
+      "base_dimension": 6,
+      "candidate_path": "artifacts/math/G-0182-four-term-primary-lift/candidate_identity.json",
+      "candidate_sha256": "b345639a47faf6b18d728648f891b913a55a7217a741b9537187da2dd3751d47",
+      "name": "G-0182 four-term loop square",
+      "promoted_n11_receipt_sha256": "f92635277b6d24c8c69eac2048af1152008ef5626ab96cc7a41403a7d520aa3d",
+      "universal_range": "n >= 6"
+    },
+    {
+      "base_dimension": 7,
+      "candidate_path": "artifacts/math/G-0183-six-term-primary-lift/candidate_identity.json",
+      "candidate_sha256": "df295599ac4e0f3fc94666198d9aa075b081866efa8a7e5dcf43a67edb76220e",
+      "name": "G-0183 six-term relation",
+      "promoted_n11_receipt_sha256": "c3dd7eb92a906b3ad2563dea96f02ec3cbfb51777f34dc681840de7e6e6419e1",
+      "universal_range": "n >= 7"
+    },
+    {
+      "base_dimension": 7,
+      "candidate_path": "artifacts/math/G-0184-six-term-primary-lift/candidate_identity.json",
+      "candidate_sha256": "6ce618ddf34b00ec442e8a0d533eb3caef54b91245c6be626dcf3834125728bc",
+      "name": "G-0184 six-term relation",
+      "promoted_n11_receipt_sha256": "5860b2b15c01b5951f76d82751451d450a62b03c4b9c9f576e96fbee62555898",
+      "universal_range": "n >= 7"
+    }
+  ],
+  "record_sources": {
+    "old_primary_path": "artifacts/math/G-0113/panel_solver_input_v1.json",
+    "old_primary_sha256": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "star_path": "artifacts/math/G-0179-star-loop-quarantine/star_outside_primary_records.json",
+    "star_sha256": "c4380bff3d96fafa084e387ef1b972a3f362a4614adaca8f596311958b54c4d4"
+  },
+  "schema": "g0188.universal-orbit-identity-theorem-candidate.v1"
+}
