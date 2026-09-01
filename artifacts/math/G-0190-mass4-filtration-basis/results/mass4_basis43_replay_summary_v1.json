@@ -1,0 +1,11 @@
+{
+  "basis_vectors": 43,
+  "coordinates_per_vector": 6795,
+  "equations_checked": 292185,
+  "maximum_abs_matrix_entry": 120960,
+  "maximum_signed_accumulation_bound": "9192960",
+  "mutant_nonzero_coordinates": 1825,
+  "mutated_output_row": 317,
+  "residual_nonzero_coordinates": 0,
+  "signed_i128_safe": true
+}
