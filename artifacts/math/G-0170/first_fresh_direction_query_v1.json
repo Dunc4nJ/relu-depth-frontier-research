@@ -1,0 +1,6 @@
+{
+  "schema": "max11-g0117-coordinate-query-v1",
+  "direction": [0, 0, 0, 0, 0, 0, 0, 1, -3, -2, 4],
+  "expected_records": 163740,
+  "emit_values": true
+}
