@@ -19,6 +19,7 @@ import mmap
 import os
 from pathlib import Path
 import resource
+import stat
 import subprocess
 import sys
 import tempfile
@@ -232,12 +233,32 @@ def require(condition: bool, message: str) -> None:
 
 
 def contained(path: Path) -> Path:
-    resolved = path.resolve()
+    candidate = Path(path)
+    require(candidate.is_absolute(), f"path is not absolute: {candidate}")
     try:
-        resolved.relative_to(ROOT)
+        relative_path = candidate.relative_to(ROOT)
     except ValueError as error:
         raise AdmissionError(f"path escapes repository: {path}") from error
-    return resolved
+    require(
+        "." not in relative_path.parts and ".." not in relative_path.parts,
+        f"dot-segment path rejected: {path}",
+    )
+
+    # Inspect the lexical path before any resolution or content access.  Resolving
+    # first would turn an in-repository symlink into its regular-file target and
+    # erase the evidence that the binding named a symlink.
+    cursor = ROOT
+    for component in relative_path.parts:
+        cursor /= component
+        try:
+            metadata = cursor.lstat()
+        except FileNotFoundError:
+            break
+        require(
+            not stat.S_ISLNK(metadata.st_mode),
+            f"symlink path rejected before resolution: {path}",
+        )
+    return candidate
 
 
 def relative(path: Path) -> str:
@@ -245,16 +266,32 @@ def relative(path: Path) -> str:
 
 
 def sha256_path(path: Path) -> str:
+    candidate = contained(path)
+    flags = os.O_RDONLY | getattr(os, "O_CLOEXEC", 0) | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        descriptor = os.open(candidate, flags)
+    except OSError as error:
+        raise AdmissionError(f"cannot open regular bound path: {candidate}") from error
     digest = hashlib.sha256()
-    with contained(path).open("rb") as source:
+    with os.fdopen(descriptor, "rb") as source:
+        metadata = os.fstat(source.fileno())
+        require(
+            stat.S_ISREG(metadata.st_mode),
+            f"bound path is not a regular file: {candidate}",
+        )
         for block in iter(lambda: source.read(1 << 20), b""):
             digest.update(block)
     return digest.hexdigest()
 
 
 def require_sha(path: Path, expected: str, label: str) -> None:
-    require(path.is_file(), f"missing {label}: {relative(path)}")
-    require(sha256_path(path) == expected, f"{label} SHA-256 drift")
+    candidate = contained(path)
+    try:
+        metadata = candidate.lstat()
+    except FileNotFoundError as error:
+        raise AdmissionError(f"missing {label}: {relative(candidate)}") from error
+    require(stat.S_ISREG(metadata.st_mode), f"nonregular {label}: {relative(candidate)}")
+    require(sha256_path(candidate) == expected, f"{label} SHA-256 drift")
 
 
 def no_duplicate_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -1049,6 +1086,142 @@ def self_test() -> dict[str, bool]:
             rejected = True
         require(rejected, f"{name} JSON fixture survived")
 
+    with tempfile.TemporaryDirectory(
+        prefix=".g0168-source-self-test.", dir=HERE
+    ) as raw_fixture_directory:
+        fixture_directory = Path(raw_fixture_directory)
+
+        regular_binding = fixture_directory / "regular-binding.txt"
+        regular_binding.write_bytes(b"bound bytes\n")
+        require(
+            sha256_path(regular_binding)
+            == hashlib.sha256(b"bound bytes\n").hexdigest(),
+            "regular binding control failed",
+        )
+
+        symlink_binding = fixture_directory / "symlink-binding.txt"
+        symlink_binding.symlink_to(regular_binding.name)
+        symlink_binding_rejected = False
+        try:
+            sha256_path(symlink_binding)
+        except AdmissionError:
+            symlink_binding_rejected = True
+        require(
+            symlink_binding_rejected,
+            "symlink binding survived pre-resolution path validation",
+        )
+
+        real_directory = fixture_directory / "real-directory"
+        real_directory.mkdir()
+        nested_binding = real_directory / "nested-binding.txt"
+        nested_binding.write_bytes(b"nested bound bytes\n")
+        symlink_directory = fixture_directory / "symlink-directory"
+        symlink_directory.symlink_to(real_directory.name, target_is_directory=True)
+        symlink_ancestor_rejected = False
+        try:
+            sha256_path(symlink_directory / nested_binding.name)
+        except AdmissionError:
+            symlink_ancestor_rejected = True
+        require(
+            symlink_ancestor_rejected,
+            "symlinked binding ancestor survived pre-resolution path validation",
+        )
+
+        publication_value = {
+            "schema": "g0168-source-only-publication-fixture-v1",
+            "value": [1, 2, 3],
+        }
+        publication_path = fixture_directory / "publication-fixture.json"
+        short_write_calls = 0
+
+        def short_writer(descriptor: int, remaining: memoryview) -> int:
+            nonlocal short_write_calls
+            short_write_calls += 1
+            return os.write(descriptor, remaining[: min(7, len(remaining))])
+
+        publish_json_exclusive(publication_path, publication_value, short_writer)
+        require(short_write_calls > 1, "short-write fixture did not short-write")
+        require(
+            publication_path.read_bytes() == canonical_json_bytes(publication_value),
+            "complete-write loop published truncated bytes",
+        )
+
+        original_publication = publication_path.read_bytes()
+        no_clobber_rejected = False
+        try:
+            publish_json_exclusive(publication_path, publication_value)
+        except AdmissionError:
+            no_clobber_rejected = True
+        require(no_clobber_rejected, "exclusive publication overwrote an existing path")
+        require(
+            publication_path.read_bytes() == original_publication,
+            "no-clobber rejection changed existing bytes",
+        )
+
+        zero_write_path = fixture_directory / "zero-write-fixture.json"
+
+        def zero_writer(_descriptor: int, _remaining: memoryview) -> int:
+            return 0
+
+        zero_write_rejected = False
+        try:
+            publish_json_exclusive(zero_write_path, publication_value, zero_writer)
+        except AdmissionError:
+            zero_write_rejected = True
+        require(
+            zero_write_rejected and not zero_write_path.exists(),
+            "zero-progress write published an artifact",
+        )
+
+        failed_write_path = fixture_directory / "failed-write-fixture.json"
+        first_partial_write = True
+
+        def failing_writer(descriptor: int, remaining: memoryview) -> int:
+            nonlocal first_partial_write
+            if first_partial_write:
+                first_partial_write = False
+                return os.write(descriptor, remaining[: min(5, len(remaining))])
+            raise OSError("synthetic staged write failure")
+
+        failed_write_rejected = False
+        try:
+            publish_json_exclusive(failed_write_path, publication_value, failing_writer)
+        except AdmissionError:
+            failed_write_rejected = True
+        require(
+            failed_write_rejected and not failed_write_path.exists(),
+            "failed staged write published an artifact",
+        )
+
+        corrupt_write_path = fixture_directory / "corrupt-write-fixture.json"
+        corruption_injected = False
+
+        def corrupt_writer(descriptor: int, remaining: memoryview) -> int:
+            nonlocal corruption_injected
+            payload = bytearray(remaining)
+            if payload and not corruption_injected:
+                payload[0] ^= 1
+                corruption_injected = True
+            return os.write(descriptor, payload)
+
+        corrupt_write_rejected = False
+        try:
+            publish_json_exclusive(
+                corrupt_write_path,
+                publication_value,
+                corrupt_writer,
+            )
+        except AdmissionError:
+            corrupt_write_rejected = True
+        require(
+            corrupt_write_rejected and not corrupt_write_path.exists(),
+            "staged-byte corruption reached publication",
+        )
+        require(
+            not list(fixture_directory.glob(".*.tmp")),
+            "publication self-test leaked staging files",
+        )
+
     subject_commit = "0" * 40
     producer_digest = "1" * 64
     audit_fixture: dict[str, Any] = {
@@ -1169,6 +1342,13 @@ def self_test() -> dict[str, bool]:
         "trailing_json_data_rejected": True,
         "bom_rejected": True,
         "non_object_json_rejected": True,
+        "symlink_binding_rejected_before_hashing": True,
+        "symlink_binding_ancestor_rejected_before_hashing": True,
+        "short_write_completed_before_publication": True,
+        "zero_progress_write_rejected": True,
+        "failed_write_rejected": True,
+        "staged_corruption_rejected_before_publication": True,
+        "exclusive_publication_no_clobber": True,
     }
 
 
@@ -1686,31 +1866,141 @@ def validate_manifest() -> tuple[dict[str, Any], dict[str, Any], Any, dict[str, 
     return manifest, static, solver, state, snapshot
 
 
-def write_exclusive(path: Path, value: object) -> None:
-    path = contained(path)
-    require(path == OUTPUT_PATH, "output path drift")
-    require(path.parent.is_dir(), "output parent missing")
-    encoded = (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode(
-        "utf-8"
+def canonical_json_bytes(value: object) -> bytes:
+    try:
+        return (
+            json.dumps(
+                value,
+                sort_keys=True,
+                separators=(",", ":"),
+                allow_nan=False,
+            )
+            + "\n"
+        ).encode("utf-8")
+    except (TypeError, ValueError) as error:
+        raise AdmissionError("output is not strict canonical JSON") from error
+
+
+def complete_write(
+    descriptor: int,
+    encoded: bytes,
+    writer: Callable[[int, memoryview], int] = os.write,
+) -> None:
+    view = memoryview(encoded)
+    offset = 0
+    while offset < len(view):
+        try:
+            count = writer(descriptor, view[offset:])
+        except OSError as error:
+            raise AdmissionError("staged output write failed") from error
+        require(
+            type(count) is int and 0 < count <= len(view) - offset,
+            "staged output writer made no valid forward progress",
+        )
+        offset += count
+    require(offset == len(encoded), "staged output write was incomplete")
+
+
+def reread_descriptor(descriptor: int) -> bytes:
+    os.lseek(descriptor, 0, os.SEEK_SET)
+    chunks: list[bytes] = []
+    while True:
+        chunk = os.read(descriptor, 1 << 20)
+        if not chunk:
+            return b"".join(chunks)
+        chunks.append(chunk)
+
+
+def validate_staged_json(
+    staged: bytes,
+    expected_value: object,
+    expected_sha256: str,
+    label: str,
+) -> None:
+    require(
+        hashlib.sha256(staged).hexdigest() == expected_sha256,
+        "staged output SHA-256 mismatch",
     )
+    try:
+        text = staged.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise AdmissionError("staged output is not UTF-8") from error
+    parsed = strict_json_text(text, label)
+    require(parsed == expected_value, "staged output value mismatch")
+    require(
+        canonical_json_bytes(parsed) == staged,
+        "staged output is not canonical JSON",
+    )
+
+
+def publish_json_exclusive(
+    path: Path,
+    value: object,
+    writer: Callable[[int, memoryview], int] = os.write,
+) -> None:
+    path = contained(path)
+    require(path.parent.is_dir(), "output parent missing")
+    encoded = canonical_json_bytes(value)
+    expected_sha256 = hashlib.sha256(encoded).hexdigest()
     temporary: Path | None = None
+    descriptor: int | None = None
     try:
         descriptor, raw = tempfile.mkstemp(
             prefix=f".{path.name}.", suffix=".tmp", dir=path.parent
         )
         temporary = Path(raw)
-        with os.fdopen(descriptor, "wb") as destination:
-            destination.write(encoded)
-            destination.flush()
-            os.fsync(destination.fileno())
-        os.link(temporary, path)
+        initial_metadata = os.fstat(descriptor)
+        require(
+            stat.S_ISREG(initial_metadata.st_mode),
+            "staging path is not a regular file",
+        )
+        complete_write(descriptor, encoded, writer)
+        os.fsync(descriptor)
+
+        # Re-read the same open staging inode, then strictly parse and hash those
+        # exact bytes before the no-clobber publication step.
+        staged = reread_descriptor(descriptor)
+        validate_staged_json(
+            staged,
+            value,
+            expected_sha256,
+            relative(temporary),
+        )
+        final_metadata = os.fstat(descriptor)
+        path_metadata = temporary.lstat()
+        require(
+            stat.S_ISREG(path_metadata.st_mode)
+            and final_metadata.st_dev == initial_metadata.st_dev
+            and final_metadata.st_ino == initial_metadata.st_ino
+            and path_metadata.st_dev == initial_metadata.st_dev
+            and path_metadata.st_ino == initial_metadata.st_ino
+            and final_metadata.st_size == len(encoded),
+            "staging inode identity or size changed before publication",
+        )
+
+        os.link(temporary, path, follow_symlinks=False)
+        published_metadata = path.lstat()
+        require(
+            stat.S_ISREG(published_metadata.st_mode)
+            and published_metadata.st_dev == initial_metadata.st_dev
+            and published_metadata.st_ino == initial_metadata.st_ino,
+            "published output is not the validated staging inode",
+        )
         temporary.unlink()
         temporary = None
     except FileExistsError as error:
         raise AdmissionError(f"refusing to overwrite {relative(path)}") from error
     finally:
+        if descriptor is not None:
+            os.close(descriptor)
         if temporary is not None:
             temporary.unlink(missing_ok=True)
+
+
+def write_exclusive(path: Path, value: object) -> None:
+    path = contained(path)
+    require(path == OUTPUT_PATH, "output path drift")
+    publish_json_exclusive(path, value)
 
 
 def scientific_run() -> dict[str, Any]:
