@@ -1,0 +1,49 @@
+{
+  "schema": "max11-g0170-first-fresh-direction-bridge-v1",
+  "result": "EXACT_PRICE_DOT_BRIDGE_PASS",
+  "claim_boundary": "This receipt validates one exact full-family hinge-coordinate row and its dot-product bridge to the frozen G-0164 residual. It does not decide augmented rank, finite-family compatibility, a global identity, an unrestricted representation theorem, a lower bound, minimality, or an all-n result.",
+  "preregistration": {
+    "path": "artifacts/math/G-0170/PREREGISTRATION.md",
+    "git_commit": "acb36b6db9f61f4faf90c8cca91342e2ff00c960",
+    "sha256": "2a57c9846a722f5e7554f35a0512a035c86a6e3700c747ff7a23db5822ba2fd8"
+  },
+  "query": {
+    "path": "artifacts/math/G-0170/first_fresh_direction_query_v1.json",
+    "git_commit": "acb36b6db9f61f4faf90c8cca91342e2ff00c960",
+    "sha256": "62b19d448697aa77aea034af5ba695d25f5c37ef00202983655151ee718b8685"
+  },
+  "coordinate": {
+    "path": "artifacts/math/G-0170/first_fresh_direction_coordinate_v1.json",
+    "sha256": "7bf3bd1339946ad2999c38f1b8bffe88b7dfa8196bb567fcee7a58e9c897087b"
+  },
+  "finite_member": {
+    "path": "artifacts/math/G-0164/all128_direct_basis_member_v1.json",
+    "git_commit": "86491d7c2595b65216f99f4b14471b1bc408246a",
+    "sha256": "bc4d1c58587aef6cd3b555b166ba7ec8e0f365cb0089cfd889a235e8f2e20119"
+  },
+  "global_result": {
+    "path": "artifacts/math/G-0164/all128_global_replay_v1.json",
+    "git_commit": "1a16346519c11d4616a10a2738a70aa935643053",
+    "sha256": "c04e39834de079b7ea89884cedc23956aaaf585c6ac2f3d79241395c943dba6a"
+  },
+  "producer_bindings": {
+    "panel_input_sha256": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "producer_source_sha256": "b8f079d08f1100108433428bc5fe4daa40edf5e90757736013fa07002c1fab0c",
+    "kernel_source_sha256": "2bb97bb05e32816a77d438a14b049cbf5b003d6ba164b7f0088422d49f80afa6",
+    "release_executable_sha256": "66bb82580f8540087a9e0476043390694002f63593ba4bc803346a6f07ae3a04"
+  },
+  "direction": [0, 0, 0, 0, 0, 0, 0, 1, -3, -2, 4],
+  "records": 163740,
+  "candidate_terms": 304,
+  "nonzero_hinge_coefficients": 1533,
+  "maximum_hinge_coefficient": 40320,
+  "hinge_coefficients_i64_le_sha256": "f4285a36af1c3985576c2471352c36d972e8c69ed32f372b6bd83da4dec89ddc",
+  "exact_candidate_dot": "379858988519969425640880275968838894169747154467569436493787649506373736737950413636778164001256433026417251950602296924512458629249878005260933604660006607265165930153855350438792638052520802532699547678484433662808677221428571717301614719241683614296777110430993345898281411351171169404068928008487414400335604088388036643010391694264177960466072190898850647789138420761349640684800",
+  "frozen_global_residual": "379858988519969425640880275968838894169747154467569436493787649506373736737950413636778164001256433026417251950602296924512458629249878005260933604660006607265165930153855350438792638052520802532699547678484433662808677221428571717301614719241683614296777110430993345898281411351171169404068928008487414400335604088388036643010391694264177960466072190898850647789138420761349640684800",
+  "exact_dot_matches_frozen_residual": true,
+  "coordinate_digest_recomputed": true,
+  "coordinate_census_recomputed": true,
+  "all_frozen_bindings_rehashed": true,
+  "augmented_rank_computation_run": false,
+  "wall_seconds": 16.362527046
+}
