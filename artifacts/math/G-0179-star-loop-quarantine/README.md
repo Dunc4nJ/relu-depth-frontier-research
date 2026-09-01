@@ -5,6 +5,16 @@ singular: it contains 90 duplicate-column pairs and two duplicate-row pairs.
 Its exact modular rank is 5,291 over each preregistered prime, 1,000,003 and
 1,000,033.  Therefore the conditional theorem below was not promoted.
 
+The two exact duplicate-row relations are nevertheless harmless modulo the old
+space \(O\): \(q_{22}=q_{3140}\), and an independent two-evaluator replay proves
+
+\[
+q_{2986}-q_{5656}=2p_{15947}-p_{22121}-p_{36968}\in O.
+\]
+
+Thus formal full rank on all 5,771 rows is impossible, but these two failures
+can be quotiented without changing target membership modulo \(O\).
+
 The high-leverage observation is a support separation.  Every one of the
 163,740 old primary signed-\(W\) columns is loopless, so it has no
 ordered-chamber hinge with \(d_0\ne0\).  Every one of the 5,773 frozen
@@ -32,7 +42,7 @@ not an unrestricted neural-network lower bound.
 
 The original outcome-blind theorem, hashes, commands, and branches remain
 unaltered in [PREREGISTRATION.md](PREREGISTRATION.md).  The exact outcome and
-its claim boundary are recorded in [RESULT.md](RESULT.md).  A separately
-frozen expansion may still test whether additional active \(d_0=1\) directions
-make the full restriction injective; that would be a new experiment, not a
-reinterpretation of this failed gate.
+its claim boundary are recorded in [RESULT.md](RESULT.md).  The next valid gate
+must work on the quotient by the certified relations—or directly prove that
+the complete \(d_0=1\) kernel lies in \(O\).  Adding directions while demanding
+formal rank 5,771 cannot succeed.
