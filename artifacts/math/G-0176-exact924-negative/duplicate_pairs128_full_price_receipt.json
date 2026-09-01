@@ -1,0 +1,21 @@
+{
+  "directions": 128,
+  "directions_i8_sha256": "03a3ea37f1aa41f791ea8c2fdcbf202971279afcbb752785795afc03e25e84ad",
+  "elapsed_seconds": 514.562566836,
+  "evidence_class": "PROVISIONAL_EXPLORATORY_ONLY_NOT_CERTIFIED",
+  "exact_member_terms": 287,
+  "global_direct_exact_dot_bridge": true,
+  "inputs": {
+    "member_sha256": "07cf4d5da377768687143dea869a2321a9c288f318a84cd14cbf6b01766f0299",
+    "panel_sha256": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8",
+    "selection_sha256": "bd103d1f0236ae5228f78fa1c609928f96ce82b0cd8eb8e1de9cb4964919549a"
+  },
+  "layout": "record-major signed-i64 little-endian",
+  "matrix_bytes": 167669760,
+  "matrix_path": "/tmp/g0168-screen.vvx85D/duplicate_pairs128.record-major.i64le",
+  "matrix_sha256": "6ac563464a3e8cb8e87b9517507d9395da9b9a2e6918810e6861a2171be74372",
+  "maximum": 96000,
+  "minimum": 0,
+  "records": 163740,
+  "schema": "g0168.duplicate_pairs128_provisional_full_family_coordinates.v1"
+}

@@ -1,0 +1,194 @@
+{
+  "schema": "g0177.exact924_independent_result_audit.v1",
+  "generated_utc": "2026-09-01T06:47:48Z",
+  "audit_mode": "read_only_result_audit",
+  "repository_edited": false,
+  "verdict": {
+    "mathematical_outcome": "PASS_BOUNDED",
+    "source_custody": "BLOCK",
+    "promotion": "BLOCK",
+    "bottom_line": "The current 924-row member is an exact finite-family member but is exactly nonzero on a directly recomputed global hinge, so it is not a global identity and does not solve the target problem."
+  },
+  "artifacts": {
+    "pair_quotient_p1000003": {
+      "path": "/tmp/g0168-screen.vvx85D/pair_quotient_p1000003_hardened.json",
+      "bytes": 904,
+      "sha256": "5a8acc03ecfa9dab730fb8a1c8739fe260399c1065dfeb8c61e682db75a59a66"
+    },
+    "pair_quotient_p1000033": {
+      "path": "/tmp/g0168-screen.vvx85D/pair_quotient_p1000033_hardened.json",
+      "bytes": 904,
+      "sha256": "162556e97ef84e474e9aaabaf22364d3af0cd6a020014bbb03c3e60f9bf25ada"
+    },
+    "exact_924_member": {
+      "path": "/tmp/g0168-screen.vvx85D/exact_924_member.json",
+      "bytes": 317532,
+      "sha256": "61c4b86e9ea0af4e0896c72656c11246c4c18a4c5b8aebe28e57e70a112cdf83"
+    },
+    "global_replay_924": {
+      "path": "/tmp/g0168-screen.vvx85D/global_replay_924_member.json",
+      "bytes": 2529649,
+      "sha256": "2aa9f3518c2a3e80de6fa5d14f354e919acc41b0a404276b593b71fa0bf022a8"
+    },
+    "pair_matrix": {
+      "path": "/tmp/g0168-screen.vvx85D/duplicate_pairs128.record-major.i64le",
+      "bytes": 167669760,
+      "sha256": "6ac563464a3e8cb8e87b9517507d9395da9b9a2e6918810e6861a2171be74372"
+    },
+    "pair_matrix_receipt": {
+      "path": "/tmp/g0168-screen.vvx85D/duplicate_pairs128_full_price_receipt.json",
+      "bytes": 966,
+      "sha256": "c4456588f9d8529205000ed77859cff09812ee34a04957163b5d7f0be649ee9d"
+    },
+    "pair_selection": {
+      "path": "/tmp/g0168-screen.vvx85D/selected_duplicate_pairs_128.json",
+      "bytes": 56313,
+      "sha256": "bd103d1f0236ae5228f78fa1c609928f96ce82b0cd8eb8e1de9cb4964919549a"
+    },
+    "fingerprint_matrix": {
+      "path": "/tmp/g0168-screen.vvx85D/basis595_probe512_direction4096.record-major.i64le",
+      "bytes": 36274176,
+      "sha256": "da768d730300b7ee76f6a628fc6fafd414016e0bab9c9833da1b3bc3a67df267"
+    },
+    "fingerprint_receipt": {
+      "path": "/tmp/g0168-screen.vvx85D/fingerprint_receipt.json",
+      "bytes": 12021,
+      "sha256": "f266d7d4ef0dd2d53c39dfb0970321831772592e78a0b1ea0db9d7004a6e386e"
+    },
+    "exact_796_member": {
+      "path": "/tmp/g0168-next.yerj9c/exact_796_member.json",
+      "bytes": 225165,
+      "sha256": "07cf4d5da377768687143dea869a2321a9c288f318a84cd14cbf6b01766f0299"
+    },
+    "next128_matrix": {
+      "path": "/tmp/g0168-next.yerj9c/next128.record-major.i64le",
+      "bytes": 167669760,
+      "sha256": "7fdf3ccf7f764ba1637b6de29f1f4c90ba6ef0a60f4868dad2922711998f6cb4"
+    },
+    "global_replay_796": {
+      "path": "/tmp/g0168-next.yerj9c/global_replay_796_member.json",
+      "bytes": 2268745,
+      "sha256": "9cb7605d787c46339191a058e37b259a2a1ae5fba1e0b48417faf8d556c97b6b"
+    },
+    "exact_668_member": {
+      "path": "/tmp/g0168-explore.kEmA87/exact_augmented_member.json",
+      "bytes": 205365,
+      "sha256": "bd7ee2a8a92c490805f4a13d451f340d0f53cd6e4698062e422d444a84e609c6"
+    },
+    "fresh128_matrix": {
+      "path": "/tmp/g0168-explore.kEmA87/fresh128.record-major.i64le",
+      "bytes": 167669760,
+      "sha256": "9de042920c07b811efa25df550cd8860bc6715f24893ec316360b0ff28d0570c"
+    },
+    "sealed_panel": {
+      "path": "/data/projects/relu-depth-frontier-research/artifacts/math/G-0113/panel_solver_input_v1.json",
+      "bytes": 68138168,
+      "sha256": "093d599a209dc1bf8dc2a3ff5b178205005500b08e021b83eb0c92d99f46a0c8"
+    }
+  },
+  "finite_member_checks": {
+    "status": "PASS",
+    "rows_replayed_exactly": 924,
+    "nonzero_residuals": 0,
+    "residuals_decimal_lf_sha256": "e2690d85858011be129c55979a28e5a651ce4f964ffbf5df90079d5ecefd6eb1",
+    "selected_columns": 659,
+    "support_terms": 349,
+    "target_scale_digits": 423,
+    "integer_coefficients_decimal_lf_sha256": "57cd644d7253533635f80ff4b0073d3123d3f512f0d38bb9c8029dfcb41d26da",
+    "term_coefficient_association_exact": true,
+    "primitive_integer_scaling": true,
+    "selected_minor_rank_mod_1000003": 659,
+    "selected_minor_rank_mod_1000033": 659,
+    "selected_minor_rank_over_Q": 659,
+    "method": "Independent Python arbitrary-integer dot replay from the sealed 540-row state and the three raw 128-row matrices; independent modular elimination on the explicit 659 by 659 integer minor."
+  },
+  "pair_matrix_checks": {
+    "status": "PASS_BOUNDED",
+    "records": 163740,
+    "directions": 128,
+    "direction_i8_sha256": "03a3ea37f1aa41f791ea8c2fdcbf202971279afcbb752785795afc03e25e84ad",
+    "exact_796_member_dot_bridges_recomputed": 128,
+    "clean_formula_raw_entry_spot_checks": 48,
+    "sample_sequences": [0, 1, 484, 1566, 14347, 163739],
+    "sample_direction_indices": [0, 1, 2, 31, 63, 64, 95, 127]
+  },
+  "quotient_checks": {
+    "status": "PASS",
+    "records_scanned_independently": 163740,
+    "primes": [1000003, 1000033],
+    "current_rank": 595,
+    "quotient_rank": {
+      "1000003": 64,
+      "1000033": 64
+    },
+    "augmented_with_residual_rank": {
+      "1000003": 64,
+      "1000033": 64
+    },
+    "same_pivot_sequence_list": true,
+    "pivot_sequences": [484, 485, 488, 490, 491, 492, 498, 499, 501, 502, 503, 504, 505, 506, 510, 511, 512, 517, 518, 521, 523, 524, 525, 526, 527, 528, 530, 531, 532, 533, 535, 538, 539, 541, 543, 545, 546, 547, 548, 549, 550, 551, 552, 555, 556, 557, 558, 560, 561, 562, 564, 566, 569, 570, 573, 574, 575, 578, 579, 580, 581, 590, 608, 1566],
+    "corrected_decomposition": {
+      "even_representative_block_rank": {
+        "1000003": 63,
+        "1000033": 63
+      },
+      "pair_difference_block_rank": {
+        "1000003": 1,
+        "1000033": 1
+      },
+      "pair_difference_nonzero_entries": {
+        "1000003": 328,
+        "1000033": 328
+      },
+      "rows_outside_reconstructed_subspaces": {
+        "1000003": 0,
+        "1000033": 0
+      },
+      "invalidated_interpretation": "The 64 selected heuristic pairs are not 64 literal global quotient identities."
+    },
+    "method": "Independent Gauss-Jordan implementation plus a complete two-prime scan. Rank upper bound was checked through the 63-dimensional even block and one-dimensional pair-difference block; the listed rows witness the matching lower bound and residual compatibility."
+  },
+  "global_nonzero_check": {
+    "status": "PASS",
+    "direction": [0, 0, 0, 0, 0, 1, -3, 1, 1, -2, 2],
+    "coefficient": "1016563075963457309843410119017860544526296285693138803497156652051412225965682955876784383880617388675012496669741304526700214511114441303341080117501685027048252237515929946280375935979225674184645184791821547300694680679067301936751817320723260891432045599771510508262059896761895538030270768783521849703492154998558214322991786390422708926105583768529545263279732214108571666283244588629886978616366718541162738076213457920",
+    "support_contributions_recomputed": 349,
+    "per_term_prices_cross_checked_against_prior_coordinate_matrix": 288,
+    "new_support_terms_recomputed_directly_without_prior_panel": 61,
+    "method": "Clean Python top-down injection-completion count directly from sealed panel records and the 349 member terms; no global result label or production hinge value was trusted.",
+    "consequence": "The current finite member is exactly nonzero globally."
+  },
+  "global_metadata_consistency": {
+    "factorial_11": 39916800,
+    "labelled_permutations": 13930963200,
+    "labelled_permutations_arithmetic_checked": true,
+    "eleven_linear_residuals_zero_supported_by_finite_replay": true,
+    "stored_prefix_is_strictly_ordered_and_nonzero": true,
+    "unchecked_fields": [
+      "absence of a lexicographically earlier nonzero hinge",
+      "hinge_entries_processed = 11239811",
+      "nonzero_hinge_directions = 162522",
+      "complete_exact_residual_sha256 = f280d85545d46271ba539baf82ac67300a3169cc24264035e7e184ea8a5ab5e7",
+      "all 4096 stored prefix coefficients beyond the directly checked witness"
+    ],
+    "digest_defect": {
+      "present": true,
+      "stale_domain_separator": "G0168-PROVISIONAL-668-MEMBER-COMPLETE-EXACT-RESIDUAL-V1\\0",
+      "effect": "The digest remains a same-run checksum but its domain label is stale for the 924-row member and the full digest was not independently reproduced."
+    }
+  },
+  "custody_and_promotion": {
+    "status": "BLOCK",
+    "reasons": [
+      "The decisive quotient, member, matrix, and global replay artifacts remain mutable files under /tmp rather than frozen Git objects.",
+      "The exploratory pair-pricing, quotient, exact-lift, and generic global-wrapper sources have not received a fresh source/custody certification bound to these results.",
+      "This result audit establishes current-byte mathematics but does not replace source audit, immutable custody, clean-room full-census replay, or T2 external review."
+    ]
+  },
+  "no_claim": [
+    "This is not a global identity; the direct nonzero witness refutes that claim for this member.",
+    "This does not solve the frozen MAX11 target, prove a neural-network lower bound, establish minimality, or establish family completeness.",
+    "This does not certify the complete global census or complete residual digest.",
+    "This does not promote the artifacts beyond provisional current-byte evidence."
+  ]
+}
