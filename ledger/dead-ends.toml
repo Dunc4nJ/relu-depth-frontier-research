@@ -78,3 +78,13 @@ evidence = ["E-0029"]
 retry_when = "regime_boundary(incidence-constraint-proved-semantic)"
 author_path = "research-lead/lilacbridge"
 created = 2026-08-30T20:48:54Z
+
+[[dead_end]]
+id = "D-0007"
+approach = "Repair the G-0179 STAR restriction rank deficiency by appending either 480 frozen hash-ordered unused active d0=1 directions or a 1,024-direction prefix containing every available structural match to the two-prime dependent-record set."
+observed = "After quotienting the four certified sequences, both appended gates retain rank exactly 5,291 modulo 1,000,003 and 1,000,033. All 1,024 new columns add zero pivots; 465 of the structural matches target retained quotient rows."
+scope = "Exactly the 5,769 retained common-apex STAR records, original 5,771 directions, and preregistered G-0180 prefixes of 480 and 1,024 directions; rank bundle SHA-256 e6cd41e8ef4156db9874882ffb4e69e77e22691ba5612d9aef40098888a69676."
+does_not_show = "Finite-field non-full-rank does not upper-bound rational rank, certify exact function identities, cover all 10,890 unused directions, decide MAX11 membership in O, establish ansatz completeness, or prove an unrestricted lower bound."
+retry_when = "regime_boundary(characteristic-zero-star-kernel-quotient)"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T09:30:25Z

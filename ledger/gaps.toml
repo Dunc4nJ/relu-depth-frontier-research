@@ -109,3 +109,11 @@ obligation = "No target-aware solve has priced or incorporated the complete cert
 status = "open"
 author_path = "research-lead/lilacbridge"
 created = 2026-08-30T20:48:54Z
+
+[[gap]]
+id = "G-0015"
+claim = "C-0002@1"
+obligation = "The G-0180 retained STAR restriction has modular left nullity 478 after 1,024 frozen new directions add zero pivots at two primes. No characteristic-zero basis has yet been lifted into exact complete-normal-form identities lying in the old span O. Without those lifts, the target-specific STAR quarantine theorem remains unproved."
+status = "open"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T09:30:25Z

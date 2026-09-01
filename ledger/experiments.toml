@@ -303,3 +303,14 @@ result_summary = "The finite 348-row member is globally refuted. All 36 carried 
 status = "complete"
 author_path = "research-lead/cobaltmaple"
 created = 2026-08-31T02:53:00Z
+
+[[experiment]]
+id = "EXP-0027"
+route = "H-0001"
+design = "After exact G-0179 rank 5,291 exposed two certified old-span relations but before any G-0180 expansion STAR price or augmented rank, freeze at Git commit 3190baaf2bc8c33ae3ee14b879e81bb4aeb3b28e the complete 10,890-direction unused continuation, its target/new-price-blind hash-prefix-480 gate, the rank-directed-1024 gate containing all 466 available structural matches to the frozen dependent-record set, the exact four quotient exclusions, pricer/assembler/FLINT sources and binaries, two fixed primes, all theorem-premise receipts, and fail-closed source/input/matrix custody. Price exactly the first 1,024 directions on the 5,769 retained records, interleave each expansion row after its matching 5,771-cell base row, and test row rank at column ends 6,251 and 6,795. Full row rank at either prime proves rational full row rank; both primes at one gate license conservative promotion. Failure at finite primes records only modular ranks and must not be called a rational-rank upper bound."
+family = "max11-star-loop-quotient-rank-expansion-v1"
+prereg = true
+result_summary = "The expansion and augmented matrices have SHA-256 db6912d65015918c0e2e80c03261da0f286bcab18faf3846ed4b4f9ef63c85fb and d57ec8abb9a843dc68327d88d0fe9c5843a055762cd3ae9f53ac45fb9eb50efd. Both the 480 and 1,024 gates have exact modular rank 5,291 at primes 1,000,003 and 1,000,033, so all 1,024 appended columns add zero pivots and the retained-row modular left nullity remains 478. This blocks the registered 5,769-row theorem but does not upper-bound rational rank. The campaign pivots from further undirected columns to exact lifting of the 478-dimensional restriction kernel into the old span O."
+status = "complete"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T09:30:25Z
