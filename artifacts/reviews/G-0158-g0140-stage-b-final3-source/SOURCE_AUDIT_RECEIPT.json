@@ -1,0 +1,69 @@
+{
+  "schema": "max11-g0158-g0140-stage-b-final3-source-audit-v1",
+  "verdict": "PASS",
+  "result": "SOURCE_CUSTODY_AUDIT_PASS_T1",
+  "evidence_class": "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT",
+  "claim_boundary": "T1 source/custody clearance for the exact frozen Stage-B producer bytes only; no scientific manifest, input, or output was observed, no scientific replay was run, and no mathematical claim is promoted.",
+  "reviewer": {
+    "agent_name": "NavyBrook",
+    "program": "codex",
+    "model": "GPT-5",
+    "same_model_lineage": true,
+    "fresh_context": true
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0158-g0140-stage-b-final3-source/PREREGISTRATION.md",
+    "sha256": "6753a0acf152ed0e21713cfcc703c02d7b6edc99fa025e1cd785ee4c0b3959e7",
+    "git_commit": "dea86544c8b7f4b4cc12fa5ac19da51fa8f6b014",
+    "committed_and_pushed_before_subject_source_inspection": true,
+    "committed_and_pushed_before_runtime_checks": true
+  },
+  "subject": {
+    "git_commit": "bbb4ffaa3a8d653e14dba8879dabbf5dd5e21794",
+    "commit_object_and_working_bytes_equal_for_all_bindings": true,
+    "bindings": {
+      "main_source": {
+        "path": "artifacts/math/G-0140/stage_b_pricer/src/main.rs",
+        "sha256": "5c5cb1eb29eabe103373266b5d4c12f238ff49e1fae5d5861b602947319db484"
+      },
+      "cargo_manifest": {
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.toml",
+        "sha256": "425d82de4e6d5902e2d3d7b005c5473225c4d6f197752590e89d7be670b2685c"
+      },
+      "cargo_lock": {
+        "path": "artifacts/math/G-0140/stage_b_pricer/Cargo.lock",
+        "sha256": "8875e1375a361873ac13bbcdf9e14c8ca7b34afa1438dfae9a6800f31325365a"
+      },
+      "release_executable": {
+        "path": "artifacts/math/G-0140/stage_b_pricer/target/release/g0140-stage-b-pool128-coordinate-pricer",
+        "sha256": "60bba95df068910daeb2e2ff763c750717238ca144f104cc59e9459b1eecb504"
+      }
+    }
+  },
+  "required_checks": {
+    "exact_named_binding_contract": true,
+    "displaced_recursive_lookalikes_rejected": true,
+    "correct_decoy_with_missing_named_binding_rejected": true,
+    "duplicate_path_occurrences_rejected": true,
+    "unknown_envelope_fields_rejected": true,
+    "audit_git_commit_rejected": true,
+    "duplicate_json_keys_rejected": true,
+    "trailing_json_data_rejected": true,
+    "stage_a_missing_nullable_field_rejected": true,
+    "stage_a_mutation_control_schemas_validated": true,
+    "stage_a_source_audit_exact_contract_validated": true,
+    "g0139_subject_and_exact_fixed_inputs_gate_verified": true,
+    "compiled_source_manifest_lock_match_working_bytes": true,
+    "overwrite_refusal_verified": true,
+    "end_rehash_verified": true,
+    "bigint_unconditional_paths_verified": true,
+    "producer_self_test_passed": true,
+    "producer_static_preflight_passed": true,
+    "prohibited_scientific_modes_not_run": true
+  },
+  "scientific_manifest_observed": false,
+  "scientific_input_observed": false,
+  "scientific_output_observed": false,
+  "scientific_replay_run": false,
+  "no_claim": "This source audit does not adjudicate a G-0140 scientific manifest or result, establish or exclude a Pool128 coordinate matrix or exact-rank selection, validate family completeness, prove a MAX11 lower bound, settle unrestricted two-hidden-layer representation, establish minimality, prove an all-n statement, or supply a Lean theorem."
+}
