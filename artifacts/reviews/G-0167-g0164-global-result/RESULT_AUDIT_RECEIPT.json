@@ -1,0 +1,213 @@
+{
+  "schema": "max11-g0167-g0164-global-result-audit-v1",
+  "result": "RESULT_AUDIT_PASS_T1",
+  "overall": "PASS",
+  "generated_utc": "2026-09-01T04:25:06Z",
+  "auditor": {
+    "agent": "PurpleBison",
+    "program": "codex",
+    "model_family": "openai-gpt-5",
+    "independence_tier": "T1_SAME_LINEAGE_FRESH_CONTEXT_DISJOINT_IMPLEMENTATION"
+  },
+  "audit_code_parent_head": "982efb2d78a7c8ca886efb9f81fa563024bdc4c1",
+  "validator": {
+    "path": "artifacts/reviews/G-0167-g0164-global-result/validate_result.py",
+    "sha256": "3877fc5d31e92abd84fa3357154e5493e9d82812dc8b3fad2ab02e24ff4d7535",
+    "independent_route_path": "artifacts/reviews/G-0167-g0164-global-result/independent_exact_route.cpp",
+    "independent_route_sha256": "33fbe9c041ee06b7f5af7fbbf23d948ce9ab1d9547c66891e964b6305c1b9f0a"
+  },
+  "preregistration": {
+    "path": "artifacts/reviews/G-0167-g0164-global-result/PREREGISTRATION.md",
+    "commit": "b749986",
+    "sha256": "4ab2db30a30ee3f3082bd79cd1191ba711e00ce901699006ca45d090efa6fcf9"
+  },
+  "claim_boundary": "PASS validates the frozen G-0164 EXACT_RESIDUAL_CONTINUE branch for the exact manifest-bound 304-term all-128 direct-basis member: exact 540-row finite replay, the complete 128-item signed-lex residual prefix through its last item, and the exact first nonzero hinge. It does not establish family completeness, frozen-family nonmembership, an unrestricted depth theorem, a lower bound, minimality, the all-n target, REFEREED/FORMALIZED standing, or a Lean theorem.",
+  "subject": {
+    "manifest_commit": "bd64ece4a5ad17c77e80f3f2f2dfd2a0b27da243",
+    "result_commit": "1a16346519c11d4616a10a2738a70aa935643053",
+    "manifest_blob": "bd41e7d5e796210a044d0ef120c26523047889ce",
+    "result_blob": "cae431fecc8c0c6414de91d4273de9cf43a80764",
+    "manifest_sha256": "0557602757bc8332a4ac386327ee22619f3783605b2995bc0fd92214aea2300e",
+    "manifest_bytes": 5694,
+    "result_sha256": "c04e39834de079b7ea89884cedc23956aaaf585c6ac2f3d79241395c943dba6a",
+    "result_bytes": 312495,
+    "input_snapshot_entries": 104,
+    "input_snapshot_bytes_observed": 1143240455,
+    "input_snapshot_git_tracked": 92,
+    "input_snapshot_working_only": 12,
+    "working_only_paths": [
+      "artifacts/cleanroom/G-0038/independent_loop_inclusive_census.py",
+      "artifacts/cleanroom/G-0038/independent_loop_inclusive_census_v1.json",
+      "artifacts/cleanroom/G-0038/loop_inclusive_signed_degree5_stream_verification_v1.json",
+      "artifacts/cleanroom/G-0038/verify_loop_inclusive_denominator_stream.py",
+      "artifacts/math/G-0028/LOOP_INCLUSIVE_SIGNED_W_SCHEMA.md",
+      "artifacts/math/G-0038/loop_inclusive_signed_degree5_universe_manifest_v1.json",
+      "artifacts/math/G-0038/loop_inclusive_signed_degree5_universe_v1.jsonl.gz",
+      "artifacts/math/G-0038/stream_loop_inclusive_denominator.py",
+      "artifacts/math/G-0044/README.md",
+      "artifacts/math/G-0111/dual_rows_v1.json",
+      "artifacts/math/G-0117/full_family_cache_v1.i128le",
+      "artifacts/math/G-0118/iteration3_residual_coordinate_v1.json"
+    ]
+  },
+  "verdict": {
+    "exact_result_classification": "EXACT_RESIDUAL_CONTINUE",
+    "classification": "PASS",
+    "custody": "PASS_LOCAL_HASH_ATTESTATION",
+    "schema": "PASS",
+    "complete_declared_census": "PASS",
+    "prefix_order_and_digests": "PASS",
+    "independent_finite_replay": "PASS",
+    "independent_first_nonzero": "PASS",
+    "hostile_controls": "PASS"
+  },
+  "census": {
+    "terms": 304,
+    "term_receipts": 304,
+    "labelled_permutations": 12134707200,
+    "accumulated_rows": 228,
+    "selected_pool_rows": 128,
+    "prefix_rows": 128
+  },
+  "independent_replay": {
+    "cpp_source_sha256": "33fbe9c041ee06b7f5af7fbbf23d948ce9ab1d9547c66891e964b6305c1b9f0a",
+    "compiler": "g++ (Ubuntu 15.2.0-4ubuntu4) 15.2.0",
+    "known_answer_and_edge_mutant_self_test": "PASS",
+    "finite_rows_replayed": 540,
+    "finite_panel_rows": 301,
+    "finite_linear_rows": 11,
+    "finite_accumulated_rows": 228,
+    "finite_selected_basis_columns": 349,
+    "finite_selected_basis_i128le_sha256": "7451a36e42c479819b6f9ae28ec8c2f7b23360ddc5203b17cf9e3417d1ac9d10",
+    "finite_square_i128le_sha256": "f06bf820562a96575274bd8358b7ca0eef695e3e991034072deecf97823d3606",
+    "finite_residuals_decimal_lf_sha256": "72863dbaf92ec1aab5a46f8f176a642aa04861a7816654368e8567e5f1d23067",
+    "finite_coefficient_plus_one_mutant": {
+      "basis_index": 0,
+      "sequence": 0,
+      "first_nonzero_row": 0,
+      "first_nonzero_residual": "1269724",
+      "nonzero_rows": 372,
+      "residuals_decimal_lf_sha256": "73728d99a6d6c8767db2d6c1b4895776cd7ade62c74003dffa2d949652f47d77",
+      "rejected": true
+    },
+    "prefix_candidate_directions_checked": 1081,
+    "signed_lex_predecessors_before_first": 25,
+    "independent_first_nonzero": {
+      "direction": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -3,
+        -2,
+        4
+      ],
+      "coefficient": "379858988519969425640880275968838894169747154467569436493787649506373736737950413636778164001256433026417251950602296924512458629249878005260933604660006607265165930153855350438792638052520802532699547678484433662808677221428571717301614719241683614296777110430993345898281411351171169404068928008487414400335604088388036643010391694264177960466072190898850647789138420761349640684800"
+    },
+    "independent_prefix_rows": 128,
+    "independent_prefix_directions_i8_sha256": "401f959ef40eeb099a39f4758dcdb8ac0d681bdae6dec4591a6b78b6eb46003d",
+    "independent_prefix_coefficients_decimal_lf_sha256": "b5f51eddada538ba8a8d224abcd97dca04f9c042c08d1548fac43a6826784ce5",
+    "cache_sha256_before_and_after": "da045a6fc004afeb6c9b67c8fc093a191ed3e9c515bc8e97901a6e64cb125c5b",
+    "cache_bytes": 788571840,
+    "finite_route_seconds": 0.831493,
+    "prefix_route_seconds": 1.985312,
+    "total_seconds": 10.110651
+  },
+  "hostile_controls": [
+    {
+      "name": "delete-one-prefix-row",
+      "result": "REJECTED",
+      "failure_code": "PREFIX_CENSUS"
+    },
+    {
+      "name": "duplicate-prefix-preserve-count",
+      "result": "REJECTED",
+      "failure_code": "PREFIX_ORDER"
+    },
+    {
+      "name": "swap-adjacent-prefix-rows",
+      "result": "REJECTED",
+      "failure_code": "PREFIX_ORDER"
+    },
+    {
+      "name": "branch-total-127",
+      "result": "REJECTED",
+      "failure_code": "PREFIX_CENSUS"
+    },
+    {
+      "name": "duplicate-selected-pool-index",
+      "result": "REJECTED",
+      "failure_code": "BRANCH_CENSUS"
+    },
+    {
+      "name": "flip-first-nonzero-to-zero",
+      "result": "REJECTED",
+      "failure_code": "INTEGER_ZERO"
+    },
+    {
+      "name": "alter-exact-residual-component",
+      "result": "REJECTED",
+      "failure_code": "PREFIX_COEFFICIENT_DIGEST"
+    },
+    {
+      "name": "alter-prefix-digest",
+      "result": "REJECTED",
+      "failure_code": "PREFIX_DIRECTION_DIGEST"
+    },
+    {
+      "name": "alter-global-class-only",
+      "result": "REJECTED",
+      "failure_code": "RESULT_CLASSIFICATION"
+    },
+    {
+      "name": "duplicate-json-key",
+      "result": "REJECTED",
+      "failure_code": "JSON_DUPLICATE_KEY"
+    },
+    {
+      "name": "nan-proof-field",
+      "result": "REJECTED",
+      "failure_code": "JSON_NONFINITE"
+    },
+    {
+      "name": "truncated-json",
+      "result": "REJECTED",
+      "failure_code": "JSON_PARSE"
+    },
+    {
+      "name": "reorder-with-naive-digests-recomputed",
+      "result": "REJECTED",
+      "failure_code": "PREFIX_ORDER"
+    },
+    {
+      "name": "binding-path-escape",
+      "result": "REJECTED",
+      "failure_code": "PATH_ESCAPE"
+    },
+    {
+      "name": "label-preserving-plus-sign-integer",
+      "result": "REJECTED",
+      "failure_code": "INTEGER_ENCODING"
+    }
+  ],
+  "scientific_flags": {
+    "production_run_command_executed": false,
+    "production_executable_executed": false,
+    "producer_or_result_modified": false,
+    "independent_540_row_finite_replay": true,
+    "independent_complete_128_prefix_replay": true,
+    "independent_first_nonzero_replay": true,
+    "full_196125_direction_global_map_recomputed": false,
+    "all_304_term_normal_form_payloads_recomputed": false
+  },
+  "limitations": [
+    "T1 only: the auditor is GPT-5 lineage; no human/different-lineage T2 transport is authenticated, so this receipt cannot earn REFEREED, PROVED_HERE, or PROVED.",
+    "12 of 104 finite input-snapshot files (including the 789 MB panel cache) are absent from the frozen Git tree. Their current bytes matched the SHA-256 values frozen in the manifest before replay; the cache was rehashed unchanged afterward. A clone alone cannot reproduce them.",
+    "The independent route recomputed all 540 finite rows and every mathematically possible canonical direction through the 128th reported residual-prefix item. It did not regenerate the entire 196,125-direction aggregate map, so the opaque aggregate_hinge/nonzero_hinge/complete_residual digest preimages and each of the 304 per-term normal-form digest preimages received structural/reconciliation checks, not a second full global-map replay.",
+    "Git/Agent-Mail custody is a local procedural attestation without signatures, provider authentication, or protection against same-user history rewriting."
+  ]
+}
