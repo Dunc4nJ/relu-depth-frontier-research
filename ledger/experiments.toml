@@ -347,3 +347,25 @@ result_summary = "The strengthened verifier and adversarial replay certify an ex
 status = "complete"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T10:25:00Z
+
+[[experiment]]
+id = "EXP-0031"
+route = "H-0001"
+design = "After exploratory complete-normal-form solving discovered a 19-primary lift of G-0181 basis column 130, freeze candidate SHA-256 6ce618ddf34b00ec442e8a0d533eb3caef54b91245c6be626dcf3834125728bc before the independent replay. Bind exact G-0181 basis SHA-256 56b4177d3e584bbe96eb35b17ba799e5138cf071dc7fd72895a45de6d4d68232 and require the six-term left side to equal twice basis column 130; reconstruct every STAR and old-primary record from frozen censuses; require one-loop low-mass STAR membership and loopless signed-mass-at-most-three old-primary membership; require literal agreement of G-0109 and G-0179 complete normal forms, exact cancellation on every union hinge and all eleven linear coordinates, a rejecting one-unit p1336 coefficient mutant, and unchanged input hashes at exit. This is a post-discovery verification freeze."
+family = "max11-star-loop-third-six-term-primary-lift-v1"
+prereg = false
+result_summary = "The independent replay certifies an exact characteristic-zero identity between twice q447+q821-q1418-q1630-q2570+q5155 and an explicit 19-term loopless old-primary combination. The residual is zero over all 5,967 raw union hinge directions and eleven linear coordinates; the coefficient mutant has 2,401 nonzero hinges and ten nonzero linear coordinates. This is G-0181 basis column 130 and is independent of columns 0 and 15."
+status = "complete"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T10:41:04Z
+
+[[experiment]]
+id = "EXP-0032"
+route = "H-0001"
+design = "After the 70-row low-mass rank and three generator lifts were observed, freeze theorem candidate SHA-256 7d3f6c5e78934fa57c08326d2ea9a8543d07c538a47be45e5f70d5b112e3d0e2 before a fresh theorem-composition replay. Derive the retained signed-mass-at-most-three row census from the bound 5,773-record STAR source after exactly the four frozen G-0180 exclusions; require a 4+66 mass census and the canonical 70 by 6,795 slice hash; independently row-reduce at primes 1,000,003 and 1,000,033; exactly replay G-0181 columns 0,15,130 and a determinant-one identity witness; apply the modular-lower-bound and exact-nullity-upper-bound rank sandwich in the correct directions; bind and freshly rerun all three complete-normal-form lift receipts; reject a one-unit kernel mutation; and rehash all inputs at exit. This is a post-discovery verification freeze."
+family = "max11-retained-low-mass-star-kernel-quarantine-v1"
+prereg = false
+result_summary = "The clean replay and adversarial FLINT comparison prove rank_Q(A_low)=67 and ker_Q(A_low^T)=span{c0,c15,c130}. The three promoted complete-normal-form identities put every generator in O, so every rational relation supported entirely on the 70 retained signed-mass-at-most-three STAR rows belongs to O. This closes that whole bounded stratum, but excludes all mixed higher-mass relations, the other 475 global kernel dimensions, and unrestricted MAX11 claims."
+status = "complete"
+author_path = "research-lead/rainygorge"
+created = 2026-09-01T10:41:04Z
