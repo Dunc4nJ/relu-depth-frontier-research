@@ -46,10 +46,10 @@ STAGE_C_PATH = ROOT / "artifacts/math/G-0140/pool128_exact_rank_selection_v1.jso
 OUTPUT_PATH = ROOT / "artifacts/math/G-0140/rank_aware_master_result_v1.json"
 SOURCE_AUDIT_PATH = (
     ROOT
-    / "artifacts/reviews/G-0160-g0140-stage-d-master-final3-source/SOURCE_AUDIT_RECEIPT.json"
+    / "artifacts/reviews/G-0162-g0140-stage-d-master-final4-source/SOURCE_AUDIT_RECEIPT.json"
 )
 AUDIT_PREREGISTRATION_PATH = (
-    ROOT / "artifacts/reviews/G-0160-g0140-stage-d-master-final3-source/PREREGISTRATION.md"
+    ROOT / "artifacts/reviews/G-0162-g0140-stage-d-master-final4-source/PREREGISTRATION.md"
 )
 
 N = 11
@@ -72,7 +72,7 @@ STAGE_C_SCHEMA = "max11-g0140-pool128-exact-rank-selection-v1"
 OUTPUT_SCHEMA = "max11-g0140-rank-aware-master-result-v1"
 MEMBER_RESULT = "RANK_AWARE_SELECTED_ROWS_EXACT_Q_MEMBER"
 NONMEMBER_RESULT = "FROZEN_163740_FAMILY_EXACT_Q_NONMEMBER"
-SOURCE_AUDIT_SCHEMA = "max11-g0160-g0140-stage-d-master-final3-source-audit-v1"
+SOURCE_AUDIT_SCHEMA = "max11-g0162-g0140-stage-d-master-final4-source-audit-v1"
 SOURCE_AUDIT_RESULT = "SOURCE_CUSTODY_AUDIT_PASS_T1"
 SOURCE_AUDIT_EVIDENCE = "T1_SAME_LINEAGE_OUTCOME_BLIND_SOURCE_AUDIT"
 SOURCE_AUDIT_CLAIM = "T1 source/custody clearance for the exact frozen G-0140 reopened-master producer bytes only; no scientific manifest, input, or output was observed, no scientific column-generation run was executed, and no mathematical claim is promoted."
@@ -87,6 +87,7 @@ SOURCE_AUDIT_CHECKS = {
     "trailing_json_data_rejected": True,
     "imported_exact_core_binding_verified": True,
     "future_input_gate_verified": True,
+    "stage_c_snapshot_digest_contract_verified": True,
     "exact_column_generation_protocol_verified": True,
     "member_and_separator_fixtures_verified": True,
     "committed_blob_custody_verified": True,
@@ -316,7 +317,7 @@ def input_snapshot_digest(snapshot: dict[str, str]) -> str:
     digest = hashlib.sha256()
     for path, value in sorted(snapshot.items()):
         digest.update(path.encode("utf-8"))
-        digest.update(b"\0")
+        digest.update(b"\t")
         digest.update(value.encode("ascii"))
         digest.update(b"\n")
     return digest.hexdigest()
@@ -1029,6 +1030,13 @@ def self_test() -> None:
     helper = load_module(
         ROOT / "artifacts/math/G-0117/fresh_q_cegis_exact.py",
         "g0140_rank_master_fixture_helper",
+    )
+
+    snapshot_fixture = {"b": "2" * 64, "a": "1" * 64}
+    require(
+        input_snapshot_digest(snapshot_fixture)
+        == selector.input_snapshot_digest(snapshot_fixture),
+        "Stage-C snapshot digest encoding drift",
     )
 
     audit_binding = (relative(SCRIPT), "0" * 64)
