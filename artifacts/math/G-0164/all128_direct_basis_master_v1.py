@@ -265,15 +265,30 @@ def rehash_snapshot(snapshot: dict[str, str]) -> None:
 
 
 def git_commit_for_path(path: Path) -> str:
+    name = relative(path)
     result = subprocess.run(
-        ["git", "log", "-1", "--format=%H", "--", relative(path)],
+        ["git", "log", "-1", "--format=%H", "--", name],
         cwd=ROOT,
         check=True,
         capture_output=True,
         text=True,
     )
     commit = result.stdout.strip()
-    require(len(commit) == 40, f"missing Git commit for {relative(path)}")
+    require(
+        len(commit) == 40
+        and all(character in "0123456789abcdef" for character in commit),
+        f"missing Git commit for {name}",
+    )
+    blob = subprocess.run(
+        ["git", "show", f"{commit}:{name}"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    )
+    require(
+        hashlib.sha256(blob.stdout).hexdigest() == sha256_path(path),
+        f"working bytes are not the committed Git blob: {name}",
+    )
     return commit
 
 
@@ -414,7 +429,16 @@ def exact_solve_and_replay(
     square = qmatrix(square_rows)
     rhs_minor = qmatrix([[int(target[row])] for row in coordinate_rows])
     rational = square.solve(rhs_minor)
-    fractions = [Fraction(str(rational[index, 0])) for index in range(rank)]
+    fractions: list[Fraction] = []
+    for index in range(rank):
+        entry = rational[index, 0]
+        numerator = int(entry.numerator)
+        denominator = int(entry.denominator)
+        require(
+            denominator > 0 and math.gcd(abs(numerator), denominator) == 1,
+            f"noncanonical FLINT rational {index}",
+        )
+        fractions.append(Fraction(numerator, denominator))
 
     rational_residuals = [
         sum(
