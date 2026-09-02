@@ -32,3 +32,17 @@ control. It plants a denominator-30 rational solution in a full-rank integer
 system, solves every block with FLINT Dixon arithmetic, checks every row, and
 rejects a `1/30` solution mutation. Its linear scaling is evidence only for the
 sparse block fallback, never for a dense n=11 pivot minor.
+
+`support_lift.py` consumes `max11-streamrank-pivots-v1` source indices, reopens
+the exact saved columns, selects an independent minor from the real-row support
+union, solves it over Q, and then runs the complete saved-system verifier. It is
+a pivot reader/lifter; it does not implement another column generator or rank
+engine. For n=11 it reads arbitrary-index exact `MCOLGEN1` batches directly,
+validates every batch and pivot index, and records each batch SHA-256 in the
+exact-leg report.
+
+`sketch_separator.py` handles the dual route for a `NON_MEMBER` sketch. It
+replays the named CountSketch exactly, solves for a rational left separator on
+sketch buckets, composes that separator back to exact real-row weights, and
+checks every column in the named saved-system family. A negative remains only
+a bounded null for that finite family.

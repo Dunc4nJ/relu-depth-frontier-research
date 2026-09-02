@@ -294,6 +294,25 @@ def mutate_upstream(certificate: Path, output: Path, delta: Fraction) -> dict[st
     return payload
 
 
+def mutate_witness(witness: Path, output: Path, delta: Fraction) -> dict[str, Any]:
+    payload = json.loads(witness.read_text(encoding="utf-8"))
+    for entry in payload.get("coefficients", []):
+        coefficient = parse_fraction(entry["coefficient"])
+        if coefficient:
+            entry["coefficient"] = fraction_text(coefficient + delta)
+            break
+    else:
+        raise ValueError("witness has no nonzero coefficient to mutate")
+    payload["mutation"] = {
+        "source_witness": str(witness),
+        "source_witness_sha256": sha256_file(witness),
+        "delta": fraction_text(delta),
+    }
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return payload
+
+
 def scan_system(system: Path) -> tuple[int, int, dict[str, int]]:
     n = 0
     columns = 0
@@ -609,6 +628,11 @@ def build_parser() -> argparse.ArgumentParser:
     mutate.add_argument("--output", type=Path, required=True)
     mutate.add_argument("--delta", default="1")
 
+    mutate_exact = commands.add_parser("mutate-witness")
+    mutate_exact.add_argument("--witness", type=Path, required=True)
+    mutate_exact.add_argument("--output", type=Path, required=True)
+    mutate_exact.add_argument("--delta", default="1")
+
     recover = commands.add_parser("recover")
     recover.add_argument("--system", type=Path, required=True)
     recover.add_argument("--n", type=int, required=True)
@@ -653,6 +677,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         payload = mutate_upstream(args.certificate, args.output, parse_fraction(args.delta))
         write_report(
             {"verdict": "PASS", "output": str(args.output), "terms": len(payload["terms"])},
+            None,
+        )
+        return 0
+    if args.command == "mutate-witness":
+        payload = mutate_witness(args.witness, args.output, parse_fraction(args.delta))
+        write_report(
+            {
+                "verdict": "PASS",
+                "output": str(args.output),
+                "support_size": len(payload["coefficients"]),
+            },
             None,
         )
         return 0
