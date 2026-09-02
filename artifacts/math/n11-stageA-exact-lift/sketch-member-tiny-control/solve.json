@@ -1,0 +1,61 @@
+{
+  "schema": "max11-lift-large-result-v1",
+  "verdict": "PASS",
+  "input": "artifacts/math/n11-stageA-exact-lift/sketch-member-tiny-control/problem.eliftq02",
+  "input_sha256": "86fde87f52d9deeb1476e29da4eeb21e3f9525db4b3ea954293996d48d2dc8c9",
+  "rows_checked_denominator": 3,
+  "columns_denominator": 1,
+  "csc_nonzeros_numerator": 2,
+  "selected_minor_rows_numerator": 1,
+  "selected_minor_rows_denominator": 1,
+  "prime": 65521,
+  "threads_maximum": 2,
+  "dense_modular_storage_bytes": 4,
+  "csc_storage_bytes": 40,
+  "lu_total_seconds": 0.000020237,
+  "lu_diagonal_inverse_seconds": 6.891e-6,
+  "lu_lower_solve_seconds": 0.0,
+  "lu_schur_update_seconds": 0.0,
+  "modular_solve_seconds_by_iteration": [
+    2.555e-6
+  ],
+  "csc_matvec_seconds_by_iteration": [
+    0.000018755
+  ],
+  "crt_primes_attempted": [],
+  "crt_factor_seconds": [],
+  "crt_solve_seconds": [],
+  "recovery_method": "dixon-early-rational-reconstruction",
+  "iterations_to_reconstruction_numerator": 1,
+  "attempts": [
+    {
+      "method": "dixon",
+      "iteration_or_prime_count_numerator": 1,
+      "modulus_bits": 16,
+      "reconstructed_coordinates_numerator": 1,
+      "reconstructed_coordinates_denominator": 1,
+      "candidate_support_numerator": 1,
+      "candidate_support_denominator": 1,
+      "exact_check_attempted": true,
+      "exact_check_pass": true
+    }
+  ],
+  "recovered_support_numerator": 1,
+  "recovered_support_denominator": 1,
+  "recovered_denominator_lcm": "1",
+  "exact_rows_verified_numerator": 3,
+  "exact_rows_verified_denominator": 3,
+  "mutation_delta": "+1/1 at first nonzero coordinate",
+  "mutation_nonzero_rows_numerator": 2,
+  "mutation_rows_checked_denominator": 3,
+  "max_rss_kib": 6700,
+  "total_seconds": 0.000620765,
+  "coefficients": [
+    {
+      "source_index": 0,
+      "numerator": "1",
+      "denominator": "1"
+    }
+  ],
+  "no_claim": "This exact result concerns only the named finite input matrix; it does not decide MAX11."
+}

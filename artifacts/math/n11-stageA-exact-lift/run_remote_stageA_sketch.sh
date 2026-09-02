@@ -63,4 +63,26 @@ python tools/exactlift/universe_to_upstream.py \
 date -u +%Y-%m-%dT%H:%M:%SZ
 sha256sum "$build_report" "$solver_report" "$witness" "$lift_report" "$upstream" \
   "$run_dir/upstream_translation_report.json"
-jq '{verdict,recovered_support_numerator,recovered_support_denominator,coefficient_denominator_lcm,coefficient_denominator_factorization,real_rows_verified_numerator,real_rows_verified_denominator,linear_rows_verified_numerator,linear_rows_verified_denominator,union_hinge_rows_verified_numerator,union_hinge_rows_verified_denominator,combined_rows_verified_numerator,combined_rows_verified_denominator,witness_sha256}' "$lift_report"
+python3 - "$lift_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+keys = (
+    "verdict",
+    "recovered_support_numerator",
+    "recovered_support_denominator",
+    "coefficient_denominator_lcm",
+    "coefficient_denominator_factorization",
+    "real_rows_verified_numerator",
+    "real_rows_verified_denominator",
+    "linear_rows_verified_numerator",
+    "linear_rows_verified_denominator",
+    "union_hinge_rows_verified_numerator",
+    "union_hinge_rows_verified_denominator",
+    "combined_rows_verified_numerator",
+    "combined_rows_verified_denominator",
+    "witness_sha256",
+)
+print(json.dumps({key: report[key] for key in keys}, indent=2, sort_keys=True))
+PY
