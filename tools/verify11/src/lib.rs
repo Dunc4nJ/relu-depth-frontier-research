@@ -10,6 +10,7 @@ use std::cmp::Ordering;
 use std::time::Instant;
 
 pub const MAX_N: usize = 16;
+pub const MAX_LITERAL_N: usize = 11;
 type Edge = [usize; 2];
 type Side = Vec<Edge>;
 
@@ -434,7 +435,10 @@ fn literal_accumulate(
 
 pub fn literal_column(term: &Term, n: usize) -> Result<SparseColumn> {
     validate_n(n)?;
-    ensure!(n <= 8, "literal permutation mode is capped at n=8");
+    ensure!(
+        n <= MAX_LITERAL_N,
+        "literal permutation mode is capped at n={MAX_LITERAL_N}"
+    );
     let (left, right) = parsed_sides(term, n)?;
     let mut column = SparseColumn {
         linear: vec![0; n],
@@ -613,8 +617,8 @@ pub fn analyze_certificate(
     validate_n(certificate.n)?;
     ensure!((1..=64).contains(&threads), "threads must lie in 1..=64");
     ensure!(
-        !literal_check || certificate.n <= 8,
-        "literal checks are capped at n=8"
+        !literal_check || certificate.n <= MAX_LITERAL_N,
+        "literal checks are capped at n={MAX_LITERAL_N}"
     );
     ensure!(!certificate.terms.is_empty(), "certificate has no terms");
 

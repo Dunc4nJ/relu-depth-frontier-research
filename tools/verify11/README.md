@@ -10,7 +10,8 @@ state is the complete back-degree word of `right - left`; loops, repeated
 edges, common edges, and arbitrary equal branch sizes are supported. The
 fully symmetrized left branch is computed analytically. A separate literal
 mode enumerates every permutation and evaluates the two sides directly for
-`n <= 8`.
+`n <= 11`; use it on a sampled certificate at large `n` because its work is
+factorial.
 
 ```bash
 cargo build --release
@@ -22,6 +23,13 @@ target/release/max11-verify11 verify \
 
 target/release/max11-verify11 analyze \
   --certificate synthetic-n11.json --threads 16 --output timing.json
+
+target/release/max11-verify11 sample \
+  --certificate certificate-n11.json --terms 20 --seed 20260902 \
+  --output certificate-n11-sample20.json
+target/release/max11-verify11 analyze \
+  --certificate certificate-n11-sample20.json --threads 4 --literal-check \
+  --output certificate-n11-sample20-literal-dp.json
 ```
 
 `verify` writes its report and exits nonzero when the identity fails. `analyze`

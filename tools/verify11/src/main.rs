@@ -25,7 +25,7 @@ impl Args {
         let mut iterator = invocation.iter().skip(1);
         let command = iterator
             .next()
-            .context("missing command (verify, analyze, mutate-coefficient, mutate-endpoint, or generate-synthetic)")?
+            .context("missing command (verify, analyze, sample, mutate-coefficient, mutate-endpoint, or generate-synthetic)")?
             .clone();
         let known_switches = ["--literal-check", "--loopless"];
         let mut values = HashMap::new();
@@ -286,6 +286,69 @@ impl SplitMix64 {
     }
 }
 
+#[derive(Serialize)]
+struct SampleMetadata {
+    source: String,
+    source_sha256: String,
+    seed: u64,
+    selected_terms: usize,
+    source_terms: usize,
+    selected_indices_zero_based: Vec<usize>,
+}
+
+#[derive(Serialize)]
+struct SampledCertificate {
+    n: usize,
+    terms: Vec<Term>,
+    #[serde(rename = "_sample")]
+    sample: SampleMetadata,
+}
+
+fn command_sample(args: &Args) -> Result<()> {
+    let input = args.required_path("--certificate")?;
+    let output = args.required_path("--output")?;
+    let selected_terms = args.required_usize("--terms")?;
+    let seed = args.u64_or("--seed", 20260902)?;
+    let input_hash = sha256_path(&input)?;
+    let certificate = read_certificate(&input)?;
+    ensure!(selected_terms > 0, "sample size must be positive");
+    ensure!(
+        selected_terms <= certificate.terms.len(),
+        "sample size exceeds source term count"
+    );
+    let mut random = SplitMix64(seed);
+    let mut indices: Vec<usize> = (0..certificate.terms.len()).collect();
+    for position in 0..selected_terms {
+        let swap = position + random.below(indices.len() - position);
+        indices.swap(position, swap);
+    }
+    indices.truncate(selected_terms);
+    indices.sort_unstable();
+    let terms = indices
+        .iter()
+        .map(|index| certificate.terms[*index].clone())
+        .collect();
+    let source_terms = certificate.terms.len();
+    let sampled = SampledCertificate {
+        n: certificate.n,
+        terms,
+        sample: SampleMetadata {
+            source: input.display().to_string(),
+            source_sha256: input_hash,
+            seed,
+            selected_terms,
+            source_terms,
+            selected_indices_zero_based: indices,
+        },
+    };
+    write_json(&output, &sampled)?;
+    eprintln!(
+        "VERIFY11_SAMPLE terms={selected_terms}/{source_terms} seed={seed} output={}",
+        output.display()
+    );
+    Ok(())
+}
+
 fn synthetic_side(
     random: &mut SplitMix64,
     edges: &[[usize; 2]],
@@ -343,6 +406,7 @@ fn run() -> Result<()> {
     match args.command.as_str() {
         "verify" => command_analyze(&args, true),
         "analyze" => command_analyze(&args, false),
+        "sample" => command_sample(&args),
         "mutate-coefficient" => command_mutate(&args, true),
         "mutate-endpoint" => command_mutate(&args, false),
         "generate-synthetic" => command_generate_synthetic(&args),

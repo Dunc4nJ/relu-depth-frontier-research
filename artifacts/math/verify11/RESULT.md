@@ -4,7 +4,9 @@ Bead: `relu-depth-frontier-research-max11-root-gmp.14`
 
 Agent: `IndigoCarp`
 
-Implementation checkpoint: `3f4ed4d`
+Initial implementation checkpoint: `3f4ed4d`
+
+Initial evidence checkpoint: `aa1039e`
 
 ## Result
 
@@ -91,6 +93,20 @@ The random input correctly returned `FAIL`: `10/11` linear rows and
 a timing/control outcome. Per AmberBluff's instruction, no A100 run was made
 and AzureAspen's active pricing pass was not overlapped.
 
+## n=11 literal-mode preflight
+
+After EXP-0036 stage A returned MEMBER on its bounded sketch, literal mode was
+extended from n=8 through n=11 and a deterministic, source-hashed sampling
+command was added. A one-term preflight selected zero-based term `432/2,000`
+from the synthetic timing input with seed `20,260,902`. DP and literal columns
+agreed on `1/1` term after the literal path enumerated all
+`39,916,800/39,916,800` permutations. With `1/1` thread, exact compute wall was
+`19.327432549` seconds / `1` term (`0.491386240` DP worker seconds and
+`18.799231377` literal worker seconds); `/usr/bin/time -v` reported peak RSS
+`54,572` KiB. The random one-term identity verdict was FAIL, as expected:
+`9/11` linear rows and `41,977/41,977` union hinge rows were nonzero. This is a
+literal/DP semantic and scale control, not evidence about MAX11.
+
 ## Commands
 
 All commands ran from `tools/verify11` unless a path says otherwise.
@@ -118,6 +134,9 @@ target/release/max11-verify11 verify --certificate ../../artifacts/math/verify11
 
 target/release/max11-verify11 generate-synthetic --n 11 --terms 2000 --branch-edges 5 --seed 20260902 --loopless --output ../../artifacts/math/verify11/synthetic_n11_2000_seed20260902.json
 /usr/bin/time -v target/release/max11-verify11 analyze --certificate ../../artifacts/math/verify11/synthetic_n11_2000_seed20260902.json --threads 4 --output ../../artifacts/math/verify11/synthetic_n11_2000_local4_report.json
+
+target/release/max11-verify11 sample --certificate ../../artifacts/math/verify11/synthetic_n11_2000_seed20260902.json --terms 1 --seed 20260902 --output ../../artifacts/math/verify11/preflight_synthetic_n11_sample1.json
+/usr/bin/time -v target/release/max11-verify11 analyze --certificate ../../artifacts/math/verify11/preflight_synthetic_n11_sample1.json --threads 1 --literal-check --output ../../artifacts/math/verify11/preflight_synthetic_n11_sample1_literal_dp.json
 ```
 
 The n=6,7,8 controls were launched concurrently with one thread each; the four
@@ -138,8 +157,10 @@ therefore remained at or below four threads.
 | pinned n=10 certificate | `10f38b27fa555866eda7c3ee10d5da51f3cd1db810a74860d6ab8ef8a30982e4` |
 | recovered n=9 certificate | `d0302e2eecfdd85ca3a3887086b03d1aec86e9e5db7c2ed19666a4d9636c3f28` |
 | recovered n=10 certificate | `4bcb155a416188d479f20a2009f077003e828f1f09d65476117523a3bb6644e9` |
-| `tools/verify11/src/lib.rs` | `a86c32b1e61f342d8db932009fc104a11961e588cb56f499b6592aa96a0066b2` |
-| `tools/verify11/src/main.rs` | `4c7e447d8b117febc8ff9eb2db5fa8a3d8d46e25981d6a4a3c661a6b1caf9b29` |
+| n=11 literal preflight sample | `97363265e2fa73222f9228a522acb0447f0dd507d9edaf64dbed53983a6747ca` |
+| n=11 literal preflight report | `9187b7974229436a7dc6710eea52d9de29dce3421ec18a89b27de771f286fb2b` |
+| `tools/verify11/src/lib.rs` | `ac27613028e68069c83168cd161246885c8b88927112632c28c162b27885e6a9` |
+| `tools/verify11/src/main.rs` | `0fc10c6acec55ec78eff4c051182092f519b18617857c633f79901f3600458ec` |
 | `tools/verify11/Cargo.lock` | `e5e66cc67a27970449c516b5193f23a74ac31afb839e5c2e275f78d4ae217288` |
 
 Primes: none (`0/0`); all verifier equalities and residuals above use exact

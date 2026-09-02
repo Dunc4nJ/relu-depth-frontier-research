@@ -1,0 +1,62 @@
+{
+  "schema": "max11-verify11-report-v1",
+  "result": "FAIL",
+  "command": [
+    "target/release/max11-verify11",
+    "analyze",
+    "--certificate",
+    "../../artifacts/math/verify11/preflight_synthetic_n11_sample1.json",
+    "--threads",
+    "1",
+    "--literal-check",
+    "--output",
+    "../../artifacts/math/verify11/preflight_synthetic_n11_sample1_literal_dp.json"
+  ],
+  "input": "../../artifacts/math/verify11/preflight_synthetic_n11_sample1.json",
+  "input_sha256": "97363265e2fa73222f9228a522acb0447f0dd507d9edaf64dbed53983a6747ca",
+  "n": 11,
+  "terms_total": 1,
+  "terms_nonzero": 1,
+  "dp_columns_checked": 1,
+  "literal_dp_matches": 1,
+  "literal_dp_match_denominator": 1,
+  "permutations_per_literal_term": 39916800,
+  "threads": 1,
+  "coefficient_common_denominator": "6",
+  "arithmetic": "exact integer accumulation after exact rational denominator clearing; i128 fast path with automatic BigInt promotion",
+  "primes": [],
+  "linear_rows": 11,
+  "bad_linear_rows": 9,
+  "hinge_rows_union": 41977,
+  "bad_hinge_rows": 41977,
+  "first_bad_linear": {
+    "direction": null,
+    "rank_one_based": 3,
+    "value": "376320/1"
+  },
+  "first_bad_hinge": {
+    "direction": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      -2,
+      1
+    ],
+    "rank_one_based": null,
+    "value": "4480/1"
+  },
+  "emitted_hinge_entries": 41977,
+  "compute_wall_seconds": 19.327432549,
+  "effective_wall_seconds_per_term": 19.327432549,
+  "projected_wall_seconds_5000_terms": 96637.16274500001,
+  "dp_worker_seconds": 0.49138624,
+  "literal_worker_seconds": 18.799231377,
+  "semantics": "For each symmetrized term, base/other are the lexicographically sorted left/right ordered-cone forms; direction=other-base; directions nonpositive on the cone are dropped; retained directions are gcd-primitive; target linear form is x_n.",
+  "no_claim": "This checks one supplied finite exact certificate. It does not establish MAX11 membership unless that certificate is an exact positive witness, and no failed or synthetic input establishes nonmembership or any unrestricted depth lower bound."
+}
