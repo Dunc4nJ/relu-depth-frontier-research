@@ -20,3 +20,9 @@ cache is hash- and prime-bound; it contains indices only, not a witness.
 
 This tool decides only the finite saved system supplied on the command line. A
 successful n=9 or n=10 control says nothing about MAX11.
+
+`upstream_parallel.py` is the convention-independent replay path for expensive
+n=10 checks. It never reads the saved system or imports `exactlift.py`; its six
+workers import the hash-recorded pinned upstream verifier and call that file's
+`read_pair` and `symmetrized_pair` functions unchanged. Only the outer term loop
+is distributed.

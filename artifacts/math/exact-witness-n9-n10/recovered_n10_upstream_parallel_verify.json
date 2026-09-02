@@ -1,0 +1,19 @@
+{
+  "certificate": "artifacts/math/exact-witness-n9-n10/recovered_n10_upstream.json",
+  "certificate_sha256": "4bcb155a416188d479f20a2009f077003e828f1f09d65476117523a3bb6644e9",
+  "child_max_rss_kib": 27360,
+  "exact": true,
+  "method": "parallel outer loop over unchanged pinned upstream read_pair/symmetrized_pair",
+  "n": 10,
+  "nonzero_hinge_residual_count": 0,
+  "nonzero_hinge_residual_examples": [],
+  "nonzero_linear_residuals": [],
+  "nonzero_terms": 424,
+  "parent_max_rss_kib": 116648,
+  "seconds": 1659.8585444036871,
+  "terms": 424,
+  "verdict": "PASS",
+  "verifier": "literature/repos/max-relu-certificates/verify_certificate.py",
+  "verifier_sha256": "d6da3030b719735b10a197dc79d7e311ecc90f70314ed748de81087f94f039a7",
+  "workers": 6
+}

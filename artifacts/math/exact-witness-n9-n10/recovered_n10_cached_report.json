@@ -1,0 +1,49 @@
+{
+  "coefficient_denominator_factorization": {
+    "2": 10,
+    "3": 5,
+    "5": 2,
+    "7": 2
+  },
+  "coefficient_denominator_lcm": 304819200,
+  "columns": 12248,
+  "max_rss_kib": 363856,
+  "prime": 1000003,
+  "rank": 2166,
+  "rows": 16719,
+  "support_size": 424,
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+  "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+  "timings_seconds": {
+    "build_exact_square_seconds": 20.576421536505222,
+    "exact_dixon_solve_seconds": 11.94080894626677,
+    "total_seconds": 76.79794896021485
+  },
+  "verdict": "PASS",
+  "verification": {
+    "coefficient_denominator_factorization": {
+      "2": 10,
+      "3": 5,
+      "5": 2,
+      "7": 2
+    },
+    "coefficient_denominator_lcm": 304819200,
+    "columns_in_system": 12248,
+    "exact": true,
+    "hinge_rows_checked": 16709,
+    "linear_rows_checked": 10,
+    "n": 10,
+    "nonzero_hinge_residual_count": 0,
+    "nonzero_hinge_residual_examples": [],
+    "nonzero_linear_residuals": [],
+    "rows_checked": 16719,
+    "support_size": 424,
+    "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+    "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+    "verdict": "PASS",
+    "witness": "artifacts/math/exact-witness-n9-n10/recovered_n10_cached_witness.json",
+    "witness_sha256": "bc7a60476c4d06e72d2da0013c1a156ec69e81b6b7fb378536e311cfb4fe88f2"
+  },
+  "witness": "artifacts/math/exact-witness-n9-n10/recovered_n10_cached_witness.json",
+  "witness_sha256": "bc7a60476c4d06e72d2da0013c1a156ec69e81b6b7fb378536e311cfb4fe88f2"
+}

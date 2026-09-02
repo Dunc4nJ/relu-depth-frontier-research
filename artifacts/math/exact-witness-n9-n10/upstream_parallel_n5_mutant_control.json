@@ -1,0 +1,32 @@
+{
+  "certificate": "artifacts/math/exact-witness-n9-n10/certificate_5_2_mutated_plus1.json",
+  "certificate_sha256": "e4b6f78ff0975136c2f4db9d1f88d9f94a424dd392ef8ca7a75e4f3659b498cb",
+  "child_max_rss_kib": 19564,
+  "exact": true,
+  "method": "parallel outer loop over unchanged pinned upstream read_pair/symmetrized_pair",
+  "n": 5,
+  "nonzero_hinge_residual_count": 0,
+  "nonzero_hinge_residual_examples": [],
+  "nonzero_linear_residuals": [
+    {
+      "row": 2,
+      "value": "24"
+    },
+    {
+      "row": 3,
+      "value": "72"
+    },
+    {
+      "row": 4,
+      "value": "144"
+    }
+  ],
+  "nonzero_terms": 3,
+  "parent_max_rss_kib": 116388,
+  "seconds": 0.06866292096674442,
+  "terms": 3,
+  "verdict": "FAIL",
+  "verifier": "literature/repos/max-relu-certificates/verify_certificate.py",
+  "verifier_sha256": "d6da3030b719735b10a197dc79d7e311ecc90f70314ed748de81087f94f039a7",
+  "workers": 2
+}

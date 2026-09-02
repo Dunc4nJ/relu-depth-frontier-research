@@ -1,0 +1,19 @@
+{
+  "certificate": "literature/repos/max-relu-certificates/certificates/certificate_5_2.json",
+  "certificate_sha256": "698f70d87ec6b2ef07cd1d0287447dd2361f4b6d0d98571cc7485182b194e694",
+  "child_max_rss_kib": 19388,
+  "exact": true,
+  "method": "parallel outer loop over unchanged pinned upstream read_pair/symmetrized_pair",
+  "n": 5,
+  "nonzero_hinge_residual_count": 0,
+  "nonzero_hinge_residual_examples": [],
+  "nonzero_linear_residuals": [],
+  "nonzero_terms": 3,
+  "parent_max_rss_kib": 116292,
+  "seconds": 0.07298170030117035,
+  "terms": 3,
+  "verdict": "PASS",
+  "verifier": "literature/repos/max-relu-certificates/verify_certificate.py",
+  "verifier_sha256": "d6da3030b719735b10a197dc79d7e311ecc90f70314ed748de81087f94f039a7",
+  "workers": 2
+}
