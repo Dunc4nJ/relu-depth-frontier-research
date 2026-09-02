@@ -43,6 +43,8 @@ printf '%s  %s\n' \
   691cb0368545f8834c98e891bbb771476e547ce9e140887c9791710a8786a7c1 "$order" \
   | sha256sum -c -
 test -x "$binary"
+test -f "$out_dir/controls/binary.sha256"
+(cd /workspace/relu && sha256sum -c artifacts/math/n12-stageA/controls/binary.sha256)
 
 date -u +%Y-%m-%dT%H:%M:%SZ
 sha256sum "$binary" "$universe" "$order"
