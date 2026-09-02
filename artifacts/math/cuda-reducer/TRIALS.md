@@ -88,6 +88,29 @@ tools/streamrank/target/release/max11-streamrank run-universe \
   0 / 754,018 requested columns and wrote no log or JSON. After creating only
   `/workspace/relu/artifacts/math/n11-full-universe`, the identical arm was
   launched under `nohup` as remote PID 9055.
+- Amendment 3 authorized three certificate-shaped Stage A subfamilies to run
+  concurrently with full-universe pass 1. The order-file denominators exclude
+  the appended 5L carrier; reported subject denominators include it. At
+  modulus 1,000,003, seed 2,026,090,201 and 64,000 buckets:
+  - F1 processed 35,987 / 35,987 total columns and returned rank(A) 10,949,
+    rank([A|b]) 10,950, NON_MEMBER and unsaturated. Pivot SHA-256 is
+    `a6afbbcb8d9be829e9ff46e3430268a206e1ecd9a50430534e7130c8df741050`;
+    JSON SHA-256 is
+    `bd702330e885c4afd4fa0c65371152cdc109508beda47c1d12c6de5ced97a820`.
+  - F2 processed 75,076 / 75,076 total columns and returned
+    rank(A) = rank([A|b]) = 15,904, MEMBER and unsaturated. Pivot SHA-256 is
+    `61ab57cd3e076e5e04b9a55b791f484a2176fc69c921a3a5b3d19067ca7b1ca4`;
+    JSON SHA-256 is
+    `4c39620e3bbb7fae5af4c6fe96411831e5a87bab6563c6067212a3f2bd50e986`.
+    This smallest MEMBER pivot report was copied byte-identically to the A100
+    workspace and handed to AzureAspen for the separate exact lift.
+  - F3 processed 56,692 / 56,692 total columns and returned rank(A) 14,720,
+    rank([A|b]) 14,721, NON_MEMBER and unsaturated. Pivot SHA-256 is
+    `d85b6e48e252c76cc7b474b7c851cfb65b7ff9c4dcb0740919b32b4ac5536e00`;
+    JSON SHA-256 is
+    `48cf66fc6f59a6ff9bc8b2eace1ca86065d207d6a5e33f4f458819e10f625451`.
+  These are one-prime, one-sketch finite-family observations, not exact-Q
+  certificates or separators.
 
 No-claim: failures and passes here concern only the named finite modular
 sketches and CUDA implementation. They do not establish exact rational
