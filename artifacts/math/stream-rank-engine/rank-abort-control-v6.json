@@ -1,0 +1,112 @@
+{
+  "schema": "max11-streamrank-abort-v1",
+  "result": "ABORTED_GATE",
+  "abort_reason": "rank 1 exceeded abort threshold 0",
+  "command": [
+    "tools/streamrank/target/release/max11-streamrank",
+    "run-universe",
+    "--input",
+    "artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz",
+    "--start",
+    "0",
+    "--limit",
+    "2",
+    "--n",
+    "11",
+    "--branch-edges",
+    "5",
+    "--modulus",
+    "1000003",
+    "--buckets",
+    "128",
+    "--seeds",
+    "2026090201",
+    "--batch-size",
+    "1",
+    "--gemm-block",
+    "64",
+    "--rank-panel",
+    "16",
+    "--threads",
+    "1",
+    "--abort-rank-above",
+    "0",
+    "--abort-rss-kib-above",
+    "20971520",
+    "--output",
+    "artifacts/math/stream-rank-engine/rank-abort-control-v6.json"
+  ],
+  "input": "artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz",
+  "input_sha256": "8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8",
+  "order_file": null,
+  "order_file_sha256": null,
+  "five_l_carrier": null,
+  "subject": "colgen-universe-range:[0,2)",
+  "n": 11,
+  "branch_edge_occurrences": 5,
+  "modulus": 1000003,
+  "buckets": 128,
+  "batch_size": 1,
+  "gemm_block": 64,
+  "rank_panel": 16,
+  "threads": 1,
+  "requested_source_column_count": 2,
+  "source_column_count": 1,
+  "source_columns_denominator": 1,
+  "exact_real_nnz_numerator": 10,
+  "column_generation_seconds": 0.000934849,
+  "progress": [
+    {
+      "source_columns_processed": 1,
+      "ranks": [
+        1
+      ],
+      "elapsed_seconds": 0.001219639,
+      "cumulative_seconds_per_column": 0.001219639
+    }
+  ],
+  "wall_seconds": 0.001311279,
+  "current_rss_kib": 300116,
+  "max_rss_kib": 300232,
+  "sketches": [
+    {
+      "sketch": {
+        "algorithm": "splitmix64-chain-v1-one-bucket-random-sign",
+        "seed": 2026090201,
+        "buckets": 128
+      },
+      "rank_a": 1,
+      "pivot_columns": [
+        0
+      ],
+      "pivot_columns_u64_le_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "pivot_buckets": [
+        7
+      ],
+      "matrix_allocation_seconds": 4.799e-6,
+      "sketch_seconds": 8.02e-7,
+      "reducer_seconds": 0.000267537,
+      "real_entry_visits_numerator": 10,
+      "source_columns_denominator": 1,
+      "max_basis_storage_bytes": 512,
+      "reducer_metrics": {
+        "gemm_calls": 0,
+        "gemm_scalar_products_numerator": 0,
+        "gemm_seconds": 0.0,
+        "pack_seconds": 0.0,
+        "modular_reduce_seconds": 0.0,
+        "basis_maintenance_scalar_products_numerator": 0,
+        "old_basis_gemm_calls": 0,
+        "old_basis_gemm_scalar_products_numerator": 0,
+        "old_basis_gemm_seconds": 0.0,
+        "panel_future_gemm_calls": 0,
+        "panel_future_gemm_scalar_products_numerator": 0,
+        "panel_future_gemm_seconds": 0.0,
+        "panel_basis_gemm_calls": 0,
+        "panel_basis_gemm_scalar_products_numerator": 0,
+        "panel_basis_gemm_seconds": 0.0
+      }
+    }
+  ],
+  "no_claim": "This is a resource-gated partial modular sketch over the named processed prefix. It does not test the unprocessed columns, exact rational consistency, or unrestricted two-hidden-layer representability."
+}

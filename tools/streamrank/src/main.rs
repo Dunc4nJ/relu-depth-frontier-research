@@ -78,6 +78,18 @@ impl Args {
             .transpose()
     }
 
+    fn bool_or(&self, name: &str, default: bool) -> Result<bool> {
+        self.values
+            .get(name)
+            .map(|value| match value.as_str() {
+                "true" => Ok(true),
+                "false" => Ok(false),
+                _ => bail!("invalid {name}; expected true or false"),
+            })
+            .transpose()
+            .map(|value| value.unwrap_or(default))
+    }
+
     fn u32(&self, name: &str) -> Result<u32> {
         self.required(name)?
             .parse()
@@ -263,6 +275,9 @@ struct Config {
     panel_size: usize,
     threads: usize,
     seeds: Vec<u64>,
+    include_five_l: bool,
+    abort_rank_above: Option<usize>,
+    abort_rss_kib_above: Option<usize>,
     expected_columns: Option<usize>,
     expected_rank: Option<usize>,
     expected_aug_rank: Option<usize>,
@@ -293,6 +308,9 @@ impl Config {
             panel_size: args.usize_or("--rank-panel", 64)?,
             threads,
             seeds: args.seeds()?,
+            include_five_l: args.bool_or("--include-five-l", false)?,
+            abort_rank_above: args.optional_usize("--abort-rank-above")?,
+            abort_rss_kib_above: args.optional_usize("--abort-rss-kib-above")?,
             expected_columns: args.optional_usize("--expected-columns")?,
             expected_rank: args.optional_usize("--expected-rank")?,
             expected_aug_rank: args.optional_usize("--expected-aug-rank")?,
@@ -314,6 +332,37 @@ struct ExpectedReport {
 struct BucketResidue {
     bucket: u32,
     residue: u32,
+}
+
+#[derive(Clone, Serialize)]
+struct FiveLCarrierReport {
+    label: &'static str,
+    source_index: u64,
+    exact_linear_coefficient_each_of_n_coordinates: i64,
+    coordinate_count: usize,
+    hinge_count: usize,
+}
+
+fn five_l_column(n: usize, source_index: u64) -> Result<(FiveLCarrierReport, SparseColumn)> {
+    let factorial = (1..n).try_fold(1i64, |value, factor| {
+        value
+            .checked_mul(i64::try_from(factor)?)
+            .context("(n-1)! overflow")
+    })?;
+    let coefficient = factorial.checked_mul(5).context("5*(n-1)! overflow")?;
+    Ok((
+        FiveLCarrierReport {
+            label: "5L",
+            source_index,
+            exact_linear_coefficient_each_of_n_coordinates: coefficient,
+            coordinate_count: n,
+            hinge_count: 0,
+        },
+        SparseColumn {
+            linear: vec![coefficient; n],
+            hinges: Default::default(),
+        },
+    ))
 }
 
 #[derive(Serialize)]
@@ -355,6 +404,7 @@ struct Report {
     input_sha256: String,
     order_file: Option<String>,
     order_file_sha256: Option<String>,
+    five_l_carrier: Option<FiveLCarrierReport>,
     subject: String,
     n: usize,
     branch_edge_occurrences: usize,
@@ -384,10 +434,59 @@ struct ProgressPoint {
     cumulative_seconds_per_column: f64,
 }
 
-fn max_rss_kib() -> Option<u64> {
+#[derive(Serialize)]
+struct AbortSketchReport {
+    sketch: SketchSpec,
+    rank_a: usize,
+    pivot_columns: Vec<u64>,
+    pivot_columns_u64_le_sha256: String,
+    pivot_buckets: Vec<u32>,
+    matrix_allocation_seconds: f64,
+    sketch_seconds: f64,
+    reducer_seconds: f64,
+    real_entry_visits_numerator: u128,
+    source_columns_denominator: usize,
+    max_basis_storage_bytes: usize,
+    reducer_metrics: ReducerMetrics,
+}
+
+#[derive(Serialize)]
+struct AbortReport {
+    schema: &'static str,
+    result: &'static str,
+    abort_reason: String,
+    command: Vec<String>,
+    input: String,
+    input_sha256: String,
+    order_file: Option<String>,
+    order_file_sha256: Option<String>,
+    five_l_carrier: Option<FiveLCarrierReport>,
+    subject: String,
+    n: usize,
+    branch_edge_occurrences: usize,
+    modulus: u32,
+    buckets: usize,
+    batch_size: usize,
+    gemm_block: usize,
+    rank_panel: usize,
+    threads: usize,
+    requested_source_column_count: usize,
+    source_column_count: usize,
+    source_columns_denominator: usize,
+    exact_real_nnz_numerator: u128,
+    column_generation_seconds: f64,
+    progress: Vec<ProgressPoint>,
+    wall_seconds: f64,
+    current_rss_kib: Option<u64>,
+    max_rss_kib: Option<u64>,
+    sketches: Vec<AbortSketchReport>,
+    no_claim: &'static str,
+}
+
+fn status_memory_kib(field: &str) -> Option<u64> {
     let status = fs::read_to_string("/proc/self/status").ok()?;
     status.lines().find_map(|line| {
-        line.strip_prefix("VmHWM:")?
+        line.strip_prefix(field)?
             .split_whitespace()
             .next()?
             .parse()
@@ -395,11 +494,128 @@ fn max_rss_kib() -> Option<u64> {
     })
 }
 
+fn max_rss_kib() -> Option<u64> {
+    status_memory_kib("VmHWM:")
+}
+
+fn current_rss_kib() -> Option<u64> {
+    status_memory_kib("VmRSS:")
+}
+
+fn abort_reason(config: &Config, states: &[State]) -> Option<String> {
+    if let Some(limit) = config.abort_rank_above {
+        let observed = states
+            .iter()
+            .map(|state| state.basis.rank())
+            .max()
+            .unwrap_or(0);
+        if observed > limit {
+            return Some(format!("rank {observed} exceeded abort threshold {limit}"));
+        }
+    }
+    if let (Some(limit), Some(observed)) = (config.abort_rss_kib_above, current_rss_kib())
+        && observed > limit as u64
+    {
+        return Some(format!(
+            "current RSS {observed} KiB exceeded abort threshold {limit} KiB"
+        ));
+    }
+    None
+}
+
+#[allow(clippy::too_many_arguments)]
+fn finish_abort(
+    args: &Args,
+    config: &Config,
+    input_hash: &str,
+    order_file: Option<&str>,
+    order_file_sha256: Option<&str>,
+    five_l_carrier: Option<FiveLCarrierReport>,
+    subject: &str,
+    requested_source_columns: usize,
+    source_columns: usize,
+    exact_nnz: u128,
+    column_generation_seconds: f64,
+    progress: Vec<ProgressPoint>,
+    started: Instant,
+    states: &[State],
+    reason: String,
+) -> Result<()> {
+    let sketches = states
+        .iter()
+        .map(|state| {
+            let pivot_columns = state.basis.pivot_columns().to_vec();
+            AbortSketchReport {
+                sketch: state.spec.clone(),
+                rank_a: state.basis.rank(),
+                pivot_columns_u64_le_sha256: sha256_u64_le(&pivot_columns),
+                pivot_columns,
+                pivot_buckets: state
+                    .basis
+                    .pivot_rows()
+                    .iter()
+                    .map(|&row| row as u32)
+                    .collect(),
+                matrix_allocation_seconds: state.matrix_allocation_seconds,
+                sketch_seconds: state.sketch_seconds,
+                reducer_seconds: state.reducer_seconds,
+                real_entry_visits_numerator: state.real_entry_visits_numerator,
+                source_columns_denominator: source_columns,
+                max_basis_storage_bytes: state.max_basis_storage_bytes,
+                reducer_metrics: state.basis.metrics.clone(),
+            }
+        })
+        .collect();
+    let report = AbortReport {
+        schema: "max11-streamrank-abort-v1",
+        result: "ABORTED_GATE",
+        abort_reason: reason,
+        command: args.invocation.clone(),
+        input: config.input.display().to_string(),
+        input_sha256: input_hash.to_owned(),
+        order_file: order_file.map(str::to_owned),
+        order_file_sha256: order_file_sha256.map(str::to_owned),
+        five_l_carrier,
+        subject: subject.to_owned(),
+        n: config.n,
+        branch_edge_occurrences: config.branch_edges,
+        modulus: config.prime,
+        buckets: config.buckets,
+        batch_size: config.batch_size,
+        gemm_block: config.block_size,
+        rank_panel: config.panel_size,
+        threads: config.threads,
+        requested_source_column_count: requested_source_columns,
+        source_column_count: source_columns,
+        source_columns_denominator: source_columns,
+        exact_real_nnz_numerator: exact_nnz,
+        column_generation_seconds,
+        progress,
+        wall_seconds: started.elapsed().as_secs_f64(),
+        current_rss_kib: current_rss_kib(),
+        max_rss_kib: max_rss_kib(),
+        sketches,
+        no_claim: "This is a resource-gated partial modular sketch over the named processed prefix. It does not test the unprocessed columns, exact rational consistency, or unrestricted two-hidden-layer representability.",
+    };
+    write_json(&config.output, &report)?;
+    eprintln!(
+        "STREAMRANK_ABORTED columns={} ranks={:?} reason={}",
+        source_columns,
+        states
+            .iter()
+            .map(|state| state.basis.rank())
+            .collect::<Vec<_>>(),
+        report.abort_reason
+    );
+    Ok(())
+}
+
 struct SourceSummary {
     subject: String,
     input_hash: String,
     order_file: Option<String>,
     order_file_sha256: Option<String>,
+    five_l_carrier: Option<FiveLCarrierReport>,
     source_columns: usize,
     exact_nnz: u128,
     column_generation_seconds: f64,
@@ -418,6 +634,7 @@ fn finish_run(
         input_hash,
         order_file,
         order_file_sha256,
+        five_l_carrier,
         source_columns,
         exact_nnz,
         column_generation_seconds,
@@ -545,6 +762,7 @@ fn finish_run(
         input_sha256: input_hash,
         order_file,
         order_file_sha256,
+        five_l_carrier,
         subject,
         n: config.n,
         branch_edge_occurrences: config.branch_edges,
@@ -569,7 +787,7 @@ fn finish_run(
             exact_match,
         },
         sketches,
-        no_claim: "Ranks and verdicts are over two named finite random row sketches modulo one named prime. MEMBER is not exact-Q consistency and no identity has been verified on every real row; NON_MEMBER concerns only the named finite column family and is not an unrestricted two-hidden-layer depth lower bound. Exact lifting or separation is delegated to tools/exactlift.",
+        no_claim: "Ranks and verdicts are over one or two named finite random row sketches modulo one named prime. MEMBER is not exact-Q consistency and no identity has been verified on every real row; NON_MEMBER concerns only the named finite column family and is not an unrestricted two-hidden-layer depth lower bound. Exact lifting or separation is delegated to tools/exactlift.",
     };
     write_json(&config.output, &report)?;
     ensure!(
@@ -624,6 +842,12 @@ fn command_sample_order(args: &Args) -> Result<()> {
 
 fn command_saved(args: &Args) -> Result<()> {
     let config = Config::from_args(args)?;
+    ensure!(
+        !config.include_five_l
+            && config.abort_rank_above.is_none()
+            && config.abort_rss_kib_above.is_none(),
+        "carrier and resource-abort options are supported only by run-universe"
+    );
     let filter = args.required("--filter")?;
     ensure!(
         ["all", "union-trees"].contains(&filter),
@@ -709,6 +933,7 @@ fn command_saved(args: &Args) -> Result<()> {
             input_hash,
             order_file: None,
             order_file_sha256: None,
+            five_l_carrier: None,
             source_columns: selected,
             exact_nnz,
             column_generation_seconds,
@@ -729,7 +954,7 @@ fn command_universe(args: &Args) -> Result<()> {
         "universe/config dimensions differ"
     );
     ensure!(universe.loopless, "only loopless universes are supported");
-    let (order, subject, order_file, order_file_sha256) =
+    let (order, mut subject, order_file, order_file_sha256) =
         if let Some(path) = args.values.get("--order-file").map(PathBuf::from) {
             ensure!(
                 !args.values.contains_key("--start") && !args.values.contains_key("--limit"),
@@ -769,6 +994,7 @@ fn command_universe(args: &Args) -> Result<()> {
             )
         };
     let limit = order.len();
+    let requested_source_columns = limit + usize::from(config.include_five_l);
     let started = Instant::now();
     let mut states: Vec<State> = config
         .seeds
@@ -862,6 +1088,77 @@ fn command_universe(args: &Args) -> Result<()> {
                 .collect::<Vec<_>>(),
             started.elapsed().as_secs_f64()
         );
+        if let Some(reason) = abort_reason(&config, &states) {
+            return finish_abort(
+                args,
+                &config,
+                &input_hash,
+                order_file.as_deref(),
+                order_file_sha256.as_deref(),
+                None,
+                &subject,
+                requested_source_columns,
+                batch_stop,
+                exact_nnz,
+                column_generation_seconds,
+                progress,
+                started,
+                &states,
+                reason,
+            );
+        }
+    }
+    let mut five_l_carrier = None;
+    let mut source_columns = limit;
+    if config.include_five_l {
+        let generated_at = Instant::now();
+        let (descriptor, column) = five_l_column(config.n, universe.records.len() as u64)?;
+        column_generation_seconds += generated_at.elapsed().as_secs_f64();
+        exact_nnz += column.linear.iter().filter(|&&value| value != 0).count() as u128;
+        process_batch(
+            &mut states,
+            &[(descriptor.source_index, column)],
+            config.prime,
+        )?;
+        five_l_carrier = Some(descriptor);
+        source_columns += 1;
+        subject.push_str("+5L");
+        let elapsed = started.elapsed().as_secs_f64();
+        progress.push(ProgressPoint {
+            source_columns_processed: source_columns,
+            ranks: states.iter().map(|state| state.basis.rank()).collect(),
+            elapsed_seconds: elapsed,
+            cumulative_seconds_per_column: elapsed / source_columns as f64,
+        });
+        eprintln!(
+            "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3}",
+            source_columns,
+            requested_source_columns,
+            states
+                .iter()
+                .map(|state| state.basis.rank())
+                .collect::<Vec<_>>(),
+            started.elapsed().as_secs_f64()
+        );
+        if let Some(reason) = abort_reason(&config, &states) {
+            return finish_abort(
+                args,
+                &config,
+                &input_hash,
+                order_file.as_deref(),
+                order_file_sha256.as_deref(),
+                five_l_carrier,
+                &subject,
+                requested_source_columns,
+                source_columns,
+                exact_nnz,
+                column_generation_seconds,
+                progress,
+                started,
+                &states,
+                reason,
+            );
+        }
     }
     finish_run(
         args,
@@ -871,7 +1168,8 @@ fn command_universe(args: &Args) -> Result<()> {
             input_hash,
             order_file,
             order_file_sha256,
-            source_columns: limit,
+            five_l_carrier,
+            source_columns,
             exact_nnz,
             column_generation_seconds,
             progress,
@@ -882,7 +1180,7 @@ fn command_universe(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q [--rank-panel W] --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q [--rank-panel W] --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
+    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [--include-five-l true] [--abort-rank-above R] [--abort-rss-kib-above KIB] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
 }
 
 fn main() -> Result<()> {
@@ -895,5 +1193,22 @@ fn main() -> Result<()> {
         "run-universe" => command_universe(&args),
         "sample-order" => command_sample_order(&args),
         other => bail!("unknown command {other}\n{}", usage()),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn five_l_is_exact_all_ones_carrier() {
+        let (descriptor, column) = five_l_column(11, 754_017).unwrap();
+        assert_eq!(descriptor.source_index, 754_017);
+        assert_eq!(
+            descriptor.exact_linear_coefficient_each_of_n_coordinates,
+            18_144_000
+        );
+        assert_eq!(column.linear, vec![18_144_000; 11]);
+        assert!(column.hinges.is_empty());
     }
 }

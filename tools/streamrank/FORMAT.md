@@ -2,7 +2,8 @@
 
 The decision artifact is UTF-8 JSON with schema `max11-streamrank-pivots-v1`.
 It names the source path and SHA-256, `n`, branch size, subject/filter, prime,
-bucket count, batch size, GEMM block, source-column denominator, and target.
+bucket count, batch size, GEMM block, rank-panel width, source-column
+denominator, generation/allocation/sketch/reducer timings, and target.
 Each entry in `sketches` freezes the hash algorithm and seed, ranks of `A` and
 `[A|b]`, saturation/verdict, and parallel arrays `pivot_columns` (source
 record indices, discovery order) and `pivot_buckets` (`u32`, same length).
@@ -26,6 +27,20 @@ little-endian header is magic `[u8;8]`, `n:u16`, branch size `u16`, modulus
 plus coefficient `i64` entries. Selected batches may contain arbitrary source
 indices in pivot-discovery order: readers must not infer contiguity. A batch
 contains at most 1024 columns and its SHA-256 belongs in the exact-leg manifest.
+
+If `five_l_carrier` is non-null, that column is appended after the order file.
+Its source index is exactly `universe.records.len()` (one past the largest
+universe record index), and the descriptor freezes the exact common coefficient
+on all `n` linear coordinates and its zero hinge count. For G-0027 this sentinel
+is 754,017 and the exact coefficient is `5*10! = 18,144,000`. Exact gatherers
+must synthesize this declared column; it is not a serialized universe record.
+
+A resource-gated partial run uses schema `max11-streamrank-abort-v1` and result
+`ABORTED_GATE`. It records requested and processed column counts, exact real-nnz
+numerator over the processed denominator, progress, current/high-water RSS,
+pivot arrays and hashes, and all timing counters. It deliberately has no target
+rank, verdict, or separator and is not a `max11-streamrank-pivots-v1` decision
+artifact.
 
 For modular-only batches the same format permits a nonzero header modulus and
 canonical `[0,p)` residues stored as `i64`. Directions never change. See
