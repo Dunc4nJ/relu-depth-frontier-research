@@ -32,7 +32,7 @@ cargo build --release --manifest-path tools/priceuniverse/Cargo.toml
 # and target evaluated after all 754,017 G-0027 records.
 tools/priceuniverse/target/release/max11-price-universe price-universe \
   --universe artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz \
-  --separator separator.json --threads 6 --include-five-l true \
+  --separator separator.json --threads 16 --include-five-l true \
   --include-target true --violators violations.jsonl --output report.json
 
 # Frozen exact interchange stream.

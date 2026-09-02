@@ -330,7 +330,7 @@ fn command_universe(args: &Args) -> Result<()> {
     let violators = args.required_path("--violators")?;
     let output = args.required_path("--output")?;
     let threads = args.usize_or("--threads", 1)?;
-    ensure!((1..=6).contains(&threads), "--threads must lie in 1..=6");
+    ensure!((1..=16).contains(&threads), "--threads must lie in 1..=16");
     let include_five_l = args.boolean_or("--include-five-l", false)?;
     let include_target = args.boolean_or("--include-target", false)?;
     let separator = CompiledSeparator::from_path(&separator_path)?;
@@ -465,7 +465,7 @@ fn command_universe(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-price-universe price-mcolgen --input FILE --separator FILE --violators FILE --output REPORT\n  max11-price-universe price-saved --input FILE.jsonl[.gz] --separator FILE --filter all|union-trees --violators FILE --output REPORT\n  max11-price-universe price-universe --universe FILE.json[.gz] --separator FILE --threads 1..6 [--order-file INDICES.json | --start N --limit N] [--include-five-l true] [--include-target true] --violators FILE --output REPORT"
+    "usage:\n  max11-price-universe price-mcolgen --input FILE --separator FILE --violators FILE --output REPORT\n  max11-price-universe price-saved --input FILE.jsonl[.gz] --separator FILE --filter all|union-trees --violators FILE --output REPORT\n  max11-price-universe price-universe --universe FILE.json[.gz] --separator FILE --threads 1..16 [--order-file INDICES.json | --start N --limit N] [--include-five-l true] [--include-target true] --violators FILE --output REPORT"
 }
 
 fn main() {
