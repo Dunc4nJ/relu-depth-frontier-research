@@ -1,0 +1,14 @@
+artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz: OK
+artifacts/math/n12-universe/stage_a_order_n12_v1.json: OK
+tools/streamrank/target/release/max11-streamrank: OK
+2026-09-02T21:26:34Z
+OPENBLAS_CORETYPE=HASWELL OPENBLAS_VERBOSE=2
+11d08a17eb706f6b4bfcc3f75d18e0e3e02167127e19c1db0b74a1ee810fe676  tools/streamrank/target/release/max11-streamrank
+f98352ea4d1517f0b88aba0b38d34be0edb0b845aac3eaa724f3bd1f8f83f640  artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz
+691cb0368545f8834c98e891bbb771476e547ce9e140887c9791710a8786a7c1  artifacts/math/n12-universe/stage_a_order_n12_v1.json
+STREAMRANK_PID=6014
+2026-09-02T21:50:56Z
+STREAMRANK_EXIT=143 EXTERNAL_ABORT=0
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.stdout.log
+a00019dfc642234907e911c28d5cd7be244ac61568205b980149fce3e19d97b8  artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.stderr.log
+2b63fec22b124a0e1c9ecd2cb38d9bf8b3dcda9e415e300cdee210b92a831bdb  artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.telemetry.csv
