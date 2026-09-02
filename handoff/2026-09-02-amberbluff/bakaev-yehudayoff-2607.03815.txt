@@ -1,0 +1,1272 @@
+                                                  A SIMPLEX-BASED MEASURE OF SYMMETRY
+
+                                                              EGOR BAKAEV AND AMIR YEHUDAYOFF
+arXiv:2607.03815v1 [math.MG] 4 Jul 2026
+
+
+
+
+                                              Abstract. For compact convex sets L, K ⊂ Rn , denote by λK (L) the smallest
+                                              size of a homothet of K that contains L. We define a measure of symmetry based
+                                              on the n-simplex ∆ = ∆n ⊂ Rn as the ratio
+                                                                                         λ−∆ (L)
+                                                                             ρ∆ (L) :=           .
+                                                                                          λ∆ (L)
+                                              We study this measure and deduce the following results:
+                                                  (1) The classical Minkowski measure of symmetry m∗ (L) can be defined as an
+                                              affine-invariant version of ρ∆ (L).
+                                                  (2) We improve the stability analysis for the Minkowski measure of symmetry;
+                                              if m∗ (L) ≥ n − ε then L is 1−ε1
+                                                                               -close to ∆ in the Banach–Mazur distance.
+                                                  (3) We obtain a novel characterization of simplices as the only convex bod-
+                                              ies K for which the function L 7→ λK (L) is additive (a property we term “outer
+                                              additivity”).
+                                                  (4) Motivated by the expressivity of ReLU neural networks, we study the depth
+                                              complexity of polytopes in Rn under the two operations: Minkowski sum and
+                                              convex hull of a union. We prove the sharp bound ρ∆ (P ) ≤ 2d − 1 for every poly-
+                                              tope P of depth complexity d. In other words, simplices cannot be approximated
+                                              by low-depth polytopes.
+
+
+
+
+                                                                               Contents
+                                          1. Introduction                                                                          2
+                                          2. Basic properties                                                                      7
+                                          3. Equivalence to the Minkowski measure                                                 11
+                                          4. Stability of Minkowski measure                                                       13
+                                          5. Outer additivity                                                                     20
+                                          6. Depth of polytopes                                                                   24
+                                          References                                                                              28
+
+
+
+
+                                                                                     1
+2                            BAKAEV AND YEHUDAYOFF
+
+                                 1. Introduction
+1.1. Measures of symmetry. A set K ⊂ Rn is centrally symmetric if there is
+o ∈ Rn such that x ∈ K − o ⇐⇒ −x ∈ K − o. Measures of symmetry capture how
+close a given convex set is to being centrally symmetric, and are (assumed to be)
+affine invariant. The theory of measures of symmetry for convex sets was initiated
+by Grünbaum [Grü63]. The recent book by Toth [Tot15] gives a comprehensive
+account of this topic. The standard measure of symmetry is the Minkowski measure
+which is defined as follows.
+
+Definition. For a convex body K ⊂ Rn and o ∈ int(K), the Minkowski symmetry
+of K at o ∈ Rn is
+                    mK (o) := inf{α ≥ 1 : −(K − o) ⊆ α(K − o)}.
+The Minkowski measure (of symmetry) of K is
+                             m∗ (K) :=     inf      mK (o).
+                                         o∈int(K)
+
+  The infimum defining m∗ (K) is attained, and any minimizer is called a Minkowski
+center.
+  The following theorem gives an equivalent description of mK (o) in terms of slabs
+containing K. The support function of K is denoted by hK , and the sphere is
+denoted by Sn−1 ⊂ Rn .
+
+Theorem 1 (Section 3.2 in [Tot15]). For a convex body K ⊂ Rn and o ∈ int(K),
+the Minkowski symmetry of K at o is
+                                                 hK−o (−u)
+                            mK (o) = max                   .
+                                       u∈Sn−1     hK−o (u)
+    We define a non-affine-invariant measure (of symmetry) based on simplices.
+
+1.2. The simplex-based measure. A homothet of K ⊂ Rn is a set of the form
+H = x + λK where x ∈ Rn and λ ≥ 0 is called the coefficient of homothety (or size
+in short). For a compact convex set K ⊂ Rn , the family of (nonnegative) homothets
+of K is
+                         HK = {x + λK : x ∈ Rn , λ ≥ 0}.
+For a compact convex L ⊂ Rn , define
+               λK (L) := inf{λ ≥ 0 : ∃x ∈ Rn such that L ⊂ x + λK}.
+In words, it is the smallest size of a homothet of K containing L. If L ⊆ Rn is not
+a single point and the interior of K is non-empty then 0 < λK (L) < ∞.
+                      A SIMPLEX-BASED MEASURE OF SYMMETRY                                 3
+
+
+
+
+     ∆:
+                                                        L
+
+
+
+
+                         Figure 1. An illustration of ρ∆ (L).
+
+  We write ∆ = ∆n for the standard regular simplex in Rn obtained by orthogonally
+projecting conv{e1 , . . . , en+1 } ⊂ Rn+1 to the subspace orthogonal to (1, 1, . . . , 1),
+where e1 , . . . , en+1 are the standard unit vectors.
+Definition. For a compact convex set L ⊂ Rn that is not a single point, the simplex-
+based measure is
+                                           λ−∆ (L)
+                                 ρ∆ (L) :=         .
+                                            λ∆ (L)
+By convention, if L is a point, then ρ∆ (L) := 0.
+   Figure 1 illustrates the definition. We use the term measure because it resem-
+bles a measure of symmetry but it is not a measure of symmetry in the common
+sense. A measure of symmetry should be maximal if and only if the body is sym-
+metric [Tot15], and ρ does not satisfy this.
+   Let us start with describing some basic properties of this measure. It is invariant
+under scaling: ρ∆ (L) = ρ∆ (λL) for all λ > 0. It can be bounded by
+                                    1
+                                      ≤ ρ∆ (L) ≤ n.
+                                    n
+If L ⊂ Rn is not a point and is centrally symmetric then ρ∆ (L) = 1. The converse is
+false: ρ∆ (L) = 1 can also hold for non-symmetric bodies — one can take a ball and
+4                             BAKAEV AND YEHUDAYOFF
+
+remove a small part of it from a region where it does not touch the boundaries of the
+homothets of ∆ and −∆ in which it is inscribed. Evaluating ρ∆ (K) only requires
+2(n + 1) support-function values, so for polytopes this quantity is, in many cases,
+easy to compute.
+   We show that the Minkowski measure can also be described in terms of con-
+tainment in simplices. Section 3 shows that the supremum of ρ∆ (K) over all affine
+images of ∆ is equal to m∗ (K). In words, an affine-invariant version of ρ∆ is m∗ (K).
+This can be viewed as a refinement of Theorem 1. Instead of inscribing K into all
+possible slabs, we inscribe it into all possible simplices. Consequently, properties of
+ρ∆ yield corresponding properties of the Minkowski measure.
+1.3. Results.
+An equivalent definition of the Minkowski measure (Section 3). The following is an
+affine invariant version of the simplex-based measure.
+Definition. For a non-singleton compact convex set K ⊂ Rn , let S (K) denote the
+family of nondegenerate simplices in EK whose barycenter is 0, and define
+                              α(K) :=     sup     ρ∆ (K).
+                                        ∆∈S (K)
+
+Theorem 2. For every non-singleton compact convex set K ⊂ Rn ,
+                                   α(K) = m∗ (K).
+Stability of Minkowski measure (Section 4). For a convex body L and a simplex K,
+let µK (L) be the size of the largest homothet of K contained in L, and define
+                                              λK (L)
+                                  dK (L) :=          .
+                                              µK (L)
+See Figure 2 for an illustration. In words, it is the smallest ratio between the sizes
+of a simplex outside L and a simplex inside L, which is similar to the condition in
+the Banach–Mazur distance. It always holds that dK (L) ≥ 1 and dK (L) = 1 iff L is
+a nonnegative homothet of K. The main comparison between the two measures is
+the following pair of inequalities:
+Theorem 3. For the simplex ∆ ⊂ Rn and a convex body L ⊂ Rn ,
+                       n                         1
+                            ≤ ρ∆ (L) ≤ n − 1 +        .
+                     d∆ (L)                    d∆ (L)
+  Interestingly, the proof is based on a Kadets-type result proved by Akopyan and
+Karasev [AK12].
+  As an application of our techniques, we can bound the stability of the Minkowski
+measure of symmetry. The body in Rn with the largest Minkowski measure m∗ is
+                     A SIMPLEX-BASED MEASURE OF SYMMETRY                            5
+
+
+
+
+         K:
+                                                            L
+
+
+
+                       Figure 2. An illustration of dK (L).
+
+the simplex and m∗ (∆) = n. Stability refers to a statement of the form: if m∗ (L) is
+close to the maximum n then L is close to ∆ in the Banach–Mazur distance dBM .
+Stability estimates of this kind were obtained in [BJ96, BJ05, Guo05, Tot13], and to
+the best of our knowledge the strongest previously known result is due to Schneider
+(Theorem 2.1 in [Sch09], see also [Tot15], Theorem 3.2.4).
+Theorem 4 ([Sch09]). If L ⊂ Rn is a convex body and m∗ (L) ≥ n − ε for some
+0 ≤ ε < n1 , then
+                                            (n + 1)ε
+                           dBM (L, ∆) < 1 +          .
+                                             1 − nε
+  We prove the following stronger bound.
+Theorem 5. If L ⊂ Rn is a convex body and m∗ (L) ≥ n − ε for some 0 ≤ ε < 1,
+then
+                                                1
+                                 dBM (L, ∆) ≤       .
+                                              1−ε
+   Our bound is stronger, and is even asymptotically better. Our bound holds for
+                                 1
+all ε ∈ [0, 1) and has the form 1−ε = 1 + ε + O(ε2 ), while the previous bound holds
+only for ε ≤ n1 and is worse by a factor depending on the dimension 1 + (n+1)ε
+                                                                         1−nε >
+1 + (n + 1)ε.
+Outer additivity (Section 5). Several of the results above rely on the fact that sim-
+plices satisfy the following additivity property. The Minkowski sum of two sets is
+A + B = {a + b : a ∈ A, b ∈ B}.
+Definition. A convex body K ⊂ Rn is called outer additive if for every L = L1 + L2
+where L1 , L2 ⊂ Rn are convex and compact, it holds that
+                            λK (L) = λK (L1 ) + λK (L2 ).
+6                            BAKAEV AND YEHUDAYOFF
+
+   The additivity of K does not rely on the “position” of K; it is invariant under
+invertible affine maps. Because it is always true that λK (L) ≤ λK (L1 ) + λK (L2 ),
+the additivity of K is equivalent to λK (L) ≥ λK (L1 ) + λK (L2 ).
+   The fact that simplices are outer additive easily follows from the additivity of
+support functions. It is natural to ask whether similar properties can be obtained
+by replacing the simplex with some other convex body. Section 5 characterizes
+simplices as the only outer additive convex bodies.
+Theorem 6. A convex body is outer additive iff it is a simplex.
+
+Depth complexity (Section 6). Our final application is motivated by the study of neu-
+ral networks (NNs). The study of NNs lead to the following model for constructing
+polytopes. Polytopes of depth zero are
+                               Pn,0 = {{x} : x ∈ Rn }.
+For d > 0, polytopes of depth at most d are
+                                                                 
+                     X m                                         
+              Pn,d =      conv(Kj ∪ Lj ) : m ∈ N, Kj , Lj ∈ Pn,d−1 .
+                                                                 
+                       j=1
+
+The depth complexity of a polytope P ⊂ Rn is the smallest d such that P ∈ Pn,d . We
+find this computational-complexity-like framework for studying polytopes interesting
+in its own right, and provide further motivations later on.
+Theorem 7. If a polytope P ⊂ Rn has depth complexity d < ⌈log2 (n + 1)⌉, then
+                                  ρ∆ (P ) ≤ 2d − 1.
+This bound is sharp (this inequality is an equality for some polytopes).
+   Consequently, small depth polytopes are, in some sense, close to being symmetric
+in the Minkowski measure of symmetry.
+Theorem 8. Let P ⊂ Rn be a non-singleton polytope, let k = dim P , and suppose
+that P ∈ Pn,d . If 0 ≤ d < ⌈log2 (k + 1)⌉, then
+                                  m∗ (P ) ≤ 2d − 1.
+   Theorem 7 follows from the following two more informative theorems, which con-
+trol the simplex-based measure under the two operations on polytopes we consider.
+Theorem 9. If L = L1 +. . .+Lm where L1 , . . . , Lm ⊂ Rn are non-singleton compact
+convex sets, then
+                      ρ∆ (L) ≤ max{ρ∆ (Lj ) : j ∈ [m]}.
+                       A SIMPLEX-BASED MEASURE OF SYMMETRY                             7
+
+Theorem 10. If L = conv(L1 ∪ L2 ) where L1 , L2 ⊂ Rn are non-singleton compact
+convex sets, then
+                      ρ∆ (L) ≤ ρ∆ (L1 ) + ρ∆ (L2 ) + 1.
+  In words, the theorems state that Minkowski sum does not increase the simplex-
+based measure beyond the worst summand, and the convex hull of union of two
+polytopes at most doubles (with a possible extra +1). Both theorems are proved in
+Section 2.2.
+  Because ρ∆ (∆) = n, we can deduce that simplices cannot be approximated by
+low-depth polytopes. In Section 6.5, we translate the geometric obstruction given by
+ρ∆ (∆) being large to a natural inapproximability statement for h∆ by small depth
+input convex neural networks (we mention that h∆ is particularly important in this
+area—it is “complete for depth”).
+
+Acknowledgments. We thank Gennadiy Averkov, Juan Luis Valerdi Cabrera and
+Florestan Brunck for helpful remarks. The authors are supported by a DNRF Chair
+grant. The authors are part of BARC, Basic Algorithms Research Copenhagen,
+supported by the VILLUM Foundation grant 54451.
+
+                                 2. Basic properties
+2.1. A formula via support functions. The goal of this section is to develop a
+formula for the simplex-based measure (Proposition 14 below). For the simplex ∆ =
+∆n ⊂ Rn and a non-singleton compact convex set L ⊂ Rn , recall from Section 1.2
+that
+                                                λ−∆ (L)
+                                     ρ∆ (L) :=           .
+                                                  λ∆ (L)
+Let S be the family of nondegenerate (i.e., with nonempty interior) simplices in
+Rn whose barycenter is the origin. A tuple v = (v0 , . . . , vn ) ∈ (Rn )n+1 is called
+nondegenerate if any n of the vectors v0 , . . . , vn are linearly independent. Let V be
+the set of nondegenerate (v0 , . . . , vn ) ∈ (Rn )n+1 such that
+                                        n
+                                        X
+                                              vi = 0.
+                                        i=0
+For every nondegenerate tuple v = (v0 , . . . , vn ) ∈ V , define
+                     ∆v := {x ∈ Rn : ⟨vi , x⟩ ≤ 1 ∀i ∈ {0, . . . , n}}.
+The vectors vi are normal to the facets of ∆v .
+Lemma 11. If v ∈ V then ∆v ∈ S . Conversely, for every ∆ ∈ S , there exists a
+unique v ∈ V such that ∆ = ∆v .
+8                                 BAKAEV AND YEHUDAYOFF
+
+Proof. Assume v ∈ V . For each i, let qi ∈ Rn be the unique point satisfying
+                                    ⟨vj , qi ⟩ = 1          ∀j ̸= i.
+                       P
+Hence, ⟨vi , qi ⟩ = − j̸=i ⟨vj , qi ⟩ = −n for every i. The points q0 , . . . , qn are the
+vertices of the nondegenerate ∆v . Also, for every j,
+                   D X   n   E               X
+                    vj ,   qi = ⟨vj , qj ⟩ +   ⟨vj , qi ⟩ = −n + n = 0.
+                           i=0                      i̸=j
+
+Since the vj ’s span Rn , the barycenter of ∆v is                 i qi = 0. Thus ∆v ∈ S .
+                                                                 P
+
+  Conversely, let ∆ = conv(q0 , . . . , qn ) ∈ S . Let v0 , . . . , vn be the facet normals
+normalized such that
+                        ∆ = {x ∈ Rn : ⟨vi , x⟩ ≤ 1 ∀i}.
+Thus, ⟨vi , qj ⟩ = 1 for j ̸= i, and
+                                                  X
+                                 ⟨vi , qi ⟩ = −    ⟨vi , qj ⟩ = −n.
+                                                  j̸=i
+
+Therefore, for every j,
+                 DX n         E               X
+                       vi , qj = ⟨vj , qj ⟩ +  ⟨vi , qj ⟩ = −n + n = 0.
+                     i=0                            i̸=j
+                                        Pn
+Since the qj span Rn , this gives i=0 vi = 0. The nondegeneracy of (v0 , . . . , vn )
+holds because an n × n matrix with −n on the diagonal and 1 elsewhere has full
+rank, and uniqueness follow from the normalization.                               □
+
+Lemma 12. For every (v0 , . . . , vn ) ∈ V , every compact convex set K ⊂ Rn , and
+every o ∈ Rn ,
+                         X n                  Xn
+                                hK−o (vi ) =      hK (vi ).
+                                  i=0                      i=0
+                                                                 Pn
+Proof. Use that hK−o (u) = hK (u) − ⟨o, u⟩ and                    i=0 vi = 0.               □
+
+Lemma 13. For v = (v0 , . . . , vn ) ∈ V and a nonempty compact convex K ⊂ Rn ,
+                                                            n
+                                                   1 X
+                                 λ∆v (K) =             hK (vi ).
+                                                  n+1
+                                                           i=0
+
+Proof. The inclusion K ⊂ t + λ∆v is equivalent to
+                                  hK (vi ) ≤ ⟨vi , t⟩ + λ             ∀i,
+because
+                           t + λ∆v = {x ∈ Rn : ⟨vi , x − t⟩ ≤ λ ∀i}.
+                       A SIMPLEX-BASED MEASURE OF SYMMETRY                               9
+
+Averaging over i,
+                                                n
+                                       1 X
+                               λ≥          hK (vi ) =: λ0 .
+                                      n+1
+                                   i=0
+                           n
+Define the linear map A : R → Rn+1 by
+                                A(t) = (⟨v0 , t⟩, . . . , ⟨vn , t⟩).
+Since the vectors v0 , . . . , vn span Rn , the map A is injective. Moreover, for every
+t ∈ Rn ,
+                                  Xn             n
+                                                DX       E
+                                     ⟨vi , t⟩ =    vi , t = 0.
+                                i=0                  i=0
+It follows that the image of A is
+                                n                          n
+                                                           X       o
+                  im(A) = H := (c0 , . . . , cn ) ∈ Rn+1 :   ci = 0 .
+                                                                       i=0
+                                    Pn                                      n
+For bi := hK (vi ) − λ0 we have        i=0 bi = 0. Hence, there exists t ∈ R such that
+
+                                      A(t) = (b0 , . . . , bn ),
+or
+                               hK (vi ) ≤ ⟨vi , t⟩ + λ0            ∀i.
+It follows that K ⊂ t + λ0 ∆v and λ∆v (K) = λ0 .                                         □
+Proposition 14. Let v = (v0 , . . . , vn ) ∈ V , and let K ⊂ Rn be a non-singleton
+compact convex set and o ∈ Rn . Then,
+                                        Pn
+                                               hK−o (−vi )
+                          ρ∆v (K) = Pi=0    n              .
+                                            i=0 hK−o (vi )
+Proof. Since −∆v = ∆−v and −v ∈ V , Lemmas 12 and 13 complete the proof.                 □
+2.2. Minkowski sum and convex hull of union.
+Theorem 9 (restatement). If L = L1 + . . . + Lm where L1 , . . . , Lm ⊂ Rn are
+non-singleton compact convex sets, then
+                             ρ∆ (L) ≤ max{ρ∆ (Lj ) : j ∈ [m]}.
+Proof. Write ∆ = ∆v for v = (v0 , . . . , vn ) ∈ V . For j ∈ [m], set
+                             n
+                             X                                     n
+                                                                   X
+                     Aj :=         hLj (−vi )    and       Bj :=         hLj (vi ).
+                             i=0                                   i=0
+By Proposition 14,
+                                                Aj
+                               ρ∆ (Lj ) =                  ∀j ∈ [m].
+                                                Bj
+10                                 BAKAEV AND YEHUDAYOFF
+
+By the linearity of the support function,
+                                                 Pm
+                                                   j=1 Aj
+                                      ρ∆ (L) = Pm           .
+                                                   j=1 Bj
+
+By Lemma 13, each Bj = (n + 1)λ∆ (Lj ) is positive because Lj is not a point. Hence
+ρ∆ (L) is a weighted average of ρ∆ (L1 ), . . . , ρ∆ (Lm ):
+                               Pm
+                                 j=1 Bj ρ∆ (Lj )
+                     ρ∆ (L) ≤     Pm                  ≤ max ρ∆ (Lj ).            □
+                                     j=1 Bj             j∈[m]
+
+
+
+
+Theorem 10 (restatement). If L = conv(L1 ∪ L2 ) where L1 , L2 ⊂ Rn are non-
+singleton compact convex sets, then
+                              ρ∆ (L) ≤ ρ∆ (L1 ) + ρ∆ (L2 ) + 1.
+
+
+Proof. Write ∆ = ∆v for v = (v0 , . . . , vn ). Set
+                             n
+                             X                                  n
+                                                                X
+                      A :=         hL (−vi ),    and   B :=           hL (vi ).
+                             i=0                                i=0
+For j = 1, 2, set
+                            n
+                            X                                   n
+                                                                X
+                    Aj :=          hLj (−vi ),   and   Bj :=           hLj (vi ),
+                             i=0                                i=0
+Because L = conv(L1 ∪ L2 ),
+                      hL (u) = max{hL1 (u), hL2 (u)}             ∀u ∈ Rn .
+Hence, B ≥ B1 and B ≥ B2 . Also, for every compact set K and every u ∈ Rn ,
+                                     hK (u) + hK (−u) ≥ 0.
+For fixed i such that hL (−vi ) = hL1 (−vi ) (the other case hL (−vi ) = hL2 (−vi ) is
+similar),
+                       hL (−vi ) = hL1 (−vi )
+                                   ≤ hL1 (−vi ) + hL2 (−vi ) + hL2 (vi )
+                                   ≤ hL1 (−vi ) + hL2 (−vi ) + hL (vi ).
+Summing over i gives
+                                       A ≤ A1 + A2 + B.
+                      A SIMPLEX-BASED MEASURE OF SYMMETRY                        11
+
+By Proposition 14,
+                              A    A1 + A 2 + B        A1 A2
+                     ρ∆ (L) =    ≤                 ≤     +   +1
+                              B           B            B1 B2
+                            = ρ∆ (L1 ) + ρ∆ (L2 ) + 1.                           □
+
+                3. Equivalence to the Minkowski measure
+   This section shows that an affine invariant version of the simplex-based measure
+is equivalent to the classical Minkowski measure. Let K ⊂ Rn be a non-singleton
+compact convex set. Denote by aff(K) the affine span of K and by relint(K) the
+relative interior of K. Write aff(K) as aff(K) = o + EK where EK is a linear
+subspace and o ∈ K. Denote by k the dimension of EK . We can think of EK as
+a k-dimensional Euclidean space and of K − o as a subset of this space. For an
+Euclidean space E, write
+                             S(E) := {u ∈ E : ∥u∥2 = 1}.
+All statements from Section 2 apply verbatim in any Euclidean space; below we use
+them inside EK .
+  We use the following characterization of Minkowski measure (Theorem 1) inside
+EK . For a non-singleton compact convex set K ⊂ Rn and o ∈ relint(K), the
+Minkowski symmetry of K at o is
+                                               hK−o (−u)
+                             mK (o) = max                .
+                                       u∈S(EK ) hK−o (u)
+
+The Minkowski measure of K is
+                                m∗ (K) =      inf        mK (o).
+                                           o∈relint(K)
+
+  For full-dimensional K, this is the classical Minkowski measure of symmetry. For
+lower-dimensional K, it is the same quantity in the affine hull of K.
+  The following is an affine invariant version of the simplex-based measure.
+
+Definition. For a non-singleton compact convex set K ⊂ Rn , let S (K) denote the
+family of nondegenerate simplices in EK whose barycenter is 0, and define
+                                 α(K) :=     sup     ρ∆ (K).
+                                           ∆∈S (K)
+
+Corollary 15. Let K ⊂ Rn be a non-singleton compact convex set, let E = EK , let
+k = dim EK , and let o ∈ aff(K). Define
+                             n                             k
+                                                           X       o
+                                                     k+1
+                     V (E) := (v0 , . . . , vk ) ∈ E     :   vi = 0 .
+                                                             i=0
+12                           BAKAEV AND YEHUDAYOFF
+
+Then,
+                                              Pk
+                                                      hK−o (−vi )
+                         α(K) = max            Pi=0
+                                                 k
+                                                                    .
+                                                   i=0 hK−o (vi )
+                                    v∈V (E)
+
+Proof. By the results of Section 2,
+                                                   Pk
+                                                           hK−o (−vi )
+                      α(K) =          sup           Pi=0
+                                                      k
+                                                                         .
+                                     v∈V (E)          i=0 hK−o (vi )
+                                 v nondegenerate
+
+Choose z ∈ relint(K). By Lemma 12 applied in E,
+                           k
+                           X                    k
+                                                X
+                                 hK−o (vi ) =         hK−z (vi ).
+                           i=0                  i=0
+Since 0 ∈ intE (K −z), we have hK−z (u) > 0 for every u ∈ S(E). Hence, the quotient
+defines a continuous function on a compact set (because ρ∆λv (K) = ρ∆v (K) for
+λ > 0). Since the nondegenerate tuples are dense in V (E), the supremum above is
+the maximum over all v ∈ V (E).                                                  □
+
+Lemma 16. Let K ⊂ Rn be a non-singleton compact convex set, let E = EK , and
+assume 0 ∈ relint(K) is a Minkowski center. Put m := mK (0) = m∗ (K) and define
+                      A := {u ∈ S(E) : hK (−u) = m hK (u)}.
+Then, 0 ∈ conv(A).
+Proof. Assume towards a contradiction that 0 ∈/ conv(A). By strict separation in
+the Euclidean space E, there are p ∈ E and δ > 0 such that
+                            ⟨p, u⟩ ≥ δ         ∀u ∈ conv(A).
+For small t > 0, let o := −tp ∈ intE (K) = relint(K). We will show that o is a
+“better candidate” for a Minkowski center than 0 (hence the contradiction). For
+every u ∈ S(E),
+         hK−o (u) = hK (u) + t⟨p, u⟩     and       hK−o (−u) = hK (−u) − t⟨p, u⟩,
+so
+                                                 
+          hK−o (−u) − mhK−o (u) = hK (−u) − mh(u) − (1 + m)t⟨p, u⟩
+                                      := a(u) − tb(u),
+where
+              a(u) := hK (−u) − mh(u),         and      b(u) := (1 + m)⟨p, u⟩.
+Consider the sign of the expression a(u) − tb(u). For u ∈ A, it is negative, because
+a(u) = 0 and b(u) > 0. For u ∈ S(E) \ A, we have a(u) < 0. By continuity, b(u) > 0
+                       A SIMPLEX-BASED MEASURE OF SYMMETRY                                 13
+
+on some open neighborhood U of A. On the compact set S(E) \ U , the function a(u)
+is uniformly bounded away from 0. It follows that, for a sufficiently small t > 0, we
+have mK (o) < m.                                                                    □
+
+Theorem 2 (restatement). For every non-singleton compact convex set K ⊂ Rn ,
+                                       α(K) = m∗ (K).
+Proof. Let E = EK and k = dim K. Choose a Minkowski center o ∈ relint(K) and
+translate so that o = 0 so that K ⊂ E and
+                                                h(−u)
+                            m := m∗ (K) = max         ,
+                                          u∈S(E) h(u)
+
+where h := hK . By Corollary 15,
+                                                           Pk
+                                                                  h(−vi )
+                         α(K) =           max              Pi=0
+                                                             k
+                                                                            .
+                                                             i=0 h(vi )
+                                   v=(v0 ,...,vk )∈V (E)
+
+Because h(−u) ≤ mh(u) for every u ∈ E,
+                                         α(K) ≤ m.
+For the reverse inequality, let
+                          A := {u ∈ S(E) : h(−u) = mh(u)}.
+By Lemma 16, 0 ∈ conv(A). By Carathéodory’s theorem in the k-dimensional Eu-
+clidean space E, there exist u0 , . . . , uk ∈ A and λ0 , . . . , λk ≥ 0 such that ki=0 λi = 1
+                                                                                  P
+
+and
+                                          Xk
+                                              λi ui = 0.
+                                        i=0
+Set wi := λi ui so that w = (w0 , . . . , wk ) ∈ V (E). Since ui ∈ A,
+                   h(−wi ) = λi h(−ui ) = mλi h(ui ) = mh(wi )                  ∀i.
+Summing gives
+                                k
+                                X                    k
+                                                     X
+                                      h(−wi ) = m           h(wi ).
+                                i=0                   i=0
+Corollary 15 implies that α(K) ≥ m.                                                        □
+
+                        4. Stability of Minkowski measure
+  Recall that λK (L) is the size of the smallest homothet of K containing L. Define
+the inner coefficient of L with respect to K by
+                       µK (L) = sup{λK (H) : H ∈ HK , H ⊆ L}.
+14                            BAKAEV AND YEHUDAYOFF
+
+In words, it is the size of the largest homothet of K contained in L. For a simplex
+∆ and a convex body L, set
+                                             λ∆ (L)
+                                   d∆ (L) :=        .
+                                             µ∆ (L)
+For a non-singleton compact convex set L, define also
+                             dBM (L, ∆) :=      inf     d∆ (L).
+                                              ∆∈S (L)
+
+Equivalently, dBM (L, ∆) is the Banach–Mazur distance from L to the class of sim-
+plices in its affine hull. In the following two subsections we relate d∆ to the simplex-
+based measure ρ∆ .
+   The main result of this section is the following comparison between ρ∆ and d∆ .
+
+Theorem 3 (restatement). Let ∆ ⊂ Rn be a simplex and let L ⊂ Rn be a convex
+body. Then
+                     n                         1
+                          ≤ ρ∆ (L) ≤ n − 1 +        .
+                   d∆ (L)                    d∆ (L)
+   The lower and upper bounds (Lemma 17 and Lemma 18) are proved separately
+in the next two subsections. For the stability estimate we only use the upper bound.
+
+Remark. Since all simplices of a fixed dimension are affinely equivalent, it suffices in
+the proofs below to work with the model simplex ∆n .
+
+4.1. A lower bound.
+
+Lemma 17. Let ∆ = ∆n and let L ⊂ Rn be a convex body. Then,
+                                       n
+                            ρ∆ (L) ≥        .
+                                     d∆ (L)
+Proof. Write ∆ as ∆ = ∆v for v = (v0 , . . . , vn ) ∈ V using Lemma 11. Let K =
+t + µ∆ ∈ H∆ be such that K ⊆ L where µ := µ∆ (L). In words, K is a largest
+homothet of ∆ inside L. Set
+                         Xn                           n
+                                                      X
+                    A :=    hL (−vi ) and B :=          hL (vi ).
+                            i=0                            i=0
+By Proposition 14 and Lemma 13,
+                               A
+                     ρ∆ (L) =      and B = (n + 1)λ∆ (L).
+                               B
+Since K ⊆ L, we have hL (−vi ) ≥ hK (−vi ) for every i, which implies
+                                       n
+                                       X
+                                  A≥          hK (−vi ).
+                                        i=0
+                        A SIMPLEX-BASED MEASURE OF SYMMETRY                       15
+          P
+Because    i vi = 0,
+             X n                  n
+                                  X                                n
+                                                                   X
+                                                              
+                    hK (−vi ) =         ⟨−vi , t⟩ + µh∆ (−vi ) = µ   h∆ (−vi ),
+              i=0                 i=0                              i=0
+By Lemma 13,
+                                                       n
+                                                 1 X
+                            n = λ−∆ (∆) =            h∆ (−vi ).
+                                                n+1
+                                                       i=0
+Hence, A ≥ n(n + 1)µ. Finally,
+                                        A     n(n + 1)µ       n
+                         ρ∆ (L) =         ≥               =        .              □
+                                        B   (n + 1)λ∆ (L)   d∆ (L)
+
+4.2. An upper bound.
+Lemma 18. For every convex body L ⊂ Rn ,
+                                                         1
+                                    ρ∆ (L) ≤ n − 1 +          .
+                                                       d∆ (L)
+   Before proving the lemma, we need some preparation. A supporting half-space T
+of a convex body L ⊆ Rn is of the form
+                              T = {x ∈ Rn : ⟨u, x⟩ ≤ hL (u)}
+for some u ∈ Sn−1 . It always holds that L ⊆ T .
+Lemma 19. Let L ⊂ Rn be a convex body. Then, there exist k ≤ n + 1 supporting
+half-spaces T1 , . . . , Tk of L such that
+                                     \
+                           L ⊆ A :=      Tj and µ∆ (L) = µ∆ (A).
+                                     j∈[k]
+
+   The proof of the lemma uses techniques from the work of Klain [Kla10]. For a
+convex body L ⊂ Rn , we denote by ∆i (L) a simplex H ∈ H∆n such that H ⊆ L and
+λ∆n (H) = µ∆n (L) (it is not necessarily unique). In words, ∆i (L) is a largest copy
+of ∆ inside L.
+
+Proof of Lemma 19. Let ∆i = ∆i (L). Because ∆i ⊆ L,
+                                  hL (u) ≥ h∆i (u)   ∀u ∈ Sn−1 .
+Let
+                            U = u ∈ Sn−1 : hL (u) = h∆i (u) .
+                               
+
+  We claim that 0 ∈ conv(U ). Otherwise, by convex separation, there exist ε > 0
+and v ∈ Sn−1 such that ⟨v, u⟩ < −ε for all u ∈ U . In other words, U is contained in
+the (open) half-space W := {w ∈ Rn : ⟨v, w⟩ < −ε}. The set Sn−1 \ W is non-empty,
+16                             BAKAEV AND YEHUDAYOFF
+
+compact and is disjoint from U so there is ε′ > 0 such that
+                         hL (u) ≥ h∆i (u) + ε′         ∀u ∈ Sn−1 \ W.
+Hence, there is δ > 0 such that
+                 hL (u) > h∆i (u) + δ⟨v, u⟩ = h∆i +δv (u)          ∀u ∈ Sn−1 .
+It follows that ∆i + δv is contained in the interior of L, and therefore L contains a
+larger homothet of ∆, which is a contradiction.
+   Now, by Carathéodory’s theorem, there exist u1 , . . . , uk ∈ U and α1 , . . . , αk > 0
+for 2 ≤ k ≤ n + 1 such that         X
+                                        αj uj = 0.
+                                        j
+Define the supporting half-spaces as (for j ∈ [k])
+                               Tj = {x : ⟨x, uj ⟩ ≤ hL (uj )}
+and their intersection                          \
+                                     A=             Tj ⊇ L.
+                                                j
+It remains to prove that µ∆ (L) = µ∆ (A). Because L ⊆ A, we have µ∆ (L) ≤ µ∆ (A).
+Assume towards a contradiction that
+                                 (1 + γ)µ∆ (L) ≤ µ∆ (A)
+for some γ > 0 so that
+                                    (1 + γ)∆i + t ⊆ A
+for some t ∈ Rn . For every j ∈ [k],
+      (1 + γ)h∆i (uj ) + ⟨t, uj ⟩ = h(1+γ)∆i +t (uj ) ≤ hA (uj ) = hL (uj ) = h∆i (uj )
+so
+                                 γh∆i (uj ) + ⟨t, uj ⟩ ≤ 0.
+Since ∆i has non-empty interior, choose z ∈ int ∆i . Because h∆i (uj ) > ⟨z, uj ⟩ for
+every j, we deduce the contradiction:
+                   1X                 X                X
+             0=−        αj ⟨t, uj ⟩ ≥   αj h∆i (uj ) >   αj ⟨z, uj ⟩ = 0.          □
+                   γ
+                         j                  j                  j
+
+
+
+
+   We also use the following Kadets-type result by Akopyan and Karasev [AK12]. It
+is based on the notion of inductive covering (which is defined as follows). The cover
+of Rn by a single set V1 = Rn is inductive. A cover Rd = V1 ∪ · · · ∪ Vk is inductive
+if V1 , . . . , Vk are closed convex sets and for each j ∈ [k], there exists an inductive
+                         A SIMPLEX-BASED MEASURE OF SYMMETRY                                     17
+
+covering
+                         Rd = W1 ∪ · · · ∪ Wj−1 ∪ Wj+1 ∪ · · · ∪ Wk
+such that
+                                   Wℓ ⊆ Vℓ ∪ Vj                ∀ℓ ̸= j.
+                1
+The following is Theorem 1 in [AK12].
+
+Theorem 20. Let V1 , . . . , Vk be an inductive covering of Rn . Let B ⊂ Rn be a
+convex body, and let Cj = Vj ∩ B for each j ∈ [k]. Then,
+                                   X
+                                      µB (Cj ) ≥ 1.
+                                          j
+
+Proof of Lemma 18. Let ∆ = ∆n . We assume without loss of generality that L is
+smooth and strictly convex, because the collection of such convex bodies is dense.
+We also assume without loss of generality that λ∆ (L) = 1 and prove that ρ∆ (L) ≤
+n − 1 + µ∆ (L).
+   Denote by ∆o a smallest homothet of ∆ containing L and by ∆i a largest homothet
+of ∆ contained in L. Consider the set
+                        U = u ∈ Sn−1 : hL (u) = h∆i (u)
+                             
+
+from the proof of Lemma 19. Because L is strictly convex, for every u ∈ U , the
+face ∆i ∩ S(∆i , u) of ∆i is a vertex which we denote by g(u) ∈ V (∆i ) (otherwise,
+the boundary of L contains a line segment). The vector u is a normal to L at g(u).
+Because L is strictly convex and smooth, the map u 7→ g(u) is injective. Choose the
+directions uj and the half-spaces
+                                 Tj = {x : ⟨x, uj ⟩ ≤ hL (uj )}
+from the proof of Lemma 19. Let
+                                                      \
+                                              A′0 =       Tj
+                                                      j
+
+and
+                                        A′j = cl(Rn \ Tj )
+where cl denotes closure. Let Aj = A′j ∩ ∆o for j ∈ {0, 1, . . . , k}. It follows that
+                                         [
+                                   Rn =     A′j
+                                                      j
+
+
+
+1In [AK12] the theorem is stated for partitions instead of coverings. The remark before definition 5
+in that paper states that the theorem holds for coverings as well. In addition, their notation is
+different from ours: µB (C) is denoted by rB (C).
+18                               BAKAEV AND YEHUDAYOFF
+
+and
+                                                 [
+                                          ∆o =         Aj .
+                                                  j
+
+By Lemma 19,
+                                     µ∆ (L) = µ∆ (A0 ).
+  Fix j ∈ [k] for now. The direction uj ∈ U defines the vertex gj := g(uj ) of ∆i .
+Denote by gj′ the vertex of ∆o that corresponds to gj :
+                                  {gj′ } = S(∆o , uj ) ∩ ∆o .
+For each j, let x ∈ S(∆o , −uj ) ∩ ∆o . Because λ∆ (L) = 1 and the interval [gj′ , x] is
+contained in ∆o ,
+                                µ∆ (Aj ) ≤ µ[gj′ ,x] (Aj ).
+The interval [gj′ , x] intersects S(∆i , uj ) at a point y. Using (5.2), we can deduce
+                                                       |[gj′ , y]|
+                                   µ[gj′ ,x] (Aj ) ≤               .
+                                                       |[gj′ , x]|
+The homothety with center gj′ that moves x to y also moves ∆o , which has coefficient
+of homothety λ∆ (∆o ) = 1, to a homothet Hj with coefficient of homothety λ∆ (Hj ) =
+|[gj′ ,y]|
+|[gj′ ,x]|
+           . Thus
+                                    µ∆ (Aj ) ≤ λ∆ (Hj ).
+  Now, collect the information on all j’s. Because u 7→ g(u) is injective, g1′ , . . . , gk′
+are distinct. Write ∆o = t + ∆v , where v = (v0 , . . . , vn ) ∈ V is a nondegenerate
+tuple and the vertex gj′ corresponds to the index i(j). Define
+                        h∆o (−vi ) − hL (−vi )
+                     βi :=                     ∀i ∈ {0, . . . , n}.
+                               n+1
+By Proposition 14 and the normalization λ∆ (L) = λ∆ (∆o ) = 1,
+                                   n
+                                   X
+                                          βi = n − ρ∆ (L).
+                                    i=0
+
+Moreover, Hj is contained in the corner of ∆o based at gj′ , so λ∆ (Hj ) ≤ βi(j) .
+Therefore             X             X
+                         µ∆ (Aj ) ≤   βi(j) ≤ n − ρ∆ (L).
+                             j               j
+     Next, we show that we can use the Kadets-type result by Akopyan and Karasev.
+
+
+Claim 21. The covering A′0 ∪ A′1 ∪ · · · ∪ A′k of Rn is inductive.
+                       A SIMPLEX-BASED MEASURE OF SYMMETRY                               19
+
+Proof. We prove a more general claim. For J ⊆ [k], define the J-covering to be V0
+and Vj for j ∈ J, where                \
+                                  V0 =     Tj
+                                             j∈J
+(if J = ∅ then V0   = Rn ) and for j ∈ J,
+                                    Vj = cl(Rn \ Tj ).
+We prove by induction that the J-covering is an inductive covering. The ∅-covering
+is an inductive covering (it has one set). It remains to perform the inductive step.
+Let V0 and Vj for j ∈ J be the J-covering for |J| > 0. We need to verify that the
+relevant condition holds for every j ∈ {0} ∪ J.
+   First, consider the case j ̸= 0. Consider the (J \ {j})-covering:
+                                            \
+                                    W0 =         Tℓ
+                                            ℓ∈J\{j}
+
+and Wℓ = Vℓ for ℓ ∈ J \ {j}. For ℓ = 0, we use that V0 = cl(W0 \ Vj ) and get
+                           W0 ⊆ cl(W0 \ Vj ) ∪ Vj = V0 ∪ Vj .
+For ℓ ∈ J \ {j},
+                                   Wℓ = Vℓ ⊆ Vℓ ∪ Vj .
+  Second, consider the case j = 0. Choose some i ∈ J and consider the (J \ {i})-
+covering:                              \
+                                 Wi =       Tℓ
+                                            ℓ∈J\{i}
+and Wℓ = Vℓ for ℓ ∈ J \ {i}. For ℓ = i, we use that V0 = cl(Wi \ Vi ) and get
+                            Wi ⊆ cl(Wi \ Vi ) ∪ Vi = V0 ∪ Vi .
+For ℓ ∈ J \ {i},
+                                   Wℓ = Vℓ ⊆ Vℓ ∪ V0 .                                   □
+
+  Putting it all together, by Claim 21 and Theorem 20,
+                                            X
+                    µ∆ (L) + n − ρ∆ (L) ≥         µ∆ (Aj ) ≥ 1,
+                                             j∈{0,1,...,k}
+
+which is equivalent to ρ∆ (L) ≤ n − 1 + µ∆ (L). This proves the lemma under the
+normalization λ∆ (L) = 1, and the general statement follows by scaling.      □
+
+Remark. Equality is achieved in Lemma 18 in the following example of L. Denote
+by v1 , . . . , vn+1 the vertices of ∆n . Let a and b be two points on the edge [v1 , v2 ],
+and let L be conv{a, b, v3 , . . . , vn+1 }.
+20                            BAKAEV AND YEHUDAYOFF
+
+4.3. Stability. Now we bound the stability of the Minkowski measure.
+Lemma 22. For every convex body L ⊂ Rn ,
+                     n                             1
+                           ≤ m∗ (L) ≤ n − 1 +            .
+                dBM (L, ∆)                    dBM (L, ∆)
+Proof. By Theorem 2,
+                           m∗ (L) = α(L) =    sup ρ∆ (L).
+                                             ∆∈S (L)
+
+By Lemma 17 and Lemma 18, for every L,
+                      n                         1
+                           ≤ ρ∆ (L) ≤ n − 1 +        .
+                    d∆ (L)                    d∆ (L)
+The last observation is
+                            1               1                1
+                   sup           =                    =            .                 □
+                  ∆∈S (L) d∆ (L)   inf ∆∈S (L) d∆ (L)   dBM (L, ∆)
+
+Theorem 5 (restatement). If L ⊂ Rn is a convex body and m∗ (L) ≥ n − ε for
+some 0 ≤ ε < 1, then
+                                        1
+                          dBM (L, ∆) ≤     .
+                                       1−ε
+Proof. It immediately follows from the lemma; indeed, by assumption and the
+lemma,
+                                                    1
+                      n − ε ≤ m∗ (L) ≤ n − 1 +            .              □
+                                               dBM (L, ∆)
+
+                               5. Outer additivity
+  Fix n and let ∆ = ∆n . Denote the vertices of ∆ by v1 , . . . , vn+1 . For each
+j ∈ [n + 1], let Fj be the hyperplane that contains the facet that is opposite to vj .
+Call F1 , . . . , Fn+1 the facet hyperplanes of ∆. Let uj be the unit vector and bj ∈ R
+be such that Fj = {x ∈ Rn : ⟨uj , x⟩ = bj } and ⟨uj , vj ⟩ > bj .
+  For u ∈ Sn−1 and a convex body K ⊂ Rn , denote by S(K, u) the supporting
+hyperplane of K in direction u, which is of the form
+                              S(K, u) = u⊥ + hK (u)u.
+
+5.1. Simplices are outer additive. Recall that a convex body K ⊂ Rn is outer
+additive if
+                      λK (L1 + L2 ) = λK (L1 ) + λK (L2 )
+for all convex compact L1 , L2 ⊂ Rn . Also recall the following well-known additivity
+of support functions: hL1 +L2 = hL1 + hL2 .
+                      A SIMPLEX-BASED MEASURE OF SYMMETRY                             21
+
+Claim 23. All simplices are outer additive.
+
+Proof. Let L = L1 + L2 for convex compact L1 and L2 . The simplex ∆ = ∆n
+has n + 1 facets with unit normals u1 , . . . , un+1 . The n + 1 supporting hyperplanes
+S(L, −u1 ), . . . , S(L, −un+1 ) define the smallest homothet of ∆ that contains L; de-
+note it by ∆o (L). The same construction defines ∆o (L1 ) and ∆o (L2 ). Because
+support functions are additive,
+(5.1)                      ∆o (L) = ∆o (L1 ) + ∆o (L2 ).                              □
+
+
+5.2. Outer additive bodies are simplices. For u ∈ Sn−1 and a convex body
+K ⊂ Rn , let
+                            Au = Au (K) = S(K, −u) ∩ K
+and
+                            Bu = Bu (K) = S(K, u) ∩ K.
+For x, y ∈ Rn , denote by [x, y] the interval between x, y. The main property we use
+is that
+(5.2)                  a ∈ Au , b ∈ Bu    =⇒     λK ([a, b]) = 1.
+For x ∈ ∂K, denote by Φ(x) = ΦK (x) the collection of y ∈ ∂K such that [x, y] ⊂ ∂K.
+  The key step is the following geometric lemma that gives a necessary “local”
+condition for being outer additive.
+
+Lemma 24. Let K ⊂ Rn be a convex body. If there are u ∈ Sn−1 , a ∈ Au , b ∈ Bu
+and x ∈ ∂K \ (Φ(a) ∪ Φ(b)) then K is not outer additive.
+
+Proof. Suppose the condition is satisfied with u, a, b, x; see illustration in Figure 3.
+Let u′ ∈ Sn−1 be such that x ∈ Au′ and let y ∈ Bu′ . Because a, x, y ∈ K,
+                                   [ a+y a+x
+                                      2 , 2 ] ⊂ K.
+
+By choice of x, it holds that [a, x] ̸⊆ ∂K. So, [a, x] must contain an interior point of
+K which implies
+                                        a+x
+                                         2 ̸∈ ∂K.
+We can conclude that there is α1 > 1 such that
+                                         α1 (x−y)
+                              [ a+y a+y
+                                 2 , 2 +     2    ] ⊂ K.
+By the same argument for the points b, x, y, there is α2 > 1 so that
+                                         α2 (x−y)
+                              [ b+y b+y
+                                 2 , 2 +     2    ] ⊂ K.
+22                            BAKAEV AND YEHUDAYOFF
+
+
+                                                   Au
+                              x
+                                                                  a
+
+                                                         L2
+
+                        ∂K                                            Φ(a)
+                                            L
+
+
+                             Φ(b)                        L1
+                                                                  y
+                                    b
+                                           Bu
+
+
+     Figure 3. The “local” condition for being outer additive from Lemma 24.
+
+
+Setting α = min{α1 , α2 }, we conclude that the following parallelogram L lies in K:
+                                     α(x−y) b+y b+y
+                  L = conv{ a+y a+y
+                             2 , 2 +    2  , 2 , 2 + α(x−y)
+                                                        2   }.
+It can be expressed as L = L1 + L2 with
+                     L1 = [ a+y b+y
+                             2 , 2 ]         and        L2 = [0, α(x−y)
+                                                                    2   ].
+Because L ⊂ K,
+                                         λK (L) ≤ 1.
+The interval L1 is parallel to [a, b]. Because a ∈ Au and b ∈ Bu ,
+                                        λK ([a, b]) = 1,
+so
+                              λK (L1 ) = λK ( 12 [a, b]) = 12 .
+By the same argument applied to L2 ,
+                              λK (L2 ) = λK ( α2 [x, y]) = α2 .
+Because α > 1, it follows that K is not outer additive.                           □
+
+
+Theorem 6 (restatement). A convex body is outer additive if and only if it is a
+simplex.
+
+Proof. We already know that simplices are outer additive. It remains to prove that
+outer additive convex bodies are simplices. The proof is by induction on n. The
+                     A SIMPLEX-BASED MEASURE OF SYMMETRY                             23
+
+case n = 1 is trivial. For n > 1, assume that K is outer additive. Let u ∈ Sn−1 be
+such that Bu has maximum dimension. Let a ∈ Au .
+
+Claim 25. If ∂K ⊆ Bu ∪ Φ(a) then K = conv({a} ∪ Bu ).
+
+Proof. Assume ∂K ⊆ Bu ∪ Φ(a). The inclusion K ⊇ conv({a} ∪ Bu ) is trivial. It
+remains to prove the other inclusion. Let p be a point in the interior of K. Let F be a
+two-dimensional plane containing a and p. Denote by L the two-dimensional convex
+body L = F ∩ K, so ∂L = F ∩ ∂K. By assumption, ∂L ⊆ (F ∩ Bu ) ∪ (F ∩ Φ(a)).
+For every x ∈ F ∩ Φ(a), we have [a, x] ⊂ ∂L. So F ∩ Φ(a) comprises two line
+segments. Consequently, F ∩ Bu is a closed interval of positive length, and L is the
+triangle conv({a} ∪ (F ∩ Bu )) = F ∩ (conv({a} ∪ Bu )). So, p ∈ conv({a} ∪ Bu ) and
+consequently K ⊆ conv({a} ∪ Bu ).                                                    □
+
+Claim 26. The dimension of Bu is n − 1.
+
+Proof. If ∂K ⊆ Bu ∪ Φ(a) then by Claim 25 we know that K = conv({a} ∪ Bu )
+which implies the claim because K has full dimension. Otherwise, there is x ∈ ∂K
+such that x ̸∈ Bu ∪ Φ(a). Because K is outer additive, by Lemma 24, for all b ∈ Bu ,
+we know that x ∈ Φ(b). Assume towards a contradiction that the dimension of Bu
+is smaller than n − 1. Let F be a hyperplane so that x ∈ F and Bu ⊆ F . It follows
+that F is a supporting hyperplane of K and that F ∩ K has dimension larger than
+that of Bu which is a contradiction.                                             □
+
+Claim 27. If b is in the relative interior of Bu then Φ(b) = Bu .
+
+Proof. The inclusion Bu ⊆ Φ(b) is trivial. It remains to prove the other inclusion.
+Assume towards a contradiction that x ∈ Φ(b) \ Bu so that [b, x] ⊂ ∂K. Because b is
+in the relative interior of Bu and by Claim 26, every continuous path on ∂K from b
+to outside Bu has an open part inside Bu . In particular, there is y in the interior of
+[b, x] such that [b, y] ⊂ Bu ⊂ S(K, u). This implies that [b, x] ⊂ S(K, u) ∩ K = Bu ,
+which is a contradiction.                                                            □
+
+  Let b be in the relative interior of Bu so that Φ(b) = Bu . By Lemma 24, because
+K is outer additive,
+                          ∂K = Φ(a) ∪ Φ(b) = Φ(a) ∪ Bu .
+By Claim 25,
+                                K = conv({a} ∪ Bu ).
+It follows that for every convex body L ⊂ S(K, u), we have λK (L) = λBu (L).
+Hence, Bu is outer additive in S(K, u) ∼
+                                       = Rn−1 because for every pair of convex
+24                           BAKAEV AND YEHUDAYOFF
+
+bodies L1 , L2 ⊂ S(K, u),
+                       λBu (L1 + L2 ) = λK (L1 + L2 )
+                                     = λK (L1 ) + λK (L2 )
+                                     = λBu (L1 ) + λBu (L2 ).
+By induction, Bu is an (n−1)-dimensional simplex, so K is an n-dimensional simplex.
+                                                                                 □
+
+Remark. The theorem is true even when the convex bodies L1 , L2 in the definition
+of outer additivity are restricted to be intervals.
+
+
+                             6. Depth of polytopes
+6.1. Depth of polytopes and neural networks. Consider the following model
+for constructing polytopes. The two operations are Minkowski sum (A+B = {a+b :
+a ∈ A, b ∈ B}) and convex hull of a union of two polytopes. Polytopes of depth zero
+are points:
+                              Pn,0 = {{x} : x ∈ Rn }.
+Polytopes of depth d > 0 are defined inductively as
+                                                                 
+                    X m                                          
+             Pn,d =       conv(Kj ∪ Lj ) : m ∈ N, Kj , Lj ∈ Pn,d−1 .
+                                                                 
+                       j=1
+
+For example, Pn,1 is the set of all zonotopes (sums of segments). The depth com-
+plexity of a polytope P ⊂ Rn is the minimum d so that P ∈ Pn,d . Depth complexity
+is always finite. In fact, if P has m vertices then its depth is at most ⌈log2 m⌉
+(without using any Minkowski sums).
+    This model has a one-to-one correspondence with the following input convex neu-
+ral network (ICNN) model for computing convex functions (defined in [AXK17]).
+The input gates compute linear functions on Rn . Inner gates compute functions of
+                  P
+the form g(x) = j cj max{aj (x), bj (x)} where for every j, it holds that cj > 0 and
+aj , bj were previously computed. Motivation for studying ICNNs comes from the
+facts that ICNNs compute convex functions, and minimizing convex functions is a
+tractable goal. For example, ICNNs can be trained to represent a loss function that
+guides the training process of other models.
+    The correspondence between polytopes and convex functions is seen via support
+functions. Every closed convex set P ⊂ Rn defines a support function hP : Rn → R
+via
+                            hP (x) = max{⟨x, y⟩ : y ∈ P }.
+                     A SIMPLEX-BASED MEASURE OF SYMMETRY                          25
+
+Support functions have many important properties (see e.g. [Grü03]). In particu-
+lar, there is a one-to-one correspondence between P and hP . This correspondence
+translates to the computational setting as the following lemma shows.
+Lemma ([HBDSS21]). For every polytope X ∈ Rn , the required number of hidden
+layers to compute hX is equal to the minimum d such that there are P, Q ∈ Pn,d
+such that
+                                  X + P = Q.
+   A particularly important polytope in this setting is the simplex. The support
+function h∆n corresponds to computing the maximum of n + 1 numbers. The depth
+complexity of ∆n is known to be ⌈log2 (n+1)⌉: the upper bound is immediate, and the
+matching lower bound was proved by Valerdi [Val24]. This quantity is also important
+on the functional side, because if ∆n has depth d, then every continuous piecewise
+linear (CPWL) function on Rn−1 can be computed with d hidden layers [ABMM18,
+WS05]. In other words, h∆n is complete for depth complexity with respect to all
+CPWL functions on (n − 1)-dimensional space. This led the authors of [HBDSS21]
+to conjecture that the number of hidden layers required to compute h∆n is exactly
+⌈log2 (n+1)⌉. The authors of [BBH+ 26] constructed polytopes P, Q ∈ P4,2 such that
+                                   ∆4 + P = Q.
+This construction refuted the conjecture. With some additional work, [BBH+ 26]
+deduced that the number of hidden layers required to compute h∆n is at most
+≈ log3 (n). Other lower-bound results are known under additional restrictions, such
+as integral or rational weights [HHL23, AHM25].
+6.2. Indecomposability and approximation. There are numerous classical ap-
+proximation problems in convex geometry, such as approximating a given convex
+set by polytopes and approximating a given polytope by specific polytopes. These
+problems, in their many forms, have been studied for many years with various types
+of motivation (see [BJ00, Gru83, Grü03, Kal82] and references within).
+   Shephard and others considered the following approximation problem (see [She64]
+and references within). A target convex set T is approximated by a collection K
+of convex sets if there is a sequence of sets (Kj )∞
+                                                   j=1 such that each Kj is a finite
+Minkowski sum of elements of K and Kj → T as j → ∞ in the Hausdorff metric.
+   As we describe next, Shephard proved that an indecomposable T can only be
+“trivially approximated”. Recall that HK is the set of all homothets of K. A set
+K ⊂ Rn is indecomposable if it is “prime with respect to Minkowski summation”:
+Definition. A set K ⊂ Rn is indecomposable if for every L1 , . . . , Lm ⊂ Rn such
+that K = L1 + . . . + Lm , it holds that L1 , . . . , Lm ∈ HK .
+26                            BAKAEV AND YEHUDAYOFF
+
+   Indecomposable polytopes were studied in many works (see e.g. [FG64, She64,
+She63]). It is known, e.g., that if K is a polytope so that all of its two-dimensional
+faces are triangles then K is indecomposable [She63]. Indecomposability was also
+recently used to study the expressivity of monotone ReLU neural networks and
+input convex neural networks (ICNNs); see [BBH+ 25, Val24]. Returning to the
+approximation problem mentioned above, Shephard proved that an indecomposable
+T can be approximated by a class of convex bodies K only if K contains a homothet
+of T .
+   It is well-known that simplices are indecomposable. One of our results is a stronger
+quantitative obstruction. We show that if for some depth parameter d there is a
+sequence of polytopes (Pj ) in Pn,d such that Pj → ∆n as j → ∞, then necessarily
+d ≥ ⌈log2 (n + 1)⌉. In fact, we show that polytopes of depth complexity smaller than
+⌈log2 (n + 1)⌉ are uniformly bounded away from ∆n .
+   More generally, we are interested in the depth complexity of approximating a
+given polytope up to some finite accuracy. We measure the quality of an approx-
+imation using a “simplex-based” measure. As opposed to Shephard’s result, in
+our non-asymptotic setting, some indecomposable polytopes can be approximated
+non-trivially. The reason is that, in dimension n ≥ 3, the set of indecomposable
+polytopes is dense [Sch13], so every polytope P ⊂ Rn is close to an indecomposable
+polytope Q ⊂ Rn (for example, we can build Q that is close to P such that all of its
+two-dimensional faces are triangles).
+
+
+6.3. The simplex-based measure and depth.
+
+Theorem 7 (restatement). If a polytope P has depth d < ⌈log2 (n + 1)⌉, then
+                                   ρ∆ (P ) ≤ 2d − 1.
+This bound is sharp (this inequality is an equality for some polytopes).
+
+Proof. The proof is by induction on d. If d = 0, then every element of Pn,0 is a
+point, so the claim is exactly the convention ρ∆ ({p}) = 0. If d = 1, every P ∈ Pn,1
+is a zonotope and hence centrally symmetric, so ρ∆ (P ) = 1 and the statement is
+correct. Now let d > 1 and let
+                      X
+                 P =     conv(Kj ∪ Lj ) ∈ Pn,d ,    Kj , Lj ∈ Pn,d−1 .
+                      j
+
+   We may assume that every summand conv(Kj ∪ Lj ) is not a point. We may also
+assume that every Kj , Lj are non-singleton compact convex sets (if, say, Kj is a
+point, choose x ∈ Lj \ Kj and replace Kj by Kj := conv(Kj ∪ {x})). Theorem 9 and
+                     A SIMPLEX-BASED MEASURE OF SYMMETRY                            27
+
+Theorem 10 imply
+                                                          
+                       ρ∆ (P ) ≤ max ρ∆ conv(Kj ∪ Lj )
+                                   j
+                                                               
+                               ≤ max ρ∆ (Kj ) + ρ∆ (Lj ) + 1
+                                   j
+
+                               ≤ 2(2d−1 − 1) + 1
+                               = 2d − 1.
+   This proves the inequality. The inequality is achieved by construction. In depth
+d, we can build a (2d − 1)-dimensional simplex ∆(d) with 2d vertices that are vertices
+of ∆, and then
+                                 ρ∆ (∆(d) ) ≥ 2d − 1.                               □
+
+6.4. Depth complexity. The identification α(K) = m∗ (K) turns the depth bounds
+for the simplex-based measure into depth bounds for the intrinsic Minkowski mea-
+sure of symmetry.
+
+Theorem 8 (restatement). Let P ⊂ Rn be a non-singleton polytope, let k =
+dim P , and suppose that P ∈ Pn,d . If 0 ≤ d < ⌈log2 (k + 1)⌉, then
+                                  m∗ (P ) ≤ 2d − 1.
+
+Proof. Fix ∆ ∈ S (P ). Let T : EP → Rk be an invertible affine map with T (∆) =
+∆k , then T (P ) ∈ Pk,d and
+                              ρ∆ (P ) = ρ∆k (T (P )).
+Theorem 7 in dimension k gives
+                                ρ∆k (T (P )) ≤ 2d − 1.
+Taking the supremum over ∆ ∈ S (P ) yields
+                              m∗ (P ) = α(P ) ≤ 2d − 1.                             □
+
+Remark. The bound in Theorem 8 is sharp as in Theorem 7.
+
+6.5. Inapproximability. Theorem 7 also allows one to move from inapproxima-
+bility on the “geometric side” to inapproximability on the “function side”. On the
+geometric side, the distance of a polytope P from the simplex is captured by the
+simplex-based measure ρ∆ (P ) where ∆ = ∆n . On the function side, we can mea-
+sure the distance of hP from h∆ by sampling X ∼ Sn−1 from the uniform (Haar)
+probability measure on the sphere via
+                                E|hP (X) − h∆n (X)|.
+28                               BAKAEV AND YEHUDAYOFF
+
+The Blaschke selection theorem says that the collection of compact convex sets is
+locally compact. It implies that for every n and δ > 0, there is ε > 0 such that if
+ρ∆ (P ) ≤ n − δ then
+                              E|hP (X) − h∆ (X)| ≥ ε.
+By Theorem 7, there is ε0 = ε0 (n) > 0 such that if the polytope P has depth
+d < ⌈log2 (n + 1)⌉ then
+                          E|hP (X) − h∆ (X)| ≥ ε0 .
+In words, support functions of polytopes of small depth are far from h∆ (a.k.a. the
+maxn+1 function). It is worth noting that ε0 → 0 as n → ∞ because the simplex
+is approximated by a point (under this definition). Indeed, E|h∆ (X)| ≤ O( log
+                                                                            √ n ) so
+                                                                              n
+for P = {0} ∈ Pn,0 ,
+                             E|hP (X) − h∆ (X)| → 0
+as n → ∞.
+
+
+
+
+                                        References
+[ABMM18] Raman Arora, Amitabh Basu, Poorya Mianjy, and Anirbit Mukherjee. Understand-
+          ing deep neural networks with rectified linear units. In International Conference on
+          Learning Representations, 2018. ↑25
+[AHM25] Gennadiy Averkov, Christopher Hojny, and Maximilian Merkert. On the expressiveness
+          of rational ReLU neural networks with bounded depth. In 13th international Conference
+          on Learning Representations, ICLR 2025, 2025. ↑25
+[AK12]    Arseniy Akopyan and Roman Karasev. Kadets-type theorems for partitions of a convex
+          body. Discrete & Computational Geometry, 48:766–776, 2012. ↑4, ↑16, ↑17
+[AXK17]   Brandon Amos, Lei Xu, and J. Zico Kolter. Input convex neural networks. In Interna-
+          tional conference on machine learning, pages 146–155. PMLR, 2017. ↑24
+[BBH+ 25] Egor Bakaev, Florestan Brunck, Christoph Hertrich, Daniel Reichman, and Amir Yehu-
+          dayoff. On the depth of monotone ReLU neural networks and ICNNs. arXiv preprint
+          arXiv:2505.06169, 2025. ↑26
+[BBH+ 26] Egor Bakaev, Florestan Brunck, Christoph Hertrich, Jack Stade, and Amir Yehudayoff.
+          Better neural network expressivity: Subdividing the simplex. In Proceedings of the 58th
+          Annual ACM Symposium on Theory of Computing, STOC ’26, page 500–507, 2026. ↑25
+[BJ96]    Károly Böröczky Jr. Around the Rogers–Shephard inequality. Mathematica Pannonica,
+          (7):113–130, 1996. ↑5
+[BJ00]    Károly Böröczky Jr. Approximation of general smooth convex bodies. Advances in
+          Mathematics, 153(2):325–341, 2000. ↑25
+[BJ05]    Károly Böröczky Jr. The stability of the Rogers–Shephard inequality and some related
+          inequalities. Advances in Mathematics, 190(1):47–76, 2005. ↑5
+[FG64]    William J. Firey and Branko Grünbaum. Addition and decomposition of convex poly-
+          topes. Israel Journal of Mathematics, 2(2):91–100, 1964. ↑26
+                       A SIMPLEX-BASED MEASURE OF SYMMETRY                                  29
+
+[Grü63]  Branko Grünbaum. Measures of symmetry for convex sets. In Convexity: Proceedings
+          of the Seventh Symposium in Pure Mathematics of the American Mathematical Society,
+          volume 7, page 233. American Mathematical Soc., 1963. ↑2
+[Gru83]   Peter M. Gruber. Approximation of convex bodies. In Convexity and its Applications,
+          pages 131–162. Springer, 1983. ↑25
+[Grü03]  Branko Grünbaum. Convex Polytopes. Springer-Verlag, New York, 2003. ↑25
+[Guo05]   Qi Guo. Stability of the Minkowski measure of asymmetry for convex bodies. Discrete
+          & Computational Geometry, 34(2):351–362, 2005. ↑5
+[HBDSS21] Christoph Hertrich, Amitabh Basu, Marco Di Summa, and Martin Skutella. Towards
+          lower bounds on the depth of ReLU neural networks. Advances in Neural Information
+          Processing Systems, 34:3336–3348, 2021. ↑25
+[HHL23]   Christian Alexander Haase, Christoph Hertrich, and Georg Loho. Lower bounds on
+          the depth of integral ReLU neural networks via lattice polytopes. In The Eleventh
+          International Conference on Learning Representations, 2023. ↑25
+[Kal82]   Michael Kallay. Indecomposable polytopes. Israel Journal of Mathematics, 41:235–243,
+          1982. ↑25
+[Kla10]   Daniel A. Klain. Containment and inscribed simplices. Indiana University Mathematics
+          Journal, pages 1231–1244, 2010. ↑15
+[Sch09]   Rolf Schneider. Stability for some extremal properties of the simplex. J. Geom,
+          96(1):135–148, 2009. ↑5
+[Sch13]   Rolf Schneider. Convex bodies: the Brunn–Minkowski theory, volume 151. Cambridge
+          university press, 2013. ↑26
+[She63]   Geoffrey C. Shephard. Decomposable convex polyhedra. Mathematika, 10(2):89–95,
+          1963. ↑26
+[She64]   Geoffrey C. Shephard. Approximation problems for convex polyhedra. Mathematika,
+          11(1):9–18, 1964. ↑25, ↑26
+[Tot13]   Gabor Toth. Notes on Schneider’s stability estimates for convex sets. Journal of Ge-
+          ometry, 104(3):585–598, 2013. ↑5
+[Tot15]   Gabor Toth. Measures of symmetry for convex sets and stability, volume 776. Springer,
+          2015. ↑2, ↑3, ↑5
+[Val24]   Juan L. Valerdi. On minimal depth in neural networks. arXiv:2402.15315, 2024. ↑25,
+          ↑26
+[WS05]    Shuning Wang and Xusheng Sun. Generalization of hinging hyperplanes. IEEE Trans-
+          actions on Information Theory, 51(12):4425–4431, 2005. ↑25
+
+   Department of Computer Science, University of Copenhagen
+
+  Department of Computer Science, University of Copenhagen, and Department of
+Mathematics, Technion-IIT
+

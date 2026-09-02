@@ -1,0 +1,73 @@
+# STAR loop-quarantine audit: G-0179 through G-0194
+
+Workspace: /data/projects/relu-depth-frontier-research. Range audited: commits 682dc79 through ab29ce2, all dated 2026-09-01; artifacts G-0179, G-0180, G-0181, G-0182, G-0183, G-0184, G-0185, G-0187, G-0188, G-0189, G-0190, G-0193, G-0194; ledger claims C-0049 through C-0053, gap G-0015, dead end D-0007.
+
+## Definitions and the mathematical idea
+
+**Atoms and loops.** The campaign uses the Rueß et al. ansatz from arXiv:2607.21651, section 4.1. A pair template is two multisets A, B of index pairs from E_n, which includes the diagonal pairs (i,i). The atom is Phi_{A,B} = max(sum_A m_ij, sum_B m_ij) with m_ij = max(x_i, x_j), and the column used in every solve is its full S_n symmetrization. A "loop" is a diagonal pair (i,i) in a branch, since m_ii = x_i. So a loop is a bare linear coordinate added to one branch. The MAX10 certificate has degree four and 402 terms.
+
+**Common-apex STAR.** G-0090 built the "one-edge-per-branch lift" of MAX10: for each of the 402 source terms append (a,11) to the left branch and (b,11) to the right branch, a,b in 1..11. Both new edges share the new apex vertex 11, hence the name. Choosing a = 11 or b = 11 inserts the loop (11,11). Counts: 48,642 raw extensions, 27,623 pair-template orbits, 23,147 signed-W classes. Defined in artifacts/math/G-0090/star_extension_dictionary.py.
+
+**Signed-W class, signed mass, carriers.** Common edge occurrences of the two branches cancel: max(C+A', C+B') = C + max(A', B'). The signed graph W = B' minus A' up to S_11 relabelling and global sign is the "signed-W class". Its "signed mass" is the number of edges per branch after cancellation, so mass s means 5 minus s common edges. Each common nonloop edge contributes, after symmetrization, the carrier E, the symmetrized single pair-max, which is linear on the ordered chamber. L is the symmetrized loop, a multiple of the coordinate sum. 5E and 5L are the two pure carrier columns.
+
+**Old primary span O.** G-0113c added arbitrary distinct nonloop edges e_L != e_R to the 402 terms, 1,193,940 raw extensions collapsing to 163,740 loopless signed-W classes. O is the real span of these 163,740 columns plus 5E and 5L. Loops were excluded there as a search-priority decision, not a theorem (artifacts/math/G-0113/DEGREE5_QUOTIENT_PREREGISTRATION.md).
+
+**STAR record / STAR-outside-primary.** Of the 23,147 STAR classes, 5,773 are absent from the primary quotient, and G-0179's structural receipt certifies every one has exactly one residual unit loop and only nonloop common edges. A STAR record is one such class representative, stored in artifacts/math/G-0179-star-loop-quarantine/star_outside_primary_records.json with sequence number, signed mass, signed edges, loop counts, source term and the added edges. Mass histogram: 1:1, 2:7, 3:66, 4:781, 5:4,918. In every record the loop (11,11) sits on one branch and a pendant edge (a,11) on the other, so the signed part is x_11 minus max(x_a, x_11), a negative ReLU of x_a minus x_11.
+
+**Ordered-chamber normal form and d_0.** A symmetric CPWL function is determined by its restriction to the chamber x_1 <= ... <= x_11, where it is a linear vector plus a sum of hinge terms ReLU(d . x) over primitive active directions d. For a vertex order pi the raw "back-degree word" is w_r = W[pi_r,pi_r] + sum_{s<r} W[pi_r,pi_s], the coefficient of x_{pi_r} in the linear form of the signed part on that chamber. The first coordinate w_1 equals the loop count at the minimal vertex. So loopless atoms never have a hinge with d_0 != 0, every STAR-outside-primary atom has hinges with d_0 = 1, and MAX11, which equals x_11 on the chamber, has no hinges at all. The evaluator is artifacts/math/G-0179-star-loop-quarantine/src/lib.rs.
+
+**Loop quarantine.** Let R be the restriction to a set D of d_0 = 1 hinge coordinates. R kills O and MAX11. If ker(R) restricted to span(STAR) lies in O, then for any f with R(f) = 0, f in span(O ∪ STAR) iff f in O. Loop atoms are "quarantined": they can add functions, but none that helps MAX11. This is a linear-span statement, not a network statement.
+
+**Kernel-to-primary lift, loop-straightening.** A vector c in the left kernel of the finite restriction matrix gives a STAR combination whose sampled d_0 = 1 hinges vanish. A "lift" is an exact complete normal-form identity sum c_j q_j = sum a_i p_i with every p_i a loopless primary record, proving that kernel direction lies in O. The hoped-for "loop-straightening theorem" is the general statement that every such kernel vector lifts, named by analogy with straightening laws. "Retained restriction" means the 5,769-row matrix left after deleting the four STAR sequences 1548, 3140, 4259, 5656 already known to be in O modulo the two collisions. "Signed-mass-at-most-three/four rows" are the retained rows of those masses: 70 and 851 respectively. A "filtration basis" is a kernel basis adapted to the filtration by maximum signed mass of the support. "Raw-word orbit identities" are cancellations proven on the multiset of raw words over all 11! orders, before orientation, gcd, activity or ReLU folding. The "universal orbit-identity theorem" is G-0188's deletion lemma, discussed below.
+
+## Results and what they add up to
+
+| step | object | exact result | path |
+|---|---|---|---|
+| G-0179 | 5,771 x 5,771 square of d_0 = 1 hinge prices | singular: rank 5,291 at primes 1,000,003 and 1,000,033; 90 duplicate column pairs, 2 duplicate row pairs, 5,681 unique columns | artifacts/math/G-0179-star-loop-quarantine/RESULT.md |
+| G-0179 | four classes settled in O | q_1548 = 5E; q_4259 = 2p_5341 - p_66223; q_22 = q_3140; q_2986 - q_5656 = 2p_15947 - p_22121 - p_36968 | same |
+| G-0180 | retained 5,769 rows, +480 then +1,024 directions, 6,795 columns | rank stays 5,291 at both primes, D-0007 | artifacts/math/G-0180-star-loop-rank-expansion/RESULT.md |
+| G-0181 | exact rational rank of the 5,769 x 6,795 matrix | rank_Q = 5,291, left nullity 478, 478 primitive integer relations, 3,248,010 equations checked | artifacts/math/G-0181-exact-rational-kernel/RESULT.md |
+| G-0182 | basis column 15 | q_821 - q_1630 - q_2986 + q_3944 = 7-term mass<=2 primary combination | artifacts/math/G-0182-four-term-primary-lift/RESULT.md |
+| G-0183 | basis column 0 | 10 x six STAR terms = 21-term mass<=3 primary combination | artifacts/math/G-0183-six-term-primary-lift/RESULT.md |
+| G-0184 | basis column 130 | 2 x six STAR terms = 19-term primary combination | artifacts/math/G-0184-six-term-primary-lift/RESULT.md |
+| G-0185 | 70 mass<=3 rows | rank 67, kernel = span{c_0, c_15, c_130}, all in O | artifacts/math/G-0185-low-mass-star-quarantine/RESULT.md |
+| G-0187 | sparse basis of the same 478-dim kernel | 115,540 terms vs 228,692; 124 vectors of support <= 6 with +/-1 coefficients | artifacts/math/G-0187-exact-sparse-kernel-basis/RESULT.md |
+| G-0189 | 17 support-6 mass-4 relations | all 17 are exact zero functions, C-0049, replayed by G-0109 evaluator, C-0051 | artifacts/math/G-0189-sparse-kernel-full-nf-scan/RESULT.md |
+| G-0190 | 851 mass<=4 rows | rank 808, nullity 43, basis = 42 G-0187 columns + B_24+B_174+B_235-B_295+B_345, C-0052/C-0053 | artifacts/math/G-0190-mass4-filtration-basis/RESULT.md |
+| G-0193 | the 17 identities | 14 proved by raw-word fiber bijection on 119,750,400 occurrences per side, 3 by a sign-reversing involution plus zero linear moment | artifacts/math/G-0193-finite-raw-orbit-certificates/README.md |
+| G-0194 | remaining 23 mass-4 directions | 15 exact zero, 8 nonzero with only d_0 = 0 hinges, 0 leakage | artifacts/math/G-0194-mass4-filtration-full-nf-scan/results/registered_scan_v1.json |
+
+The G-0194 outcome exists only as JSON. There is no RESULT.md and no ledger claim. C-0049 and G-0015 therefore understate the current tally.
+
+Current tally of the 478 kernel directions:
+
+| stratum | directions | status |
+|---|---|---|
+| mass <= 3 | 3 | in O via explicit lifts |
+| mass 4, exact zero | 32 | trivially in O |
+| mass 4, nonzero face-confined residual | 8 | undecided; sparse-basis columns 132, 135, 215, 220, 250, 283, 352 and the exchange vector |
+| involve a mass-5 row | 435 | untouched; the 4,918 x 436 mass-5 projection in G-0190 has rank 435 |
+
+Note that 32 of the 35 classified directions are zero functions, syzygies of the STAR dictionary. Only three directions are genuine straightenings into O with nonzero function value.
+
+**What full classification would buy.** If all 478 sampled-kernel vectors lift into O, then for every STAR combination s with all d_0 = 1 hinges zero, s is in the sampled kernel, hence in O. That proves the quarantine theorem for the frozen family: MAX11 in span(O ∪ STAR) iff MAX11 in O, and dim(span(STAR) mod O) = 5,291 exactly, since the modular minor gives the lower bound. Concretely it lets any future exact obstruction for O transfer to O plus the 5,773 loop classes, and it lets a solve drop those columns. It says nothing about whether MAX11 is in O. The complete loop-inclusive degree-five universe of G-0014 has 7,015,841 records, so STAR is a small slice of it.
+
+**General theorem lurking.** G-0188 froze a deletion lemma: for a fixed template G on K labelled vertices, Phi_{G,n+1}(x) = sum_j Phi_{G,n}(x with x_j deleted), so a template identity true at n = K holds for all n >= K. This is elementary and correct: the S_{n+1} symmetrization of a K-variable function equals (n+1-K)! times the sum over injections, and deleting a coordinate and symmetrizing over S_n counts each injection (n+1-K) times with weight (n-K)!. It was only frozen, never verified or promoted; the directory contains only PREREGISTRATION.md and theorem_candidate.json, and the ledger has no claim for it. Even proved, it propagates three fixed identities to n >= 6 or 7. It does not produce a parameterized loop-straightening family. The 32 zero identities share a visible pattern: each is three signed differences of atoms that differ only by relocating the pendant edge at the loop apex, for example q_1603 - q_235 pairs edges (5,8) and (2,8) on the same template. G-0193 explicitly states its bijection is census-defined, not a local graph bijection, so no one extracted the combinatorial law. The general theorem the authors circled is "ker of the d_0 != 0 restriction on the loop-bearing span lies in the loopless span", which would apply to the whole loop-inclusive universe since any residual loop forces a nonzero first word coordinate. It was neither stated as a conjecture in the ledger nor attacked conceptually; every step was finite linear algebra.
+
+**Relation to the main question.** The ledger files EXP-0027 through EXP-0035 under H-0001 and G-0015 under C-0002. Logically the program is a dictionary normal form inside the ansatz: it identifies which loop columns are redundant modulo loopless ones for d_0-free targets. It is not the H-0004 / G-0006 completeness bridge for unrestricted networks, and every RESULT.md says so. Its value is mostly on the negative side, as a transfer lemma for obstructions, and marginally on the positive side, as column elimination. Meanwhile the live question, MAX11 in O, has only finite evidence: a 301-row panel member from G-0113e, refuted globally at 924 rows in G-0176, and the G-0178 screen that redirected effort to the loop slice.
+
+## Where it stopped and assessment
+
+**Stopping point.** Last commit ab29ce2 at 13:50:53 on 2026-09-01 certifies the G-0193 raw-word certificates. Four minutes earlier 3443a6c committed the G-0194 scan output with no write-up. The last ledger claim is C-0053 at 11:41. No handoff note covers the STAR program: STATUS.md is dated 2026-08-30 and still describes G-0108 and G-0109 as live, beads/QUEUE.md lists G-0006, G-0012, G-0013, G-0014 as claimed by research-lead/topazoriole, and G-0015 was written at 09:30 before G-0187 through G-0194 existed. The stated next steps are scattered: G-0180 RESULT.md names the lifting program, G-0181 RESULT.md says generalize to a basis of the other 477, G-0190 RESULT.md says classify the 40 mass-four directions, G-0194's decision rule says mixed outcomes are reported relation by relation with no global theorem. The implied queue is: write up and ledger G-0194; attempt lifts of the 8 face-confined mass-4 residuals against low-mass primary normal forms as G-0182 through G-0184 did; then the 435 mass-5 directions, for which G-0190 already built the projection; and verify G-0188.
+
+**Yield versus overhead.** The range is 28 commits in 3 hours 47 minutes, 173 files, 22,571 insertions, roughly 15 freeze/verify cycles each with SHA tables and hostile-mutation controls. Real mathematical content: one exact rank, three explicit straightening identities, 32 exact syzygies among loop atoms, two complete sub-kernel bases, and finite raw-orbit proofs. All of it is correct as far as the receipts show and the arithmetic bounds are stated explicitly. None of it touches MAX11 membership.
+
+**Overstated or fragile points.**
+- G-0179's conditional theorem was preregistered on a square that structural matching alone made singular; 5,681 unique columns out of 5,771 means the direction selection produced duplicates. The README's paragraph beginning "Therefore, within the full frozen common-apex STAR family, MAX11 membership is exactly the same" reads as a theorem though it is conditional on a gate that failed.
+- G-0180's 480-length gate was rank-outcome-aware by the authors' own admission, and the 16,661 direction universe is eight candidates per record, not the full hinge support. Sampling is harmless for the theorem, since lifting sampled-kernel vectors suffices, but it is why the finite kernel is 478 rather than the true function kernel.
+- "Independently replayed" means a same-model-family T1 replay with a different implementation of the same normal-form theorem on the same record census. The ledger states this. No human or different-family review exists.
+- The name "low-mass STAR quarantine theorem" covers a 3-dimensional subkernel. "Universal orbit-identity theorem" in commit c75aff6 is an unverified candidate.
+- The 8 nonzero face-confined residuals are the only informative open cases. If one of them is not in O, the quarantine fails and loop atoms would contribute a genuinely new d_0-free function, which would be more interesting for the constructive route than the quarantine itself. Nobody has flagged this.
+- Support-minimality via Z3 and the 49 percent bookkeeping reduction are engineering, not mathematics.
+- G-0183 was frozen, reverted, and refrozen because the first verifier did not bind the left side to basis column 0. It was handled correctly but shows how much of the effort is custody rather than proof.

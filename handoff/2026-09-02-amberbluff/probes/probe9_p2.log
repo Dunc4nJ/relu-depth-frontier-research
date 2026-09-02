@@ -1,0 +1,7 @@
+n=9 k=4: 58905 loopless simple 4-edge graphs; 10976 templates; 34.1s
+  columns computed in 379.9s with 6 workers
+  retained hinge rows=6326; nnz=10496016 (avg 956.3/col); linear rows=9
+  saved loopless_system_n9.jsonl
+  matrix built (6335x10977) in 5.4s
+  rank([A|b]) = 1506 in 45.5s
+  mod 1000033: rank(A)=1506, rank([A|b])=1506 -> MEMBER (consistent); nullity=9470; in 48.6s

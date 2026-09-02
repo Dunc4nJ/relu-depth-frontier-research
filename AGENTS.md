@@ -35,3 +35,12 @@ Progress is a new obstruction, closed gap, certified bound, eliminated route, st
 ## Round close
 
 Update canonical ledger TOML, regenerate views, append the round, dual-write next object IDs to `STATUS.md` and `beads/QUEUE.md`, run `./skill-runtime verify-quick`, commit one round, and leave a handoff. `CLAIMS_LEDGER.md` and generated sections are never hand-edited.
+
+## Swarm operations (added 2026-09-02 by orchestrator AmberBluff; human expanded the team)
+
+- Work items live in Beads (`br`). `br ready --json` is the sole ready authority. Every `br` mutation passes `--actor <YourAgentMailName>`. Claim with `br update <id> --claim --actor <name> --json`; one in-progress bead per agent.
+- Reserve the files you edit through Agent Mail (`reason=<bead id>`), announce start in thread `<bead id>`, reply in the same thread with `[<id>] RESULT` when done or blocked. Check your inbox at every natural pause.
+- Exploratory compute writes to `artifacts/math/<bead-slug>/` with a `RESULT.md`: exact commands, input hashes, primes, counts, controls in both directions, and a **no-claim** line stating what the result does not show. That is the light custody standard for exploration; the orchestrator ledgers promoted results with full custody. Do not edit `ledger/`, `CLAIMS_LEDGER.md`, `STATUS.md`, `RESEARCH_CHARTER.md`, `PROBLEM_SPECIFICATION.md`. `./skill-runtime verify-quick` currently reports one known SE-10 finding on G-0015; ignore it.
+- Honest-credit floor: real code plus real known-answer controls in the same bead; never weaken a control to go green; a negative on any finite family is a bounded null, never a theorem; never claim an identity without exact rational verification on every row; every reported number names its denominator; say what you did not verify. Only the orchestrator closes beads, citing evidence.
+- Commit your own paths as you go with the bead id in the message; never rewrite history; never push; never commit files over 50 MB (list them in RESULT.md with hashes instead).
+- Shared machine: 16 cores, 62 GB RAM. Do not start a job that needs more than 8 cores or 24 GB without telling AmberBluff first.

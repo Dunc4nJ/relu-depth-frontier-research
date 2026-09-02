@@ -9,3 +9,6 @@ __pycache__/
 target/
 artifacts/math/G-0076/cache/
 artifacts/math/G-0079/cache/
+.ntm/
+*.i128le
+artifacts/math/G-0068/single_edge_degree5_sketch_cache_v1/
