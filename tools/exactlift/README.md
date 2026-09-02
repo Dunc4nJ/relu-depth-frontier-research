@@ -27,6 +27,11 @@ workers import the hash-recorded pinned upstream verifier and call that file's
 `read_pair` and `symmetrized_pair` functions unchanged. Only the outer term loop
 is distributed.
 
+`bind-upstream-verification` reuses such a completed upstream result only when
+the candidate certificate is byte-identical to the verified certificate and
+the recorded certificate and verifier SHA-256 values still match. A mismatch
+returns `FAIL`.
+
 `scale_benchmark.py` is an explicitly synthetic sparse-block exact-solve
 control. It plants a denominator-30 rational solution in a full-rank integer
 system, solves every block with FLINT Dixon arithmetic, checks every row, and

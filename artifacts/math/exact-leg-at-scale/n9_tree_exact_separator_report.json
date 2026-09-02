@@ -1,0 +1,32 @@
+{
+  "coefficient_denominator_lcm": 97364603919803580258999820726850424198374075481730015590022192032000190525263857818256419814883341618118281361505947077011539873831487543592990587085504321910697890637689380372169009647347232743227946520019600,
+  "exact_verification": {
+    "annihilated_columns_numerator": 739,
+    "columns_checked_denominator": 739,
+    "nonzero_column_pairing_examples": [],
+    "nonzero_column_pairings": 0,
+    "target_pairing": "1",
+    "verdict": "PASS"
+  },
+  "max_rss_kib": 192284,
+  "no_claim": "This separator concerns only the named finite sketched source family; it is not a MAX11 or unrestricted depth lower bound.",
+  "nonzero_bucket_weights_numerator": 361,
+  "nonzero_real_hinge_weights_numerator": 722,
+  "prime": 1000003,
+  "rank_a": 360,
+  "rank_augmented": 361,
+  "real_hinge_union_denominator": 3029,
+  "separator": "artifacts/math/exact-leg-at-scale/n9_tree_exact_separator.json",
+  "separator_sha256": "92fb25b388743d38e54c5d2b1c9c96d3184e7debe61ea93b46ebc1c1ea6cc9f5",
+  "sketch_buckets_denominator": 2048,
+  "source_columns_denominator": 739,
+  "subject": "saved-system:union-trees",
+  "timings_seconds": {
+    "exact_separator_solve_seconds": 0.1782456338405609,
+    "exact_sketch_replay_seconds": 13.323818216100335,
+    "modular_rank_replay_seconds": 1.328055638819933,
+    "separator_support_selection_seconds": 0.6196602080017328,
+    "total_seconds": 27.713999090716243
+  },
+  "verdict": "PASS"
+}

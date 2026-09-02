@@ -1,0 +1,54 @@
+{
+  "annihilated_columns_numerator": 0,
+  "columns_checked_denominator": 739,
+  "nonzero_column_pairing_examples": [
+    {
+      "source_index": 211,
+      "value": "186624"
+    },
+    {
+      "source_index": 214,
+      "value": "198144"
+    },
+    {
+      "source_index": 216,
+      "value": "190560"
+    },
+    {
+      "source_index": 235,
+      "value": "196272"
+    },
+    {
+      "source_index": 237,
+      "value": "204960"
+    },
+    {
+      "source_index": 240,
+      "value": "197904"
+    },
+    {
+      "source_index": 241,
+      "value": "196896"
+    },
+    {
+      "source_index": 244,
+      "value": "182496"
+    },
+    {
+      "source_index": 246,
+      "value": "192576"
+    },
+    {
+      "source_index": 247,
+      "value": "192672"
+    }
+  ],
+  "nonzero_column_pairings": 739,
+  "separator": "artifacts/math/exact-leg-at-scale/n9_tree_exact_separator_mutated_plus1.json",
+  "separator_sha256": "06931186ae944263d28b9b0c42e1539b925ddd1d0ca53359679164889b5df6d1",
+  "source_columns_denominator": 739,
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+  "system_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+  "target_pairing": "1",
+  "verdict": "FAIL"
+}

@@ -313,6 +313,41 @@ def mutate_witness(witness: Path, output: Path, delta: Fraction) -> dict[str, An
     return payload
 
 
+def bind_upstream_verification(
+    candidate: Path,
+    verified_certificate: Path,
+    verification_report: Path,
+    verifier: Path,
+    output: Path,
+) -> dict[str, Any]:
+    candidate_hash = sha256_file(candidate)
+    verified_hash = sha256_file(verified_certificate)
+    report = json.loads(verification_report.read_text(encoding="utf-8"))
+    verifier_hash = sha256_file(verifier)
+    checks = {
+        "candidate_is_verified_certificate": candidate_hash == verified_hash,
+        "report_verdict_pass": report.get("verdict") == "PASS",
+        "report_certificate_hash_matches": report.get("certificate_sha256") == candidate_hash,
+        "report_verifier_hash_matches": report.get("verifier_sha256") == verifier_hash,
+    }
+    payload = {
+        "verdict": "PASS" if all(checks.values()) else "FAIL",
+        "method": "byte identity to a hash-bound completed upstream verification",
+        "candidate": str(candidate),
+        "candidate_sha256": candidate_hash,
+        "verified_certificate": str(verified_certificate),
+        "verified_certificate_sha256": verified_hash,
+        "verification_report": str(verification_report),
+        "verification_report_sha256": sha256_file(verification_report),
+        "verifier": str(verifier),
+        "verifier_sha256": verifier_hash,
+        "checks": checks,
+    }
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return payload
+
+
 def scan_system(system: Path) -> tuple[int, int, dict[str, int]]:
     n = 0
     columns = 0
@@ -633,6 +668,13 @@ def build_parser() -> argparse.ArgumentParser:
     mutate_exact.add_argument("--output", type=Path, required=True)
     mutate_exact.add_argument("--delta", default="1")
 
+    bind = commands.add_parser("bind-upstream-verification")
+    bind.add_argument("--candidate", type=Path, required=True)
+    bind.add_argument("--verified-certificate", type=Path, required=True)
+    bind.add_argument("--verification-report", type=Path, required=True)
+    bind.add_argument("--verifier", type=Path, required=True)
+    bind.add_argument("--output", type=Path, required=True)
+
     recover = commands.add_parser("recover")
     recover.add_argument("--system", type=Path, required=True)
     recover.add_argument("--n", type=int, required=True)
@@ -691,6 +733,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             None,
         )
         return 0
+    if args.command == "bind-upstream-verification":
+        payload = bind_upstream_verification(
+            args.candidate,
+            args.verified_certificate,
+            args.verification_report,
+            args.verifier,
+            args.output,
+        )
+        write_report(payload, None)
+        return 0 if payload["verdict"] == "PASS" else 1
     if args.command == "recover":
         report = recover_exact(
             args.system,

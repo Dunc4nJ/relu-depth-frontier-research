@@ -81,6 +81,47 @@ class ExactLiftTests(unittest.TestCase):
         self.assertEqual(result["rank"], 2)
         self.assertEqual(result["support_size"], 2)
 
+    def test_upstream_verification_binding_positive_and_hash_mismatch(self):
+        verifier = self.root / "verifier.py"
+        verifier.write_text("# pinned verifier\n", encoding="utf-8")
+        verified = self.root / "verified.json"
+        verified.write_text('{"certificate":true}\n', encoding="utf-8")
+        report = self.root / "upstream-report.json"
+        report.write_text(
+            json.dumps(
+                {
+                    "verdict": "PASS",
+                    "certificate_sha256": exactlift.sha256_file(verified),
+                    "verifier_sha256": exactlift.sha256_file(verifier),
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        matching = self.root / "matching.json"
+        matching.write_bytes(verified.read_bytes())
+        positive = exactlift.bind_upstream_verification(
+            matching,
+            verified,
+            report,
+            verifier,
+            self.root / "positive-binding.json",
+        )
+        self.assertEqual(positive["verdict"], "PASS")
+        self.assertTrue(all(positive["checks"].values()))
+
+        mismatch = self.root / "mismatch.json"
+        mismatch.write_text('{"certificate":false}\n', encoding="utf-8")
+        negative = exactlift.bind_upstream_verification(
+            mismatch,
+            verified,
+            report,
+            verifier,
+            self.root / "negative-binding.json",
+        )
+        self.assertEqual(negative["verdict"], "FAIL")
+        self.assertFalse(negative["checks"]["candidate_is_verified_certificate"])
+
 
 if __name__ == "__main__":
     unittest.main()
