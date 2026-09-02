@@ -47,8 +47,16 @@ tools/streamrank/target/release/max11-streamrank run-universe \
   8,326, elapsed 894.960 s. A later process check found no streamrank process
   and no JSON report. This is an infrastructure abort, not a rank result. The
   identical command was relaunched under `nohup` as remote PID 6570 with a
-  durable `.log`; its final requested denominator remains 120,948 columns
-  after the appended 5L carrier.
+  durable `.log`. That detached retry completed 120,948 / 120,948 columns
+  (120,947 ordered universe records plus appended 5L), rank(A) =
+  rank([A|b]) = 21,222, MEMBER and unsaturated at 64,000 buckets, modulus
+  1,000,003, seed 2,026,090,201. Wall time was 1,728.299779711 s and host
+  high-water RSS was 8,053,556 KiB; the reducer reported peak allocated GPU
+  storage 15,026,213,376 bytes. The JSON SHA-256 is
+  `115818ab415386b32543b2cbc94eab788df3565d012cc279eab003b99cd6c7c0`.
+  This is one finite sketch; its ordered pivot-list SHA-256
+  `2ac8d1227fb3a66e61f2292a861ec9bdb3fb132c970fcd9e1d7da4c2334b744b`
+  remains gated on equality with the still-running CPU reference.
 
 No-claim: failures and passes here concern only the named finite modular
 sketches and CUDA implementation. They do not establish exact rational
