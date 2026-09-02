@@ -46,7 +46,7 @@ permutation denominator for every literal column.
 Thus literal and DP semantics agree on every `133/133` pinned terms across
 n=5..8, covering `3*120 + 4*720 + 57*5,040 + 69*40,320 = 3,072,600`
 literal term-permutations in total. All `1,711/1,711` positive certificate
-terms across the eight files were checked by DP. The `4/4` Rust unit tests
+terms across the eight files were checked by DP. The original `4/4` Rust unit tests
 also include a loop/repeated/common-edge DP-vs-literal case, a malformed-input
 refusal, a coefficient mutant, and an exact identity whose planted
 coefficients exceed `i128`.
@@ -107,6 +107,84 @@ agreed on `1/1` term after the literal path enumerated all
 `9/11` linear rows and `41,977/41,977` union hinge rows were nonzero. This is a
 literal/DP semantic and scale control, not evidence about MAX11.
 
+## Dense huge-coefficient fallback hardening
+
+The verifier now reads certificate JSON with two streaming passes instead of
+materializing the complete `terms` array. Pass one validates all terms and
+fixes one exact denominator-clearing factor. Pass two holds at most `4` terms
+for a four-thread run, computes their structural columns in parallel, and
+serially merges them into `1/1` exact accumulator map. If all terms repeat the
+same textual denominator, it is parsed once and every second-pass numerator is
+already the denominator-cleared integer. Streaming reports record the minimum
+and maximum coefficient digit counts over every supplied term.
+
+The expanded `5/5` unit suite includes a new exact positive n=2 identity with
+`2/2` terms sharing a 201-digit denominator and numerators beyond `i128`;
+streaming DP and literal mode agree on `2/2` columns and the identity is OK.
+The post-change pinned n=5 positive remained OK on `3/3` DP and literal
+columns, and the coefficient-mutated n=8 negative remained FAIL on `69/69` DP
+columns with literal=DP on `69/69` columns. No control was weakened.
+
+### Required 2,000-term big-rational benchmark
+
+The final pool-1 benchmark input contains `2,000/2,000` n=11 loopless,
+branch-size-5 terms. Every coefficient has a random signed 100,000-digit
+numerator over the same random 100,000-digit denominator; the verifier's census
+was numerator digits `[100,000,100,000] / 2,000 terms` and denominator digits
+`[100,000,100,000] / 2,000 terms`. The shared denominator's SHA-256 is
+`29c13e696e483019d6463a4f360fc1ce8207c84c00c63588b8daec0a15c4a252`.
+The input is `400,191,002` bytes, SHA-256
+`dc370ec0871dc6d9c2f3f87294a0bc16026c704c449d4a25fb2dc93b77a0b2ae`.
+
+On exactly `4/4` threads, the final-code run checked `2,000/2,000` DP columns
+and emitted `6,620,000/6,620,000` exact hinge entries into a
+`3,310/3,310`-row union. Compute wall was `204.429998294` seconds / `2,000`
+terms, or `0.102214999147` seconds/term with denominator `2,000` terms.
+External wall was `206.55` seconds / `2,000` terms and peak RSS was
+`209,248` KiB. The report SHA-256 is
+`41582e44e21bb6637faca3935f9f4bea415aa77e08b4691a295a2dd043a8a155`.
+The random input returned FAIL with `10/11` bad linear rows and `3,310/3,310`
+bad hinge rows, as expected; this is a performance control only.
+
+A stronger pool-8 run deliberately expanded the union to
+`105,679/105,679` rows, roughly five times the run7 rank scale. Its
+`2,000/2,000` coefficients had the same exact 100,000/100,000-digit census;
+the `400,194,482`-byte input SHA-256 was
+`73bc7a5d3a29c73fb8290708b09e4cf1fa6229613760a1c03bb5197da6c3259a`.
+It processed `63,409,000/63,409,000` hinge entries in
+`1,126.738737718` compute seconds / `2,000` terms
+(`0.563369368859` seconds/term), with `1,129.09` external seconds / `2,000`
+terms and peak RSS `4,595,980` KiB on `4/4` threads. This exceeded the 4 GB
+host target and is recorded as a failed memory control, not a pass. The report
+SHA-256 is
+`9848fd3d7ca7a4f6654df66cbf80da78bc22a6e96ac66c64fc07f4bc6fa9bfaf`.
+Its random identity verdict was FAIL (`10/11` linear and
+`105,679/105,679` hinge rows bad), which has no MAX11 significance.
+
+### 1.2 GB streaming-ingress control
+
+A `6,000/6,000`-term input with the same 100,000-digit numerator and
+100,000-digit shared-denominator format occupied `1,200,585,059` bytes and had
+SHA-256
+`c2ca99d3f5f6e4d2478b09d08a6a4c06e59c01e0f5eb86f181639c0e4f1f6843`.
+The streaming sampler hashed it and made two complete JSON passes while
+retaining only `20/6,000` terms. External wall was `16.22` seconds / `6,000`
+source terms and peak RSS `8,320` KiB. Seed `20,260,903` selected zero-based
+indices `42, 106, 1487, 1579, 1632, 1661, 2039, 2176, 3116, 3248, 3566,
+3711, 3733, 3756, 4350, 4386, 4647, 4696, 5019, 5387`; the
+`4,013,519`-byte sample SHA-256 was
+`0ecd7d7d23c9615a9940cba502e6ff6169d93527f338a6143d3a9ec700ae3a9f`.
+This controls large-file ingress only: no full DP evaluation of the
+`6,000/6,000`-term, 1.2 GB input was run.
+
+Two pool-2 calibration probes used `2/2` terms with 10-digit numerators and
+denominators. Seeds `20,260,906` and `20,260,907` produced respectively
+`31,994/31,994` and `33,788/33,788` union rows. They were temporary sizing
+probes, not performance or identity evidence. One earlier big-input generator
+attempt accidentally used a stale release binary and emitted the old
+small-coefficient format; that disposable file was deleted before hashing and
+is not counted as evidence.
+
 ## Commands
 
 All commands ran from `tools/verify11` unless a path says otherwise.
@@ -137,6 +215,16 @@ target/release/max11-verify11 generate-synthetic --n 11 --terms 2000 --branch-ed
 
 target/release/max11-verify11 sample --certificate ../../artifacts/math/verify11/synthetic_n11_2000_seed20260902.json --terms 1 --seed 20260902 --output ../../artifacts/math/verify11/preflight_synthetic_n11_sample1.json
 /usr/bin/time -v target/release/max11-verify11 analyze --certificate ../../artifacts/math/verify11/preflight_synthetic_n11_sample1.json --threads 1 --literal-check --output ../../artifacts/math/verify11/preflight_synthetic_n11_sample1_literal_dp.json
+
+# The following dense-fallback commands ran from the repository root.
+tools/verify11/target/release/max11-verify11 generate-synthetic --n 11 --terms 2000 --branch-edges 5 --loopless --seed 20260903 --coefficient-digits 100000 --structure-pool 1 --output artifacts/math/verify11/synthetic_n11_2000_bigcoef100k_seed20260903.json
+/usr/bin/time -v tools/verify11/target/release/max11-verify11 analyze --certificate artifacts/math/verify11/synthetic_n11_2000_bigcoef100k_seed20260903.json --threads 4 --output artifacts/math/verify11/synthetic_n11_2000_bigcoef100k_seed20260903_report_v2.json
+
+tools/verify11/target/release/max11-verify11 generate-synthetic --n 11 --terms 2000 --branch-edges 5 --loopless --seed 20260905 --coefficient-digits 100000 --structure-pool 8 --output artifacts/math/verify11/synthetic_n11_2000_bigcoef100k_pool8_seed20260905.json
+/usr/bin/time -v tools/verify11/target/release/max11-verify11 analyze --certificate artifacts/math/verify11/synthetic_n11_2000_bigcoef100k_pool8_seed20260905.json --threads 4 --output artifacts/math/verify11/synthetic_n11_2000_bigcoef100k_pool8_seed20260905_report.json
+
+tools/verify11/target/release/max11-verify11 generate-synthetic --n 11 --terms 6000 --branch-edges 5 --loopless --seed 20260904 --coefficient-digits 100000 --structure-pool 1 --output artifacts/math/verify11/synthetic_n11_6000_bigcoef100k_ingress_seed20260904.json
+/usr/bin/time -v tools/verify11/target/release/max11-verify11 sample --certificate artifacts/math/verify11/synthetic_n11_6000_bigcoef100k_ingress_seed20260904.json --terms 20 --seed 20260903 --output artifacts/math/verify11/synthetic_n11_6000_bigcoef100k_ingress_sample20.json
 ```
 
 The n=6,7,8 controls were launched concurrently with one thread each; the four
@@ -159,8 +247,10 @@ therefore remained at or below four threads.
 | recovered n=10 certificate | `4bcb155a416188d479f20a2009f077003e828f1f09d65476117523a3bb6644e9` |
 | n=11 literal preflight sample | `97363265e2fa73222f9228a522acb0447f0dd507d9edaf64dbed53983a6747ca` |
 | n=11 literal preflight report | `9187b7974229436a7dc6710eea52d9de29dce3421ec18a89b27de771f286fb2b` |
-| `tools/verify11/src/lib.rs` | `ac27613028e68069c83168cd161246885c8b88927112632c28c162b27885e6a9` |
-| `tools/verify11/src/main.rs` | `0fc10c6acec55ec78eff4c051182092f519b18617857c633f79901f3600458ec` |
+| 2,000-term 100k/100k-digit pool-1 report | `41582e44e21bb6637faca3935f9f4bea415aa77e08b4691a295a2dd043a8a155` |
+| 2,000-term 100k/100k-digit pool-8 report | `9848fd3d7ca7a4f6654df66cbf80da78bc22a6e96ac66c64fc07f4bc6fa9bfaf` |
+| `tools/verify11/src/lib.rs` | `5bc9a14f1df11fd027ff9f0e4bf3ac005e7f0d16364bd1f2c83cd1663a1667c5` |
+| `tools/verify11/src/main.rs` | `5d0299374c39288c21393f964a40ef42f26b408dd784cf270eec5b7ae627c203` |
 | `tools/verify11/Cargo.lock` | `e5e66cc67a27970449c516b5193f23a74ac31afb839e5c2e275f78d4ae217288` |
 
 Primes: none (`0/0`); all verifier equalities and residuals above use exact

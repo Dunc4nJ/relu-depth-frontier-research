@@ -1,6 +1,7 @@
 use anyhow::{Context, Result, bail, ensure};
 use max11_verify11::{
-    Analysis, Certificate, Term, analyze_certificate, mutate_coefficient, mutate_endpoint,
+    Analysis, Certificate, Term, analyze_certificate_path, certificate_shape, mutate_coefficient,
+    mutate_endpoint, sample_certificate_path,
 };
 use serde::Serialize;
 use serde_json::Value;
@@ -157,6 +158,15 @@ struct VerificationReport {
     permutations_per_literal_term: Option<u64>,
     threads: usize,
     coefficient_common_denominator: String,
+    coefficient_numerator_decimal_digits_min: usize,
+    coefficient_numerator_decimal_digits_max: usize,
+    coefficient_denominator_decimal_digits_min: usize,
+    coefficient_denominator_decimal_digits_max: usize,
+    repeated_coefficient_denominator: bool,
+    certificate_streaming_parse_passes: usize,
+    max_terms_resident_for_dp: usize,
+    exact_accumulator_maps: usize,
+    denominator_clearing: &'static str,
     arithmetic: &'static str,
     primes: Vec<u64>,
     linear_rows: usize,
@@ -202,6 +212,15 @@ fn report_from_analysis(
         permutations_per_literal_term: analysis.permutations_per_literal_term,
         threads,
         coefficient_common_denominator: analysis.coefficient_common_denominator,
+        coefficient_numerator_decimal_digits_min: analysis.coefficient_numerator_digits_min,
+        coefficient_numerator_decimal_digits_max: analysis.coefficient_numerator_digits_max,
+        coefficient_denominator_decimal_digits_min: analysis.coefficient_denominator_digits_min,
+        coefficient_denominator_decimal_digits_max: analysis.coefficient_denominator_digits_max,
+        repeated_coefficient_denominator: analysis.repeated_coefficient_denominator,
+        certificate_streaming_parse_passes: 2,
+        max_terms_resident_for_dp: threads,
+        exact_accumulator_maps: 1,
+        denominator_clearing: "one exact common multiple is fixed during the first streaming pass; a repeated textual denominator is parsed once; the second pass scales each numerator to an integer before structural accumulation",
         arithmetic: "exact integer accumulation after exact rational denominator clearing; i128 fast path with automatic BigInt promotion",
         primes: Vec::new(),
         linear_rows: analysis.linear_rows,
@@ -226,8 +245,7 @@ fn command_analyze(args: &Args, require_ok: bool) -> Result<()> {
     let output = args.required_path("--output")?;
     let threads = args.usize_or("--threads", 1)?;
     let input_hash = sha256_path(&input)?;
-    let certificate = read_certificate(&input)?;
-    let analysis = analyze_certificate(&certificate, threads, args.has("--literal-check"))?;
+    let analysis = analyze_certificate_path(&input, threads, args.has("--literal-check"))?;
     let verified = analysis.verified;
     let report = report_from_analysis(args, &input, input_hash, threads, analysis);
     write_json(&output, &report)?;
@@ -310,27 +328,23 @@ fn command_sample(args: &Args) -> Result<()> {
     let selected_terms = args.required_usize("--terms")?;
     let seed = args.u64_or("--seed", 20260902)?;
     let input_hash = sha256_path(&input)?;
-    let certificate = read_certificate(&input)?;
+    let (n, source_terms) = certificate_shape(&input)?;
     ensure!(selected_terms > 0, "sample size must be positive");
     ensure!(
-        selected_terms <= certificate.terms.len(),
+        selected_terms <= source_terms,
         "sample size exceeds source term count"
     );
     let mut random = SplitMix64(seed);
-    let mut indices: Vec<usize> = (0..certificate.terms.len()).collect();
+    let mut indices: Vec<usize> = (0..source_terms).collect();
     for position in 0..selected_terms {
         let swap = position + random.below(indices.len() - position);
         indices.swap(position, swap);
     }
     indices.truncate(selected_terms);
     indices.sort_unstable();
-    let terms = indices
-        .iter()
-        .map(|index| certificate.terms[*index].clone())
-        .collect();
-    let source_terms = certificate.terms.len();
+    let terms = sample_certificate_path(&input, &indices)?.terms;
     let sampled = SampledCertificate {
-        n: certificate.n,
+        n,
         terms,
         sample: SampleMetadata {
             source: input.display().to_string(),
@@ -359,6 +373,83 @@ fn synthetic_side(
         .collect()
 }
 
+fn random_decimal(random: &mut SplitMix64, digits: usize) -> String {
+    let mut value = String::with_capacity(digits);
+    value.push(char::from(b'1' + random.below(9) as u8));
+    for _ in 1..digits {
+        value.push(char::from(b'0' + random.below(10) as u8));
+    }
+    value
+}
+
+struct BigSyntheticSpec<'a> {
+    output: &'a Path,
+    n: usize,
+    terms: usize,
+    branch_edges: usize,
+    seed: u64,
+    loopless: bool,
+    coefficient_digits: usize,
+    structure_pool: usize,
+}
+
+fn write_big_coefficient_synthetic(spec: BigSyntheticSpec<'_>) -> Result<()> {
+    let BigSyntheticSpec {
+        output,
+        n,
+        terms,
+        branch_edges,
+        seed,
+        loopless,
+        coefficient_digits,
+        structure_pool,
+    } = spec;
+    ensure!(
+        coefficient_digits > 0,
+        "coefficient digits must be positive"
+    );
+    ensure!(structure_pool > 0, "structure pool must be positive");
+    ensure!(structure_pool <= terms, "structure pool exceeds term count");
+    let edges: Vec<[usize; 2]> = (1..=n)
+        .flat_map(|first| {
+            let start = if loopless { first + 1 } else { first };
+            (start..=n).map(move |second| [first, second])
+        })
+        .collect();
+    ensure!(!edges.is_empty(), "synthetic edge universe is empty");
+    let mut random = SplitMix64(seed);
+    let structures: Vec<Vec<Vec<[usize; 2]>>> = (0..structure_pool)
+        .map(|_| {
+            vec![
+                synthetic_side(&mut random, &edges, branch_edges),
+                synthetic_side(&mut random, &edges, branch_edges),
+            ]
+        })
+        .collect();
+    let denominator = random_decimal(&mut random, coefficient_digits);
+    let mut writer = create_writer(output)?;
+    write!(writer, "{{\"n\":{n},\"terms\":[")?;
+    for index in 0..terms {
+        if index != 0 {
+            writer.write_all(b",")?;
+        }
+        let numerator = random_decimal(&mut random, coefficient_digits);
+        let sign = if random.next() & 1 == 0 { "" } else { "-" };
+        let term = Term {
+            coefficient: Value::String(format!("{sign}{numerator}/{denominator}")),
+            pair: structures[index % structure_pool].clone(),
+        };
+        serde_json::to_writer(&mut writer, &term)?;
+    }
+    writer.write_all(b"]}\n")?;
+    writer.flush()?;
+    eprintln!(
+        "VERIFY11_SYNTHETIC_BIG n={n} terms={terms} branch_edges={branch_edges} loopless={loopless} seed={seed} numerator_digits={coefficient_digits} denominator_digits={coefficient_digits} structure_pool={structure_pool} output={}",
+        output.display()
+    );
+    Ok(())
+}
+
 fn command_generate_synthetic(args: &Args) -> Result<()> {
     let output = args.required_path("--output")?;
     let n = args.required_usize("--n")?;
@@ -369,6 +460,19 @@ fn command_generate_synthetic(args: &Args) -> Result<()> {
     ensure!(terms > 0, "synthetic term count must be positive");
     ensure!(branch_edges > 0, "synthetic branch size must be positive");
     let loopless = args.has("--loopless");
+    let coefficient_digits = args.usize_or("--coefficient-digits", 0)?;
+    if coefficient_digits > 0 {
+        return write_big_coefficient_synthetic(BigSyntheticSpec {
+            output: &output,
+            n,
+            terms,
+            branch_edges,
+            seed,
+            loopless,
+            coefficient_digits,
+            structure_pool: args.usize_or("--structure-pool", 1)?,
+        });
+    }
     let edges: Vec<[usize; 2]> = (1..=n)
         .flat_map(|first| {
             let start = if loopless { first + 1 } else { first };

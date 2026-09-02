@@ -4,9 +4,14 @@ use num_integer::Integer;
 use num_traits::{One, ToPrimitive, Zero};
 use rayon::prelude::*;
 use rustc_hash::FxHashMap as HashMap;
+use serde::de::{DeserializeSeed, Error as DeError, IgnoredAny, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::cmp::Ordering;
+use std::fmt;
+use std::fs::File;
+use std::io::BufReader;
+use std::path::Path;
 use std::time::Instant;
 
 pub const MAX_N: usize = 16;
@@ -24,6 +29,152 @@ pub struct Certificate {
 pub struct Term {
     pub coefficient: Value,
     pub pair: Vec<Vec<[usize; 2]>>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct StreamSummary {
+    n: usize,
+    terms: usize,
+}
+
+struct TermsSeed<'a, F> {
+    n: usize,
+    callback: &'a mut F,
+}
+
+impl<'de, F> DeserializeSeed<'de> for TermsSeed<'_, F>
+where
+    F: FnMut(usize, usize, Term) -> Result<()>,
+{
+    type Value = usize;
+
+    fn deserialize<D>(self, deserializer: D) -> std::result::Result<Self::Value, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_seq(TermsVisitor {
+            n: self.n,
+            callback: self.callback,
+        })
+    }
+}
+
+struct TermsVisitor<'a, F> {
+    n: usize,
+    callback: &'a mut F,
+}
+
+impl<'de, F> Visitor<'de> for TermsVisitor<'_, F>
+where
+    F: FnMut(usize, usize, Term) -> Result<()>,
+{
+    type Value = usize;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("a certificate terms array")
+    }
+
+    fn visit_seq<A>(self, mut sequence: A) -> std::result::Result<Self::Value, A::Error>
+    where
+        A: SeqAccess<'de>,
+    {
+        let mut count = 0usize;
+        while let Some(term) = sequence.next_element::<Term>()? {
+            (self.callback)(self.n, count, term).map_err(A::Error::custom)?;
+            count = count
+                .checked_add(1)
+                .ok_or_else(|| A::Error::custom("certificate term count overflow"))?;
+        }
+        Ok(count)
+    }
+}
+
+struct CertificateSeed<'a, F> {
+    callback: &'a mut F,
+}
+
+impl<'de, F> DeserializeSeed<'de> for CertificateSeed<'_, F>
+where
+    F: FnMut(usize, usize, Term) -> Result<()>,
+{
+    type Value = StreamSummary;
+
+    fn deserialize<D>(self, deserializer: D) -> std::result::Result<Self::Value, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_map(CertificateVisitor {
+            callback: self.callback,
+        })
+    }
+}
+
+struct CertificateVisitor<'a, F> {
+    callback: &'a mut F,
+}
+
+impl<'de, F> Visitor<'de> for CertificateVisitor<'_, F>
+where
+    F: FnMut(usize, usize, Term) -> Result<()>,
+{
+    type Value = StreamSummary;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("a certificate object with n before terms")
+    }
+
+    fn visit_map<A>(self, mut object: A) -> std::result::Result<Self::Value, A::Error>
+    where
+        A: MapAccess<'de>,
+    {
+        let mut n = None;
+        let mut terms = None;
+        while let Some(field) = object.next_key::<String>()? {
+            match field.as_str() {
+                "n" => {
+                    if n.replace(object.next_value()?).is_some() {
+                        return Err(A::Error::duplicate_field("n"));
+                    }
+                }
+                "terms" => {
+                    if terms.is_some() {
+                        return Err(A::Error::duplicate_field("terms"));
+                    }
+                    let n = n.ok_or_else(|| {
+                        A::Error::custom("certificate field n must precede terms")
+                    })?;
+                    terms = Some(object.next_value_seed(TermsSeed {
+                        n,
+                        callback: self.callback,
+                    })?);
+                }
+                _ => {
+                    object.next_value::<IgnoredAny>()?;
+                }
+            }
+        }
+        Ok(StreamSummary {
+            n: n.ok_or_else(|| A::Error::missing_field("n"))?,
+            terms: terms.ok_or_else(|| A::Error::missing_field("terms"))?,
+        })
+    }
+}
+
+fn stream_certificate<F>(path: &Path, mut callback: F) -> Result<StreamSummary>
+where
+    F: FnMut(usize, usize, Term) -> Result<()>,
+{
+    let source = File::open(path).with_context(|| format!("opening {}", path.display()))?;
+    let mut decoder = serde_json::Deserializer::from_reader(BufReader::new(source));
+    let summary = CertificateSeed {
+        callback: &mut callback,
+    }
+    .deserialize(&mut decoder)
+    .with_context(|| format!("stream-decoding {}", path.display()))?;
+    decoder
+        .end()
+        .with_context(|| format!("checking trailing data in {}", path.display()))?;
+    Ok(summary)
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -76,6 +227,190 @@ impl Rational {
     pub fn add_integer_one(&self) -> Value {
         let numerator = &self.numerator + &self.denominator;
         Value::String(format_fraction(&numerator, &self.denominator))
+    }
+}
+
+struct DecimalParts<'a> {
+    numerator_negative: bool,
+    numerator_magnitude: &'a str,
+    denominator_negative: bool,
+    denominator_magnitude: &'a str,
+}
+
+fn decimal_magnitude<'a>(text: &'a str, label: &str) -> Result<(bool, &'a str)> {
+    let text = text.trim();
+    ensure!(!text.is_empty(), "{label} is empty");
+    let (negative, magnitude) = match text.as_bytes()[0] {
+        b'-' => (true, &text[1..]),
+        b'+' => (false, &text[1..]),
+        _ => (false, text),
+    };
+    ensure!(!magnitude.is_empty(), "{label} has no digits");
+    ensure!(
+        magnitude.bytes().all(|byte| byte.is_ascii_digit()),
+        "{label} is not a decimal integer"
+    );
+    let canonical = magnitude.trim_start_matches('0');
+    Ok((negative, if canonical.is_empty() { "0" } else { canonical }))
+}
+
+fn with_decimal_parts<T>(
+    value: &Value,
+    operation: impl FnOnce(DecimalParts<'_>) -> Result<T>,
+) -> Result<T> {
+    let owned;
+    let text = match value {
+        Value::String(value) => value.trim(),
+        Value::Number(value) if value.is_i64() || value.is_u64() => {
+            owned = value.to_string();
+            owned.as_str()
+        }
+        _ => bail!("coefficient must be an exact integer or rational string"),
+    };
+    let (numerator, denominator) = match text.split_once('/') {
+        Some((numerator, denominator)) => {
+            ensure!(
+                !denominator.contains('/'),
+                "coefficient contains more than one slash"
+            );
+            (numerator, denominator)
+        }
+        None => (text, "1"),
+    };
+    let (numerator_negative, numerator_magnitude) =
+        decimal_magnitude(numerator, "coefficient numerator")?;
+    let (denominator_negative, denominator_magnitude) =
+        decimal_magnitude(denominator, "coefficient denominator")?;
+    ensure!(
+        denominator_magnitude != "0",
+        "coefficient denominator is zero"
+    );
+    operation(DecimalParts {
+        numerator_negative,
+        numerator_magnitude,
+        denominator_negative,
+        denominator_magnitude,
+    })
+}
+
+fn parse_magnitude(magnitude: &str, label: &str) -> Result<BigInt> {
+    BigInt::parse_bytes(magnitude.as_bytes(), 10)
+        .with_context(|| format!("parsing {label} with {} decimal digits", magnitude.len()))
+}
+
+#[derive(Clone, Copy, Debug)]
+struct CoefficientStats {
+    numerator_digits_min: usize,
+    numerator_digits_max: usize,
+    denominator_digits_min: usize,
+    denominator_digits_max: usize,
+}
+
+#[derive(Debug, Default)]
+struct DenominatorScanner {
+    first: Option<String>,
+    lcm: Option<BigInt>,
+    numerator_digits_min: Option<usize>,
+    numerator_digits_max: usize,
+    denominator_digits_min: Option<usize>,
+    denominator_digits_max: usize,
+}
+
+impl DenominatorScanner {
+    fn observe(&mut self, coefficient: &Value) -> Result<()> {
+        with_decimal_parts(coefficient, |parts| {
+            let denominator = parts.denominator_magnitude;
+            self.numerator_digits_min = Some(
+                self.numerator_digits_min
+                    .map_or(parts.numerator_magnitude.len(), |current| {
+                        current.min(parts.numerator_magnitude.len())
+                    }),
+            );
+            self.numerator_digits_max = self
+                .numerator_digits_max
+                .max(parts.numerator_magnitude.len());
+            self.denominator_digits_min = Some(
+                self.denominator_digits_min
+                    .map_or(denominator.len(), |current| current.min(denominator.len())),
+            );
+            self.denominator_digits_max = self.denominator_digits_max.max(denominator.len());
+            match (&self.first, &mut self.lcm) {
+                (None, _) => self.first = Some(denominator.to_owned()),
+                (Some(first), None) if first == denominator => {}
+                (Some(first), slot @ None) => {
+                    let first = parse_magnitude(first, "first coefficient denominator")?;
+                    let denominator = parse_magnitude(denominator, "coefficient denominator")?;
+                    *slot = Some(first.lcm(&denominator));
+                }
+                (_, Some(current)) => {
+                    let denominator = parse_magnitude(denominator, "coefficient denominator")?;
+                    *current = current.lcm(&denominator);
+                }
+            }
+            Ok(())
+        })
+    }
+
+    fn finish(self) -> Result<DenominatorPlan> {
+        let first = self
+            .first
+            .context("certificate has no coefficient denominators")?;
+        let stats = CoefficientStats {
+            numerator_digits_min: self
+                .numerator_digits_min
+                .context("certificate has no coefficient numerators")?,
+            numerator_digits_max: self.numerator_digits_max,
+            denominator_digits_min: self
+                .denominator_digits_min
+                .context("certificate has no coefficient denominators")?,
+            denominator_digits_max: self.denominator_digits_max,
+        };
+        match self.lcm {
+            Some(common_denominator) => Ok(DenominatorPlan {
+                common_denominator,
+                repeated_raw_denominator: None,
+                stats,
+            }),
+            None => Ok(DenominatorPlan {
+                common_denominator: parse_magnitude(&first, "common coefficient denominator")?,
+                repeated_raw_denominator: Some(first),
+                stats,
+            }),
+        }
+    }
+}
+
+#[derive(Debug)]
+struct DenominatorPlan {
+    common_denominator: BigInt,
+    repeated_raw_denominator: Option<String>,
+    stats: CoefficientStats,
+}
+
+impl DenominatorPlan {
+    fn scale(&self, coefficient: &Value) -> Result<ExactInt> {
+        with_decimal_parts(coefficient, |parts| {
+            let mut numerator =
+                parse_magnitude(parts.numerator_magnitude, "coefficient numerator")?;
+            if parts.numerator_negative ^ parts.denominator_negative {
+                numerator = -numerator;
+            }
+            if let Some(repeated) = &self.repeated_raw_denominator {
+                ensure!(
+                    repeated == parts.denominator_magnitude,
+                    "coefficient denominator changed between streaming passes"
+                );
+                return Ok(ExactInt::from_big(numerator));
+            }
+            let denominator =
+                parse_magnitude(parts.denominator_magnitude, "coefficient denominator")?;
+            let (scale, remainder) = self.common_denominator.div_rem(&denominator);
+            ensure!(
+                remainder.is_zero(),
+                "common denominator is not divisible by term denominator"
+            );
+            Ok(ExactInt::from_big(numerator * scale))
+        })
     }
 }
 
@@ -133,8 +468,18 @@ impl ExactInt {
             *target = sum;
             return;
         }
-        let sum = self.to_bigint() + coefficient.to_bigint() * factor;
-        *self = Self::from_big(sum);
+        match (&mut *self, coefficient) {
+            (Self::Big(target), Self::Big(value)) if factor == 1 => *target += value,
+            (Self::Big(target), Self::Big(value)) if factor == -1 => *target -= value,
+            (Self::Big(target), Self::Big(value)) => *target += value * factor,
+            (Self::Big(target), Self::Small(value)) => *target += value * i128::from(factor),
+            (Self::Small(target), Self::Big(value)) => {
+                let mut sum = value * factor;
+                sum += *target;
+                *self = Self::from_big(sum);
+            }
+            (Self::Small(_), Self::Small(_)) => unreachable!("checked small path returned"),
+        }
     }
 
     fn add_exact(&mut self, other: Self) {
@@ -144,8 +489,15 @@ impl ExactInt {
             *target = sum;
             return;
         }
-        let sum = self.to_bigint() + other.to_bigint();
-        *self = Self::from_big(sum);
+        match (&mut *self, other) {
+            (Self::Big(target), Self::Big(value)) => *target += value,
+            (Self::Big(target), Self::Small(value)) => *target += value,
+            (Self::Small(target), Self::Big(mut value)) => {
+                value += *target;
+                *self = Self::from_big(value);
+            }
+            (Self::Small(_), Self::Small(_)) => unreachable!("checked small path returned"),
+        }
     }
 
     fn rational_string(&self, denominator: &BigInt) -> String {
@@ -597,6 +949,11 @@ pub struct Analysis {
     pub literal_dp_matches: usize,
     pub permutations_per_literal_term: Option<u64>,
     pub coefficient_common_denominator: String,
+    pub coefficient_numerator_digits_min: usize,
+    pub coefficient_numerator_digits_max: usize,
+    pub coefficient_denominator_digits_min: usize,
+    pub coefficient_denominator_digits_max: usize,
+    pub repeated_coefficient_denominator: bool,
     pub linear_rows: usize,
     pub bad_linear_rows: usize,
     pub hinge_rows_union: usize,
@@ -607,6 +964,92 @@ pub struct Analysis {
     pub compute_wall_seconds: f64,
     pub dp_worker_seconds: f64,
     pub literal_worker_seconds: f64,
+}
+
+struct AnalysisFinish {
+    n: usize,
+    terms_total: usize,
+    literal_check: bool,
+    common_denominator: BigInt,
+    coefficient_stats: CoefficientStats,
+    repeated_coefficient_denominator: bool,
+    total: PartialAccumulator,
+    compute_wall_seconds: f64,
+}
+
+fn finish_analysis(input: AnalysisFinish) -> Result<Analysis> {
+    let AnalysisFinish {
+        n,
+        terms_total,
+        literal_check,
+        common_denominator,
+        coefficient_stats,
+        repeated_coefficient_denominator,
+        mut total,
+        compute_wall_seconds,
+    } = input;
+    ensure!(
+        total.terms_checked == terms_total,
+        "term census mismatch: {}/{}",
+        total.terms_checked,
+        terms_total
+    );
+    total.linear[n - 1].add_exact(ExactInt::from_big(-&common_denominator));
+
+    let bad_linear_rows = total.linear.iter().filter(|value| !value.is_zero()).count();
+    let first_bad_linear = total
+        .linear
+        .iter()
+        .enumerate()
+        .find(|(_, value)| !value.is_zero())
+        .map(|(rank, value)| Residual {
+            direction: None,
+            rank_one_based: Some(rank + 1),
+            value: value.rational_string(&common_denominator),
+        });
+    let hinge_rows_union = total.hinges.len();
+    let bad_hinge_rows = total
+        .hinges
+        .values()
+        .filter(|value| !value.is_zero())
+        .count();
+    let mut bad_directions: Vec<_> = total
+        .hinges
+        .iter()
+        .filter(|(_, value)| !value.is_zero())
+        .collect();
+    bad_directions.sort_by(|left, right| left.0.cmp(right.0));
+    let first_bad_hinge = bad_directions.first().map(|(direction, value)| Residual {
+        direction: Some((*direction).clone()),
+        rank_one_based: None,
+        value: value.rational_string(&common_denominator),
+    });
+
+    Ok(Analysis {
+        verified: bad_linear_rows == 0 && bad_hinge_rows == 0,
+        n,
+        terms_total,
+        nonzero_terms: total.nonzero_terms,
+        dp_columns_checked: total.terms_checked,
+        literal_dp_matches: total.literal_matches,
+        permutations_per_literal_term: literal_check.then(|| checked_factorial(n)).transpose()?,
+        coefficient_common_denominator: common_denominator.to_string(),
+        coefficient_numerator_digits_min: coefficient_stats.numerator_digits_min,
+        coefficient_numerator_digits_max: coefficient_stats.numerator_digits_max,
+        coefficient_denominator_digits_min: coefficient_stats.denominator_digits_min,
+        coefficient_denominator_digits_max: coefficient_stats.denominator_digits_max,
+        repeated_coefficient_denominator,
+        linear_rows: n,
+        bad_linear_rows,
+        hinge_rows_union,
+        bad_hinge_rows,
+        first_bad_linear,
+        first_bad_hinge,
+        emitted_hinge_entries: total.emitted_hinge_entries,
+        compute_wall_seconds,
+        dp_worker_seconds: total.dp_worker_seconds,
+        literal_worker_seconds: total.literal_worker_seconds,
+    })
 }
 
 pub fn analyze_certificate(
@@ -622,32 +1065,30 @@ pub fn analyze_certificate(
     );
     ensure!(!certificate.terms.is_empty(), "certificate has no terms");
 
-    let rationals: Vec<Rational> = certificate
+    let mut scanner = DenominatorScanner::default();
+    for (index, term) in certificate.terms.iter().enumerate() {
+        let _ = parsed_sides(term, certificate.n)
+            .with_context(|| format!("validating term {index}"))?;
+        scanner
+            .observe(&term.coefficient)
+            .with_context(|| format!("scanning coefficient for term {index}"))?;
+    }
+    let plan = scanner.finish()?;
+    let scaled: Vec<ExactInt> = certificate
         .terms
         .iter()
         .enumerate()
         .map(|(index, term)| {
-            let _ = parsed_sides(term, certificate.n)
-                .with_context(|| format!("validating term {index}"))?;
-            Rational::parse(&term.coefficient)
-                .with_context(|| format!("parsing coefficient for term {index}"))
+            plan.scale(&term.coefficient)
+                .with_context(|| format!("scaling coefficient for term {index}"))
         })
         .collect::<Result<_>>()?;
-    let common_denominator = rationals.iter().fold(BigInt::one(), |current, rational| {
-        current.lcm(&rational.denominator)
-    });
-    let scaled: Vec<ExactInt> = rationals
-        .iter()
-        .map(|rational| {
-            ExactInt::from_big(&rational.numerator * (&common_denominator / &rational.denominator))
-        })
-        .collect();
 
     let pool = rayon::ThreadPoolBuilder::new()
         .num_threads(threads)
         .build()?;
     let started = Instant::now();
-    let mut total = pool.install(|| {
+    let total = pool.install(|| {
         certificate
             .terms
             .par_iter()
@@ -682,64 +1123,185 @@ pub fn analyze_certificate(
             )
     })?;
     let compute_wall_seconds = started.elapsed().as_secs_f64();
-    ensure!(
-        total.terms_checked == certificate.terms.len(),
-        "term census mismatch: {}/{}",
-        total.terms_checked,
-        certificate.terms.len()
-    );
-    total.linear[certificate.n - 1].add_exact(ExactInt::from_big(-&common_denominator));
-
-    let bad_linear_rows = total.linear.iter().filter(|value| !value.is_zero()).count();
-    let first_bad_linear = total
-        .linear
-        .iter()
-        .enumerate()
-        .find(|(_, value)| !value.is_zero())
-        .map(|(rank, value)| Residual {
-            direction: None,
-            rank_one_based: Some(rank + 1),
-            value: value.rational_string(&common_denominator),
-        });
-    let hinge_rows_union = total.hinges.len();
-    let bad_hinge_rows = total
-        .hinges
-        .values()
-        .filter(|value| !value.is_zero())
-        .count();
-    let mut bad_directions: Vec<_> = total
-        .hinges
-        .iter()
-        .filter(|(_, value)| !value.is_zero())
-        .collect();
-    bad_directions.sort_by(|left, right| left.0.cmp(right.0));
-    let first_bad_hinge = bad_directions.first().map(|(direction, value)| Residual {
-        direction: Some((*direction).clone()),
-        rank_one_based: None,
-        value: value.rational_string(&common_denominator),
-    });
-
-    Ok(Analysis {
-        verified: bad_linear_rows == 0 && bad_hinge_rows == 0,
+    let repeated_coefficient_denominator = plan.repeated_raw_denominator.is_some();
+    finish_analysis(AnalysisFinish {
         n: certificate.n,
         terms_total: certificate.terms.len(),
-        nonzero_terms: total.nonzero_terms,
-        dp_columns_checked: total.terms_checked,
-        literal_dp_matches: total.literal_matches,
-        permutations_per_literal_term: literal_check
-            .then(|| checked_factorial(certificate.n))
-            .transpose()?,
-        coefficient_common_denominator: common_denominator.to_string(),
-        linear_rows: certificate.n,
-        bad_linear_rows,
-        hinge_rows_union,
-        bad_hinge_rows,
-        first_bad_linear,
-        first_bad_hinge,
-        emitted_hinge_entries: total.emitted_hinge_entries,
+        literal_check,
+        common_denominator: plan.common_denominator,
+        coefficient_stats: plan.stats,
+        repeated_coefficient_denominator,
+        total,
         compute_wall_seconds,
-        dp_worker_seconds: total.dp_worker_seconds,
-        literal_worker_seconds: total.literal_worker_seconds,
+    })
+}
+
+struct PendingTerm {
+    index: usize,
+    term: Term,
+    coefficient: ExactInt,
+}
+
+struct EvaluatedTerm {
+    column: SparseColumn,
+    coefficient: ExactInt,
+    dp_seconds: f64,
+    literal_seconds: f64,
+}
+
+fn evaluate_streaming_batch(
+    pool: &rayon::ThreadPool,
+    n: usize,
+    literal_check: bool,
+    batch: &mut Vec<PendingTerm>,
+    total: &mut PartialAccumulator,
+) -> Result<()> {
+    if batch.is_empty() {
+        return Ok(());
+    }
+    let pending = std::mem::take(batch);
+    let evaluated = pool.install(|| {
+        pending
+            .into_par_iter()
+            .map(|pending| -> Result<EvaluatedTerm> {
+                let dp_started = Instant::now();
+                let dynamic = dynamic_column(&pending.term, n)
+                    .with_context(|| format!("dynamic evaluation of term {}", pending.index))?;
+                let dp_seconds = dp_started.elapsed().as_secs_f64();
+                let mut literal_seconds = 0.0;
+                if literal_check {
+                    let literal_started = Instant::now();
+                    let literal = literal_column(&pending.term, n)
+                        .with_context(|| format!("literal evaluation of term {}", pending.index))?;
+                    literal_seconds = literal_started.elapsed().as_secs_f64();
+                    compare_columns(pending.index, &dynamic, &literal)?;
+                }
+                Ok(EvaluatedTerm {
+                    column: dynamic,
+                    coefficient: pending.coefficient,
+                    dp_seconds,
+                    literal_seconds,
+                })
+            })
+            .collect::<Result<Vec<_>>>()
+    })?;
+    for evaluated in evaluated {
+        total.dp_worker_seconds += evaluated.dp_seconds;
+        total.literal_worker_seconds += evaluated.literal_seconds;
+        total.terms_checked += 1;
+        if literal_check {
+            total.literal_matches += 1;
+        }
+        if !evaluated.coefficient.is_zero() {
+            total.nonzero_terms += 1;
+            total.add_column(&evaluated.column, &evaluated.coefficient)?;
+        }
+    }
+    Ok(())
+}
+
+/// Analyze a certificate with bounded input memory.
+///
+/// The file is streamed twice. Pass one validates terms and determines one
+/// denominator clearing factor. Pass two parses at most `threads` terms at a
+/// time, computes their structural columns in parallel, and accumulates their
+/// scaled integer coefficients into one exact map. A repeated textual
+/// denominator is parsed only once, which is the important dense-lift path.
+pub fn analyze_certificate_path(
+    path: &Path,
+    threads: usize,
+    literal_check: bool,
+) -> Result<Analysis> {
+    ensure!((1..=64).contains(&threads), "threads must lie in 1..=64");
+    let started = Instant::now();
+    let mut scanner = DenominatorScanner::default();
+    let first = stream_certificate(path, |n, index, term| {
+        validate_n(n)?;
+        let _ = parsed_sides(&term, n).with_context(|| format!("validating term {index}"))?;
+        scanner
+            .observe(&term.coefficient)
+            .with_context(|| format!("scanning coefficient for term {index}"))
+    })?;
+    validate_n(first.n)?;
+    ensure!(
+        !literal_check || first.n <= MAX_LITERAL_N,
+        "literal checks are capped at n={MAX_LITERAL_N}"
+    );
+    ensure!(first.terms > 0, "certificate has no terms");
+    let plan = scanner.finish()?;
+
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(threads)
+        .build()?;
+    let mut total = PartialAccumulator::new(first.n);
+    let mut batch = Vec::with_capacity(threads);
+    let second = stream_certificate(path, |n, index, term| {
+        ensure!(
+            n == first.n,
+            "certificate n changed between streaming passes"
+        );
+        let coefficient = plan
+            .scale(&term.coefficient)
+            .with_context(|| format!("scaling coefficient for term {index}"))?;
+        batch.push(PendingTerm {
+            index,
+            term,
+            coefficient,
+        });
+        if batch.len() == threads {
+            evaluate_streaming_batch(&pool, first.n, literal_check, &mut batch, &mut total)?;
+        }
+        Ok(())
+    })?;
+    evaluate_streaming_batch(&pool, first.n, literal_check, &mut batch, &mut total)?;
+    ensure!(
+        second == first,
+        "certificate shape changed between streaming passes"
+    );
+    let compute_wall_seconds = started.elapsed().as_secs_f64();
+    let repeated_coefficient_denominator = plan.repeated_raw_denominator.is_some();
+    finish_analysis(AnalysisFinish {
+        n: first.n,
+        terms_total: first.terms,
+        literal_check,
+        common_denominator: plan.common_denominator,
+        coefficient_stats: plan.stats,
+        repeated_coefficient_denominator,
+        total,
+        compute_wall_seconds,
+    })
+}
+
+pub fn certificate_shape(path: &Path) -> Result<(usize, usize)> {
+    let summary = stream_certificate(path, |_, _, _| Ok(()))?;
+    validate_n(summary.n)?;
+    Ok((summary.n, summary.terms))
+}
+
+pub fn sample_certificate_path(path: &Path, indices: &[usize]) -> Result<Certificate> {
+    ensure!(!indices.is_empty(), "sample indices must not be empty");
+    ensure!(
+        indices.windows(2).all(|pair| pair[0] < pair[1]),
+        "sample indices must be strictly increasing"
+    );
+    let mut selected = Vec::with_capacity(indices.len());
+    let mut next = 0usize;
+    let summary = stream_certificate(path, |_, index, term| {
+        if next < indices.len() && index == indices[next] {
+            selected.push(term);
+            next += 1;
+        }
+        Ok(())
+    })?;
+    validate_n(summary.n)?;
+    ensure!(
+        next == indices.len(),
+        "sample index exceeds source term count: selected {next}/{}",
+        indices.len()
+    );
+    Ok(Certificate {
+        n: summary.n,
+        terms: selected,
     })
 }
 
@@ -828,6 +1390,41 @@ mod tests {
         let analysis = analyze_certificate(&certificate, 1, true).unwrap();
         assert!(analysis.verified);
         assert_eq!(analysis.coefficient_common_denominator, "2");
+    }
+
+    #[test]
+    fn streaming_repeated_huge_denominator_preserves_an_exact_identity() {
+        let denominator = BigInt::from(10u8).pow(200);
+        let first_numerator = BigInt::from(10u8).pow(250);
+        let second_numerator = &denominator / 2 - &first_numerator;
+        let certificate = Certificate {
+            n: 2,
+            terms: vec![
+                term(
+                    &format!("{first_numerator}/{denominator}"),
+                    &[[1, 1]],
+                    &[[2, 2]],
+                ),
+                term(
+                    &format!("{second_numerator}/{denominator}"),
+                    &[[1, 1]],
+                    &[[2, 2]],
+                ),
+            ],
+        };
+        let path = std::env::temp_dir().join(format!(
+            "max11-verify11-streaming-control-{}.json",
+            std::process::id()
+        ));
+        serde_json::to_writer(File::create(&path).unwrap(), &certificate).unwrap();
+        let analysis = analyze_certificate_path(&path, 2, true).unwrap();
+        std::fs::remove_file(path).unwrap();
+        assert!(analysis.verified);
+        assert_eq!(analysis.literal_dp_matches, 2);
+        assert_eq!(
+            analysis.coefficient_common_denominator,
+            denominator.to_string()
+        );
     }
 
     #[test]
