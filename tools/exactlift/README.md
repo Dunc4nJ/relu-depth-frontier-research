@@ -51,3 +51,26 @@ replays the named CountSketch exactly, solves for a rational left separator on
 sketch buckets, composes that separator back to exact real-row weights, and
 checks every column in the named saved-system family. A negative remains only
 a bounded null for that finite family.
+
+## Large-rank solver
+
+`lift_large.py` serializes a pivot support and its complete real-row support
+union as `ELIFTQ01` sparse CSC, then invokes `lift_large_rs`. The Rust kernel
+stores the dense modular factor in one row-major `u32` array, uses exact
+bounded-sum `f64` OpenBLAS block products, performs global panel row pivoting,
+and retains the exact CSC for Dixon residuals and final verification. It tries
+vector rational reconstruction after configurable p-adic steps. The fallback
+frees the original factor, then factors one named CRT prime at a time.
+
+`large_separator.py` forms the exact square left-separator equations on the
+selected sketch buckets and uses the same kernel. Its `solve-big` mode keeps
+the modular factor and residual arithmetic bounded while using arbitrary-size
+integers only for p-adic residues, rational reconstruction, and the final exact
+check. The result is then composed with the CountSketch and verified on every
+column by `sketch_separator.py`'s independent rational checker.
+
+The synthetic command constructs a non-block-diagonal dense control `A=L*B`.
+`L` is a deterministic dense random integer mixer and the hidden `B` has small
+bidiagonal denominator blocks. The solver receives only the resulting dense
+matrix/CSC, not the factorization. This gives a sparse planted rational vector
+with a large denominator while every matrix entry remains in `[-900,900]`.

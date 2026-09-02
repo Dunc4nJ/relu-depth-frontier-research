@@ -1,3 +1,4 @@
+mod big;
 mod crt;
 mod modular;
 mod problem;
@@ -80,11 +81,35 @@ fn solve_command(arguments: &[String]) -> Result<(), String> {
     Ok(())
 }
 
+fn solve_big_command(arguments: &[String]) -> Result<(), String> {
+    let output: PathBuf = value(arguments, "--output")?;
+    let config = problem::SolveConfig {
+        input: value(arguments, "--input")?,
+        prime: value(arguments, "--prime")?,
+        lu_block: value(arguments, "--lu-block")?,
+        row_tile: value(arguments, "--row-tile")?,
+        threads: value(arguments, "--threads")?,
+        max_steps: value(arguments, "--max-steps")?,
+        reconstruct_every: value(arguments, "--reconstruct-every")?,
+        candidate_support_limit: usize::MAX,
+        crt_primes: Vec::new(),
+    };
+    let report = big::solve(&config)?;
+    let encoded = serde_json::to_string_pretty(&report).map_err(|error| error.to_string())? + "\n";
+    if let Some(parent) = output.parent() {
+        fs::create_dir_all(parent).map_err(|error| error.to_string())?;
+    }
+    fs::write(&output, &encoded).map_err(|error| error.to_string())?;
+    print!("{encoded}");
+    Ok(())
+}
+
 fn main() {
     let arguments: Vec<String> = env::args().collect();
     let result = match arguments.get(1).map(String::as_str) {
         Some("synthetic") => synthetic_command(&arguments[2..]),
         Some("solve") => solve_command(&arguments[2..]),
+        Some("solve-big") => solve_big_command(&arguments[2..]),
         _ => Err("usage: max11-lift-large {synthetic|solve} ...".to_string()),
     };
     if let Err(error) = result {

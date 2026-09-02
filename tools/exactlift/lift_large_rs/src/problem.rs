@@ -189,7 +189,7 @@ impl ExactProblem {
         })
     }
 
-    fn dense_modular(&self, prime: u32) -> Vec<u32> {
+    pub(crate) fn dense_modular(&self, prime: u32) -> Vec<u32> {
         let mut selected_position = vec![usize::MAX; self.rows];
         for (position, &row) in self.selected_rows.iter().enumerate() {
             selected_position[row as usize] = position;
@@ -209,14 +209,14 @@ impl ExactProblem {
         dense
     }
 
-    fn selected_rhs_mod(&self, residual: &[i128], prime: u32) -> Vec<u32> {
+    pub(crate) fn selected_rhs_mod(&self, residual: &[i128], prime: u32) -> Vec<u32> {
         self.selected_rows
             .iter()
             .map(|&row| residual[row as usize].rem_euclid(prime as i128) as u32)
             .collect()
     }
 
-    fn matvec_digits(&self, digits: &[u32]) -> Vec<i128> {
+    pub(crate) fn matvec_digits(&self, digits: &[u32]) -> Vec<i128> {
         (0..self.columns)
             .into_par_iter()
             .fold(
