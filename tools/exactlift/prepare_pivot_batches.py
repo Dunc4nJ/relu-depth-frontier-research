@@ -64,6 +64,10 @@ def main() -> None:
     for start in range(0, len(pivots), args.batch_size):
         chunk = pivots[start : start + args.batch_size]
         include_five_l = synthetic_index in chunk
+        if include_five_l and chunk[-1] != synthetic_index:
+            raise SystemExit(
+                "synthetic 5L pivot is not last in its batch; colgen appends 5L last"
+            )
         real_indices = [value for value in chunk if value != synthetic_index]
         order_path = order_dir / f"order-{len(batches):03d}.json"
         order_path.write_text(json.dumps(real_indices, separators=(",", ":")) + "\n")
