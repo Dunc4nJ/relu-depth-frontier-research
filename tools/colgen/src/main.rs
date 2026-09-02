@@ -101,11 +101,20 @@ impl Args {
 
     fn threads(&self) -> Result<usize> {
         let threads = self.usize_or("--threads", 1)?;
-        ensure!(
-            (1..=6).contains(&threads),
-            "threads must lie in 1..=6 for this shared host"
-        );
+        ensure!((1..=16).contains(&threads), "threads must lie in 1..=16");
         Ok(threads)
+    }
+
+    fn bool_or(&self, name: &str, fallback: bool) -> Result<bool> {
+        self.values
+            .get(name)
+            .map(|value| match value.as_str() {
+                "true" => Ok(true),
+                "false" => Ok(false),
+                _ => bail!("{name} must be true or false"),
+            })
+            .transpose()
+            .map(|value| value.unwrap_or(fallback))
     }
 
     fn has(&self, name: &str) -> bool {
@@ -768,6 +777,22 @@ fn write_binary_column(
     Ok(())
 }
 
+fn five_l_column(n: usize, branch_edges: usize) -> Result<SparseColumn> {
+    ensure!(branch_edges == 5, "--include-five-l requires branch size 5");
+    let factorial = (1..n).try_fold(1i64, |product, value| {
+        product
+            .checked_mul(i64::try_from(value)?)
+            .context("5L factorial overflow")
+    })?;
+    let coefficient = 5i64
+        .checked_mul(factorial)
+        .context("5L coefficient overflow")?;
+    Ok(SparseColumn {
+        linear: vec![coefficient; n],
+        hinges: Default::default(),
+    })
+}
+
 fn command_emit(args: &Args) -> Result<()> {
     let input = args.required_path("--universe")?;
     let output = args.required_path("--output")?;
@@ -786,43 +811,69 @@ fn command_emit(args: &Args) -> Result<()> {
         .get("--modulus")
         .map(|value| value.parse())
         .transpose()?;
+    let include_five_l = args.bool_or("--include-five-l", false)?;
     let universe: Universe = load_json(&input)?;
     validate_universe(&universe)?;
-    let start = args.usize_or("--start", 0)?;
-    let limit = args.usize_or("--limit", universe.records.len().saturating_sub(start))?;
-    let stop = start
-        .checked_add(limit)
-        .ok_or_else(|| anyhow::anyhow!("emit range overflow"))?;
-    ensure!(
-        start < stop && stop <= universe.records.len(),
-        "emit range outside universe"
-    );
+    let order: Vec<usize> = if let Some(path) = args.values.get("--order-file").map(PathBuf::from) {
+        ensure!(
+            !args.values.contains_key("--start") && !args.values.contains_key("--limit"),
+            "--order-file cannot be combined with --start/--limit"
+        );
+        let order: Vec<usize> = load_json(&path)?;
+        ensure!(!order.is_empty(), "order file is empty");
+        ensure!(
+            order.iter().all(|&index| index < universe.records.len()),
+            "order file contains an out-of-range universe index"
+        );
+        ensure!(
+            order.iter().copied().collect::<HashSet<_>>().len() == order.len(),
+            "order file contains duplicate universe indices"
+        );
+        order
+    } else {
+        let start = args.usize_or("--start", 0)?;
+        let limit = args.usize_or("--limit", universe.records.len().saturating_sub(start))?;
+        let stop = start
+            .checked_add(limit)
+            .ok_or_else(|| anyhow::anyhow!("emit range overflow"))?;
+        ensure!(
+            start < stop && stop <= universe.records.len(),
+            "emit range outside universe"
+        );
+        (start..stop).collect()
+    };
+    let output_count = order.len() + usize::from(include_five_l);
     let mut writer = create_output(&output)?;
     if format == "binary" {
         writer.write_all(b"MCOLGEN1")?;
         writer.write_all(&(universe.n as u16).to_le_bytes())?;
         writer.write_all(&(universe.branch_edge_occurrences as u16).to_le_bytes())?;
         writer.write_all(&modulus.unwrap_or(0).to_le_bytes())?;
-        writer.write_all(&(limit as u64).to_le_bytes())?;
+        writer.write_all(&(output_count as u64).to_le_bytes())?;
     }
     let thread_pool = pool(threads)?;
     let started = Instant::now();
     let batch_size = threads * 2;
-    for batch_start in (start..stop).step_by(batch_size) {
-        let batch_stop = (batch_start + batch_size).min(stop);
-        let columns: Vec<Result<SparseColumn>> = thread_pool.install(|| {
-            universe.records[batch_start..batch_stop]
+    for batch_start in (0..order.len()).step_by(batch_size) {
+        let batch_stop = (batch_start + batch_size).min(order.len());
+        let columns: Vec<Result<(usize, SparseColumn)>> = thread_pool.install(|| {
+            order[batch_start..batch_stop]
                 .par_iter()
-                .enumerate()
-                .map(|(offset, record)| {
-                    generate_column(record, universe.n, universe.branch_edge_occurrences)
-                        .with_context(|| format!("emit record {}", batch_start + offset))
+                .map(|&index| {
+                    Ok((
+                        index,
+                        generate_column(
+                            &universe.records[index],
+                            universe.n,
+                            universe.branch_edge_occurrences,
+                        )
+                        .with_context(|| format!("emit record {index}"))?,
+                    ))
                 })
                 .collect()
         });
-        for (offset, result) in columns.into_iter().enumerate() {
-            let index = batch_start + offset;
-            let column = result?;
+        for result in columns {
+            let (index, column) = result?;
             if format == "jsonl" {
                 serde_json::to_writer(&mut writer, &column.output(index, modulus)?)?;
                 writer.write_all(b"\n")?;
@@ -831,9 +882,19 @@ fn command_emit(args: &Args) -> Result<()> {
             }
         }
     }
+    if include_five_l {
+        let source_index = universe.records.len();
+        let column = five_l_column(universe.n, universe.branch_edge_occurrences)?;
+        if format == "jsonl" {
+            serde_json::to_writer(&mut writer, &column.output(source_index, modulus)?)?;
+            writer.write_all(b"\n")?;
+        } else {
+            write_binary_column(&mut writer, &column, source_index, modulus)?;
+        }
+    }
     writer.flush()?;
     eprintln!(
-        "COLGEN_EMIT_PASS records={limit} seconds={:.3} output={}",
+        "COLGEN_EMIT_PASS records={output_count} seconds={:.3} output={}",
         started.elapsed().as_secs_f64(),
         output.display()
     );
@@ -841,7 +902,7 @@ fn command_emit(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-colgen validate-templates --input FILE.jsonl[.gz] --n N --branch-edges K --threads N --output REPORT.json [--bruteforce] [--mutate-one-sign]\n  max11-colgen validate-prices --universe FILE.json.gz --dual FILE.json --expected-report FILE.json --threads N --output REPORT.json\n  max11-colgen benchmark --universe FILE.json.gz --sample-size 1000 --seed N --threads N --output REPORT.json\n  max11-colgen scan-universe --universe FILE.json.gz --threads N --output REPORT.json [--start N --limit N]\n  max11-colgen emit-universe --universe FILE.json.gz --threads N --output FILE --format jsonl|binary [--modulus P] [--start N --limit N]"
+    "usage:\n  max11-colgen validate-templates --input FILE.jsonl[.gz] --n N --branch-edges K --threads N --output REPORT.json [--bruteforce] [--mutate-one-sign]\n  max11-colgen validate-prices --universe FILE.json.gz --dual FILE.json --expected-report FILE.json --threads N --output REPORT.json\n  max11-colgen benchmark --universe FILE.json.gz --sample-size 1000 --seed N --threads N --output REPORT.json\n  max11-colgen scan-universe --universe FILE.json.gz --threads N --output REPORT.json [--start N --limit N]\n  max11-colgen emit-universe --universe FILE.json.gz --threads N --output FILE --format jsonl|binary [--modulus P] [--order-file INDICES.json | --start N --limit N] [--include-five-l true]"
 }
 
 fn main() -> Result<()> {

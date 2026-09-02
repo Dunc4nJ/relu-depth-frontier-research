@@ -114,8 +114,8 @@ def run(
     precondition_seed: int,
     selected_rows_output: Path | None,
 ) -> dict[str, Any]:
-    if not 1 <= threads <= 6:
-        raise ValueError("--threads must be between 1 and 6")
+    if not 1 <= threads <= 16:
+        raise ValueError("--threads must be between 1 and 16")
     started = time.monotonic()
     pivot_document, sketch = support_lift.read_pivots(pivot_report, sketch_index)
     n = int(pivot_document["n"])

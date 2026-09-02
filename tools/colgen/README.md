@@ -93,6 +93,13 @@ target/release/max11-colgen emit-universe \
   --output columns-p1000003.bin
 ```
 
+`emit-universe` also accepts a duplicate-free `--order-file INDICES.json` in
+place of `--start`/`--limit` and preserves those original source indices in
+that order. For the G-0027 exact lift, `--include-five-l true` appends source
+index 754,017 with eleven linear coefficients 18,144,000 and no hinges. The
+CLI accepts up to 16 threads for the authorized remote compute path; shared
+host runs remain operationally capped by the campaign instructions.
+
 JSONL has one object per record with `record_index`, optional `modulus`, the
 linear vector, and sorted `{direction, coefficient}` hinge entries.  Compact
 binary is little-endian:
