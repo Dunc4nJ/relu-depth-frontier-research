@@ -54,3 +54,7 @@ Prior target-selection notes, ansatz counts, scripts, and a pinned upstream chec
 ## Binding field pack
 
 `NEURAL_REPRESENTATION_EPISTEMICS.md` is the W11 translation binding this uncovered mathematical subfield, together with `domains/mathematics.md`. The nearest shipped algebra field file is advisory only where its exact-arithmetic and certificate discipline transfers.
+
+## Compute authorization (2026-09-02, human decision)
+
+Duncan authorized external paid compute on 2026-09-02 (Vast.ai, no spending cap, account auto-refills), with the orchestrator (AmberBluff) handling instance selection, creation and teardown, favouring quality and speed, and destroying any instance no longer needed or found too slow. This satisfies the "External paid compute ... requires human approval" clause above for the MAX11 campaign's rank, lift and pricing runs.
