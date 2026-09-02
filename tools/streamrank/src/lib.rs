@@ -132,17 +132,55 @@ fn mod_inverse(value: u32, prime: u32) -> u32 {
     old_s.rem_euclid(prime as i64) as u32
 }
 
-fn scale_mod(vector: &mut [u32], factor: u32, prime: u32) {
+#[derive(Clone, Copy, Debug)]
+struct Modulus {
+    value: u32,
+    reciprocal: u64,
+}
+
+impl Modulus {
+    fn new(value: u32) -> Self {
+        Self {
+            value,
+            reciprocal: ((1u128 << 64) / value as u128) as u64,
+        }
+    }
+
+    fn reduce_u64(self, input: u64) -> u32 {
+        let quotient = ((input as u128 * self.reciprocal as u128) >> 64) as u64;
+        let mut remainder = input - quotient * self.value as u64;
+        if remainder >= self.value as u64 {
+            remainder -= self.value as u64;
+        }
+        debug_assert!(remainder < self.value as u64);
+        remainder as u32
+    }
+
+    fn reduce_i64(self, input: i64) -> u32 {
+        let remainder = self.reduce_u64(input.unsigned_abs());
+        if input < 0 && remainder != 0 {
+            self.value - remainder
+        } else {
+            remainder
+        }
+    }
+}
+
+fn scale_mod(vector: &mut [u32], factor: u32, modulus: Modulus) {
     vector.par_iter_mut().for_each(|value| {
-        *value = ((*value as u64 * factor as u64) % prime as u64) as u32;
+        *value = modulus.reduce_u64(*value as u64 * factor as u64);
     });
 }
 
-fn subtract_multiple(target: &mut [u32], source: &[u32], factor: u32, prime: u32) {
+fn subtract_multiple(target: &mut [u32], source: &[u32], factor: u32, modulus: Modulus) {
     debug_assert_eq!(target.len(), source.len());
     target.iter_mut().zip(source).for_each(|(left, &right)| {
-        let product = (right as u64 * factor as u64) % prime as u64;
-        *left = ((*left as u64 + prime as u64 - product) % prime as u64) as u32;
+        let product = modulus.reduce_u64(right as u64 * factor as u64);
+        *left = if *left >= product {
+            *left - product
+        } else {
+            *left + modulus.value - product
+        };
     });
 }
 
@@ -160,6 +198,7 @@ pub struct ReducerMetrics {
 pub struct DenseEchelon {
     rows: usize,
     prime: u32,
+    modulus: Modulus,
     block_size: usize,
     basis: Vec<u32>,
     pivot_rows: Vec<usize>,
@@ -182,6 +221,7 @@ impl DenseEchelon {
         Ok(Self {
             rows,
             prime,
+            modulus: Modulus::new(prime),
             block_size,
             basis: Vec::new(),
             pivot_rows: Vec::new(),
@@ -259,14 +299,14 @@ impl DenseEchelon {
             self.metrics.gemm_scalar_products_numerator +=
                 self.rows as u128 * count as u128 * columns as u128;
             let reduce_at = Instant::now();
-            let p = self.prime as i64;
+            let modulus = self.modulus;
             matrix
                 .par_iter_mut()
                 .zip(dense.par_iter())
                 .for_each(|(output, &value)| {
                     let integer = value as i64;
                     debug_assert_eq!(integer as f64, value);
-                    *output = integer.rem_euclid(p) as u32;
+                    *output = modulus.reduce_i64(integer);
                 });
             self.metrics.modular_reduce_seconds += reduce_at.elapsed().as_secs_f64();
         }
@@ -295,20 +335,20 @@ impl DenseEchelon {
                 continue;
             };
             let inverse = mod_inverse(matrix[range.start + pivot], self.prime);
-            scale_mod(&mut matrix[range.clone()], inverse, self.prime);
+            scale_mod(&mut matrix[range.clone()], inverse, self.modulus);
             let vector = matrix[range.clone()].to_vec();
 
             let block_start = self.rank() / self.block_size * self.block_size;
             let prior_in_block = self.rank() - block_start;
             if prior_in_block > 0 {
-                let prime = self.prime;
+                let modulus = self.modulus;
                 let rows = self.rows;
                 self.basis[block_start * rows..]
                     .par_chunks_mut(rows)
                     .for_each(|basis_column| {
                         let factor = basis_column[pivot];
                         if factor != 0 {
-                            subtract_multiple(basis_column, &vector, factor, prime);
+                            subtract_multiple(basis_column, &vector, factor, modulus);
                         }
                     });
                 self.metrics.basis_maintenance_scalar_products_numerator +=
@@ -321,14 +361,14 @@ impl DenseEchelon {
             self.occupied[pivot] = true;
 
             if column + 1 < columns {
-                let prime = self.prime;
+                let modulus = self.modulus;
                 let rows = self.rows;
                 matrix[(column + 1) * rows..]
                     .par_chunks_mut(rows)
                     .for_each(|later| {
                         let factor = later[pivot];
                         if factor != 0 {
-                            subtract_multiple(later, &vector, factor, prime);
+                            subtract_multiple(later, &vector, factor, modulus);
                         }
                     });
                 self.metrics.basis_maintenance_scalar_products_numerator +=
@@ -361,6 +401,7 @@ mod tests {
     use super::*;
 
     fn scalar_rank(mut columns: Vec<Vec<u32>>, rows: usize, prime: u32) -> usize {
+        let modulus = Modulus::new(prime);
         let mut pivots = vec![false; rows];
         let mut basis: Vec<Vec<u32>> = Vec::new();
         let mut pivot_rows = Vec::new();
@@ -368,12 +409,12 @@ mod tests {
             for (known, &pivot) in basis.iter().zip(&pivot_rows) {
                 let factor = vector[pivot];
                 if factor != 0 {
-                    subtract_multiple(vector, known, factor, prime);
+                    subtract_multiple(vector, known, factor, modulus);
                 }
             }
             if let Some(pivot) = (0..rows).find(|&row| !pivots[row] && vector[row] != 0) {
                 let inverse = mod_inverse(vector[pivot], prime);
-                scale_mod(vector, inverse, prime);
+                scale_mod(vector, inverse, modulus);
                 pivots[pivot] = true;
                 pivot_rows.push(pivot);
                 basis.push(vector.clone());
@@ -439,5 +480,27 @@ mod tests {
     fn rejects_unsafe_binary64_block() {
         assert!(DenseEchelon::new(10, 1_000_033, 10_000).is_err());
         assert!(DenseEchelon::new(10, 1_000_033, 4_096).is_ok());
+    }
+
+    #[test]
+    fn barrett_reduction_matches_division() {
+        for prime in [101u32, 1_000_003, 1_000_033] {
+            let modulus = Modulus::new(prime);
+            for value in [
+                0u64,
+                1,
+                prime as u64 - 1,
+                prime as u64,
+                prime as u64 * prime as u64,
+                (1u64 << 53) - 1,
+            ] {
+                assert_eq!(modulus.reduce_u64(value), (value % prime as u64) as u32);
+                let signed = -(value as i64);
+                assert_eq!(
+                    modulus.reduce_i64(signed),
+                    signed.rem_euclid(prime as i64) as u32
+                );
+            }
+        }
     }
 }
