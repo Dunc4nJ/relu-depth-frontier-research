@@ -1,0 +1,29 @@
+{
+  "controls": {
+    "exact_simple_w_column_denominator": 7203,
+    "exact_simple_w_columns_equal": 7203,
+    "one_unit_coefficient_mutation_denominator": 7203,
+    "one_unit_coefficient_mutations_rejected": 7203,
+    "simple_w_canonical_key_sets_equal": true
+  },
+  "denominators": {
+    "saved_collapsed_duplicates": 5045,
+    "saved_raw_templates": 12248,
+    "saved_unique_w": 7203,
+    "simple_w_records": 7203,
+    "universe_records": 17775
+  },
+  "exact_columns": "artifacts/math/multiedge-w-n9-n10/columns_n10_k4_exact.bin",
+  "exact_columns_sha256": "a0f0deb8028210c99c51540de33a7ab3ddf3077984c6f2ad1a3692a6d8045ff7",
+  "n": 10,
+  "no_claim": "This exact bridge validates the finite simple-W subset only. It does not validate a rank, an exact-Q MAX identity, or any n=11 statement.",
+  "result": "PASS",
+  "saved_system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+  "saved_system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+  "schema": "max11-gmp9-simple-column-bridge-v1",
+  "strata_key_source": "artifacts/math/strata-span-n9-n10/strata_span.py",
+  "strata_key_source_sha256": "e802558513656ca45fea9683451bcfe13dd002c4ca57bf008ba5a54296cdaf8a",
+  "universe": "artifacts/math/multiedge-w-n9-n10/universe_n10_k4.json.gz",
+  "universe_sha256": "3e45f84d8413bdf97f3297d4410b0fa19c597a5520814458bebdc79c5ae2eb76",
+  "wall_seconds": 244.39445659518242
+}

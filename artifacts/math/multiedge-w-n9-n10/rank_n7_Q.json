@@ -1,0 +1,81 @@
+{
+  "branch_edge_occurrences": 4,
+  "common_rref_denominator": "120960",
+  "controls": {
+    "duplicate_pivot_rejected": true,
+    "duplicate_rank_growth": 0,
+    "duplicate_source_record_index": 1,
+    "exact_rank_with_duplicate": 553,
+    "exact_rank_without_duplicate": 553,
+    "target_pivot_rejected": true
+  },
+  "exact_columns": "artifacts/math/multiedge-w-n9-n10/columns_n7_k4_exact.bin",
+  "exact_columns_sha256": "ed94dff8c66bcef0c64cfc9c0b160694963b5c29bcda1a8f18a44c13bfbda281",
+  "field": "Q",
+  "hinge_nonzero_occurrence_denominator": 1162850,
+  "hinge_row_denominator": 924,
+  "linear_row_denominator": 7,
+  "max_multiplicity_counts": {
+    "0": 1,
+    "1": 2033,
+    "2": 5118,
+    "3": 1014,
+    "4": 116
+  },
+  "maximum_hinges_in_one_column": 350,
+  "n": 7,
+  "no_claim": "This is an exact-Q rank computation only for the finite loopless degree-four signed-W universe at the named n. It says nothing at n=11.",
+  "normal_form_row_denominator": 931,
+  "rank_table": [
+    {
+      "added_stratum_count": 2034,
+      "augmented_rank": 296,
+      "cumulative_column_count": 2034,
+      "max_member": true,
+      "maximum_multiplicity_leq": 1,
+      "rank": 296,
+      "rank_growth": 296
+    },
+    {
+      "added_stratum_count": 5118,
+      "augmented_rank": 512,
+      "cumulative_column_count": 7152,
+      "max_member": true,
+      "maximum_multiplicity_leq": 2,
+      "rank": 512,
+      "rank_growth": 216
+    },
+    {
+      "added_stratum_count": 1014,
+      "augmented_rank": 553,
+      "cumulative_column_count": 8166,
+      "max_member": true,
+      "maximum_multiplicity_leq": 3,
+      "rank": 553,
+      "rank_growth": 41
+    },
+    {
+      "added_stratum_count": 116,
+      "augmented_rank": 553,
+      "cumulative_column_count": 8282,
+      "max_member": true,
+      "maximum_multiplicity_leq": 4,
+      "rank": 553,
+      "rank_growth": 0
+    }
+  ],
+  "result": "PASS",
+  "schema": "max11-gmp9-multiedge-exact-q-rank-v1",
+  "timing_seconds": {
+    "matrix_build": 1.5330984350293875,
+    "rref": 29.719368435442448,
+    "total": 32.45175067149103
+  },
+  "toolchain": {
+    "python": "3.13.7 (main, Mar  3 2026, 12:19:54) [GCC 15.2.0]",
+    "python_flint": "0.9.0"
+  },
+  "universe": "artifacts/math/multiedge-w-n9-n10/universe_n7_k4.json.gz",
+  "universe_column_denominator": 8282,
+  "universe_sha256": "d1c6c77a355bc6a2e64fa5633029624d754bd712b9fd935406b14739a48a7ac2"
+}

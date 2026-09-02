@@ -1,0 +1,86 @@
+{
+  "branch_edge_occurrences": 4,
+  "controls": {
+    "duplicate_pivot_rejected": true,
+    "duplicate_rank_growth": 0,
+    "duplicate_source_matrix_position": 1,
+    "duplicate_source_record_index": 1,
+    "known_simple_w_augmented_rank": 2166,
+    "known_simple_w_count": 7203,
+    "known_simple_w_max_member": true,
+    "known_simple_w_rank": 2166,
+    "rref_rank_with_duplicate": 3108,
+    "rref_rank_without_duplicate": 3108,
+    "target_pivot_rejected": true
+  },
+  "exact_columns": "artifacts/math/multiedge-w-n9-n10/columns_n10_k4_exact.bin",
+  "exact_columns_sha256": "a0f0deb8028210c99c51540de33a7ab3ddf3077984c6f2ad1a3692a6d8045ff7",
+  "hinge_nonzero_occurrence_denominator": 68827430,
+  "hinge_row_denominator": 20685,
+  "linear_row_denominator": 10,
+  "max_multiplicity_counts": {
+    "0": 1,
+    "1": 7202,
+    "2": 9162,
+    "3": 1283,
+    "4": 127
+  },
+  "maximum_hinges_in_one_column": 12791,
+  "n": 10,
+  "no_claim": "These are exact ranks over one named finite field for the complete finite loopless degree-four signed-W universe at the named n. They do not establish an exact-Q identity, anything at n=11, or an unrestricted depth theorem.",
+  "normal_form_row_denominator": 20695,
+  "prime": 1000033,
+  "rank_table": [
+    {
+      "added_stratum_count": 7203,
+      "augmented_rank": 2166,
+      "cumulative_column_count": 7203,
+      "max_member": true,
+      "maximum_multiplicity_leq": 1,
+      "rank": 2166,
+      "rank_growth": 2166
+    },
+    {
+      "added_stratum_count": 9162,
+      "augmented_rank": 3013,
+      "cumulative_column_count": 16365,
+      "max_member": true,
+      "maximum_multiplicity_leq": 2,
+      "rank": 3013,
+      "rank_growth": 847
+    },
+    {
+      "added_stratum_count": 1283,
+      "augmented_rank": 3108,
+      "cumulative_column_count": 17648,
+      "max_member": true,
+      "maximum_multiplicity_leq": 3,
+      "rank": 3108,
+      "rank_growth": 95
+    },
+    {
+      "added_stratum_count": 127,
+      "augmented_rank": 3108,
+      "cumulative_column_count": 17775,
+      "max_member": true,
+      "maximum_multiplicity_leq": 4,
+      "rank": 3108,
+      "rank_growth": 0
+    }
+  ],
+  "result": "PASS",
+  "schema": "max11-gmp9-multiedge-rank-v1",
+  "timing_seconds": {
+    "matrix_build": 176.67592584341764,
+    "row_union": 99.38047190755606,
+    "rref": 504.99716169573367,
+    "total": 785.9437567852437
+  },
+  "toolchain": {
+    "python": "3.13.7 (main, Mar  3 2026, 12:19:54) [GCC 15.2.0]",
+    "python_flint": "0.9.0"
+  },
+  "universe": "artifacts/math/multiedge-w-n9-n10/universe_n10_k4.json.gz",
+  "universe_column_denominator": 17775,
+  "universe_sha256": "3e45f84d8413bdf97f3297d4410b0fa19c597a5520814458bebdc79c5ae2eb76"
+}

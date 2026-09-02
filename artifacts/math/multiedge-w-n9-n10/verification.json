@@ -1,0 +1,68 @@
+{
+  "controls": {
+    "planted_rank_table_mutation_rejected": true,
+    "planted_universe_mutation_rejected": true,
+    "positive_bundle_accepted": true
+  },
+  "cross_prime_rank_tables_equal": true,
+  "enumeration_replayed": true,
+  "exact_q_arities": [
+    7,
+    8
+  ],
+  "modular_primes": [
+    1000003,
+    1000033
+  ],
+  "no_claim": "This verifier checks the finite n=7..10 outputs only. It does not rerun dense ranks, prove an exact-Q identity at n=9 or n=10, or decide n=11.",
+  "require_transient_columns": true,
+  "result": "PASS",
+  "schema": "max11-gmp9-output-verification-v1",
+  "universe_checks": {
+    "7": {
+      "canonical_keys": 8282,
+      "multiplicity": {
+        "0": 1,
+        "1": 2033,
+        "2": 5118,
+        "3": 1014,
+        "4": 116
+      },
+      "records": 8282
+    },
+    "8": {
+      "canonical_keys": 13146,
+      "multiplicity": {
+        "0": 1,
+        "1": 4314,
+        "2": 7506,
+        "3": 1201,
+        "4": 124
+      },
+      "records": 13146
+    },
+    "9": {
+      "canonical_keys": 16311,
+      "multiplicity": {
+        "0": 1,
+        "1": 6196,
+        "2": 8723,
+        "3": 1265,
+        "4": 126
+      },
+      "records": 16311
+    },
+    "10": {
+      "canonical_keys": 17775,
+      "multiplicity": {
+        "0": 1,
+        "1": 7202,
+        "2": 9162,
+        "3": 1283,
+        "4": 127
+      },
+      "records": 17775
+    }
+  },
+  "wall_seconds": 35.80898097716272
+}

@@ -1,0 +1,25 @@
+GMP9 n=8 k=4 s=1 r=2 abs=1 traversal=0 burnside=0
+GMP9 n=8 k=4 s=1 r=3 abs=1 traversal=1 burnside=1
+GMP9 n=8 k=4 s=1 r=4 abs=1 traversal=1 burnside=1
+GMP9 n=8 k=4 s=2 r=2 abs=1 traversal=0 burnside=0
+GMP9 n=8 k=4 s=2 r=3 abs=3 traversal=2 burnside=2
+GMP9 n=8 k=4 s=2 r=4 abs=7 traversal=8 burnside=8
+GMP9 n=8 k=4 s=2 r=5 abs=6 traversal=9 burnside=9
+GMP9 n=8 k=4 s=2 r=6 abs=4 traversal=6 burnside=6
+GMP9 n=8 k=4 s=2 r=7 abs=1 traversal=2 burnside=2
+GMP9 n=8 k=4 s=2 r=8 abs=1 traversal=1 burnside=1
+GMP9 n=8 k=4 s=3 r=2 abs=1 traversal=0 burnside=0
+GMP9 n=8 k=4 s=3 r=3 abs=6 traversal=2 burnside=2
+GMP9 n=8 k=4 s=3 r=4 abs=25 traversal=25 burnside=25
+GMP9 n=8 k=4 s=3 r=5 abs=44 traversal=96 burnside=96
+GMP9 n=8 k=4 s=3 r=6 abs=56 traversal=163 burnside=163
+GMP9 n=8 k=4 s=3 r=7 abs=41 traversal=140 burnside=140
+GMP9 n=8 k=4 s=3 r=8 abs=24 traversal=77 burnside=77
+GMP9 n=8 k=4 s=4 r=2 abs=1 traversal=0 burnside=0
+GMP9 n=8 k=4 s=4 r=3 abs=9 traversal=3 burnside=3
+GMP9 n=8 k=4 s=4 r=4 abs=65 traversal=74 burnside=74
+GMP9 n=8 k=4 s=4 r=5 abs=216 traversal=658 burnside=658
+GMP9 n=8 k=4 s=4 r=6 abs=450 traversal=2502 burnside=2502
+GMP9 n=8 k=4 s=4 r=7 abs=562 traversal=4589 burnside=4589
+GMP9 n=8 k=4 s=4 r=8 abs=503 traversal=4786 burnside=4786
+WROTE artifacts/math/multiedge-w-n9-n10/universe_n8_k4.json.gz raw_bytes=2333571 compressed_bytes=76168 sha256=9a4c698f69560d761ea1458b278a3bf8b5b1e7446faabb2dd0ad0917e9323a98

@@ -1,0 +1,30 @@
+{
+  "schema": "max11-colgen-template-validation-v1",
+  "result": "PASS",
+  "command": [
+    "tools/colgen/target/release/max11-colgen",
+    "validate-templates",
+    "--input",
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+    "--n",
+    "9",
+    "--branch-edges",
+    "4",
+    "--threads",
+    "6",
+    "--output",
+    "artifacts/math/multiedge-w-n9-n10/colgen_validate_n9.json"
+  ],
+  "input": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+  "input_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+  "n": 9,
+  "branch_edge_occurrences": 4,
+  "templates_checked": 10976,
+  "exact_sparse_matches": 10976,
+  "literal_permutation_matches": 0,
+  "literal_permutations_per_template": null,
+  "threads": 6,
+  "wall_seconds": 23.1600489,
+  "convention_map": "W=B-A. Python's lexicographically smaller back-degree word is the fixed symmetrized A-branch base plus w on exactly the permutations whose first nonzero w entry is negative; ReLU(-z)=ReLU(z)-z. Primitive retained hinge directions and gcd multiplicities are then identical.",
+  "no_claim": "Exact column agreement for this finite template file only; no MAX11 membership, rational identity, ansatz completeness, or unrestricted two-hidden-layer result."
+}
