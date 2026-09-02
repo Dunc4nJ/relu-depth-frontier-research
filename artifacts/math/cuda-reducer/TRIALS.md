@@ -42,6 +42,13 @@ tools/streamrank/target/release/max11-streamrank run-universe \
   (2 systems x 2 sketches x 2 primes) equal the CPU reference hashes. The
   production-shaped command then completed 5,000 / 5,000 source columns and
   produced `n11-random5000-m96000-p1000003-cuda-b8192.json`.
+- The first corrected GPU Stage A attempt was attached directly to SSH. The
+  transport exited 255 after checkpoint 54,272 / 120,947 order records, rank
+  8,326, elapsed 894.960 s. A later process check found no streamrank process
+  and no JSON report. This is an infrastructure abort, not a rank result. The
+  identical command was relaunched under `nohup` as remote PID 6570 with a
+  durable `.log`; its final requested denominator remains 120,948 columns
+  after the appended 5L carrier.
 
 No-claim: failures and passes here concern only the named finite modular
 sketches and CUDA implementation. They do not establish exact rational
