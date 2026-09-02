@@ -1,0 +1,210 @@
+{
+  "certificate_denominator": 6,
+  "certificate_directory": "literature/repos/max-relu-certificates/certificates",
+  "controls": {
+    "certificate_positive_control_denominator": 6,
+    "certificate_positive_controls_passed": 6,
+    "destructive_cover_mutation_denominator": 6,
+    "destructive_cover_mutations_rejected": 6,
+    "empty_cover_null_denominator": 6,
+    "empty_cover_nulls_rejected": 6,
+    "n11_balanced_partition_known_answer": true
+  },
+  "n11_pair_3cover": {
+    "mantel_formula": "C(11,2)-floor(11^2/4)=55-30=25",
+    "minimum_pair_3cover_size": 25,
+    "triple_denominator": 165
+  },
+  "no_claim": "This checks a support property of six explicit fully symmetrized certificate constructions. It does not prove the certificates' functional identities, a necessary condition for arbitrary networks, or a depth lower bound.",
+  "records": [
+    {
+      "controls": {
+        "balanced_partition_cover_pass": true,
+        "balanced_partition_cover_size": 4,
+        "destructive_mutation_missing_triples": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "empty_supports_missed_triples": 10,
+        "removed_target_triple_pairs": 3
+      },
+      "distinct_pair_supports_after_symmetrization": 10,
+      "literal_symmetrized_nonloop_neuron_occurrences": 1080,
+      "loop_occurrences_per_unsymmetrized_terms": 3,
+      "minimum_pair_3cover_size": 4,
+      "n": 5,
+      "nonloop_pair_occurrences_per_unsymmetrized_terms": 9,
+      "nonzero_terms": 3,
+      "path": "literature/repos/max-relu-certificates/certificates/certificate_5_2.json",
+      "seed_distinct_nonloop_pair_supports": 7,
+      "sha256": "698f70d87ec6b2ef07cd1d0287447dd2361f4b6d0d98571cc7485182b194e694",
+      "support_sizes_after_symmetrization": [
+        2
+      ],
+      "terms": 3,
+      "triple_denominator": 10,
+      "triples_covered": 10
+    },
+    {
+      "controls": {
+        "balanced_partition_cover_pass": true,
+        "balanced_partition_cover_size": 6,
+        "destructive_mutation_missing_triples": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "empty_supports_missed_triples": 20,
+        "removed_target_triple_pairs": 3
+      },
+      "distinct_pair_supports_after_symmetrization": 15,
+      "literal_symmetrized_nonloop_neuron_occurrences": 11520,
+      "loop_occurrences_per_unsymmetrized_terms": 0,
+      "minimum_pair_3cover_size": 6,
+      "n": 6,
+      "nonloop_pair_occurrences_per_unsymmetrized_terms": 16,
+      "nonzero_terms": 4,
+      "path": "literature/repos/max-relu-certificates/certificates/certificate_6_2.json",
+      "seed_distinct_nonloop_pair_supports": 7,
+      "sha256": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+      "support_sizes_after_symmetrization": [
+        2
+      ],
+      "terms": 4,
+      "triple_denominator": 20,
+      "triples_covered": 20
+    },
+    {
+      "controls": {
+        "balanced_partition_cover_pass": true,
+        "balanced_partition_cover_size": 9,
+        "destructive_mutation_missing_triples": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "empty_supports_missed_triples": 35,
+        "removed_target_triple_pairs": 3
+      },
+      "distinct_pair_supports_after_symmetrization": 21,
+      "literal_symmetrized_nonloop_neuron_occurrences": 1139040,
+      "loop_occurrences_per_unsymmetrized_terms": 116,
+      "minimum_pair_3cover_size": 9,
+      "n": 7,
+      "nonloop_pair_occurrences_per_unsymmetrized_terms": 226,
+      "nonzero_terms": 57,
+      "path": "literature/repos/max-relu-certificates/certificates/certificate_7_3.json",
+      "seed_distinct_nonloop_pair_supports": 17,
+      "sha256": "b79aaaf423187cf5aaa51c9272799bf36198759dd018a1a286716cce7b1b53be",
+      "support_sizes_after_symmetrization": [
+        2
+      ],
+      "terms": 57,
+      "triple_denominator": 35,
+      "triples_covered": 35
+    },
+    {
+      "controls": {
+        "balanced_partition_cover_pass": true,
+        "balanced_partition_cover_size": 12,
+        "destructive_mutation_missing_triples": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "empty_supports_missed_triples": 56,
+        "removed_target_triple_pairs": 3
+      },
+      "distinct_pair_supports_after_symmetrization": 28,
+      "literal_symmetrized_nonloop_neuron_occurrences": 12781440,
+      "loop_occurrences_per_unsymmetrized_terms": 97,
+      "minimum_pair_3cover_size": 12,
+      "n": 8,
+      "nonloop_pair_occurrences_per_unsymmetrized_terms": 317,
+      "nonzero_terms": 69,
+      "path": "literature/repos/max-relu-certificates/certificates/certificate_8_3.json",
+      "seed_distinct_nonloop_pair_supports": 22,
+      "sha256": "68b2a2698ab13a85164a8a0c5635649a92c5c1059c6c058115ebe3af2f0171c3",
+      "support_sizes_after_symmetrization": [
+        2
+      ],
+      "terms": 69,
+      "triple_denominator": 56,
+      "triples_covered": 56
+    },
+    {
+      "controls": {
+        "balanced_partition_cover_pass": true,
+        "balanced_partition_cover_size": 16,
+        "destructive_mutation_missing_triples": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "empty_supports_missed_triples": 84,
+        "removed_target_triple_pairs": 3
+      },
+      "distinct_pair_supports_after_symmetrization": 36,
+      "literal_symmetrized_nonloop_neuron_occurrences": 978324480,
+      "loop_occurrences_per_unsymmetrized_terms": 0,
+      "minimum_pair_3cover_size": 16,
+      "n": 9,
+      "nonloop_pair_occurrences_per_unsymmetrized_terms": 2696,
+      "nonzero_terms": 337,
+      "path": "literature/repos/max-relu-certificates/certificates/certificate_9_4.json",
+      "seed_distinct_nonloop_pair_supports": 36,
+      "sha256": "4eb96684d0ce02d324f2fa0f7f95adf5dbc8fb99d3e3e9362cb435b9b3c22d88",
+      "support_sizes_after_symmetrization": [
+        2
+      ],
+      "terms": 337,
+      "triple_denominator": 84,
+      "triples_covered": 84
+    },
+    {
+      "controls": {
+        "balanced_partition_cover_pass": true,
+        "balanced_partition_cover_size": 20,
+        "destructive_mutation_missing_triples": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "empty_supports_missed_triples": 120,
+        "removed_target_triple_pairs": 3
+      },
+      "distinct_pair_supports_after_symmetrization": 45,
+      "literal_symmetrized_nonloop_neuron_occurrences": 11670220800,
+      "loop_occurrences_per_unsymmetrized_terms": 0,
+      "minimum_pair_3cover_size": 20,
+      "n": 10,
+      "nonloop_pair_occurrences_per_unsymmetrized_terms": 3216,
+      "nonzero_terms": 402,
+      "path": "literature/repos/max-relu-certificates/certificates/certificate_10_4.json",
+      "seed_distinct_nonloop_pair_supports": 43,
+      "sha256": "10f38b27fa555866eda7c3ee10d5da51f3cd1db810a74860d6ab8ef8a30982e4",
+      "support_sizes_after_symmetrization": [
+        2
+      ],
+      "terms": 402,
+      "triple_denominator": 120,
+      "triples_covered": 120
+    }
+  ],
+  "result": "PASS",
+  "schema": "max11-gmp6-certificate-3cover-audit-v1",
+  "wall_seconds": 0.019330527633428574
+}
