@@ -301,7 +301,7 @@ impl Config {
             "backend must be cpu or cuda"
         );
         let threads = args.usize("--threads")?;
-        let thread_limit = if backend == "cuda" { 24 } else { 6 };
+        let thread_limit = if backend == "cuda" { 60 } else { 6 };
         ensure!(
             (1..=thread_limit).contains(&threads),
             "threads must lie in 1..={thread_limit} for backend {backend}"

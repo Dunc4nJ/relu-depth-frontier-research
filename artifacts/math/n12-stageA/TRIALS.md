@@ -43,7 +43,7 @@ final known-answer suite passed.
   `controls/attempt-04-aborted/`; they are historical and not substituted into
   the final suite.
 
-## Final known-answer suite
+## Version 1 known-answer suite (superseded)
 
 Attempt 5 began at 2026-09-02T21:21:06Z using CPU 6/64 threads, CUDA 24/64
 threads, `OPENBLAS_CORETYPE=HASWELL`, and one CUDA-feature binary with SHA-256
@@ -64,6 +64,31 @@ report:
   nonzero and wrote `CONTROL_FAIL`; it was rejected 1/1.
 - The independent local verifier result was
   `EXP0037_CONTROLS_PASS reports=8/8 pivots=8/8 planted_mutant=1/1`.
+
+AmberBluff subsequently authorized increasing the CUDA-only thread limit from
+24/64 to 60/64. Because that changes the subject binary, this suite is retained
+under `controls-v1-threads24/` but is not used to gate the restarted arms.
+
+## Subject attempt 1 (aborted at orchestrator steer)
+
+Two p=1,000,003 arms were live concurrently when the thread-limit steer
+arrived. Both used the version 1 binary above and 24/64 column-generation
+threads. They were terminated with SIGTERM, exited 143, wrote no observation
+JSON, and therefore produced no complete rank or membership verdict.
+
+- Seed 2,026,090,201 reached the 10,240/148,628 order-file checkpoint, rank
+  5,418/128,000 sketch rows, after 1,350.443 seconds. Telemetry contains 97/97
+  samples, with maxima 42,379/95,830 MiB aggregate GPU memory and
+  9,360,416/230,686,720 KiB process RSS.
+- Seed 2,026,090,202 reached the 8,192/148,628 order-file checkpoint, rank
+  4,828/128,000 sketch rows, after 1,053.101 seconds. Telemetry contains 78/78
+  samples, with maxima 42,379/95,830 MiB aggregate GPU memory and
+  8,210,732/230,686,720 KiB process RSS.
+
+The complete logs and telemetry are preserved under
+`attempt-01-aborted-threads24/`. These checkpoint ranks are intermediate
+diagnostics, not results on the full 148,629/148,629 source-column denominator
+(148,628 ordered universe records plus 1/1 five-linear carrier).
 
 ## No claim
 

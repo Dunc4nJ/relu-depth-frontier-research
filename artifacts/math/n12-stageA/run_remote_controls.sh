@@ -34,7 +34,7 @@ printf '%s  %s\n' \
   | sha256sum -c -
 
 printf '%s  %s\n' \
-  c40f96776f86f4a18949914204a37392453f12ea3b1a5a6138853ee767ea7603 tools/streamrank/src/main.rs \
+  67e2b19731bebc6ec506d3830eb2e85d2d9268b1a14688d99a9c9d075b6b1448 tools/streamrank/src/main.rs \
   7d0139fa7c1b6c26c65884b27f3687e0242a08f39ce3d154767b266e47c3d387 tools/streamrank/src/lib.rs \
   3bcea1727b56d0ca4ad502bf9f40af90204044f42a48dbd0f5c3d42651b3a6b6 tools/streamrank/src/cuda.rs \
   22a311c57bc6fb59acce18011fcb104e4a793c05f490b7967c199fa43ce80341 tools/streamrank/src/cuda_backend.cu \
@@ -54,7 +54,7 @@ run_control() {
   local prime="$3"
   local output="$out_dir/${backend}-${system}-p${prime}.json"
   local input n filter buckets columns rank aug verdict batch threads
-  threads=24
+  threads=60
   if [[ "$backend" == cpu ]]; then
     threads=6
   fi
@@ -94,7 +94,7 @@ set +e
   --backend cuda --input "$n9" --n 9 --branch-edges 4 \
   --filter union-trees --modulus 1000003 --buckets 1080 \
   --seeds 2026090201 --batch-size 256 --gemm-block 1024 \
-  --rank-panel 64 --threads 24 --expected-columns 739 \
+  --rank-panel 64 --threads 60 --expected-columns 739 \
   --expected-rank 359 --expected-aug-rank 361 \
   --expected-verdict NON_MEMBER --output "$mutant" \
   >"$mutant.stdout.log" 2>"$mutant.stderr.log"
