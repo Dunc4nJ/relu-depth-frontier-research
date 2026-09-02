@@ -214,9 +214,13 @@ impl State {
                     as u128;
         }
         self.sketch_seconds += sketched_at.elapsed().as_secs_f64();
-        let reduced_at = Instant::now();
         let indices: Vec<u64> = columns.iter().map(|(index, _)| *index).collect();
-        self.basis.process_batch(&mut matrix, &indices)?;
+        self.process_sketched(&mut matrix, &indices)
+    }
+
+    fn process_sketched(&mut self, matrix: &mut [u32], indices: &[u64]) -> Result<()> {
+        let reduced_at = Instant::now();
+        self.basis.process_batch(matrix, indices)?;
         self.reducer_seconds += reduced_at.elapsed().as_secs_f64();
         self.max_basis_storage_bytes = self.max_basis_storage_bytes.max(self.basis.storage_bytes());
         Ok(())
@@ -574,24 +578,52 @@ fn command_universe(args: &Args) -> Result<()> {
     let mut exact_nnz = 0u128;
     for batch_start in (start..stop).step_by(config.batch_size) {
         let batch_stop = (batch_start + config.batch_size).min(stop);
-        let generated: Vec<Result<(u64, SparseColumn)>> = universe.records[batch_start..batch_stop]
-            .par_iter()
-            .enumerate()
-            .map(|(offset, record)| {
-                Ok((
-                    (batch_start + offset) as u64,
-                    generate_column(record, config.n, config.branch_edges)?,
-                ))
-            })
-            .collect();
-        let batch: Vec<(u64, SparseColumn)> = generated.into_iter().collect::<Result<_>>()?;
-        exact_nnz += batch
+        let columns = batch_stop - batch_start;
+        let indices: Vec<u64> = (batch_start as u64..batch_stop as u64).collect();
+        let mut matrices: Vec<Vec<u32>> = states
             .iter()
-            .map(|(_, column)| {
-                column.linear.iter().filter(|&&value| value != 0).count() + column.hinges.len()
-            })
-            .sum::<usize>() as u128;
-        process_batch(&mut states, &batch, config.prime)?;
+            .map(|state| vec![0u32; state.spec.buckets * columns])
+            .collect();
+        let generation_chunk = config.threads * 2;
+        for chunk_start in (batch_start..batch_stop).step_by(generation_chunk) {
+            let chunk_stop = (chunk_start + generation_chunk).min(batch_stop);
+            let generated: Vec<Result<(usize, SparseColumn)>> = universe.records
+                [chunk_start..chunk_stop]
+                .par_iter()
+                .enumerate()
+                .map(|(offset, record)| {
+                    Ok((
+                        chunk_start + offset - batch_start,
+                        generate_column(record, config.n, config.branch_edges)?,
+                    ))
+                })
+                .collect();
+            let generated: Vec<(usize, SparseColumn)> =
+                generated.into_iter().collect::<Result<_>>()?;
+            let visited = generated
+                .iter()
+                .map(|(_, column)| {
+                    column.linear.iter().filter(|&&value| value != 0).count() + column.hinges.len()
+                })
+                .sum::<usize>() as u128;
+            exact_nnz += visited;
+            for (state_index, state) in states.iter_mut().enumerate() {
+                let sketched_at = Instant::now();
+                for (position, column) in &generated {
+                    let row_start = position * state.spec.buckets;
+                    state.spec.sketch_column(
+                        column,
+                        config.prime,
+                        &mut matrices[state_index][row_start..row_start + state.spec.buckets],
+                    );
+                }
+                state.sketch_seconds += sketched_at.elapsed().as_secs_f64();
+                state.real_entry_visits_numerator += visited;
+            }
+        }
+        for (state, matrix) in states.iter_mut().zip(&mut matrices) {
+            state.process_sketched(matrix, &indices)?;
+        }
         eprintln!(
             "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3}",
             batch_stop - start,
