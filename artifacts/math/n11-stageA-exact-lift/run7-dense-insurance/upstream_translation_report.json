@@ -1,0 +1,12 @@
+{
+  "no_claim": "Format translation is not an independent verification of the identity.",
+  "output": "artifacts/math/n11-stageA-exact-lift/run7-dense-insurance/member_upstream.json",
+  "output_sha256": "8bd2270a801f6af679ccbf00aa7357f4e89ebb069d1211671082f3f5f07d25c5",
+  "support_terms_numerator": 15896,
+  "universe": "artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz",
+  "universe_sha256": "8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8",
+  "verdict": "PASS",
+  "witness": "artifacts/math/n11-stageA-exact-lift/run7-dense-insurance/member_exact_witness.json",
+  "witness_entries_denominator": 15896,
+  "witness_sha256": "14ff53ee831a6bc2f5f2aa3a45420376f6676e30f1ca1f90253d26a6f386a238"
+}
