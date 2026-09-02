@@ -1,0 +1,18 @@
+{
+  "candidate": "artifacts/math/exact-lift-35k/n10_large_upstream.json",
+  "candidate_sha256": "4bcb155a416188d479f20a2009f077003e828f1f09d65476117523a3bb6644e9",
+  "checks": {
+    "candidate_is_verified_certificate": true,
+    "report_certificate_hash_matches": true,
+    "report_verdict_pass": true,
+    "report_verifier_hash_matches": true
+  },
+  "method": "byte identity to a hash-bound completed upstream verification",
+  "verdict": "PASS",
+  "verification_report": "artifacts/math/exact-witness-n9-n10/recovered_n10_upstream_parallel_verify.json",
+  "verification_report_sha256": "31de498d2435f1676b1855b94c2ae26059026fe1e3950678a7396d656a86ef70",
+  "verified_certificate": "artifacts/math/exact-witness-n9-n10/recovered_n10_upstream.json",
+  "verified_certificate_sha256": "4bcb155a416188d479f20a2009f077003e828f1f09d65476117523a3bb6644e9",
+  "verifier": "literature/repos/max-relu-certificates/verify_certificate.py",
+  "verifier_sha256": "d6da3030b719735b10a197dc79d7e311ecc90f70314ed748de81087f94f039a7"
+}
