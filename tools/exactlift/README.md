@@ -26,3 +26,9 @@ n=10 checks. It never reads the saved system or imports `exactlift.py`; its six
 workers import the hash-recorded pinned upstream verifier and call that file's
 `read_pair` and `symmetrized_pair` functions unchanged. Only the outer term loop
 is distributed.
+
+`scale_benchmark.py` is an explicitly synthetic sparse-block exact-solve
+control. It plants a denominator-30 rational solution in a full-rank integer
+system, solves every block with FLINT Dixon arithmetic, checks every row, and
+rejects a `1/30` solution mutation. Its linear scaling is evidence only for the
+sparse block fallback, never for a dense n=11 pivot minor.

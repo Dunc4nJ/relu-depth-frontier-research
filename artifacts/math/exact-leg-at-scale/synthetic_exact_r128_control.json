@@ -1,0 +1,25 @@
+{
+  "block_size": 32,
+  "blocks": 4,
+  "honest_boundary": "not a dense MAX11 pivot minor and not evidence of n=11 membership",
+  "matrix_entries": 16384,
+  "matrix_nonzeros": 376,
+  "max_rss_kib": 121288,
+  "mutant_delta": "1/30 at coordinate 0",
+  "mutant_nonzero_rows_in_first_block": 2,
+  "planted_solution_denominator": 30,
+  "projection": {
+    "model": "linear in rank at fixed block size; synthetic structure only",
+    "rank_35000_rss_kib": 121288,
+    "rank_35000_seconds": 4.835617874050513,
+    "rank_60000_rss_kib": 121288,
+    "rank_60000_seconds": 8.28963064122945
+  },
+  "rank": 128,
+  "rows_verified": 128,
+  "solve_seconds": 0.0018311385065317154,
+  "sparsity_denominator": 16384,
+  "subject": "synthetic block-diagonal sparse full-rank integer system",
+  "total_seconds": 0.01768454536795616,
+  "verdict": "PASS"
+}
