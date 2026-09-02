@@ -95,8 +95,9 @@ impl Args {
             .map(parse_u64)
             .collect::<Result<_>>()?;
         ensure!(
-            result.len() == 2 && result[0] != result[1],
-            "exactly two distinct sketch seeds are required"
+            (1..=2).contains(&result.len())
+                && result.iter().copied().collect::<HashSet<_>>().len() == result.len(),
+            "one or two distinct sketch seeds are required"
         );
         Ok(result)
     }
@@ -194,6 +195,7 @@ fn is_union_spanning_tree(template: &SavedTemplate, n: usize) -> bool {
 struct State {
     spec: SketchSpec,
     basis: DenseEchelon,
+    matrix_allocation_seconds: f64,
     sketch_seconds: f64,
     reducer_seconds: f64,
     real_entry_visits_numerator: u128,
@@ -201,10 +203,17 @@ struct State {
 }
 
 impl State {
-    fn new(seed: u64, buckets: usize, prime: u32, block_size: usize) -> Result<Self> {
+    fn new(
+        seed: u64,
+        buckets: usize,
+        prime: u32,
+        block_size: usize,
+        panel_size: usize,
+    ) -> Result<Self> {
         Ok(Self {
             spec: SketchSpec::new(seed, buckets)?,
-            basis: DenseEchelon::new(buckets, prime, block_size)?,
+            basis: DenseEchelon::with_panel_size(buckets, prime, block_size, panel_size)?,
+            matrix_allocation_seconds: 0.0,
             sketch_seconds: 0.0,
             reducer_seconds: 0.0,
             real_entry_visits_numerator: 0,
@@ -213,8 +222,10 @@ impl State {
     }
 
     fn process(&mut self, columns: &[(u64, SparseColumn)], prime: u32) -> Result<()> {
-        let sketched_at = Instant::now();
+        let allocated_at = Instant::now();
         let mut matrix = vec![0u32; self.spec.buckets * columns.len()];
+        self.matrix_allocation_seconds += allocated_at.elapsed().as_secs_f64();
+        let sketched_at = Instant::now();
         for (position, (_, column)) in columns.iter().enumerate() {
             self.spec.sketch_column(
                 column,
@@ -249,6 +260,7 @@ struct Config {
     buckets: usize,
     batch_size: usize,
     block_size: usize,
+    panel_size: usize,
     threads: usize,
     seeds: Vec<u64>,
     expected_columns: Option<usize>,
@@ -278,6 +290,7 @@ impl Config {
             buckets: args.usize("--buckets")?,
             batch_size,
             block_size: args.usize("--gemm-block")?,
+            panel_size: args.usize_or("--rank-panel", 64)?,
             threads,
             seeds: args.seeds()?,
             expected_columns: args.optional_usize("--expected-columns")?,
@@ -324,6 +337,7 @@ struct SketchReport {
     pivot_buckets: Vec<u32>,
     target_sketch_nonzero: Vec<BucketResidue>,
     left_separator: Option<SeparatorReport>,
+    matrix_allocation_seconds: f64,
     sketch_seconds: f64,
     reducer_seconds: f64,
     real_entry_visits_numerator: u128,
@@ -348,10 +362,12 @@ struct Report {
     buckets: usize,
     batch_size: usize,
     gemm_block: usize,
+    rank_panel: usize,
     threads: usize,
     source_column_count: usize,
     source_columns_denominator: usize,
     exact_real_nnz_numerator: u128,
+    column_generation_seconds: f64,
     progress: Vec<ProgressPoint>,
     wall_seconds: f64,
     max_rss_kib: Option<u64>,
@@ -386,6 +402,7 @@ struct SourceSummary {
     order_file_sha256: Option<String>,
     source_columns: usize,
     exact_nnz: u128,
+    column_generation_seconds: f64,
     progress: Vec<ProgressPoint>,
     started: Instant,
 }
@@ -403,6 +420,7 @@ fn finish_run(
         order_file_sha256,
         source_columns,
         exact_nnz,
+        column_generation_seconds,
         progress,
         started,
     } = source;
@@ -484,6 +502,7 @@ fn finish_run(
                 })
                 .collect(),
             left_separator,
+            matrix_allocation_seconds: state.matrix_allocation_seconds,
             sketch_seconds: state.sketch_seconds,
             reducer_seconds: state.reducer_seconds,
             real_entry_visits_numerator: state.real_entry_visits_numerator,
@@ -533,10 +552,12 @@ fn finish_run(
         buckets: config.buckets,
         batch_size: config.batch_size,
         gemm_block: config.block_size,
+        rank_panel: config.panel_size,
         threads: config.threads,
         source_column_count: source_columns,
         source_columns_denominator: source_columns,
         exact_real_nnz_numerator: exact_nnz,
+        column_generation_seconds,
         progress,
         wall_seconds: started.elapsed().as_secs_f64(),
         max_rss_kib: max_rss_kib(),
@@ -614,13 +635,22 @@ fn command_saved(args: &Args) -> Result<()> {
     let mut states: Vec<State> = config
         .seeds
         .iter()
-        .map(|&seed| State::new(seed, config.buckets, config.prime, config.block_size))
+        .map(|&seed| {
+            State::new(
+                seed,
+                config.buckets,
+                config.prime,
+                config.block_size,
+                config.panel_size,
+            )
+        })
         .collect::<Result<_>>()?;
     let mut reader = open_reader(&config.input)?;
     let mut line = String::new();
     let mut source_index = 0u64;
     let mut selected = 0usize;
     let mut exact_nnz = 0u128;
+    let mut column_generation_seconds = 0.0;
     let mut progress = Vec::new();
     let mut batch = Vec::with_capacity(config.batch_size);
     loop {
@@ -632,7 +662,9 @@ fn command_saved(args: &Args) -> Result<()> {
             .with_context(|| format!("decoding source record {source_index}"))?;
         let include = filter == "all" || is_union_spanning_tree(&template, config.n);
         if include {
+            let generated_at = Instant::now();
             let column = saved_column(&template, config.n)?;
+            column_generation_seconds += generated_at.elapsed().as_secs_f64();
             exact_nnz += (column.linear.iter().filter(|&&value| value != 0).count()
                 + column.hinges.len()) as u128;
             batch.push((source_index, column));
@@ -679,6 +711,7 @@ fn command_saved(args: &Args) -> Result<()> {
             order_file_sha256: None,
             source_columns: selected,
             exact_nnz,
+            column_generation_seconds,
             progress,
             started,
         },
@@ -740,9 +773,18 @@ fn command_universe(args: &Args) -> Result<()> {
     let mut states: Vec<State> = config
         .seeds
         .iter()
-        .map(|&seed| State::new(seed, config.buckets, config.prime, config.block_size))
+        .map(|&seed| {
+            State::new(
+                seed,
+                config.buckets,
+                config.prime,
+                config.block_size,
+                config.panel_size,
+            )
+        })
         .collect::<Result<_>>()?;
     let mut exact_nnz = 0u128;
+    let mut column_generation_seconds = 0.0;
     let mut progress = Vec::new();
     for batch_start in (0..limit).step_by(config.batch_size) {
         let batch_stop = (batch_start + config.batch_size).min(limit);
@@ -751,13 +793,16 @@ fn command_universe(args: &Args) -> Result<()> {
             .iter()
             .map(|&index| index as u64)
             .collect();
-        let mut matrices: Vec<Vec<u32>> = states
-            .iter()
-            .map(|state| vec![0u32; state.spec.buckets * columns])
-            .collect();
+        let mut matrices = Vec::with_capacity(states.len());
+        for state in &mut states {
+            let allocated_at = Instant::now();
+            matrices.push(vec![0u32; state.spec.buckets * columns]);
+            state.matrix_allocation_seconds += allocated_at.elapsed().as_secs_f64();
+        }
         let generation_chunk = config.threads * 2;
         for chunk_start in (0..columns).step_by(generation_chunk) {
             let chunk_stop = (chunk_start + generation_chunk).min(columns);
+            let generated_at = Instant::now();
             let generated: Vec<Result<(usize, SparseColumn)>> = order
                 [batch_start + chunk_start..batch_start + chunk_stop]
                 .par_iter()
@@ -775,6 +820,7 @@ fn command_universe(args: &Args) -> Result<()> {
                 .collect();
             let generated: Vec<(usize, SparseColumn)> =
                 generated.into_iter().collect::<Result<_>>()?;
+            column_generation_seconds += generated_at.elapsed().as_secs_f64();
             let visited = generated
                 .iter()
                 .map(|(_, column)| {
@@ -827,6 +873,7 @@ fn command_universe(args: &Args) -> Result<()> {
             order_file_sha256,
             source_columns: limit,
             exact_nnz,
+            column_generation_seconds,
             progress,
             started,
         },
@@ -835,7 +882,7 @@ fn command_universe(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
+    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q [--rank-panel W] --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q [--rank-panel W] --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
 }
 
 fn main() -> Result<()> {
