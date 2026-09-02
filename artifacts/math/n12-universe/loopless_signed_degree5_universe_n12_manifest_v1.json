@@ -1,0 +1,1973 @@
+{
+  "controls": {
+    "direct_signed_mass_recount": {
+      "0": 1,
+      "1": 2,
+      "2": 28,
+      "3": 543,
+      "4": 17867,
+      "5": 769082
+    },
+    "direct_signed_mass_recount_denominator": 787523,
+    "g0027_n11_reproduction": null,
+    "g0027_small_controls": {
+      "full_support_s5_tree_orbits": 12459,
+      "independent_g0023_tree_known_answer": true,
+      "opposite_twins_cancel_to_lower_stratum": true,
+      "result": "PASS",
+      "signed_mass_one_counts_by_active_vertices": {
+        "2": 0,
+        "3": 1,
+        "4": 1
+      },
+      "signed_mass_one_literal_key_count": 2,
+      "synthetic_automorphism_and_global_sign_orbits": true
+    },
+    "omitted_swap_coset_mutation_rejected": true,
+    "ordered_pair_orbits_without_swap": 975846,
+    "planted_exact_duplicate_denominator": 1,
+    "planted_exact_duplicate_rejected": true,
+    "raw_pair_orbit_excess_over_simple_w_orbits": 225689,
+    "raw_simple_pair_orbits": 490480,
+    "reachability_construction": "For simple W of signed mass s, choose 5-s unused loopless edges and add them to both signed sides; W=0 uses any simple five-edge graph.",
+    "serialized_representative_denominator": 787523,
+    "serialized_representatives_unique": 787523,
+    "simple_pair_burnside": {
+      "n12_k5": {
+        "burnside_numerator": 469881409536000,
+        "expected_orbits": 490480,
+        "fixed_without_swap_numerator": 467431795353600,
+        "group_order_denominator": 958003200,
+        "known_answer_pass": true,
+        "orbits": 490480,
+        "swap_coset_numerator": 2449614182400
+      },
+      "n5_k2": {
+        "burnside_numerator": 4560,
+        "expected_orbits": 19,
+        "fixed_without_swap_numerator": 3240,
+        "group_order_denominator": 240,
+        "known_answer_pass": true,
+        "orbits": 19,
+        "swap_coset_numerator": 1320
+      },
+      "n6_k2": {
+        "burnside_numerator": 36000,
+        "expected_orbits": 25,
+        "fixed_without_swap_numerator": 25920,
+        "group_order_denominator": 1440,
+        "known_answer_pass": true,
+        "orbits": 25,
+        "swap_coset_numerator": 10080
+      }
+    },
+    "simple_pair_to_w_orbit_map_injective": false,
+    "simple_pair_to_w_orbit_map_surjective": true,
+    "simple_w_orbits_reachable_from_simple_pairs": 264791
+  },
+  "counts": {
+    "by_abs_beta": {
+      "0": 25059,
+      "1": 131147,
+      "2": 245962,
+      "3": 232698,
+      "4": 118214,
+      "5": 30617,
+      "6": 3646,
+      "7": 176,
+      "8": 4
+    },
+    "by_abs_components": {
+      "0": 1,
+      "1": 485632,
+      "2": 229910,
+      "3": 62371,
+      "4": 9086,
+      "5": 513,
+      "6": 10
+    },
+    "by_max_multiplicity": {
+      "0": 1,
+      "1": 264790,
+      "2": 447961,
+      "3": 67803,
+      "4": 6475,
+      "5": 493
+    },
+    "by_signed_mass": {
+      "0": 1,
+      "1": 2,
+      "2": 28,
+      "3": 543,
+      "4": 17867,
+      "5": 769082
+    },
+    "topology_multiplicity_histogram": [
+      {
+        "abs_beta": 0,
+        "abs_components": 1,
+        "active_vertices": 3,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1,
+        "signed_mass": 1
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 2,
+        "active_vertices": 4,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1,
+        "signed_mass": 1
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 3,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 2,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 4,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 3,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 4,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 6,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 2,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 5,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 3,
+        "active_vertices": 6,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 3,
+        "active_vertices": 7,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 2,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 4,
+        "active_vertices": 8,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1,
+        "signed_mass": 2
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 3,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 2,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 2,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 14,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 8,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 2,
+        "active_vertices": 4,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 1,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 25,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 58,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 6,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 2,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 5,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 73,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 45,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 6,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 32,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 6,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 3,
+        "active_vertices": 6,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 1,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 1,
+        "active_vertices": 7,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 53,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 39,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 38,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 3,
+        "active_vertices": 7,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 8,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 3,
+        "active_vertices": 7,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 2,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 2,
+        "active_vertices": 8,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 48,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 11,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 16,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 4,
+        "active_vertices": 8,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 4,
+        "active_vertices": 8,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 1,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 3,
+        "active_vertices": 9,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 22,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 4,
+        "active_vertices": 9,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 2,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 4,
+        "active_vertices": 9,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 4,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 4,
+        "active_vertices": 10,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 8,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 5,
+        "active_vertices": 10,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 5,
+        "active_vertices": 11,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 2,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 6,
+        "active_vertices": 12,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1,
+        "signed_mass": 3
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 1,
+        "active_vertices": 3,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 3,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 20,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 35,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 18,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 2,
+        "active_vertices": 4,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 1,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 20,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 392,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 204,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 28,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 5,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 8,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 371,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1625,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 307,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 16,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 78,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 83,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 20,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 3,
+        "active_vertices": 6,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 2,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 7,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1367,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 7,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 2174,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 7,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 140,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 57,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 615,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 194,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 14,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 3,
+        "active_vertices": 7,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 7,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 3,
+        "active_vertices": 7,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 15,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 3,
+        "active_vertices": 7,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 6,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 1,
+        "active_vertices": 8,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1728,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 1,
+        "active_vertices": 8,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 929,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 8,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 489,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 8,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1321,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 8,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 123,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 4,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 120,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 61,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 7,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 4,
+        "active_vertices": 8,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 4,
+        "active_vertices": 8,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 2,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 4,
+        "active_vertices": 8,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 1,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 1,
+        "active_vertices": 9,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 739,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 2,
+        "active_vertices": 9,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1029,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 2,
+        "active_vertices": 9,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 786,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 3,
+        "active_vertices": 9,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 90,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 3,
+        "active_vertices": 9,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 414,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 3,
+        "active_vertices": 9,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 53,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 4,
+        "active_vertices": 9,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 13,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 4,
+        "active_vertices": 9,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 11,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 4,
+        "active_vertices": 9,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 2,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 2,
+        "active_vertices": 10,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 648,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 3,
+        "active_vertices": 10,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 340,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 3,
+        "active_vertices": 10,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 347,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 4,
+        "active_vertices": 10,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 10,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 4,
+        "active_vertices": 10,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 90,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 4,
+        "active_vertices": 10,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 17,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 5,
+        "active_vertices": 10,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 5,
+        "active_vertices": 10,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 1,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 5,
+        "active_vertices": 10,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 1,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 3,
+        "active_vertices": 11,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 307,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 4,
+        "active_vertices": 11,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 78,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 4,
+        "active_vertices": 11,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 105,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 5,
+        "active_vertices": 11,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 14,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 5,
+        "active_vertices": 11,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 4,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 4,
+        "active_vertices": 12,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 110,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 5,
+        "active_vertices": 12,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 15,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 5,
+        "active_vertices": 12,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 27,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 6,
+        "active_vertices": 12,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 2,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 6,
+        "active_vertices": 12,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 1,
+        "signed_mass": 4
+      },
+      {
+        "abs_beta": 8,
+        "abs_components": 1,
+        "active_vertices": 3,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 3,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 7,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 5,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 7,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 58,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 7,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 59,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 7,
+        "abs_components": 1,
+        "active_vertices": 4,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 32,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 8,
+        "abs_components": 2,
+        "active_vertices": 4,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 1,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 4,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 942,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 1503,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 533,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 1,
+        "active_vertices": 5,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 86,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 7,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 2,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 7,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 6,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 7,
+        "abs_components": 2,
+        "active_vertices": 5,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 12,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 616,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 14334,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 7906,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 1298,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 1,
+        "active_vertices": 6,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 93,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 50,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 250,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 166,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 2,
+        "active_vertices": 6,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 49,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 7,
+        "abs_components": 3,
+        "active_vertices": 6,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 2,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 7,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 9342,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 7,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 59958,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 7,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 14681,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 7,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 1224,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 1,
+        "active_vertices": 7,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 37,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 16,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 2269,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 2483,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 628,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 2,
+        "active_vertices": 7,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 68,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 3,
+        "active_vertices": 7,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 18,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 3,
+        "active_vertices": 7,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 24,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 3,
+        "active_vertices": 7,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 12,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 8,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 37522,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 8,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 99657,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 8,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 11406,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 1,
+        "active_vertices": 8,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 424,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 2,
+        "active_vertices": 8,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1176,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 2,
+        "active_vertices": 8,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 17519,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 2,
+        "active_vertices": 8,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 7057,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 2,
+        "active_vertices": 8,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 822,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 2,
+        "active_vertices": 8,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 37,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 164,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 398,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 155,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 3,
+        "active_vertices": 8,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 25,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 4,
+        "active_vertices": 8,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 1,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 4,
+        "active_vertices": 8,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 2,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 6,
+        "abs_components": 4,
+        "active_vertices": 8,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 2,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 9,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 60458,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 9,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 73062,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 1,
+        "active_vertices": 9,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 3256,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 9,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 9729,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 9,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 44680,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 9,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 7502,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 2,
+        "active_vertices": 9,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 373,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 3,
+        "active_vertices": 9,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 58,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 3,
+        "active_vertices": 9,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 2654,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 3,
+        "active_vertices": 9,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 1778,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 3,
+        "active_vertices": 9,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 284,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 3,
+        "active_vertices": 9,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 17,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 4,
+        "active_vertices": 9,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 5,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 4,
+        "active_vertices": 9,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 37,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 4,
+        "active_vertices": 9,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 22,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 4,
+        "active_vertices": 9,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 6,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 1,
+        "active_vertices": 10,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 44034,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 1,
+        "active_vertices": 10,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 20222,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 10,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 25641,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 10,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 46054,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 2,
+        "active_vertices": 10,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 2785,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 3,
+        "active_vertices": 10,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1322,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 3,
+        "active_vertices": 10,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 10826,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 3,
+        "active_vertices": 10,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 2625,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 3,
+        "active_vertices": 10,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 173,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 4,
+        "active_vertices": 10,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 262,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 4,
+        "active_vertices": 10,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 304,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 4,
+        "active_vertices": 10,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 67,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 4,
+        "active_vertices": 10,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 7,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 5,
+        "active_vertices": 10,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 2,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 5,
+        "active_vertices": 10,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 2,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 5,
+        "abs_components": 5,
+        "active_vertices": 10,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 1,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 1,
+        "active_vertices": 11,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 12459,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 2,
+        "active_vertices": 11,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 27355,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 2,
+        "active_vertices": 11,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 16876,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 3,
+        "active_vertices": 11,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 6039,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 3,
+        "active_vertices": 11,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 15677,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 3,
+        "active_vertices": 11,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 1248,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 4,
+        "active_vertices": 11,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 107,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 4,
+        "active_vertices": 11,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1822,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 4,
+        "active_vertices": 11,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 643,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 4,
+        "active_vertices": 11,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 57,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 5,
+        "active_vertices": 11,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 16,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 5,
+        "active_vertices": 11,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 35,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 5,
+        "active_vertices": 11,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 11,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 5,
+        "active_vertices": 11,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 2,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 0,
+        "abs_components": 2,
+        "active_vertices": 12,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 10645,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 3,
+        "active_vertices": 12,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 9527,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 1,
+        "abs_components": 3,
+        "active_vertices": 12,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 7509,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 4,
+        "active_vertices": 12,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 1020,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 4,
+        "active_vertices": 12,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 3855,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 2,
+        "abs_components": 4,
+        "active_vertices": 12,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 410,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 5,
+        "active_vertices": 12,
+        "max_multiplicity": 1,
+        "signed_graph_orbits": 5,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 5,
+        "active_vertices": 12,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 232,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 5,
+        "active_vertices": 12,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 124,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 3,
+        "abs_components": 5,
+        "active_vertices": 12,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 17,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 6,
+        "active_vertices": 12,
+        "max_multiplicity": 2,
+        "signed_graph_orbits": 1,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 6,
+        "active_vertices": 12,
+        "max_multiplicity": 3,
+        "signed_graph_orbits": 3,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 6,
+        "active_vertices": 12,
+        "max_multiplicity": 4,
+        "signed_graph_orbits": 1,
+        "signed_mass": 5
+      },
+      {
+        "abs_beta": 4,
+        "abs_components": 6,
+        "active_vertices": 12,
+        "max_multiplicity": 5,
+        "signed_graph_orbits": 1,
+        "signed_mass": 5
+      }
+    ]
+  },
+  "no_claim": "Finite exhaustive orbit census for loopless signed-W degree-k pair atoms only. No column-span rank, MAX_n membership, identity, or arbitrary-network theorem.",
+  "producer": {
+    "g0027_source": "artifacts/math/G-0027/enumerate_signed_loopless.py",
+    "g0027_source_sha256": "92ce1d017a12ce9dc44c3f43103028dcfe635fa7ba9e8c1026c3d6ca8fe19f13",
+    "genbg": "/usr/bin/nauty-genbg",
+    "networkx": "3.6.1",
+    "pynauty": "2.8.8.1",
+    "python": "3.13.7 (main, Mar  3 2026, 12:19:54) [GCC 15.2.0]",
+    "script": "artifacts/math/n12-universe/enumerate_loopless_signed_w.py",
+    "script_sha256": "b268941eda8a13f9e0eef05f7e8c1c8e2d67dee384731dd620daefc2cd4942f7"
+  },
+  "result": "PASS",
+  "schema": "relu-depth-frontier-gmp15-loopless-universe-manifest-v1",
+  "stage_a_order": {
+    "index_count": 148628,
+    "index_denominator": 787523,
+    "path": "artifacts/math/n12-universe/stage_a_order_n12_v1.json",
+    "record_zero_first": true,
+    "selected_nonzero_denominator": 787522,
+    "selected_nonzero_records": 148627,
+    "selection_after_record_zero": "signed_mass=5 and abs_beta<=1",
+    "sha256": "691cb0368545f8834c98e891bbb771476e547ce9e140887c9791710a8786a7c1"
+  },
+  "universe": {
+    "branch_edge_occurrences": 5,
+    "compressed_bytes": 4116936,
+    "n": 12,
+    "path": "artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz",
+    "record_count": 787523,
+    "records_sha256": "800e832d2a3c40d65a5b2351c889ec955a6c313b05f81b6b6a899d76da6dd10a",
+    "sha256": "f98352ea4d1517f0b88aba0b38d34be0edb0b845aac3eaa724f3bd1f8f83f640"
+  },
+  "wall_seconds": 90.9012532196939
+}
