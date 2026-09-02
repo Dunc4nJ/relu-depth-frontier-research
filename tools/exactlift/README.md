@@ -1,0 +1,22 @@
+# exactlift
+
+Exact arithmetic tooling for the saved loopless MAX systems. It translates the
+pinned Rueß certificates into saved-system column indices, verifies sparse
+rational witnesses on the complete saved row universe, emits upstream verifier
+JSON, recovers a rational solution from a modular pivot minor, and runs the
+known n=9 beta-zero tree-family nonmembership control.
+
+All commands use the project virtual environment:
+
+```bash
+source .venv/bin/activate
+python tools/exactlift/exactlift.py --help
+```
+
+`recover` first computes a full modular column basis, then an independent row
+basis, solves the resulting square integer minor over Q with FLINT's Dixon
+solver, and replays the result over every saved hinge and linear row. A basis
+cache is hash- and prime-bound; it contains indices only, not a witness.
+
+This tool decides only the finite saved system supplied on the command line. A
+successful n=9 or n=10 control says nothing about MAX11.

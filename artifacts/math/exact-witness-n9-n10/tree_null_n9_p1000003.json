@@ -1,0 +1,19 @@
+{
+  "consistent": false,
+  "control": "n=9 beta=0 union-spanning-tree subfamily rejects MAX9",
+  "expected": {
+    "rank_A": 360,
+    "rank_augmented": 361,
+    "selected_columns": 739
+  },
+  "max_rss_kib": 128528,
+  "prime": 1000003,
+  "rank_A": 360,
+  "rank_augmented": 361,
+  "rows": 6335,
+  "seconds": 20.115673515945673,
+  "selected_columns": 739,
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+  "system_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+  "verdict": "PASS"
+}

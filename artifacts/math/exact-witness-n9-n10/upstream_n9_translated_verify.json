@@ -1,0 +1,24 @@
+{
+  "coefficient_denominator_factorization": {
+    "2": 9,
+    "3": 5,
+    "5": 2,
+    "7": 1
+  },
+  "coefficient_denominator_lcm": 21772800,
+  "columns_in_system": 10976,
+  "exact": true,
+  "hinge_rows_checked": 6326,
+  "linear_rows_checked": 9,
+  "n": 9,
+  "nonzero_hinge_residual_count": 0,
+  "nonzero_hinge_residual_examples": [],
+  "nonzero_linear_residuals": [],
+  "rows_checked": 6335,
+  "support_size": 337,
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+  "system_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+  "verdict": "PASS",
+  "witness": "artifacts/math/exact-witness-n9-n10/upstream_n9_translated_witness.json",
+  "witness_sha256": "96269ccee0386afe79a384cb0c429ae4d137b9b3a4e6bff64bedcb1b21fd06d7"
+}

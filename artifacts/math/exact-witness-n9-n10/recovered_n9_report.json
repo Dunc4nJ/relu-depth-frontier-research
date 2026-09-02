@@ -1,0 +1,53 @@
+{
+  "coefficient_denominator_factorization": {
+    "2": 9,
+    "3": 6,
+    "5": 3,
+    "7": 1
+  },
+  "coefficient_denominator_lcm": 326592000,
+  "columns": 10976,
+  "max_rss_kib": 893168,
+  "prime": 1000003,
+  "rank": 1506,
+  "rows": 6335,
+  "support_size": 415,
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+  "system_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+  "timings_seconds": {
+    "build_exact_square_seconds": 5.624784115701914,
+    "build_full_modular_seconds": 11.840894946828485,
+    "build_transposed_basis_seconds": 5.456519642844796,
+    "exact_dixon_solve_seconds": 3.8148461002856493,
+    "full_modular_rref_seconds": 53.583707462996244,
+    "total_seconds": 99.54863247834146,
+    "transposed_basis_rref_seconds": 7.342161720618606
+  },
+  "verdict": "PASS",
+  "verification": {
+    "coefficient_denominator_factorization": {
+      "2": 9,
+      "3": 6,
+      "5": 3,
+      "7": 1
+    },
+    "coefficient_denominator_lcm": 326592000,
+    "columns_in_system": 10976,
+    "exact": true,
+    "hinge_rows_checked": 6326,
+    "linear_rows_checked": 9,
+    "n": 9,
+    "nonzero_hinge_residual_count": 0,
+    "nonzero_hinge_residual_examples": [],
+    "nonzero_linear_residuals": [],
+    "rows_checked": 6335,
+    "support_size": 415,
+    "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+    "system_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+    "verdict": "PASS",
+    "witness": "artifacts/math/exact-witness-n9-n10/recovered_n9_witness.json",
+    "witness_sha256": "fa7f80281c9795e5a755cb490d5d9e4ae862ef43493c89ff1f7270b281053b13"
+  },
+  "witness": "artifacts/math/exact-witness-n9-n10/recovered_n9_witness.json",
+  "witness_sha256": "fa7f80281c9795e5a755cb490d5d9e4ae862ef43493c89ff1f7270b281053b13"
+}
