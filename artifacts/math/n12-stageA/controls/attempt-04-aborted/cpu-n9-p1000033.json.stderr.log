@@ -1,4 +1,0 @@
-Core: Haswell
-STREAMRANK_PROGRESS columns=256 ranks=[222, 222] seconds=1.217
-STREAMRANK_PROGRESS columns=512 ranks=[353, 353] seconds=2.961
-STREAMRANK_CONTROL_PASS columns=739 ranks=[(360, 361), (360, 361)] seconds=3.533

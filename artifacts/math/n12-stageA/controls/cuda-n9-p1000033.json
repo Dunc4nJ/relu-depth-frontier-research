@@ -27,7 +27,7 @@
     "--rank-panel",
     "64",
     "--threads",
-    "24",
+    "60",
     "--expected-columns",
     "739",
     "--expected-rank",
@@ -52,12 +52,12 @@
   "batch_size": 256,
   "gemm_block": 1024,
   "rank_panel": 64,
-  "threads": 24,
+  "threads": 60,
   "backend": "cuda",
   "source_column_count": 739,
   "source_columns_denominator": 739,
   "exact_real_nnz_numerator": 998801,
-  "column_generation_seconds": 0.32131293299999997,
+  "column_generation_seconds": 0.32888792400000016,
   "progress": [
     {
       "source_columns_processed": 256,
@@ -65,8 +65,8 @@
         222,
         222
       ],
-      "elapsed_seconds": 2.999417113,
-      "cumulative_seconds_per_column": 0.01171647309765625
+      "elapsed_seconds": 2.808280764,
+      "cumulative_seconds_per_column": 0.010969846734375
     },
     {
       "source_columns_processed": 512,
@@ -74,8 +74,8 @@
         353,
         353
       ],
-      "elapsed_seconds": 5.026483468,
-      "cumulative_seconds_per_column": 0.0098173505234375
+      "elapsed_seconds": 4.870700666,
+      "cumulative_seconds_per_column": 0.00951308723828125
     },
     {
       "source_columns_processed": 739,
@@ -83,12 +83,12 @@
         360,
         360
       ],
-      "elapsed_seconds": 5.6019741960000005,
-      "cumulative_seconds_per_column": 0.007580479290933695
+      "elapsed_seconds": 5.446600625,
+      "cumulative_seconds_per_column": 0.007370230886332882
     }
   ],
-  "wall_seconds": 5.612607037,
-  "max_rss_kib": 347284,
+  "wall_seconds": 5.455992771,
+  "max_rss_kib": 354468,
   "expected": {
     "source_columns": 739,
     "rank_a": 360,
@@ -2290,32 +2290,32 @@
         "dot_target_mod_prime": 1000032,
         "verified_basis_columns_denominator": 360
       },
-      "matrix_allocation_seconds": 0.000630112,
-      "sketch_seconds": 0.11222051899999999,
-      "reducer_seconds": 0.46598256099999996,
+      "matrix_allocation_seconds": 0.000673128,
+      "sketch_seconds": 0.11558358,
+      "reducer_seconds": 0.33971619,
       "real_entry_visits_numerator": 998801,
       "source_columns_denominator": 739,
       "max_basis_storage_bytes": 1555200,
       "reducer_metrics": {
         "gemm_calls": 22,
         "gemm_scalar_products_numerator": 252469440,
-        "gemm_seconds": 0.07454899438098074,
-        "pack_seconds": 0.001770399980247021,
-        "modular_reduce_seconds": 0.0002748799999244511,
+        "gemm_seconds": 0.07211763321980835,
+        "pack_seconds": 0.0014582080161198979,
+        "modular_reduce_seconds": 0.00025705599971115594,
         "basis_maintenance_scalar_products_numerator": 22012560,
         "old_basis_gemm_calls": 3,
         "old_basis_gemm_scalar_products_numerator": 148308840,
-        "old_basis_gemm_seconds": 0.0042200319468975065,
+        "old_basis_gemm_seconds": 0.0041113600730896,
         "panel_future_gemm_calls": 9,
         "panel_future_gemm_scalar_products_numerator": 43810200,
-        "panel_future_gemm_seconds": 0.06509494641050695,
+        "panel_future_gemm_seconds": 0.06265065706893802,
         "panel_basis_gemm_calls": 10,
         "panel_basis_gemm_scalar_products_numerator": 60350400,
-        "panel_basis_gemm_seconds": 0.00523401602357626,
+        "panel_basis_gemm_seconds": 0.005355616077780724,
         "gpu_peak_allocated_bytes": 25607104,
         "gpu_host_to_device_bytes_numerator": 6317560,
         "gpu_device_to_host_bytes_numerator": 18930240,
-        "gpu_transfer_seconds": 0.00663283
+        "gpu_transfer_seconds": 0.0067046729999999995
       }
     },
     {
@@ -4511,32 +4511,32 @@
         "dot_target_mod_prime": 1000032,
         "verified_basis_columns_denominator": 360
       },
-      "matrix_allocation_seconds": 0.00032332700000000004,
-      "sketch_seconds": 0.13478617199999998,
-      "reducer_seconds": 0.40324890999999996,
+      "matrix_allocation_seconds": 0.00043610700000000003,
+      "sketch_seconds": 0.150952183,
+      "reducer_seconds": 0.331614853,
       "real_entry_visits_numerator": 998801,
       "source_columns_denominator": 739,
       "max_basis_storage_bytes": 1555200,
       "reducer_metrics": {
         "gemm_calls": 22,
         "gemm_scalar_products_numerator": 252469440,
-        "gemm_seconds": 0.0014836480021476744,
-        "pack_seconds": 0.0007678080014884473,
-        "modular_reduce_seconds": 0.0002590400008484721,
+        "gemm_seconds": 0.0015822719894349573,
+        "pack_seconds": 0.0008893120009452107,
+        "modular_reduce_seconds": 0.0002332160002551973,
         "basis_maintenance_scalar_products_numerator": 22012560,
         "old_basis_gemm_calls": 3,
         "old_basis_gemm_scalar_products_numerator": 148308840,
-        "old_basis_gemm_seconds": 0.00016924799978733064,
+        "old_basis_gemm_seconds": 0.00019910399615764618,
         "panel_future_gemm_calls": 9,
         "panel_future_gemm_scalar_products_numerator": 43810200,
-        "panel_future_gemm_seconds": 0.0004008960053324699,
+        "panel_future_gemm_seconds": 0.0004020479992032051,
         "panel_basis_gemm_calls": 10,
         "panel_basis_gemm_scalar_products_numerator": 60350400,
-        "panel_basis_gemm_seconds": 0.0009135039970278739,
+        "panel_basis_gemm_seconds": 0.0009811199940741064,
         "gpu_peak_allocated_bytes": 25607104,
         "gpu_host_to_device_bytes_numerator": 6317560,
         "gpu_device_to_host_bytes_numerator": 18930240,
-        "gpu_transfer_seconds": 0.006393431999999999
+        "gpu_transfer_seconds": 0.007711734999999999
       }
     }
   ],

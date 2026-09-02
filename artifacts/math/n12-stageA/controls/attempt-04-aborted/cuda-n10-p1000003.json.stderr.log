@@ -1,2 +1,0 @@
-Core: Haswell
-Error: threads must lie in 1..=24 for backend cuda

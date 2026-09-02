@@ -57,7 +57,7 @@
   "source_column_count": 12248,
   "source_columns_denominator": 12248,
   "exact_real_nnz_numerator": 33284775,
-  "column_generation_seconds": 7.7048604260000015,
+  "column_generation_seconds": 10.367418286000056,
   "progress": [
     {
       "source_columns_processed": 1024,
@@ -65,8 +65,8 @@
         439,
         439
       ],
-      "elapsed_seconds": 2.79951858,
-      "cumulative_seconds_per_column": 0.00273390486328125
+      "elapsed_seconds": 3.094234584,
+      "cumulative_seconds_per_column": 0.0030217134609375
     },
     {
       "source_columns_processed": 2048,
@@ -74,8 +74,8 @@
         759,
         759
       ],
-      "elapsed_seconds": 5.637375493,
-      "cumulative_seconds_per_column": 0.0027526247524414064
+      "elapsed_seconds": 7.2755517,
+      "cumulative_seconds_per_column": 0.003552515478515625
     },
     {
       "source_columns_processed": 3072,
@@ -83,8 +83,8 @@
         913,
         913
       ],
-      "elapsed_seconds": 9.140812813,
-      "cumulative_seconds_per_column": 0.002975525004231771
+      "elapsed_seconds": 10.868701828,
+      "cumulative_seconds_per_column": 0.0035379888763020836
     },
     {
       "source_columns_processed": 4096,
@@ -92,8 +92,8 @@
         1200,
         1200
       ],
-      "elapsed_seconds": 14.021553953,
-      "cumulative_seconds_per_column": 0.0034232309455566406
+      "elapsed_seconds": 17.011768101,
+      "cumulative_seconds_per_column": 0.004153263696533203
     },
     {
       "source_columns_processed": 5120,
@@ -101,8 +101,8 @@
         1335,
         1335
       ],
-      "elapsed_seconds": 16.151764409,
-      "cumulative_seconds_per_column": 0.003154641486132812
+      "elapsed_seconds": 20.456799421,
+      "cumulative_seconds_per_column": 0.003995468636914063
     },
     {
       "source_columns_processed": 6144,
@@ -110,8 +110,8 @@
         1670,
         1670
       ],
-      "elapsed_seconds": 19.355294804,
-      "cumulative_seconds_per_column": 0.0031502758470052083
+      "elapsed_seconds": 25.615066727,
+      "cumulative_seconds_per_column": 0.004169118933430989
     },
     {
       "source_columns_processed": 7168,
@@ -119,8 +119,8 @@
         1810,
         1810
       ],
-      "elapsed_seconds": 21.289478688,
-      "cumulative_seconds_per_column": 0.002970072361607143
+      "elapsed_seconds": 28.265415372,
+      "cumulative_seconds_per_column": 0.003943277814174107
     },
     {
       "source_columns_processed": 8192,
@@ -128,8 +128,8 @@
         1842,
         1842
       ],
-      "elapsed_seconds": 24.183943628,
-      "cumulative_seconds_per_column": 0.002952141556152344
+      "elapsed_seconds": 31.835306729,
+      "cumulative_seconds_per_column": 0.0038861458409423827
     },
     {
       "source_columns_processed": 9216,
@@ -137,8 +137,8 @@
         1887,
         1887
       ],
-      "elapsed_seconds": 25.773994673,
-      "cumulative_seconds_per_column": 0.002796657408094618
+      "elapsed_seconds": 33.415543708,
+      "cumulative_seconds_per_column": 0.0036258185447048613
     },
     {
       "source_columns_processed": 10240,
@@ -146,8 +146,8 @@
         1957,
         1957
       ],
-      "elapsed_seconds": 28.092674695,
-      "cumulative_seconds_per_column": 0.0027434252631835937
+      "elapsed_seconds": 35.786588906,
+      "cumulative_seconds_per_column": 0.0034947840728515624
     },
     {
       "source_columns_processed": 11264,
@@ -155,8 +155,8 @@
         2070,
         2070
       ],
-      "elapsed_seconds": 30.26354905,
-      "cumulative_seconds_per_column": 0.002686749738103693
+      "elapsed_seconds": 38.367148921,
+      "cumulative_seconds_per_column": 0.0034061744425603695
     },
     {
       "source_columns_processed": 12248,
@@ -164,12 +164,12 @@
         2166,
         2166
       ],
-      "elapsed_seconds": 32.074485195,
-      "cumulative_seconds_per_column": 0.0026187528735303724
+      "elapsed_seconds": 41.517220542,
+      "cumulative_seconds_per_column": 0.0033897142833115607
     }
   ],
-  "wall_seconds": 32.118684426,
-  "max_rss_kib": 825540,
+  "wall_seconds": 41.564345423,
+  "max_rss_kib": 825624,
   "expected": {
     "source_columns": 12248,
     "rank_a": 2166,
@@ -4532,28 +4532,28 @@
         }
       ],
       "left_separator": null,
-      "matrix_allocation_seconds": 0.022839105999999998,
-      "sketch_seconds": 2.5238780220000003,
-      "reducer_seconds": 3.7762007630000003,
+      "matrix_allocation_seconds": 0.04047987,
+      "sketch_seconds": 3.3381102899999995,
+      "reducer_seconds": 4.322792682999999,
       "real_entry_visits_numerator": 33284775,
       "source_columns_denominator": 12248,
       "max_basis_storage_bytes": 56298672,
       "reducer_metrics": {
         "gemm_calls": 279,
         "gemm_scalar_products_numerator": 119269126512,
-        "gemm_seconds": 1.4749307859999996,
-        "pack_seconds": 0.4872590700000004,
-        "modular_reduce_seconds": 0.6856876529999998,
+        "gemm_seconds": 1.4969993170000009,
+        "pack_seconds": 0.6173695849999994,
+        "modular_reduce_seconds": 0.7066119150000004,
         "basis_maintenance_scalar_products_numerator": 642262320,
         "old_basis_gemm_calls": 23,
         "old_basis_gemm_scalar_products_numerator": 105154105932,
-        "old_basis_gemm_seconds": 1.0843346539999998,
+        "old_basis_gemm_seconds": 1.0957596520000001,
         "panel_future_gemm_calls": 125,
         "panel_future_gemm_scalar_products_numerator": 7451178624,
-        "panel_future_gemm_seconds": 0.19871259100000005,
+        "panel_future_gemm_seconds": 0.19788815800000006,
         "panel_basis_gemm_calls": 131,
         "panel_basis_gemm_scalar_products_numerator": 6663841956,
-        "panel_basis_gemm_seconds": 0.19188354100000005,
+        "panel_basis_gemm_seconds": 0.20335150700000001,
         "gpu_peak_allocated_bytes": 0,
         "gpu_host_to_device_bytes_numerator": 0,
         "gpu_device_to_host_bytes_numerator": 0,
@@ -8914,28 +8914,28 @@
         }
       ],
       "left_separator": null,
-      "matrix_allocation_seconds": 0.028775162,
-      "sketch_seconds": 3.2850255060000007,
-      "reducer_seconds": 3.6625102259999993,
+      "matrix_allocation_seconds": 0.028656105999999997,
+      "sketch_seconds": 4.244577005,
+      "reducer_seconds": 4.544345095999999,
       "real_entry_visits_numerator": 33284775,
       "source_columns_denominator": 12248,
       "max_basis_storage_bytes": 56298672,
       "reducer_metrics": {
         "gemm_calls": 279,
         "gemm_scalar_products_numerator": 119269126512,
-        "gemm_seconds": 1.4050051949999993,
-        "pack_seconds": 0.47493461800000036,
-        "modular_reduce_seconds": 0.671563414,
+        "gemm_seconds": 1.576759457000001,
+        "pack_seconds": 0.5830313159999995,
+        "modular_reduce_seconds": 0.7072515510000007,
         "basis_maintenance_scalar_products_numerator": 642262320,
         "old_basis_gemm_calls": 23,
         "old_basis_gemm_scalar_products_numerator": 105154105932,
-        "old_basis_gemm_seconds": 1.01886185,
+        "old_basis_gemm_seconds": 1.171076088,
         "panel_future_gemm_calls": 125,
         "panel_future_gemm_scalar_products_numerator": 7451178624,
-        "panel_future_gemm_seconds": 0.19229813699999992,
+        "panel_future_gemm_seconds": 0.19976310099999992,
         "panel_basis_gemm_calls": 131,
         "panel_basis_gemm_scalar_products_numerator": 6663841956,
-        "panel_basis_gemm_seconds": 0.19384520799999996,
+        "panel_basis_gemm_seconds": 0.20592026800000002,
         "gpu_peak_allocated_bytes": 0,
         "gpu_host_to_device_bytes_numerator": 0,
         "gpu_device_to_host_bytes_numerator": 0,

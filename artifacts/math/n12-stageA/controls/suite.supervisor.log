@@ -1,6 +1,6 @@
-2026-09-02T21:21:06Z
+2026-09-02T21:56:42Z
 OPENBLAS_CORETYPE=HASWELL OPENBLAS_VERBOSE=2
-Wed Sep  2 21:21:06 2026       
+Wed Sep  2 21:56:42 2026       
 +-----------------------------------------------------------------------------------------+
 | NVIDIA-SMI 580.82.09              Driver Version: 580.82.09      CUDA Version: 13.0     |
 +-----------------------------------------+------------------------+----------------------+
@@ -9,7 +9,7 @@ Wed Sep  2 21:21:06 2026
 |                                         |                        |               MIG M. |
 |=========================================+========================+======================|
 |   0  NVIDIA H100 NVL                On  |   00000000:3D:00.0 Off |                    0 |
-| N/A   42C    P0             65W /  400W |       0MiB /  95830MiB |      0%      Default |
+| N/A   40C    P0             64W /  400W |       0MiB /  95830MiB |      0%      Default |
 |                                         |                        |             Disabled |
 +-----------------------------------------+------------------------+----------------------+
 
@@ -37,13 +37,14 @@ tools/streamrank/build.rs: OK
 tools/streamrank/Cargo.toml: OK
 tools/colgen/src/lib.rs: OK
 tools/colgen/src/main.rs: OK
-    Finished `release` profile [optimized] target(s) in 0.03s
+   Compiling max11-streamrank v0.1.0 (/workspace/relu/tools/streamrank)
+    Finished `release` profile [optimized] target(s) in 4.29s
      Running unittests src/lib.rs (tools/streamrank/target/release/deps/max11_streamrank-a129063133a1416f)
 Core: Haswell
 
 running 6 tests
-test tests::sketch_is_deterministic_and_seeded ... ok
 test tests::barrett_reduction_matches_division ... ok
+test tests::sketch_is_deterministic_and_seeded ... ok
 test tests::rejects_unsafe_binary64_block ... ok
 test tests::left_separator_annihilates_basis_and_separates ... ok
 test tests::blocked_basis_matches_scalar_rank ... ok
@@ -64,24 +65,25 @@ running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-    Finished `release` profile [optimized] target(s) in 0.04s
-11d08a17eb706f6b4bfcc3f75d18e0e3e02167127e19c1db0b74a1ee810fe676  tools/streamrank/target/release/max11-streamrank
-33af41e8a2504d3921ff5c19fab59451978584ca22eb4237e8723eb6a0ec99c1  artifacts/math/n12-stageA/controls/cpu-n10-p1000003.json
-f0de996ee1748f01789a4900d4be32e5963bc79f97d19985be6eaf6a5a1cc3bc  artifacts/math/n12-stageA/controls/cpu-n9-p1000003.json
-5ef42bdcd9dbbc35b4f01d7e37efd4488636de762ffd774aec05ffb2fa3f4691  artifacts/math/n12-stageA/controls/cpu-n10-p1000033.json
-305e9e04f51156f590d7f98e73b0c34b223c8f90ad97c09da923240b1f16dcc7  artifacts/math/n12-stageA/controls/cpu-n9-p1000033.json
-8895dd3662ae44f7abc63e707017ccbed7e8cc241bc4808fd0a882c2078ea2ff  artifacts/math/n12-stageA/controls/cuda-n10-p1000003.json
-a8ba3bb381d8ece8ac00e1afd19c542aa08ce5dd532718dc31d0c67012a1d34f  artifacts/math/n12-stageA/controls/cuda-n9-p1000003.json
-7a55341cd8c833076b4e87e74a2c70d5e042ffc32ce133b06a2f24c24562a6f8  artifacts/math/n12-stageA/controls/cuda-n10-p1000033.json
-936a1117946b6ab9a472611ea9fcd44220944897c2b59fbcb13615162ab87ff9  artifacts/math/n12-stageA/controls/cuda-n9-p1000033.json
-2026-09-02T21:23:56Z
-33af41e8a2504d3921ff5c19fab59451978584ca22eb4237e8723eb6a0ec99c1  artifacts/math/n12-stageA/controls/cpu-n10-p1000003.json
-5ef42bdcd9dbbc35b4f01d7e37efd4488636de762ffd774aec05ffb2fa3f4691  artifacts/math/n12-stageA/controls/cpu-n10-p1000033.json
-f0de996ee1748f01789a4900d4be32e5963bc79f97d19985be6eaf6a5a1cc3bc  artifacts/math/n12-stageA/controls/cpu-n9-p1000003.json
-305e9e04f51156f590d7f98e73b0c34b223c8f90ad97c09da923240b1f16dcc7  artifacts/math/n12-stageA/controls/cpu-n9-p1000033.json
-8895dd3662ae44f7abc63e707017ccbed7e8cc241bc4808fd0a882c2078ea2ff  artifacts/math/n12-stageA/controls/cuda-n10-p1000003.json
-7a55341cd8c833076b4e87e74a2c70d5e042ffc32ce133b06a2f24c24562a6f8  artifacts/math/n12-stageA/controls/cuda-n10-p1000033.json
-d5053701e080b530a0a4d43953d9829f11f11807fd419df79d1f0ac9d1c531d5  artifacts/math/n12-stageA/controls/cuda-n9-p1000003-mutant-expected-rank359.json
-a8ba3bb381d8ece8ac00e1afd19c542aa08ce5dd532718dc31d0c67012a1d34f  artifacts/math/n12-stageA/controls/cuda-n9-p1000003.json
-936a1117946b6ab9a472611ea9fcd44220944897c2b59fbcb13615162ab87ff9  artifacts/math/n12-stageA/controls/cuda-n9-p1000033.json
+   Compiling max11-streamrank v0.1.0 (/workspace/relu/tools/streamrank)
+    Finished `release` profile [optimized] target(s) in 7.07s
+cdf835b269d25a37f110d72f16865e6f511d5154b5caf7808dd2eb1d82bc85c3  tools/streamrank/target/release/max11-streamrank
+a5e5fb7973037d85ad3b670438b8c3dc985e31737d514ef30b42432d3e2e2683  artifacts/math/n12-stageA/controls/cpu-n10-p1000003.json
+de9b3dc596340bd29ac535a68609717f151c5a52bc42d3ac5b72fca6b5b57d4a  artifacts/math/n12-stageA/controls/cpu-n9-p1000003.json
+2cfe14938885b2f8638e2b0454c729d862be1f82c048323993c73146f3a5bb6d  artifacts/math/n12-stageA/controls/cpu-n10-p1000033.json
+311359c7da41c20f85674b41ab852e0da84607351ae95c7e881d340c967d88ef  artifacts/math/n12-stageA/controls/cpu-n9-p1000033.json
+bfee49880fa2a793c9979e40ecd907704c28233464d1a483e643ede901ea5fbd  artifacts/math/n12-stageA/controls/cuda-n10-p1000003.json
+892e987b40462a235bfe5f0a1a4ff2d9a9d7c4c953368d8366ace19ef11a7569  artifacts/math/n12-stageA/controls/cuda-n9-p1000003.json
+fff19bcdce2447f8bf88ba938f15d766206d1e4ca8e10e864b546a767042ac18  artifacts/math/n12-stageA/controls/cuda-n10-p1000033.json
+c6f1bb625e28fd1c378ec59945134fb661ab22efb84e91e7b7ce1d9054ec1888  artifacts/math/n12-stageA/controls/cuda-n9-p1000033.json
+2026-09-02T22:00:10Z
+a5e5fb7973037d85ad3b670438b8c3dc985e31737d514ef30b42432d3e2e2683  artifacts/math/n12-stageA/controls/cpu-n10-p1000003.json
+2cfe14938885b2f8638e2b0454c729d862be1f82c048323993c73146f3a5bb6d  artifacts/math/n12-stageA/controls/cpu-n10-p1000033.json
+de9b3dc596340bd29ac535a68609717f151c5a52bc42d3ac5b72fca6b5b57d4a  artifacts/math/n12-stageA/controls/cpu-n9-p1000003.json
+311359c7da41c20f85674b41ab852e0da84607351ae95c7e881d340c967d88ef  artifacts/math/n12-stageA/controls/cpu-n9-p1000033.json
+bfee49880fa2a793c9979e40ecd907704c28233464d1a483e643ede901ea5fbd  artifacts/math/n12-stageA/controls/cuda-n10-p1000003.json
+fff19bcdce2447f8bf88ba938f15d766206d1e4ca8e10e864b546a767042ac18  artifacts/math/n12-stageA/controls/cuda-n10-p1000033.json
+07d19779769df9412d6f82a962fe04bfd95ee33bf6eae306d359d28264ab0dd5  artifacts/math/n12-stageA/controls/cuda-n9-p1000003-mutant-expected-rank359.json
+892e987b40462a235bfe5f0a1a4ff2d9a9d7c4c953368d8366ace19ef11a7569  artifacts/math/n12-stageA/controls/cuda-n9-p1000003.json
+c6f1bb625e28fd1c378ec59945134fb661ab22efb84e91e7b7ce1d9054ec1888  artifacts/math/n12-stageA/controls/cuda-n9-p1000033.json
 CONTROL_SUITE_COMPLETE

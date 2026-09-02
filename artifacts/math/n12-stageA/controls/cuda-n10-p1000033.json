@@ -27,7 +27,7 @@
     "--rank-panel",
     "64",
     "--threads",
-    "24",
+    "60",
     "--expected-columns",
     "12248",
     "--expected-rank",
@@ -52,12 +52,12 @@
   "batch_size": 1024,
   "gemm_block": 1024,
   "rank_panel": 64,
-  "threads": 24,
+  "threads": 60,
   "backend": "cuda",
   "source_column_count": 12248,
   "source_columns_denominator": 12248,
   "exact_real_nnz_numerator": 33284775,
-  "column_generation_seconds": 10.838184860000016,
+  "column_generation_seconds": 12.053036508000007,
   "progress": [
     {
       "source_columns_processed": 1024,
@@ -65,8 +65,8 @@
         439,
         439
       ],
-      "elapsed_seconds": 3.532213895,
-      "cumulative_seconds_per_column": 0.0034494276318359374
+      "elapsed_seconds": 4.142015324,
+      "cumulative_seconds_per_column": 0.00404493683984375
     },
     {
       "source_columns_processed": 2048,
@@ -74,8 +74,8 @@
         759,
         759
       ],
-      "elapsed_seconds": 6.948232164,
-      "cumulative_seconds_per_column": 0.003392691486328125
+      "elapsed_seconds": 8.417373798,
+      "cumulative_seconds_per_column": 0.004110045799804687
     },
     {
       "source_columns_processed": 3072,
@@ -83,8 +83,8 @@
         913,
         913
       ],
-      "elapsed_seconds": 10.36856657,
-      "cumulative_seconds_per_column": 0.003375184430338542
+      "elapsed_seconds": 12.185584872,
+      "cumulative_seconds_per_column": 0.0039666617421875
     },
     {
       "source_columns_processed": 4096,
@@ -92,8 +92,8 @@
         1200,
         1200
       ],
-      "elapsed_seconds": 15.019854319,
-      "cumulative_seconds_per_column": 0.0036669566208496094
+      "elapsed_seconds": 18.172088864,
+      "cumulative_seconds_per_column": 0.0044365451328125
     },
     {
       "source_columns_processed": 5120,
@@ -101,8 +101,8 @@
         1335,
         1335
       ],
-      "elapsed_seconds": 18.465954496,
-      "cumulative_seconds_per_column": 0.0036066317374999998
+      "elapsed_seconds": 20.358589812,
+      "cumulative_seconds_per_column": 0.00397628707265625
     },
     {
       "source_columns_processed": 6144,
@@ -110,8 +110,8 @@
         1670,
         1670
       ],
-      "elapsed_seconds": 23.146874367,
-      "cumulative_seconds_per_column": 0.003767394916503906
+      "elapsed_seconds": 26.575768425,
+      "cumulative_seconds_per_column": 0.004325483142089844
     },
     {
       "source_columns_processed": 7168,
@@ -119,8 +119,8 @@
         1810,
         1810
       ],
-      "elapsed_seconds": 25.600255177,
-      "cumulative_seconds_per_column": 0.0035714641708984377
+      "elapsed_seconds": 29.312630572,
+      "cumulative_seconds_per_column": 0.004089373684709821
     },
     {
       "source_columns_processed": 8192,
@@ -128,8 +128,8 @@
         1842,
         1842
       ],
-      "elapsed_seconds": 29.490790976,
-      "cumulative_seconds_per_column": 0.0035999500703125
+      "elapsed_seconds": 32.755696153,
+      "cumulative_seconds_per_column": 0.003998498065551758
     },
     {
       "source_columns_processed": 9216,
@@ -137,8 +137,8 @@
         1887,
         1887
       ],
-      "elapsed_seconds": 31.865337134,
-      "cumulative_seconds_per_column": 0.0034576103661024308
+      "elapsed_seconds": 35.040465848,
+      "cumulative_seconds_per_column": 0.0038021338810763886
     },
     {
       "source_columns_processed": 10240,
@@ -146,8 +146,8 @@
         1957,
         1957
       ],
-      "elapsed_seconds": 35.08723052,
-      "cumulative_seconds_per_column": 0.0034264873554687497
+      "elapsed_seconds": 39.317245394,
+      "cumulative_seconds_per_column": 0.0038395747455078123
     },
     {
       "source_columns_processed": 11264,
@@ -155,8 +155,8 @@
         2070,
         2070
       ],
-      "elapsed_seconds": 37.085294475,
-      "cumulative_seconds_per_column": 0.0032923734441583806
+      "elapsed_seconds": 43.455176881,
+      "cumulative_seconds_per_column": 0.003857881470259233
     },
     {
       "source_columns_processed": 12248,
@@ -164,12 +164,12 @@
         2166,
         2166
       ],
-      "elapsed_seconds": 39.766593897999996,
-      "cumulative_seconds_per_column": 0.0032467826500653164
+      "elapsed_seconds": 46.409330525,
+      "cumulative_seconds_per_column": 0.0037891354119039843
     }
   ],
-  "wall_seconds": 39.786402424,
-  "max_rss_kib": 945548,
+  "wall_seconds": 46.432000194,
+  "max_rss_kib": 953776,
   "expected": {
     "source_columns": 12248,
     "rank_a": 2166,
@@ -4532,32 +4532,32 @@
         }
       ],
       "left_separator": null,
-      "matrix_allocation_seconds": 0.066965746,
-      "sketch_seconds": 3.4078809830000005,
-      "reducer_seconds": 2.3385374439999995,
+      "matrix_allocation_seconds": 0.084611694,
+      "sketch_seconds": 3.736505201,
+      "reducer_seconds": 4.261424248000001,
       "real_entry_visits_numerator": 33284775,
       "source_columns_denominator": 12248,
       "max_basis_storage_bytes": 56298672,
       "reducer_metrics": {
         "gemm_calls": 279,
         "gemm_scalar_products_numerator": 119269126512,
-        "gemm_seconds": 0.11362947085313505,
-        "pack_seconds": 0.011162495997734376,
-        "modular_reduce_seconds": 0.005888703979086136,
+        "gemm_seconds": 0.12977942264266312,
+        "pack_seconds": 0.012585536073893313,
+        "modular_reduce_seconds": 0.006274111991748215,
         "basis_maintenance_scalar_products_numerator": 642262320,
         "old_basis_gemm_calls": 23,
         "old_basis_gemm_scalar_products_numerator": 105154105932,
-        "old_basis_gemm_seconds": 0.013425440032035113,
+        "old_basis_gemm_seconds": 0.016134464036673308,
         "panel_future_gemm_calls": 125,
         "panel_future_gemm_scalar_products_numerator": 7451178624,
-        "panel_future_gemm_seconds": 0.057054206574335686,
+        "panel_future_gemm_seconds": 0.06081103902868928,
         "panel_basis_gemm_calls": 131,
         "panel_basis_gemm_scalar_products_numerator": 6663841956,
-        "panel_basis_gemm_seconds": 0.043149824246764196,
+        "panel_basis_gemm_seconds": 0.052833919577300534,
         "gpu_peak_allocated_bytes": 223031056,
         "gpu_host_to_device_bytes_numerator": 431135064,
         "gpu_device_to_host_bytes_numerator": 3760574544,
-        "gpu_transfer_seconds": 0.5728377239999998
+        "gpu_transfer_seconds": 0.7303786300000001
       }
     },
     {
@@ -8914,32 +8914,32 @@
         }
       ],
       "left_separator": null,
-      "matrix_allocation_seconds": 0.029853188,
-      "sketch_seconds": 4.042509762,
-      "reducer_seconds": 3.16100829,
+      "matrix_allocation_seconds": 0.03684874900000001,
+      "sketch_seconds": 4.823027344000001,
+      "reducer_seconds": 4.580732252000001,
       "real_entry_visits_numerator": 33284775,
       "source_columns_denominator": 12248,
       "max_basis_storage_bytes": 56298672,
       "reducer_metrics": {
         "gemm_calls": 279,
         "gemm_scalar_products_numerator": 119269126512,
-        "gemm_seconds": 0.023731551925651743,
-        "pack_seconds": 0.010485951989889159,
-        "modular_reduce_seconds": 0.0060207679900340745,
+        "gemm_seconds": 0.026021696081385017,
+        "pack_seconds": 0.011132704005576675,
+        "modular_reduce_seconds": 0.006250880009960382,
         "basis_maintenance_scalar_products_numerator": 642262320,
         "old_basis_gemm_calls": 23,
         "old_basis_gemm_scalar_products_numerator": 105154105932,
-        "old_basis_gemm_seconds": 0.006375999957323074,
+        "old_basis_gemm_seconds": 0.0066283520106226205,
         "panel_future_gemm_calls": 125,
         "panel_future_gemm_scalar_products_numerator": 7451178624,
-        "panel_future_gemm_seconds": 0.00689955199044198,
+        "panel_future_gemm_seconds": 0.00793654402345419,
         "panel_basis_gemm_calls": 131,
         "panel_basis_gemm_scalar_products_numerator": 6663841956,
-        "panel_basis_gemm_seconds": 0.010455999977886671,
+        "panel_basis_gemm_seconds": 0.01145680004730821,
         "gpu_peak_allocated_bytes": 223031056,
         "gpu_host_to_device_bytes_numerator": 431135064,
         "gpu_device_to_host_bytes_numerator": 3760574544,
-        "gpu_transfer_seconds": 0.6400494629999997
+        "gpu_transfer_seconds": 0.8145435769999999
       }
     }
   ],

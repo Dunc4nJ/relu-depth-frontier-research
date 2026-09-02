@@ -1,0 +1,6 @@
+Core: Haswell
+STREAMRANK_PROGRESS columns=1024 ranks=[439, 439] seconds=3.014
+STREAMRANK_PROGRESS columns=2048 ranks=[759, 759] seconds=6.898
+STREAMRANK_PROGRESS columns=3072 ranks=[913, 913] seconds=10.207
+STREAMRANK_PROGRESS columns=4096 ranks=[1200, 1200] seconds=14.428
+STREAMRANK_PROGRESS columns=5120 ranks=[1335, 1335] seconds=16.816

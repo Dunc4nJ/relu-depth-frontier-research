@@ -69,6 +69,36 @@ AmberBluff subsequently authorized increasing the CUDA-only thread limit from
 24/64 to 60/64. Because that changes the subject binary, this suite is retained
 under `controls-v1-threads24/` but is not used to gate the restarted arms.
 
+The first replacement-suite launch was aborted after an rsync layout error:
+the five updated files landed at `/workspace/relu/` instead of their repository
+relative paths, so the invoked harness still saw the version 1 source and
+binary. Its 7/7 Rust tests passed, but the first CPU control was terminated at
+the 5,120/12,248 checkpoint and wrote no JSON. The logs and misplaced-file
+bytes are preserved under `attempt-control-v2-aborted-sync-layout/`. A
+corrected relative-path sync and exact source-hash preflight preceded the one
+replacement suite used below.
+
+## Version 2 final known-answer suite
+
+The replacement suite ran from 2026-09-02T21:56:42Z through 22:00:10Z with
+source SHA-256
+`67e2b19731bebc6ec506d3830eb2e85d2d9268b1a14688d99a9c9d075b6b1448`
+and rebuilt binary SHA-256
+`cdf835b269d25a37f110d72f16865e6f511d5154b5caf7808dd2eb1d82bc85c3`.
+CPU controls used 6/64 threads and CUDA controls used 60/64 threads; all other
+reducer settings remained those of version 1.
+
+- n=10: 8/8 seed-backend-prime observations processed 12,248/12,248
+  columns, obtained rank 2,166/2,166 and `MEMBER`, and reproduced pivot SHA
+  `13ef82302f2e50e9f9555cd77eab1881bd3ef87f33677badd2b9fe079e39a87d`.
+- n=9 union-trees: 8/8 seed-backend-prime observations processed 739/739
+  selected columns, obtained rank 360/361 and `NON_MEMBER`, and reproduced
+  pivot SHA
+  `3885bf4223184e19c9d6cfdc1632d24d33c47c7cbc4a859f4208257af0933cdd`.
+- CPU/CUDA ordered pivots agreed for 8/8 system-seed-prime pairs. The planted
+  expected-rank-359 mutation was rejected 1/1. The independent verifier passed
+  8/8 reports, 8/8 pivot comparisons, and 1/1 mutation rejection.
+
 ## Subject attempt 1 (aborted at orchestrator steer)
 
 Two p=1,000,003 arms were live concurrently when the thread-limit steer
