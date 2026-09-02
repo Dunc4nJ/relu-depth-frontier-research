@@ -72,6 +72,22 @@ tools/streamrank/target/release/max11-streamrank run-universe \
   This is the second of two finite sketches at one of two named primes; the
   preregistered Stage A verdict still requires both sketches at modulus
   1,000,033 as well.
+- The combined two-sketch Stage A pass at modulus 1,000,033 completed
+  120,948 / 120,948 columns. Both seeds 2,026,090,201 and 2,026,090,202 gave
+  rank(A) = rank([A|b]) = 21,222, MEMBER and unsaturated at 64,000 buckets;
+  both ordered pivot hashes are
+  `2ac8d1227fb3a66e61f2292a861ec9bdb3fb132c970fcd9e1d7da4c2334b744b`.
+  Combined wall time was 2,362.301298446 s, host high-water RSS was
+  13,498,468 KiB, and each reducer reported peak allocated GPU storage
+  15,026,213,376 bytes. JSON SHA-256 is
+  `0fe5bdd36e52ddceb9b259e09f9495611512d8b8833bc462b77e011e15155535`.
+  Thus all 2 sketches x 2 named primes agree on the finite Stage A modular
+  MEMBER observation and are unsaturated. This is not exact-Q verification.
+- The first full-universe launch failed in shell redirection because the scoped
+  remote output directory did not yet exist. Streamrank processed
+  0 / 754,018 requested columns and wrote no log or JSON. After creating only
+  `/workspace/relu/artifacts/math/n11-full-universe`, the identical arm was
+  launched under `nohup` as remote PID 9055.
 
 No-claim: failures and passes here concern only the named finite modular
 sketches and CUDA implementation. They do not establish exact rational
