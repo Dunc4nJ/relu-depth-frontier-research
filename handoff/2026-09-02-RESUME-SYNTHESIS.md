@@ -182,3 +182,16 @@ Recommended start: steps 4 and 1 in parallel on day one.
 ## 10. Glossary
 
 atom / template = (A,B) pair of k-edge multisets, Φ_{A,B} = max(Σ_A m_ij, Σ_B m_ij); loop = diagonal pair (i,i) = bare coordinate; signed-W = B'−A' after cancelling common edges (function-level class); signed mass = |A'| = |B'|; carriers 5E/5L = five common non-loop / loop edges; sorted cone C = {x_1 ≤ … ≤ x_11}; retained hinge = primitive zero-sum direction whose proper prefix sums take both signs, oriented first-nonzero-positive; d_0 = first coordinate of the hinge (loop count at the minimum vertex); Λ = 11th alternating finite difference; O = span of the 163,740 MAX10-lift classes + carriers; STAR = one-edge-per-branch lifts sharing the new apex; P^k = depth-k polytope class; GNF/DR5-MAX = the unproved bridges from arbitrary networks to the degree-5 pairwise dictionary.
+
+---
+
+## 11. Prior updates as verified results land (append-only, dated)
+
+**2026-09-02 ~14:30 UTC (swarm day 1, three results verified by AmberBluff re-execution):**
+- Column generation is exact and fast enough: the Rust generator (`tools/colgen`) reproduces all 10,976 n=9 and 12,248 n=10 saved columns coefficient-for-coefficient and the frozen G-0028 price vectors at both primes. Measured n=11 cost: 0.28 CPU-s per column, median 29k retained hinges, ~31.7k nonzeros per column, so the 754,017-column universe holds ~2.4e10 nonzeros (5x my earlier 5e9) and one full pass is ~10 h at 6 threads. (Bead .1, closed with evidence.)
+- The exact-lift leg works on real known answers: exact rational MAX_9 and MAX_10 witnesses recovered from the loop-free systems (supports 415 and 424, verified over Q on every row; n=10 denominator lcm 304,819,200 = 2^10·3^5·5^2·7^2, identical to the upstream certificate's). Dixon solve 11 s at r=2,166. (Bead .2, RESULT pending.)
+- Vertex-collapse lemma PROVED (bead .5): F_n(A,B) = sum over labels v of F_{n-1}(collapse_v(A,B)) on the sorted cone. So span(loop-free, n=11) is a subspace of span(loop-inclusive degree-5, n=10), and a MAX_11 loop-free certificate is the same thing as a degree-5 loop-inclusive MAX_10 certificate whose coefficients factor through the collapse map. Local two-term/quadratic moves do NOT generate the column relations (explicit counterexamples at n=7,8), so no cheap algebraic collapse of the universe exists along that route. Burnside counts 490,480 (n=12) and 18,436,223 (degree 6) confirmed.
+
+Revised decomposition (compare §5a): P(MAX_11 in loopless k=5 span) unchanged ≈ 0.45–0.50 (nothing yet bears on n=11 membership itself); P(two-prime decision completes on this box within ~3 weeks) 0.60 → ≈ 0.80 (pipeline risk retired faster than planned; residual risk = n=11 rank above ~60k forcing a rented node, and the ~1-day-per-prime sketched elimination); P(exact lift succeeds | member) 0.85 → 0.90. Net P(verified MAX_11 witness via path 1 within ~3 weeks) ≈ 0.25 → ≈ 0.35.
+
+Plan refinements adopted: (i) a stratified first experiment (bead .7) may give a positive early at 5–10x lower cost; (ii) if the loopless family is NON-MEMBER, the exact rational separator (bead .8) prices the 7,015,841-record loop-inclusive universe in one streaming pass, and only the violated columns join the next rank computation — that is the enlargement strategy, not a fresh 10x solve.
