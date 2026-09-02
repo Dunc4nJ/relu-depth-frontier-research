@@ -33,6 +33,7 @@ SATURATION_CEILING = 127_000
 RSS_ABORT_KIB = 230_686_720
 GPU_ABORT_MIB = 90_000
 GPU_TOTAL_MIB = 95_830
+BINARY_SHA = "cdf835b269d25a37f110d72f16865e6f511d5154b5caf7808dd2eb1d82bc85c3"
 
 
 def require(condition: bool, message: str) -> None:
@@ -290,7 +291,7 @@ def main() -> None:
     require(len(binary_parts) == 2, "binary SHA record")
     require(binary_parts[1] == "tools/streamrank/target/release/max11-streamrank",
             "binary path record")
-    require(len(binary_parts[0]) == 64, "binary SHA length")
+    require(binary_parts[0] == BINARY_SHA, "binary SHA record")
 
     control_files: dict[str, str] = {}
     comparisons = 0
