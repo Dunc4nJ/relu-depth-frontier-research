@@ -111,6 +111,23 @@ tools/streamrank/target/release/max11-streamrank run-universe \
     `48cf66fc6f59a6ff9bc8b2eace1ca86065d207d6a5e33f4f458819e10f625451`.
   These are one-prime, one-sketch finite-family observations, not exact-Q
   certificates or separators.
+- Full-universe pass 1 processed 754,018 / 754,018 total columns (754,017
+  serialized records, including the 5E carrier at record 0, plus appended 5L)
+  at modulus 1,000,003, seed 2,026,090,201 and 128,000 buckets. It returned
+  rank(A) = rank([A|b]) = 41,856, MEMBER and unsaturated. Its ordered pivot
+  u64-LE SHA-256 is
+  `3dca7bf54172791c434138386473c58a7cabde598ff649382d8dc29e33e59eab`;
+  JSON SHA-256 is
+  `8ead059c5f3dde6d24bf091e34a67e9e1d6875448a7e58e0ee29dd398fa32d08`.
+  Wall time was 9,958.679300707 s, host high-water RSS was 24,036,372 KiB,
+  and the reducer reported peak allocated GPU storage 42,568,229,376 bytes.
+  This single modular sketch is not the preregistered multi-arm verdict.
+- Full-universe pass 2 was launched under `nohup` at modulus 1,000,003, seed
+  2,026,090,202 and 128,000 buckets, then terminated deliberately after a
+  newer orchestrator allocation message reserved the H100 for another bead.
+  Its durable log reached 6,144 / 754,018 requested columns (interim rank 652)
+  before SIGTERM. No JSON decision report was written. Log SHA-256 is
+  `8416ed4c66c1874fa993dfa4e57239f45a194f01aafbb92cc60e0b11fdea48df`.
 
 No-claim: failures and passes here concern only the named finite modular
 sketches and CUDA implementation. They do not establish exact rational
