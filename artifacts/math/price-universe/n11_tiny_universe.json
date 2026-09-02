@@ -1,0 +1,24 @@
+{
+  "schema": "max11-price-universe-tiny-control-v1",
+  "n": 11,
+  "branch_edge_occurrences": 5,
+  "loopless": true,
+  "records": [
+    {
+      "abs_beta": 0,
+      "abs_components": 0,
+      "active_vertices": 0,
+      "negative_edges": [],
+      "positive_edges": [],
+      "signed_mass": 0
+    },
+    {
+      "abs_beta": 0,
+      "abs_components": 1,
+      "active_vertices": 3,
+      "negative_edges": [[0, 2]],
+      "positive_edges": [[0, 1]],
+      "signed_mass": 1
+    }
+  ]
+}

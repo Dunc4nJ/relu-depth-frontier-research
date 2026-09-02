@@ -1,0 +1,46 @@
+{
+  "annihilated_columns_numerator": 740,
+  "binary": "/data/projects/relu-depth-frontier-research/tools/priceuniverse/target/release/max11-price-universe",
+  "binary_sha256": "e8eac3787edf91565ea27502712a4328433e1b82ff3dab19b71aced6c1fd9214",
+  "columns_evaluated_denominator": 10976,
+  "columns_per_second_denominator": 10.422977895,
+  "columns_per_second_numerator": 10976,
+  "command": "price-saved",
+  "exact_price_vector_encoding": "MPRICEV1",
+  "exact_price_vector_sha256": "9e0cfa35528b9bd77f06d9d2926943d9ab210568a5ace7988e5161304011d1b8",
+  "generation_seconds": 10.149971096,
+  "i128_to_bigint_promoted_columns_numerator": 10976,
+  "input": {
+    "filter": "all",
+    "format": "saved-system-jsonl",
+    "path": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+    "selected_columns_denominator": 10976,
+    "sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+    "source_columns_denominator": 10976
+  },
+  "integer_scaled_common_denominator": "97364603919803580258999820726850424198374075481730015590022192032000190525263857818256419814883341618118281361505947077011539873831487543592990587085504321910697890637689380372169009647347232743227946520019600",
+  "modular_cross_checks": [
+    {
+      "agreement_denominator": 10976,
+      "agreement_numerator": 10976,
+      "prime": 1000003
+    },
+    {
+      "agreement_denominator": 10976,
+      "agreement_numerator": 10976,
+      "prime": 1000033
+    }
+  ],
+  "n": 9,
+  "no_claim": "Exact prices only over the named finite evaluated columns; this is not a MAX11 membership or unrestricted depth result.",
+  "peak_rss_kib": 4960,
+  "schema": "max11-exact-price-universe-v1",
+  "separator": "artifacts/math/exact-leg-at-scale/n9_tree_exact_separator.json",
+  "separator_sha256": "92fb25b388743d38e54c5d2b1c9c96d3184e7debe61ea93b46ebc1c1ea6cc9f5",
+  "total_seconds": 10.422977895,
+  "verdict": "PASS",
+  "violating_columns_numerator": 10236,
+  "violators": "artifacts/math/price-universe/n9_all_final_v2_violators.jsonl",
+  "violators_bytes": 2615577,
+  "violators_sha256": "3ec36f6aa9c7de19f0c867fc525dcb27ad702452892e9cb3d786174684e15985"
+}

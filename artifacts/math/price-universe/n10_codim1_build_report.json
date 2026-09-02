@@ -1,0 +1,45 @@
+{
+  "coefficient_denominator_lcm": "276480",
+  "dropped_pivot_position": 2165,
+  "dropped_pivot_source_index": 12153,
+  "exact_defining_pairings": {
+    "annihilated_subfamily_columns_denominator": 2165,
+    "annihilated_subfamily_columns_numerator": 2165,
+    "dropped_column_pairing": "1"
+  },
+  "exact_solve_seconds": 12.181017275899649,
+  "full_basis_columns_denominator": 2166,
+  "max_rss_kib": 1289780,
+  "no_claim": "The direct ranks and separator concern only a proper subfamily of the finite n=10 saved system.",
+  "nonzero_hinge_weights_numerator": 508,
+  "nonzero_linear_weights_numerator": 0,
+  "pivot_report": "artifacts/math/exact-leg-at-scale/n10-sketch-m6498-p1000003.json",
+  "pivot_report_sha256": "fdba23baaa66ac08c84a96a2a7026b8ad5be30f8654e842d395940b1ad5a99de",
+  "proper_subfamily_columns_denominator": 2165,
+  "rank_checks": [
+    {
+      "full_rank_denominator": 2166,
+      "full_rank_numerator": 2166,
+      "prime": 1000003,
+      "proper_subfamily_columns_denominator": 2165,
+      "proper_subfamily_rank_numerator": 2165
+    },
+    {
+      "full_rank_denominator": 2166,
+      "full_rank_numerator": 2166,
+      "prime": 1000033,
+      "proper_subfamily_columns_denominator": 2165,
+      "proper_subfamily_rank_numerator": 2165
+    }
+  ],
+  "schema": "max11-price-universe-n10-codim1-control-v1",
+  "selected_rows": "artifacts/math/exact-lift-35k/n10_selected_rows.json",
+  "selected_rows_sha256": "e13c4eeebdf54d862a6c25367c8d95755ddd773fff551da165975b03da25847f",
+  "separator": "artifacts/math/price-universe/n10_codim1_separator.json",
+  "separator_sha256": "2e1066fcf0a925999f81a5448f3438ef4f8f717ae7df6a4bfc5176085047fdb6",
+  "source_columns_denominator": 12248,
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+  "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+  "total_seconds": 48.49164321832359,
+  "verdict": "PASS"
+}

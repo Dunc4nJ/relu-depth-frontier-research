@@ -1,0 +1,55 @@
+{
+  "annihilated_columns_numerator": 0,
+  "binary": "/data/projects/relu-depth-frontier-research/tools/priceuniverse/target/release/max11-price-universe",
+  "binary_sha256": "e8eac3787edf91565ea27502712a4328433e1b82ff3dab19b71aced6c1fd9214",
+  "columns_evaluated_denominator": 3,
+  "columns_per_second_denominator": 7.575993157,
+  "columns_per_second_numerator": 3,
+  "command": "price-universe",
+  "exact_price_vector_encoding": "MPRICEV1",
+  "exact_price_vector_sha256": "254108255eba75d2b1edce019609e8f618d14679467a25b9a8024c8d16e379e6",
+  "generation_seconds": 0.017588626,
+  "i128_to_bigint_promoted_columns_numerator": 3,
+  "input": {
+    "branch_edge_occurrences": 5,
+    "five_e_carrier_source_index": 0,
+    "five_l_carrier_source_index": null,
+    "format": "max11-colgen Universe",
+    "order_file": "artifacts/math/price-universe/n11_order_7_3_0.json",
+    "order_file_sha256": "e8a5064568f658fd3f80b63516356472f9bee975d8fe351ed063624fb877bc8a",
+    "path": "artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz",
+    "range_start": null,
+    "range_stop": null,
+    "selected_records_denominator": 3,
+    "sha256": "8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8",
+    "source_columns_denominator": 3,
+    "target_source_index": null,
+    "threads_maximum": 6,
+    "universe_records_denominator": 754017
+  },
+  "integer_scaled_common_denominator": "8244055743097608747690032820583879117724729719189043880038359043733520132155141369187407578565802301489311119441431550904721104197059713291105698989703821944822611796074435214872294384860184890834596687743099571200",
+  "modular_cross_checks": [
+    {
+      "agreement_denominator": 3,
+      "agreement_numerator": 3,
+      "prime": 1000003
+    },
+    {
+      "agreement_denominator": 3,
+      "agreement_numerator": 3,
+      "prime": 1000033
+    }
+  ],
+  "n": 11,
+  "no_claim": "Exact prices only over the named finite evaluated columns; this is not a MAX11 membership or unrestricted depth result.",
+  "peak_rss_kib": 300792,
+  "schema": "max11-exact-price-universe-v1",
+  "separator": "artifacts/math/price-universe/n11_benchmark_separator.json",
+  "separator_sha256": "8c645561ef322c90000a4289fdb391f9bb56c9439611211b58cbaa8e59a807b8",
+  "total_seconds": 7.575993157,
+  "verdict": "PASS",
+  "violating_columns_numerator": 3,
+  "violators": "artifacts/math/price-universe/n11_order_7_3_0_final_v2_violators.jsonl",
+  "violators_bytes": 778,
+  "violators_sha256": "042195518e0b0bc31de3e3d8c33ed9826dae6051b1af4e55cf877630da87238a"
+}

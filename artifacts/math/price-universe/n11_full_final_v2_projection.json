@@ -1,0 +1,43 @@
+{
+  "benchmark_report": "artifacts/math/price-universe/n11_first5000_final_v2_report.json",
+  "benchmark_report_sha256": "ddf268f68f51bc9ea55ec662f8a41963a867c9d00ce202750ffef8c9b7e862e2",
+  "bigint_promoted_columns_denominator": 5000,
+  "bigint_promoted_columns_numerator": 5000,
+  "measured_columns_denominator": 5000,
+  "measured_generation_seconds": 98.72524070799993,
+  "measured_pricing_and_output_seconds": 13.377470801000072,
+  "measured_total_seconds": 112.102711509,
+  "no_claim": "These are linear projections from one 5,000-column prefix timing, not measured full passes and not evidence about n=11 membership.",
+  "peak_rss_kib": 660496,
+  "projections": [
+    {
+      "columns_denominator": 754017,
+      "label": "G-0027 records",
+      "projected_generation_hours": 4.135583879051333,
+      "projected_generation_seconds": 14888.101964584797,
+      "projected_total_hours": 4.695963901326759,
+      "projected_total_seconds": 16905.47004477633
+    },
+    {
+      "columns_denominator": 754018,
+      "label": "source columns including 5L",
+      "projected_generation_hours": 4.135589363786927,
+      "projected_generation_seconds": 14888.121709632938,
+      "projected_total_hours": 4.695970129255175,
+      "projected_total_seconds": 16905.49246531863
+    },
+    {
+      "columns_denominator": 754019,
+      "label": "source columns plus target evaluation",
+      "projected_generation_hours": 4.135594848522523,
+      "projected_generation_seconds": 14888.141454681081,
+      "projected_total_hours": 4.695976357183593,
+      "projected_total_seconds": 16905.514885860935
+    }
+  ],
+  "schema": "max11-price-universe-benchmark-projection-v1",
+  "threads_maximum": 6,
+  "throughput_columns_numerator": 5000,
+  "throughput_seconds_denominator": 112.102711509,
+  "verdict": "PASS"
+}

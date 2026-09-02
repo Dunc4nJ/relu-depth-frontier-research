@@ -1,0 +1,55 @@
+{
+  "annihilated_columns_numerator": 0,
+  "binary": "/data/projects/relu-depth-frontier-research/tools/priceuniverse/target/release/max11-price-universe",
+  "binary_sha256": "e8eac3787edf91565ea27502712a4328433e1b82ff3dab19b71aced6c1fd9214",
+  "columns_evaluated_denominator": 4,
+  "columns_per_second_denominator": 0.192090712,
+  "columns_per_second_numerator": 4,
+  "command": "price-universe",
+  "exact_price_vector_encoding": "MPRICEV1",
+  "exact_price_vector_sha256": "515ebd5d4f4146c0174aea481675090faa57a69ffd7e2c85aebca407e7a7e0ad",
+  "generation_seconds": 0.006946727,
+  "i128_to_bigint_promoted_columns_numerator": 4,
+  "input": {
+    "branch_edge_occurrences": 5,
+    "five_e_carrier_source_index": 0,
+    "five_l_carrier_source_index": 2,
+    "format": "max11-colgen Universe",
+    "order_file": null,
+    "order_file_sha256": null,
+    "path": "artifacts/math/price-universe/n11_tiny_universe.json",
+    "range_start": 0,
+    "range_stop": 2,
+    "selected_records_denominator": 2,
+    "sha256": "97892ace7cdc7aaca24e504dfc65f17ab5458ca104c65e7b5230c2ff73848f07",
+    "source_columns_denominator": 3,
+    "target_source_index": 3,
+    "threads_maximum": 6,
+    "universe_records_denominator": 2
+  },
+  "integer_scaled_common_denominator": "8244055743097608747690032820583879117724729719189043880038359043733520132155141369187407578565802301489311119441431550904721104197059713291105698989703821944822611796074435214872294384860184890834596687743099571200",
+  "modular_cross_checks": [
+    {
+      "agreement_denominator": 4,
+      "agreement_numerator": 4,
+      "prime": 1000003
+    },
+    {
+      "agreement_denominator": 4,
+      "agreement_numerator": 4,
+      "prime": 1000033
+    }
+  ],
+  "n": 11,
+  "no_claim": "Exact prices only over the named finite evaluated columns; this is not a MAX11 membership or unrestricted depth result.",
+  "peak_rss_kib": 6132,
+  "schema": "max11-exact-price-universe-v1",
+  "separator": "artifacts/math/price-universe/n11_benchmark_separator.json",
+  "separator_sha256": "8c645561ef322c90000a4289fdb391f9bb56c9439611211b58cbaa8e59a807b8",
+  "total_seconds": 0.192090712,
+  "verdict": "PASS",
+  "violating_columns_numerator": 4,
+  "violators": "artifacts/math/price-universe/n11_tiny_carriers_final_v2_violators.jsonl",
+  "violators_bytes": 1021,
+  "violators_sha256": "5e02cfc8683d2f6d8abdd4e61070181df565957b03270f76774915865d7933db"
+}

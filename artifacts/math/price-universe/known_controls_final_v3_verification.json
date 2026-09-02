@@ -1,0 +1,79 @@
+{
+  "modular_primes": [
+    1000003,
+    1000033
+  ],
+  "n10": {
+    "all_saved_columns_denominator": 12248,
+    "common_denominator": 276480,
+    "dropped_pivot_source_index": 12153,
+    "dropped_scaled_price_numerator": 276480,
+    "full_span_rank_denominator": 2166,
+    "full_span_rank_numerator": 2166,
+    "nonzero_price_columns_numerator": 1,
+    "price_report_sha256": "c27bab7d86e657b66afb9af87410dbd7b7feb34b8e382f632094aacf3e4f16ab",
+    "price_vector_sha256": "c1f07f94b36511f71dbab7c7db66f49250359095ab7ab0ef34d876812726f182",
+    "proper_subfamily_columns_denominator": 2165,
+    "proper_subfamily_rank_numerator": 2165,
+    "rank_checks": [
+      {
+        "full_rank_denominator": 2166,
+        "full_rank_numerator": 2166,
+        "prime": 1000003,
+        "proper_subfamily_columns_denominator": 2165,
+        "proper_subfamily_rank_numerator": 2165
+      },
+      {
+        "full_rank_denominator": 2166,
+        "full_rank_numerator": 2166,
+        "prime": 1000033,
+        "proper_subfamily_columns_denominator": 2165,
+        "proper_subfamily_rank_numerator": 2165
+      }
+    ],
+    "zero_price_columns_numerator": 12247
+  },
+  "n9": {
+    "all_saved_columns_denominator": 10976,
+    "all_saved_nonzero_prices_numerator": 10236,
+    "all_saved_zero_prices_numerator": 740,
+    "extra_zero_in_tree_span_rank_checks": {
+      "exact_q": {
+        "tree_columns_denominator": 739,
+        "tree_plus_extra_columns_denominator": 740,
+        "tree_plus_extra_rank_numerator": 360,
+        "tree_rank_numerator": 360
+      },
+      "modular": [
+        {
+          "prime": 1000003,
+          "tree_columns_denominator": 739,
+          "tree_plus_extra_columns_denominator": 740,
+          "tree_plus_extra_rank_numerator": 360,
+          "tree_rank_numerator": 360
+        },
+        {
+          "prime": 1000033,
+          "tree_columns_denominator": 739,
+          "tree_plus_extra_columns_denominator": 740,
+          "tree_plus_extra_rank_numerator": 360,
+          "tree_rank_numerator": 360
+        }
+      ]
+    },
+    "extra_zero_source_indices": [
+      495
+    ],
+    "mutated_tree_columns_denominator": 739,
+    "mutated_tree_columns_nonzero_numerator": 739,
+    "price_report_sha256": "710ae3f0cdae1bd6bafaa7c3c7ab25efab668f925fafc2c2ea222393565e1fdc",
+    "price_vector_sha256": "9e0cfa35528b9bd77f06d9d2926943d9ab210568a5ace7988e5161304011d1b8",
+    "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+    "system_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+    "tree_columns_annihilated_numerator": 739,
+    "tree_columns_denominator": 739
+  },
+  "no_claim": "These are exact known-answer controls over the finite n=9 and n=10 saved systems; they say nothing about n=11 membership.",
+  "schema": "max11-price-universe-known-controls-v1",
+  "verdict": "PASS"
+}

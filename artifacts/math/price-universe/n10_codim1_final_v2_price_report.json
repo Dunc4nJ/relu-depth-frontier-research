@@ -1,0 +1,46 @@
+{
+  "annihilated_columns_numerator": 12247,
+  "binary": "/data/projects/relu-depth-frontier-research/tools/priceuniverse/target/release/max11-price-universe",
+  "binary_sha256": "e8eac3787edf91565ea27502712a4328433e1b82ff3dab19b71aced6c1fd9214",
+  "columns_evaluated_denominator": 12248,
+  "columns_per_second_denominator": 30.367240024,
+  "columns_per_second_numerator": 12248,
+  "command": "price-saved",
+  "exact_price_vector_encoding": "MPRICEV1",
+  "exact_price_vector_sha256": "c1f07f94b36511f71dbab7c7db66f49250359095ab7ab0ef34d876812726f182",
+  "generation_seconds": 30.058234438,
+  "i128_to_bigint_promoted_columns_numerator": 0,
+  "input": {
+    "filter": "all",
+    "format": "saved-system-jsonl",
+    "path": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+    "selected_columns_denominator": 12248,
+    "sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+    "source_columns_denominator": 12248
+  },
+  "integer_scaled_common_denominator": "276480",
+  "modular_cross_checks": [
+    {
+      "agreement_denominator": 12248,
+      "agreement_numerator": 12248,
+      "prime": 1000003
+    },
+    {
+      "agreement_denominator": 12248,
+      "agreement_numerator": 12248,
+      "prime": 1000033
+    }
+  ],
+  "n": 10,
+  "no_claim": "Exact prices only over the named finite evaluated columns; this is not a MAX11 membership or unrestricted depth result.",
+  "peak_rss_kib": 6340,
+  "schema": "max11-exact-price-universe-v1",
+  "separator": "artifacts/math/price-universe/n10_codim1_separator.json",
+  "separator_sha256": "2e1066fcf0a925999f81a5448f3438ef4f8f717ae7df6a4bfc5176085047fdb6",
+  "total_seconds": 30.367240024,
+  "verdict": "PASS",
+  "violating_columns_numerator": 1,
+  "violators": "artifacts/math/price-universe/n10_codim1_final_v2_violators.jsonl",
+  "violators_bytes": 47,
+  "violators_sha256": "ec4ecee2bc99ed65007b8c548fa8af94d686615be8fad064abbda76fa35a65e2"
+}

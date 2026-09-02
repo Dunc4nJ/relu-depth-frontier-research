@@ -1,0 +1,46 @@
+{
+  "annihilated_columns_numerator": 0,
+  "binary": "/data/projects/relu-depth-frontier-research/tools/priceuniverse/target/release/max11-price-universe",
+  "binary_sha256": "e8eac3787edf91565ea27502712a4328433e1b82ff3dab19b71aced6c1fd9214",
+  "columns_evaluated_denominator": 739,
+  "columns_per_second_denominator": 4.94260543,
+  "columns_per_second_numerator": 739,
+  "command": "price-saved",
+  "exact_price_vector_encoding": "MPRICEV1",
+  "exact_price_vector_sha256": "e72ea71e98b85d8c430921b79d3a1715e4c3d141eabded3a48f0b5b2066a608f",
+  "generation_seconds": 4.681983157,
+  "i128_to_bigint_promoted_columns_numerator": 739,
+  "input": {
+    "filter": "union-trees",
+    "format": "saved-system-jsonl",
+    "path": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+    "selected_columns_denominator": 739,
+    "sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+    "source_columns_denominator": 10976
+  },
+  "integer_scaled_common_denominator": "97364603919803580258999820726850424198374075481730015590022192032000190525263857818256419814883341618118281361505947077011539873831487543592990587085504321910697890637689380372169009647347232743227946520019600",
+  "modular_cross_checks": [
+    {
+      "agreement_denominator": 739,
+      "agreement_numerator": 739,
+      "prime": 1000003
+    },
+    {
+      "agreement_denominator": 739,
+      "agreement_numerator": 739,
+      "prime": 1000033
+    }
+  ],
+  "n": 9,
+  "no_claim": "Exact prices only over the named finite evaluated columns; this is not a MAX11 membership or unrestricted depth result.",
+  "peak_rss_kib": 4648,
+  "schema": "max11-exact-price-universe-v1",
+  "separator": "artifacts/math/exact-leg-at-scale/n9_tree_exact_separator_mutated_plus1.json",
+  "separator_sha256": "06931186ae944263d28b9b0c42e1539b925ddd1d0ca53359679164889b5df6d1",
+  "total_seconds": 4.94260543,
+  "verdict": "PASS",
+  "violating_columns_numerator": 739,
+  "violators": "artifacts/math/price-universe/n9_tree_mutant_final_v2_violators.jsonl",
+  "violators_bytes": 188548,
+  "violators_sha256": "e0ee0e39004a57c5c281517389ccd4b2d67971cb26874b366888f76a0ae93510"
+}
