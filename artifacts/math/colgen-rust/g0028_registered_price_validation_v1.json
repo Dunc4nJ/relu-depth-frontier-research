@@ -1,0 +1,53 @@
+{
+  "schema": "max11-colgen-g0028-price-validation-v1",
+  "result": "PASS",
+  "command": [
+    "target/release/max11-colgen",
+    "validate-prices",
+    "--universe",
+    "../../artifacts/math/G-0028/g0025_registered_loopless_signed_records_v1.json.gz",
+    "--dual",
+    "../../artifacts/math/G-0028/g0025_rank_one_sparse_modular_dual_v1.json",
+    "--expected-report",
+    "../../artifacts/math/G-0028/g0025_registered_delta_replay_v1.json",
+    "--threads",
+    "6",
+    "--output",
+    "../../artifacts/math/colgen-rust/g0028_registered_price_validation_v1.json"
+  ],
+  "universe": "../../artifacts/math/G-0028/g0025_registered_loopless_signed_records_v1.json.gz",
+  "universe_sha256": "e13d166767719d545ac43e0ebdad3a227e6c7b714029a8a952afdd7b9f3c1b59",
+  "dual": "../../artifacts/math/G-0028/g0025_rank_one_sparse_modular_dual_v1.json",
+  "dual_sha256": "862667d464fe842b17baebd1a3c9933fc27012ea1129a94631d75cadfed5143c",
+  "expected_report": "../../artifacts/math/G-0028/g0025_registered_delta_replay_v1.json",
+  "expected_report_sha256": "a72ce51b3925af36a9644734f9212fae56b77b28b95df8754e50398d9e2b4db8",
+  "records_checked_denominator": 13419,
+  "threads": 6,
+  "wall_seconds": 677.635145422,
+  "records_per_second": 19.80269189202585,
+  "fields": [
+    {
+      "label": "g0025-rank-one-p1000003",
+      "modulus": 1000003,
+      "nonzero_price_count": 2323,
+      "zero_price_count": 11096,
+      "residue_vector_int64_le_sha256": "eb9a0a786881a003d04de1e10edf5fc93616d39763c7baf6be76bfcf219a0bf2",
+      "expected_nonzero_price_count": 2323,
+      "expected_zero_price_count": 11096,
+      "expected_residue_vector_int64_le_sha256": "eb9a0a786881a003d04de1e10edf5fc93616d39763c7baf6be76bfcf219a0bf2",
+      "exact_match": true
+    },
+    {
+      "label": "g0025-rank-one-p1000033",
+      "modulus": 1000033,
+      "nonzero_price_count": 2323,
+      "zero_price_count": 11096,
+      "residue_vector_int64_le_sha256": "9f7a56f1aa125da35f5e6e9202658ebca5f9338d0440cc13725f3013d9cea149",
+      "expected_nonzero_price_count": 2323,
+      "expected_zero_price_count": 11096,
+      "expected_residue_vector_int64_le_sha256": "9f7a56f1aa125da35f5e6e9202658ebca5f9338d0440cc13725f3013d9cea149",
+      "exact_match": true
+    }
+  ],
+  "no_claim": "Reproduction of two frozen modular scalar-price vectors for this finite registered record stream only. It is not exact-Q verification, a MAX11 identity, a span decision, or completeness for arbitrary two-hidden-layer networks."
+}

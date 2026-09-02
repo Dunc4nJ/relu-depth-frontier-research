@@ -1,0 +1,31 @@
+{
+  "schema": "max11-colgen-template-validation-v1",
+  "result": "PASS",
+  "command": [
+    "/data/projects/relu-depth-frontier-research/tools/colgen/target/release/max11-colgen",
+    "validate-templates",
+    "--input",
+    "/data/projects/relu-depth-frontier-research/artifacts/math/colgen-rust/controls/loopless_system_n7.jsonl",
+    "--n",
+    "7",
+    "--branch-edges",
+    "3",
+    "--threads",
+    "2",
+    "--output",
+    "/data/projects/relu-depth-frontier-research/artifacts/math/colgen-rust/controls/n7_literal_validation_v1.json",
+    "--bruteforce"
+  ],
+  "input": "/data/projects/relu-depth-frontier-research/artifacts/math/colgen-rust/controls/loopless_system_n7.jsonl",
+  "input_sha256": "de45563dc8a8ddce410a6a97a1ac538669741db4e98e4fb806d519bdc51b5b62",
+  "n": 7,
+  "branch_edge_occurrences": 3,
+  "templates_checked": 357,
+  "exact_sparse_matches": 357,
+  "literal_permutation_matches": 357,
+  "literal_permutations_per_template": 5040,
+  "threads": 2,
+  "wall_seconds": 0.255497496,
+  "convention_map": "W=B-A. Python's lexicographically smaller back-degree word is the fixed symmetrized A-branch base plus w on exactly the permutations whose first nonzero w entry is negative; ReLU(-z)=ReLU(z)-z. Primitive retained hinge directions and gcd multiplicities are then identical.",
+  "no_claim": "Exact column agreement for this finite template file only; no MAX11 membership, rational identity, ansatz completeness, or unrestricted two-hidden-layer result."
+}
