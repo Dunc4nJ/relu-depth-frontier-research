@@ -94,7 +94,8 @@ def verify_control(path: Path, backend: str, n: int, prime: int) -> list[str]:
         9: (739, 360, 361, "NON_MEMBER", "union-trees", 1080, 256),
         10: (12_248, 2166, 2166, "MEMBER", "all", 6498, 1024),
     }[n]
-    columns, rank_a, rank_aug, verdict, filter_name, buckets, batch = expected
+    columns, rank_a, rank_aug, verdict, filter_name, buckets, cpu_batch = expected
+    batch = 1024 if backend == "cuda" and n == 10 else cpu_batch
     require(report.get("schema") == "max11-streamrank-pivots-v1", "control schema")
     require(report.get("result") == "CONTROL_PASS", "known-answer control did not pass")
     require(report.get("backend") == backend, "control backend mismatch")

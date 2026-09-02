@@ -57,10 +57,13 @@ run_control() {
   fi
   if [[ "$system" == n10 ]]; then
     input="$n10"; n=10; filter=all; buckets=6498; columns=12248
-    rank=2166; aug=2166; verdict=MEMBER; batch=1024
+    rank=2166; aug=2166; verdict=MEMBER; batch=256
   else
     input="$n9"; n=9; filter=union-trees; buckets=1080; columns=739
     rank=360; aug=361; verdict=NON_MEMBER; batch=256
+  fi
+  if [[ "$backend" == cuda && "$system" == n10 ]]; then
+    batch=1024
   fi
   "$binary" run-saved \
     --backend "$backend" \
