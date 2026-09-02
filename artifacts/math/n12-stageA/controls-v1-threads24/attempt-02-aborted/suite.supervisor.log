@@ -1,0 +1,66 @@
+2026-09-02T21:10:02Z
+Wed Sep  2 21:10:02 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.82.09              Driver Version: 580.82.09      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                On  |   00000000:3D:00.0 Off |                    0 |
+| N/A   40C    P0             64W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+cargo 1.98.0 (797e8a9bc 2026-08-05)
+rustc 1.98.0 (88d9e12ae 2026-08-18)
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2024 NVIDIA Corporation
+Built on Thu_Mar_28_02:18:24_PDT_2024
+Cuda compilation tools, release 12.4, V12.4.131
+Build cuda_12.4.r12.4/compiler.34097967_0
+handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz: OK
+handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz: OK
+tools/streamrank/src/main.rs: OK
+tools/streamrank/src/lib.rs: OK
+tools/streamrank/src/cuda.rs: OK
+tools/streamrank/src/cuda_backend.cu: OK
+tools/streamrank/build.rs: OK
+tools/streamrank/Cargo.toml: OK
+tools/colgen/src/lib.rs: OK
+tools/colgen/src/main.rs: OK
+    Finished `release` profile [optimized] target(s) in 0.04s
+     Running unittests src/lib.rs (tools/streamrank/target/release/deps/max11_streamrank-a129063133a1416f)
+
+running 6 tests
+test tests::rejects_unsafe_binary64_block ... ok
+test tests::barrett_reduction_matches_division ... ok
+test tests::sketch_is_deterministic_and_seeded ... ok
+test tests::left_separator_annihilates_basis_and_separates ... ok
+test tests::blocked_basis_matches_scalar_rank ... ok
+test tests::cuda_backend_matches_cpu_pivots_and_reduction ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.51s
+
+     Running unittests src/main.rs (tools/streamrank/target/release/deps/max11_streamrank-4e75dcc85ab719ee)
+
+running 1 test
+test tests::five_l_is_exact_all_ones_carrier ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests max11_streamrank
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `release` profile [optimized] target(s) in 0.04s
+11d08a17eb706f6b4bfcc3f75d18e0e3e02167127e19c1db0b74a1ee810fe676  tools/streamrank/target/release/max11-streamrank

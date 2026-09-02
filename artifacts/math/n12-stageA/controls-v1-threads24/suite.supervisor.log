@@ -1,0 +1,87 @@
+2026-09-02T21:21:06Z
+OPENBLAS_CORETYPE=HASWELL OPENBLAS_VERBOSE=2
+Wed Sep  2 21:21:06 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.82.09              Driver Version: 580.82.09      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                On  |   00000000:3D:00.0 Off |                    0 |
+| N/A   42C    P0             65W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+cargo 1.98.0 (797e8a9bc 2026-08-05)
+rustc 1.98.0 (88d9e12ae 2026-08-18)
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2024 NVIDIA Corporation
+Built on Thu_Mar_28_02:18:24_PDT_2024
+Cuda compilation tools, release 12.4, V12.4.131
+Build cuda_12.4.r12.4/compiler.34097967_0
+handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz: OK
+handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz: OK
+tools/streamrank/src/main.rs: OK
+tools/streamrank/src/lib.rs: OK
+tools/streamrank/src/cuda.rs: OK
+tools/streamrank/src/cuda_backend.cu: OK
+tools/streamrank/build.rs: OK
+tools/streamrank/Cargo.toml: OK
+tools/colgen/src/lib.rs: OK
+tools/colgen/src/main.rs: OK
+    Finished `release` profile [optimized] target(s) in 0.03s
+     Running unittests src/lib.rs (tools/streamrank/target/release/deps/max11_streamrank-a129063133a1416f)
+Core: Haswell
+
+running 6 tests
+test tests::sketch_is_deterministic_and_seeded ... ok
+test tests::barrett_reduction_matches_division ... ok
+test tests::rejects_unsafe_binary64_block ... ok
+test tests::left_separator_annihilates_basis_and_separates ... ok
+test tests::blocked_basis_matches_scalar_rank ... ok
+test tests::cuda_backend_matches_cpu_pivots_and_reduction ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.45s
+
+     Running unittests src/main.rs (tools/streamrank/target/release/deps/max11_streamrank-4e75dcc85ab719ee)
+
+running 1 test
+test tests::five_l_is_exact_all_ones_carrier ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests max11_streamrank
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `release` profile [optimized] target(s) in 0.04s
+11d08a17eb706f6b4bfcc3f75d18e0e3e02167127e19c1db0b74a1ee810fe676  tools/streamrank/target/release/max11-streamrank
+33af41e8a2504d3921ff5c19fab59451978584ca22eb4237e8723eb6a0ec99c1  artifacts/math/n12-stageA/controls/cpu-n10-p1000003.json
+f0de996ee1748f01789a4900d4be32e5963bc79f97d19985be6eaf6a5a1cc3bc  artifacts/math/n12-stageA/controls/cpu-n9-p1000003.json
+5ef42bdcd9dbbc35b4f01d7e37efd4488636de762ffd774aec05ffb2fa3f4691  artifacts/math/n12-stageA/controls/cpu-n10-p1000033.json
+305e9e04f51156f590d7f98e73b0c34b223c8f90ad97c09da923240b1f16dcc7  artifacts/math/n12-stageA/controls/cpu-n9-p1000033.json
+8895dd3662ae44f7abc63e707017ccbed7e8cc241bc4808fd0a882c2078ea2ff  artifacts/math/n12-stageA/controls/cuda-n10-p1000003.json
+a8ba3bb381d8ece8ac00e1afd19c542aa08ce5dd532718dc31d0c67012a1d34f  artifacts/math/n12-stageA/controls/cuda-n9-p1000003.json
+7a55341cd8c833076b4e87e74a2c70d5e042ffc32ce133b06a2f24c24562a6f8  artifacts/math/n12-stageA/controls/cuda-n10-p1000033.json
+936a1117946b6ab9a472611ea9fcd44220944897c2b59fbcb13615162ab87ff9  artifacts/math/n12-stageA/controls/cuda-n9-p1000033.json
+2026-09-02T21:23:56Z
+33af41e8a2504d3921ff5c19fab59451978584ca22eb4237e8723eb6a0ec99c1  artifacts/math/n12-stageA/controls/cpu-n10-p1000003.json
+5ef42bdcd9dbbc35b4f01d7e37efd4488636de762ffd774aec05ffb2fa3f4691  artifacts/math/n12-stageA/controls/cpu-n10-p1000033.json
+f0de996ee1748f01789a4900d4be32e5963bc79f97d19985be6eaf6a5a1cc3bc  artifacts/math/n12-stageA/controls/cpu-n9-p1000003.json
+305e9e04f51156f590d7f98e73b0c34b223c8f90ad97c09da923240b1f16dcc7  artifacts/math/n12-stageA/controls/cpu-n9-p1000033.json
+8895dd3662ae44f7abc63e707017ccbed7e8cc241bc4808fd0a882c2078ea2ff  artifacts/math/n12-stageA/controls/cuda-n10-p1000003.json
+7a55341cd8c833076b4e87e74a2c70d5e042ffc32ce133b06a2f24c24562a6f8  artifacts/math/n12-stageA/controls/cuda-n10-p1000033.json
+d5053701e080b530a0a4d43953d9829f11f11807fd419df79d1f0ac9d1c531d5  artifacts/math/n12-stageA/controls/cuda-n9-p1000003-mutant-expected-rank359.json
+a8ba3bb381d8ece8ac00e1afd19c542aa08ce5dd532718dc31d0c67012a1d34f  artifacts/math/n12-stageA/controls/cuda-n9-p1000003.json
+936a1117946b6ab9a472611ea9fcd44220944897c2b59fbcb13615162ab87ff9  artifacts/math/n12-stageA/controls/cuda-n9-p1000033.json
+CONTROL_SUITE_COMPLETE
