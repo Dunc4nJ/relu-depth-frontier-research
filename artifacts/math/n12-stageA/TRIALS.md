@@ -120,6 +120,25 @@ The complete logs and telemetry are preserved under
 diagnostics, not results on the full 148,629/148,629 source-column denominator
 (148,628 ordered universe records plus 1/1 five-linear carrier).
 
+## Scheduling amendment: two concurrent slots
+
+At 2026-09-02T23:06Z AmberBluff amended only the execution schedule after
+observing substantial idle CPU, GPU, and RAM capacity. The sequential
+coordinator PID 10,906 was terminated without signaling arm 1: its wrapper PID
+10,909 and reducer PID 10,917 remained live and were reparented. At the last
+pre-amendment checkpoint, arm 1 had reached 36,864/148,628 ordered records at
+rank 8,176/128,000 after 3,770.274 seconds; this was not a verdict.
+
+Arm 2 (p=1,000,003, seed 2,026,090,202) then launched under a separate
+`nohup` supervisor with wrapper/reducer PIDs 16,346/16,355 and its own output,
+logs, and telemetry. The two active arms retain 60 configured column-generation
+threads each, all frozen reducer settings, and distinct output prefixes. Their
+initial aggregate GPU use was 42,381/95,830 MiB, below the
+90,000/95,830 MiB gate. The replacement watcher maintains at most two active
+arms (the 120-thread scheduling cap), and launches arms 3 and 4 only as a slot
+becomes free. The four primes/seeds, finite subjects, and verdict rule are
+unchanged; scheduling changes none of their epistemic meaning.
+
 ## No claim
 
 These trials validate the named machinery on two finite known-answer systems.
