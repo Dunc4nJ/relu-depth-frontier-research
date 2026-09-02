@@ -513,11 +513,11 @@ fn abort_reason(config: &Config, states: &[State]) -> Option<String> {
             return Some(format!("rank {observed} exceeded abort threshold {limit}"));
         }
     }
-    if let (Some(limit), Some(observed)) = (config.abort_rss_kib_above, current_rss_kib())
+    if let (Some(limit), Some(observed)) = (config.abort_rss_kib_above, max_rss_kib())
         && observed > limit as u64
     {
         return Some(format!(
-            "current RSS {observed} KiB exceeded abort threshold {limit} KiB"
+            "high-water RSS {observed} KiB exceeded abort threshold {limit} KiB"
         ));
     }
     None

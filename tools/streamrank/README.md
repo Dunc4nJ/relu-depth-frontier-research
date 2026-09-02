@@ -36,6 +36,7 @@ One or two distinct values are accepted by `--seeds`. Stage runs may append
 the exact `5L` carrier with `--include-five-l true`; for `n=11` it has eleven
 linear coefficients equal to `5*10! = 18,144,000`, no hinges, and source index
 `universe.records.len()` (754,017 for G-0027). Resource gates use
-`--abort-rank-above R` and `--abort-rss-kib-above KIB`. A triggered gate writes
+`--abort-rank-above R` and `--abort-rss-kib-above KIB`; the memory gate uses
+high-water RSS so transient GEMM storage is counted. A triggered gate writes
 a create-new `max11-streamrank-abort-v1` partial report, including the processed
 denominator and pivots, without attempting a target test or separator.
