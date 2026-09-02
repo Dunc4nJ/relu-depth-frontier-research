@@ -1,10 +1,11 @@
 use crate::modular::BlockFactor;
-use crate::problem::{ExactProblem, SolveConfig};
+use crate::problem::{ExactProblem, SolveConfig, sha256_path};
 use num_bigint::{BigInt, BigUint};
 use num_integer::Integer;
 use num_traits::{One, Signed, Zero};
 use serde::Serialize;
 use std::fs;
+use std::path::Path;
 use std::time::Instant;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -34,9 +35,12 @@ pub struct BigReport {
     schema: &'static str,
     verdict: &'static str,
     input: String,
+    input_sha256: String,
     rows_checked_denominator: usize,
     columns_denominator: usize,
     csc_nonzeros_numerator: usize,
+    selected_minor_rows_numerator: usize,
+    selected_minor_rows_denominator: usize,
     prime: u32,
     threads_maximum: usize,
     lu_total_seconds: f64,
@@ -56,6 +60,16 @@ pub struct BigReport {
     total_seconds: f64,
     coefficients: Vec<Coefficient>,
     no_claim: &'static str,
+}
+
+#[derive(Serialize)]
+struct ModularSupportReport {
+    schema: &'static str,
+    input: String,
+    prime: u32,
+    nonzero_entries_numerator: usize,
+    entries_denominator: usize,
+    source_indices: Vec<u64>,
 }
 
 fn reconstruct(residue: &BigUint, modulus: &BigUint) -> Option<BigRational> {
@@ -142,7 +156,10 @@ fn max_rss_kib() -> u64 {
         .unwrap_or(0)
 }
 
-pub fn solve(config: &SolveConfig) -> Result<BigReport, String> {
+pub fn solve(
+    config: &SolveConfig,
+    modular_support_output: Option<&Path>,
+) -> Result<BigReport, String> {
     if config.max_steps == 0 {
         return Err("big reconstruction needs at least one step".to_string());
     }
@@ -157,6 +174,12 @@ pub fn solve(config: &SolveConfig) -> Result<BigReport, String> {
         config.threads,
         config.row_tile,
     )?;
+    eprintln!(
+        "BIG_DIXON_LU_DONE seconds={:.6} rows={} columns={}",
+        factor.timings.total.as_secs_f64(),
+        problem.selected_rows.len(),
+        problem.columns
+    );
     let mut residual: Vec<i128> = problem.rhs.iter().map(|&value| value as i128).collect();
     let mut residues = vec![BigUint::zero(); problem.columns];
     let mut modulus = BigUint::one();
@@ -170,6 +193,36 @@ pub fn solve(config: &SolveConfig) -> Result<BigReport, String> {
         let phase = Instant::now();
         let digit = factor.solve(&problem.selected_rhs_mod(&residual, config.prime))?;
         solve_seconds.push(phase.elapsed().as_secs_f64());
+        if iteration == 1 {
+            let source_indices: Vec<u64> = digit
+                .iter()
+                .zip(&problem.source_indices)
+                .filter_map(|(&value, &source_index)| (value != 0).then_some(source_index))
+                .collect();
+            eprintln!(
+                "BIG_DIXON_MODULAR_SUPPORT nonzero_entries={}/{} prime={}",
+                source_indices.len(),
+                problem.columns,
+                config.prime
+            );
+            if let Some(path) = modular_support_output {
+                let report = ModularSupportReport {
+                    schema: "max11-lift-large-modular-support-v1",
+                    input: config.input.display().to_string(),
+                    prime: config.prime,
+                    nonzero_entries_numerator: source_indices.len(),
+                    entries_denominator: problem.columns,
+                    source_indices,
+                };
+                let encoded = serde_json::to_string_pretty(&report)
+                    .map_err(|error| error.to_string())?
+                    + "\n";
+                if let Some(parent) = path.parent() {
+                    fs::create_dir_all(parent).map_err(|error| error.to_string())?;
+                }
+                fs::write(path, encoded).map_err(|error| error.to_string())?;
+            }
+        }
         for (value, &new_digit) in residues.iter_mut().zip(&digit) {
             *value += &modulus * new_digit;
         }
@@ -186,6 +239,12 @@ pub fn solve(config: &SolveConfig) -> Result<BigReport, String> {
             residual[row] = difference / config.prime as i128;
         }
         matvec_seconds.push(phase.elapsed().as_secs_f64());
+        eprintln!(
+            "BIG_DIXON_STEP iteration={iteration}/{} solve_seconds={:.6} matvec_seconds={:.6}",
+            config.max_steps,
+            solve_seconds.last().copied().unwrap_or(0.0),
+            matvec_seconds.last().copied().unwrap_or(0.0)
+        );
         if iteration % config.reconstruct_every != 0 {
             continue;
         }
@@ -203,6 +262,11 @@ pub fn solve(config: &SolveConfig) -> Result<BigReport, String> {
             reconstructed_coordinates_denominator: problem.columns,
             exact_check_pass,
         });
+        eprintln!(
+            "BIG_DIXON_RECONSTRUCTION iteration={iteration} modulus_bits={} coordinates={count}/{} exact_check_pass={exact_check_pass}",
+            modulus.bits(),
+            problem.columns
+        );
         if exact_check_pass {
             recovered = Some(candidate);
             recovered_iteration = iteration;
@@ -244,9 +308,12 @@ pub fn solve(config: &SolveConfig) -> Result<BigReport, String> {
         schema: "max11-lift-large-big-result-v1",
         verdict: "PASS",
         input: config.input.display().to_string(),
+        input_sha256: sha256_path(&config.input)?,
         rows_checked_denominator: problem.rows,
         columns_denominator: problem.columns,
         csc_nonzeros_numerator: problem.values.len(),
+        selected_minor_rows_numerator: problem.selected_rows.len(),
+        selected_minor_rows_denominator: problem.columns,
         prime: config.prime,
         threads_maximum: config.threads,
         lu_total_seconds: factor.timings.total.as_secs_f64(),

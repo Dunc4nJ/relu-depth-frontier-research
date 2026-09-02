@@ -122,7 +122,7 @@ fn read_i64(reader: &mut impl Read) -> Result<i64, String> {
     Ok(i64::from_le_bytes(read_exact_array(reader)?))
 }
 
-fn sha256_path(path: &Path) -> Result<String, String> {
+pub(crate) fn sha256_path(path: &Path) -> Result<String, String> {
     let mut source = BufReader::with_capacity(
         8 * 1024 * 1024,
         File::open(path).map_err(|error| error.to_string())?,

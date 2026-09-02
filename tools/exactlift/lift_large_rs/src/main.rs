@@ -87,6 +87,11 @@ fn solve_command(arguments: &[String]) -> Result<(), String> {
 
 fn solve_big_command(arguments: &[String]) -> Result<(), String> {
     let output: PathBuf = value(arguments, "--output")?;
+    let modular_support_output = arguments
+        .iter()
+        .position(|argument| argument == "--modular-support-output")
+        .and_then(|position| arguments.get(position + 1))
+        .map(PathBuf::from);
     let config = problem::SolveConfig {
         input: value(arguments, "--input")?,
         prime: value(arguments, "--prime")?,
@@ -98,7 +103,7 @@ fn solve_big_command(arguments: &[String]) -> Result<(), String> {
         candidate_support_limit: usize::MAX,
         crt_primes: Vec::new(),
     };
-    let report = big::solve(&config)?;
+    let report = big::solve(&config, modular_support_output.as_deref())?;
     let encoded = serde_json::to_string_pretty(&report).map_err(|error| error.to_string())? + "\n";
     if let Some(parent) = output.parent() {
         fs::create_dir_all(parent).map_err(|error| error.to_string())?;
