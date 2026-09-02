@@ -13,8 +13,9 @@
   },
   "modular_rank_replay": false,
   "modular_rank_replay_command": "source .venv/bin/activate && OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 OMP_NUM_THREADS=6 python artifacts/math/strata-span-n9-n10/strata_span.py --threads 6",
+  "n11_relative_rules_recounted": 43,
   "no_claim": "This audit checks inputs, exact W collapse, censuses, controls, table arithmetic, and cross-prime agreement. It does not independently replay modular elimination and makes no MAX11 or rational-identity claim.",
-  "producer_sha256": "86dd3103140e132dd90eb7728cded72541ff00ec847ba470c62494dccb3a1fbb",
+  "producer_sha256": "e802558513656ca45fea9683451bcfe13dd002c4ca57bf008ba5a54296cdaf8a",
   "rescans": {
     "10": {
       "candidate_rank_cross_prime_agreement": true,
@@ -26,6 +27,7 @@
         "max_multiplicity"
       ],
       "raw_template_count": 12248,
+      "relative_candidate_rank_cross_prime_agreement": true,
       "w_orbit_count": 7203
     },
     "9": {
@@ -38,10 +40,11 @@
         "max_multiplicity"
       ],
       "raw_template_count": 10976,
+      "relative_candidate_rank_cross_prime_agreement": true,
       "w_orbit_count": 6197
     }
   },
   "result": "PASS",
-  "result_json_sha256": "08bee21c50297d91ed8d9f3e931ef502618e7c7ba21a2eaaa313705ec5a5d1b6",
+  "result_json_sha256": "9d131001af878fe87ab01c5629f95c0c0a23318e1217888b3b51d56a9b8149b9",
   "schema": "max11-gmp7-strata-output-verification-v1"
 }

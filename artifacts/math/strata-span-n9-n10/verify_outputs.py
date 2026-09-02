@@ -53,6 +53,18 @@ def candidate_map(prime_result: dict[str, object]) -> dict[tuple[str, tuple[int,
     }
 
 
+def relative_candidate_map(prime_result: dict[str, object]) -> dict[str, tuple[int, int, bool, bool]]:
+    return {
+        item["rule_id"]: (
+            int(item["rank"]),
+            int(item["augmented_rank"]),
+            bool(item["max_member"]),
+            bool(item["full_span"]),
+        )
+        for item in prime_result["relative_candidates"]
+    }
+
+
 def verify_tables(data: dict[str, object], producer) -> dict[str, object]:
     if data["schema"] != "max11-gmp7-natural-w-strata-span-v1":
         raise AssertionError("unexpected result schema")
@@ -96,6 +108,8 @@ def verify_tables(data: dict[str, object], producer) -> dict[str, object]:
                 raise AssertionError(f"n={n} prime result list changed")
             if candidate_map(prime_results[0]) != candidate_map(prime_results[1]):
                 raise AssertionError(f"n={n} candidate ranks disagree across primes")
+            if relative_candidate_map(prime_results[0]) != relative_candidate_map(prime_results[1]):
+                raise AssertionError(f"n={n} relative candidate ranks disagree across primes")
             expected_rank = producer.EXPECTED_FULL_RANK[n]
             for prime_result in prime_results:
                 full = prime_result["full"]
@@ -112,6 +126,13 @@ def verify_tables(data: dict[str, object], producer) -> dict[str, object]:
                         raise AssertionError("candidate membership flag disagrees with augmented rank")
                     if candidate["full_span"] != (candidate["rank"] == expected_rank):
                         raise AssertionError("candidate full-span flag disagrees with rank")
+                for candidate in prime_result["relative_candidates"]:
+                    if candidate["max_member"] != (
+                        candidate["rank"] == candidate["augmented_rank"]
+                    ):
+                        raise AssertionError("relative membership flag disagrees with augmented rank")
+                    if candidate["full_span"] != (candidate["rank"] == expected_rank):
+                        raise AssertionError("relative full-span flag disagrees with rank")
                 for table in prime_result["cumulative_tables"]:
                     prior_rank = 0
                     prior_count = 0
@@ -138,6 +159,7 @@ def verify_tables(data: dict[str, object], producer) -> dict[str, object]:
                 "w_orbit_count": len(system.records),
                 "collapsed_duplicate_columns_rechecked": system.duplicate_w_columns_compared,
                 "candidate_rank_cross_prime_agreement": True,
+                "relative_candidate_rank_cross_prime_agreement": True,
                 "partition_mutants_rejected": list(producer.FEATURES),
             }
 
@@ -146,6 +168,13 @@ def verify_tables(data: dict[str, object], producer) -> dict[str, object]:
             raise AssertionError("G-0027 independent feature recount mismatch")
         if len(n11_records) != 754_017:
             raise AssertionError("G-0027 denominator changed")
+        for item in data["n11_relative_rule_counts"]:
+            recomputed = sum(
+                producer.matches_relative_rule(record, 5, item["constraints"])
+                for record in n11_records
+            )
+            if recomputed != item["column_count"]:
+                raise AssertionError(f"n=11 relative count mismatch for {item['rule_id']}")
 
     first = data["common_full_span_rules"][0]
     if not (
@@ -158,6 +187,47 @@ def verify_tables(data: dict[str, object], producer) -> dict[str, object]:
     ):
         raise AssertionError("smallest common full-rank rule changed")
 
+    relative_first = data["smallest_common_relative_full_span_rules"][0]
+    if not (
+        relative_first["constraints"]
+        == {"mass_deficit_leq": 1, "max_multiplicity_leq": 1}
+        and relative_first["n9"]["column_count"] == 6_175
+        and relative_first["n10"]["column_count"] == 7_181
+        and relative_first["n11_column_count"] == 243_155
+        and relative_first["n11_universe_denominator"] == 754_017
+    ):
+        raise AssertionError("smallest degree-relative common full-rank rule changed")
+
+    requested = {
+        9: {
+            "mass_deficit_leq=0": (1_505, 1_505, True),
+            "beta_leq=1;mass_deficit_leq=0": (1_152, 1_152, True),
+            "beta_leq=2;mass_deficit_leq=0": (1_446, 1_446, True),
+            "components_eq=1": (978, 978, True),
+            "max_multiplicity_eq=1": (1_506, 1_506, True),
+        },
+        10: {
+            "mass_deficit_leq=0": (2_165, 2_165, True),
+            "beta_leq=1;mass_deficit_leq=0": (1_807, 1_807, True),
+            "beta_leq=2;mass_deficit_leq=0": (2_106, 2_106, True),
+            "components_eq=1": (978, 979, False),
+            "max_multiplicity_eq=1": (2_166, 2_166, True),
+        },
+    }
+    for n, gates in requested.items():
+        observed = relative_candidate_map(data["systems"][str(n)]["prime_results"][0])
+        for rule_id, expected in gates.items():
+            if observed[rule_id][:3] != expected:
+                raise AssertionError(f"requested relative gate changed: n={n}, {rule_id}")
+
+    growth = data["full_mass_beta_growth_extrapolation"]
+    if sum(item["n11_full_mass_stratum_count"] for item in growth) != 735_732:
+        raise AssertionError("full-mass beta growth table has wrong n=11 denominator")
+    if sum(item["n9_rank_growth"] or 0 for item in growth) != 1_505:
+        raise AssertionError("n=9 full-mass beta growth does not telescope")
+    if sum(item["n10_rank_growth"] or 0 for item in growth) != 2_165:
+        raise AssertionError("n=10 full-mass beta growth does not telescope")
+
     return {
         "schema": "max11-gmp7-strata-output-verification-v1",
         "result": "PASS",
@@ -169,6 +239,7 @@ def verify_tables(data: dict[str, object], producer) -> dict[str, object]:
         "input_sha256": input_checks,
         "rescans": rescans,
         "g0027_records_rechecked": 754_017,
+        "n11_relative_rules_recounted": len(data["n11_relative_rule_counts"]),
         "known_answer_gates": {
             "n9_full_rank_both_primes": 1_506,
             "n10_full_rank_both_primes": 2_166,

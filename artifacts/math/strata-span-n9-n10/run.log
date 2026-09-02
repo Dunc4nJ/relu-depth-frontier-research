@@ -43,6 +43,49 @@ n=9 p=1000003 candidate=41/44 count=6197 rank=1506 full=True
 n=9 p=1000003 candidate=42/44 count=6197 rank=1506 full=True
 n=9 p=1000003 candidate=43/44 count=6197 rank=1506 full=True
 n=9 p=1000003 candidate=44/44 count=6197 rank=1506 full=True
+n=9 p=1000003 relative=1/43 rule=components_leq=0;mass_deficit_leq=0 count=0 rank=0 aug=1 full=False
+n=9 p=1000003 relative=2/43 rule=components_leq=0;mass_deficit_leq=1 count=0 rank=0 aug=1 full=False
+n=9 p=1000003 relative=3/43 rule=mass_deficit_leq=0;max_multiplicity_leq=0 count=0 rank=0 aug=1 full=False
+n=9 p=1000003 relative=4/43 rule=mass_deficit_leq=1;max_multiplicity_leq=0 count=0 rank=0 aug=1 full=False
+n=9 p=1000003 relative=5/43 rule=components_leq=0 count=1 rank=1 aug=2 full=False
+n=9 p=1000003 relative=6/43 rule=max_multiplicity_leq=0 count=1 rank=1 aug=2 full=False
+n=9 p=1000003 relative=7/43 rule=beta_leq=0;mass_deficit_leq=0 count=739 rank=360 aug=361 full=False
+n=9 p=1000003 relative=8/43 rule=beta_leq=0;mass_deficit_leq=1 count=862 rank=405 aug=406 full=False
+n=9 p=1000003 relative=9/43 rule=beta_leq=0 count=879 rank=410 aug=410 full=False
+n=9 p=1000003 relative=10/43 rule=beta_leq=1;mass_deficit_leq=0 count=3496 rank=1152 aug=1152 full=False
+n=9 p=1000003 relative=11/43 rule=beta_leq=1;mass_deficit_leq=1 count=3744 rank=1153 aug=1153 full=False
+n=9 p=1000003 relative=12/43 rule=beta_leq=1 count=3766 rank=1153 aug=1153 full=False
+n=9 p=1000003 relative=13/43 rule=components_leq=1;mass_deficit_leq=0 count=4225 rank=977 aug=977 full=False
+n=9 p=1000003 relative=14/43 rule=components_leq=1;mass_deficit_leq=1 count=4378 rank=978 aug=978 full=False
+n=9 p=1000003 relative=15/43 rule=components_eq=1 count=4389 rank=978 aug=978 full=False
+n=9 p=1000003 relative=16/43 rule=components_leq=1 count=4390 rank=978 aug=978 full=False
+n=9 p=1000003 relative=17/43 rule=beta_leq=2;mass_deficit_leq=0 count=5442 rank=1446 aug=1446 full=False
+n=9 p=1000003 relative=18/43 rule=beta_leq=2;mass_deficit_leq=1 count=5721 rank=1447 aug=1447 full=False
+n=9 p=1000003 relative=19/43 rule=beta_leq=2 count=5743 rank=1447 aug=1447 full=False
+n=9 p=1000003 relative=20/43 rule=components_leq=2;mass_deficit_leq=0 count=5800 rank=1472 aug=1472 full=False
+n=9 p=1000003 relative=21/43 rule=beta_leq=3;mass_deficit_leq=0 count=5874 rank=1502 aug=1502 full=False
+n=9 p=1000003 relative=22/43 rule=beta_leq=4;mass_deficit_leq=0 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000003 relative=23/43 rule=components_leq=3;mass_deficit_leq=0 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000003 relative=24/43 rule=components_leq=4;mass_deficit_leq=0 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000003 relative=25/43 rule=mass_deficit_leq=0 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000003 relative=26/43 rule=mass_deficit_leq=0;max_multiplicity_leq=1 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000003 relative=27/43 rule=components_leq=2;mass_deficit_leq=1 count=6046 rank=1473 aug=1473 full=False
+n=9 p=1000003 relative=28/43 rule=components_leq=2 count=6065 rank=1473 aug=1473 full=False
+n=9 p=1000003 relative=29/43 rule=beta_leq=3;mass_deficit_leq=1 count=6155 rank=1503 aug=1503 full=False
+n=9 p=1000003 relative=30/43 rule=components_leq=3;mass_deficit_leq=1 count=6173 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=31/43 rule=beta_leq=4;mass_deficit_leq=1 count=6175 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=32/43 rule=components_leq=4;mass_deficit_leq=1 count=6175 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=33/43 rule=mass_deficit_leq=1 count=6175 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=34/43 rule=mass_deficit_leq=1;max_multiplicity_leq=1 count=6175 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=35/43 rule=beta_leq=3 count=6177 rank=1503 aug=1503 full=False
+n=9 p=1000003 relative=36/43 rule=components_leq=3 count=6194 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=37/43 rule=mass_deficit_leq=2 count=6194 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=38/43 rule=mass_deficit_leq=3 count=6196 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=39/43 rule=max_multiplicity_eq=1 count=6196 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=40/43 rule=beta_leq=4 count=6197 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=41/43 rule=components_leq=4 count=6197 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=42/43 rule=mass_deficit_leq=4 count=6197 rank=1506 aug=1506 full=True
+n=9 p=1000003 relative=43/43 rule=max_multiplicity_leq=1 count=6197 rank=1506 aug=1506 full=True
 START n=9 prime=1000033
 n=9 p=1000033 candidate=1/44 count=1 rank=1 full=False
 n=9 p=1000033 candidate=2/44 count=1 rank=1 full=False
@@ -88,6 +131,49 @@ n=9 p=1000033 candidate=41/44 count=6197 rank=1506 full=True
 n=9 p=1000033 candidate=42/44 count=6197 rank=1506 full=True
 n=9 p=1000033 candidate=43/44 count=6197 rank=1506 full=True
 n=9 p=1000033 candidate=44/44 count=6197 rank=1506 full=True
+n=9 p=1000033 relative=1/43 rule=components_leq=0;mass_deficit_leq=0 count=0 rank=0 aug=1 full=False
+n=9 p=1000033 relative=2/43 rule=components_leq=0;mass_deficit_leq=1 count=0 rank=0 aug=1 full=False
+n=9 p=1000033 relative=3/43 rule=mass_deficit_leq=0;max_multiplicity_leq=0 count=0 rank=0 aug=1 full=False
+n=9 p=1000033 relative=4/43 rule=mass_deficit_leq=1;max_multiplicity_leq=0 count=0 rank=0 aug=1 full=False
+n=9 p=1000033 relative=5/43 rule=components_leq=0 count=1 rank=1 aug=2 full=False
+n=9 p=1000033 relative=6/43 rule=max_multiplicity_leq=0 count=1 rank=1 aug=2 full=False
+n=9 p=1000033 relative=7/43 rule=beta_leq=0;mass_deficit_leq=0 count=739 rank=360 aug=361 full=False
+n=9 p=1000033 relative=8/43 rule=beta_leq=0;mass_deficit_leq=1 count=862 rank=405 aug=406 full=False
+n=9 p=1000033 relative=9/43 rule=beta_leq=0 count=879 rank=410 aug=410 full=False
+n=9 p=1000033 relative=10/43 rule=beta_leq=1;mass_deficit_leq=0 count=3496 rank=1152 aug=1152 full=False
+n=9 p=1000033 relative=11/43 rule=beta_leq=1;mass_deficit_leq=1 count=3744 rank=1153 aug=1153 full=False
+n=9 p=1000033 relative=12/43 rule=beta_leq=1 count=3766 rank=1153 aug=1153 full=False
+n=9 p=1000033 relative=13/43 rule=components_leq=1;mass_deficit_leq=0 count=4225 rank=977 aug=977 full=False
+n=9 p=1000033 relative=14/43 rule=components_leq=1;mass_deficit_leq=1 count=4378 rank=978 aug=978 full=False
+n=9 p=1000033 relative=15/43 rule=components_eq=1 count=4389 rank=978 aug=978 full=False
+n=9 p=1000033 relative=16/43 rule=components_leq=1 count=4390 rank=978 aug=978 full=False
+n=9 p=1000033 relative=17/43 rule=beta_leq=2;mass_deficit_leq=0 count=5442 rank=1446 aug=1446 full=False
+n=9 p=1000033 relative=18/43 rule=beta_leq=2;mass_deficit_leq=1 count=5721 rank=1447 aug=1447 full=False
+n=9 p=1000033 relative=19/43 rule=beta_leq=2 count=5743 rank=1447 aug=1447 full=False
+n=9 p=1000033 relative=20/43 rule=components_leq=2;mass_deficit_leq=0 count=5800 rank=1472 aug=1472 full=False
+n=9 p=1000033 relative=21/43 rule=beta_leq=3;mass_deficit_leq=0 count=5874 rank=1502 aug=1502 full=False
+n=9 p=1000033 relative=22/43 rule=beta_leq=4;mass_deficit_leq=0 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000033 relative=23/43 rule=components_leq=3;mass_deficit_leq=0 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000033 relative=24/43 rule=components_leq=4;mass_deficit_leq=0 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000033 relative=25/43 rule=mass_deficit_leq=0 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000033 relative=26/43 rule=mass_deficit_leq=0;max_multiplicity_leq=1 count=5894 rank=1505 aug=1505 full=False
+n=9 p=1000033 relative=27/43 rule=components_leq=2;mass_deficit_leq=1 count=6046 rank=1473 aug=1473 full=False
+n=9 p=1000033 relative=28/43 rule=components_leq=2 count=6065 rank=1473 aug=1473 full=False
+n=9 p=1000033 relative=29/43 rule=beta_leq=3;mass_deficit_leq=1 count=6155 rank=1503 aug=1503 full=False
+n=9 p=1000033 relative=30/43 rule=components_leq=3;mass_deficit_leq=1 count=6173 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=31/43 rule=beta_leq=4;mass_deficit_leq=1 count=6175 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=32/43 rule=components_leq=4;mass_deficit_leq=1 count=6175 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=33/43 rule=mass_deficit_leq=1 count=6175 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=34/43 rule=mass_deficit_leq=1;max_multiplicity_leq=1 count=6175 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=35/43 rule=beta_leq=3 count=6177 rank=1503 aug=1503 full=False
+n=9 p=1000033 relative=36/43 rule=components_leq=3 count=6194 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=37/43 rule=mass_deficit_leq=2 count=6194 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=38/43 rule=mass_deficit_leq=3 count=6196 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=39/43 rule=max_multiplicity_eq=1 count=6196 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=40/43 rule=beta_leq=4 count=6197 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=41/43 rule=components_leq=4 count=6197 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=42/43 rule=mass_deficit_leq=4 count=6197 rank=1506 aug=1506 full=True
+n=9 p=1000033 relative=43/43 rule=max_multiplicity_leq=1 count=6197 rank=1506 aug=1506 full=True
 START n=10 prime=1000003
 n=10 p=1000003 candidate=1/44 count=1 rank=1 full=False
 n=10 p=1000003 candidate=2/44 count=1 rank=1 full=False
@@ -133,6 +219,49 @@ n=10 p=1000003 candidate=41/44 count=7203 rank=2166 full=True
 n=10 p=1000003 candidate=42/44 count=7203 rank=2166 full=True
 n=10 p=1000003 candidate=43/44 count=7203 rank=2166 full=True
 n=10 p=1000003 candidate=44/44 count=7203 rank=2166 full=True
+n=10 p=1000003 relative=1/43 rule=components_leq=0;mass_deficit_leq=0 count=0 rank=0 aug=1 full=False
+n=10 p=1000003 relative=2/43 rule=components_leq=0;mass_deficit_leq=1 count=0 rank=0 aug=1 full=False
+n=10 p=1000003 relative=3/43 rule=mass_deficit_leq=0;max_multiplicity_leq=0 count=0 rank=0 aug=1 full=False
+n=10 p=1000003 relative=4/43 rule=mass_deficit_leq=1;max_multiplicity_leq=0 count=0 rank=0 aug=1 full=False
+n=10 p=1000003 relative=5/43 rule=components_leq=0 count=1 rank=1 aug=2 full=False
+n=10 p=1000003 relative=6/43 rule=max_multiplicity_leq=0 count=1 rank=1 aug=2 full=False
+n=10 p=1000003 relative=7/43 rule=beta_leq=0;mass_deficit_leq=0 count=1387 rank=808 aug=809 full=False
+n=10 p=1000003 relative=8/43 rule=beta_leq=0;mass_deficit_leq=1 count=1518 rank=856 aug=857 full=False
+n=10 p=1000003 relative=9/43 rule=beta_leq=0 count=1535 rank=861 aug=862 full=False
+n=10 p=1000003 relative=10/43 rule=components_leq=1;mass_deficit_leq=0 count=4225 rank=977 aug=978 full=False
+n=10 p=1000003 relative=11/43 rule=components_leq=1;mass_deficit_leq=1 count=4378 rank=978 aug=979 full=False
+n=10 p=1000003 relative=12/43 rule=components_eq=1 count=4389 rank=978 aug=979 full=False
+n=10 p=1000003 relative=13/43 rule=components_leq=1 count=4390 rank=978 aug=979 full=False
+n=10 p=1000003 relative=14/43 rule=beta_leq=1;mass_deficit_leq=0 count=4484 rank=1807 aug=1807 full=False
+n=10 p=1000003 relative=15/43 rule=beta_leq=1;mass_deficit_leq=1 count=4740 rank=1808 aug=1808 full=False
+n=10 p=1000003 relative=16/43 rule=beta_leq=1 count=4762 rank=1808 aug=1808 full=False
+n=10 p=1000003 relative=17/43 rule=beta_leq=2;mass_deficit_leq=0 count=6440 rank=2106 aug=2106 full=False
+n=10 p=1000003 relative=18/43 rule=components_leq=2;mass_deficit_leq=0 count=6448 rank=1919 aug=1920 full=False
+n=10 p=1000003 relative=19/43 rule=components_leq=2;mass_deficit_leq=1 count=6694 rank=1920 aug=1921 full=False
+n=10 p=1000003 relative=20/43 rule=components_leq=2 count=6713 rank=1920 aug=1921 full=False
+n=10 p=1000003 relative=21/43 rule=beta_leq=2;mass_deficit_leq=1 count=6727 rank=2107 aug=2107 full=False
+n=10 p=1000003 relative=22/43 rule=beta_leq=2 count=6749 rank=2107 aug=2107 full=False
+n=10 p=1000003 relative=23/43 rule=beta_leq=3;mass_deficit_leq=0 count=6872 rank=2162 aug=2162 full=False
+n=10 p=1000003 relative=24/43 rule=components_leq=3;mass_deficit_leq=0 count=6882 rank=2160 aug=2160 full=False
+n=10 p=1000003 relative=25/43 rule=beta_leq=4;mass_deficit_leq=0 count=6892 rank=2165 aug=2165 full=False
+n=10 p=1000003 relative=26/43 rule=components_leq=4;mass_deficit_leq=0 count=6892 rank=2165 aug=2165 full=False
+n=10 p=1000003 relative=27/43 rule=mass_deficit_leq=0 count=6892 rank=2165 aug=2165 full=False
+n=10 p=1000003 relative=28/43 rule=mass_deficit_leq=0;max_multiplicity_leq=1 count=6892 rank=2165 aug=2165 full=False
+n=10 p=1000003 relative=29/43 rule=beta_leq=3;mass_deficit_leq=1 count=7161 rank=2163 aug=2163 full=False
+n=10 p=1000003 relative=30/43 rule=components_leq=3;mass_deficit_leq=1 count=7161 rank=2161 aug=2161 full=False
+n=10 p=1000003 relative=31/43 rule=beta_leq=4;mass_deficit_leq=1 count=7181 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=32/43 rule=components_leq=4;mass_deficit_leq=1 count=7181 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=33/43 rule=mass_deficit_leq=1 count=7181 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=34/43 rule=mass_deficit_leq=1;max_multiplicity_leq=1 count=7181 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=35/43 rule=components_leq=3 count=7182 rank=2161 aug=2161 full=False
+n=10 p=1000003 relative=36/43 rule=beta_leq=3 count=7183 rank=2163 aug=2163 full=False
+n=10 p=1000003 relative=37/43 rule=mass_deficit_leq=2 count=7200 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=38/43 rule=mass_deficit_leq=3 count=7202 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=39/43 rule=max_multiplicity_eq=1 count=7202 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=40/43 rule=beta_leq=4 count=7203 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=41/43 rule=components_leq=4 count=7203 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=42/43 rule=mass_deficit_leq=4 count=7203 rank=2166 aug=2166 full=True
+n=10 p=1000003 relative=43/43 rule=max_multiplicity_leq=1 count=7203 rank=2166 aug=2166 full=True
 START n=10 prime=1000033
 n=10 p=1000033 candidate=1/44 count=1 rank=1 full=False
 n=10 p=1000033 candidate=2/44 count=1 rank=1 full=False
@@ -178,26 +307,69 @@ n=10 p=1000033 candidate=41/44 count=7203 rank=2166 full=True
 n=10 p=1000033 candidate=42/44 count=7203 rank=2166 full=True
 n=10 p=1000033 candidate=43/44 count=7203 rank=2166 full=True
 n=10 p=1000033 candidate=44/44 count=7203 rank=2166 full=True
+n=10 p=1000033 relative=1/43 rule=components_leq=0;mass_deficit_leq=0 count=0 rank=0 aug=1 full=False
+n=10 p=1000033 relative=2/43 rule=components_leq=0;mass_deficit_leq=1 count=0 rank=0 aug=1 full=False
+n=10 p=1000033 relative=3/43 rule=mass_deficit_leq=0;max_multiplicity_leq=0 count=0 rank=0 aug=1 full=False
+n=10 p=1000033 relative=4/43 rule=mass_deficit_leq=1;max_multiplicity_leq=0 count=0 rank=0 aug=1 full=False
+n=10 p=1000033 relative=5/43 rule=components_leq=0 count=1 rank=1 aug=2 full=False
+n=10 p=1000033 relative=6/43 rule=max_multiplicity_leq=0 count=1 rank=1 aug=2 full=False
+n=10 p=1000033 relative=7/43 rule=beta_leq=0;mass_deficit_leq=0 count=1387 rank=808 aug=809 full=False
+n=10 p=1000033 relative=8/43 rule=beta_leq=0;mass_deficit_leq=1 count=1518 rank=856 aug=857 full=False
+n=10 p=1000033 relative=9/43 rule=beta_leq=0 count=1535 rank=861 aug=862 full=False
+n=10 p=1000033 relative=10/43 rule=components_leq=1;mass_deficit_leq=0 count=4225 rank=977 aug=978 full=False
+n=10 p=1000033 relative=11/43 rule=components_leq=1;mass_deficit_leq=1 count=4378 rank=978 aug=979 full=False
+n=10 p=1000033 relative=12/43 rule=components_eq=1 count=4389 rank=978 aug=979 full=False
+n=10 p=1000033 relative=13/43 rule=components_leq=1 count=4390 rank=978 aug=979 full=False
+n=10 p=1000033 relative=14/43 rule=beta_leq=1;mass_deficit_leq=0 count=4484 rank=1807 aug=1807 full=False
+n=10 p=1000033 relative=15/43 rule=beta_leq=1;mass_deficit_leq=1 count=4740 rank=1808 aug=1808 full=False
+n=10 p=1000033 relative=16/43 rule=beta_leq=1 count=4762 rank=1808 aug=1808 full=False
+n=10 p=1000033 relative=17/43 rule=beta_leq=2;mass_deficit_leq=0 count=6440 rank=2106 aug=2106 full=False
+n=10 p=1000033 relative=18/43 rule=components_leq=2;mass_deficit_leq=0 count=6448 rank=1919 aug=1920 full=False
+n=10 p=1000033 relative=19/43 rule=components_leq=2;mass_deficit_leq=1 count=6694 rank=1920 aug=1921 full=False
+n=10 p=1000033 relative=20/43 rule=components_leq=2 count=6713 rank=1920 aug=1921 full=False
+n=10 p=1000033 relative=21/43 rule=beta_leq=2;mass_deficit_leq=1 count=6727 rank=2107 aug=2107 full=False
+n=10 p=1000033 relative=22/43 rule=beta_leq=2 count=6749 rank=2107 aug=2107 full=False
+n=10 p=1000033 relative=23/43 rule=beta_leq=3;mass_deficit_leq=0 count=6872 rank=2162 aug=2162 full=False
+n=10 p=1000033 relative=24/43 rule=components_leq=3;mass_deficit_leq=0 count=6882 rank=2160 aug=2160 full=False
+n=10 p=1000033 relative=25/43 rule=beta_leq=4;mass_deficit_leq=0 count=6892 rank=2165 aug=2165 full=False
+n=10 p=1000033 relative=26/43 rule=components_leq=4;mass_deficit_leq=0 count=6892 rank=2165 aug=2165 full=False
+n=10 p=1000033 relative=27/43 rule=mass_deficit_leq=0 count=6892 rank=2165 aug=2165 full=False
+n=10 p=1000033 relative=28/43 rule=mass_deficit_leq=0;max_multiplicity_leq=1 count=6892 rank=2165 aug=2165 full=False
+n=10 p=1000033 relative=29/43 rule=beta_leq=3;mass_deficit_leq=1 count=7161 rank=2163 aug=2163 full=False
+n=10 p=1000033 relative=30/43 rule=components_leq=3;mass_deficit_leq=1 count=7161 rank=2161 aug=2161 full=False
+n=10 p=1000033 relative=31/43 rule=beta_leq=4;mass_deficit_leq=1 count=7181 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=32/43 rule=components_leq=4;mass_deficit_leq=1 count=7181 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=33/43 rule=mass_deficit_leq=1 count=7181 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=34/43 rule=mass_deficit_leq=1;max_multiplicity_leq=1 count=7181 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=35/43 rule=components_leq=3 count=7182 rank=2161 aug=2161 full=False
+n=10 p=1000033 relative=36/43 rule=beta_leq=3 count=7183 rank=2163 aug=2163 full=False
+n=10 p=1000033 relative=37/43 rule=mass_deficit_leq=2 count=7200 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=38/43 rule=mass_deficit_leq=3 count=7202 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=39/43 rule=max_multiplicity_eq=1 count=7202 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=40/43 rule=beta_leq=4 count=7203 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=41/43 rule=components_leq=4 count=7203 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=42/43 rule=mass_deficit_leq=4 count=7203 rank=2166 aug=2166 full=True
+n=10 p=1000033 relative=43/43 rule=max_multiplicity_leq=1 count=7203 rank=2166 aug=2166 full=True
 START G-0027 census recount
 WROTE /data/projects/relu-depth-frontier-research/artifacts/math/strata-span-n9-n10/strata_span_results.json
 	Command being timed: "python artifacts/math/strata-span-n9-n10/strata_span.py --threads 6"
-	User time (seconds): 1843.81
-	System time (seconds): 68.18
-	Percent of CPU this job got: 194%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 16:23.30
+	User time (seconds): 2108.11
+	System time (seconds): 77.18
+	Percent of CPU this job got: 196%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 18:34.40
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 2256108
+	Maximum resident set size (kbytes): 2232288
 	Average resident set size (kbytes): 0
-	Major (requiring I/O) page faults: 3
-	Minor (reclaiming a frame) page faults: 11133836
-	Voluntary context switches: 141697
-	Involuntary context switches: 87386
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 13368006
+	Voluntary context switches: 168318
+	Involuntary context switches: 105531
 	Swaps: 0
-	File system inputs: 360
-	File system outputs: 2030480
+	File system inputs: 0
+	File system outputs: 2031136
 	Socket messages sent: 0
 	Socket messages received: 0
 	Signals delivered: 0

@@ -340,6 +340,74 @@ def candidate_rules(records: Sequence[dict[str, int]]) -> list[dict[str, object]
     return result
 
 
+def matches_relative_rule(record: dict[str, int], k: int, constraints: dict[str, int]) -> bool:
+    if "mass_deficit_leq" in constraints and k - record["s"] > constraints["mass_deficit_leq"]:
+        return False
+    if "beta_leq" in constraints and record["beta"] > constraints["beta_leq"]:
+        return False
+    if "components_leq" in constraints and record["components"] > constraints["components_leq"]:
+        return False
+    if "components_eq" in constraints and record["components"] != constraints["components_eq"]:
+        return False
+    if "max_multiplicity_leq" in constraints and record["max_multiplicity"] > constraints["max_multiplicity_leq"]:
+        return False
+    if "max_multiplicity_eq" in constraints and record["max_multiplicity"] != constraints["max_multiplicity_eq"]:
+        return False
+    return True
+
+
+def relative_candidate_rules(records: Sequence[dict[str, int]], k: int) -> list[dict[str, object]]:
+    """Degree-relative mass rules and the requested natural threshold intersections.
+
+    Intersections with topology/multiplicity are enumerated for the top-mass
+    stratum (deficit zero) and the top-two-mass union (deficit at most one).
+    This is an explicit finite grid, not an unrestricted search over predicates.
+    """
+
+    specifications: dict[str, dict[str, int]] = {}
+
+    def add(constraints: dict[str, int]) -> None:
+        rule_id = ";".join(f"{key}={constraints[key]}" for key in sorted(constraints))
+        specifications.setdefault(rule_id, constraints)
+
+    for deficit in range(k + 1):
+        add({"mass_deficit_leq": deficit})
+    for beta in range(max(record["beta"] for record in records) + 1):
+        add({"beta_leq": beta})
+    for components in range(max(record["components"] for record in records) + 1):
+        add({"components_leq": components})
+    for multiplicity in range(max(record["max_multiplicity"] for record in records) + 1):
+        add({"max_multiplicity_leq": multiplicity})
+    add({"components_eq": 1})
+    add({"max_multiplicity_eq": 1})
+
+    for deficit in (0, 1):
+        for beta in range(max(record["beta"] for record in records) + 1):
+            add({"mass_deficit_leq": deficit, "beta_leq": beta})
+        for components in range(max(record["components"] for record in records) + 1):
+            add({"mass_deficit_leq": deficit, "components_leq": components})
+        for multiplicity in range(max(record["max_multiplicity"] for record in records) + 1):
+            add({"mass_deficit_leq": deficit, "max_multiplicity_leq": multiplicity})
+
+    rules: list[dict[str, object]] = []
+    for rule_id, constraints in specifications.items():
+        indices = [
+            index
+            for index, record in enumerate(records)
+            if matches_relative_rule(record, k, constraints)
+        ]
+        rules.append(
+            {
+                "rule_id": rule_id,
+                "constraints": constraints,
+                "column_indices": indices,
+                "column_count": len(indices),
+            }
+        )
+    rules.sort(key=lambda rule: (rule["column_count"], rule["rule_id"]))
+    return rules
+
+
 def build_augmented_matrix(system: SavedSystem, prime: int) -> flint.nmod_mat:
     rows = len(system.row_keys) + system.n
     columns = len(system.records)
@@ -466,7 +534,12 @@ def tree_indices(system: SavedSystem) -> list[int]:
     ]
 
 
-def scan_prime(system: SavedSystem, rules: Sequence[dict[str, object]], prime: int) -> dict[str, object]:
+def scan_prime(
+    system: SavedSystem,
+    rules: Sequence[dict[str, object]],
+    relative_rules: Sequence[dict[str, object]],
+    prime: int,
+) -> dict[str, object]:
     started = time.monotonic()
     full_matrix = build_augmented_matrix(system, prime)
     built_seconds = time.monotonic() - started
@@ -505,6 +578,7 @@ def scan_prime(system: SavedSystem, rules: Sequence[dict[str, object]], prime: i
             )
 
     candidates: list[dict[str, object]] = []
+    rank_cache: dict[tuple[int, ...], tuple[int, int, bool, float]] = {}
     for number, rule in enumerate(rules, 1):
         count = int(rule["column_count"])
         result = {
@@ -515,9 +589,16 @@ def scan_prime(system: SavedSystem, rules: Sequence[dict[str, object]], prime: i
             "full_rank_denominator": full_rank,
         }
         rank_started = time.monotonic()
-        rank, augmented_rank, max_member = rank_selected_with_target(
-            compact_rows, rule["column_indices"], columns, prime
-        )
+        index_key = tuple(rule["column_indices"])
+        cached = rank_cache.get(index_key)
+        if cached is None:
+            rank, augmented_rank, max_member = rank_selected_with_target(
+                compact_rows, index_key, columns, prime
+            )
+            rank_seconds = time.monotonic() - rank_started
+            rank_cache[index_key] = (rank, augmented_rank, max_member, rank_seconds)
+        else:
+            rank, augmented_rank, max_member, rank_seconds = cached
         result.update(
             {
                 "rank": rank,
@@ -526,13 +607,47 @@ def scan_prime(system: SavedSystem, rules: Sequence[dict[str, object]], prime: i
                 "full_span": rank == full_rank,
                 "max_member": max_member,
                 "disposition": "ranked_augmented",
-                "rank_seconds": time.monotonic() - rank_started,
+                "rank_seconds": rank_seconds,
+                "rank_cache_hit": cached is not None,
             }
         )
         candidates.append(result)
         print(
             f"n={system.n} p={prime} candidate={number}/{len(rules)} "
             f"count={count} rank={result['rank']} full={result['full_span']}",
+            flush=True,
+        )
+
+    relative_candidates: list[dict[str, object]] = []
+    for number, rule in enumerate(relative_rules, 1):
+        index_key = tuple(rule["column_indices"])
+        cached = rank_cache.get(index_key)
+        if cached is None:
+            rank_started = time.monotonic()
+            rank, augmented_rank, max_member = rank_selected_with_target(
+                compact_rows, index_key, columns, prime
+            )
+            rank_seconds = time.monotonic() - rank_started
+            rank_cache[index_key] = (rank, augmented_rank, max_member, rank_seconds)
+        else:
+            rank, augmented_rank, max_member, rank_seconds = cached
+        result = {
+            "rule_id": rule["rule_id"],
+            "constraints": rule["constraints"],
+            "column_count": rule["column_count"],
+            "rank": rank,
+            "augmented_rank": augmented_rank,
+            "max_member": max_member,
+            "full_span": rank == full_rank,
+            "full_rank_denominator": full_rank,
+            "rank_seconds": rank_seconds,
+            "rank_cache_hit": cached is not None,
+        }
+        relative_candidates.append(result)
+        print(
+            f"n={system.n} p={prime} relative={number}/{len(relative_rules)} "
+            f"rule={rule['rule_id']} count={rule['column_count']} "
+            f"rank={rank} aug={augmented_rank} full={rank == full_rank}",
             flush=True,
         )
 
@@ -559,6 +674,7 @@ def scan_prime(system: SavedSystem, rules: Sequence[dict[str, object]], prime: i
         },
         "candidates": candidates,
         "cumulative_tables": cumulative_tables(system.records, candidates),
+        "relative_candidates": relative_candidates,
         "timing_seconds": {
             "matrix_build": built_seconds,
             "full_augmented_rref": rref_seconds,
@@ -620,6 +736,30 @@ def add_n11_counts(result: dict[str, object], records: Sequence[dict[str, int]])
         )
 
 
+def add_n11_relative_counts(result: dict[str, object], records: Sequence[dict[str, int]]) -> None:
+    """Apply the same constraints at degree k=5, so mass is transferred by k-s."""
+
+    seen: dict[str, dict[str, object]] = {}
+    for n in (9, 10):
+        for item in result["systems"][str(n)]["prime_results"][0]["relative_candidates"]:
+            seen.setdefault(
+                item["rule_id"],
+                {"rule_id": item["rule_id"], "constraints": item["constraints"]},
+            )
+    counts: list[dict[str, object]] = []
+    for item in seen.values():
+        count = sum(matches_relative_rule(record, 5, item["constraints"]) for record in records)
+        counts.append(
+            {
+                **item,
+                "column_count": count,
+                "universe_denominator": len(records),
+            }
+        )
+    counts.sort(key=lambda item: (item["column_count"], item["rule_id"]))
+    result["n11_relative_rule_counts"] = counts
+
+
 def common_full_span_rules(result: dict[str, object]) -> list[dict[str, object]]:
     per_n: dict[int, dict[tuple[str, tuple[int, ...]], dict[str, object]]] = {}
     for n in (9, 10):
@@ -659,6 +799,55 @@ def common_full_span_rules(result: dict[str, object]) -> list[dict[str, object]]
             }
         )
     common.sort(key=lambda item: (item["n11_column_count"], item["feature"], item["allowed_values"]))
+    return common
+
+
+def smallest_common_relative_full_span_rules(result: dict[str, object]) -> list[dict[str, object]]:
+    """Rules full-rank and target-member at both arities and both primes."""
+
+    per_n: dict[int, dict[str, dict[str, object]]] = {}
+    for n in (9, 10):
+        prime_maps = [
+            {item["rule_id"]: item for item in prime_result["relative_candidates"]}
+            for prime_result in result["systems"][str(n)]["prime_results"]
+        ]
+        per_n[n] = {
+            rule_id: {
+                "column_count": prime_maps[0][rule_id]["column_count"],
+                "ranks": {
+                    str(prime_result["prime"]): prime_map[rule_id]["rank"]
+                    for prime_result, prime_map in zip(
+                        result["systems"][str(n)]["prime_results"], prime_maps
+                    )
+                },
+                "augmented_ranks": {
+                    str(prime_result["prime"]): prime_map[rule_id]["augmented_rank"]
+                    for prime_result, prime_map in zip(
+                        result["systems"][str(n)]["prime_results"], prime_maps
+                    )
+                },
+            }
+            for rule_id in set(prime_maps[0]) & set(prime_maps[1])
+            if all(
+                prime_map[rule_id]["full_span"] and prime_map[rule_id]["max_member"]
+                for prime_map in prime_maps
+            )
+        }
+    n11 = {item["rule_id"]: item for item in result["n11_relative_rule_counts"]}
+    common: list[dict[str, object]] = []
+    for rule_id in set(per_n[9]) & set(per_n[10]):
+        common.append(
+            {
+                "rule_id": rule_id,
+                "constraints": n11[rule_id]["constraints"],
+                "n9": per_n[9][rule_id],
+                "n10": per_n[10][rule_id],
+                "n11_column_count": n11[rule_id]["column_count"],
+                "n11_universe_denominator": n11[rule_id]["universe_denominator"],
+                "n11_max_membership": "NOT_TESTED",
+            }
+        )
+    common.sort(key=lambda item: (item["n11_column_count"], item["rule_id"]))
     return common
 
 
@@ -716,10 +905,74 @@ def low_to_high_growth_extrapolation(result: dict[str, object]) -> list[dict[str
     return rows
 
 
+def full_mass_beta_growth_extrapolation(
+    result: dict[str, object], n11_records: Sequence[dict[str, int]]
+) -> list[dict[str, object]]:
+    """Degree-relative beta growth inside s=k, pooled across n=9 and n=10.
+
+    Rank growth depends on order.  This table fixes beta=0,1,... and restricts
+    throughout to the full-mass stratum s=k.  Values beta>4 have no low-arity
+    analogue and therefore receive no numerical prediction.
+    """
+
+    low: dict[int, dict[int, dict[str, int]]] = {}
+    for n in (9, 10):
+        candidates = {
+            item["rule_id"]: item
+            for item in result["systems"][str(n)]["prime_results"][0]["relative_candidates"]
+        }
+        prior_rank = 0
+        prior_count = 0
+        rows: dict[int, dict[str, int]] = {}
+        for beta in range(5):
+            item = candidates[f"beta_leq={beta};mass_deficit_leq=0"]
+            rows[beta] = {
+                "added_columns": int(item["column_count"]) - prior_count,
+                "rank_growth": int(item["rank"]) - prior_rank,
+            }
+            prior_count = int(item["column_count"])
+            prior_rank = int(item["rank"])
+        low[n] = rows
+
+    n11_counts = Counter(
+        record["beta"] for record in n11_records if record["s"] == 5
+    )
+    result_rows: list[dict[str, object]] = []
+    for beta in sorted(n11_counts):
+        if beta in low[9] and beta in low[10]:
+            numerator = low[9][beta]["rank_growth"] + low[10][beta]["rank_growth"]
+            denominator = low[9][beta]["added_columns"] + low[10][beta]["added_columns"]
+            predicted = round(numerator * n11_counts[beta] / denominator)
+            rate = numerator / denominator
+        else:
+            numerator = denominator = predicted = rate = None
+        result_rows.append(
+            {
+                "beta": beta,
+                "n9_added_columns": low.get(9, {}).get(beta, {}).get("added_columns"),
+                "n9_rank_growth": low.get(9, {}).get(beta, {}).get("rank_growth"),
+                "n10_added_columns": low.get(10, {}).get(beta, {}).get("added_columns"),
+                "n10_rank_growth": low.get(10, {}).get(beta, {}).get("rank_growth"),
+                "pooled_rank_growth_numerator": numerator,
+                "pooled_added_columns_denominator": denominator,
+                "pooled_growth_per_column": rate,
+                "n11_full_mass_stratum_count": n11_counts[beta],
+                "predicted_n11_rank_growth_rounded": predicted,
+                "order_condition": "within s=k, add beta=0,1,...",
+            }
+        )
+    return result_rows
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--threads", type=int, default=6)
+    parser.add_argument(
+        "--postprocess-existing",
+        action="store_true",
+        help="recount n=11 relative rules/growth without replaying modular ranks",
+    )
     return parser.parse_args()
 
 
@@ -731,6 +984,20 @@ def main() -> None:
     os.environ.setdefault("OMP_NUM_THREADS", str(args.threads))
     os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
     os.environ.setdefault("MKL_NUM_THREADS", "1")
+
+    if args.postprocess_existing:
+        existing = json.loads(args.output.read_text())
+        _payload, n11_records = load_g0027_records(G0027)
+        add_n11_relative_counts(existing, n11_records)
+        existing["smallest_common_relative_full_span_rules"] = (
+            smallest_common_relative_full_span_rules(existing)
+        )
+        existing["full_mass_beta_growth_extrapolation"] = (
+            full_mass_beta_growth_extrapolation(existing, n11_records)
+        )
+        atomic_write_json(args.output, existing)
+        print(f"POSTPROCESSED {args.output}", flush=True)
+        return
 
     result: dict[str, object] = {
         "schema": "max11-gmp7-natural-w-strata-span-v1",
@@ -746,6 +1013,8 @@ def main() -> None:
         "systems": {},
         "g0027": {},
         "common_full_span_rules": [],
+        "n11_relative_rule_counts": [],
+        "smallest_common_relative_full_span_rules": [],
         "no_claim": (
             "These finite two-prime ranks size natural first experiments only. "
             "They neither decide MAX11 nor prove a rational identity or a depth lower bound."
@@ -758,6 +1027,7 @@ def main() -> None:
             scan_started = time.monotonic()
             system = scan_saved_system(n, SYSTEMS[n], scratch)
             rules = candidate_rules(system.records)
+            relative_rules = relative_candidate_rules(system.records, (n - 1) // 2)
             n_result = {
                 "raw_template_count": system.raw_template_count,
                 "w_orbit_count": len(system.records),
@@ -773,7 +1043,9 @@ def main() -> None:
             atomic_write_json(args.output, result)
             for prime in PRIMES:
                 print(f"START n={n} prime={prime}", flush=True)
-                n_result["prime_results"].append(scan_prime(system, rules, prime))
+                n_result["prime_results"].append(
+                    scan_prime(system, rules, relative_rules, prime)
+                )
                 atomic_write_json(args.output, result)
             del system
             gc.collect()
@@ -788,8 +1060,15 @@ def main() -> None:
         }
         del g0027_payload
         add_n11_counts(result, n11_records)
+        add_n11_relative_counts(result, n11_records)
         result["common_full_span_rules"] = common_full_span_rules(result)
+        result["smallest_common_relative_full_span_rules"] = (
+            smallest_common_relative_full_span_rules(result)
+        )
         result["low_to_high_growth_extrapolation"] = low_to_high_growth_extrapolation(result)
+        result["full_mass_beta_growth_extrapolation"] = (
+            full_mass_beta_growth_extrapolation(result, n11_records)
+        )
         atomic_write_json(args.output, result)
     print(f"WROTE {args.output}", flush=True)
 

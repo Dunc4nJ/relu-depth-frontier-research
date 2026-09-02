@@ -2,46 +2,84 @@
 
 ## Outcome
 
-In the quotient by the cancelled signed graph `W=B-A`, the smallest tested
-natural rule that reaches the full saved-system rank at **both of 2/2 primes**
-is
+Mass rules must be expressed relative to branch degree `k`.  In the quotient by
+the cancelled signed graph `W=B-A`, the smallest rule in the finite relative
+grid that reaches the full saved-system rank **and** contains the target at both
+of 2/2 primes is
 
 ```text
-s in {3,4}.
+k-s <= 1  AND  maximum multiplicity <= 1.
 ```
 
-It has 6,175/6,197 W-orbits at n=9 and rank 1,506/1,506 at each prime.  It has
-7,181/7,203 W-orbits at n=10 and rank 2,166/2,166 at each prime.  Its augmented
-ranks are also 1,506/1,506 and 2,166/2,166, respectively, so it contains the
-MAX target modulo each of the 2/2 primes.
+Because every nonzero W in the saved simple-pair systems already has maximum
+multiplicity one, this predicate selects the same 6,175/6,197 n=9 and
+7,181/7,203 n=10 W-orbits as `k-s<=1`.  Its ranks and augmented ranks are
+1,506/1,506 at n=9 and 2,166/2,166 at n=10 at each prime.  At n=11 the relative
+predicate selects 243,155/754,017 records (32.2479%, a 3.10x column-count
+reduction).  The multiplicity cap is uncalibrated rather than validated at low
+arity: the saved systems contain 0/6,197 and 0/7,203 multi-edge W-orbits.
 
-The literal same n=11 rule has 18,254/754,017 records (2.4209% of the census,
-a 41.31x column-count reduction).  This is a bounded low-arity signal, not an
-n=11 rank result.  There is an important translation caveat: `s in {3,4}` at
-degree four is the top-two-mass rule, while the top-two-mass rule at degree five
-would be `s in {4,5}`, containing 753,444/754,017 records.  The latter was not
-tested at n=9 or n=10 because `s=5` is absent there.  Thus the cheap 18,254-column
-literal experiment deliberately omits the dominant n=11 `s=5` stratum.
+There is therefore **no 5–10x relative full-span family in the tested grid**.
+The interesting 5–10x target-aware family is `s=k AND beta<=1`: it has
+120,946/754,017 n=11 records (a 6.23x reduction) and is a modular MEMBER at both
+low arities, but it does not carry their full spans.  At n=9 it has
+3,496/6,197 columns and rank=augmented rank 1,152/1,506; at n=10 it has
+4,484/7,203 columns and rank=augmented rank 1,807/2,166.  Thus it is a plausible
+cheap target probe, not a full-span known-answer check.
 
-Two other degree-stable readings are less aggressive:
+The requested boundary cases are:
 
-- `max_multiplicity=1` reaches full rank at both low arities: 6,196/6,197 W-orbits
-  at n=9 and 7,202/7,203 at n=10.  It has 243,467/754,017 n=11 records (32.2893%,
-  a 3.10x reduction).
-- `components=1` does **not** span everything: its rank is 978/1,506 at n=9 and
-  978/2,166 at n=10.  It is a modular MEMBER at n=9 (augmented rank 978/1,506)
-  but a modular NON-MEMBER at n=10 (augmented rank 979/2,166).  The literal n=11
-  connected stratum has 485,632/754,017 records (64.4060%, a 1.55x reduction).
+- `s=k` is modular MEMBER but full-rank-minus-one at both arities:
+  5,894/6,197 columns and rank=augmented rank 1,505/1,506 at n=9;
+  6,892/7,203 columns and 2,165/2,166 at n=10.  Its relative n=11 size is
+  735,732/754,017.
+- Within `s=k`, `beta<=2` is also MEMBER but not full: 5,442/6,197 columns and
+  rank=augmented rank 1,446/1,506 at n=9; 6,440/7,203 columns and
+  2,106/2,166 at n=10.  Its n=11 size is 355,166/754,017.
+- `max_multiplicity=1` reaches full rank at both low arities: 6,196/6,197
+  W-orbits at n=9 and 7,202/7,203 at n=10.  It has 243,467/754,017 n=11
+  records (32.2893%, a 3.10x reduction).
+- `components=1` does **not** span everything: its rank is 978/1,506 at n=9
+  and 978/2,166 at n=10.  It is a modular MEMBER at n=9 (augmented rank
+  978/1,506) but a modular NON-MEMBER at n=10 (augmented rank 979/2,166).
+  The n=11 connected stratum has 485,632/754,017 records.
 
-The largest mass stratum alone is one dimension short of the full span but
-already contains the target at both arities: `s=4` has rank=augmented rank
-1,505/1,506 on 5,894/6,197 n=9 W-orbits and 2,165/2,166 on 6,892/7,203 n=10
-W-orbits.  Adding `s=3` contributes exactly 1/1 missing rank dimension at each
-arity.
+The earlier literal rule `s in {3,4}` has 18,254/754,017 n=11 records, but it is
+**not transferable**: at `k=4` it means `k-s<=1`, which becomes `s in {4,5}` and
+753,444/754,017 records at `k=5`.  Literal counts are retained in the JSON only
+as descriptive census slices, not as the recommended experiment.
 
 All ranks and memberships in this report are finite-field statements at
 `p=1,000,003` and `p=1,000,033`.  I did not compute an exact-Q rank or recover an
 exact rational identity for any stratum.
+
+## Degree-relative rule table
+
+`r/R` and `a/R` are rank and augmented rank over the full-rank denominator.
+Every entry agrees at 2/2 primes.  This table includes the requested full-mass
+beta ladder and the smallest full-rank relative candidates.
+
+| relative predicate | n=9 count / 6,197 | n=9 r/R; a/R | n=10 count / 7,203 | n=10 r/R; a/R | n=11 count / 754,017 |
+|---|---:|---:|---:|---:|---:|
+| `s=k, beta<=0` | 739 | 360/1,506; 361/1,506 | 1,387 | 808/2,166; 809/2,166 | 12,459 |
+| `s=k, beta<=1` | 3,496 | 1,152/1,506; 1,152/1,506 | 4,484 | 1,807/2,166; 1,807/2,166 | 120,946 |
+| `s=k, beta<=2` | 5,442 | 1,446/1,506; 1,446/1,506 | 6,440 | 2,106/2,166; 2,106/2,166 | 355,166 |
+| `s=k, beta<=3` | 5,874 | 1,502/1,506; 1,502/1,506 | 6,872 | 2,162/2,166; 2,162/2,166 | 584,034 |
+| `s=k, beta<=4` | 5,894 | 1,505/1,506; 1,505/1,506 | 6,892 | 2,165/2,166; 2,165/2,166 | 701,382 |
+| `s=k` | 5,894 | 1,505/1,506; 1,505/1,506 | 6,892 | 2,165/2,166; 2,165/2,166 | 735,732 |
+| `k-s<=1, beta<=3` | 6,155 | 1,503/1,506; 1,503/1,506 | 7,161 | 2,163/2,166; 2,163/2,166 | 600,796 |
+| `k-s<=1, beta<=4` | 6,175 | 1,506/1,506; 1,506/1,506 | 7,181 | 2,166/2,166; 2,166/2,166 | 719,001 |
+| `k-s<=1, components<=4` | 6,175 | 1,506/1,506; 1,506/1,506 | 7,181 | 2,166/2,166; 2,166/2,166 | 753,354 |
+| `k-s<=1` | 6,175 | 1,506/1,506; 1,506/1,506 | 7,181 | 2,166/2,166; 2,166/2,166 | 753,444 |
+| `k-s<=1, max multiplicity<=1` | 6,175 | 1,506/1,506; 1,506/1,506 | 7,181 | 2,166/2,166; 2,166/2,166 | 243,155 |
+| `max multiplicity=1` | 6,196 | 1,506/1,506; 1,506/1,506 | 7,202 | 2,166/2,166; 2,166/2,166 | 243,467 |
+| `components=1` | 4,389 | 978/1,506; 978/1,506 | 4,389 | 978/2,166; 979/2,166 | 485,632 |
+
+The finite relative grid comprises standalone thresholds in `k-s`, beta,
+components and maximum multiplicity, plus intersections of the `k-s=0` and
+`k-s<=1` families with each topology/multiplicity threshold.  “Smallest” above
+means smallest n=11 census count within these 43/43 predicates, not among all
+possible graph-defined subfamilies.
 
 ## Quotient and census
 
@@ -125,32 +163,37 @@ order.
 
 ## Rank-growth extrapolation
 
-For a transparent, order-conditional heuristic, the output uses the
-**low-to-high** order.  For invariant value `v`, its empirical growth rate is
+For a degree-relative, order-conditional heuristic, fix `s=k` and add beta
+strata in the order `0,1,...`.  For beta value `b`, the empirical growth rate is
 
 ```text
-(delta_rank_n9(v) + delta_rank_n10(v))
+(delta_rank_n9(b) + delta_rank_n10(b))
 ------------------------------------------------
-(added_columns_n9(v) + added_columns_n10(v)).
+(added_columns_n9(b) + added_columns_n10(b)).
 ```
 
 The denominator is therefore the pooled number of added W-orbits at the two
 known arities.  The predicted n=11 increment is this rate times the n=11 stratum
-count, rounded to the nearest integer.  For cancelled mass the data are:
+count, rounded to the nearest integer.
 
-| s | pooled rank-growth numerator / pooled-column denominator | n=11 stratum count / 754,017 | rounded predicted increment |
-|---:|---:|---:|---:|
-| 0 | 2/2 | 1/754,017 | 1 |
-| 1 | 4/4 | 2/754,017 | 2 |
-| 2 | 26/38 | 28/754,017 | 19 |
-| 3 | 302/570 | 542/754,017 | 287 |
-| 4 | 3,338/12,786 | 17,712/754,017 | 4,624 |
-| 5 | no low-arity numerator/denominator | 735,732/754,017 | not predicted |
+| beta added within `s=k` | n=9 added columns / 6,197; rank growth / 1,506 | n=10 added columns / 7,203; rank growth / 2,166 | pooled growth numerator / column denominator | n=11 `s=5` stratum / 735,732 | rounded predicted increment |
+|---:|---:|---:|---:|---:|---:|
+| 0 | 739; 360 | 1,387; 808 | 1,168/2,126 | 12,459 | 6,845 |
+| 1 | 2,757; 792 | 3,097; 999 | 1,791/5,854 | 108,487 | 33,191 |
+| 2 | 1,946; 294 | 1,956; 299 | 593/3,902 | 234,220 | 35,595 |
+| 3 | 432; 56 | 432; 56 | 112/864 | 228,868 | 29,668 |
+| 4 | 20; 3 | 20; 3 | 6/40 | 117,348 | 17,602 |
+| 5 | no observation | no observation | no numerator/denominator | 30,528 | not predicted |
+| 6 | no observation | no observation | no numerator/denominator | 3,642 | not predicted |
+| 7 | no observation | no observation | no numerator/denominator | 176 | not predicted |
+| 8 | no observation | no observation | no numerator/denominator | 4 | not predicted |
 
-This extrapolation is neither a rank bound nor a probability model.  It cannot
-predict the dominant `s=5` increment because the denominator has 0/0 observations
-there.  The JSON gives the same explicitly-denominated calculation for beta,
-components, and maximum multiplicity.
+The n=9 growth column sums to 1,505/1,506 and the n=10 column sums to
+2,165/2,166, matching the observed `s=k` ranks.  This extrapolation is neither a
+rank bound nor a probability model.  It has no denominator for beta 5–8 because
+those strata have 0/0 low-arity observations.  The JSON also retains analogous
+descriptive low-to-high calculations for the unconditioned invariants; those
+literal mass calculations are not degree-transfer rules.
 
 ## Known-answer and negative controls
 
@@ -180,14 +223,21 @@ OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 OMP_NUM_THREADS=6 \
   /usr/bin/time -v python artifacts/math/strata-span-n9-n10/strata_span.py \
   --threads 6 2>&1 | tee artifacts/math/strata-span-n9-n10/run.log
 
+# The steering correction added degree-relative census/growth views without
+# rerunning the already-frozen modular eliminations:
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 \
+  python artifacts/math/strata-span-n9-n10/strata_span.py \
+  --threads 1 --postprocess-existing \
+  2>&1 | tee artifacts/math/strata-span-n9-n10/postprocess.log
+
 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 OMP_NUM_THREADS=1 \
   /usr/bin/time -v python artifacts/math/strata-span-n9-n10/verify_outputs.py \
   2>&1 | tee artifacts/math/strata-span-n9-n10/verify.log
 ```
 
-The outcome run used 6/6 permitted FLINT threads, 16m23.30s wall time, and
-2,256,108 KiB maximum RSS (2,256,108/16,777,216 KiB bead memory allowance).
-The audit used 1 thread, 2m01.35s wall time, and 1,290,444 KiB maximum RSS.
+The corrected outcome run used 6/6 permitted FLINT threads, 18m34.40s wall time,
+and 2,232,288 KiB maximum RSS (2,232,288/16,777,216 KiB bead memory allowance).
+The final audit used 1 thread, 2m12.19s wall time, and 1,295,296 KiB maximum RSS.
 Toolchain: Python 3.13.7, python-flint 0.9.0 over FLINT 3.6.0, pynauty 2.8.8.1.
 
 ## Input and output hashes
@@ -200,16 +250,9 @@ bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18  handoff/2026-0
 8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8  artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz
 ```
 
-Outcome artifacts before this RESULT/manifest was added:
-
-```text
-86dd3103140e132dd90eb7728cded72541ff00ec847ba470c62494dccb3a1fbb  strata_span.py
-d68d8a9488fcd63652c3ebda4d87a1635210e36dedf0769877630806e3811a26  verify_outputs.py
-08bee21c50297d91ed8d9f3e931ef502618e7c7ba21a2eaaa313705ec5a5d1b6  strata_span_results.json
-29a0fb281caaffd495126b57de9ed0eb86695b56f7da0c40ba9e12cf1bb35950  verification.json
-d8bd907803c16b33950cf229411ae2af44d23855ad939a57983fc482e4c6052b  run.log
-035fbbb4b2bb4ad019e2536dea983ed5857a6360f2e1b501deb7ea2522b05976  verify.log
-```
+Outcome artifact hashes are frozen in `MANIFEST.sha256`, generated after this
+report.  The input receipts above are also embedded in the JSON and rechecked by
+the verifier.
 
 ## No-claim boundary
 
@@ -218,5 +261,6 @@ systems plus a combinatorial recount of n=11 strata.  It does **not** compute a
 single n=11 column, does **not** test any n=11 rank or target membership, does
 **not** prove that the n<=10 spanning behavior persists, does **not** establish
 an exact rational identity, and does **not** imply an unrestricted depth lower
-bound.  In particular, the literal 18,254/754,017 n=11 candidate is only a first
-experiment whose modular rank and MAX11 membership remain open.
+bound.  In particular, neither the 243,155/754,017 relative full-span candidate
+nor the 120,946/754,017 target-aware candidate has a computed n=11 column, rank,
+or MAX11 membership result.
