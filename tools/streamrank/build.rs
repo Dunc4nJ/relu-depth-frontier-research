@@ -14,6 +14,7 @@ fn main() {
         .file("src/cuda_backend.cu")
         .include(format!("{cuda_home}/include"))
         .flag("-O3")
+        .flag("-lineinfo")
         .flag("-std=c++17")
         .compile("max11_streamrank_cuda");
     println!("cargo:rustc-link-search=native={cuda_home}/lib64");

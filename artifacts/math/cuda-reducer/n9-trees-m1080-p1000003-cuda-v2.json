@@ -1,0 +1,4544 @@
+{
+  "schema": "max11-streamrank-pivots-v1",
+  "result": "CONTROL_PASS",
+  "command": [
+    "tools/streamrank/target/release/max11-streamrank",
+    "run-saved",
+    "--backend",
+    "cuda",
+    "--input",
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+    "--n",
+    "9",
+    "--branch-edges",
+    "4",
+    "--filter",
+    "union-trees",
+    "--modulus",
+    "1000003",
+    "--buckets",
+    "1080",
+    "--seeds",
+    "2026090201,2026090202",
+    "--batch-size",
+    "256",
+    "--gemm-block",
+    "1024",
+    "--rank-panel",
+    "64",
+    "--threads",
+    "24",
+    "--expected-columns",
+    "739",
+    "--expected-rank",
+    "360",
+    "--expected-aug-rank",
+    "361",
+    "--expected-verdict",
+    "NON_MEMBER",
+    "--output",
+    "artifacts/math/cuda-reducer/n9-trees-m1080-p1000003-cuda-v2.json"
+  ],
+  "input": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+  "input_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+  "order_file": null,
+  "order_file_sha256": null,
+  "five_l_carrier": null,
+  "subject": "saved-system:union-trees",
+  "n": 9,
+  "branch_edge_occurrences": 4,
+  "modulus": 1000003,
+  "buckets": 1080,
+  "batch_size": 256,
+  "gemm_block": 1024,
+  "rank_panel": 64,
+  "threads": 24,
+  "backend": "cuda",
+  "source_column_count": 739,
+  "source_columns_denominator": 739,
+  "exact_real_nnz_numerator": 998801,
+  "column_generation_seconds": 0.16091495900000022,
+  "progress": [
+    {
+      "source_columns_processed": 256,
+      "ranks": [
+        222,
+        222
+      ],
+      "elapsed_seconds": 1.6052241120000001,
+      "cumulative_seconds_per_column": 0.006270406687500001
+    },
+    {
+      "source_columns_processed": 512,
+      "ranks": [
+        353,
+        353
+      ],
+      "elapsed_seconds": 2.511061461,
+      "cumulative_seconds_per_column": 0.004904416916015625
+    },
+    {
+      "source_columns_processed": 739,
+      "ranks": [
+        360,
+        360
+      ],
+      "elapsed_seconds": 2.791796274,
+      "cumulative_seconds_per_column": 0.003777802806495264
+    }
+  ],
+  "wall_seconds": 2.796575514,
+  "max_rss_kib": 341044,
+  "expected": {
+    "source_columns": 739,
+    "rank_a": 360,
+    "rank_augmented": 361,
+    "verdict": "NON_MEMBER",
+    "exact_match": true
+  },
+  "sketches": [
+    {
+      "sketch": {
+        "algorithm": "splitmix64-chain-v1-one-bucket-random-sign",
+        "seed": 2026090201,
+        "buckets": 1080
+      },
+      "rank_a": 360,
+      "rank_augmented": 361,
+      "saturated": false,
+      "verdict": "NON_MEMBER",
+      "pivot_columns": [
+        211,
+        214,
+        216,
+        235,
+        237,
+        240,
+        241,
+        244,
+        246,
+        247,
+        319,
+        321,
+        323,
+        325,
+        332,
+        334,
+        336,
+        340,
+        342,
+        343,
+        344,
+        345,
+        346,
+        348,
+        349,
+        350,
+        440,
+        442,
+        452,
+        454,
+        457,
+        458,
+        461,
+        463,
+        464,
+        481,
+        484,
+        486,
+        487,
+        488,
+        490,
+        491,
+        492,
+        2777,
+        2780,
+        2782,
+        2783,
+        2824,
+        2829,
+        2832,
+        2835,
+        2836,
+        2866,
+        2868,
+        2871,
+        2874,
+        2875,
+        2881,
+        2884,
+        2885,
+        2887,
+        2889,
+        2890,
+        3121,
+        3126,
+        3129,
+        3131,
+        3133,
+        3181,
+        3183,
+        3187,
+        3190,
+        3192,
+        3193,
+        3205,
+        3208,
+        3210,
+        3211,
+        3215,
+        3217,
+        3218,
+        3219,
+        3220,
+        3332,
+        3334,
+        3337,
+        3339,
+        3341,
+        3351,
+        3353,
+        3355,
+        3367,
+        3370,
+        3372,
+        3373,
+        3377,
+        3379,
+        3380,
+        3381,
+        3382,
+        3390,
+        3392,
+        3394,
+        3398,
+        3400,
+        3401,
+        3402,
+        3403,
+        3404,
+        3405,
+        3406,
+        3724,
+        3725,
+        3754,
+        3756,
+        3759,
+        3762,
+        3763,
+        3768,
+        3771,
+        3772,
+        3774,
+        3776,
+        3777,
+        3883,
+        3885,
+        3888,
+        3890,
+        3892,
+        3904,
+        3906,
+        3918,
+        3921,
+        3923,
+        3924,
+        3928,
+        3930,
+        3931,
+        3932,
+        3933,
+        3939,
+        3941,
+        3943,
+        3947,
+        3949,
+        3950,
+        3951,
+        3952,
+        3953,
+        3955,
+        4048,
+        4049,
+        4056,
+        4059,
+        4062,
+        4063,
+        4068,
+        4071,
+        4072,
+        4075,
+        4076,
+        4095,
+        4099,
+        4101,
+        4102,
+        4107,
+        4109,
+        4111,
+        4115,
+        4117,
+        4118,
+        4119,
+        4120,
+        4121,
+        4122,
+        4123,
+        4127,
+        4129,
+        4130,
+        4679,
+        4725,
+        4727,
+        4731,
+        4736,
+        4737,
+        4746,
+        4748,
+        4749,
+        4756,
+        4892,
+        4894,
+        4897,
+        4901,
+        4910,
+        4913,
+        4917,
+        4924,
+        4927,
+        4929,
+        4930,
+        4938,
+        4939,
+        4947,
+        4949,
+        4978,
+        4993,
+        5002,
+        5005,
+        5008,
+        5113,
+        5117,
+        5122,
+        5123,
+        5149,
+        5151,
+        5155,
+        5160,
+        5161,
+        5168,
+        5171,
+        5173,
+        5174,
+        5183,
+        5215,
+        5216,
+        5228,
+        5229,
+        5239,
+        5243,
+        5244,
+        5245,
+        5248,
+        5249,
+        5252,
+        5253,
+        5265,
+        5272,
+        5278,
+        5505,
+        5507,
+        5511,
+        5516,
+        5517,
+        5526,
+        5528,
+        5529,
+        5536,
+        5568,
+        5577,
+        5581,
+        5590,
+        5592,
+        5593,
+        5601,
+        5602,
+        5612,
+        5628,
+        5629,
+        5637,
+        5643,
+        5663,
+        5670,
+        5673,
+        5674,
+        5677,
+        5689,
+        5694,
+        5699,
+        7271,
+        7273,
+        7277,
+        7280,
+        7282,
+        7283,
+        7293,
+        7295,
+        7297,
+        7299,
+        7300,
+        7515,
+        7519,
+        7522,
+        7525,
+        7535,
+        7537,
+        7539,
+        7560,
+        7564,
+        7567,
+        7569,
+        7570,
+        7578,
+        7581,
+        7583,
+        7584,
+        7587,
+        7588,
+        7589,
+        7611,
+        7615,
+        7620,
+        7621,
+        7623,
+        7888,
+        7892,
+        7895,
+        7897,
+        7898,
+        7905,
+        7909,
+        7912,
+        7914,
+        7916,
+        7946,
+        7948,
+        7952,
+        7953,
+        7993,
+        7999,
+        8000,
+        8003,
+        8004,
+        8005,
+        8020,
+        9157,
+        9161,
+        9166,
+        9167,
+        9171,
+        9172,
+        9192,
+        9206,
+        9207,
+        9211,
+        9213,
+        9270,
+        9323,
+        9328,
+        9329,
+        9346,
+        9350,
+        9355,
+        9356,
+        9363,
+        9371,
+        9460,
+        9471,
+        9497,
+        9511,
+        9523,
+        9552,
+        9601,
+        9623,
+        9634,
+        9746,
+        9764,
+        9810,
+        9819,
+        10201,
+        10819
+      ],
+      "pivot_columns_u64_le_sha256": "3885bf4223184e19c9d6cfdc1632d24d33c47c7cbc4a859f4208257af0933cdd",
+      "pivot_buckets": [
+        0,
+        3,
+        7,
+        4,
+        6,
+        8,
+        10,
+        2,
+        5,
+        11,
+        12,
+        13,
+        9,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        41,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        40,
+        51,
+        52,
+        53,
+        55,
+        56,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        119,
+        120,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        141,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        190,
+        191,
+        192,
+        193,
+        194,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        231,
+        232,
+        233,
+        235,
+        236,
+        237,
+        238,
+        239,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        330,
+        331,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        342,
+        343,
+        344,
+        345,
+        346,
+        347,
+        348,
+        349,
+        350,
+        352,
+        353,
+        354,
+        356,
+        357,
+        359,
+        360,
+        361,
+        362,
+        363,
+        364,
+        365,
+        366,
+        367,
+        368,
+        369,
+        370,
+        371,
+        372,
+        373,
+        374,
+        375,
+        376,
+        377,
+        378,
+        379,
+        380,
+        381,
+        382,
+        383,
+        384,
+        385
+      ],
+      "target_sketch_nonzero": [
+        {
+          "bucket": 1060,
+          "residue": 1000002
+        }
+      ],
+      "left_separator": {
+        "encoding": "sparse-bucket-residues-v1",
+        "length": 1080,
+        "entries": [
+          {
+            "bucket": 0,
+            "residue": 331703
+          },
+          {
+            "bucket": 2,
+            "residue": 408481
+          },
+          {
+            "bucket": 3,
+            "residue": 996658
+          },
+          {
+            "bucket": 4,
+            "residue": 821559
+          },
+          {
+            "bucket": 5,
+            "residue": 781927
+          },
+          {
+            "bucket": 6,
+            "residue": 574553
+          },
+          {
+            "bucket": 7,
+            "residue": 698107
+          },
+          {
+            "bucket": 8,
+            "residue": 957776
+          },
+          {
+            "bucket": 9,
+            "residue": 527956
+          },
+          {
+            "bucket": 10,
+            "residue": 885307
+          },
+          {
+            "bucket": 11,
+            "residue": 375153
+          },
+          {
+            "bucket": 12,
+            "residue": 378171
+          },
+          {
+            "bucket": 13,
+            "residue": 291809
+          },
+          {
+            "bucket": 14,
+            "residue": 917602
+          },
+          {
+            "bucket": 15,
+            "residue": 480709
+          },
+          {
+            "bucket": 16,
+            "residue": 313670
+          },
+          {
+            "bucket": 17,
+            "residue": 822762
+          },
+          {
+            "bucket": 18,
+            "residue": 876553
+          },
+          {
+            "bucket": 19,
+            "residue": 161175
+          },
+          {
+            "bucket": 20,
+            "residue": 612157
+          },
+          {
+            "bucket": 21,
+            "residue": 140598
+          },
+          {
+            "bucket": 22,
+            "residue": 104933
+          },
+          {
+            "bucket": 23,
+            "residue": 516192
+          },
+          {
+            "bucket": 24,
+            "residue": 510557
+          },
+          {
+            "bucket": 25,
+            "residue": 787370
+          },
+          {
+            "bucket": 27,
+            "residue": 988655
+          },
+          {
+            "bucket": 28,
+            "residue": 795359
+          },
+          {
+            "bucket": 29,
+            "residue": 836105
+          },
+          {
+            "bucket": 30,
+            "residue": 514660
+          },
+          {
+            "bucket": 31,
+            "residue": 288558
+          },
+          {
+            "bucket": 32,
+            "residue": 304798
+          },
+          {
+            "bucket": 33,
+            "residue": 967559
+          },
+          {
+            "bucket": 34,
+            "residue": 388633
+          },
+          {
+            "bucket": 35,
+            "residue": 503368
+          },
+          {
+            "bucket": 36,
+            "residue": 556745
+          },
+          {
+            "bucket": 37,
+            "residue": 431792
+          },
+          {
+            "bucket": 38,
+            "residue": 948755
+          },
+          {
+            "bucket": 39,
+            "residue": 200610
+          },
+          {
+            "bucket": 40,
+            "residue": 388986
+          },
+          {
+            "bucket": 41,
+            "residue": 42509
+          },
+          {
+            "bucket": 44,
+            "residue": 876697
+          },
+          {
+            "bucket": 45,
+            "residue": 284942
+          },
+          {
+            "bucket": 46,
+            "residue": 231361
+          },
+          {
+            "bucket": 47,
+            "residue": 257902
+          },
+          {
+            "bucket": 48,
+            "residue": 479188
+          },
+          {
+            "bucket": 49,
+            "residue": 36280
+          },
+          {
+            "bucket": 50,
+            "residue": 511975
+          },
+          {
+            "bucket": 51,
+            "residue": 307123
+          },
+          {
+            "bucket": 52,
+            "residue": 410205
+          },
+          {
+            "bucket": 53,
+            "residue": 440454
+          },
+          {
+            "bucket": 55,
+            "residue": 219452
+          },
+          {
+            "bucket": 56,
+            "residue": 602408
+          },
+          {
+            "bucket": 58,
+            "residue": 449290
+          },
+          {
+            "bucket": 59,
+            "residue": 982785
+          },
+          {
+            "bucket": 60,
+            "residue": 634133
+          },
+          {
+            "bucket": 61,
+            "residue": 124492
+          },
+          {
+            "bucket": 62,
+            "residue": 709595
+          },
+          {
+            "bucket": 63,
+            "residue": 951405
+          },
+          {
+            "bucket": 64,
+            "residue": 602805
+          },
+          {
+            "bucket": 65,
+            "residue": 239364
+          },
+          {
+            "bucket": 66,
+            "residue": 737495
+          },
+          {
+            "bucket": 67,
+            "residue": 994490
+          },
+          {
+            "bucket": 68,
+            "residue": 599618
+          },
+          {
+            "bucket": 69,
+            "residue": 261440
+          },
+          {
+            "bucket": 72,
+            "residue": 125603
+          },
+          {
+            "bucket": 73,
+            "residue": 123619
+          },
+          {
+            "bucket": 74,
+            "residue": 632345
+          },
+          {
+            "bucket": 75,
+            "residue": 918812
+          },
+          {
+            "bucket": 76,
+            "residue": 822755
+          },
+          {
+            "bucket": 77,
+            "residue": 946939
+          },
+          {
+            "bucket": 78,
+            "residue": 819477
+          },
+          {
+            "bucket": 79,
+            "residue": 280658
+          },
+          {
+            "bucket": 80,
+            "residue": 290125
+          },
+          {
+            "bucket": 81,
+            "residue": 919267
+          },
+          {
+            "bucket": 82,
+            "residue": 802621
+          },
+          {
+            "bucket": 83,
+            "residue": 942048
+          },
+          {
+            "bucket": 84,
+            "residue": 453293
+          },
+          {
+            "bucket": 85,
+            "residue": 724441
+          },
+          {
+            "bucket": 86,
+            "residue": 942979
+          },
+          {
+            "bucket": 87,
+            "residue": 571371
+          },
+          {
+            "bucket": 88,
+            "residue": 11334
+          },
+          {
+            "bucket": 89,
+            "residue": 323568
+          },
+          {
+            "bucket": 90,
+            "residue": 200676
+          },
+          {
+            "bucket": 91,
+            "residue": 13878
+          },
+          {
+            "bucket": 92,
+            "residue": 757633
+          },
+          {
+            "bucket": 93,
+            "residue": 602136
+          },
+          {
+            "bucket": 94,
+            "residue": 178632
+          },
+          {
+            "bucket": 95,
+            "residue": 156005
+          },
+          {
+            "bucket": 96,
+            "residue": 542704
+          },
+          {
+            "bucket": 97,
+            "residue": 924183
+          },
+          {
+            "bucket": 98,
+            "residue": 594495
+          },
+          {
+            "bucket": 99,
+            "residue": 407413
+          },
+          {
+            "bucket": 100,
+            "residue": 86751
+          },
+          {
+            "bucket": 101,
+            "residue": 398237
+          },
+          {
+            "bucket": 102,
+            "residue": 390083
+          },
+          {
+            "bucket": 103,
+            "residue": 633489
+          },
+          {
+            "bucket": 104,
+            "residue": 62553
+          },
+          {
+            "bucket": 105,
+            "residue": 734709
+          },
+          {
+            "bucket": 106,
+            "residue": 704570
+          },
+          {
+            "bucket": 107,
+            "residue": 795021
+          },
+          {
+            "bucket": 108,
+            "residue": 507519
+          },
+          {
+            "bucket": 109,
+            "residue": 644593
+          },
+          {
+            "bucket": 110,
+            "residue": 852583
+          },
+          {
+            "bucket": 111,
+            "residue": 766776
+          },
+          {
+            "bucket": 112,
+            "residue": 972104
+          },
+          {
+            "bucket": 113,
+            "residue": 927970
+          },
+          {
+            "bucket": 114,
+            "residue": 742055
+          },
+          {
+            "bucket": 115,
+            "residue": 446582
+          },
+          {
+            "bucket": 116,
+            "residue": 119844
+          },
+          {
+            "bucket": 117,
+            "residue": 295238
+          },
+          {
+            "bucket": 119,
+            "residue": 8172
+          },
+          {
+            "bucket": 120,
+            "residue": 425450
+          },
+          {
+            "bucket": 122,
+            "residue": 583395
+          },
+          {
+            "bucket": 123,
+            "residue": 455594
+          },
+          {
+            "bucket": 124,
+            "residue": 118258
+          },
+          {
+            "bucket": 125,
+            "residue": 769258
+          },
+          {
+            "bucket": 126,
+            "residue": 668710
+          },
+          {
+            "bucket": 127,
+            "residue": 977499
+          },
+          {
+            "bucket": 128,
+            "residue": 879553
+          },
+          {
+            "bucket": 129,
+            "residue": 818152
+          },
+          {
+            "bucket": 131,
+            "residue": 971373
+          },
+          {
+            "bucket": 132,
+            "residue": 811932
+          },
+          {
+            "bucket": 133,
+            "residue": 10115
+          },
+          {
+            "bucket": 134,
+            "residue": 241371
+          },
+          {
+            "bucket": 135,
+            "residue": 82874
+          },
+          {
+            "bucket": 136,
+            "residue": 706948
+          },
+          {
+            "bucket": 137,
+            "residue": 642001
+          },
+          {
+            "bucket": 138,
+            "residue": 446340
+          },
+          {
+            "bucket": 139,
+            "residue": 711761
+          },
+          {
+            "bucket": 141,
+            "residue": 288347
+          },
+          {
+            "bucket": 143,
+            "residue": 913313
+          },
+          {
+            "bucket": 144,
+            "residue": 486129
+          },
+          {
+            "bucket": 145,
+            "residue": 887465
+          },
+          {
+            "bucket": 146,
+            "residue": 498475
+          },
+          {
+            "bucket": 147,
+            "residue": 293607
+          },
+          {
+            "bucket": 148,
+            "residue": 125368
+          },
+          {
+            "bucket": 149,
+            "residue": 200715
+          },
+          {
+            "bucket": 150,
+            "residue": 55302
+          },
+          {
+            "bucket": 151,
+            "residue": 517344
+          },
+          {
+            "bucket": 152,
+            "residue": 667869
+          },
+          {
+            "bucket": 153,
+            "residue": 982528
+          },
+          {
+            "bucket": 154,
+            "residue": 124456
+          },
+          {
+            "bucket": 155,
+            "residue": 406985
+          },
+          {
+            "bucket": 156,
+            "residue": 196524
+          },
+          {
+            "bucket": 157,
+            "residue": 490814
+          },
+          {
+            "bucket": 159,
+            "residue": 738410
+          },
+          {
+            "bucket": 160,
+            "residue": 990800
+          },
+          {
+            "bucket": 161,
+            "residue": 277241
+          },
+          {
+            "bucket": 162,
+            "residue": 895171
+          },
+          {
+            "bucket": 163,
+            "residue": 583817
+          },
+          {
+            "bucket": 164,
+            "residue": 766995
+          },
+          {
+            "bucket": 165,
+            "residue": 494213
+          },
+          {
+            "bucket": 166,
+            "residue": 611265
+          },
+          {
+            "bucket": 167,
+            "residue": 748259
+          },
+          {
+            "bucket": 168,
+            "residue": 589368
+          },
+          {
+            "bucket": 169,
+            "residue": 899979
+          },
+          {
+            "bucket": 170,
+            "residue": 818663
+          },
+          {
+            "bucket": 171,
+            "residue": 97246
+          },
+          {
+            "bucket": 172,
+            "residue": 393224
+          },
+          {
+            "bucket": 173,
+            "residue": 514826
+          },
+          {
+            "bucket": 174,
+            "residue": 273097
+          },
+          {
+            "bucket": 175,
+            "residue": 989844
+          },
+          {
+            "bucket": 176,
+            "residue": 883432
+          },
+          {
+            "bucket": 177,
+            "residue": 336730
+          },
+          {
+            "bucket": 178,
+            "residue": 626702
+          },
+          {
+            "bucket": 179,
+            "residue": 244966
+          },
+          {
+            "bucket": 180,
+            "residue": 600433
+          },
+          {
+            "bucket": 181,
+            "residue": 632395
+          },
+          {
+            "bucket": 182,
+            "residue": 780866
+          },
+          {
+            "bucket": 183,
+            "residue": 608907
+          },
+          {
+            "bucket": 184,
+            "residue": 718295
+          },
+          {
+            "bucket": 185,
+            "residue": 705304
+          },
+          {
+            "bucket": 186,
+            "residue": 185042
+          },
+          {
+            "bucket": 187,
+            "residue": 122668
+          },
+          {
+            "bucket": 188,
+            "residue": 785849
+          },
+          {
+            "bucket": 190,
+            "residue": 465541
+          },
+          {
+            "bucket": 191,
+            "residue": 68863
+          },
+          {
+            "bucket": 192,
+            "residue": 95073
+          },
+          {
+            "bucket": 193,
+            "residue": 936133
+          },
+          {
+            "bucket": 194,
+            "residue": 207470
+          },
+          {
+            "bucket": 196,
+            "residue": 803116
+          },
+          {
+            "bucket": 197,
+            "residue": 866267
+          },
+          {
+            "bucket": 198,
+            "residue": 875288
+          },
+          {
+            "bucket": 199,
+            "residue": 102681
+          },
+          {
+            "bucket": 200,
+            "residue": 597540
+          },
+          {
+            "bucket": 201,
+            "residue": 279977
+          },
+          {
+            "bucket": 202,
+            "residue": 179426
+          },
+          {
+            "bucket": 203,
+            "residue": 703473
+          },
+          {
+            "bucket": 204,
+            "residue": 103092
+          },
+          {
+            "bucket": 205,
+            "residue": 532388
+          },
+          {
+            "bucket": 206,
+            "residue": 445408
+          },
+          {
+            "bucket": 207,
+            "residue": 857854
+          },
+          {
+            "bucket": 208,
+            "residue": 684998
+          },
+          {
+            "bucket": 209,
+            "residue": 254044
+          },
+          {
+            "bucket": 210,
+            "residue": 303858
+          },
+          {
+            "bucket": 211,
+            "residue": 242528
+          },
+          {
+            "bucket": 212,
+            "residue": 293101
+          },
+          {
+            "bucket": 213,
+            "residue": 597521
+          },
+          {
+            "bucket": 214,
+            "residue": 251103
+          },
+          {
+            "bucket": 215,
+            "residue": 223773
+          },
+          {
+            "bucket": 216,
+            "residue": 479732
+          },
+          {
+            "bucket": 217,
+            "residue": 776059
+          },
+          {
+            "bucket": 218,
+            "residue": 697072
+          },
+          {
+            "bucket": 219,
+            "residue": 68454
+          },
+          {
+            "bucket": 220,
+            "residue": 57015
+          },
+          {
+            "bucket": 221,
+            "residue": 453501
+          },
+          {
+            "bucket": 222,
+            "residue": 292743
+          },
+          {
+            "bucket": 223,
+            "residue": 994411
+          },
+          {
+            "bucket": 224,
+            "residue": 58507
+          },
+          {
+            "bucket": 225,
+            "residue": 53645
+          },
+          {
+            "bucket": 226,
+            "residue": 805228
+          },
+          {
+            "bucket": 227,
+            "residue": 684123
+          },
+          {
+            "bucket": 228,
+            "residue": 631339
+          },
+          {
+            "bucket": 229,
+            "residue": 634160
+          },
+          {
+            "bucket": 231,
+            "residue": 7675
+          },
+          {
+            "bucket": 232,
+            "residue": 399486
+          },
+          {
+            "bucket": 233,
+            "residue": 799490
+          },
+          {
+            "bucket": 235,
+            "residue": 644681
+          },
+          {
+            "bucket": 236,
+            "residue": 164656
+          },
+          {
+            "bucket": 237,
+            "residue": 339896
+          },
+          {
+            "bucket": 238,
+            "residue": 437428
+          },
+          {
+            "bucket": 239,
+            "residue": 779419
+          },
+          {
+            "bucket": 241,
+            "residue": 267891
+          },
+          {
+            "bucket": 242,
+            "residue": 926513
+          },
+          {
+            "bucket": 243,
+            "residue": 318188
+          },
+          {
+            "bucket": 244,
+            "residue": 206618
+          },
+          {
+            "bucket": 245,
+            "residue": 451711
+          },
+          {
+            "bucket": 246,
+            "residue": 552289
+          },
+          {
+            "bucket": 247,
+            "residue": 324877
+          },
+          {
+            "bucket": 248,
+            "residue": 648847
+          },
+          {
+            "bucket": 249,
+            "residue": 950097
+          },
+          {
+            "bucket": 250,
+            "residue": 549225
+          },
+          {
+            "bucket": 251,
+            "residue": 282155
+          },
+          {
+            "bucket": 252,
+            "residue": 210791
+          },
+          {
+            "bucket": 254,
+            "residue": 51308
+          },
+          {
+            "bucket": 255,
+            "residue": 777310
+          },
+          {
+            "bucket": 256,
+            "residue": 367481
+          },
+          {
+            "bucket": 257,
+            "residue": 786752
+          },
+          {
+            "bucket": 258,
+            "residue": 473948
+          },
+          {
+            "bucket": 259,
+            "residue": 651454
+          },
+          {
+            "bucket": 260,
+            "residue": 265222
+          },
+          {
+            "bucket": 261,
+            "residue": 642603
+          },
+          {
+            "bucket": 263,
+            "residue": 22191
+          },
+          {
+            "bucket": 264,
+            "residue": 528060
+          },
+          {
+            "bucket": 265,
+            "residue": 539432
+          },
+          {
+            "bucket": 266,
+            "residue": 319274
+          },
+          {
+            "bucket": 267,
+            "residue": 331718
+          },
+          {
+            "bucket": 268,
+            "residue": 243524
+          },
+          {
+            "bucket": 269,
+            "residue": 88033
+          },
+          {
+            "bucket": 270,
+            "residue": 259304
+          },
+          {
+            "bucket": 271,
+            "residue": 18439
+          },
+          {
+            "bucket": 272,
+            "residue": 883771
+          },
+          {
+            "bucket": 273,
+            "residue": 643950
+          },
+          {
+            "bucket": 274,
+            "residue": 886242
+          },
+          {
+            "bucket": 275,
+            "residue": 458425
+          },
+          {
+            "bucket": 276,
+            "residue": 468215
+          },
+          {
+            "bucket": 277,
+            "residue": 560750
+          },
+          {
+            "bucket": 278,
+            "residue": 975266
+          },
+          {
+            "bucket": 279,
+            "residue": 349772
+          },
+          {
+            "bucket": 280,
+            "residue": 166167
+          },
+          {
+            "bucket": 281,
+            "residue": 926979
+          },
+          {
+            "bucket": 282,
+            "residue": 113738
+          },
+          {
+            "bucket": 283,
+            "residue": 952135
+          },
+          {
+            "bucket": 284,
+            "residue": 964524
+          },
+          {
+            "bucket": 285,
+            "residue": 222034
+          },
+          {
+            "bucket": 286,
+            "residue": 277129
+          },
+          {
+            "bucket": 287,
+            "residue": 648044
+          },
+          {
+            "bucket": 288,
+            "residue": 825137
+          },
+          {
+            "bucket": 289,
+            "residue": 726773
+          },
+          {
+            "bucket": 290,
+            "residue": 882937
+          },
+          {
+            "bucket": 291,
+            "residue": 996956
+          },
+          {
+            "bucket": 292,
+            "residue": 971311
+          },
+          {
+            "bucket": 293,
+            "residue": 913209
+          },
+          {
+            "bucket": 294,
+            "residue": 949650
+          },
+          {
+            "bucket": 295,
+            "residue": 257034
+          },
+          {
+            "bucket": 296,
+            "residue": 741311
+          },
+          {
+            "bucket": 297,
+            "residue": 892036
+          },
+          {
+            "bucket": 298,
+            "residue": 148326
+          },
+          {
+            "bucket": 299,
+            "residue": 442760
+          },
+          {
+            "bucket": 300,
+            "residue": 874945
+          },
+          {
+            "bucket": 301,
+            "residue": 6443
+          },
+          {
+            "bucket": 302,
+            "residue": 381211
+          },
+          {
+            "bucket": 303,
+            "residue": 333533
+          },
+          {
+            "bucket": 304,
+            "residue": 1371
+          },
+          {
+            "bucket": 305,
+            "residue": 133624
+          },
+          {
+            "bucket": 306,
+            "residue": 481016
+          },
+          {
+            "bucket": 307,
+            "residue": 922806
+          },
+          {
+            "bucket": 308,
+            "residue": 731911
+          },
+          {
+            "bucket": 309,
+            "residue": 51429
+          },
+          {
+            "bucket": 310,
+            "residue": 913433
+          },
+          {
+            "bucket": 311,
+            "residue": 704152
+          },
+          {
+            "bucket": 312,
+            "residue": 91831
+          },
+          {
+            "bucket": 313,
+            "residue": 380397
+          },
+          {
+            "bucket": 314,
+            "residue": 628151
+          },
+          {
+            "bucket": 315,
+            "residue": 292630
+          },
+          {
+            "bucket": 316,
+            "residue": 513516
+          },
+          {
+            "bucket": 317,
+            "residue": 820240
+          },
+          {
+            "bucket": 318,
+            "residue": 40469
+          },
+          {
+            "bucket": 320,
+            "residue": 406029
+          },
+          {
+            "bucket": 321,
+            "residue": 431874
+          },
+          {
+            "bucket": 322,
+            "residue": 368603
+          },
+          {
+            "bucket": 323,
+            "residue": 371556
+          },
+          {
+            "bucket": 324,
+            "residue": 82514
+          },
+          {
+            "bucket": 325,
+            "residue": 993061
+          },
+          {
+            "bucket": 326,
+            "residue": 847204
+          },
+          {
+            "bucket": 327,
+            "residue": 490109
+          },
+          {
+            "bucket": 328,
+            "residue": 627398
+          },
+          {
+            "bucket": 330,
+            "residue": 233014
+          },
+          {
+            "bucket": 331,
+            "residue": 223492
+          },
+          {
+            "bucket": 332,
+            "residue": 609576
+          },
+          {
+            "bucket": 333,
+            "residue": 284390
+          },
+          {
+            "bucket": 334,
+            "residue": 898830
+          },
+          {
+            "bucket": 335,
+            "residue": 145937
+          },
+          {
+            "bucket": 336,
+            "residue": 493177
+          },
+          {
+            "bucket": 337,
+            "residue": 719913
+          },
+          {
+            "bucket": 338,
+            "residue": 405641
+          },
+          {
+            "bucket": 339,
+            "residue": 890063
+          },
+          {
+            "bucket": 340,
+            "residue": 244946
+          },
+          {
+            "bucket": 341,
+            "residue": 177168
+          },
+          {
+            "bucket": 342,
+            "residue": 799732
+          },
+          {
+            "bucket": 343,
+            "residue": 528519
+          },
+          {
+            "bucket": 344,
+            "residue": 366190
+          },
+          {
+            "bucket": 345,
+            "residue": 372300
+          },
+          {
+            "bucket": 346,
+            "residue": 502689
+          },
+          {
+            "bucket": 347,
+            "residue": 653475
+          },
+          {
+            "bucket": 348,
+            "residue": 847983
+          },
+          {
+            "bucket": 349,
+            "residue": 625774
+          },
+          {
+            "bucket": 350,
+            "residue": 721302
+          },
+          {
+            "bucket": 352,
+            "residue": 493628
+          },
+          {
+            "bucket": 353,
+            "residue": 774475
+          },
+          {
+            "bucket": 354,
+            "residue": 82744
+          },
+          {
+            "bucket": 356,
+            "residue": 779359
+          },
+          {
+            "bucket": 357,
+            "residue": 145489
+          },
+          {
+            "bucket": 359,
+            "residue": 562022
+          },
+          {
+            "bucket": 360,
+            "residue": 680877
+          },
+          {
+            "bucket": 361,
+            "residue": 51570
+          },
+          {
+            "bucket": 362,
+            "residue": 260432
+          },
+          {
+            "bucket": 363,
+            "residue": 853935
+          },
+          {
+            "bucket": 364,
+            "residue": 356408
+          },
+          {
+            "bucket": 365,
+            "residue": 490925
+          },
+          {
+            "bucket": 366,
+            "residue": 525685
+          },
+          {
+            "bucket": 367,
+            "residue": 983368
+          },
+          {
+            "bucket": 368,
+            "residue": 938082
+          },
+          {
+            "bucket": 369,
+            "residue": 238031
+          },
+          {
+            "bucket": 370,
+            "residue": 820349
+          },
+          {
+            "bucket": 371,
+            "residue": 406685
+          },
+          {
+            "bucket": 372,
+            "residue": 993059
+          },
+          {
+            "bucket": 373,
+            "residue": 582430
+          },
+          {
+            "bucket": 374,
+            "residue": 60312
+          },
+          {
+            "bucket": 375,
+            "residue": 283035
+          },
+          {
+            "bucket": 376,
+            "residue": 688814
+          },
+          {
+            "bucket": 377,
+            "residue": 38326
+          },
+          {
+            "bucket": 378,
+            "residue": 928978
+          },
+          {
+            "bucket": 379,
+            "residue": 25944
+          },
+          {
+            "bucket": 380,
+            "residue": 83462
+          },
+          {
+            "bucket": 381,
+            "residue": 617782
+          },
+          {
+            "bucket": 382,
+            "residue": 93793
+          },
+          {
+            "bucket": 383,
+            "residue": 866864
+          },
+          {
+            "bucket": 384,
+            "residue": 709476
+          },
+          {
+            "bucket": 385,
+            "residue": 358075
+          },
+          {
+            "bucket": 1060,
+            "residue": 1
+          }
+        ],
+        "dot_target_mod_prime": 1000002,
+        "verified_basis_columns_denominator": 360
+      },
+      "matrix_allocation_seconds": 0.000417498,
+      "sketch_seconds": 0.090174584,
+      "reducer_seconds": 0.112480932,
+      "real_entry_visits_numerator": 998801,
+      "source_columns_denominator": 739,
+      "max_basis_storage_bytes": 1555200,
+      "reducer_metrics": {
+        "gemm_calls": 22,
+        "gemm_scalar_products_numerator": 252469440,
+        "gemm_seconds": 0.03753737496305256,
+        "pack_seconds": 0.0007646399987861514,
+        "modular_reduce_seconds": 0.0001512960004620254,
+        "basis_maintenance_scalar_products_numerator": 22012560,
+        "old_basis_gemm_calls": 3,
+        "old_basis_gemm_scalar_products_numerator": 148308840,
+        "old_basis_gemm_seconds": 0.0015511680245399475,
+        "panel_future_gemm_calls": 9,
+        "panel_future_gemm_scalar_products_numerator": 43810200,
+        "panel_future_gemm_seconds": 0.03534694294352084,
+        "panel_basis_gemm_calls": 10,
+        "panel_basis_gemm_scalar_products_numerator": 60350400,
+        "panel_basis_gemm_seconds": 0.0006392639949917792,
+        "gpu_peak_allocated_bytes": 25607104,
+        "gpu_host_to_device_bytes_numerator": 6317560,
+        "gpu_device_to_host_bytes_numerator": 18930240,
+        "gpu_transfer_seconds": 0.001963225
+      }
+    },
+    {
+      "sketch": {
+        "algorithm": "splitmix64-chain-v1-one-bucket-random-sign",
+        "seed": 2026090202,
+        "buckets": 1080
+      },
+      "rank_a": 360,
+      "rank_augmented": 361,
+      "saturated": false,
+      "verdict": "NON_MEMBER",
+      "pivot_columns": [
+        211,
+        214,
+        216,
+        235,
+        237,
+        240,
+        241,
+        244,
+        246,
+        247,
+        319,
+        321,
+        323,
+        325,
+        332,
+        334,
+        336,
+        340,
+        342,
+        343,
+        344,
+        345,
+        346,
+        348,
+        349,
+        350,
+        440,
+        442,
+        452,
+        454,
+        457,
+        458,
+        461,
+        463,
+        464,
+        481,
+        484,
+        486,
+        487,
+        488,
+        490,
+        491,
+        492,
+        2777,
+        2780,
+        2782,
+        2783,
+        2824,
+        2829,
+        2832,
+        2835,
+        2836,
+        2866,
+        2868,
+        2871,
+        2874,
+        2875,
+        2881,
+        2884,
+        2885,
+        2887,
+        2889,
+        2890,
+        3121,
+        3126,
+        3129,
+        3131,
+        3133,
+        3181,
+        3183,
+        3187,
+        3190,
+        3192,
+        3193,
+        3205,
+        3208,
+        3210,
+        3211,
+        3215,
+        3217,
+        3218,
+        3219,
+        3220,
+        3332,
+        3334,
+        3337,
+        3339,
+        3341,
+        3351,
+        3353,
+        3355,
+        3367,
+        3370,
+        3372,
+        3373,
+        3377,
+        3379,
+        3380,
+        3381,
+        3382,
+        3390,
+        3392,
+        3394,
+        3398,
+        3400,
+        3401,
+        3402,
+        3403,
+        3404,
+        3405,
+        3406,
+        3724,
+        3725,
+        3754,
+        3756,
+        3759,
+        3762,
+        3763,
+        3768,
+        3771,
+        3772,
+        3774,
+        3776,
+        3777,
+        3883,
+        3885,
+        3888,
+        3890,
+        3892,
+        3904,
+        3906,
+        3918,
+        3921,
+        3923,
+        3924,
+        3928,
+        3930,
+        3931,
+        3932,
+        3933,
+        3939,
+        3941,
+        3943,
+        3947,
+        3949,
+        3950,
+        3951,
+        3952,
+        3953,
+        3955,
+        4048,
+        4049,
+        4056,
+        4059,
+        4062,
+        4063,
+        4068,
+        4071,
+        4072,
+        4075,
+        4076,
+        4095,
+        4099,
+        4101,
+        4102,
+        4107,
+        4109,
+        4111,
+        4115,
+        4117,
+        4118,
+        4119,
+        4120,
+        4121,
+        4122,
+        4123,
+        4127,
+        4129,
+        4130,
+        4679,
+        4725,
+        4727,
+        4731,
+        4736,
+        4737,
+        4746,
+        4748,
+        4749,
+        4756,
+        4892,
+        4894,
+        4897,
+        4901,
+        4910,
+        4913,
+        4917,
+        4924,
+        4927,
+        4929,
+        4930,
+        4938,
+        4939,
+        4947,
+        4949,
+        4978,
+        4993,
+        5002,
+        5005,
+        5008,
+        5113,
+        5117,
+        5122,
+        5123,
+        5149,
+        5151,
+        5155,
+        5160,
+        5161,
+        5168,
+        5171,
+        5173,
+        5174,
+        5183,
+        5215,
+        5216,
+        5228,
+        5229,
+        5239,
+        5243,
+        5244,
+        5245,
+        5248,
+        5249,
+        5252,
+        5253,
+        5265,
+        5272,
+        5278,
+        5505,
+        5507,
+        5511,
+        5516,
+        5517,
+        5526,
+        5528,
+        5529,
+        5536,
+        5568,
+        5577,
+        5581,
+        5590,
+        5592,
+        5593,
+        5601,
+        5602,
+        5612,
+        5628,
+        5629,
+        5637,
+        5643,
+        5663,
+        5670,
+        5673,
+        5674,
+        5677,
+        5689,
+        5694,
+        5699,
+        7271,
+        7273,
+        7277,
+        7280,
+        7282,
+        7283,
+        7293,
+        7295,
+        7297,
+        7299,
+        7300,
+        7515,
+        7519,
+        7522,
+        7525,
+        7535,
+        7537,
+        7539,
+        7560,
+        7564,
+        7567,
+        7569,
+        7570,
+        7578,
+        7581,
+        7583,
+        7584,
+        7587,
+        7588,
+        7589,
+        7611,
+        7615,
+        7620,
+        7621,
+        7623,
+        7888,
+        7892,
+        7895,
+        7897,
+        7898,
+        7905,
+        7909,
+        7912,
+        7914,
+        7916,
+        7946,
+        7948,
+        7952,
+        7953,
+        7993,
+        7999,
+        8000,
+        8003,
+        8004,
+        8005,
+        8020,
+        9157,
+        9161,
+        9166,
+        9167,
+        9171,
+        9172,
+        9192,
+        9206,
+        9207,
+        9211,
+        9213,
+        9270,
+        9323,
+        9328,
+        9329,
+        9346,
+        9350,
+        9355,
+        9356,
+        9363,
+        9371,
+        9460,
+        9471,
+        9497,
+        9511,
+        9523,
+        9552,
+        9601,
+        9623,
+        9634,
+        9746,
+        9764,
+        9810,
+        9819,
+        10201,
+        10819
+      ],
+      "pivot_columns_u64_le_sha256": "3885bf4223184e19c9d6cfdc1632d24d33c47c7cbc4a859f4208257af0933cdd",
+      "pivot_buckets": [
+        0,
+        2,
+        5,
+        3,
+        9,
+        4,
+        10,
+        1,
+        18,
+        11,
+        12,
+        13,
+        7,
+        8,
+        14,
+        15,
+        16,
+        17,
+        19,
+        22,
+        23,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        20,
+        51,
+        52,
+        53,
+        24,
+        54,
+        55,
+        56,
+        57,
+        43,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        133,
+        134,
+        135,
+        136,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        172,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        212,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        326,
+        327,
+        328,
+        329,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        342,
+        343,
+        344,
+        345,
+        346,
+        347,
+        349,
+        350,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        358,
+        359,
+        360,
+        361,
+        362,
+        363,
+        364,
+        365,
+        366,
+        367,
+        368,
+        369,
+        370,
+        371,
+        372,
+        373,
+        376,
+        377,
+        378,
+        379,
+        380,
+        381
+      ],
+      "target_sketch_nonzero": [
+        {
+          "bucket": 630,
+          "residue": 1000002
+        }
+      ],
+      "left_separator": {
+        "encoding": "sparse-bucket-residues-v1",
+        "length": 1080,
+        "entries": [
+          {
+            "bucket": 0,
+            "residue": 932529
+          },
+          {
+            "bucket": 1,
+            "residue": 403205
+          },
+          {
+            "bucket": 2,
+            "residue": 290876
+          },
+          {
+            "bucket": 3,
+            "residue": 441722
+          },
+          {
+            "bucket": 4,
+            "residue": 902433
+          },
+          {
+            "bucket": 5,
+            "residue": 716817
+          },
+          {
+            "bucket": 7,
+            "residue": 596139
+          },
+          {
+            "bucket": 8,
+            "residue": 379806
+          },
+          {
+            "bucket": 9,
+            "residue": 116844
+          },
+          {
+            "bucket": 10,
+            "residue": 726938
+          },
+          {
+            "bucket": 11,
+            "residue": 141214
+          },
+          {
+            "bucket": 12,
+            "residue": 485959
+          },
+          {
+            "bucket": 13,
+            "residue": 691667
+          },
+          {
+            "bucket": 14,
+            "residue": 651599
+          },
+          {
+            "bucket": 15,
+            "residue": 939859
+          },
+          {
+            "bucket": 16,
+            "residue": 322452
+          },
+          {
+            "bucket": 17,
+            "residue": 483864
+          },
+          {
+            "bucket": 18,
+            "residue": 312572
+          },
+          {
+            "bucket": 19,
+            "residue": 56147
+          },
+          {
+            "bucket": 20,
+            "residue": 198633
+          },
+          {
+            "bucket": 22,
+            "residue": 855048
+          },
+          {
+            "bucket": 23,
+            "residue": 426525
+          },
+          {
+            "bucket": 24,
+            "residue": 540339
+          },
+          {
+            "bucket": 25,
+            "residue": 318676
+          },
+          {
+            "bucket": 26,
+            "residue": 323646
+          },
+          {
+            "bucket": 27,
+            "residue": 559739
+          },
+          {
+            "bucket": 28,
+            "residue": 720797
+          },
+          {
+            "bucket": 29,
+            "residue": 379398
+          },
+          {
+            "bucket": 30,
+            "residue": 150385
+          },
+          {
+            "bucket": 31,
+            "residue": 418644
+          },
+          {
+            "bucket": 32,
+            "residue": 205965
+          },
+          {
+            "bucket": 33,
+            "residue": 38641
+          },
+          {
+            "bucket": 34,
+            "residue": 297510
+          },
+          {
+            "bucket": 35,
+            "residue": 667149
+          },
+          {
+            "bucket": 36,
+            "residue": 22264
+          },
+          {
+            "bucket": 37,
+            "residue": 995648
+          },
+          {
+            "bucket": 38,
+            "residue": 180849
+          },
+          {
+            "bucket": 39,
+            "residue": 930065
+          },
+          {
+            "bucket": 40,
+            "residue": 171187
+          },
+          {
+            "bucket": 41,
+            "residue": 43945
+          },
+          {
+            "bucket": 42,
+            "residue": 27406
+          },
+          {
+            "bucket": 43,
+            "residue": 249748
+          },
+          {
+            "bucket": 44,
+            "residue": 354890
+          },
+          {
+            "bucket": 45,
+            "residue": 843654
+          },
+          {
+            "bucket": 46,
+            "residue": 195332
+          },
+          {
+            "bucket": 47,
+            "residue": 517289
+          },
+          {
+            "bucket": 48,
+            "residue": 294945
+          },
+          {
+            "bucket": 49,
+            "residue": 40734
+          },
+          {
+            "bucket": 50,
+            "residue": 249505
+          },
+          {
+            "bucket": 51,
+            "residue": 176764
+          },
+          {
+            "bucket": 52,
+            "residue": 624714
+          },
+          {
+            "bucket": 53,
+            "residue": 728909
+          },
+          {
+            "bucket": 54,
+            "residue": 123330
+          },
+          {
+            "bucket": 55,
+            "residue": 484883
+          },
+          {
+            "bucket": 56,
+            "residue": 169292
+          },
+          {
+            "bucket": 57,
+            "residue": 162037
+          },
+          {
+            "bucket": 58,
+            "residue": 828452
+          },
+          {
+            "bucket": 59,
+            "residue": 678689
+          },
+          {
+            "bucket": 60,
+            "residue": 437962
+          },
+          {
+            "bucket": 61,
+            "residue": 229246
+          },
+          {
+            "bucket": 62,
+            "residue": 631303
+          },
+          {
+            "bucket": 63,
+            "residue": 482739
+          },
+          {
+            "bucket": 64,
+            "residue": 149104
+          },
+          {
+            "bucket": 65,
+            "residue": 512725
+          },
+          {
+            "bucket": 66,
+            "residue": 159906
+          },
+          {
+            "bucket": 67,
+            "residue": 649091
+          },
+          {
+            "bucket": 68,
+            "residue": 392127
+          },
+          {
+            "bucket": 70,
+            "residue": 891106
+          },
+          {
+            "bucket": 71,
+            "residue": 549367
+          },
+          {
+            "bucket": 72,
+            "residue": 668150
+          },
+          {
+            "bucket": 73,
+            "residue": 831908
+          },
+          {
+            "bucket": 74,
+            "residue": 706446
+          },
+          {
+            "bucket": 75,
+            "residue": 991575
+          },
+          {
+            "bucket": 76,
+            "residue": 104372
+          },
+          {
+            "bucket": 77,
+            "residue": 48231
+          },
+          {
+            "bucket": 78,
+            "residue": 452733
+          },
+          {
+            "bucket": 79,
+            "residue": 51625
+          },
+          {
+            "bucket": 80,
+            "residue": 312330
+          },
+          {
+            "bucket": 81,
+            "residue": 890368
+          },
+          {
+            "bucket": 82,
+            "residue": 606020
+          },
+          {
+            "bucket": 83,
+            "residue": 492956
+          },
+          {
+            "bucket": 84,
+            "residue": 731062
+          },
+          {
+            "bucket": 85,
+            "residue": 653539
+          },
+          {
+            "bucket": 86,
+            "residue": 393427
+          },
+          {
+            "bucket": 87,
+            "residue": 515696
+          },
+          {
+            "bucket": 88,
+            "residue": 432474
+          },
+          {
+            "bucket": 89,
+            "residue": 946417
+          },
+          {
+            "bucket": 90,
+            "residue": 58290
+          },
+          {
+            "bucket": 91,
+            "residue": 423554
+          },
+          {
+            "bucket": 92,
+            "residue": 805368
+          },
+          {
+            "bucket": 93,
+            "residue": 841416
+          },
+          {
+            "bucket": 94,
+            "residue": 478046
+          },
+          {
+            "bucket": 97,
+            "residue": 212453
+          },
+          {
+            "bucket": 98,
+            "residue": 906753
+          },
+          {
+            "bucket": 99,
+            "residue": 367591
+          },
+          {
+            "bucket": 100,
+            "residue": 422417
+          },
+          {
+            "bucket": 101,
+            "residue": 606809
+          },
+          {
+            "bucket": 102,
+            "residue": 244348
+          },
+          {
+            "bucket": 103,
+            "residue": 193567
+          },
+          {
+            "bucket": 104,
+            "residue": 924795
+          },
+          {
+            "bucket": 105,
+            "residue": 539465
+          },
+          {
+            "bucket": 106,
+            "residue": 292487
+          },
+          {
+            "bucket": 107,
+            "residue": 595454
+          },
+          {
+            "bucket": 108,
+            "residue": 923183
+          },
+          {
+            "bucket": 109,
+            "residue": 564770
+          },
+          {
+            "bucket": 110,
+            "residue": 342849
+          },
+          {
+            "bucket": 111,
+            "residue": 189421
+          },
+          {
+            "bucket": 112,
+            "residue": 574151
+          },
+          {
+            "bucket": 114,
+            "residue": 735272
+          },
+          {
+            "bucket": 115,
+            "residue": 276041
+          },
+          {
+            "bucket": 116,
+            "residue": 335067
+          },
+          {
+            "bucket": 117,
+            "residue": 904578
+          },
+          {
+            "bucket": 118,
+            "residue": 965995
+          },
+          {
+            "bucket": 119,
+            "residue": 660448
+          },
+          {
+            "bucket": 120,
+            "residue": 944455
+          },
+          {
+            "bucket": 121,
+            "residue": 787196
+          },
+          {
+            "bucket": 123,
+            "residue": 681304
+          },
+          {
+            "bucket": 124,
+            "residue": 487262
+          },
+          {
+            "bucket": 125,
+            "residue": 886676
+          },
+          {
+            "bucket": 126,
+            "residue": 840349
+          },
+          {
+            "bucket": 127,
+            "residue": 762314
+          },
+          {
+            "bucket": 128,
+            "residue": 120360
+          },
+          {
+            "bucket": 129,
+            "residue": 155180
+          },
+          {
+            "bucket": 130,
+            "residue": 506083
+          },
+          {
+            "bucket": 131,
+            "residue": 56539
+          },
+          {
+            "bucket": 133,
+            "residue": 595861
+          },
+          {
+            "bucket": 134,
+            "residue": 448022
+          },
+          {
+            "bucket": 135,
+            "residue": 287050
+          },
+          {
+            "bucket": 136,
+            "residue": 632956
+          },
+          {
+            "bucket": 138,
+            "residue": 675519
+          },
+          {
+            "bucket": 139,
+            "residue": 119263
+          },
+          {
+            "bucket": 140,
+            "residue": 503403
+          },
+          {
+            "bucket": 141,
+            "residue": 755626
+          },
+          {
+            "bucket": 142,
+            "residue": 289802
+          },
+          {
+            "bucket": 143,
+            "residue": 127646
+          },
+          {
+            "bucket": 144,
+            "residue": 430143
+          },
+          {
+            "bucket": 145,
+            "residue": 578459
+          },
+          {
+            "bucket": 146,
+            "residue": 370484
+          },
+          {
+            "bucket": 147,
+            "residue": 204252
+          },
+          {
+            "bucket": 148,
+            "residue": 228326
+          },
+          {
+            "bucket": 149,
+            "residue": 364094
+          },
+          {
+            "bucket": 150,
+            "residue": 416909
+          },
+          {
+            "bucket": 151,
+            "residue": 885390
+          },
+          {
+            "bucket": 152,
+            "residue": 928682
+          },
+          {
+            "bucket": 153,
+            "residue": 485764
+          },
+          {
+            "bucket": 154,
+            "residue": 548179
+          },
+          {
+            "bucket": 155,
+            "residue": 209510
+          },
+          {
+            "bucket": 156,
+            "residue": 774300
+          },
+          {
+            "bucket": 157,
+            "residue": 966595
+          },
+          {
+            "bucket": 158,
+            "residue": 732284
+          },
+          {
+            "bucket": 159,
+            "residue": 568809
+          },
+          {
+            "bucket": 160,
+            "residue": 990931
+          },
+          {
+            "bucket": 161,
+            "residue": 383247
+          },
+          {
+            "bucket": 162,
+            "residue": 619782
+          },
+          {
+            "bucket": 163,
+            "residue": 51930
+          },
+          {
+            "bucket": 164,
+            "residue": 871845
+          },
+          {
+            "bucket": 165,
+            "residue": 181320
+          },
+          {
+            "bucket": 166,
+            "residue": 536120
+          },
+          {
+            "bucket": 167,
+            "residue": 425905
+          },
+          {
+            "bucket": 168,
+            "residue": 469356
+          },
+          {
+            "bucket": 169,
+            "residue": 20097
+          },
+          {
+            "bucket": 170,
+            "residue": 868692
+          },
+          {
+            "bucket": 172,
+            "residue": 392343
+          },
+          {
+            "bucket": 174,
+            "residue": 144391
+          },
+          {
+            "bucket": 175,
+            "residue": 287197
+          },
+          {
+            "bucket": 176,
+            "residue": 307152
+          },
+          {
+            "bucket": 177,
+            "residue": 573503
+          },
+          {
+            "bucket": 178,
+            "residue": 69172
+          },
+          {
+            "bucket": 179,
+            "residue": 435437
+          },
+          {
+            "bucket": 180,
+            "residue": 117097
+          },
+          {
+            "bucket": 181,
+            "residue": 37291
+          },
+          {
+            "bucket": 182,
+            "residue": 994888
+          },
+          {
+            "bucket": 183,
+            "residue": 466251
+          },
+          {
+            "bucket": 184,
+            "residue": 540355
+          },
+          {
+            "bucket": 185,
+            "residue": 589242
+          },
+          {
+            "bucket": 187,
+            "residue": 917588
+          },
+          {
+            "bucket": 188,
+            "residue": 382847
+          },
+          {
+            "bucket": 189,
+            "residue": 497914
+          },
+          {
+            "bucket": 190,
+            "residue": 503352
+          },
+          {
+            "bucket": 191,
+            "residue": 441202
+          },
+          {
+            "bucket": 192,
+            "residue": 336275
+          },
+          {
+            "bucket": 193,
+            "residue": 738020
+          },
+          {
+            "bucket": 194,
+            "residue": 146349
+          },
+          {
+            "bucket": 195,
+            "residue": 772468
+          },
+          {
+            "bucket": 196,
+            "residue": 586420
+          },
+          {
+            "bucket": 197,
+            "residue": 723019
+          },
+          {
+            "bucket": 198,
+            "residue": 873738
+          },
+          {
+            "bucket": 199,
+            "residue": 668881
+          },
+          {
+            "bucket": 200,
+            "residue": 805906
+          },
+          {
+            "bucket": 201,
+            "residue": 701099
+          },
+          {
+            "bucket": 203,
+            "residue": 987689
+          },
+          {
+            "bucket": 204,
+            "residue": 999610
+          },
+          {
+            "bucket": 205,
+            "residue": 390870
+          },
+          {
+            "bucket": 206,
+            "residue": 443551
+          },
+          {
+            "bucket": 207,
+            "residue": 59238
+          },
+          {
+            "bucket": 208,
+            "residue": 652311
+          },
+          {
+            "bucket": 209,
+            "residue": 60804
+          },
+          {
+            "bucket": 210,
+            "residue": 666725
+          },
+          {
+            "bucket": 212,
+            "residue": 575334
+          },
+          {
+            "bucket": 214,
+            "residue": 53780
+          },
+          {
+            "bucket": 215,
+            "residue": 404915
+          },
+          {
+            "bucket": 216,
+            "residue": 367739
+          },
+          {
+            "bucket": 217,
+            "residue": 43191
+          },
+          {
+            "bucket": 218,
+            "residue": 211374
+          },
+          {
+            "bucket": 219,
+            "residue": 260174
+          },
+          {
+            "bucket": 220,
+            "residue": 746294
+          },
+          {
+            "bucket": 221,
+            "residue": 685340
+          },
+          {
+            "bucket": 222,
+            "residue": 953923
+          },
+          {
+            "bucket": 223,
+            "residue": 659568
+          },
+          {
+            "bucket": 224,
+            "residue": 852477
+          },
+          {
+            "bucket": 225,
+            "residue": 997616
+          },
+          {
+            "bucket": 226,
+            "residue": 715009
+          },
+          {
+            "bucket": 227,
+            "residue": 461602
+          },
+          {
+            "bucket": 228,
+            "residue": 685369
+          },
+          {
+            "bucket": 229,
+            "residue": 222698
+          },
+          {
+            "bucket": 230,
+            "residue": 275275
+          },
+          {
+            "bucket": 231,
+            "residue": 708657
+          },
+          {
+            "bucket": 232,
+            "residue": 492025
+          },
+          {
+            "bucket": 233,
+            "residue": 806399
+          },
+          {
+            "bucket": 234,
+            "residue": 50235
+          },
+          {
+            "bucket": 235,
+            "residue": 164913
+          },
+          {
+            "bucket": 236,
+            "residue": 140123
+          },
+          {
+            "bucket": 237,
+            "residue": 192125
+          },
+          {
+            "bucket": 238,
+            "residue": 377127
+          },
+          {
+            "bucket": 239,
+            "residue": 404843
+          },
+          {
+            "bucket": 240,
+            "residue": 117473
+          },
+          {
+            "bucket": 241,
+            "residue": 231956
+          },
+          {
+            "bucket": 242,
+            "residue": 887035
+          },
+          {
+            "bucket": 243,
+            "residue": 534435
+          },
+          {
+            "bucket": 244,
+            "residue": 879200
+          },
+          {
+            "bucket": 245,
+            "residue": 509803
+          },
+          {
+            "bucket": 246,
+            "residue": 236002
+          },
+          {
+            "bucket": 247,
+            "residue": 77005
+          },
+          {
+            "bucket": 248,
+            "residue": 152323
+          },
+          {
+            "bucket": 249,
+            "residue": 186573
+          },
+          {
+            "bucket": 250,
+            "residue": 196218
+          },
+          {
+            "bucket": 251,
+            "residue": 108892
+          },
+          {
+            "bucket": 252,
+            "residue": 131972
+          },
+          {
+            "bucket": 253,
+            "residue": 830652
+          },
+          {
+            "bucket": 254,
+            "residue": 669288
+          },
+          {
+            "bucket": 255,
+            "residue": 110412
+          },
+          {
+            "bucket": 256,
+            "residue": 14126
+          },
+          {
+            "bucket": 257,
+            "residue": 522344
+          },
+          {
+            "bucket": 258,
+            "residue": 1241
+          },
+          {
+            "bucket": 259,
+            "residue": 841630
+          },
+          {
+            "bucket": 260,
+            "residue": 388921
+          },
+          {
+            "bucket": 261,
+            "residue": 320819
+          },
+          {
+            "bucket": 262,
+            "residue": 407935
+          },
+          {
+            "bucket": 263,
+            "residue": 522510
+          },
+          {
+            "bucket": 264,
+            "residue": 385014
+          },
+          {
+            "bucket": 265,
+            "residue": 747795
+          },
+          {
+            "bucket": 266,
+            "residue": 340964
+          },
+          {
+            "bucket": 267,
+            "residue": 441997
+          },
+          {
+            "bucket": 268,
+            "residue": 352100
+          },
+          {
+            "bucket": 269,
+            "residue": 680345
+          },
+          {
+            "bucket": 270,
+            "residue": 477693
+          },
+          {
+            "bucket": 271,
+            "residue": 837877
+          },
+          {
+            "bucket": 272,
+            "residue": 577025
+          },
+          {
+            "bucket": 273,
+            "residue": 915114
+          },
+          {
+            "bucket": 274,
+            "residue": 34343
+          },
+          {
+            "bucket": 275,
+            "residue": 232807
+          },
+          {
+            "bucket": 276,
+            "residue": 73856
+          },
+          {
+            "bucket": 277,
+            "residue": 258398
+          },
+          {
+            "bucket": 278,
+            "residue": 119818
+          },
+          {
+            "bucket": 279,
+            "residue": 677962
+          },
+          {
+            "bucket": 280,
+            "residue": 454778
+          },
+          {
+            "bucket": 281,
+            "residue": 468663
+          },
+          {
+            "bucket": 282,
+            "residue": 464504
+          },
+          {
+            "bucket": 283,
+            "residue": 156435
+          },
+          {
+            "bucket": 284,
+            "residue": 258757
+          },
+          {
+            "bucket": 285,
+            "residue": 316144
+          },
+          {
+            "bucket": 286,
+            "residue": 266355
+          },
+          {
+            "bucket": 287,
+            "residue": 917338
+          },
+          {
+            "bucket": 288,
+            "residue": 769711
+          },
+          {
+            "bucket": 289,
+            "residue": 658444
+          },
+          {
+            "bucket": 290,
+            "residue": 471236
+          },
+          {
+            "bucket": 291,
+            "residue": 884278
+          },
+          {
+            "bucket": 292,
+            "residue": 546062
+          },
+          {
+            "bucket": 293,
+            "residue": 641348
+          },
+          {
+            "bucket": 294,
+            "residue": 688151
+          },
+          {
+            "bucket": 295,
+            "residue": 1439
+          },
+          {
+            "bucket": 296,
+            "residue": 60787
+          },
+          {
+            "bucket": 297,
+            "residue": 994647
+          },
+          {
+            "bucket": 298,
+            "residue": 276043
+          },
+          {
+            "bucket": 299,
+            "residue": 917179
+          },
+          {
+            "bucket": 300,
+            "residue": 567999
+          },
+          {
+            "bucket": 301,
+            "residue": 241806
+          },
+          {
+            "bucket": 302,
+            "residue": 324606
+          },
+          {
+            "bucket": 303,
+            "residue": 612938
+          },
+          {
+            "bucket": 304,
+            "residue": 178572
+          },
+          {
+            "bucket": 305,
+            "residue": 665745
+          },
+          {
+            "bucket": 306,
+            "residue": 311882
+          },
+          {
+            "bucket": 307,
+            "residue": 30590
+          },
+          {
+            "bucket": 308,
+            "residue": 473173
+          },
+          {
+            "bucket": 309,
+            "residue": 213356
+          },
+          {
+            "bucket": 310,
+            "residue": 639478
+          },
+          {
+            "bucket": 311,
+            "residue": 499510
+          },
+          {
+            "bucket": 312,
+            "residue": 407142
+          },
+          {
+            "bucket": 313,
+            "residue": 109830
+          },
+          {
+            "bucket": 314,
+            "residue": 168969
+          },
+          {
+            "bucket": 315,
+            "residue": 117096
+          },
+          {
+            "bucket": 316,
+            "residue": 276581
+          },
+          {
+            "bucket": 317,
+            "residue": 978102
+          },
+          {
+            "bucket": 318,
+            "residue": 684228
+          },
+          {
+            "bucket": 319,
+            "residue": 959914
+          },
+          {
+            "bucket": 320,
+            "residue": 379891
+          },
+          {
+            "bucket": 321,
+            "residue": 117026
+          },
+          {
+            "bucket": 322,
+            "residue": 877482
+          },
+          {
+            "bucket": 323,
+            "residue": 742159
+          },
+          {
+            "bucket": 324,
+            "residue": 256939
+          },
+          {
+            "bucket": 326,
+            "residue": 61430
+          },
+          {
+            "bucket": 327,
+            "residue": 189097
+          },
+          {
+            "bucket": 328,
+            "residue": 51057
+          },
+          {
+            "bucket": 329,
+            "residue": 465286
+          },
+          {
+            "bucket": 332,
+            "residue": 280844
+          },
+          {
+            "bucket": 333,
+            "residue": 17100
+          },
+          {
+            "bucket": 334,
+            "residue": 830038
+          },
+          {
+            "bucket": 335,
+            "residue": 958143
+          },
+          {
+            "bucket": 336,
+            "residue": 415121
+          },
+          {
+            "bucket": 337,
+            "residue": 146177
+          },
+          {
+            "bucket": 338,
+            "residue": 540383
+          },
+          {
+            "bucket": 339,
+            "residue": 523537
+          },
+          {
+            "bucket": 340,
+            "residue": 359229
+          },
+          {
+            "bucket": 341,
+            "residue": 100554
+          },
+          {
+            "bucket": 342,
+            "residue": 821283
+          },
+          {
+            "bucket": 343,
+            "residue": 413744
+          },
+          {
+            "bucket": 344,
+            "residue": 30910
+          },
+          {
+            "bucket": 345,
+            "residue": 887005
+          },
+          {
+            "bucket": 346,
+            "residue": 877997
+          },
+          {
+            "bucket": 347,
+            "residue": 483425
+          },
+          {
+            "bucket": 349,
+            "residue": 396475
+          },
+          {
+            "bucket": 350,
+            "residue": 429793
+          },
+          {
+            "bucket": 351,
+            "residue": 579759
+          },
+          {
+            "bucket": 352,
+            "residue": 664101
+          },
+          {
+            "bucket": 353,
+            "residue": 822849
+          },
+          {
+            "bucket": 354,
+            "residue": 353536
+          },
+          {
+            "bucket": 355,
+            "residue": 270777
+          },
+          {
+            "bucket": 356,
+            "residue": 198600
+          },
+          {
+            "bucket": 358,
+            "residue": 812785
+          },
+          {
+            "bucket": 359,
+            "residue": 138027
+          },
+          {
+            "bucket": 360,
+            "residue": 987585
+          },
+          {
+            "bucket": 361,
+            "residue": 127744
+          },
+          {
+            "bucket": 362,
+            "residue": 404559
+          },
+          {
+            "bucket": 363,
+            "residue": 688261
+          },
+          {
+            "bucket": 364,
+            "residue": 972958
+          },
+          {
+            "bucket": 365,
+            "residue": 927569
+          },
+          {
+            "bucket": 366,
+            "residue": 357878
+          },
+          {
+            "bucket": 367,
+            "residue": 313655
+          },
+          {
+            "bucket": 368,
+            "residue": 515316
+          },
+          {
+            "bucket": 369,
+            "residue": 507236
+          },
+          {
+            "bucket": 370,
+            "residue": 530485
+          },
+          {
+            "bucket": 371,
+            "residue": 165179
+          },
+          {
+            "bucket": 372,
+            "residue": 149840
+          },
+          {
+            "bucket": 373,
+            "residue": 871821
+          },
+          {
+            "bucket": 376,
+            "residue": 93741
+          },
+          {
+            "bucket": 377,
+            "residue": 13246
+          },
+          {
+            "bucket": 378,
+            "residue": 697843
+          },
+          {
+            "bucket": 379,
+            "residue": 124589
+          },
+          {
+            "bucket": 380,
+            "residue": 269474
+          },
+          {
+            "bucket": 381,
+            "residue": 983714
+          },
+          {
+            "bucket": 630,
+            "residue": 1
+          }
+        ],
+        "dot_target_mod_prime": 1000002,
+        "verified_basis_columns_denominator": 360
+      },
+      "matrix_allocation_seconds": 0.001070229,
+      "sketch_seconds": 0.07979608099999999,
+      "reducer_seconds": 0.077526397,
+      "real_entry_visits_numerator": 998801,
+      "source_columns_denominator": 739,
+      "max_basis_storage_bytes": 1555200,
+      "reducer_metrics": {
+        "gemm_calls": 22,
+        "gemm_scalar_products_numerator": 252469440,
+        "gemm_seconds": 0.0005359360007569194,
+        "pack_seconds": 0.0002938559986650943,
+        "modular_reduce_seconds": 0.00013078400073572994,
+        "basis_maintenance_scalar_products_numerator": 22012560,
+        "old_basis_gemm_calls": 3,
+        "old_basis_gemm_scalar_products_numerator": 148308840,
+        "old_basis_gemm_seconds": 0.00010166400112211704,
+        "panel_future_gemm_calls": 9,
+        "panel_future_gemm_scalar_products_numerator": 43810200,
+        "panel_future_gemm_seconds": 0.00018880000151693822,
+        "panel_basis_gemm_calls": 10,
+        "panel_basis_gemm_scalar_products_numerator": 60350400,
+        "panel_basis_gemm_seconds": 0.0002454719981178641,
+        "gpu_peak_allocated_bytes": 25607104,
+        "gpu_host_to_device_bytes_numerator": 6317560,
+        "gpu_device_to_host_bytes_numerator": 18930240,
+        "gpu_transfer_seconds": 0.0018403650000000003
+      }
+    }
+  ],
+  "no_claim": "Ranks and verdicts are over one or two named finite random row sketches modulo one named prime. MEMBER is not exact-Q consistency and no identity has been verified on every real row; NON_MEMBER concerns only the named finite column family and is not an unrestricted two-hidden-layer depth lower bound. Exact lifting or separation is delegated to tools/exactlift."
+}

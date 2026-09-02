@@ -849,8 +849,10 @@ mod tests {
                     .collect::<Vec<_>>()
             })
             .collect::<Vec<_>>();
-        let mut cpu = DenseEchelon::with_panel_size(rows, prime, 5, 3).unwrap();
-        let mut cuda = CudaDenseEchelon::with_panel_size(rows, prime, 5, 3, 7).unwrap();
+        // The block deliberately exceeds the batch so panel maintenance must
+        // pack more old basis columns than there are streamed columns.
+        let mut cpu = DenseEchelon::with_panel_size(rows, prime, 16, 3).unwrap();
+        let mut cuda = CudaDenseEchelon::with_panel_size(rows, prime, 16, 3, 7).unwrap();
         for start in (0..columns.len()).step_by(7) {
             let stop = (start + 7).min(columns.len());
             let mut cpu_matrix = columns[start..stop].concat();

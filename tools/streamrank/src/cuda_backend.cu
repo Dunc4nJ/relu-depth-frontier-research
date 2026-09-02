@@ -87,9 +87,9 @@ void event_start(Context &ctx) {
   check_cuda(cudaEventRecord(ctx.event_start), "cudaEventRecord(start)");
 }
 
-double event_stop(Context &ctx) {
+double event_stop(Context &ctx, const char *operation) {
   check_cuda(cudaEventRecord(ctx.event_stop), "cudaEventRecord(stop)");
-  check_cuda(cudaEventSynchronize(ctx.event_stop), "cudaEventSynchronize");
+  check_cuda(cudaEventSynchronize(ctx.event_stop), operation);
   float milliseconds = 0.0F;
   check_cuda(cudaEventElapsedTime(&milliseconds, ctx.event_start, ctx.event_stop),
              "cudaEventElapsedTime");
@@ -178,7 +178,7 @@ void pack_product(Context &ctx, const uint32_t *target, size_t columns,
         ctx.coefficients);
   }
   check_cuda(cudaGetLastError(), "CUDA packing kernels");
-  observation.pack_seconds += event_stop(ctx);
+  observation.pack_seconds += event_stop(ctx, "CUDA packing synchronization");
 }
 
 void gemm_and_reduce(Context &ctx, uint32_t *target, size_t columns,
@@ -193,14 +193,14 @@ void gemm_and_reduce(Context &ctx, uint32_t *target, size_t columns,
                            static_cast<int>(source_columns), &beta, ctx.dense,
                            static_cast<int>(ctx.rows)),
                "cublasDgemm");
-  observation.gemm_seconds += event_stop(ctx);
+  observation.gemm_seconds += event_stop(ctx, "cuBLAS dgemm synchronization");
 
   constexpr unsigned int threads = 256;
   event_start(ctx);
   f64_to_residue<<<blocks_for(ctx.rows * columns), threads>>>(
       ctx.dense, target, ctx.rows * columns, ctx.prime, ctx.reciprocal);
   check_cuda(cudaGetLastError(), "f64_to_residue");
-  observation.modular_reduce_seconds += event_stop(ctx);
+  observation.modular_reduce_seconds += event_stop(ctx, "CUDA residue reduction synchronization");
   observation.gemm_calls += 1;
   observation.scalar_products +=
       static_cast<uint64_t>(ctx.rows) * columns * source_columns;
@@ -253,7 +253,7 @@ int max11_cuda_create(size_t rows, uint32_t prime, size_t block_size,
     check_cuda(cudaEventCreate(&ctx->event_start), "cudaEventCreate(start)");
     check_cuda(cudaEventCreate(&ctx->event_stop), "cudaEventCreate(stop)");
     allocate(*ctx, &ctx->matrix, rows * max_batch);
-    allocate(*ctx, &ctx->dense, rows * max_batch);
+    allocate(*ctx, &ctx->dense, rows * std::max(max_batch, block_size));
     allocate(*ctx, &ctx->source, rows * block_size);
     allocate(*ctx, &ctx->coefficients, block_size * max_batch);
     allocate(*ctx, &ctx->pivots, rows);
