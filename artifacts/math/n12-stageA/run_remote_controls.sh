@@ -7,6 +7,8 @@ cd /workspace/relu
 export PATH="/root/.cargo/bin:$PATH"
 export CUDA_HOME="${CUDA_HOME:-/usr/local/cuda}"
 export CARGO_BUILD_JOBS=60
+export OPENBLAS_CORETYPE=HASWELL
+export OPENBLAS_VERBOSE=2
 
 out_dir="artifacts/math/n12-stageA/controls"
 binary="tools/streamrank/target/release/max11-streamrank"
@@ -20,6 +22,7 @@ if find "$out_dir" -maxdepth 1 -name '*.json' -print -quit | grep -q .; then
 fi
 
 date -u +%Y-%m-%dT%H:%M:%SZ
+echo "OPENBLAS_CORETYPE=$OPENBLAS_CORETYPE OPENBLAS_VERBOSE=$OPENBLAS_VERBOSE"
 nvidia-smi
 cargo --version
 rustc --version
@@ -57,13 +60,10 @@ run_control() {
   fi
   if [[ "$system" == n10 ]]; then
     input="$n10"; n=10; filter=all; buckets=6498; columns=12248
-    rank=2166; aug=2166; verdict=MEMBER; batch=256
+    rank=2166; aug=2166; verdict=MEMBER; batch=1024
   else
     input="$n9"; n=9; filter=union-trees; buckets=1080; columns=739
     rank=360; aug=361; verdict=NON_MEMBER; batch=256
-  fi
-  if [[ "$backend" == cuda && "$system" == n10 ]]; then
-    batch=1024
   fi
   "$binary" run-saved \
     --backend "$backend" \

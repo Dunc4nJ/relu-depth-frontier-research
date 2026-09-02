@@ -20,6 +20,8 @@ fi
 
 cd /workspace/relu
 export PATH="/root/.cargo/bin:$PATH"
+export OPENBLAS_CORETYPE=HASWELL
+export OPENBLAS_VERBOSE=2
 binary="tools/streamrank/target/release/max11-streamrank"
 universe="artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz"
 order="artifacts/math/n12-universe/stage_a_order_n12_v1.json"
@@ -47,6 +49,7 @@ test -f "$out_dir/controls/binary.sha256"
 (cd /workspace/relu && sha256sum -c artifacts/math/n12-stageA/controls/binary.sha256)
 
 date -u +%Y-%m-%dT%H:%M:%SZ
+echo "OPENBLAS_CORETYPE=$OPENBLAS_CORETYPE OPENBLAS_VERBOSE=$OPENBLAS_VERBOSE"
 sha256sum "$binary" "$universe" "$order"
 printf 'timestamp_utc,gpu_used_mib,gpu_total_mib,gpu_util_percent,process_rss_kib\n' >"$telemetry"
 
