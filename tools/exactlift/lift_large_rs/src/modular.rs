@@ -55,9 +55,8 @@ fn pivot_block_rows(
     let remaining = n - start;
     let mut panel = vec![0_u32; remaining * width];
     for row in 0..remaining {
-        panel[row * width..(row + 1) * width].copy_from_slice(
-            &data[(start + row) * n + start..(start + row) * n + start + width],
-        );
+        panel[row * width..(row + 1) * width]
+            .copy_from_slice(&data[(start + row) * n + start..(start + row) * n + start + width]);
     }
     for column in 0..width {
         let pivot = (column..remaining)
@@ -83,9 +82,8 @@ fn pivot_block_rows(
                 continue;
             }
             for panel_column in column..width {
-                let subtract = multiplier as u64
-                    * panel[column * width + panel_column] as u64
-                    % prime as u64;
+                let subtract =
+                    multiplier as u64 * panel[column * width + panel_column] as u64 % prime as u64;
                 panel[row * width + panel_column] =
                     ((panel[row * width + panel_column] as u64 + prime as u64 - subtract)
                         % prime as u64) as u32;
@@ -116,8 +114,7 @@ fn invert_square(input: &[u32], n: usize, prime: u32) -> Result<Vec<u32>, String
     let width = 2 * n;
     let mut augmented = vec![0_u32; n * width];
     for row in 0..n {
-        augmented[row * width..row * width + n]
-            .copy_from_slice(&input[row * n..(row + 1) * n]);
+        augmented[row * width..row * width + n].copy_from_slice(&input[row * n..(row + 1) * n]);
         augmented[row * width + n + row] = 1;
     }
     for pivot_col in 0..n {
@@ -132,9 +129,9 @@ fn invert_square(input: &[u32], n: usize, prime: u32) -> Result<Vec<u32>, String
         let inverse = mod_inv(augmented[pivot_col * width + pivot_col], prime)
             .ok_or_else(|| "noninvertible pivot".to_string())?;
         for col in 0..width {
-            augmented[pivot_col * width + col] =
-                ((augmented[pivot_col * width + col] as u64 * inverse as u64)
-                    % prime as u64) as u32;
+            augmented[pivot_col * width + col] = ((augmented[pivot_col * width + col] as u64
+                * inverse as u64)
+                % prime as u64) as u32;
         }
         let pivot_snapshot = augmented[pivot_col * width..(pivot_col + 1) * width].to_vec();
         for row in 0..n {
@@ -148,8 +145,7 @@ fn invert_square(input: &[u32], n: usize, prime: u32) -> Result<Vec<u32>, String
             for col in 0..width {
                 let subtract = multiplier as u64 * pivot_snapshot[col] as u64 % prime as u64;
                 augmented[row * width + col] =
-                    (augmented[row * width + col] as u64 + prime as u64 - subtract) as u32
-                        % prime;
+                    (augmented[row * width + col] as u64 + prime as u64 - subtract) as u32 % prime;
             }
         }
     }
@@ -161,16 +157,7 @@ fn invert_square(input: &[u32], n: usize, prime: u32) -> Result<Vec<u32>, String
     Ok(inverse)
 }
 
-fn dgemm(
-    m: usize,
-    n: usize,
-    k: usize,
-    alpha: f64,
-    a: &[f64],
-    b: &[f64],
-    beta: f64,
-    c: &mut [f64],
-) {
+fn dgemm(m: usize, n: usize, k: usize, alpha: f64, a: &[f64], b: &[f64], beta: f64, c: &mut [f64]) {
     assert!(m <= i32::MAX as usize && n <= i32::MAX as usize && k <= i32::MAX as usize);
     unsafe {
         cblas_dgemm(
@@ -208,7 +195,11 @@ impl BlockFactor {
         row_tile: usize,
     ) -> Result<Self, String> {
         if data.len() != n * n {
-            return Err(format!("dense matrix has {} entries, expected {}", data.len(), n * n));
+            return Err(format!(
+                "dense matrix has {} entries, expected {}",
+                data.len(),
+                n * n
+            ));
         }
         if block == 0 || row_tile == 0 {
             return Err("block and row tile must be positive".to_string());
@@ -252,12 +243,20 @@ impl BlockFactor {
                 let mut left = vec![0_f64; rows * width];
                 for row in 0..rows {
                     for col in 0..width {
-                        left[row * width + col] =
-                            data[(row_start + row) * n + start + col] as f64;
+                        left[row * width + col] = data[(row_start + row) * n + start + col] as f64;
                     }
                 }
                 let mut product = vec![0_f64; rows * width];
-                dgemm(rows, width, width, 1.0, &left, &inverse_f64, 0.0, &mut product);
+                dgemm(
+                    rows,
+                    width,
+                    width,
+                    1.0,
+                    &left,
+                    &inverse_f64,
+                    0.0,
+                    &mut product,
+                );
                 for row in 0..rows {
                     for col in 0..width {
                         data[(row_start + row) * n + start + col] =
@@ -281,15 +280,23 @@ impl BlockFactor {
                 let mut updated = vec![0_f64; rows * trailing];
                 for row in 0..rows {
                     for col in 0..width {
-                        lower[row * width + col] =
-                            data[(row_start + row) * n + start + col] as f64;
+                        lower[row * width + col] = data[(row_start + row) * n + start + col] as f64;
                     }
                     for col in 0..trailing {
                         updated[row * trailing + col] =
                             data[(row_start + row) * n + start + width + col] as f64;
                     }
                 }
-                dgemm(rows, trailing, width, -1.0, &lower, &upper, 1.0, &mut updated);
+                dgemm(
+                    rows,
+                    trailing,
+                    width,
+                    -1.0,
+                    &lower,
+                    &upper,
+                    1.0,
+                    &mut updated,
+                );
                 for row in 0..rows {
                     for col in 0..trailing {
                         data[(row_start + row) * n + start + width + col] =
@@ -300,7 +307,14 @@ impl BlockFactor {
             timings.schur_update += phase.elapsed();
         }
         timings.total = started.elapsed();
-        Ok(Self { n, block, prime, data, row_order, timings })
+        Ok(Self {
+            n,
+            block,
+            prime,
+            data,
+            row_order,
+            timings,
+        })
     }
 
     pub fn solve(&self, rhs: &[u32]) -> Result<Vec<u32>, String> {
@@ -333,8 +347,7 @@ impl BlockFactor {
                 for col in start + width..self.n {
                     sum += self.data[row * self.n + col] as u64 * solution[col] as u64;
                 }
-                block_rhs[local] =
-                    (y[row] as u64 + p - sum % p) as u32 % self.prime;
+                block_rhs[local] = (y[row] as u64 + p - sum % p) as u32 % self.prime;
             }
             for row in 0..width {
                 let mut sum = 0_u64;
@@ -364,8 +377,7 @@ impl BlockFactor {
                 for row in 0..start {
                     sum += self.data[row * self.n + col] as u64 * z[row] as u64;
                 }
-                block_rhs[local] =
-                    (rhs[col] as u64 + p - sum % p) as u32 % self.prime;
+                block_rhs[local] = (rhs[col] as u64 + p - sum % p) as u32 % self.prime;
             }
             for col in 0..width {
                 let mut sum = 0_u64;

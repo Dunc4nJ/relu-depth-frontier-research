@@ -60,7 +60,10 @@ pub struct BigReport {
 
 fn reconstruct(residue: &BigUint, modulus: &BigUint) -> Option<BigRational> {
     if residue.is_zero() {
-        return Some(BigRational { numerator: BigInt::zero(), denominator: BigInt::one() });
+        return Some(BigRational {
+            numerator: BigInt::zero(),
+            denominator: BigInt::one(),
+        });
     }
     let bound = (modulus >> 1_usize).sqrt();
     let bound_i = BigInt::from(bound);
@@ -85,7 +88,10 @@ fn reconstruct(residue: &BigUint, modulus: &BigUint) -> Option<BigRational> {
     if (&numerator - residue_i * &denominator).mod_floor(&modulus_i) != BigInt::zero() {
         return None;
     }
-    Some(BigRational { numerator, denominator })
+    Some(BigRational {
+        numerator,
+        denominator,
+    })
 }
 
 fn common_scale(candidate: &[BigRational]) -> (BigInt, Vec<BigInt>) {
@@ -106,8 +112,8 @@ fn verify(problem: &ExactProblem, candidate: &[BigRational]) -> (bool, usize, Bi
         if coefficient.is_zero() {
             continue;
         }
-        for position in problem.column_offsets[column] as usize
-            ..problem.column_offsets[column + 1] as usize
+        for position in
+            problem.column_offsets[column] as usize..problem.column_offsets[column + 1] as usize
         {
             product[problem.row_indices[position] as usize] +=
                 coefficient * problem.values[position];
@@ -173,7 +179,9 @@ pub fn solve(config: &SolveConfig) -> Result<BigReport, String> {
         for row in 0..problem.rows {
             let difference = residual[row] - product[row];
             if difference.rem_euclid(config.prime as i128) != 0 {
-                return Err(format!("nondivisible big-Dixon residual at iteration {iteration}"));
+                return Err(format!(
+                    "nondivisible big-Dixon residual at iteration {iteration}"
+                ));
             }
             residual[row] = difference / config.prime as i128;
         }
@@ -201,12 +209,16 @@ pub fn solve(config: &SolveConfig) -> Result<BigReport, String> {
             break;
         }
     }
-    let recovered = recovered.ok_or_else(|| "big rational reconstruction did not verify".to_string())?;
+    let recovered =
+        recovered.ok_or_else(|| "big rational reconstruction did not verify".to_string())?;
     let (pass, failures, denominator) = verify(&problem, &recovered);
     if !pass || failures != 0 {
         return Err("big final verification failed".to_string());
     }
-    let support = recovered.iter().filter(|value| !value.numerator.is_zero()).count();
+    let support = recovered
+        .iter()
+        .filter(|value| !value.numerator.is_zero())
+        .count();
     let mut mutated = recovered.clone();
     let first = mutated
         .iter()

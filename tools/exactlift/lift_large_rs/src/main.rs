@@ -3,6 +3,7 @@ mod crt;
 mod modular;
 mod problem;
 mod rational;
+mod sketch_member;
 mod synthetic;
 
 use std::env;
@@ -55,7 +56,10 @@ fn solve_command(arguments: &[String]) -> Result<(), String> {
         .map(|raw| {
             raw.split(',')
                 .filter(|part| !part.is_empty())
-                .map(|part| part.parse::<u32>().map_err(|_| "invalid --crt-primes".to_string()))
+                .map(|part| {
+                    part.parse::<u32>()
+                        .map_err(|_| "invalid --crt-primes".to_string())
+                })
                 .collect::<Result<Vec<_>, _>>()
         })
         .transpose()?
@@ -104,13 +108,34 @@ fn solve_big_command(arguments: &[String]) -> Result<(), String> {
     Ok(())
 }
 
+fn build_sketch_member_command(arguments: &[String]) -> Result<(), String> {
+    let pivot_report: PathBuf = value(arguments, "--pivot-report")?;
+    let batch_directory: PathBuf = value(arguments, "--batch-dir")?;
+    let output: PathBuf = value(arguments, "--output")?;
+    let report: PathBuf = value(arguments, "--report")?;
+    let result = sketch_member::build(
+        &pivot_report,
+        value(arguments, "--sketch-index")?,
+        &batch_directory,
+        &output,
+        &report,
+    )?;
+    let encoded = serde_json::to_string_pretty(&result).map_err(|error| error.to_string())? + "\n";
+    print!("{encoded}");
+    Ok(())
+}
+
 fn main() {
     let arguments: Vec<String> = env::args().collect();
     let result = match arguments.get(1).map(String::as_str) {
         Some("synthetic") => synthetic_command(&arguments[2..]),
         Some("solve") => solve_command(&arguments[2..]),
         Some("solve-big") => solve_big_command(&arguments[2..]),
-        _ => Err("usage: max11-lift-large {synthetic|solve} ...".to_string()),
+        Some("build-sketch-member") => build_sketch_member_command(&arguments[2..]),
+        _ => Err(
+            "usage: max11-lift-large {synthetic|solve|solve-big|build-sketch-member} ..."
+                .to_string(),
+        ),
     };
     if let Err(error) = result {
         eprintln!("ERROR: {error}");

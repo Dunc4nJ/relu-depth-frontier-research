@@ -134,7 +134,13 @@ fn max_rss_kib() -> u64 {
 }
 
 fn planted_solution(config: &SyntheticConfig) -> Vec<Rational> {
-    let mut result = vec![Rational { numerator: 0, denominator: 1 }; config.rank];
+    let mut result = vec![
+        Rational {
+            numerator: 0,
+            denominator: 1
+        };
+        config.rank
+    ];
     for start in (0..config.planted_support).step_by(config.denominator_block) {
         let width = config.denominator_block.min(config.planted_support - start);
         for local in 0..width {
@@ -360,7 +366,9 @@ pub fn run(config: &SyntheticConfig) -> Result<SyntheticReport, String> {
         for row in 0..config.union_rows {
             let difference = residual[row] - product[row];
             if difference.rem_euclid(config.prime as i128) != 0 {
-                return Err(format!("nondivisible Dixon residual at iteration {iteration}, row {row}"));
+                return Err(format!(
+                    "nondivisible Dixon residual at iteration {iteration}, row {row}"
+                ));
             }
             residual[row] = difference / config.prime as i128;
         }
@@ -376,13 +384,16 @@ pub fn run(config: &SyntheticConfig) -> Result<SyntheticReport, String> {
             .collect();
         let reconstructed_count = reconstructed.iter().filter(|value| value.is_some()).count();
         let candidate: Vec<Rational> = reconstructed.iter().filter_map(|value| *value).collect();
-        let candidate_support = candidate.iter().filter(|value| value.numerator != 0).count();
+        let candidate_support = candidate
+            .iter()
+            .filter(|value| value.numerator != 0)
+            .count();
         let reconstruction_seconds = reconstruction_started.elapsed().as_secs_f64();
-        let exact_check_attempted = reconstructed_count == config.rank
-            && candidate_support <= config.planted_support * 2;
+        let exact_check_attempted =
+            reconstructed_count == config.rank && candidate_support <= config.planted_support * 2;
         let exact_started = Instant::now();
-        let exact_check_pass = exact_check_attempted
-            && verify_candidate(&csc, &right_hand_side, &candidate).0;
+        let exact_check_pass =
+            exact_check_attempted && verify_candidate(&csc, &right_hand_side, &candidate).0;
         let exact_check_seconds = if exact_check_attempted {
             exact_started.elapsed().as_secs_f64()
         } else {
@@ -406,12 +417,16 @@ pub fn run(config: &SyntheticConfig) -> Result<SyntheticReport, String> {
             break;
         }
     }
-    let recovered = recovered.ok_or_else(|| "early rational reconstruction did not verify".to_string())?;
+    let recovered =
+        recovered.ok_or_else(|| "early rational reconstruction did not verify".to_string())?;
     let expected = planted_solution(config);
     if recovered != expected {
         return Err("verified solution differs from planted unique solution".to_string());
     }
-    let recovered_support = recovered.iter().filter(|value| value.numerator != 0).count();
+    let recovered_support = recovered
+        .iter()
+        .filter(|value| value.numerator != 0)
+        .count();
     let recovered_lcm = candidate_common_scale(&recovered)
         .ok_or_else(|| "denominator LCM overflow".to_string())?
         .0;

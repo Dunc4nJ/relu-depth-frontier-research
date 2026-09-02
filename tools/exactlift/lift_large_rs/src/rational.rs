@@ -46,7 +46,10 @@ pub fn reconstruct(residue: u128, modulus: u128) -> Option<Rational> {
         return None;
     }
     if residue == 0 {
-        return Some(Rational { numerator: 0, denominator: 1 });
+        return Some(Rational {
+            numerator: 0,
+            denominator: 1,
+        });
     }
     let bound = integer_sqrt(modulus / 2) as i128;
     let (mut old_r, mut r) = (modulus as i128, (residue % modulus) as i128);
@@ -67,7 +70,10 @@ pub fn reconstruct(residue: u128, modulus: u128) -> Option<Rational> {
         return None;
     }
     let congruence = (numerator - (residue as i128) * denominator).rem_euclid(modulus as i128);
-    (congruence == 0).then_some(Rational { numerator, denominator })
+    (congruence == 0).then_some(Rational {
+        numerator,
+        denominator,
+    })
 }
 
 #[cfg(test)]
@@ -89,9 +95,18 @@ mod tests {
     fn reconstructs_signed_fraction_and_zero() {
         let modulus = 65_521_u128.pow(4);
         for expected in [
-            Rational { numerator: 17, denominator: 123_457 },
-            Rational { numerator: -31, denominator: 33_554_432 },
-            Rational { numerator: 0, denominator: 1 },
+            Rational {
+                numerator: 17,
+                denominator: 123_457,
+            },
+            Rational {
+                numerator: -31,
+                denominator: 33_554_432,
+            },
+            Rational {
+                numerator: 0,
+                denominator: 1,
+            },
         ] {
             let residue = if expected.numerator == 0 {
                 0

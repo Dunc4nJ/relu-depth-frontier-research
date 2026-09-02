@@ -3,12 +3,14 @@ use crate::modular::BlockFactor;
 use crate::rational::{Rational, lcm_u128, reconstruct};
 use rayon::prelude::*;
 use serde::Serialize;
+use sha2::{Digest, Sha256};
 use std::fs::{self, File};
 use std::io::{BufReader, Read};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
-const MAGIC: &[u8; 8] = b"ELIFTQ01";
+const MAGIC_I32: &[u8; 8] = b"ELIFTQ01";
+const MAGIC_I64: &[u8; 8] = b"ELIFTQ02";
 
 #[derive(Debug)]
 pub struct ExactProblem {
@@ -16,7 +18,7 @@ pub struct ExactProblem {
     pub columns: usize,
     pub column_offsets: Vec<u64>,
     pub row_indices: Vec<u32>,
-    pub values: Vec<i32>,
+    pub values: Vec<i64>,
     pub selected_rows: Vec<u32>,
     pub rhs: Vec<i64>,
     pub source_indices: Vec<u64>,
@@ -60,6 +62,7 @@ pub struct ProblemReport {
     schema: &'static str,
     verdict: &'static str,
     input: String,
+    input_sha256: String,
     rows_checked_denominator: usize,
     columns_denominator: usize,
     csc_nonzeros_numerator: usize,
@@ -97,7 +100,9 @@ pub struct ProblemReport {
 
 fn read_exact_array<const N: usize>(reader: &mut impl Read) -> Result<[u8; N], String> {
     let mut bytes = [0_u8; N];
-    reader.read_exact(&mut bytes).map_err(|error| error.to_string())?;
+    reader
+        .read_exact(&mut bytes)
+        .map_err(|error| error.to_string())?;
     Ok(bytes)
 }
 
@@ -117,15 +122,37 @@ fn read_i64(reader: &mut impl Read) -> Result<i64, String> {
     Ok(i64::from_le_bytes(read_exact_array(reader)?))
 }
 
+fn sha256_path(path: &Path) -> Result<String, String> {
+    let mut source = BufReader::with_capacity(
+        8 * 1024 * 1024,
+        File::open(path).map_err(|error| error.to_string())?,
+    );
+    let mut digest = Sha256::new();
+    let mut buffer = vec![0_u8; 8 * 1024 * 1024];
+    loop {
+        let count = source
+            .read(&mut buffer)
+            .map_err(|error| error.to_string())?;
+        if count == 0 {
+            break;
+        }
+        digest.update(&buffer[..count]);
+    }
+    Ok(format!("{:x}", digest.finalize()))
+}
+
 impl ExactProblem {
     pub fn read(path: &Path) -> Result<Self, String> {
         let mut reader = BufReader::with_capacity(
             8 * 1024 * 1024,
             File::open(path).map_err(|error| error.to_string())?,
         );
-        if &read_exact_array::<8>(&mut reader)? != MAGIC {
-            return Err("invalid ELIFTQ01 magic".to_string());
-        }
+        let magic = read_exact_array::<8>(&mut reader)?;
+        let values_are_i64 = match &magic {
+            MAGIC_I32 => false,
+            MAGIC_I64 => true,
+            _ => return Err("invalid ELIFTQ01/ELIFTQ02 magic".to_string()),
+        };
         let rows = read_u32(&mut reader)? as usize;
         let columns = read_u32(&mut reader)? as usize;
         let selected = read_u32(&mut reader)? as usize;
@@ -153,7 +180,11 @@ impl ExactProblem {
         }
         let mut values = Vec::with_capacity(nnz);
         for _ in 0..nnz {
-            values.push(read_i32(&mut reader)?);
+            values.push(if values_are_i64 {
+                read_i64(&mut reader)?
+            } else {
+                read_i32(&mut reader)? as i64
+            });
         }
         let mut selected_rows = Vec::with_capacity(columns);
         let mut seen = vec![false; rows];
@@ -174,7 +205,11 @@ impl ExactProblem {
             source_indices.push(read_u64(&mut reader)?);
         }
         let mut trailing = [0_u8; 1];
-        if reader.read(&mut trailing).map_err(|error| error.to_string())? != 0 {
+        if reader
+            .read(&mut trailing)
+            .map_err(|error| error.to_string())?
+            != 0
+        {
             return Err("trailing bytes after exact-lift problem".to_string());
         }
         Ok(Self {
@@ -202,7 +237,7 @@ impl ExactProblem {
                 let selected = selected_position[self.row_indices[position] as usize];
                 if selected != usize::MAX {
                     dense[selected * self.columns + column] =
-                        self.values[position].rem_euclid(prime as i32) as u32;
+                        self.values[position].rem_euclid(prime as i64) as u32;
                 }
             }
         }
@@ -333,7 +368,10 @@ fn try_reconstruct(
         .collect();
     let reconstructed_count = reconstructed.iter().filter(|value| value.is_some()).count();
     let candidate: Vec<Rational> = reconstructed.iter().filter_map(|value| *value).collect();
-    let support = candidate.iter().filter(|value| value.numerator != 0).count();
+    let support = candidate
+        .iter()
+        .filter(|value| value.numerator != 0)
+        .count();
     let exact_check_attempted = reconstructed_count == problem.columns && support <= support_limit;
     let exact_check_pass = exact_check_attempted && verify(problem, &candidate).0;
     attempts.push(Attempt {
@@ -397,7 +435,9 @@ pub fn solve(config: &SolveConfig) -> Result<ProblemReport, String> {
         for row in 0..problem.rows {
             let difference = residual[row] - product[row];
             if difference.rem_euclid(config.prime as i128) != 0 {
-                return Err(format!("nondivisible Dixon residual at iteration {iteration}, row {row}"));
+                return Err(format!(
+                    "nondivisible Dixon residual at iteration {iteration}, row {row}"
+                ));
             }
             residual[row] = difference / config.prime as i128;
         }
@@ -476,7 +516,10 @@ pub fn solve(config: &SolveConfig) -> Result<ProblemReport, String> {
     if !passed || failures != 0 {
         return Err("final exact verification failed".to_string());
     }
-    let support = recovered.iter().filter(|value| value.numerator != 0).count();
+    let support = recovered
+        .iter()
+        .filter(|value| value.numerator != 0)
+        .count();
     let mut mutated = recovered.clone();
     let mutation_index = mutated
         .iter()
@@ -501,6 +544,7 @@ pub fn solve(config: &SolveConfig) -> Result<ProblemReport, String> {
         schema: "max11-lift-large-result-v1",
         verdict: "PASS",
         input: config.input.display().to_string(),
+        input_sha256: sha256_path(&config.input)?,
         rows_checked_denominator: problem.rows,
         columns_denominator: problem.columns,
         csc_nonzeros_numerator: problem.values.len(),
@@ -511,7 +555,7 @@ pub fn solve(config: &SolveConfig) -> Result<ProblemReport, String> {
         dense_modular_storage_bytes: (problem.columns * problem.columns * size_of::<u32>()) as u64,
         csc_storage_bytes: (problem.column_offsets.len() * size_of::<u64>()
             + problem.row_indices.len() * size_of::<u32>()
-            + problem.values.len() * size_of::<i32>()) as u64,
+            + problem.values.len() * size_of::<i64>()) as u64,
         lu_total_seconds: factor_timings.total.as_secs_f64(),
         lu_diagonal_inverse_seconds: factor_timings.diagonal_inverse.as_secs_f64(),
         lu_lower_solve_seconds: factor_timings.lower_solve.as_secs_f64(),
