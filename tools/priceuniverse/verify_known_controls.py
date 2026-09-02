@@ -51,7 +51,7 @@ def modular_report_is_complete(report: dict) -> bool:
     )
 
 
-def n9_span_check(system: Path, trees: list[int], extra: list[int]) -> list[dict]:
+def n9_span_check(system: Path, trees: list[int], extra: list[int]) -> dict:
     n, source_count, row_index = exactlift.scan_system(system)
     if (n, source_count, len(extra)) != (9, 10_976, 1):
         raise RuntimeError("n=9 control denominator mismatch")
@@ -64,19 +64,25 @@ def n9_span_check(system: Path, trees: list[int], extra: list[int]) -> list[dict
         if index in positions
     }
     # Retrieve by source key so enumeration order cannot silently change the matrix.
-    checks = []
+    tree_exact = flint.fmpz_mat(rows, len(trees))
+    augmented_exact = flint.fmpz_mat(rows, len(selected))
+    for column_position, source_index in enumerate(selected):
+        column = by_source[source_index]
+        for row, value in exactlift.column_entries(column, row_index):
+            augmented_exact[row, column_position] = value
+            if column_position < len(trees):
+                tree_exact[row, column_position] = value
+    exact_tree_rank = int(tree_exact.rank())
+    exact_augmented_rank = int(augmented_exact.rank())
+    if (exact_tree_rank, exact_augmented_rank) != (360, 360):
+        raise RuntimeError("extra zero column is not in the exact rational tree span")
+    modular_checks = []
     for prime in (1_000_003, 1_000_033):
-        tree_matrix = flint.nmod_mat(rows, len(trees), prime)
-        augmented = flint.nmod_mat(rows, len(selected), prime)
-        for column_position, source_index in enumerate(selected):
-            column = by_source[source_index]
-            for row, value in exactlift.column_entries(column, row_index):
-                augmented[row, column_position] = value % prime
-                if column_position < len(trees):
-                    tree_matrix[row, column_position] = value % prime
+        tree_matrix = flint.nmod_mat(tree_exact, prime)
+        augmented = flint.nmod_mat(augmented_exact, prime)
         tree_rank = int(tree_matrix.rank())
         augmented_rank = int(augmented.rank())
-        checks.append(
+        modular_checks.append(
             {
                 "prime": prime,
                 "tree_rank_numerator": tree_rank,
@@ -87,7 +93,15 @@ def n9_span_check(system: Path, trees: list[int], extra: list[int]) -> list[dict
         )
         if (tree_rank, augmented_rank) != (360, 360):
             raise RuntimeError(f"extra zero column is not in tree span at prime {prime}")
-    return checks
+    return {
+        "exact_q": {
+            "tree_rank_numerator": exact_tree_rank,
+            "tree_columns_denominator": len(trees),
+            "tree_plus_extra_rank_numerator": exact_augmented_rank,
+            "tree_plus_extra_columns_denominator": len(selected),
+        },
+        "modular": modular_checks,
+    }
 
 
 def main() -> None:
