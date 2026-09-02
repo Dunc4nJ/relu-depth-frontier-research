@@ -284,7 +284,9 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--write-report", type=Path)
     parser.add_argument("--controls-only", action="store_true")
+    parser.add_argument("--one-arm", nargs=2, type=int, metavar=("PRIME", "SEED"))
     args = parser.parse_args()
+    require(not (args.controls_only and args.one_arm), "choose one verification mode")
 
     binary_line = (BASE / "controls/binary.sha256").read_text(encoding="utf-8").strip()
     binary_parts = binary_line.split()
@@ -314,6 +316,14 @@ def main() -> None:
             "EXP0037_CONTROLS_PASS "
             f"reports=8/8 pivots={comparisons}/8 planted_mutant=1/1"
         )
+        return
+
+    if args.one_arm:
+        prime, seed = args.one_arm
+        require(prime in PRIMES, "unregistered arm prime")
+        require(seed in SEEDS, "unregistered arm seed")
+        path = BASE / f"n12-stageA-m128000-p{prime}-s{seed}-cuda.json"
+        print(json.dumps(verify_arm(path, prime, seed), sort_keys=True))
         return
 
     arms = []
