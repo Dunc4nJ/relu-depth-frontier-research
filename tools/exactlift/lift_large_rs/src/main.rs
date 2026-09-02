@@ -1,4 +1,6 @@
+mod crt;
 mod modular;
+mod problem;
 mod rational;
 mod synthetic;
 
@@ -43,11 +45,47 @@ fn synthetic_command(arguments: &[String]) -> Result<(), String> {
     Ok(())
 }
 
+fn solve_command(arguments: &[String]) -> Result<(), String> {
+    let output: PathBuf = value(arguments, "--output")?;
+    let crt_primes = arguments
+        .iter()
+        .position(|argument| argument == "--crt-primes")
+        .and_then(|position| arguments.get(position + 1))
+        .map(|raw| {
+            raw.split(',')
+                .filter(|part| !part.is_empty())
+                .map(|part| part.parse::<u32>().map_err(|_| "invalid --crt-primes".to_string()))
+                .collect::<Result<Vec<_>, _>>()
+        })
+        .transpose()?
+        .unwrap_or_default();
+    let config = problem::SolveConfig {
+        input: value(arguments, "--input")?,
+        prime: value(arguments, "--prime")?,
+        lu_block: value(arguments, "--lu-block")?,
+        row_tile: value(arguments, "--row-tile")?,
+        threads: value(arguments, "--threads")?,
+        max_steps: value(arguments, "--max-steps")?,
+        reconstruct_every: value(arguments, "--reconstruct-every")?,
+        candidate_support_limit: value(arguments, "--candidate-support-limit")?,
+        crt_primes,
+    };
+    let report = problem::solve(&config)?;
+    let encoded = serde_json::to_string_pretty(&report).map_err(|error| error.to_string())? + "\n";
+    if let Some(parent) = output.parent() {
+        fs::create_dir_all(parent).map_err(|error| error.to_string())?;
+    }
+    fs::write(&output, &encoded).map_err(|error| error.to_string())?;
+    print!("{encoded}");
+    Ok(())
+}
+
 fn main() {
     let arguments: Vec<String> = env::args().collect();
     let result = match arguments.get(1).map(String::as_str) {
         Some("synthetic") => synthetic_command(&arguments[2..]),
-        _ => Err("usage: max11-lift-large synthetic --rank N --union-rows M --support S --denominator-block B --prime P --lu-block B --row-tile T --threads N --seed S --max-steps K --reconstruct-every K --output FILE".to_string()),
+        Some("solve") => solve_command(&arguments[2..]),
+        _ => Err("usage: max11-lift-large {synthetic|solve} ...".to_string()),
     };
     if let Err(error) = result {
         eprintln!("ERROR: {error}");

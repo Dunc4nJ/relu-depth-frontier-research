@@ -1,0 +1,2291 @@
+{
+  "exact_batches": [],
+  "expected_upstream_sha256": "4bcb155a416188d479f20a2009f077003e828f1f09d65476117523a3bb6644e9",
+  "full_exact_verification": {
+    "coefficient_denominator_factorization": {
+      "2": 10,
+      "3": 5,
+      "5": 2,
+      "7": 2
+    },
+    "coefficient_denominator_lcm": 304819200,
+    "columns_in_system": 12248,
+    "exact": true,
+    "hinge_rows_checked": 16709,
+    "linear_rows_checked": 10,
+    "n": 10,
+    "nonzero_hinge_residual_count": 0,
+    "nonzero_hinge_residual_examples": [],
+    "nonzero_linear_residuals": [],
+    "rows_checked": 16719,
+    "support_size": 424,
+    "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+    "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+    "verdict": "PASS",
+    "witness": "artifacts/math/exact-lift-35k/n10_large_witness.json",
+    "witness_sha256": "23a5ce07e1434d7e2499cc71b41033b0f2771cd72ad8c6460864f4477fad2fe4"
+  },
+  "independent_rows_numerator": 2166,
+  "max_rss_kib_python_parent": 1562688,
+  "no_claim": "The result concerns only the named finite source system; no n=11 membership claim.",
+  "pivot_columns_numerator": 2166,
+  "pivot_report": "artifacts/math/exact-leg-at-scale/n10-sketch-m6498-p1000003.json",
+  "pivot_report_sha256": "fdba23baaa66ac08c84a96a2a7026b8ad5be30f8654e842d395940b1ad5a99de",
+  "problem_custody": {
+    "bytes": 71898340,
+    "columns": 2166,
+    "csc_nonzeros": 8965154,
+    "rows": 16719,
+    "schema": "ELIFTQ01",
+    "selected_rows": 2166,
+    "sha256": "9a66d3fdffc5c8782b8a2a675a4de2e5b394025d773e1c12a688c49b13fc5849"
+  },
+  "row_selection_seconds": 0.0,
+  "rust_binary": "tools/exactlift/lift_large_rs/target/release/max11-lift-large",
+  "rust_binary_sha256": "0f179cbba561498e3d8b16631f740afce60be854cb1d4bf2877dae8b9b5c0813",
+  "rust_command": [
+    "tools/exactlift/lift_large_rs/target/release/max11-lift-large",
+    "solve",
+    "--input",
+    "/home/ubuntu/.cache/tmp/max11-lift-large-__2lvvbz/problem.eliftq01",
+    "--prime",
+    "65521",
+    "--lu-block",
+    "128",
+    "--row-tile",
+    "256",
+    "--threads",
+    "6",
+    "--max-steps",
+    "6",
+    "--reconstruct-every",
+    "1",
+    "--candidate-support-limit",
+    "1000",
+    "--crt-primes",
+    "65519,65497,65479,65449,65447,65437",
+    "--output",
+    "/home/ubuntu/.cache/tmp/max11-lift-large-__2lvvbz/rust-result.json"
+  ],
+  "rust_result": {
+    "attempts": [
+      {
+        "candidate_support_denominator": 2166,
+        "candidate_support_numerator": 270,
+        "exact_check_attempted": false,
+        "exact_check_pass": false,
+        "iteration_or_prime_count_numerator": 1,
+        "method": "dixon",
+        "modulus_bits": 16,
+        "reconstructed_coordinates_denominator": 2166,
+        "reconstructed_coordinates_numerator": 2012
+      },
+      {
+        "candidate_support_denominator": 2166,
+        "candidate_support_numerator": 291,
+        "exact_check_attempted": false,
+        "exact_check_pass": false,
+        "iteration_or_prime_count_numerator": 2,
+        "method": "dixon",
+        "modulus_bits": 32,
+        "reconstructed_coordinates_denominator": 2166,
+        "reconstructed_coordinates_numerator": 2033
+      },
+      {
+        "candidate_support_denominator": 2166,
+        "candidate_support_numerator": 341,
+        "exact_check_attempted": false,
+        "exact_check_pass": false,
+        "iteration_or_prime_count_numerator": 3,
+        "method": "dixon",
+        "modulus_bits": 48,
+        "reconstructed_coordinates_denominator": 2166,
+        "reconstructed_coordinates_numerator": 2083
+      },
+      {
+        "candidate_support_denominator": 2166,
+        "candidate_support_numerator": 424,
+        "exact_check_attempted": true,
+        "exact_check_pass": true,
+        "iteration_or_prime_count_numerator": 4,
+        "method": "dixon",
+        "modulus_bits": 64,
+        "reconstructed_coordinates_denominator": 2166,
+        "reconstructed_coordinates_numerator": 2166
+      }
+    ],
+    "coefficients": [
+      {
+        "denominator": "38102400",
+        "numerator": "209",
+        "source_index": 680
+      },
+      {
+        "denominator": "4233600",
+        "numerator": "-17",
+        "source_index": 10324
+      },
+      {
+        "denominator": "846720",
+        "numerator": "-1",
+        "source_index": 4260
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "-1",
+        "source_index": 4308
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "13",
+        "source_index": 1688
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "-29",
+        "source_index": 75
+      },
+      {
+        "denominator": "2721600",
+        "numerator": "1",
+        "source_index": 5489
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "61",
+        "source_index": 356
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "1",
+        "source_index": 10659
+      },
+      {
+        "denominator": "4762800",
+        "numerator": "17",
+        "source_index": 5568
+      },
+      {
+        "denominator": "1411200",
+        "numerator": "-1",
+        "source_index": 5852
+      },
+      {
+        "denominator": "2177280",
+        "numerator": "-1",
+        "source_index": 1499
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "263",
+        "source_index": 3299
+      },
+      {
+        "denominator": "235200",
+        "numerator": "-1",
+        "source_index": 525
+      },
+      {
+        "denominator": "5080320",
+        "numerator": "1",
+        "source_index": 1019
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "19",
+        "source_index": 3884
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "1",
+        "source_index": 8537
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "1",
+        "source_index": 6634
+      },
+      {
+        "denominator": "302400",
+        "numerator": "-1",
+        "source_index": 10192
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-139",
+        "source_index": 3280
+      },
+      {
+        "denominator": "3628800",
+        "numerator": "-1",
+        "source_index": 304
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "19",
+        "source_index": 301
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-31",
+        "source_index": 4095
+      },
+      {
+        "denominator": "2177280",
+        "numerator": "-1",
+        "source_index": 3981
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "-1",
+        "source_index": 1409
+      },
+      {
+        "denominator": "1814400",
+        "numerator": "-1",
+        "source_index": 5188
+      },
+      {
+        "denominator": "1058400",
+        "numerator": "-1",
+        "source_index": 5447
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "493",
+        "source_index": 144
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "-13",
+        "source_index": 1931
+      },
+      {
+        "denominator": "846720",
+        "numerator": "-1",
+        "source_index": 3451
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "1",
+        "source_index": 51
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-1",
+        "source_index": 4304
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-41",
+        "source_index": 5865
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-71",
+        "source_index": 6105
+      },
+      {
+        "denominator": "423360",
+        "numerator": "-1",
+        "source_index": 5178
+      },
+      {
+        "denominator": "4762800",
+        "numerator": "-1",
+        "source_index": 5169
+      },
+      {
+        "denominator": "2540160",
+        "numerator": "-11",
+        "source_index": 123
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-1",
+        "source_index": 8208
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "-1",
+        "source_index": 5179
+      },
+      {
+        "denominator": "1209600",
+        "numerator": "1",
+        "source_index": 52
+      },
+      {
+        "denominator": "4762800",
+        "numerator": "-1",
+        "source_index": 5435
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "67",
+        "source_index": 5262
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "1",
+        "source_index": 10576
+      },
+      {
+        "denominator": "1058400",
+        "numerator": "-1",
+        "source_index": 10235
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-67",
+        "source_index": 2860
+      },
+      {
+        "denominator": "604800",
+        "numerator": "-1",
+        "source_index": 70
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "-19",
+        "source_index": 3395
+      },
+      {
+        "denominator": "4762800",
+        "numerator": "13",
+        "source_index": 3481
+      },
+      {
+        "denominator": "302400",
+        "numerator": "-1",
+        "source_index": 5483
+      },
+      {
+        "denominator": "907200",
+        "numerator": "-1",
+        "source_index": 5985
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-157",
+        "source_index": 466
+      },
+      {
+        "denominator": "4762800",
+        "numerator": "-17",
+        "source_index": 10259
+      },
+      {
+        "denominator": "10886400",
+        "numerator": "1",
+        "source_index": 532
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-11",
+        "source_index": 5190
+      },
+      {
+        "denominator": "705600",
+        "numerator": "-1",
+        "source_index": 10775
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "13",
+        "source_index": 5993
+      },
+      {
+        "denominator": "907200",
+        "numerator": "-1",
+        "source_index": 548
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-1",
+        "source_index": 1506
+      },
+      {
+        "denominator": "78400",
+        "numerator": "-1",
+        "source_index": 1701
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "17",
+        "source_index": 8509
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "41",
+        "source_index": 5491
+      },
+      {
+        "denominator": "1016064",
+        "numerator": "1",
+        "source_index": 775
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "1",
+        "source_index": 4309
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-1",
+        "source_index": 135
+      },
+      {
+        "denominator": "680400",
+        "numerator": "1",
+        "source_index": 10370
+      },
+      {
+        "denominator": "302400",
+        "numerator": "1",
+        "source_index": 9933
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "13",
+        "source_index": 10361
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "-1",
+        "source_index": 247
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-13",
+        "source_index": 623
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "121",
+        "source_index": 2971
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "-1",
+        "source_index": 10638
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "41",
+        "source_index": 4972
+      },
+      {
+        "denominator": "8467200",
+        "numerator": "1",
+        "source_index": 569
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "11",
+        "source_index": 5350
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "-1",
+        "source_index": 1234
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "1",
+        "source_index": 221
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "-1",
+        "source_index": 4142
+      },
+      {
+        "denominator": "1411200",
+        "numerator": "13",
+        "source_index": 1942
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "11",
+        "source_index": 10542
+      },
+      {
+        "denominator": "2721600",
+        "numerator": "-1",
+        "source_index": 6485
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "17",
+        "source_index": 8568
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "-1",
+        "source_index": 10037
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-53",
+        "source_index": 5176
+      },
+      {
+        "denominator": "604800",
+        "numerator": "1",
+        "source_index": 5042
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "23",
+        "source_index": 10351
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-1",
+        "source_index": 10663
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "89",
+        "source_index": 4294
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "1",
+        "source_index": 4306
+      },
+      {
+        "denominator": "705600",
+        "numerator": "-1",
+        "source_index": 4089
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "19",
+        "source_index": 328
+      },
+      {
+        "denominator": "3810240",
+        "numerator": "23",
+        "source_index": 2914
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "11",
+        "source_index": 8580
+      },
+      {
+        "denominator": "4762800",
+        "numerator": "-1",
+        "source_index": 150
+      },
+      {
+        "denominator": "10886400",
+        "numerator": "1",
+        "source_index": 1481
+      },
+      {
+        "denominator": "907200",
+        "numerator": "1",
+        "source_index": 6041
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "-1",
+        "source_index": 8488
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "13",
+        "source_index": 3729
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "-31",
+        "source_index": 359
+      },
+      {
+        "denominator": "1411200",
+        "numerator": "1",
+        "source_index": 10154
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "-31",
+        "source_index": 118
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "121",
+        "source_index": 3219
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-19",
+        "source_index": 69
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "11",
+        "source_index": 943
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-103",
+        "source_index": 3496
+      },
+      {
+        "denominator": "15240960",
+        "numerator": "13",
+        "source_index": 1877
+      },
+      {
+        "denominator": "846720",
+        "numerator": "1",
+        "source_index": 8069
+      },
+      {
+        "denominator": "635040",
+        "numerator": "1",
+        "source_index": 5983
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "11",
+        "source_index": 4286
+      },
+      {
+        "denominator": "4233600",
+        "numerator": "1",
+        "source_index": 401
+      },
+      {
+        "denominator": "604800",
+        "numerator": "-1",
+        "source_index": 5232
+      },
+      {
+        "denominator": "1058400",
+        "numerator": "1",
+        "source_index": 3478
+      },
+      {
+        "denominator": "302400",
+        "numerator": "1",
+        "source_index": 10214
+      },
+      {
+        "denominator": "705600",
+        "numerator": "1",
+        "source_index": 4086
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "19",
+        "source_index": 122
+      },
+      {
+        "denominator": "3628800",
+        "numerator": "1",
+        "source_index": 774
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-17",
+        "source_index": 8456
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "61",
+        "source_index": 5421
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "-37",
+        "source_index": 324
+      },
+      {
+        "denominator": "226800",
+        "numerator": "1",
+        "source_index": 5163
+      },
+      {
+        "denominator": "21772800",
+        "numerator": "-11",
+        "source_index": 0
+      },
+      {
+        "denominator": "1058400",
+        "numerator": "1",
+        "source_index": 10200
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-61",
+        "source_index": 517
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "13",
+        "source_index": 2850
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "1",
+        "source_index": 4300
+      },
+      {
+        "denominator": "79380",
+        "numerator": "-1",
+        "source_index": 3310
+      },
+      {
+        "denominator": "4233600",
+        "numerator": "1",
+        "source_index": 143
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "-1",
+        "source_index": 11119
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "-17",
+        "source_index": 5509
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-61",
+        "source_index": 348
+      },
+      {
+        "denominator": "1814400",
+        "numerator": "1",
+        "source_index": 8438
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "-107",
+        "source_index": 1745
+      },
+      {
+        "denominator": "2721600",
+        "numerator": "-1",
+        "source_index": 4299
+      },
+      {
+        "denominator": "1814400",
+        "numerator": "-1",
+        "source_index": 10629
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "919",
+        "source_index": 1747
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-17",
+        "source_index": 4065
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "-1",
+        "source_index": 417
+      },
+      {
+        "denominator": "725760",
+        "numerator": "1",
+        "source_index": 8
+      },
+      {
+        "denominator": "2381400",
+        "numerator": "1",
+        "source_index": 2846
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "1",
+        "source_index": 1610
+      },
+      {
+        "denominator": "2381400",
+        "numerator": "-23",
+        "source_index": 4949
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "137",
+        "source_index": 1746
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-47",
+        "source_index": 3425
+      },
+      {
+        "denominator": "604800",
+        "numerator": "-1",
+        "source_index": 10341
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "11",
+        "source_index": 5530
+      },
+      {
+        "denominator": "10886400",
+        "numerator": "1",
+        "source_index": 368
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "-17",
+        "source_index": 1226
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "1",
+        "source_index": 5544
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "-1",
+        "source_index": 10206
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-1",
+        "source_index": 1511
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "19",
+        "source_index": 369
+      },
+      {
+        "denominator": "705600",
+        "numerator": "-1",
+        "source_index": 10631
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "1",
+        "source_index": 2651
+      },
+      {
+        "denominator": "635040",
+        "numerator": "1",
+        "source_index": 10349
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 8581
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "-43",
+        "source_index": 5937
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-1",
+        "source_index": 6666
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "1",
+        "source_index": 8447
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-1",
+        "source_index": 3901
+      },
+      {
+        "denominator": "1814400",
+        "numerator": "1",
+        "source_index": 10770
+      },
+      {
+        "denominator": "635040",
+        "numerator": "-1",
+        "source_index": 5507
+      },
+      {
+        "denominator": "846720",
+        "numerator": "1",
+        "source_index": 8131
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "41",
+        "source_index": 367
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-59",
+        "source_index": 175
+      },
+      {
+        "denominator": "2540160",
+        "numerator": "1",
+        "source_index": 8582
+      },
+      {
+        "denominator": "777600",
+        "numerator": "-1",
+        "source_index": 4097
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-31",
+        "source_index": 3845
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "1",
+        "source_index": 10774
+      },
+      {
+        "denominator": "2721600",
+        "numerator": "-1",
+        "source_index": 8446
+      },
+      {
+        "denominator": "4233600",
+        "numerator": "1",
+        "source_index": 5874
+      },
+      {
+        "denominator": "1411200",
+        "numerator": "-1",
+        "source_index": 4312
+      },
+      {
+        "denominator": "10886400",
+        "numerator": "1",
+        "source_index": 6137
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-11",
+        "source_index": 6081
+      },
+      {
+        "denominator": "604800",
+        "numerator": "-1",
+        "source_index": 20
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 4099
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-11",
+        "source_index": 5949
+      },
+      {
+        "denominator": "604800",
+        "numerator": "1",
+        "source_index": 10211
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "19",
+        "source_index": 216
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "-1",
+        "source_index": 10462
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "-23",
+        "source_index": 10528
+      },
+      {
+        "denominator": "1814400",
+        "numerator": "-1",
+        "source_index": 5590
+      },
+      {
+        "denominator": "2540160",
+        "numerator": "-1",
+        "source_index": 3482
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-1",
+        "source_index": 10724
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-37",
+        "source_index": 4096
+      },
+      {
+        "denominator": "907200",
+        "numerator": "1",
+        "source_index": 10486
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-17",
+        "source_index": 6846
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-31",
+        "source_index": 6133
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "1",
+        "source_index": 4129
+      },
+      {
+        "denominator": "2381400",
+        "numerator": "-11",
+        "source_index": 9823
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "1",
+        "source_index": 3517
+      },
+      {
+        "denominator": "235200",
+        "numerator": "1",
+        "source_index": 490
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-19",
+        "source_index": 8482
+      },
+      {
+        "denominator": "3810240",
+        "numerator": "23",
+        "source_index": 10567
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "13",
+        "source_index": 4887
+      },
+      {
+        "denominator": "793800",
+        "numerator": "-1",
+        "source_index": 4200
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "169",
+        "source_index": 818
+      },
+      {
+        "denominator": "1814400",
+        "numerator": "-1",
+        "source_index": 10155
+      },
+      {
+        "denominator": "3628800",
+        "numerator": "1",
+        "source_index": 439
+      },
+      {
+        "denominator": "470400",
+        "numerator": "1",
+        "source_index": 10199
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "31",
+        "source_index": 6128
+      },
+      {
+        "denominator": "604800",
+        "numerator": "-1",
+        "source_index": 10238
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "17",
+        "source_index": 5948
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "1",
+        "source_index": 6004
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-1",
+        "source_index": 7791
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "403",
+        "source_index": 151
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "-1",
+        "source_index": 735
+      },
+      {
+        "denominator": "4233600",
+        "numerator": "-1",
+        "source_index": 6887
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "1",
+        "source_index": 6129
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-11",
+        "source_index": 4962
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-1",
+        "source_index": 6135
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "-29",
+        "source_index": 5666
+      },
+      {
+        "denominator": "846720",
+        "numerator": "1",
+        "source_index": 4215
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-11",
+        "source_index": 8092
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-143",
+        "source_index": 5546
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "67",
+        "source_index": 8666
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "-19",
+        "source_index": 436
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-19",
+        "source_index": 8569
+      },
+      {
+        "denominator": "226800",
+        "numerator": "-1",
+        "source_index": 1652
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "-1",
+        "source_index": 6884
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "-19",
+        "source_index": 229
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-121",
+        "source_index": 4078
+      },
+      {
+        "denominator": "2540160",
+        "numerator": "1",
+        "source_index": 21
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-31",
+        "source_index": 2778
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 6678
+      },
+      {
+        "denominator": "907200",
+        "numerator": "1",
+        "source_index": 1675
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "229",
+        "source_index": 1864
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-11",
+        "source_index": 4231
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 8091
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "1",
+        "source_index": 10759
+      },
+      {
+        "denominator": "705600",
+        "numerator": "1",
+        "source_index": 10637
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "17",
+        "source_index": 6869
+      },
+      {
+        "denominator": "3628800",
+        "numerator": "1",
+        "source_index": 3691
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "1",
+        "source_index": 83
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 10525
+      },
+      {
+        "denominator": "907200",
+        "numerator": "1",
+        "source_index": 5971
+      },
+      {
+        "denominator": "762048",
+        "numerator": "-1",
+        "source_index": 8579
+      },
+      {
+        "denominator": "201600",
+        "numerator": "1",
+        "source_index": 9867
+      },
+      {
+        "denominator": "10886400",
+        "numerator": "-113",
+        "source_index": 1944
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 1510
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "31",
+        "source_index": 406
+      },
+      {
+        "denominator": "1058400",
+        "numerator": "1",
+        "source_index": 10527
+      },
+      {
+        "denominator": "241920",
+        "numerator": "1",
+        "source_index": 10
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-1",
+        "source_index": 10421
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "13",
+        "source_index": 5576
+      },
+      {
+        "denominator": "304819200",
+        "numerator": "-13",
+        "source_index": 530
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "23",
+        "source_index": 5239
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "-1",
+        "source_index": 5583
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "1",
+        "source_index": 5581
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "1",
+        "source_index": 5562
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "1",
+        "source_index": 5572
+      },
+      {
+        "denominator": "396900",
+        "numerator": "-1",
+        "source_index": 9873
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-1",
+        "source_index": 5570
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "241",
+        "source_index": 2954
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "-17",
+        "source_index": 6673
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "19",
+        "source_index": 4290
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-19",
+        "source_index": 48
+      },
+      {
+        "denominator": "317520",
+        "numerator": "-1",
+        "source_index": 4225
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "383",
+        "source_index": 8037
+      },
+      {
+        "denominator": "3628800",
+        "numerator": "1",
+        "source_index": 145
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-13",
+        "source_index": 6015
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-1",
+        "source_index": 10207
+      },
+      {
+        "denominator": "4762800",
+        "numerator": "1",
+        "source_index": 4188
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "1",
+        "source_index": 10630
+      },
+      {
+        "denominator": "604800",
+        "numerator": "-1",
+        "source_index": 5992
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "-23",
+        "source_index": 1797
+      },
+      {
+        "denominator": "762048",
+        "numerator": "1",
+        "source_index": 8554
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "1",
+        "source_index": 3513
+      },
+      {
+        "denominator": "4233600",
+        "numerator": "-1",
+        "source_index": 691
+      },
+      {
+        "denominator": "2381400",
+        "numerator": "-1",
+        "source_index": 3089
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-1",
+        "source_index": 6627
+      },
+      {
+        "denominator": "2721600",
+        "numerator": "1",
+        "source_index": 7842
+      },
+      {
+        "denominator": "3810240",
+        "numerator": "-23",
+        "source_index": 8425
+      },
+      {
+        "denominator": "1814400",
+        "numerator": "-1",
+        "source_index": 3894
+      },
+      {
+        "denominator": "302400",
+        "numerator": "1",
+        "source_index": 10175
+      },
+      {
+        "denominator": "1814400",
+        "numerator": "-1",
+        "source_index": 2
+      },
+      {
+        "denominator": "4233600",
+        "numerator": "-19",
+        "source_index": 4301
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "47",
+        "source_index": 3514
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "103",
+        "source_index": 3507
+      },
+      {
+        "denominator": "423360",
+        "numerator": "1",
+        "source_index": 773
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-143",
+        "source_index": 6062
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-31",
+        "source_index": 3510
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-1",
+        "source_index": 6679
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-1",
+        "source_index": 5164
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "1",
+        "source_index": 1651
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-109",
+        "source_index": 8022
+      },
+      {
+        "denominator": "302400",
+        "numerator": "1",
+        "source_index": 10036
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "1",
+        "source_index": 4291
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-23",
+        "source_index": 5584
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "13",
+        "source_index": 5446
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "-13",
+        "source_index": 74
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 10781
+      },
+      {
+        "denominator": "2540160",
+        "numerator": "-1",
+        "source_index": 3628
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "1",
+        "source_index": 5592
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "1",
+        "source_index": 8089
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-1",
+        "source_index": 4197
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-1",
+        "source_index": 1441
+      },
+      {
+        "denominator": "1905120",
+        "numerator": "-13",
+        "source_index": 10218
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-1",
+        "source_index": 535
+      },
+      {
+        "denominator": "604800",
+        "numerator": "1",
+        "source_index": 1
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "37",
+        "source_index": 73
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "53",
+        "source_index": 1734
+      },
+      {
+        "denominator": "604800",
+        "numerator": "1",
+        "source_index": 5138
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "-11",
+        "source_index": 5306
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "209",
+        "source_index": 11111
+      },
+      {
+        "denominator": "1270080",
+        "numerator": "-1",
+        "source_index": 5261
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-59",
+        "source_index": 10027
+      },
+      {
+        "denominator": "317520",
+        "numerator": "1",
+        "source_index": 4272
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "11",
+        "source_index": 1491
+      },
+      {
+        "denominator": "595350",
+        "numerator": "1",
+        "source_index": 5591
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "37",
+        "source_index": 6014
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-1",
+        "source_index": 1238
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 10254
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "47",
+        "source_index": 1198
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-1",
+        "source_index": 6124
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-1",
+        "source_index": 3515
+      },
+      {
+        "denominator": "2381400",
+        "numerator": "1",
+        "source_index": 1662
+      },
+      {
+        "denominator": "317520",
+        "numerator": "1",
+        "source_index": 7788
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-1",
+        "source_index": 68
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "61",
+        "source_index": 483
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "11",
+        "source_index": 1477
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "17",
+        "source_index": 6620
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "-19",
+        "source_index": 3307
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "-17",
+        "source_index": 255
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "1",
+        "source_index": 3733
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "11",
+        "source_index": 4066
+      },
+      {
+        "denominator": "846720",
+        "numerator": "1",
+        "source_index": 688
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "11",
+        "source_index": 5152
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "-13",
+        "source_index": 4266
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-137",
+        "source_index": 4230
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "1",
+        "source_index": 4305
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-251",
+        "source_index": 7772
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-31",
+        "source_index": 693
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "19",
+        "source_index": 50
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "11",
+        "source_index": 7792
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "43",
+        "source_index": 8009
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "-1",
+        "source_index": 10771
+      },
+      {
+        "denominator": "302400",
+        "numerator": "-1",
+        "source_index": 5121
+      },
+      {
+        "denominator": "317520",
+        "numerator": "1",
+        "source_index": 4020
+      },
+      {
+        "denominator": "907200",
+        "numerator": "1",
+        "source_index": 5501
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "11",
+        "source_index": 5543
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "-1",
+        "source_index": 8556
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "11",
+        "source_index": 5680
+      },
+      {
+        "denominator": "10886400",
+        "numerator": "1",
+        "source_index": 6510
+      },
+      {
+        "denominator": "1058400",
+        "numerator": "1",
+        "source_index": 3311
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-17",
+        "source_index": 5230
+      },
+      {
+        "denominator": "2381400",
+        "numerator": "-1",
+        "source_index": 5220
+      },
+      {
+        "denominator": "604800",
+        "numerator": "1",
+        "source_index": 4062
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "-1",
+        "source_index": 360
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "-107",
+        "source_index": 364
+      },
+      {
+        "denominator": "604800",
+        "numerator": "1",
+        "source_index": 9848
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "-1",
+        "source_index": 5574
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-89",
+        "source_index": 1872
+      },
+      {
+        "denominator": "1587600",
+        "numerator": "1",
+        "source_index": 11160
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "19",
+        "source_index": 10463
+      },
+      {
+        "denominator": "155520",
+        "numerator": "1",
+        "source_index": 3900
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "157",
+        "source_index": 522
+      },
+      {
+        "denominator": "302400",
+        "numerator": "-1",
+        "source_index": 9
+      },
+      {
+        "denominator": "1411200",
+        "numerator": "-1",
+        "source_index": 1957
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "263",
+        "source_index": 5960
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 6882
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-11",
+        "source_index": 8135
+      },
+      {
+        "denominator": "705600",
+        "numerator": "1",
+        "source_index": 10641
+      },
+      {
+        "denominator": "1058400",
+        "numerator": "-1",
+        "source_index": 10352
+      },
+      {
+        "denominator": "604800",
+        "numerator": "1",
+        "source_index": 116
+      },
+      {
+        "denominator": "3810240",
+        "numerator": "1",
+        "source_index": 6500
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "1",
+        "source_index": 1503
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-17",
+        "source_index": 4971
+      },
+      {
+        "denominator": "4762800",
+        "numerator": "-1",
+        "source_index": 1469
+      },
+      {
+        "denominator": "302400",
+        "numerator": "1",
+        "source_index": 10517
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "-1",
+        "source_index": 2972
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "-1",
+        "source_index": 4293
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "13",
+        "source_index": 5545
+      },
+      {
+        "denominator": "2721600",
+        "numerator": "-1",
+        "source_index": 10592
+      },
+      {
+        "denominator": "3175200",
+        "numerator": "-1",
+        "source_index": 10635
+      },
+      {
+        "denominator": "846720",
+        "numerator": "1",
+        "source_index": 1631
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "53",
+        "source_index": 6098
+      },
+      {
+        "denominator": "1058400",
+        "numerator": "1",
+        "source_index": 5875
+      },
+      {
+        "denominator": "1209600",
+        "numerator": "-1",
+        "source_index": 71
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "-17",
+        "source_index": 817
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "41",
+        "source_index": 1875
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-61",
+        "source_index": 10018
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-103",
+        "source_index": 6064
+      },
+      {
+        "denominator": "1058400",
+        "numerator": "-1",
+        "source_index": 6053
+      },
+      {
+        "denominator": "201600",
+        "numerator": "1",
+        "source_index": 4891
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "1",
+        "source_index": 10723
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "47",
+        "source_index": 4009
+      },
+      {
+        "denominator": "317520",
+        "numerator": "1",
+        "source_index": 3436
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-1",
+        "source_index": 7483
+      },
+      {
+        "denominator": "2822400",
+        "numerator": "1",
+        "source_index": 692
+      },
+      {
+        "denominator": "6350400",
+        "numerator": "-23",
+        "source_index": 5962
+      },
+      {
+        "denominator": "2721600",
+        "numerator": "11",
+        "source_index": 4092
+      },
+      {
+        "denominator": "635040",
+        "numerator": "-1",
+        "source_index": 8134
+      },
+      {
+        "denominator": "705600",
+        "numerator": "-1",
+        "source_index": 8534
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "1",
+        "source_index": 7717
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "1",
+        "source_index": 10593
+      },
+      {
+        "denominator": "25401600",
+        "numerator": "-13",
+        "source_index": 158
+      },
+      {
+        "denominator": "470400",
+        "numerator": "1",
+        "source_index": 6065
+      },
+      {
+        "denominator": "9525600",
+        "numerator": "1",
+        "source_index": 6671
+      },
+      {
+        "denominator": "3628800",
+        "numerator": "-1",
+        "source_index": 18
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "1",
+        "source_index": 491
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "1",
+        "source_index": 6888
+      },
+      {
+        "denominator": "1411200",
+        "numerator": "1",
+        "source_index": 4193
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-61",
+        "source_index": 743
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-197",
+        "source_index": 5251
+      },
+      {
+        "denominator": "1190700",
+        "numerator": "1",
+        "source_index": 254
+      },
+      {
+        "denominator": "3628800",
+        "numerator": "-1",
+        "source_index": 506
+      },
+      {
+        "denominator": "529200",
+        "numerator": "-1",
+        "source_index": 9874
+      },
+      {
+        "denominator": "470400",
+        "numerator": "-1",
+        "source_index": 10198
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "-1",
+        "source_index": 371
+      },
+      {
+        "denominator": "76204800",
+        "numerator": "41",
+        "source_index": 865
+      },
+      {
+        "denominator": "5080320",
+        "numerator": "-1",
+        "source_index": 3205
+      },
+      {
+        "denominator": "1814400",
+        "numerator": "-1",
+        "source_index": 5524
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "-11",
+        "source_index": 5719
+      },
+      {
+        "denominator": "19051200",
+        "numerator": "-109",
+        "source_index": 5382
+      },
+      {
+        "denominator": "5443200",
+        "numerator": "17",
+        "source_index": 4289
+      },
+      {
+        "denominator": "2116800",
+        "numerator": "-1",
+        "source_index": 6670
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "-1",
+        "source_index": 6415
+      },
+      {
+        "denominator": "4233600",
+        "numerator": "-17",
+        "source_index": 10145
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "181",
+        "source_index": 336
+      },
+      {
+        "denominator": "238140",
+        "numerator": "1",
+        "source_index": 5541
+      },
+      {
+        "denominator": "12700800",
+        "numerator": "19",
+        "source_index": 10504
+      },
+      {
+        "denominator": "38102400",
+        "numerator": "-11",
+        "source_index": 8555
+      },
+      {
+        "denominator": "7620480",
+        "numerator": "-1",
+        "source_index": 526
+      },
+      {
+        "denominator": "2540160",
+        "numerator": "1",
+        "source_index": 6121
+      },
+      {
+        "denominator": "2540160",
+        "numerator": "-11",
+        "source_index": 8117
+      }
+    ],
+    "columns_denominator": 2166,
+    "csc_matvec_seconds_by_iteration": [
+      0.028705784,
+      0.009340193,
+      0.011702309,
+      0.009033762
+    ],
+    "csc_nonzeros_numerator": 8965154,
+    "csc_storage_bytes": 71738568,
+    "dense_modular_storage_bytes": 18766224,
+    "exact_rows_verified_denominator": 16719,
+    "exact_rows_verified_numerator": 16719,
+    "input": "/home/ubuntu/.cache/tmp/max11-lift-large-__2lvvbz/problem.eliftq01",
+    "iterations_to_reconstruction_numerator": 4,
+    "lu_diagonal_inverse_seconds": 2.479515804,
+    "lu_lower_solve_seconds": 0.295306372,
+    "lu_schur_update_seconds": 0.588998425,
+    "lu_total_seconds": 3.364000313,
+    "max_rss_kib": 117104,
+    "modular_solve_seconds_by_iteration": [
+      0.005046742,
+      0.007307029,
+      0.00617371,
+      0.006789456
+    ],
+    "mutation_delta": "+1/1 at first nonzero coordinate",
+    "mutation_nonzero_rows_numerator": 1336,
+    "mutation_rows_checked_denominator": 16719,
+    "no_claim": "This exact result concerns only the named finite input matrix; it does not decide MAX11.",
+    "prime": 65521,
+    "recovered_denominator_lcm": "304819200",
+    "recovered_support_denominator": 2166,
+    "recovered_support_numerator": 424,
+    "recovery_method": "dixon-early-rational-reconstruction",
+    "rows_checked_denominator": 16719,
+    "schema": "max11-lift-large-result-v1",
+    "selected_minor_rows_denominator": 2166,
+    "selected_minor_rows_numerator": 2166,
+    "threads_maximum": 6,
+    "total_seconds": 3.824435429,
+    "verdict": "PASS"
+  },
+  "source_columns_denominator": 12248,
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+  "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+  "total_seconds": 72.53167427703738,
+  "union_rows_denominator": 16719,
+  "upstream_output": "artifacts/math/exact-lift-35k/n10_large_upstream.json",
+  "upstream_output_sha256": "4bcb155a416188d479f20a2009f077003e828f1f09d65476117523a3bb6644e9",
+  "verdict": "PASS",
+  "witness": "artifacts/math/exact-lift-35k/n10_large_witness.json",
+  "witness_sha256": "23a5ce07e1434d7e2499cc71b41033b0f2771cd72ad8c6460864f4477fad2fe4"
+}

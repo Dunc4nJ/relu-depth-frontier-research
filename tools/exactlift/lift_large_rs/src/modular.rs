@@ -39,7 +39,60 @@ pub struct BlockFactor {
     pub prime: u32,
     /// Row-major block L/U factors. A diagonal block stores its inverse.
     pub data: Vec<u32>,
+    /// Factor-row position -> original input-row position.
+    pub row_order: Vec<usize>,
     pub timings: FactorTimings,
+}
+
+fn pivot_block_rows(
+    data: &mut [u32],
+    row_order: &mut [usize],
+    n: usize,
+    start: usize,
+    width: usize,
+    prime: u32,
+) -> Result<(), String> {
+    let remaining = n - start;
+    let mut panel = vec![0_u32; remaining * width];
+    for row in 0..remaining {
+        panel[row * width..(row + 1) * width].copy_from_slice(
+            &data[(start + row) * n + start..(start + row) * n + start + width],
+        );
+    }
+    for column in 0..width {
+        let pivot = (column..remaining)
+            .find(|&row| panel[row * width + column] != 0)
+            .ok_or_else(|| format!("rank-deficient block panel at local column {column}"))?;
+        if pivot != column {
+            for local_column in 0..width {
+                panel.swap(column * width + local_column, pivot * width + local_column);
+            }
+            let first = start + column;
+            let second = start + pivot;
+            for global_column in 0..n {
+                data.swap(first * n + global_column, second * n + global_column);
+            }
+            row_order.swap(first, second);
+        }
+        let inverse = mod_inv(panel[column * width + column], prime)
+            .ok_or_else(|| "noninvertible panel pivot".to_string())?;
+        for row in column + 1..remaining {
+            let multiplier =
+                (panel[row * width + column] as u64 * inverse as u64 % prime as u64) as u32;
+            if multiplier == 0 {
+                continue;
+            }
+            for panel_column in column..width {
+                let subtract = multiplier as u64
+                    * panel[column * width + panel_column] as u64
+                    % prime as u64;
+                panel[row * width + panel_column] =
+                    ((panel[row * width + panel_column] as u64 + prime as u64 - subtract)
+                        % prime as u64) as u32;
+            }
+        }
+    }
+    Ok(())
 }
 
 fn mod_inv(value: u32, prime: u32) -> Option<u32> {
@@ -166,11 +219,14 @@ impl BlockFactor {
         unsafe { openblas_set_num_threads(threads as i32) };
         let started = Instant::now();
         let mut timings = FactorTimings::default();
+        let mut row_order: Vec<usize> = (0..n).collect();
 
         for start in (0..n).step_by(block) {
             let width = block.min(n - start);
             let trailing = n - start - width;
             let phase = Instant::now();
+            pivot_block_rows(&mut data, &mut row_order, n, start, width, prime)
+                .map_err(|error| format!("block starting {start}: {error}"))?;
             let mut diagonal = vec![0_u32; width * width];
             for row in 0..width {
                 diagonal[row * width..(row + 1) * width].copy_from_slice(
@@ -244,7 +300,7 @@ impl BlockFactor {
             timings.schur_update += phase.elapsed();
         }
         timings.total = started.elapsed();
-        Ok(Self { n, block, prime, data, timings })
+        Ok(Self { n, block, prime, data, row_order, timings })
     }
 
     pub fn solve(&self, rhs: &[u32]) -> Result<Vec<u32>, String> {
@@ -252,6 +308,7 @@ impl BlockFactor {
             return Err("right-hand side length mismatch".to_string());
         }
         let p = self.prime as u64;
+        let permuted_rhs: Vec<u32> = self.row_order.iter().map(|&row| rhs[row]).collect();
         let mut y = vec![0_u32; self.n];
         for start in (0..self.n).step_by(self.block) {
             let width = self.block.min(self.n - start);
@@ -261,7 +318,7 @@ impl BlockFactor {
                 for col in 0..start {
                     sum += self.data[row * self.n + col] as u64 * y[col] as u64;
                 }
-                y[row] = (rhs[row] as u64 + p - sum % p) as u32 % self.prime;
+                y[row] = (permuted_rhs[row] as u64 + p - sum % p) as u32 % self.prime;
             }
         }
 
@@ -333,7 +390,11 @@ impl BlockFactor {
                 solution[col] = (z[col] as u64 + p - sum % p) as u32 % self.prime;
             }
         }
-        Ok(solution)
+        let mut unpermuted = vec![0_u32; self.n];
+        for (factor_row, &original_row) in self.row_order.iter().enumerate() {
+            unpermuted[original_row] = solution[factor_row];
+        }
+        Ok(unpermuted)
     }
 }
 
@@ -382,5 +443,21 @@ mod tests {
         }
         let rhs_transposed = matvec_mod(&transposed, n, &expected, p);
         assert_eq!(factor.solve_transpose(&rhs_transposed).unwrap(), expected);
+    }
+
+    #[test]
+    fn panel_pivoting_repairs_zero_leading_block() {
+        let n = 7;
+        let p = 65_521;
+        let mut matrix = vec![0_u32; n * n];
+        for factor_row in 0..n {
+            let original_row = (factor_row + 3) % n;
+            matrix[factor_row * n + original_row] = 1;
+        }
+        let expected: Vec<u32> = (0..n).map(|index| (3 * index + 11) as u32).collect();
+        let rhs = matvec_mod(&matrix, n, &expected, p);
+        let factor = BlockFactor::factor(matrix, n, 3, p, 1, 4).unwrap();
+        assert_eq!(factor.solve(&rhs).unwrap(), expected);
+        assert_ne!(factor.row_order, (0..n).collect::<Vec<_>>());
     }
 }
