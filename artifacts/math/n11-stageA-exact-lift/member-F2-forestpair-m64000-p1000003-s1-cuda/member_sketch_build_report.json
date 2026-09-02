@@ -1,0 +1,134 @@
+{
+  "schema": "max11-sketch-member-problem-v1",
+  "verdict": "PASS",
+  "pivot_report": "artifacts/math/n11-stageA/sub/F2-forestpair-m64000-p1000003-s1-cuda.json",
+  "pivot_report_sha256": "4c39620e3bbb7fae5af4c6fe96411831e5a87bab6563c6067212a3f2bd50e986",
+  "source_universe": "artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz",
+  "source_universe_sha256": "8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8",
+  "sketch_algorithm": "splitmix64-chain-v1-one-bucket-random-sign",
+  "sketch_seed": 2026090201,
+  "sketch_buckets_denominator": 64000,
+  "pivot_columns_numerator": 15904,
+  "pivot_columns_denominator": 15904,
+  "pivot_columns_u64_le_sha256": "61ab57cd3e076e5e04b9a55b791f484a2176fc69c921a3a5b3d19067ca7b1ca4",
+  "pivot_buckets_numerator": 15904,
+  "pivot_buckets_denominator": 15904,
+  "target_sketch_bucket": 47568,
+  "target_sketch_residue_mod_report_prime": 1000002,
+  "report_prime": 1000003,
+  "exact_batches": [
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-000.mcolgen1",
+      "bytes": 1122999324,
+      "records": 1024,
+      "sha256": "12fa7b4b0c0fcefb53924df1874322e4478c8d22e1fb193489f9aa12b8221dee"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-001.mcolgen1",
+      "bytes": 1208549664,
+      "records": 1024,
+      "sha256": "33455ee2f3797b134244403c39720e66ece5abc4c7a225039737d657efe28629"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-002.mcolgen1",
+      "bytes": 1270299054,
+      "records": 1024,
+      "sha256": "fff55a8a2ae6496d8ee2ac9b0de382cb9688cdbed09bb0663a75d874cb05bf19"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-003.mcolgen1",
+      "bytes": 1231133304,
+      "records": 1024,
+      "sha256": "9ee5a701c7aec5d09c34eb6694e08d86e9c5fc7690a601516d791d3278e380de"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-004.mcolgen1",
+      "bytes": 1186277004,
+      "records": 1024,
+      "sha256": "6cebd08403ab9f7d987c45e7f7429060e28dfddcb3d89f1ce11acf9b979fe9c9"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-005.mcolgen1",
+      "bytes": 1256342244,
+      "records": 1024,
+      "sha256": "ca57f329c467ec7479ed5723936a6faef2fc064722718abaa75f97e046c044b3"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-006.mcolgen1",
+      "bytes": 866020884,
+      "records": 1024,
+      "sha256": "4e70cbb556fff8a7243bfded2a5b16c58199cc2b4be66974030d72d962e9e0f7"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-007.mcolgen1",
+      "bytes": 813546384,
+      "records": 1024,
+      "sha256": "07c17aca81cb95a92c6ea5db4259903fdb2c03c18e65694b595200a6dab4a860"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-008.mcolgen1",
+      "bytes": 891291534,
+      "records": 1024,
+      "sha256": "f776018b57e2f570a0ff19995d885b8cb0d8f8c7cb79e0dbc729efb942a0d549"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-009.mcolgen1",
+      "bytes": 905914494,
+      "records": 1024,
+      "sha256": "5d951f0f5d605e0eb2ec731c7b9353ef19f16a11a804a556a2563f63d5cc8654"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-010.mcolgen1",
+      "bytes": 847151004,
+      "records": 1024,
+      "sha256": "04398c593ffc2f2592f6e6558fb48522d9f7d70b3b20e10a4ffeeb5b9330acd2"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-011.mcolgen1",
+      "bytes": 927708624,
+      "records": 1024,
+      "sha256": "ff8385924893773870963b8c0a9167266ea69ea783220e9b689e841957e8ca96"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-012.mcolgen1",
+      "bytes": 887277204,
+      "records": 1024,
+      "sha256": "62e76aa85f8fb3b959dafecb5b34ae05032fd1fdb57cd70f5490310106e27711"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-013.mcolgen1",
+      "bytes": 834141594,
+      "records": 1024,
+      "sha256": "35f7265d8c996e2e0c6ee48a4c809411cea65d787bfd795e5735948dea3a0fc3"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-014.mcolgen1",
+      "bytes": 954821604,
+      "records": 1024,
+      "sha256": "ad3bf3bf386e112039a1e9eec1eb1ed55dfb44b6699a2e0e6d9af4322b530c02"
+    },
+    {
+      "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/batches/batch-015.mcolgen1",
+      "bytes": 453084294,
+      "records": 544,
+      "sha256": "1a29cdd3a85b639ae0cd05b6a463512c5a551f6dfedbbd8b4f002a7ac61be2d5"
+    }
+  ],
+  "exact_batch_records_numerator": 15904,
+  "exact_batch_records_denominator": 15904,
+  "union_hinge_rows_denominator": 146176,
+  "linear_rows_denominator": 11,
+  "real_rows_denominator": 146187,
+  "sketch_rows_denominator": 15904,
+  "combined_rows_denominator": 162091,
+  "real_csc_nonzeros_numerator": 521973264,
+  "sketch_minor_csc_nonzeros_numerator": 109624399,
+  "combined_csc_nonzeros_numerator": 631597663,
+  "sketch_entry_abs_max": 53066880,
+  "problem": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_sketch_problem.eliftq02",
+  "problem_schema": "ELIFTQ02",
+  "problem_bytes": 7580786800,
+  "problem_sha256": "7920afbbdd537510946d46f09f7bd67765a8d53db65f0686ef36aeabf17dd7f7",
+  "build_seconds": 192.492704442,
+  "no_claim": "This only constructs the exact named sketch minor plus all support-union verification rows; it is not an identity until the exact rational solver verifies every combined row."
+}

@@ -1,0 +1,12 @@
+{
+  "no_claim": "Format translation is not an independent verification of the identity.",
+  "output": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_upstream.json",
+  "output_sha256": "767f9e66fd3dcb7b5c43e5ffdbbfa50967684d7b263c41cbd7c35e2db7938670",
+  "support_terms_numerator": 11320,
+  "universe": "artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz",
+  "universe_sha256": "8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8",
+  "verdict": "PASS",
+  "witness": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_exact_witness.json",
+  "witness_entries_denominator": 11320,
+  "witness_sha256": "d27dbc9596962719f74a721057b0817213828fc6acfce4fd0d6080c72d76676c"
+}
