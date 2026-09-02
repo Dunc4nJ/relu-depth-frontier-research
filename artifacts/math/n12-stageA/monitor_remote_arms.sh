@@ -7,6 +7,7 @@ cd /data/projects/relu-depth-frontier-research
 remote="root@ssh1.vast.ai"
 port=15464
 out_dir="artifacts/math/n12-stageA"
+printf '%s\n' "$$" > "$out_dir/arm-monitor.supervisor.pid"
 remote_out="/workspace/relu/$out_dir"
 coordinator_pid_file="$remote_out/all-arms-sequential.supervisor.pid"
 binary_sha="cdf835b269d25a37f110d72f16865e6f511d5154b5caf7808dd2eb1d82bc85c3"
