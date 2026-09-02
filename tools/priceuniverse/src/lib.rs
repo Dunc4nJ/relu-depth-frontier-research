@@ -441,6 +441,32 @@ pub fn sha256_path(path: &Path) -> Result<String> {
     Ok(format!("{:x}", hasher.finalize()))
 }
 
+pub fn five_l_column(n: usize, branch_edges: usize) -> Result<SparseColumn> {
+    ensure!(n >= 2, "5L carrier requires n >= 2");
+    let factorial = (1..n).try_fold(1i64, |product, value| {
+        product
+            .checked_mul(value as i64)
+            .context("5L factorial overflow")
+    })?;
+    let coefficient = i64::try_from(branch_edges)?
+        .checked_mul(factorial)
+        .context("5L carrier coefficient overflow")?;
+    Ok(SparseColumn {
+        linear: vec![coefficient; n],
+        hinges: Default::default(),
+    })
+}
+
+pub fn target_column(n: usize) -> Result<SparseColumn> {
+    ensure!(n >= 1, "target requires n >= 1");
+    let mut linear = vec![0; n];
+    linear[n - 1] = 1;
+    Ok(SparseColumn {
+        linear,
+        hinges: Default::default(),
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -509,5 +535,15 @@ mod tests {
             hinges: Default::default(),
         };
         assert!(compiled.price_sparse(&bad).is_err());
+    }
+
+    #[test]
+    fn five_l_and_target_match_streamrank_conventions() {
+        let five_l = five_l_column(11, 5).unwrap();
+        assert_eq!(five_l.linear, vec![18_144_000; 11]);
+        assert!(five_l.hinges.is_empty());
+        let target = target_column(11).unwrap();
+        assert_eq!(target.linear, vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]);
+        assert!(target.hinges.is_empty());
     }
 }

@@ -47,5 +47,17 @@ tools/priceuniverse/target/release/max11-price-universe price-saved \
   --violators violations.jsonl --output report.json
 ```
 
+`price-universe` also accepts `--order-file INDICES.json` instead of a
+contiguous `--start`/`--limit` range. The array must be nonempty,
+duplicate-free, and in range; its order is the price-vector order and its
+SHA-256 is recorded. The 5L and target flags are accepted only when the order
+contains all universe records.
+
+For G-0027, record 0 is validated as the zero signed core and therefore is the
+5E/common-edge carrier already inside the 754,017-record denominator. With
+`--include-five-l true`, 5L is source index 754,017; with `--include-target
+true` as well, the target evaluation is index 754,018. Thus a complete report
+names 754,018 source columns and 754,019 evaluated columns including target.
+
 The tool prices only the named finite columns. A zero vector is a finite-family
 null, never a MAX11 or unrestricted depth lower bound.

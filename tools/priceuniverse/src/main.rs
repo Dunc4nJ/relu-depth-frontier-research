@@ -1,10 +1,12 @@
 use anyhow::{Context, Result, bail, ensure};
 use flate2::read::GzDecoder;
 use max11_colgen::{SavedTemplate, SparseColumn, Universe, generate_column, saved_column};
-use max11_price_universe::{CompiledSeparator, PRIMES, PriceSummary, PriceWriter, sha256_path};
+use max11_price_universe::{
+    CompiledSeparator, PRIMES, PriceSummary, PriceWriter, five_l_column, sha256_path, target_column,
+};
 use rayon::prelude::*;
 use serde_json::{Value, json};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Read, Write};
 use std::path::{Path, PathBuf};
@@ -106,17 +108,20 @@ fn common_report(
     violator_path: &Path,
     summary: PriceSummary,
     input: Value,
-    elapsed: f64,
-    generation_seconds: f64,
+    timings: (f64, f64),
 ) -> Result<Value> {
+    let (elapsed, generation_seconds) = timings;
     ensure!(
         summary.modular_agreement == [summary.evaluated, summary.evaluated],
         "modular agreement denominator mismatch"
     );
+    let binary = std::env::current_exe().context("resolving current executable")?;
     Ok(json!({
         "schema": "max11-exact-price-universe-v1",
         "verdict": "PASS",
         "command": command,
+        "binary": binary,
+        "binary_sha256": sha256_path(&binary)?,
         "input": input,
         "separator": separator_path,
         "separator_sha256": sha256_path(separator_path)?,
@@ -224,8 +229,7 @@ fn command_mcolgen(args: &Args) -> Result<()> {
             "branch_edge_occurrences": branch_edges,
             "header_records_denominator": count,
         }),
-        elapsed,
-        0.0,
+        (elapsed, 0.0),
     )?;
     write_report(&output, &report)
 }
@@ -314,18 +318,9 @@ fn command_saved(args: &Args) -> Result<()> {
             "source_columns_denominator": source_columns,
             "selected_columns_denominator": selected_columns,
         }),
-        elapsed,
-        generation_seconds,
+        (elapsed, generation_seconds),
     )?;
     write_report(&output, &report)
-}
-
-fn checked_factorial(n: usize) -> Result<i64> {
-    (1..=n).try_fold(1i64, |product, value| {
-        product
-            .checked_mul(value as i64)
-            .context("factorial overflow")
-    })
 }
 
 fn command_universe(args: &Args) -> Result<()> {
@@ -349,18 +344,47 @@ fn command_universe(args: &Args) -> Result<()> {
         universe.n == separator.n,
         "universe n differs from separator"
     );
-    let start = args.usize_or("--start", 0)?;
-    let default_limit = universe.records.len().saturating_sub(start);
-    let limit = args.usize_or("--limit", default_limit)?;
-    let stop = start
-        .checked_add(limit)
-        .context("universe range overflow")?;
+    let first_record = universe.records.first().context("universe is empty")?;
     ensure!(
-        start < stop && stop <= universe.records.len(),
-        "universe range is invalid"
+        first_record.signed_mass == 0
+            && first_record.negative_edges.is_empty()
+            && first_record.positive_edges.is_empty(),
+        "universe record 0 is not the expected 5E/common-edge carrier"
     );
+    let (order, range_start, range_stop, order_file, order_file_sha256) =
+        if let Some(path) = args.values.get("--order-file").map(PathBuf::from) {
+            ensure!(
+                !args.values.contains_key("--start") && !args.values.contains_key("--limit"),
+                "--order-file cannot be combined with --start/--limit"
+            );
+            let order: Vec<usize> = serde_json::from_reader(open_reader(&path)?)
+                .with_context(|| format!("decoding order file {}", path.display()))?;
+            ensure!(!order.is_empty(), "order file is empty");
+            ensure!(
+                order.iter().all(|&index| index < universe.records.len()),
+                "order file contains an out-of-range universe index"
+            );
+            ensure!(
+                order.iter().copied().collect::<HashSet<_>>().len() == order.len(),
+                "order file contains duplicate universe indices"
+            );
+            let digest = sha256_path(&path)?;
+            (order, None, None, Some(path), Some(digest))
+        } else {
+            let start = args.usize_or("--start", 0)?;
+            let default_limit = universe.records.len().saturating_sub(start);
+            let limit = args.usize_or("--limit", default_limit)?;
+            let stop = start
+                .checked_add(limit)
+                .context("universe range overflow")?;
+            ensure!(
+                start < stop && stop <= universe.records.len(),
+                "universe range is invalid"
+            );
+            ((start..stop).collect(), Some(start), Some(stop), None, None)
+        };
     ensure!(
-        !(include_five_l || include_target) || (start == 0 && stop == universe.records.len()),
+        !(include_five_l || include_target) || order.len() == universe.records.len(),
         "carriers/target may be appended only to a complete universe range"
     );
     let pool = rayon::ThreadPoolBuilder::new()
@@ -369,19 +393,21 @@ fn command_universe(args: &Args) -> Result<()> {
     let mut writer = PriceWriter::create(separator.n, &separator.denominator, &violators)?;
     let mut generation_seconds = 0.0;
     let chunk_size = threads * 2;
-    for chunk_start in (start..stop).step_by(chunk_size) {
-        let chunk_stop = (chunk_start + chunk_size).min(stop);
+    for chunk_start in (0..order.len()).step_by(chunk_size) {
+        let chunk_stop = (chunk_start + chunk_size).min(order.len());
         let generation_started = Instant::now();
         let generated: Vec<Result<(u64, SparseColumn)>> = pool.install(|| {
-            universe.records[chunk_start..chunk_stop]
+            order[chunk_start..chunk_stop]
                 .par_iter()
-                .enumerate()
-                .map(|(offset, record)| {
-                    let index = chunk_start + offset;
+                .map(|&index| {
                     Ok((
                         index as u64,
-                        generate_column(record, universe.n, universe.branch_edge_occurrences)
-                            .with_context(|| format!("generating universe record {index}"))?,
+                        generate_column(
+                            &universe.records[index],
+                            universe.n,
+                            universe.branch_edge_occurrences,
+                        )
+                        .with_context(|| format!("generating universe record {index}"))?,
                     ))
                 })
                 .collect()
@@ -395,27 +421,16 @@ fn command_universe(args: &Args) -> Result<()> {
     let mut five_l_index = None;
     if include_five_l {
         let source_index = universe.records.len() as u64;
-        let coefficient = i64::try_from(universe.branch_edge_occurrences)?
-            .checked_mul(checked_factorial(universe.n - 1)?)
-            .context("5L carrier coefficient overflow")?;
-        let column = SparseColumn {
-            linear: vec![coefficient; universe.n],
-            hinges: Default::default(),
-        };
+        let column = five_l_column(universe.n, universe.branch_edge_occurrences)?;
         writer.record(source_index, separator.price_sparse(&column)?)?;
         five_l_index = Some(source_index);
     }
     let mut target_index = None;
     if include_target {
         let source_index = universe.records.len() as u64 + u64::from(include_five_l);
-        let mut linear = vec![0; universe.n];
-        linear[universe.n - 1] = 1;
         writer.record(
             source_index,
-            separator.price_sparse(&SparseColumn {
-                linear,
-                hinges: Default::default(),
-            })?,
+            separator.price_sparse(&target_column(universe.n)?)?,
         )?;
         target_index = Some(source_index);
     }
@@ -432,22 +447,25 @@ fn command_universe(args: &Args) -> Result<()> {
             "sha256": universe_sha256,
             "format": "max11-colgen Universe",
             "universe_records_denominator": universe.records.len(),
-            "range_start": start,
-            "range_stop": stop,
-            "range_records_denominator": limit,
+            "range_start": range_start,
+            "range_stop": range_stop,
+            "order_file": order_file,
+            "order_file_sha256": order_file_sha256,
+            "selected_records_denominator": order.len(),
+            "source_columns_denominator": order.len() + usize::from(include_five_l),
             "branch_edge_occurrences": universe.branch_edge_occurrences,
             "threads_maximum": threads,
+            "five_e_carrier_source_index": order.contains(&0).then_some(0u64),
             "five_l_carrier_source_index": five_l_index,
             "target_source_index": target_index,
         }),
-        elapsed,
-        generation_seconds,
+        (elapsed, generation_seconds),
     )?;
     write_report(&output, &report)
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-price-universe price-mcolgen --input FILE --separator FILE --violators FILE --output REPORT\n  max11-price-universe price-saved --input FILE.jsonl[.gz] --separator FILE --filter all|union-trees --violators FILE --output REPORT\n  max11-price-universe price-universe --universe FILE.json[.gz] --separator FILE --threads 1..6 [--start N --limit N] [--include-five-l true] [--include-target true] --violators FILE --output REPORT"
+    "usage:\n  max11-price-universe price-mcolgen --input FILE --separator FILE --violators FILE --output REPORT\n  max11-price-universe price-saved --input FILE.jsonl[.gz] --separator FILE --filter all|union-trees --violators FILE --output REPORT\n  max11-price-universe price-universe --universe FILE.json[.gz] --separator FILE --threads 1..6 [--order-file INDICES.json | --start N --limit N] [--include-five-l true] [--include-target true] --violators FILE --output REPORT"
 }
 
 fn main() {
