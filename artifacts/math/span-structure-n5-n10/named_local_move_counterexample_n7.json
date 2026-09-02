@@ -1,0 +1,24 @@
+{
+  "augmented_rank_with_counterexample": 144,
+  "basis_index": 8,
+  "candidate_family": "common-cancellation equal-column relations plus exact quadratic squares whose opposite edits are one-edge replacements or degree-preserving rewires",
+  "candidate_span_rank": 143,
+  "denominator": 1,
+  "entries": [
+    [
+      0,
+      "1"
+    ],
+    [
+      1,
+      "-2"
+    ],
+    [
+      16,
+      "1"
+    ]
+  ],
+  "full_row_kernel_replay_passed": true,
+  "n": 7,
+  "support": 3
+}

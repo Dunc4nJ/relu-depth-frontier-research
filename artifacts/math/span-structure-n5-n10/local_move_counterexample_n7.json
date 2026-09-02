@@ -1,0 +1,44 @@
+{
+  "basis_index": 4,
+  "denominator": 1,
+  "entries": [
+    [
+      1,
+      "1"
+    ],
+    [
+      2,
+      "-1"
+    ],
+    [
+      11,
+      "-1"
+    ],
+    [
+      12,
+      "1"
+    ]
+  ],
+  "full_kernel_replay_passed": true,
+  "n": 7,
+  "nonzero_duplicate_class_sums": [
+    [
+      1,
+      "1"
+    ],
+    [
+      2,
+      "-1"
+    ],
+    [
+      7,
+      "-1"
+    ],
+    [
+      8,
+      "1"
+    ]
+  ],
+  "quotient_test": "nonzero class sums prove this exact kernel vector is outside the span of all e_i-e_j relations between equal complete columns",
+  "support": 4
+}

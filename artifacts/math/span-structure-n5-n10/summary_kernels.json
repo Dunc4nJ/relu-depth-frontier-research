@@ -1,0 +1,367 @@
+{
+  "coefficient_field": "Q via exact integer matrices",
+  "elapsed_seconds": 13.323,
+  "inputs": {
+    "artifacts/math/span-structure-n5-n10/span_structure.py": {
+      "bytes": 56479,
+      "sha256": "4b8afc3db48aa65976ff5123b7e817150ca7edc66563938068a99f15331eab6a"
+    },
+    "handoff/2026-09-02-amberbluff/probes/count_simple_pairs.py": {
+      "bytes": 3081,
+      "sha256": "0f6a0416ac8a421c39139b10773a3a92965058afcea92aa794cbeb63b99b8a0d"
+    },
+    "handoff/2026-09-02-amberbluff/probes/loopless_probe_par.py": {
+      "bytes": 4856,
+      "sha256": "c5b482be1ac2440da495c2ac24fb5a2fcf4893624168c05caff92dc638709ccf"
+    },
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz": {
+      "bytes": 133869427,
+      "sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18"
+    },
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz": {
+      "bytes": 41490367,
+      "sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991"
+    }
+  },
+  "kernels_and_local_moves": {
+    "7": {
+      "artifacts": {
+        "known_answer_witness": {
+          "bytes": 2449,
+          "path": "artifacts/math/span-structure-n5-n10/max_target_witness_n7.json",
+          "sha256": "05c39da3675daa62eea1b46704e2e73ba19f7c551ba3e472b43f7f9c17c7f97d"
+        },
+        "right_kernel": {
+          "bytes": 5369,
+          "path": "artifacts/math/span-structure-n5-n10/right_kernel_n7.jsonl.gz",
+          "sha256": "b06267f4cc2b67d0f0e11ae09d9cf2c2d89a5c96b38d2ec8c5f34f03629b8b74"
+        },
+        "templates": {
+          "bytes": 1855,
+          "path": "artifacts/math/span-structure-n5-n10/templates_n7.json.gz",
+          "sha256": "49a2d64e9bc0b2c6950d415b8aac40cb9c0443ac85657fdca0441c8ade447dd3"
+        }
+      },
+      "kernel": {
+        "ambient_columns": 357,
+        "basis_denominator": 1,
+        "basis_vectors": 267,
+        "equality_destroying_plus_one_mutation_rejected": true,
+        "full_row_kernel_replay_passed": true,
+        "hinge_rows": 200,
+        "linear_rows": 7,
+        "max_abs_coefficient_bits": 9,
+        "modular_ranks": {
+          "1000003": 90,
+          "1000033": 90
+        },
+        "mutated_coefficient_index": 0,
+        "nullity_over_Q": 267,
+        "rank_over_Q": 90,
+        "rows": 207,
+        "support_max": 40,
+        "support_median": 6,
+        "support_min": 2
+      },
+      "known_answer_target": {
+        "coefficient_count_denominator": 357,
+        "common_denominator": 60480,
+        "equality_destroying_plus_one_mutation_rejected": true,
+        "full_row_replay_passed": true,
+        "mutated_coefficient_index": 0,
+        "nonzero_coefficients": 30,
+        "rank_augmented": 90,
+        "rows_replayed": 207
+      },
+      "local_moves": {
+        "all_exact_two_term_relation_span_rank": 138,
+        "combined_exact_relation_span_rank": 138,
+        "definition": "orbit-invariant two-term relations e_i-e_j: common-edge cancellation uses the canonical signed core; one-edge replacement shares a canonical one-edge-deleted template; degree-preserving rewiring shares a canonical two-edge-deleted template with the removed vertex-degree vector",
+        "dimension_not_generated": 129,
+        "distinct_complete_integer_columns": 219,
+        "full_kernel_nullity": 267,
+        "moves": {
+          "common_edge_cancellation": {
+            "exact_relation_span_rank": 138,
+            "exact_two_term_relations": 623,
+            "hostile_nonrelation_control": null,
+            "proposed_template_pairs": 623,
+            "rejected_nonrelations": 0
+          },
+          "degree_preserving_two_edge_rewire": {
+            "exact_relation_span_rank": 15,
+            "exact_two_term_relations": 15,
+            "hostile_nonrelation_control": {
+              "first_exact_difference": {
+                "index": 1,
+                "kind": "linear",
+                "left": 480,
+                "right": 240
+              },
+              "left_template_index": 4,
+              "right_template_index": 8
+            },
+            "proposed_template_pairs": 428,
+            "rejected_nonrelations": 413
+          },
+          "single_edge_replacement": {
+            "exact_relation_span_rank": 120,
+            "exact_two_term_relations": 209,
+            "hostile_nonrelation_control": {
+              "first_exact_difference": {
+                "index": 1,
+                "kind": "linear",
+                "left": 720,
+                "right": 480
+              },
+              "left_template_index": 0,
+              "right_template_index": 1
+            },
+            "proposed_template_pairs": 8591,
+            "rejected_nonrelations": 8382
+          }
+        },
+        "outside_span_counterexample": {
+          "basis_index": 4,
+          "bytes": 575,
+          "path": "artifacts/math/span-structure-n5-n10/local_move_counterexample_n7.json",
+          "sha256": "8631b278f992c483e02823cf77bf1a1225c0e253e363c4dac58cdc9b3f5a58c3",
+          "support": 4
+        }
+      },
+      "quadratic_relations": {
+        "all_quadratic_generate_full_kernel": false,
+        "all_quadratic_plus_duplicates_span_rank": 146,
+        "artifact": {
+          "bytes": 324,
+          "path": "artifacts/math/span-structure-n5-n10/quadratic_relations_n7.jsonl.gz",
+          "sha256": "8eb0d8154c13dfb3339b25bb817da3b4f25585863284ff14defbaa8d5dc80ff6"
+        },
+        "definition": "quadratic relation c_i+c_j-c_k-c_l=0 between distinct complete column classes; a named graph-local square requires both opposite template edits to share the corresponding orbit-invariant deletion signature",
+        "distinct_complete_columns": 219,
+        "duplicate_relation_span_rank": 138,
+        "equality_destroying_plus_one_mutation_rejected": true,
+        "exact_pair_sum_classes_with_collision": 10,
+        "exact_quadratic_relation_span_rank": 8,
+        "exact_quadratic_relations": 10,
+        "full_kernel_nullity": 267,
+        "graph_local_class_counts_nonexclusive": {
+          "single_edge_replacement_square": 6
+        },
+        "graph_local_quadratic_plus_duplicates_span_rank": 143,
+        "graph_local_quadratic_relation_span_rank": 5,
+        "graph_local_quadratic_relations": 6,
+        "modular_prefilter": {
+          "candidate_pairs_in_collision_buckets": 20,
+          "no_false_negative_reason": "exact integer pair-sum equality implies every modular projection equality",
+          "primes": [
+            1000003,
+            1000033
+          ],
+          "projections_per_prime": 2
+        },
+        "named_graph_local_squares_generate_full_kernel": false,
+        "outside_all_quadratic_span_counterexample": {
+          "augmented_rank": 147,
+          "basis_index": 24,
+          "bytes": 571,
+          "candidate_span_rank": 146,
+          "path": "artifacts/math/span-structure-n5-n10/quadratic_generation_counterexample_n7.json",
+          "sha256": "7e4cf0e1b483d006174de23c7f762b84f7a921238563d83f968fe0b85c5294c1",
+          "support": 7
+        },
+        "outside_named_graph_local_span_counterexample": {
+          "augmented_rank": 144,
+          "basis_index": 8,
+          "bytes": 475,
+          "candidate_span_rank": 143,
+          "path": "artifacts/math/span-structure-n5-n10/named_local_move_counterexample_n7.json",
+          "sha256": "478439162f66a48fd7975beb50601f908890666141da01405318b608b9b57708",
+          "support": 3
+        },
+        "unordered_pair_sums_denominator": 24090
+      }
+    },
+    "8": {
+      "artifacts": {
+        "known_answer_witness": {
+          "bytes": 3057,
+          "path": "artifacts/math/span-structure-n5-n10/max_target_witness_n8.json",
+          "sha256": "f032396ef4b7eb5e2a901416aa812ee7bddd9fa908d1be0788fe4915e97d636f"
+        },
+        "right_kernel": {
+          "bytes": 5759,
+          "path": "artifacts/math/span-structure-n5-n10/right_kernel_n8.jsonl.gz",
+          "sha256": "401131fb5850a97a20baa5fea8e9830434a71429e255f656df995d13afdfc8c0"
+        },
+        "templates": {
+          "bytes": 2271,
+          "path": "artifacts/math/span-structure-n5-n10/templates_n8.json.gz",
+          "sha256": "333a11121230d7251094c4d32193144aa08c08f58af2826d3c201ee15a1bbac3"
+        }
+      },
+      "kernel": {
+        "ambient_columns": 430,
+        "basis_denominator": 1,
+        "basis_vectors": 290,
+        "equality_destroying_plus_one_mutation_rejected": true,
+        "full_row_kernel_replay_passed": true,
+        "hinge_rows": 545,
+        "linear_rows": 8,
+        "max_abs_coefficient_bits": 9,
+        "modular_ranks": {
+          "1000003": 140,
+          "1000033": 140
+        },
+        "mutated_coefficient_index": 0,
+        "nullity_over_Q": 290,
+        "rank_over_Q": 140,
+        "rows": 553,
+        "support_max": 40,
+        "support_median": 6.0,
+        "support_min": 2
+      },
+      "known_answer_target": {
+        "coefficient_count_denominator": 430,
+        "common_denominator": 1209600,
+        "equality_destroying_plus_one_mutation_rejected": true,
+        "full_row_replay_passed": true,
+        "mutated_coefficient_index": 0,
+        "nonzero_coefficients": 38,
+        "rank_augmented": 140,
+        "rows_replayed": 553
+      },
+      "local_moves": {
+        "all_exact_two_term_relation_span_rank": 151,
+        "combined_exact_relation_span_rank": 151,
+        "definition": "orbit-invariant two-term relations e_i-e_j: common-edge cancellation uses the canonical signed core; one-edge replacement shares a canonical one-edge-deleted template; degree-preserving rewiring shares a canonical two-edge-deleted template with the removed vertex-degree vector",
+        "dimension_not_generated": 139,
+        "distinct_complete_integer_columns": 279,
+        "full_kernel_nullity": 290,
+        "moves": {
+          "common_edge_cancellation": {
+            "exact_relation_span_rank": 151,
+            "exact_two_term_relations": 711,
+            "hostile_nonrelation_control": null,
+            "proposed_template_pairs": 711,
+            "rejected_nonrelations": 0
+          },
+          "degree_preserving_two_edge_rewire": {
+            "exact_relation_span_rank": 16,
+            "exact_two_term_relations": 16,
+            "hostile_nonrelation_control": {
+              "first_exact_difference": {
+                "index": 1,
+                "kind": "linear",
+                "left": 2880,
+                "right": 1440
+              },
+              "left_template_index": 4,
+              "right_template_index": 8
+            },
+            "proposed_template_pairs": 500,
+            "rejected_nonrelations": 484
+          },
+          "single_edge_replacement": {
+            "exact_relation_span_rank": 134,
+            "exact_two_term_relations": 241,
+            "hostile_nonrelation_control": {
+              "first_exact_difference": {
+                "index": 1,
+                "kind": "linear",
+                "left": 4320,
+                "right": 2880
+              },
+              "left_template_index": 0,
+              "right_template_index": 1
+            },
+            "proposed_template_pairs": 11352,
+            "rejected_nonrelations": 11111
+          }
+        },
+        "outside_span_counterexample": {
+          "basis_index": 4,
+          "bytes": 575,
+          "path": "artifacts/math/span-structure-n5-n10/local_move_counterexample_n8.json",
+          "sha256": "79918d5b5989763c8f30bda5da19bb6661f32911624a75da0725269e021f07a9",
+          "support": 4
+        }
+      },
+      "quadratic_relations": {
+        "all_quadratic_generate_full_kernel": false,
+        "all_quadratic_plus_duplicates_span_rank": 159,
+        "artifact": {
+          "bytes": 325,
+          "path": "artifacts/math/span-structure-n5-n10/quadratic_relations_n8.jsonl.gz",
+          "sha256": "d4fb7da37858cd4d4e5b6679ba87272f31bd80bd3b0f99c23de4310ea745ab09"
+        },
+        "definition": "quadratic relation c_i+c_j-c_k-c_l=0 between distinct complete column classes; a named graph-local square requires both opposite template edits to share the corresponding orbit-invariant deletion signature",
+        "distinct_complete_columns": 279,
+        "duplicate_relation_span_rank": 151,
+        "equality_destroying_plus_one_mutation_rejected": true,
+        "exact_pair_sum_classes_with_collision": 10,
+        "exact_quadratic_relation_span_rank": 8,
+        "exact_quadratic_relations": 10,
+        "full_kernel_nullity": 290,
+        "graph_local_class_counts_nonexclusive": {
+          "single_edge_replacement_square": 6
+        },
+        "graph_local_quadratic_plus_duplicates_span_rank": 156,
+        "graph_local_quadratic_relation_span_rank": 5,
+        "graph_local_quadratic_relations": 6,
+        "modular_prefilter": {
+          "candidate_pairs_in_collision_buckets": 20,
+          "no_false_negative_reason": "exact integer pair-sum equality implies every modular projection equality",
+          "primes": [
+            1000003,
+            1000033
+          ],
+          "projections_per_prime": 2
+        },
+        "named_graph_local_squares_generate_full_kernel": false,
+        "outside_all_quadratic_span_counterexample": {
+          "augmented_rank": 160,
+          "basis_index": 25,
+          "bytes": 571,
+          "candidate_span_rank": 159,
+          "path": "artifacts/math/span-structure-n5-n10/quadratic_generation_counterexample_n8.json",
+          "sha256": "887ad37a680e2fd8d4d7cb4a492378a04200b492f76fdf19db114c53bd228373",
+          "support": 7
+        },
+        "outside_named_graph_local_span_counterexample": {
+          "augmented_rank": 157,
+          "basis_index": 8,
+          "bytes": 475,
+          "candidate_span_rank": 156,
+          "path": "artifacts/math/span-structure-n5-n10/named_local_move_counterexample_n8.json",
+          "sha256": "3521286aaa5f3a24f45fe15c9de0790f70596599f5b3dd8b7724d66653512cb0",
+          "support": 3
+        },
+        "unordered_pair_sums_denominator": 39060
+      }
+    }
+  },
+  "mode": "kernels",
+  "n9_exact_kernel": {
+    "dense_matrix_entry_denominator": 69532960,
+    "exact_nullity_over_Q": null,
+    "exact_rank_over_Q": null,
+    "hinge_rows": 6326,
+    "linear_rows": 9,
+    "reason": "No exact-Q n=9 kernel was attempted: this bead's dense FLINT path is calibrated only through n=8, while the saved n=9 matrix has 69,532,960 dense slots and an unprofiled exact-elimination/output footprint.  A sparse exact-rank/kernel path must be benchmarked before spending the shared 16 GiB ceiling.",
+    "saved_columns": 10976,
+    "status": "OPEN",
+    "stored_nonzero_entries_including_nonzero_linears": 10577919,
+    "total_rows": 6335
+  },
+  "primes": [
+    1000003,
+    1000033
+  ],
+  "schema": "max11-span-structure-v1",
+  "system_build_seconds": {
+    "7": 0.738,
+    "8": 2.681
+  },
+  "workers": 6
+}

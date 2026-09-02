@@ -1,0 +1,40 @@
+{
+  "augmented_rank_with_counterexample": 147,
+  "basis_index": 24,
+  "candidate_family": "all equal-column differences plus every exact integer pair-sum collision among distinct complete column classes",
+  "candidate_span_rank": 146,
+  "denominator": 1,
+  "entries": [
+    [
+      1,
+      "2"
+    ],
+    [
+      2,
+      "-2"
+    ],
+    [
+      7,
+      "1"
+    ],
+    [
+      8,
+      "-2"
+    ],
+    [
+      9,
+      "1"
+    ],
+    [
+      42,
+      "-1"
+    ],
+    [
+      50,
+      "1"
+    ]
+  ],
+  "full_row_kernel_replay_passed": true,
+  "n": 7,
+  "support": 7
+}

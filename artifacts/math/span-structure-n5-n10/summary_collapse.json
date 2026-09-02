@@ -1,0 +1,154 @@
+{
+  "coefficient_field": "Q via exact integer matrices",
+  "elapsed_seconds": 32.058,
+  "inputs": {
+    "artifacts/math/span-structure-n5-n10/span_structure.py": {
+      "bytes": 56479,
+      "sha256": "4b8afc3db48aa65976ff5123b7e817150ca7edc66563938068a99f15331eab6a"
+    },
+    "handoff/2026-09-02-amberbluff/probes/count_simple_pairs.py": {
+      "bytes": 3081,
+      "sha256": "0f6a0416ac8a421c39139b10773a3a92965058afcea92aa794cbeb63b99b8a0d"
+    },
+    "handoff/2026-09-02-amberbluff/probes/loopless_probe_par.py": {
+      "bytes": 4856,
+      "sha256": "c5b482be1ac2440da495c2ac24fb5a2fcf4893624168c05caff92dc638709ccf"
+    },
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz": {
+      "bytes": 133869427,
+      "sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18"
+    },
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz": {
+      "bytes": 41490367,
+      "sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991"
+    }
+  },
+  "mode": "collapse",
+  "primes": [
+    1000003,
+    1000033
+  ],
+  "schema": "max11-span-structure-v1",
+  "system_build_seconds": {
+    "5": 0.073,
+    "6": 0.065,
+    "7": 0.87,
+    "8": 2.883
+  },
+  "vertex_collapse": {
+    "by_n": {
+      "5": {
+        "identities_passed": 19,
+        "templates_denominator": 19
+      },
+      "6": {
+        "identities_passed": 25,
+        "templates_denominator": 25
+      },
+      "7": {
+        "identities_passed": 357,
+        "templates_denominator": 357
+      },
+      "8": {
+        "identities_passed": 430,
+        "templates_denominator": 430
+      }
+    },
+    "distinct_collapsed_columns_computed": 4505,
+    "dp_vs_brute_controls": {
+      "cases": [
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 5,
+          "template_index": 0
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 5,
+          "template_index": 9
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 5,
+          "template_index": 18
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 6,
+          "template_index": 0
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 6,
+          "template_index": 12
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 6,
+          "template_index": 24
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 7,
+          "template_index": 0
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 7,
+          "template_index": 178
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 7,
+          "template_index": 356
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 8,
+          "template_index": 0
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 8,
+          "template_index": 215
+        },
+        {
+          "collapsed_loop_aware_dp_equals_brute": true,
+          "loopless_dp_equals_brute": true,
+          "n": 8,
+          "template_index": 429
+        }
+      ],
+      "denominator": 12,
+      "passed": 12
+    },
+    "hostile_control": {
+      "first_exact_difference": {
+        "index": 1,
+        "kind": "linear",
+        "left": 24,
+        "right": 12
+      },
+      "mutation": "drop the removed-vertex v=0 summand",
+      "n": 5,
+      "rejected": true,
+      "template_index": 0
+    },
+    "proof_partition": "Partition the n! relabelings in F_n by the original vertex sent to sorted position 0.  Each part has (n-1)! relabelings.  Since x_0 is minimal, an incident edge max(x_0,x_j) contributes x_j, exactly the collapsed loop.",
+    "statement": "For a loopless n-vertex template (A,B), on x_0<=...<=x_(n-1), F_n(A,B)(x) equals the sum over original vertices v of F_(n-1)(collapse_v(A),collapse_v(B))(x_1,...,x_(n-1)); each edge incident to v becomes one diagonal loop at its other endpoint.",
+    "total_identities_denominator": 831,
+    "total_identities_passed": 831
+  },
+  "workers": 6
+}

@@ -1,0 +1,167 @@
+{
+  "coefficients": [
+    {
+      "coefficient": "-1/26880",
+      "column_index": 0
+    },
+    {
+      "coefficient": "1/13440",
+      "column_index": 2
+    },
+    {
+      "coefficient": "1/10080",
+      "column_index": 9
+    },
+    {
+      "coefficient": "1/50400",
+      "column_index": 10
+    },
+    {
+      "coefficient": "-1/5040",
+      "column_index": 21
+    },
+    {
+      "coefficient": "1/12600",
+      "column_index": 22
+    },
+    {
+      "coefficient": "1/43200",
+      "column_index": 27
+    },
+    {
+      "coefficient": "1/50400",
+      "column_index": 43
+    },
+    {
+      "coefficient": "-1/10080",
+      "column_index": 54
+    },
+    {
+      "coefficient": "-1/8400",
+      "column_index": 62
+    },
+    {
+      "coefficient": "1/30240",
+      "column_index": 65
+    },
+    {
+      "coefficient": "1/43200",
+      "column_index": 66
+    },
+    {
+      "coefficient": "1/10080",
+      "column_index": 71
+    },
+    {
+      "coefficient": "1/8400",
+      "column_index": 85
+    },
+    {
+      "coefficient": "-1/8400",
+      "column_index": 96
+    },
+    {
+      "coefficient": "-11/604800",
+      "column_index": 98
+    },
+    {
+      "coefficient": "13/302400",
+      "column_index": 100
+    },
+    {
+      "coefficient": "1/60480",
+      "column_index": 129
+    },
+    {
+      "coefficient": "-1/120960",
+      "column_index": 132
+    },
+    {
+      "coefficient": "-1/25200",
+      "column_index": 152
+    },
+    {
+      "coefficient": "-1/48384",
+      "column_index": 161
+    },
+    {
+      "coefficient": "1/13440",
+      "column_index": 231
+    },
+    {
+      "coefficient": "-1/50400",
+      "column_index": 241
+    },
+    {
+      "coefficient": "-11/201600",
+      "column_index": 266
+    },
+    {
+      "coefficient": "-1/60480",
+      "column_index": 269
+    },
+    {
+      "coefficient": "-1/13440",
+      "column_index": 271
+    },
+    {
+      "coefficient": "1/10080",
+      "column_index": 277
+    },
+    {
+      "coefficient": "1/40320",
+      "column_index": 278
+    },
+    {
+      "coefficient": "-1/40320",
+      "column_index": 279
+    },
+    {
+      "coefficient": "-3/22400",
+      "column_index": 326
+    },
+    {
+      "coefficient": "1/10080",
+      "column_index": 346
+    },
+    {
+      "coefficient": "13/201600",
+      "column_index": 347
+    },
+    {
+      "coefficient": "-1/67200",
+      "column_index": 351
+    },
+    {
+      "coefficient": "1/25200",
+      "column_index": 367
+    },
+    {
+      "coefficient": "1/20160",
+      "column_index": 373
+    },
+    {
+      "coefficient": "-1/10080",
+      "column_index": 378
+    },
+    {
+      "coefficient": "-1/40320",
+      "column_index": 383
+    },
+    {
+      "coefficient": "1/33600",
+      "column_index": 402
+    }
+  ],
+  "n": 8,
+  "verification": {
+    "coefficient_count_denominator": 430,
+    "common_denominator": 1209600,
+    "equality_destroying_plus_one_mutation_rejected": true,
+    "full_row_replay_passed": true,
+    "mutated_coefficient_index": 0,
+    "nonzero_coefficients": 38,
+    "rank_augmented": 140,
+    "rows_replayed": 553
+  }
+}

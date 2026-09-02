@@ -1,0 +1,135 @@
+{
+  "coefficients": [
+    {
+      "coefficient": "-1/3360",
+      "column_index": 0
+    },
+    {
+      "coefficient": "1/1680",
+      "column_index": 1
+    },
+    {
+      "coefficient": "1/6720",
+      "column_index": 7
+    },
+    {
+      "coefficient": "-1/1008",
+      "column_index": 8
+    },
+    {
+      "coefficient": "1/1260",
+      "column_index": 9
+    },
+    {
+      "coefficient": "1/2520",
+      "column_index": 10
+    },
+    {
+      "coefficient": "-1/1680",
+      "column_index": 21
+    },
+    {
+      "coefficient": "-1/20160",
+      "column_index": 22
+    },
+    {
+      "coefficient": "1/10080",
+      "column_index": 27
+    },
+    {
+      "coefficient": "-23/60480",
+      "column_index": 36
+    },
+    {
+      "coefficient": "1/1440",
+      "column_index": 39
+    },
+    {
+      "coefficient": "1/1260",
+      "column_index": 41
+    },
+    {
+      "coefficient": "1/2520",
+      "column_index": 54
+    },
+    {
+      "coefficient": "-1/5040",
+      "column_index": 56
+    },
+    {
+      "coefficient": "-1/1260",
+      "column_index": 58
+    },
+    {
+      "coefficient": "-1/1260",
+      "column_index": 59
+    },
+    {
+      "coefficient": "-1/2520",
+      "column_index": 76
+    },
+    {
+      "coefficient": "-1/5040",
+      "column_index": 78
+    },
+    {
+      "coefficient": "1/1008",
+      "column_index": 85
+    },
+    {
+      "coefficient": "1/20160",
+      "column_index": 86
+    },
+    {
+      "coefficient": "-1/10080",
+      "column_index": 138
+    },
+    {
+      "coefficient": "-1/2520",
+      "column_index": 208
+    },
+    {
+      "coefficient": "-1/2520",
+      "column_index": 210
+    },
+    {
+      "coefficient": "1/10080",
+      "column_index": 213
+    },
+    {
+      "coefficient": "1/2520",
+      "column_index": 220
+    },
+    {
+      "coefficient": "1/5040",
+      "column_index": 222
+    },
+    {
+      "coefficient": "1/2520",
+      "column_index": 230
+    },
+    {
+      "coefficient": "-1/2520",
+      "column_index": 236
+    },
+    {
+      "coefficient": "-1/2520",
+      "column_index": 239
+    },
+    {
+      "coefficient": "1/2520",
+      "column_index": 242
+    }
+  ],
+  "n": 7,
+  "verification": {
+    "coefficient_count_denominator": 357,
+    "common_denominator": 60480,
+    "equality_destroying_plus_one_mutation_rejected": true,
+    "full_row_replay_passed": true,
+    "mutated_coefficient_index": 0,
+    "nonzero_coefficients": 30,
+    "rank_augmented": 90,
+    "rows_replayed": 207
+  }
+}

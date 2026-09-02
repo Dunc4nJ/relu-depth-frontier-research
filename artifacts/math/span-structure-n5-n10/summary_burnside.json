@@ -1,0 +1,67 @@
+{
+  "burnside": {
+    "known_answer_controls": {
+      "n5_k2": {
+        "burnside_orbits": 19,
+        "complete_graph_pair_denominator": 2025,
+        "direct_pynauty_orbits": 19,
+        "expected_orbits": 19,
+        "omitted_swap_coset_mutation_rejected": true
+      },
+      "n6_k2": {
+        "burnside_orbits": 25,
+        "complete_graph_pair_denominator": 11025,
+        "direct_pynauty_orbits": 25,
+        "expected_orbits": 25,
+        "omitted_swap_coset_mutation_rejected": true
+      }
+    },
+    "requested": {
+      "n11_k6": {
+        "burnside_numerator": 1471830052492800,
+        "fixed_without_swap_numerator": 1470546368121600,
+        "group_order_denominator": 79833600,
+        "orbits": 18436223,
+        "swap_coset_numerator": 1283684371200
+      },
+      "n12_k5": {
+        "burnside_numerator": 469881409536000,
+        "fixed_without_swap_numerator": 467431795353600,
+        "group_order_denominator": 958003200,
+        "orbits": 490480,
+        "swap_coset_numerator": 2449614182400
+      }
+    }
+  },
+  "coefficient_field": "Q via exact integer matrices",
+  "elapsed_seconds": 0.649,
+  "inputs": {
+    "artifacts/math/span-structure-n5-n10/span_structure.py": {
+      "bytes": 56479,
+      "sha256": "4b8afc3db48aa65976ff5123b7e817150ca7edc66563938068a99f15331eab6a"
+    },
+    "handoff/2026-09-02-amberbluff/probes/count_simple_pairs.py": {
+      "bytes": 3081,
+      "sha256": "0f6a0416ac8a421c39139b10773a3a92965058afcea92aa794cbeb63b99b8a0d"
+    },
+    "handoff/2026-09-02-amberbluff/probes/loopless_probe_par.py": {
+      "bytes": 4856,
+      "sha256": "c5b482be1ac2440da495c2ac24fb5a2fcf4893624168c05caff92dc638709ccf"
+    },
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz": {
+      "bytes": 133869427,
+      "sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18"
+    },
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz": {
+      "bytes": 41490367,
+      "sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991"
+    }
+  },
+  "mode": "burnside",
+  "primes": [
+    1000003,
+    1000033
+  ],
+  "schema": "max11-span-structure-v1",
+  "workers": 1
+}
