@@ -75,6 +75,9 @@ pub struct ProblemReport {
     lu_schur_update_seconds: f64,
     modular_solve_seconds_by_iteration: Vec<f64>,
     csc_matvec_seconds_by_iteration: Vec<f64>,
+    crt_primes_attempted: Vec<u32>,
+    crt_factor_seconds: Vec<f64>,
+    crt_solve_seconds: Vec<f64>,
     recovery_method: &'static str,
     iterations_to_reconstruction_numerator: usize,
     attempts: Vec<Attempt>,
@@ -375,6 +378,9 @@ pub fn solve(config: &SolveConfig) -> Result<ProblemReport, String> {
     let mut recovered = None;
     let mut recovered_count = 0;
     let mut recovery_method = "dixon-early-rational-reconstruction";
+    let mut crt_primes_attempted = Vec::new();
+    let mut crt_factor_seconds = Vec::new();
+    let mut crt_solve_seconds = Vec::new();
 
     for iteration in 1..=config.max_steps {
         let phase = Instant::now();
@@ -423,6 +429,7 @@ pub fn solve(config: &SolveConfig) -> Result<ProblemReport, String> {
             if !crt::is_prime(prime) || prime >= 65_536 || modulus % prime as u128 == 0 {
                 return Err(format!("invalid/repeated CRT prime {prime}"));
             }
+            let phase = Instant::now();
             let dense = problem.dense_modular(prime);
             let one_prime = BlockFactor::factor(
                 dense,
@@ -432,12 +439,16 @@ pub fn solve(config: &SolveConfig) -> Result<ProblemReport, String> {
                 config.threads,
                 config.row_tile,
             )?;
+            crt_factor_seconds.push(phase.elapsed().as_secs_f64());
             let rhs: Vec<u32> = problem
                 .selected_rows
                 .iter()
                 .map(|&row| problem.rhs[row as usize].rem_euclid(prime as i64) as u32)
                 .collect();
+            let phase = Instant::now();
             let solution = one_prime.solve(&rhs)?;
+            crt_solve_seconds.push(phase.elapsed().as_secs_f64());
+            crt_primes_attempted.push(prime);
             for (value, next) in residue.iter_mut().zip(solution) {
                 *value = crt::combine(*value, modulus, next, prime)
                     .ok_or_else(|| "CRT combination overflow/noninvertibility".to_string())?;
@@ -507,6 +518,9 @@ pub fn solve(config: &SolveConfig) -> Result<ProblemReport, String> {
         lu_schur_update_seconds: factor_timings.schur_update.as_secs_f64(),
         modular_solve_seconds_by_iteration: solve_seconds,
         csc_matvec_seconds_by_iteration: matvec_seconds,
+        crt_primes_attempted,
+        crt_factor_seconds,
+        crt_solve_seconds,
         recovery_method,
         iterations_to_reconstruction_numerator: recovered_count,
         attempts,
