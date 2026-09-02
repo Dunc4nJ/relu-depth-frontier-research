@@ -24,7 +24,10 @@ from flint import fmpz
 
 WITNESS_SCHEMA = "max11-exactlift-witness-v1"
 BUILD_SCHEMA = "max11-sketch-member-problem-v1"
-SOLVER_SCHEMA = "max11-lift-large-result-v1"
+SOLVER_SCHEMAS = {
+    "max11-lift-large-result-v1": "bounded Dixon/CRT",
+    "max11-lift-large-big-result-v1": "arbitrary-precision Dixon",
+}
 
 
 def sha256(path: Path) -> str:
@@ -73,7 +76,9 @@ def finalize(
     pivot = load(pivot_report_path)
     require_equal(build.get("schema"), BUILD_SCHEMA, "builder schema")
     require_equal(build.get("verdict"), "PASS", "builder verdict")
-    require_equal(solver.get("schema"), SOLVER_SCHEMA, "solver schema")
+    solver_schema = solver.get("schema")
+    if solver_schema not in SOLVER_SCHEMAS:
+        raise ValueError(f"solver schema: {solver_schema!r} is not accepted")
     require_equal(solver.get("verdict"), "PASS", "solver verdict")
     require_equal(build["pivot_report_sha256"], sha256(pivot_report_path), "pivot SHA-256")
 
@@ -154,7 +159,10 @@ def finalize(
     witness = {
         "schema": WITNESS_SCHEMA,
         "n": int(pivot["n"]),
-        "method": "exact pivot-bucket CountSketch minor + u32 modular LU + sparse-CSC Dixon/CRT + exact all-real-row verification",
+        "method": (
+            "exact pivot-bucket CountSketch minor + u32 modular LU + "
+            f"{SOLVER_SCHEMAS[solver_schema]} + exact all-real-row verification"
+        ),
         "system": str(source_universe),
         "system_sha256": build["source_universe_sha256"],
         "pivot_report": str(pivot_report_path),
@@ -218,7 +226,9 @@ def finalize(
         "combined_rows_verified_denominator": combined_rows,
         "mutation_nonzero_rows_numerator": int(solver["mutation_nonzero_rows_numerator"]),
         "mutation_rows_checked_denominator": combined_rows,
-        "recovery_method": solver["recovery_method"],
+        "recovery_method": solver.get(
+            "recovery_method", SOLVER_SCHEMAS[solver_schema]
+        ),
         "witness": str(witness_path),
         "witness_sha256": witness_sha,
         "no_claim": "This exact stage-A identity does not decide MAX11 or membership in any larger finite family.",

@@ -99,6 +99,92 @@ class SketchMemberLiftTests(unittest.TestCase):
             witness = json.loads(witness_path.read_text(encoding="utf-8"))
             self.assertEqual([entry["column"] for entry in witness["coefficients"]], [4, 9])
 
+    def test_finalize_accepts_arbitrary_precision_solver_report(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_directory:
+            directory = Path(raw_directory)
+            universe = directory / "universe.json.gz"
+            universe.write_bytes(b"frozen tiny universe")
+            problem = directory / "problem.eliftq02"
+            problem.write_bytes(b"exact problem")
+            pivot_path = directory / "pivots.json"
+            pivot_path.write_text(
+                json.dumps(
+                    {
+                        "n": 2,
+                        "sketches": [
+                            {
+                                "verdict": "MEMBER",
+                                "rank_a": 1,
+                                "rank_augmented": 1,
+                                "pivot_columns": [9],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            build_path = directory / "build.json"
+            build_path.write_text(
+                json.dumps(
+                    {
+                        "schema": "max11-sketch-member-problem-v1",
+                        "verdict": "PASS",
+                        "pivot_report_sha256": digest(pivot_path),
+                        "problem": str(problem),
+                        "problem_schema": "ELIFTQ02",
+                        "problem_bytes": problem.stat().st_size,
+                        "problem_sha256": digest(problem),
+                        "source_universe": str(universe),
+                        "source_universe_sha256": digest(universe),
+                        "pivot_columns_numerator": 1,
+                        "pivot_columns_denominator": 1,
+                        "sketch_rows_denominator": 1,
+                        "linear_rows_denominator": 2,
+                        "union_hinge_rows_denominator": 1,
+                        "real_rows_denominator": 3,
+                        "combined_rows_denominator": 4,
+                        "exact_batch_records_numerator": 1,
+                        "exact_batch_records_denominator": 1,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            solver_path = directory / "solver.json"
+            solver_path.write_text(
+                json.dumps(
+                    {
+                        "schema": "max11-lift-large-big-result-v1",
+                        "verdict": "PASS",
+                        "input": str(problem),
+                        "input_sha256": digest(problem),
+                        "columns_denominator": 1,
+                        "selected_minor_rows_numerator": 1,
+                        "selected_minor_rows_denominator": 1,
+                        "rows_checked_denominator": 4,
+                        "exact_rows_verified_numerator": 4,
+                        "exact_rows_verified_denominator": 4,
+                        "mutation_nonzero_rows_numerator": 2,
+                        "mutation_rows_checked_denominator": 4,
+                        "recovered_support_numerator": 1,
+                        "recovered_support_denominator": 1,
+                        "recovered_denominator_lcm": "5",
+                        "prime": 65521,
+                        "coefficients": [
+                            {"source_index": 9, "numerator": "2", "denominator": "5"}
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            report = sketch_member_lift.finalize(
+                build_path,
+                solver_path,
+                pivot_path,
+                directory / "witness.json",
+                directory / "report.json",
+            )
+            self.assertEqual(report["recovery_method"], "arbitrary-precision Dixon")
+
     def test_factorization_known_answers(self) -> None:
         self.assertEqual(sketch_member_lift.factorization(1), {})
         self.assertEqual(sketch_member_lift.factorization(304_819_200), {"2": 10, "3": 5, "5": 2, "7": 2})
