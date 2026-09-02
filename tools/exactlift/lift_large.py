@@ -35,21 +35,65 @@ def select_real_rows(
     columns: Sequence[support_lift.ExactColumn],
     row_index: dict[str, int],
     prime: int,
-) -> tuple[list[int], float]:
+    candidate_count: int,
+    candidate_seed: int,
+) -> tuple[list[int], float, list[dict[str, Any]]]:
     started = time.monotonic()
     rank = len(columns)
     row_count = len(row_index) + len(columns[0].linear)
-    transposed = flint.nmod_mat(rank, row_count, prime)
-    for column_position, column in enumerate(columns):
-        for row, value in support_lift.entries(column, row_index):
-            transposed[column_position, row] = value % prime
-    rref, real_rank = transposed.rref(inplace=True)
-    if real_rank != rank:
-        raise RuntimeError(f"pivot support real-row rank {real_rank}, expected {rank}")
-    selected = exactlift.pivot_columns(rref, rank)
-    del transposed, rref
-    gc.collect()
-    return selected, time.monotonic() - started
+    linear_count = len(columns[0].linear)
+    hinge_count = row_count - linear_count
+    if candidate_count and candidate_count < rank:
+        raise ValueError("--row-candidate-count must be zero or at least the pivot rank")
+
+    if not candidate_count or candidate_count >= row_count:
+        candidate_schedule = [row_count]
+        hinge_order = list(range(hinge_count))
+    else:
+        hinge_order = list(range(hinge_count))
+        random.Random(candidate_seed).shuffle(hinge_order)
+        candidate_schedule = []
+        current = min(row_count, max(rank, candidate_count))
+        while True:
+            candidate_schedule.append(current)
+            if current == row_count:
+                break
+            current = min(row_count, max(current + 1, current * 2))
+
+    attempts: list[dict[str, Any]] = []
+    linear_rows = list(range(hinge_count, row_count))
+    for scheduled_count in candidate_schedule:
+        phase = time.monotonic()
+        if scheduled_count == row_count:
+            candidates = list(range(row_count))
+        else:
+            sampled_hinges = scheduled_count - linear_count
+            candidates = hinge_order[:sampled_hinges] + linear_rows
+        candidate_position = {row: position for position, row in enumerate(candidates)}
+        transposed = flint.nmod_mat(rank, len(candidates), prime)
+        for column_position, column in enumerate(columns):
+            for row, value in support_lift.entries(column, row_index):
+                position = candidate_position.get(row)
+                if position is not None:
+                    transposed[column_position, position] = value % prime
+        rref, real_rank = transposed.rref(inplace=True)
+        attempt = {
+            "candidate_rows_numerator": len(candidates),
+            "union_rows_denominator": row_count,
+            "rank_numerator": real_rank,
+            "required_rank_denominator": rank,
+            "seconds": time.monotonic() - phase,
+        }
+        attempts.append(attempt)
+        if real_rank == rank:
+            selected_positions = exactlift.pivot_columns(rref, rank)
+            selected = [candidates[position] for position in selected_positions]
+            del transposed, rref
+            gc.collect()
+            return selected, time.monotonic() - started, attempts
+        del transposed, rref
+        gc.collect()
+    raise RuntimeError(f"pivot support real-row rank {attempts[-1]['rank_numerator']}, expected {rank}")
 
 
 def write_problem(
@@ -113,6 +157,8 @@ def run(
     keep_problem: Path | None,
     precondition_seed: int,
     selected_rows_output: Path | None,
+    row_candidate_count: int,
+    row_candidate_seed: int,
 ) -> dict[str, Any]:
     if not 1 <= threads <= 16:
         raise ValueError("--threads must be between 1 and 16")
@@ -138,9 +184,15 @@ def run(
     row_index = support_lift.build_row_index(columns)
     row_count = len(row_index) + n
     selection_seconds = 0.0
+    selection_attempts: list[dict[str, Any]] = []
     if selected_rows_path is None:
-        selected_rows, selection_seconds = select_real_rows(
-            columns, row_index, int(pivot_document["modulus"])
+        flint.ctx.threads = threads
+        selected_rows, selection_seconds, selection_attempts = select_real_rows(
+            columns,
+            row_index,
+            int(pivot_document["modulus"]),
+            row_candidate_count,
+            row_candidate_seed,
         )
     else:
         selected_document = json.loads(selected_rows_path.read_text(encoding="utf-8"))
@@ -161,6 +213,7 @@ def run(
                     "pivot_report_sha256": exactlift.sha256_file(pivot_report),
                     "union_rows_denominator": row_count,
                     "selected_rows": selected_rows,
+                    "selection_attempts": selection_attempts,
                 },
                 indent=2,
                 sort_keys=True,
@@ -297,6 +350,7 @@ def run(
         "union_rows_denominator": row_count,
         "independent_rows_numerator": len(selected_rows),
         "row_selection_seconds": selection_seconds,
+        "row_selection_attempts": selection_attempts,
         "problem_custody": problem_custody,
         "rust_binary": str(binary),
         "rust_binary_sha256": exactlift.sha256_file(binary),
@@ -342,6 +396,13 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--keep-problem", type=Path)
     result.add_argument("--precondition-seed", type=int, default=20260902)
     result.add_argument("--selected-rows-output", type=Path)
+    result.add_argument(
+        "--row-candidate-count",
+        type=int,
+        default=0,
+        help="try this many deterministic candidate rows first; double until exact full rank",
+    )
+    result.add_argument("--row-candidate-seed", type=int, default=20260902)
     return result
 
 
@@ -369,6 +430,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.keep_problem,
         args.precondition_seed,
         args.selected_rows_output,
+        args.row_candidate_count,
+        args.row_candidate_seed,
     )
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
