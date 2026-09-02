@@ -1,0 +1,205 @@
+START n=9 prime=1000003
+n=9 p=1000003 candidate=1/44 count=1 rank=1 full=False
+n=9 p=1000003 candidate=2/44 count=1 rank=1 full=False
+n=9 p=1000003 candidate=3/44 count=1 rank=1 full=False
+n=9 p=1000003 candidate=4/44 count=2 rank=2 full=False
+n=9 p=1000003 candidate=5/44 count=3 rank=3 full=False
+n=9 p=1000003 candidate=6/44 count=3 rank=3 full=False
+n=9 p=1000003 candidate=7/44 count=4 rank=4 full=False
+n=9 p=1000003 candidate=8/44 count=19 rank=15 full=False
+n=9 p=1000003 candidate=9/44 count=20 rank=14 full=False
+n=9 p=1000003 candidate=10/44 count=22 rank=16 full=False
+n=9 p=1000003 candidate=11/44 count=129 rank=92 full=False
+n=9 p=1000003 candidate=12/44 count=132 rank=92 full=False
+n=9 p=1000003 candidate=13/44 count=133 rank=93 full=False
+n=9 p=1000003 candidate=14/44 count=281 rank=162 full=False
+n=9 p=1000003 candidate=15/44 count=303 rank=163 full=False
+n=9 p=1000003 candidate=16/44 count=434 rank=127 full=False
+n=9 p=1000003 candidate=17/44 count=454 rank=130 full=False
+n=9 p=1000003 candidate=18/44 count=879 rank=410 full=False
+n=9 p=1000003 candidate=19/44 count=1333 rank=523 full=False
+n=9 p=1000003 candidate=20/44 count=1675 rank=784 full=False
+n=9 p=1000003 candidate=21/44 count=1807 rank=818 full=False
+n=9 p=1000003 candidate=22/44 count=1808 rank=818 full=False
+n=9 p=1000003 candidate=23/44 count=1977 rank=529 full=False
+n=9 p=1000003 candidate=24/44 count=2431 rank=588 full=False
+n=9 p=1000003 candidate=25/44 count=2887 rank=945 full=False
+n=9 p=1000003 candidate=26/44 count=3310 rank=903 full=False
+n=9 p=1000003 candidate=27/44 count=3766 rank=1153 full=False
+n=9 p=1000003 candidate=28/44 count=4389 rank=978 full=False
+n=9 p=1000003 candidate=29/44 count=4390 rank=978 full=False
+n=9 p=1000003 candidate=30/44 count=5318 rank=1299 full=False
+n=9 p=1000003 candidate=31/44 count=5743 rank=1447 full=False
+n=9 p=1000003 candidate=32/44 count=5894 rank=1505 full=False
+n=9 p=1000003 candidate=33/44 count=6065 rank=1473 full=False
+n=9 p=1000003 candidate=34/44 count=6175 rank=1506 full=True
+n=9 p=1000003 candidate=35/44 count=6177 rank=1503 full=False
+n=9 p=1000003 candidate=36/44 count=6194 rank=1506 full=True
+n=9 p=1000003 candidate=37/44 count=6194 rank=1506 full=True
+n=9 p=1000003 candidate=38/44 count=6196 rank=1506 full=True
+n=9 p=1000003 candidate=39/44 count=6196 rank=1506 full=True
+n=9 p=1000003 candidate=40/44 count=6196 rank=1506 full=True
+n=9 p=1000003 candidate=41/44 count=6197 rank=1506 full=True
+n=9 p=1000003 candidate=42/44 count=6197 rank=1506 full=True
+n=9 p=1000003 candidate=43/44 count=6197 rank=1506 full=True
+n=9 p=1000003 candidate=44/44 count=6197 rank=1506 full=True
+START n=9 prime=1000033
+n=9 p=1000033 candidate=1/44 count=1 rank=1 full=False
+n=9 p=1000033 candidate=2/44 count=1 rank=1 full=False
+n=9 p=1000033 candidate=3/44 count=1 rank=1 full=False
+n=9 p=1000033 candidate=4/44 count=2 rank=2 full=False
+n=9 p=1000033 candidate=5/44 count=3 rank=3 full=False
+n=9 p=1000033 candidate=6/44 count=3 rank=3 full=False
+n=9 p=1000033 candidate=7/44 count=4 rank=4 full=False
+n=9 p=1000033 candidate=8/44 count=19 rank=15 full=False
+n=9 p=1000033 candidate=9/44 count=20 rank=14 full=False
+n=9 p=1000033 candidate=10/44 count=22 rank=16 full=False
+n=9 p=1000033 candidate=11/44 count=129 rank=92 full=False
+n=9 p=1000033 candidate=12/44 count=132 rank=92 full=False
+n=9 p=1000033 candidate=13/44 count=133 rank=93 full=False
+n=9 p=1000033 candidate=14/44 count=281 rank=162 full=False
+n=9 p=1000033 candidate=15/44 count=303 rank=163 full=False
+n=9 p=1000033 candidate=16/44 count=434 rank=127 full=False
+n=9 p=1000033 candidate=17/44 count=454 rank=130 full=False
+n=9 p=1000033 candidate=18/44 count=879 rank=410 full=False
+n=9 p=1000033 candidate=19/44 count=1333 rank=523 full=False
+n=9 p=1000033 candidate=20/44 count=1675 rank=784 full=False
+n=9 p=1000033 candidate=21/44 count=1807 rank=818 full=False
+n=9 p=1000033 candidate=22/44 count=1808 rank=818 full=False
+n=9 p=1000033 candidate=23/44 count=1977 rank=529 full=False
+n=9 p=1000033 candidate=24/44 count=2431 rank=588 full=False
+n=9 p=1000033 candidate=25/44 count=2887 rank=945 full=False
+n=9 p=1000033 candidate=26/44 count=3310 rank=903 full=False
+n=9 p=1000033 candidate=27/44 count=3766 rank=1153 full=False
+n=9 p=1000033 candidate=28/44 count=4389 rank=978 full=False
+n=9 p=1000033 candidate=29/44 count=4390 rank=978 full=False
+n=9 p=1000033 candidate=30/44 count=5318 rank=1299 full=False
+n=9 p=1000033 candidate=31/44 count=5743 rank=1447 full=False
+n=9 p=1000033 candidate=32/44 count=5894 rank=1505 full=False
+n=9 p=1000033 candidate=33/44 count=6065 rank=1473 full=False
+n=9 p=1000033 candidate=34/44 count=6175 rank=1506 full=True
+n=9 p=1000033 candidate=35/44 count=6177 rank=1503 full=False
+n=9 p=1000033 candidate=36/44 count=6194 rank=1506 full=True
+n=9 p=1000033 candidate=37/44 count=6194 rank=1506 full=True
+n=9 p=1000033 candidate=38/44 count=6196 rank=1506 full=True
+n=9 p=1000033 candidate=39/44 count=6196 rank=1506 full=True
+n=9 p=1000033 candidate=40/44 count=6196 rank=1506 full=True
+n=9 p=1000033 candidate=41/44 count=6197 rank=1506 full=True
+n=9 p=1000033 candidate=42/44 count=6197 rank=1506 full=True
+n=9 p=1000033 candidate=43/44 count=6197 rank=1506 full=True
+n=9 p=1000033 candidate=44/44 count=6197 rank=1506 full=True
+START n=10 prime=1000003
+n=10 p=1000003 candidate=1/44 count=1 rank=1 full=False
+n=10 p=1000003 candidate=2/44 count=1 rank=1 full=False
+n=10 p=1000003 candidate=3/44 count=1 rank=1 full=False
+n=10 p=1000003 candidate=4/44 count=2 rank=2 full=False
+n=10 p=1000003 candidate=5/44 count=3 rank=3 full=False
+n=10 p=1000003 candidate=6/44 count=19 rank=15 full=False
+n=10 p=1000003 candidate=7/44 count=20 rank=14 full=False
+n=10 p=1000003 candidate=8/44 count=21 rank=20 full=False
+n=10 p=1000003 candidate=9/44 count=22 rank=21 full=False
+n=10 p=1000003 candidate=10/44 count=22 rank=16 full=False
+n=10 p=1000003 candidate=11/44 count=289 rank=170 full=False
+n=10 p=1000003 candidate=12/44 count=311 rank=171 full=False
+n=10 p=1000003 candidate=13/44 count=434 rank=127 full=False
+n=10 p=1000003 candidate=14/44 count=454 rank=130 full=False
+n=10 p=1000003 candidate=15/44 count=469 rank=321 full=False
+n=10 p=1000003 candidate=16/44 count=490 rank=326 full=False
+n=10 p=1000003 candidate=17/44 count=491 rank=327 full=False
+n=10 p=1000003 candidate=18/44 count=1535 rank=861 full=False
+n=10 p=1000003 candidate=19/44 count=1987 rank=539 full=False
+n=10 p=1000003 candidate=20/44 count=1989 rank=974 full=False
+n=10 p=1000003 candidate=21/44 count=2323 rank=1231 full=False
+n=10 p=1000003 candidate=22/44 count=2441 rank=598 full=False
+n=10 p=1000003 candidate=23/44 count=2813 rank=1478 full=False
+n=10 p=1000003 candidate=24/44 count=2814 rank=1478 full=False
+n=10 p=1000003 candidate=25/44 count=3227 rank=1169 full=False
+n=10 p=1000003 candidate=26/44 count=3976 rank=1363 full=False
+n=10 p=1000003 candidate=27/44 count=4389 rank=978 full=False
+n=10 p=1000003 candidate=28/44 count=4390 rank=978 full=False
+n=10 p=1000003 candidate=29/44 count=4762 rank=1808 full=False
+n=10 p=1000003 candidate=30/44 count=5668 rank=1528 full=False
+n=10 p=1000003 candidate=31/44 count=6713 rank=1920 full=False
+n=10 p=1000003 candidate=32/44 count=6749 rank=2107 full=False
+n=10 p=1000003 candidate=33/44 count=6892 rank=2165 full=False
+n=10 p=1000003 candidate=34/44 count=7181 rank=2166 full=True
+n=10 p=1000003 candidate=35/44 count=7182 rank=2161 full=False
+n=10 p=1000003 candidate=36/44 count=7183 rank=2163 full=False
+n=10 p=1000003 candidate=37/44 count=7200 rank=2166 full=True
+n=10 p=1000003 candidate=38/44 count=7202 rank=2166 full=True
+n=10 p=1000003 candidate=39/44 count=7202 rank=2166 full=True
+n=10 p=1000003 candidate=40/44 count=7202 rank=2166 full=True
+n=10 p=1000003 candidate=41/44 count=7203 rank=2166 full=True
+n=10 p=1000003 candidate=42/44 count=7203 rank=2166 full=True
+n=10 p=1000003 candidate=43/44 count=7203 rank=2166 full=True
+n=10 p=1000003 candidate=44/44 count=7203 rank=2166 full=True
+START n=10 prime=1000033
+n=10 p=1000033 candidate=1/44 count=1 rank=1 full=False
+n=10 p=1000033 candidate=2/44 count=1 rank=1 full=False
+n=10 p=1000033 candidate=3/44 count=1 rank=1 full=False
+n=10 p=1000033 candidate=4/44 count=2 rank=2 full=False
+n=10 p=1000033 candidate=5/44 count=3 rank=3 full=False
+n=10 p=1000033 candidate=6/44 count=19 rank=15 full=False
+n=10 p=1000033 candidate=7/44 count=20 rank=14 full=False
+n=10 p=1000033 candidate=8/44 count=21 rank=20 full=False
+n=10 p=1000033 candidate=9/44 count=22 rank=21 full=False
+n=10 p=1000033 candidate=10/44 count=22 rank=16 full=False
+n=10 p=1000033 candidate=11/44 count=289 rank=170 full=False
+n=10 p=1000033 candidate=12/44 count=311 rank=171 full=False
+n=10 p=1000033 candidate=13/44 count=434 rank=127 full=False
+n=10 p=1000033 candidate=14/44 count=454 rank=130 full=False
+n=10 p=1000033 candidate=15/44 count=469 rank=321 full=False
+n=10 p=1000033 candidate=16/44 count=490 rank=326 full=False
+n=10 p=1000033 candidate=17/44 count=491 rank=327 full=False
+n=10 p=1000033 candidate=18/44 count=1535 rank=861 full=False
+n=10 p=1000033 candidate=19/44 count=1987 rank=539 full=False
+n=10 p=1000033 candidate=20/44 count=1989 rank=974 full=False
+n=10 p=1000033 candidate=21/44 count=2323 rank=1231 full=False
+n=10 p=1000033 candidate=22/44 count=2441 rank=598 full=False
+n=10 p=1000033 candidate=23/44 count=2813 rank=1478 full=False
+n=10 p=1000033 candidate=24/44 count=2814 rank=1478 full=False
+n=10 p=1000033 candidate=25/44 count=3227 rank=1169 full=False
+n=10 p=1000033 candidate=26/44 count=3976 rank=1363 full=False
+n=10 p=1000033 candidate=27/44 count=4389 rank=978 full=False
+n=10 p=1000033 candidate=28/44 count=4390 rank=978 full=False
+n=10 p=1000033 candidate=29/44 count=4762 rank=1808 full=False
+n=10 p=1000033 candidate=30/44 count=5668 rank=1528 full=False
+n=10 p=1000033 candidate=31/44 count=6713 rank=1920 full=False
+n=10 p=1000033 candidate=32/44 count=6749 rank=2107 full=False
+n=10 p=1000033 candidate=33/44 count=6892 rank=2165 full=False
+n=10 p=1000033 candidate=34/44 count=7181 rank=2166 full=True
+n=10 p=1000033 candidate=35/44 count=7182 rank=2161 full=False
+n=10 p=1000033 candidate=36/44 count=7183 rank=2163 full=False
+n=10 p=1000033 candidate=37/44 count=7200 rank=2166 full=True
+n=10 p=1000033 candidate=38/44 count=7202 rank=2166 full=True
+n=10 p=1000033 candidate=39/44 count=7202 rank=2166 full=True
+n=10 p=1000033 candidate=40/44 count=7202 rank=2166 full=True
+n=10 p=1000033 candidate=41/44 count=7203 rank=2166 full=True
+n=10 p=1000033 candidate=42/44 count=7203 rank=2166 full=True
+n=10 p=1000033 candidate=43/44 count=7203 rank=2166 full=True
+n=10 p=1000033 candidate=44/44 count=7203 rank=2166 full=True
+START G-0027 census recount
+WROTE /data/projects/relu-depth-frontier-research/artifacts/math/strata-span-n9-n10/strata_span_results.json
+	Command being timed: "python artifacts/math/strata-span-n9-n10/strata_span.py --threads 6"
+	User time (seconds): 1843.81
+	System time (seconds): 68.18
+	Percent of CPU this job got: 194%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 16:23.30
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2256108
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 3
+	Minor (reclaiming a frame) page faults: 11133836
+	Voluntary context switches: 141697
+	Involuntary context switches: 87386
+	Swaps: 0
+	File system inputs: 360
+	File system outputs: 2030480
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

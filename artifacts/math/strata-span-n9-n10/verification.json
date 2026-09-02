@@ -1,0 +1,47 @@
+{
+  "g0027_records_rechecked": 754017,
+  "input_sha256": {
+    "artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz": "8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8",
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+    "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991"
+  },
+  "known_answer_gates": {
+    "n10_full_rank_both_primes": 2166,
+    "n9_full_rank_both_primes": 1506,
+    "n9_tree_augmented_rank_both_primes": 361,
+    "n9_tree_rank_both_primes": 360
+  },
+  "modular_rank_replay": false,
+  "modular_rank_replay_command": "source .venv/bin/activate && OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 OMP_NUM_THREADS=6 python artifacts/math/strata-span-n9-n10/strata_span.py --threads 6",
+  "no_claim": "This audit checks inputs, exact W collapse, censuses, controls, table arithmetic, and cross-prime agreement. It does not independently replay modular elimination and makes no MAX11 or rational-identity claim.",
+  "producer_sha256": "86dd3103140e132dd90eb7728cded72541ff00ec847ba470c62494dccb3a1fbb",
+  "rescans": {
+    "10": {
+      "candidate_rank_cross_prime_agreement": true,
+      "collapsed_duplicate_columns_rechecked": 5045,
+      "partition_mutants_rejected": [
+        "s",
+        "beta",
+        "components",
+        "max_multiplicity"
+      ],
+      "raw_template_count": 12248,
+      "w_orbit_count": 7203
+    },
+    "9": {
+      "candidate_rank_cross_prime_agreement": true,
+      "collapsed_duplicate_columns_rechecked": 4779,
+      "partition_mutants_rejected": [
+        "s",
+        "beta",
+        "components",
+        "max_multiplicity"
+      ],
+      "raw_template_count": 10976,
+      "w_orbit_count": 6197
+    }
+  },
+  "result": "PASS",
+  "result_json_sha256": "08bee21c50297d91ed8d9f3e931ef502618e7c7ba21a2eaaa313705ec5a5d1b6",
+  "schema": "max11-gmp7-strata-output-verification-v1"
+}
