@@ -1,0 +1,4 @@
+Core: Haswell
+STREAMRANK_PROGRESS columns=256 ranks=[222] seconds=2.554
+STREAMRANK_PROGRESS columns=512 ranks=[353] seconds=4.291
+Error: known-answer control failed; report was preserved

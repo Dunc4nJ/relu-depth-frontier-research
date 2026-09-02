@@ -282,6 +282,7 @@ def expect_rejection(function: Any, *args: Any) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--write-report", type=Path)
+    parser.add_argument("--controls-only", action="store_true")
     args = parser.parse_args()
 
     binary_line = (BASE / "controls/binary.sha256").read_text(encoding="utf-8").strip()
@@ -306,6 +307,13 @@ def main() -> None:
     mutant_path = BASE / "controls/cuda-n9-p1000003-mutant-expected-rank359.json"
     verify_control_mutant(mutant_path)
     control_files[str(mutant_path.relative_to(BASE))] = sha256_path(mutant_path)
+
+    if args.controls_only:
+        print(
+            "EXP0037_CONTROLS_PASS "
+            f"reports=8/8 pivots={comparisons}/8 planted_mutant=1/1"
+        )
+        return
 
     arms = []
     raw_arms = []

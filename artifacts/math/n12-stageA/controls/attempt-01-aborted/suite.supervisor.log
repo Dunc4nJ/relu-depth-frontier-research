@@ -1,0 +1,144 @@
+2026-09-02T21:05:50Z
+Wed Sep  2 21:05:50 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.82.09              Driver Version: 580.82.09      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                On  |   00000000:3D:00.0 Off |                    0 |
+| N/A   40C    P0             64W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+cargo 1.98.0 (797e8a9bc 2026-08-05)
+rustc 1.98.0 (88d9e12ae 2026-08-18)
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2024 NVIDIA Corporation
+Built on Thu_Mar_28_02:18:24_PDT_2024
+Cuda compilation tools, release 12.4, V12.4.131
+Build cuda_12.4.r12.4/compiler.34097967_0
+handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz: OK
+handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz: OK
+tools/streamrank/src/main.rs: OK
+tools/streamrank/src/lib.rs: OK
+tools/streamrank/src/cuda.rs: OK
+tools/streamrank/src/cuda_backend.cu: OK
+tools/streamrank/build.rs: OK
+tools/streamrank/Cargo.toml: OK
+tools/colgen/src/lib.rs: OK
+tools/colgen/src/main.rs: OK
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded adler2 v2.0.1
+  Downloaded block-buffer v0.10.4
+  Downloaded cc v1.4.4
+  Downloaded cfg-if v1.0.4
+  Downloaded anyhow v1.0.104
+  Downloaded itoa v1.0.18
+  Downloaded cpufeatures v0.2.17
+  Downloaded either v1.18.0
+  Downloaded rayon-core v1.13.0
+  Downloaded rustc-hash v2.1.3
+  Downloaded crypto-common v0.1.7
+  Downloaded generic-array v0.14.7
+  Downloaded version_check v0.9.5
+  Downloaded digest v0.10.7
+  Downloaded shlex v2.0.1
+  Downloaded crossbeam-deque v0.8.7
+  Downloaded zmij v1.0.23
+  Downloaded find-msvc-tools v0.1.11
+  Downloaded miniz_oxide v0.9.1
+  Downloaded sha2 v0.10.9
+  Downloaded quote v1.0.47
+  Downloaded crossbeam-utils v0.8.22
+  Downloaded crossbeam-epoch v0.9.20
+  Downloaded simd-adler32 v0.3.10
+  Downloaded crc32fast v1.5.1
+  Downloaded unicode-ident v1.0.24
+  Downloaded serde_core v1.0.229
+  Downloaded proc-macro2 v1.0.107
+  Downloaded serde_derive v1.0.229
+  Downloaded flate2 v1.1.10
+  Downloaded memchr v2.8.3
+  Downloaded serde v1.0.229
+  Downloaded typenum v1.20.1
+  Downloaded serde_json v1.0.151
+  Downloaded rayon v1.12.0
+  Downloaded zlib-rs v0.6.7
+  Downloaded syn v3.0.4
+   Compiling version_check v0.9.5
+   Compiling crossbeam-utils v0.8.22
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling crossbeam-epoch v0.9.20
+   Compiling typenum v1.20.1
+   Compiling unicode-ident v1.0.24
+   Compiling serde_core v1.0.229
+   Compiling crossbeam-deque v0.8.7
+   Compiling cfg-if v1.0.4
+   Compiling rayon-core v1.13.0
+   Compiling zmij v1.0.23
+   Compiling crc32fast v1.5.1
+   Compiling shlex v2.0.1
+   Compiling serde v1.0.229
+   Compiling find-msvc-tools v0.1.11
+   Compiling serde_json v1.0.151
+   Compiling adler2 v2.0.1
+   Compiling anyhow v1.0.104
+   Compiling simd-adler32 v0.3.10
+   Compiling cpufeatures v0.2.17
+   Compiling itoa v1.0.18
+   Compiling either v1.18.0
+   Compiling memchr v2.8.3
+   Compiling rustc-hash v2.1.3
+   Compiling cc v1.4.4
+   Compiling miniz_oxide v0.9.1
+   Compiling generic-array v0.14.7
+   Compiling flate2 v1.1.10
+   Compiling syn v3.0.4
+   Compiling max11-streamrank v0.1.0 (/workspace/relu/tools/streamrank)
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling digest v0.10.7
+   Compiling sha2 v0.10.9
+   Compiling rayon v1.12.0
+   Compiling serde_derive v1.0.229
+   Compiling max11-colgen v0.1.0 (/workspace/relu/tools/colgen)
+    Finished `release` profile [optimized] target(s) in 14.01s
+     Running unittests src/lib.rs (tools/streamrank/target/release/deps/max11_streamrank-a129063133a1416f)
+
+running 6 tests
+test tests::barrett_reduction_matches_division ... ok
+test tests::rejects_unsafe_binary64_block ... ok
+test tests::sketch_is_deterministic_and_seeded ... ok
+test tests::left_separator_annihilates_basis_and_separates ... ok
+test tests::blocked_basis_matches_scalar_rank ... ok
+test tests::cuda_backend_matches_cpu_pivots_and_reduction ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.49s
+
+     Running unittests src/main.rs (tools/streamrank/target/release/deps/max11_streamrank-4e75dcc85ab719ee)
+
+running 1 test
+test tests::five_l_is_exact_all_ones_carrier ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests max11_streamrank
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling max11-streamrank v0.1.0 (/workspace/relu/tools/streamrank)
+    Finished `release` profile [optimized] target(s) in 6.41s
+11d08a17eb706f6b4bfcc3f75d18e0e3e02167127e19c1db0b74a1ee810fe676  tools/streamrank/target/release/max11-streamrank
