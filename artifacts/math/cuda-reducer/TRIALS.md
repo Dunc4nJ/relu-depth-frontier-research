@@ -57,6 +57,21 @@ tools/streamrank/target/release/max11-streamrank run-universe \
   This is one finite sketch; its ordered pivot-list SHA-256
   `2ac8d1227fb3a66e61f2292a861ec9bdb3fb132c970fcd9e1d7da4c2334b744b`
   remains gated on equality with the still-running CPU reference.
+- The first launch guard for Stage A seed 2 used `pgrep -af` and matched the
+  remote shell's own command line. It exited 23 before starting streamrank:
+  0 / 120,948 columns, with no JSON or log written. The corrected exact-name
+  guard (`pgrep -x max11-streamrank`) launched remote PID 7731 under `nohup`.
+- That seed-2 retry completed 120,948 / 120,948 columns at modulus 1,000,003:
+  rank(A) = rank([A|b]) = 21,222, MEMBER and unsaturated at 64,000 buckets.
+  Wall time was 1,718.818657184 s, host high-water RSS 8,014,552 KiB, and
+  reported peak allocated GPU storage 15,026,213,376 bytes. Its ordered pivot
+  SHA-256 is the same as seed 1,
+  `2ac8d1227fb3a66e61f2292a861ec9bdb3fb132c970fcd9e1d7da4c2334b744b`;
+  JSON SHA-256 is
+  `892b27e657f1344338c0aad66aa8e673e10d25ea2a2da0f2ed94e8ca7c18d1e0`.
+  This is the second of two finite sketches at one of two named primes; the
+  preregistered Stage A verdict still requires both sketches at modulus
+  1,000,033 as well.
 
 No-claim: failures and passes here concern only the named finite modular
 sketches and CUDA implementation. They do not establish exact rational
