@@ -105,7 +105,8 @@ def verify_control(path: Path, backend: str, n: int, prime: int) -> list[str]:
     require(report.get("batch_size") == batch, "control batch size")
     require(report.get("gemm_block") == 1024, "control GEMM block")
     require(report.get("rank_panel") == 64, "control rank panel")
-    require(report.get("threads") == 60, "control thread count")
+    expected_threads = 6 if backend == "cpu" else 60
+    require(report.get("threads") == expected_threads, "control thread count")
     require(report.get("input_sha256") == SYSTEM_SHA[n], "control input SHA")
     require(report.get("source_column_count") == columns, "control source columns")
     require(report.get("source_columns_denominator") == columns, "control column denominator")
@@ -120,7 +121,7 @@ def verify_control(path: Path, backend: str, n: int, prime: int) -> list[str]:
     require(flags.get("--backend") == backend, "control command backend")
     require(flags.get("--filter") == filter_name, "control command filter")
     require(flags.get("--modulus") == str(prime), "control command prime")
-    require(flags.get("--threads") == "60", "control command threads")
+    require(flags.get("--threads") == str(expected_threads), "control command threads")
     sketches = report.get("sketches")
     require(isinstance(sketches, list) and len(sketches) == 2, "control sketch count")
     hashes = []

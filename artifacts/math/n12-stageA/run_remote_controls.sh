@@ -50,7 +50,11 @@ run_control() {
   local system="$2"
   local prime="$3"
   local output="$out_dir/${backend}-${system}-p${prime}.json"
-  local input n filter buckets columns rank aug verdict batch
+  local input n filter buckets columns rank aug verdict batch threads
+  threads=60
+  if [[ "$backend" == cpu ]]; then
+    threads=6
+  fi
   if [[ "$system" == n10 ]]; then
     input="$n10"; n=10; filter=all; buckets=6498; columns=12248
     rank=2166; aug=2166; verdict=MEMBER; batch=1024
@@ -64,7 +68,7 @@ run_control() {
     --n "$n" --branch-edges 4 --filter "$filter" \
     --modulus "$prime" --buckets "$buckets" \
     --seeds 2026090201,2026090202 \
-    --batch-size "$batch" --gemm-block 1024 --rank-panel 64 --threads 60 \
+    --batch-size "$batch" --gemm-block 1024 --rank-panel 64 --threads "$threads" \
     --expected-columns "$columns" --expected-rank "$rank" \
     --expected-aug-rank "$aug" --expected-verdict "$verdict" \
     --output "$output" \
@@ -111,4 +115,3 @@ PY
 date -u +%Y-%m-%dT%H:%M:%SZ
 sha256sum "$out_dir"/*.json
 echo CONTROL_SUITE_COMPLETE
-
