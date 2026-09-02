@@ -1,7 +1,7 @@
 # RESULT — exact leg at n=11-scale ranks
 
-Bead: `relu-depth-frontier-research-max11-root-gmp.8`  
-Agent: `AzureAspen`  
+Bead: `relu-depth-frontier-research-max11-root-gmp.8`
+Agent: `AzureAspen`
 Date: 2026-09-02
 
 ## Bounded outcome
