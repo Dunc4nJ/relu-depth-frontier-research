@@ -4,6 +4,11 @@ use rayon::prelude::*;
 use serde::Serialize;
 use std::time::Instant;
 
+#[cfg(feature = "cuda")]
+mod cuda;
+#[cfg(feature = "cuda")]
+pub use cuda::CudaDenseEchelon;
+
 const CBLAS_COL_MAJOR: i32 = 102;
 const CBLAS_NO_TRANS: i32 = 111;
 
@@ -201,6 +206,10 @@ pub struct ReducerMetrics {
     pub panel_basis_gemm_calls: u64,
     pub panel_basis_gemm_scalar_products_numerator: u128,
     pub panel_basis_gemm_seconds: f64,
+    pub gpu_peak_allocated_bytes: u64,
+    pub gpu_host_to_device_bytes_numerator: u128,
+    pub gpu_device_to_host_bytes_numerator: u128,
+    pub gpu_transfer_seconds: f64,
 }
 
 #[derive(Clone, Copy)]
@@ -635,6 +644,111 @@ impl DenseEchelon {
     }
 }
 
+#[derive(Debug)]
+pub enum Echelon {
+    Cpu(DenseEchelon),
+    #[cfg(feature = "cuda")]
+    Cuda(CudaDenseEchelon),
+}
+
+impl Echelon {
+    pub fn with_backend(
+        backend: &str,
+        rows: usize,
+        prime: u32,
+        block_size: usize,
+        panel_size: usize,
+        max_batch: usize,
+    ) -> Result<Self> {
+        #[cfg(not(feature = "cuda"))]
+        let _ = max_batch;
+        match backend {
+            "cpu" => Ok(Self::Cpu(DenseEchelon::with_panel_size(
+                rows, prime, block_size, panel_size,
+            )?)),
+            #[cfg(feature = "cuda")]
+            "cuda" => Ok(Self::Cuda(CudaDenseEchelon::with_panel_size(
+                rows, prime, block_size, panel_size, max_batch,
+            )?)),
+            #[cfg(not(feature = "cuda"))]
+            "cuda" => anyhow::bail!("CUDA backend requested from a build without --features cuda"),
+            value => anyhow::bail!("unknown reducer backend {value:?}; expected cpu or cuda"),
+        }
+    }
+
+    pub fn rank(&self) -> usize {
+        match self {
+            Self::Cpu(value) => value.rank(),
+            #[cfg(feature = "cuda")]
+            Self::Cuda(value) => value.rank(),
+        }
+    }
+
+    pub fn storage_bytes(&self) -> usize {
+        match self {
+            Self::Cpu(value) => value.storage_bytes(),
+            #[cfg(feature = "cuda")]
+            Self::Cuda(value) => value.storage_bytes(),
+        }
+    }
+
+    pub fn pivot_rows(&self) -> &[usize] {
+        match self {
+            Self::Cpu(value) => value.pivot_rows(),
+            #[cfg(feature = "cuda")]
+            Self::Cuda(value) => value.pivot_rows(),
+        }
+    }
+
+    pub fn pivot_columns(&self) -> &[u64] {
+        match self {
+            Self::Cpu(value) => value.pivot_columns(),
+            #[cfg(feature = "cuda")]
+            Self::Cuda(value) => value.pivot_columns(),
+        }
+    }
+
+    pub fn metrics(&self) -> &ReducerMetrics {
+        match self {
+            Self::Cpu(value) => &value.metrics,
+            #[cfg(feature = "cuda")]
+            Self::Cuda(value) => &value.metrics,
+        }
+    }
+
+    pub fn process_batch(&mut self, matrix: &mut [u32], source_columns: &[u64]) -> Result<()> {
+        match self {
+            Self::Cpu(value) => value.process_batch(matrix, source_columns),
+            #[cfg(feature = "cuda")]
+            Self::Cuda(value) => value.process_batch(matrix, source_columns),
+        }
+    }
+
+    pub fn reduce_only(&mut self, vector: &mut [u32]) -> Result<()> {
+        match self {
+            Self::Cpu(value) => value.reduce_only(vector),
+            #[cfg(feature = "cuda")]
+            Self::Cuda(value) => value.reduce_only(vector),
+        }
+    }
+
+    pub fn left_separator(&self, free_row: usize) -> Result<Vec<u32>> {
+        match self {
+            Self::Cpu(value) => value.left_separator(free_row),
+            #[cfg(feature = "cuda")]
+            Self::Cuda(value) => value.left_separator(free_row),
+        }
+    }
+
+    pub fn dot_mod(&self, left: &[u32], right: &[u32]) -> Result<u32> {
+        match self {
+            Self::Cpu(value) => value.dot_mod(left, right),
+            #[cfg(feature = "cuda")]
+            Self::Cuda(value) => value.dot_mod(left, right),
+        }
+    }
+}
+
 pub fn is_prime(value: u32) -> bool {
     if value < 2 {
         return false;
@@ -718,6 +832,43 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[cfg(feature = "cuda")]
+    #[test]
+    fn cuda_backend_matches_cpu_pivots_and_reduction() {
+        set_blas_threads(1).unwrap();
+        let rows = 17;
+        let prime = 101;
+        let columns = (0..31)
+            .map(|column| {
+                (0..rows)
+                    .map(|row| {
+                        ((column * 19 + row * 23 + column * row * 7 + 3) % prime as usize) as u32
+                    })
+                    .collect::<Vec<_>>()
+            })
+            .collect::<Vec<_>>();
+        let mut cpu = DenseEchelon::with_panel_size(rows, prime, 5, 3).unwrap();
+        let mut cuda = CudaDenseEchelon::with_panel_size(rows, prime, 5, 3, 7).unwrap();
+        for start in (0..columns.len()).step_by(7) {
+            let stop = (start + 7).min(columns.len());
+            let mut cpu_matrix = columns[start..stop].concat();
+            let mut cuda_matrix = cpu_matrix.clone();
+            let source = (start as u64..stop as u64).collect::<Vec<_>>();
+            cpu.process_batch(&mut cpu_matrix, &source).unwrap();
+            cuda.process_batch(&mut cuda_matrix, &source).unwrap();
+            assert_eq!(cuda_matrix, cpu_matrix);
+            assert_eq!(cuda.pivot_rows(), cpu.pivot_rows());
+            assert_eq!(cuda.pivot_columns(), cpu.pivot_columns());
+        }
+        let mut cpu_target = (0..rows)
+            .map(|row| ((row * row + 11 * row + 7) % prime as usize) as u32)
+            .collect::<Vec<_>>();
+        let mut cuda_target = cpu_target.clone();
+        cpu.reduce_only(&mut cpu_target).unwrap();
+        cuda.reduce_only(&mut cuda_target).unwrap();
+        assert_eq!(cuda_target, cpu_target);
     }
 
     #[test]

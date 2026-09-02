@@ -3,7 +3,8 @@
 The decision artifact is UTF-8 JSON with schema `max11-streamrank-pivots-v1`.
 It names the source path and SHA-256, `n`, branch size, subject/filter, prime,
 bucket count, batch size, GEMM block, rank-panel width, source-column
-denominator, generation/allocation/sketch/reducer timings, and target.
+denominator, reducer `backend` (`cpu` or `cuda`),
+generation/allocation/sketch/reducer timings, and target.
 Each entry in `sketches` freezes the hash algorithm and seed, ranks of `A` and
 `[A|b]`, saturation/verdict, and parallel arrays `pivot_columns` (source
 record indices, discovery order) and `pivot_buckets` (`u32`, same length).
@@ -14,6 +15,10 @@ For a NON_MEMBER result, `left_separator` has explicit bucket length, sparse
 canonical residues, its nonzero target dot product, and the denominator of
 basis columns it was checked against. Separate primes are separate artifacts;
 a manifest may hash and list both.
+
+CUDA reducer metrics keep the same GEMM product denominator and additionally
+record host-to-device and device-to-host byte numerators, transfer seconds, and
+peak allocated device bytes. These are zero on the CPU backend.
 
 `run-universe --order-file INDICES.json` accepts an arbitrary duplicate-free
 JSON array of zero-based universe record indices and preserves that order.

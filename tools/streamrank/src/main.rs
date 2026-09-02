@@ -1,7 +1,7 @@
 use anyhow::{Context, Result, bail, ensure};
 use flate2::read::GzDecoder;
 use max11_colgen::{SavedTemplate, SparseColumn, Universe, generate_column, saved_column};
-use max11_streamrank::{DenseEchelon, ReducerMetrics, SketchSpec, set_blas_threads};
+use max11_streamrank::{Echelon, ReducerMetrics, SketchSpec, set_blas_threads};
 use rayon::prelude::*;
 use serde::Serialize;
 use sha2::{Digest, Sha256};
@@ -206,7 +206,7 @@ fn is_union_spanning_tree(template: &SavedTemplate, n: usize) -> bool {
 #[derive(Debug)]
 struct State {
     spec: SketchSpec,
-    basis: DenseEchelon,
+    basis: Echelon,
     matrix_allocation_seconds: f64,
     sketch_seconds: f64,
     reducer_seconds: f64,
@@ -221,10 +221,14 @@ impl State {
         prime: u32,
         block_size: usize,
         panel_size: usize,
+        batch_size: usize,
+        backend: &str,
     ) -> Result<Self> {
         Ok(Self {
             spec: SketchSpec::new(seed, buckets)?,
-            basis: DenseEchelon::with_panel_size(buckets, prime, block_size, panel_size)?,
+            basis: Echelon::with_backend(
+                backend, buckets, prime, block_size, panel_size, batch_size,
+            )?,
             matrix_allocation_seconds: 0.0,
             sketch_seconds: 0.0,
             reducer_seconds: 0.0,
@@ -274,6 +278,7 @@ struct Config {
     block_size: usize,
     panel_size: usize,
     threads: usize,
+    backend: String,
     seeds: Vec<u64>,
     include_five_l: bool,
     abort_rank_above: Option<usize>,
@@ -286,10 +291,20 @@ struct Config {
 
 impl Config {
     fn from_args(args: &Args) -> Result<Self> {
-        let threads = args.usize("--threads")?;
+        let backend = args
+            .values
+            .get("--backend")
+            .cloned()
+            .unwrap_or_else(|| "cpu".to_owned());
         ensure!(
-            (1..=6).contains(&threads),
-            "threads must lie in 1..=6 on this shared host"
+            ["cpu", "cuda"].contains(&backend.as_str()),
+            "backend must be cpu or cuda"
+        );
+        let threads = args.usize("--threads")?;
+        let thread_limit = if backend == "cuda" { 24 } else { 6 };
+        ensure!(
+            (1..=thread_limit).contains(&threads),
+            "threads must lie in 1..={thread_limit} for backend {backend}"
         );
         let batch_size = args.usize("--batch-size")?;
         ensure!(
@@ -307,6 +322,7 @@ impl Config {
             block_size: args.usize("--gemm-block")?,
             panel_size: args.usize_or("--rank-panel", 64)?,
             threads,
+            backend,
             seeds: args.seeds()?,
             include_five_l: args.bool_or("--include-five-l", false)?,
             abort_rank_above: args.optional_usize("--abort-rank-above")?,
@@ -414,6 +430,7 @@ struct Report {
     gemm_block: usize,
     rank_panel: usize,
     threads: usize,
+    backend: String,
     source_column_count: usize,
     source_columns_denominator: usize,
     exact_real_nnz_numerator: u128,
@@ -470,6 +487,7 @@ struct AbortReport {
     gemm_block: usize,
     rank_panel: usize,
     threads: usize,
+    backend: String,
     requested_source_column_count: usize,
     source_column_count: usize,
     source_columns_denominator: usize,
@@ -562,7 +580,7 @@ fn finish_abort(
                 real_entry_visits_numerator: state.real_entry_visits_numerator,
                 source_columns_denominator: source_columns,
                 max_basis_storage_bytes: state.max_basis_storage_bytes,
-                reducer_metrics: state.basis.metrics.clone(),
+                reducer_metrics: state.basis.metrics().clone(),
             }
         })
         .collect();
@@ -585,6 +603,7 @@ fn finish_abort(
         gemm_block: config.block_size,
         rank_panel: config.panel_size,
         threads: config.threads,
+        backend: config.backend.clone(),
         requested_source_column_count: requested_source_columns,
         source_column_count: source_columns,
         source_columns_denominator: source_columns,
@@ -725,7 +744,7 @@ fn finish_run(
             real_entry_visits_numerator: state.real_entry_visits_numerator,
             source_columns_denominator: source_columns,
             max_basis_storage_bytes: state.max_basis_storage_bytes,
-            reducer_metrics: state.basis.metrics,
+            reducer_metrics: state.basis.metrics().clone(),
         });
     }
     let exact_match = config
@@ -772,6 +791,7 @@ fn finish_run(
         gemm_block: config.block_size,
         rank_panel: config.panel_size,
         threads: config.threads,
+        backend: config.backend.clone(),
         source_column_count: source_columns,
         source_columns_denominator: source_columns,
         exact_real_nnz_numerator: exact_nnz,
@@ -866,6 +886,8 @@ fn command_saved(args: &Args) -> Result<()> {
                 config.prime,
                 config.block_size,
                 config.panel_size,
+                config.batch_size,
+                &config.backend,
             )
         })
         .collect::<Result<_>>()?;
@@ -1006,6 +1028,8 @@ fn command_universe(args: &Args) -> Result<()> {
                 config.prime,
                 config.block_size,
                 config.panel_size,
+                config.batch_size,
+                &config.backend,
             )
         })
         .collect::<Result<_>>()?;
@@ -1180,7 +1204,7 @@ fn command_universe(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [--include-five-l true] [--abort-rank-above R] [--abort-rss-kib-above KIB] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
+    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [--include-five-l true] [--abort-rank-above R] [--abort-rss-kib-above KIB] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
 }
 
 fn main() -> Result<()> {

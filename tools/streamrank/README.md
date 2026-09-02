@@ -8,6 +8,13 @@ updates pack residues into exact `f64` integers, call OpenBLAS `dgemm`, and
 reduce modulo `p` once per product block. Only factorization inside a rank
 panel remains scalar.
 
+An opt-in `cuda` feature adds `--backend cuda`. It leaves column generation and
+panel pivot discovery on the host, keeps the canonical `u32` basis in resident
+8,192-column GPU segments, and sends the same exact-binary64 products through
+cuBLAS `dgemm`. The CUDA report adds transfer byte numerators, transfer time,
+and peak allocated VRAM to `reducer_metrics`. Use one sketch per CUDA process
+when the two resident bases would exceed device memory.
+
 The safety check requires `max(block_size,panel_size)*(p-1)^2+p < 2^53`, so every integer
 product and partial sum passed through binary64 is exact. Primes must be below
 `2^20`. This is modular/sketched evidence, not exact rational verification.
@@ -23,6 +30,9 @@ cargo run --release -- run-saved \
   --expected-columns 12248 --expected-rank 2166 --expected-aug-rank 2166 \
   --expected-verdict MEMBER --output n10-p1000003.json
 ```
+
+On a CUDA host, build with `cargo build --release --features cuda` and add
+`--backend cuda`. The CPU backend remains the default and reference path.
 
 `run-universe` accepts a colgen universe plus optional `--start`/`--limit` and
 generates its exact columns in process. Alternatively, `--order-file` accepts
