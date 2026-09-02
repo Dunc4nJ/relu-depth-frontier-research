@@ -1,0 +1,47 @@
+{
+  "carrier_controls": {
+    "binary_magic": "MCOLGEN1",
+    "exact_base_atom_denominator": 2,
+    "exact_base_atoms": 2,
+    "five_loops_minimum_coordinate": 18144000,
+    "five_nonloops_minimum_coordinate": 0,
+    "modular_base_atom_denominator": 2,
+    "modular_base_atoms": 2,
+    "modulus": 1000003
+  },
+  "modular_binary_denominator": 16,
+  "modular_binary_matches": 16,
+  "modular_binary_modulus": 1000003,
+  "modular_rust_stderr": "COLGEN_LOOPS_EMIT_PASS records=16 format=binary seconds=0.098",
+  "no_claim": "These are exact cross-implementation checks on two named random samples and exact/modular format controls. They are not a complete G-0038 column generation, rank computation, or MAX11 membership result.",
+  "python_dp": "artifacts/math/span-structure-n5-n10/span_structure.py",
+  "python_dp_denominator": 2000,
+  "python_dp_matches": 2000,
+  "python_dp_samples": {
+    "n10": {
+      "denominator": 1000,
+      "loop_bearing_records": 1000,
+      "matches": 1000,
+      "minimum_coordinate_nonzero_records": 0,
+      "rust_stderr": "COLGEN_LOOPS_EMIT_PASS records=1000 format=jsonl seconds=45.026",
+      "sample": "artifacts/math/colgen-loops/sample_python_n10.jsonl",
+      "sample_sha256": "e3c95e261dfa47c827d6b492987fe0f1c205df83fda03b9bf68924b60b7ee51d"
+    },
+    "n9": {
+      "denominator": 1000,
+      "loop_bearing_records": 1000,
+      "matches": 1000,
+      "minimum_coordinate_nonzero_records": 0,
+      "rust_stderr": "COLGEN_LOOPS_EMIT_PASS records=1000 format=jsonl seconds=11.188",
+      "sample": "artifacts/math/colgen-loops/sample_python_n9.jsonl",
+      "sample_sha256": "c37d70e8d8938a13b9cca069dbc83961056c7afc857bde8e4703f98344ebc390"
+    }
+  },
+  "python_dp_sha256": "4b8afc3db48aa65976ff5123b7e817150ca7edc66563938068a99f15331eab6a",
+  "result": "PASS",
+  "rust_binary": "tools/colgen-loops/target/release/max11-colgen-loops",
+  "rust_binary_sha256": "30532b3384e6dce2e3364470a2ea3af63a0b8f236b1016dd37ce72411a947694",
+  "schema": "max11-gmp13-cross-validation-v1",
+  "threads": 4,
+  "wall_seconds": 3933.0264381635934
+}

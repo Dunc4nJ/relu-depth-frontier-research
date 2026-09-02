@@ -1,0 +1,28 @@
+{
+  "schema": "max11-colgen-loops-loopless-parity-v1",
+  "result": "PASS",
+  "command": [
+    "target/release/max11-colgen-loops",
+    "validate-loopless",
+    "--input",
+    "../../artifacts/math/colgen-loops/sample_loopless_n11.jsonl",
+    "--n",
+    "11",
+    "--branch-edges",
+    "5",
+    "--threads",
+    "4",
+    "--output",
+    "../../artifacts/math/colgen-loops/loopless_parity.json"
+  ],
+  "input": "../../artifacts/math/colgen-loops/sample_loopless_n11.jsonl",
+  "input_sha256": "39601c0e2322c793ed885ba35d721621f35adeb19727d144490b5dc9dd992c0d",
+  "n": 11,
+  "branch_edge_occurrences": 5,
+  "records_checked": 1000,
+  "record_denominator": 1000,
+  "native_dependency_matches": 1000,
+  "production_dependency_matches": 1000,
+  "threads": 4,
+  "no_claim": "Column-for-column parity on this named loopless sample only; the production path delegates every canonical loopless zero-common-loop record to max11-colgen."
+}

@@ -1,0 +1,78 @@
+{
+  "canonical_framed_jsonl_sha256": "89ffe6d0f8aec9fb0ef8d91c5f15b75c89a6bd0d5bdd5b554c155f5c18e177cd",
+  "canonical_orbit_jsonl_sha256": "e49035b2700272f6edc1d1792bbceb0d5811a870820dd982d67a243b79423ef5",
+  "loop_bearing_records": 6261824,
+  "loopless_records": 754017,
+  "manifest": "artifacts/math/G-0038/loop_inclusive_signed_degree5_universe_manifest_v1.json",
+  "manifest_sha256": "1d6d7ce58c4302b899e922939030706428c54870d32cc5b0e60f43e2c25ee640",
+  "no_claim": "This verifies and samples the finite serialized G-0038 denominator. It does not establish a MAX11 identity, membership or non-membership, or completeness for arbitrary two-hidden-layer ReLU networks.",
+  "record_count_by_signed_mass": {
+    "0": 1,
+    "1": 5,
+    "2": 107,
+    "3": 3198,
+    "4": 134193,
+    "5": 6878337
+  },
+  "record_count_by_total_signed_loop_occurrences": {
+    "0": 754017,
+    "1": 1805136,
+    "10": 28,
+    "2": 2026736,
+    "3": 1413037,
+    "4": 686507,
+    "5": 246170,
+    "6": 67098,
+    "7": 14376,
+    "8": 2428,
+    "9": 308
+  },
+  "record_denominator": 7015841,
+  "records_checked": 7015841,
+  "result": "PASS",
+  "samples": {
+    "benchmark_n11": {
+      "eligible_record_denominator": 7015841,
+      "path": "artifacts/math/colgen-loops/sample_benchmark_n11.jsonl",
+      "sample_denominator": 1000,
+      "sample_size": 1000,
+      "seed": 2026090213,
+      "sequence_sha256_u64_le": "fa95bcf8a2ea8516550e9bf1379ac1e836981127178b0147b51a58b8098a53a1",
+      "sha256": "5b1e373e911673460598ed46d053e36f8b0f06bf250c73f7a639304ae512dfe3"
+    },
+    "loopless_n11": {
+      "eligible_record_denominator": 754017,
+      "path": "artifacts/math/colgen-loops/sample_loopless_n11.jsonl",
+      "sample_denominator": 1000,
+      "sample_size": 1000,
+      "seed": 2026090224,
+      "sequence_sha256_u64_le": "a890a9bb87456028de20c8900c3f8210fc3dbb78d8351f423bd1e9b5215f4ced",
+      "sha256": "39601c0e2322c793ed885ba35d721621f35adeb19727d144490b5dc9dd992c0d"
+    },
+    "python_n10": {
+      "eligible_record_denominator": 5958788,
+      "path": "artifacts/math/colgen-loops/sample_python_n10.jsonl",
+      "sample_denominator": 1000,
+      "sample_size": 1000,
+      "seed": 2026090223,
+      "sequence_sha256_u64_le": "1d4b330433964d60451a710259b255b1a5b224ec54c71b3e514d644c1cfdf020",
+      "sha256": "e3c95e261dfa47c827d6b492987fe0f1c205df83fda03b9bf68924b60b7ee51d"
+    },
+    "python_n9": {
+      "eligible_record_denominator": 5213489,
+      "path": "artifacts/math/colgen-loops/sample_python_n9.jsonl",
+      "sample_denominator": 1000,
+      "sample_size": 1000,
+      "seed": 2026090222,
+      "sequence_sha256_u64_le": "3e38f4defff706e0fea2a74ab55e6b14311035cf1f75906e3ad3c7a145d007ab",
+      "sha256": "c37d70e8d8938a13b9cca069dbc83961056c7afc857bde8e4703f98344ebc390"
+    }
+  },
+  "schema": "max11-gmp13-loop-inclusive-universe-audit-v1",
+  "strata_checked": 46,
+  "strata_denominator": 46,
+  "universe": "artifacts/math/G-0038/loop_inclusive_signed_degree5_universe_v1.jsonl.gz",
+  "universe_compressed_bytes": 78769863,
+  "universe_compressed_sha256": "e4cc44c602a8eb3e864e396b967b178f4c0d6f670a48c8c2f233ffac2606c5fd",
+  "wall_seconds": 307.32069351524115
+}
