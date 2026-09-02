@@ -22,6 +22,9 @@ cargo run --release -- run-saved \
 ```
 
 `run-universe` accepts a colgen universe plus optional `--start`/`--limit` and
-generates its exact columns in process. It has the same sketch/rank arguments.
-Outputs are create-new JSON artifacts and include pivot source indices.
-
+generates its exact columns in process. Alternatively, `--order-file` accepts
+a duplicate-free JSON array of caller-ordered source indices; `sample-order`
+can make a deterministic sorted SplitMix64 sample. It has the same sketch/rank
+arguments. Outputs are create-new JSON artifacts and include pivot source
+indices, ordered-pivot hashes, target sketches, and modular bucket separators
+for NON_MEMBER outcomes.

@@ -247,6 +247,61 @@ impl DenseEchelon {
         &self.pivot_columns
     }
 
+    pub fn dot_mod(&self, left: &[u32], right: &[u32]) -> Result<u32> {
+        ensure!(
+            left.len() == self.rows && right.len() == self.rows,
+            "dot-product vector shape mismatch"
+        );
+        let mut result = 0u32;
+        for (&a, &b) in left.iter().zip(right) {
+            let product = self.modulus.reduce_u64(a as u64 * b as u64);
+            let sum = result + product;
+            result = if sum >= self.prime {
+                sum - self.prime
+            } else {
+                sum
+            };
+        }
+        Ok(result)
+    }
+
+    pub fn left_separator(&self, free_row: usize) -> Result<Vec<u32>> {
+        ensure!(free_row < self.rows, "separator free row is out of range");
+        ensure!(
+            !self.occupied[free_row],
+            "separator free row is a pivot row"
+        );
+        let mut separator = vec![0u32; self.rows];
+        separator[free_row] = 1;
+        for column in (0..self.rank()).rev() {
+            let basis_column = &self.basis[column * self.rows..(column + 1) * self.rows];
+            let mut sum = basis_column[free_row];
+            for later in column + 1..self.rank() {
+                let coefficient = separator[self.pivot_rows[later]];
+                if coefficient == 0 {
+                    continue;
+                }
+                let product = self
+                    .modulus
+                    .reduce_u64(coefficient as u64 * basis_column[self.pivot_rows[later]] as u64);
+                let total = sum + product;
+                sum = if total >= self.prime {
+                    total - self.prime
+                } else {
+                    total
+                };
+            }
+            separator[self.pivot_rows[column]] = if sum == 0 { 0 } else { self.prime - sum };
+        }
+        for column in self.basis.chunks_exact(self.rows) {
+            ensure!(
+                self.dot_mod(&separator, column)? == 0,
+                "constructed separator does not annihilate the basis"
+            );
+        }
+        Ok(separator)
+    }
+
     fn reduce_existing(&mut self, matrix: &mut [u32], columns: usize) -> Result<()> {
         ensure!(matrix.len() == self.rows * columns, "batch shape mismatch");
         for start in (0..self.rank()).step_by(self.block_size) {
@@ -502,5 +557,19 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn left_separator_annihilates_basis_and_separates() {
+        set_blas_threads(1).unwrap();
+        let mut engine = DenseEchelon::new(5, 101, 2).unwrap();
+        let mut batch = vec![1, 2, 0, 3, 0, 0, 1, 4, 0, 2];
+        engine.process_batch(&mut batch, &[7, 11]).unwrap();
+        let mut target = vec![0, 0, 0, 1, 0];
+        let original = target.clone();
+        engine.reduce_only(&mut target).unwrap();
+        let free = target.iter().position(|&value| value != 0).unwrap();
+        let separator = engine.left_separator(free).unwrap();
+        assert_ne!(engine.dot_mod(&separator, &original).unwrap(), 0);
     }
 }

@@ -5,7 +5,7 @@ use max11_streamrank::{DenseEchelon, ReducerMetrics, SketchSpec, set_blas_thread
 use rayon::prelude::*;
 use serde::Serialize;
 use sha2::{Digest, Sha256};
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeSet, HashMap, HashSet};
 use std::env;
 use std::fs::{self, File, OpenOptions};
 use std::io::{BufRead, BufReader, BufWriter, Read, Write};
@@ -84,6 +84,10 @@ impl Args {
             .with_context(|| format!("invalid {name}"))
     }
 
+    fn u64(&self, name: &str) -> Result<u64> {
+        parse_u64(self.required(name)?)
+    }
+
     fn seeds(&self) -> Result<Vec<u64>> {
         let result: Vec<u64> = self
             .required("--seeds")?
@@ -129,6 +133,14 @@ fn sha256_path(path: &Path) -> Result<String> {
         hash.update(&buffer[..count]);
     }
     Ok(format!("{:x}", hash.finalize()))
+}
+
+fn sha256_u64_le(values: &[u64]) -> String {
+    let mut hash = Sha256::new();
+    for &value in values {
+        hash.update(value.to_le_bytes());
+    }
+    format!("{:x}", hash.finalize())
 }
 
 fn create_output(path: &Path) -> Result<BufWriter<File>> {
@@ -286,6 +298,21 @@ struct ExpectedReport {
 }
 
 #[derive(Serialize)]
+struct BucketResidue {
+    bucket: u32,
+    residue: u32,
+}
+
+#[derive(Serialize)]
+struct SeparatorReport {
+    encoding: &'static str,
+    length: usize,
+    entries: Vec<BucketResidue>,
+    dot_target_mod_prime: u32,
+    verified_basis_columns_denominator: usize,
+}
+
+#[derive(Serialize)]
 struct SketchReport {
     sketch: SketchSpec,
     rank_a: usize,
@@ -293,7 +320,10 @@ struct SketchReport {
     saturated: bool,
     verdict: String,
     pivot_columns: Vec<u64>,
+    pivot_columns_u64_le_sha256: String,
     pivot_buckets: Vec<u32>,
+    target_sketch_nonzero: Vec<BucketResidue>,
+    left_separator: Option<SeparatorReport>,
     sketch_seconds: f64,
     reducer_seconds: f64,
     real_entry_visits_numerator: u128,
@@ -309,6 +339,8 @@ struct Report {
     command: Vec<String>,
     input: String,
     input_sha256: String,
+    order_file: Option<String>,
+    order_file_sha256: Option<String>,
     subject: String,
     n: usize,
     branch_edge_occurrences: usize,
@@ -317,13 +349,23 @@ struct Report {
     batch_size: usize,
     gemm_block: usize,
     threads: usize,
+    source_column_count: usize,
     source_columns_denominator: usize,
     exact_real_nnz_numerator: u128,
+    progress: Vec<ProgressPoint>,
     wall_seconds: f64,
     max_rss_kib: Option<u64>,
     expected: ExpectedReport,
     sketches: Vec<SketchReport>,
     no_claim: &'static str,
+}
+
+#[derive(Serialize)]
+struct ProgressPoint {
+    source_columns_processed: usize,
+    ranks: Vec<usize>,
+    elapsed_seconds: f64,
+    cumulative_seconds_per_column: f64,
 }
 
 fn max_rss_kib() -> Option<u64> {
@@ -340,8 +382,11 @@ fn max_rss_kib() -> Option<u64> {
 struct SourceSummary {
     subject: String,
     input_hash: String,
+    order_file: Option<String>,
+    order_file_sha256: Option<String>,
     source_columns: usize,
     exact_nnz: u128,
+    progress: Vec<ProgressPoint>,
     started: Instant,
 }
 
@@ -354,8 +399,11 @@ fn finish_run(
     let SourceSummary {
         subject,
         input_hash,
+        order_file,
+        order_file_sha256,
         source_columns,
         exact_nnz,
+        progress,
         started,
     } = source;
     let mut sketches = Vec::new();
@@ -372,6 +420,7 @@ fn finish_run(
         state
             .spec
             .sketch_column(&target_column, config.prime, &mut target);
+        let target_original = target.clone();
         if !saturated {
             state.basis.reduce_only(&mut target)?;
         }
@@ -384,19 +433,57 @@ fn finish_run(
         } else {
             "MEMBER"
         };
+        let left_separator = if outside {
+            let free_row = target
+                .iter()
+                .position(|&value| value != 0)
+                .context("nonmember residual has no nonzero row")?;
+            let vector = state.basis.left_separator(free_row)?;
+            let dot_target = state.basis.dot_mod(&vector, &target_original)?;
+            ensure!(dot_target != 0, "separator does not separate the target");
+            Some(SeparatorReport {
+                encoding: "sparse-bucket-residues-v1",
+                length: config.buckets,
+                entries: vector
+                    .into_iter()
+                    .enumerate()
+                    .filter(|(_, residue)| *residue != 0)
+                    .map(|(bucket, residue)| BucketResidue {
+                        bucket: bucket as u32,
+                        residue,
+                    })
+                    .collect(),
+                dot_target_mod_prime: dot_target,
+                verified_basis_columns_denominator: rank_a,
+            })
+        } else {
+            None
+        };
+        let pivot_columns = state.basis.pivot_columns().to_vec();
         sketches.push(SketchReport {
             sketch: state.spec,
             rank_a,
             rank_augmented,
             saturated,
             verdict: verdict.to_owned(),
-            pivot_columns: state.basis.pivot_columns().to_vec(),
+            pivot_columns_u64_le_sha256: sha256_u64_le(&pivot_columns),
+            pivot_columns,
             pivot_buckets: state
                 .basis
                 .pivot_rows()
                 .iter()
                 .map(|&row| row as u32)
                 .collect(),
+            target_sketch_nonzero: target_original
+                .into_iter()
+                .enumerate()
+                .filter(|(_, residue)| *residue != 0)
+                .map(|(bucket, residue)| BucketResidue {
+                    bucket: bucket as u32,
+                    residue,
+                })
+                .collect(),
+            left_separator,
             sketch_seconds: state.sketch_seconds,
             reducer_seconds: state.reducer_seconds,
             real_entry_visits_numerator: state.real_entry_visits_numerator,
@@ -437,6 +524,8 @@ fn finish_run(
         command: args.invocation.clone(),
         input: config.input.display().to_string(),
         input_sha256: input_hash,
+        order_file,
+        order_file_sha256,
         subject,
         n: config.n,
         branch_edge_occurrences: config.branch_edges,
@@ -445,8 +534,10 @@ fn finish_run(
         batch_size: config.batch_size,
         gemm_block: config.block_size,
         threads: config.threads,
+        source_column_count: source_columns,
         source_columns_denominator: source_columns,
         exact_real_nnz_numerator: exact_nnz,
+        progress,
         wall_seconds: started.elapsed().as_secs_f64(),
         max_rss_kib: max_rss_kib(),
         expected: ExpectedReport {
@@ -485,6 +576,31 @@ fn process_batch(states: &mut [State], batch: &[(u64, SparseColumn)], prime: u32
     Ok(())
 }
 
+fn next_splitmix64(state: &mut u64) -> u64 {
+    *state = state.wrapping_add(0x9e37_79b9_7f4a_7c15);
+    let mut value = *state;
+    value = (value ^ (value >> 30)).wrapping_mul(0xbf58_476d_1ce4_e5b9);
+    value = (value ^ (value >> 27)).wrapping_mul(0x94d0_49bb_1331_11eb);
+    value ^ (value >> 31)
+}
+
+fn command_sample_order(args: &Args) -> Result<()> {
+    let population = args.usize("--population")?;
+    let sample_size = args.usize("--sample-size")?;
+    let output = args.path("--output")?;
+    ensure!(
+        (1..=population).contains(&sample_size),
+        "sample size lies outside population"
+    );
+    let mut state = args.u64("--seed")?;
+    let mut selected = BTreeSet::new();
+    while selected.len() < sample_size {
+        selected.insert((next_splitmix64(&mut state) % population as u64) as usize);
+    }
+    write_json(&output, &selected.into_iter().collect::<Vec<_>>())?;
+    Ok(())
+}
+
 fn command_saved(args: &Args) -> Result<()> {
     let config = Config::from_args(args)?;
     let filter = args.required("--filter")?;
@@ -505,6 +621,7 @@ fn command_saved(args: &Args) -> Result<()> {
     let mut source_index = 0u64;
     let mut selected = 0usize;
     let mut exact_nnz = 0u128;
+    let mut progress = Vec::new();
     let mut batch = Vec::with_capacity(config.batch_size);
     loop {
         line.clear();
@@ -523,6 +640,13 @@ fn command_saved(args: &Args) -> Result<()> {
             if batch.len() == config.batch_size {
                 process_batch(&mut states, &batch, config.prime)?;
                 batch.clear();
+                let elapsed = started.elapsed().as_secs_f64();
+                progress.push(ProgressPoint {
+                    source_columns_processed: selected,
+                    ranks: states.iter().map(|state| state.basis.rank()).collect(),
+                    elapsed_seconds: elapsed,
+                    cumulative_seconds_per_column: elapsed / selected as f64,
+                });
                 eprintln!(
                     "STREAMRANK_PROGRESS columns={selected} ranks={:?} seconds={:.3}",
                     states
@@ -537,6 +661,13 @@ fn command_saved(args: &Args) -> Result<()> {
     }
     if !batch.is_empty() {
         process_batch(&mut states, &batch, config.prime)?;
+        let elapsed = started.elapsed().as_secs_f64();
+        progress.push(ProgressPoint {
+            source_columns_processed: selected,
+            ranks: states.iter().map(|state| state.basis.rank()).collect(),
+            elapsed_seconds: elapsed,
+            cumulative_seconds_per_column: elapsed / selected as f64,
+        });
     }
     finish_run(
         args,
@@ -544,8 +675,11 @@ fn command_saved(args: &Args) -> Result<()> {
         SourceSummary {
             subject: format!("saved-system:{filter}"),
             input_hash,
+            order_file: None,
+            order_file_sha256: None,
             source_columns: selected,
             exact_nnz,
+            progress,
             started,
         },
         states,
@@ -562,13 +696,46 @@ fn command_universe(args: &Args) -> Result<()> {
         "universe/config dimensions differ"
     );
     ensure!(universe.loopless, "only loopless universes are supported");
-    let start = args.usize_or("--start", 0)?;
-    let limit = args.usize_or("--limit", universe.records.len().saturating_sub(start))?;
-    let stop = start.checked_add(limit).context("range overflow")?;
-    ensure!(
-        start < stop && stop <= universe.records.len(),
-        "range outside universe"
-    );
+    let (order, subject, order_file, order_file_sha256) =
+        if let Some(path) = args.values.get("--order-file").map(PathBuf::from) {
+            ensure!(
+                !args.values.contains_key("--start") && !args.values.contains_key("--limit"),
+                "--order-file cannot be combined with --start/--limit"
+            );
+            let hash = sha256_path(&path)?;
+            let order: Vec<usize> = serde_json::from_reader(open_reader(&path)?)
+                .with_context(|| format!("decoding order file {}", path.display()))?;
+            ensure!(!order.is_empty(), "order file is empty");
+            ensure!(
+                order.iter().all(|&index| index < universe.records.len()),
+                "order file contains an out-of-range record index"
+            );
+            ensure!(
+                order.iter().copied().collect::<HashSet<_>>().len() == order.len(),
+                "order file contains duplicate record indices"
+            );
+            (
+                order,
+                format!("colgen-universe-order:{}", path.display()),
+                Some(path.display().to_string()),
+                Some(hash),
+            )
+        } else {
+            let start = args.usize_or("--start", 0)?;
+            let limit = args.usize_or("--limit", universe.records.len().saturating_sub(start))?;
+            let stop = start.checked_add(limit).context("range overflow")?;
+            ensure!(
+                start < stop && stop <= universe.records.len(),
+                "range outside universe"
+            );
+            (
+                (start..stop).collect(),
+                format!("colgen-universe-range:[{start},{stop})"),
+                None,
+                None,
+            )
+        };
+    let limit = order.len();
     let started = Instant::now();
     let mut states: Vec<State> = config
         .seeds
@@ -576,25 +743,33 @@ fn command_universe(args: &Args) -> Result<()> {
         .map(|&seed| State::new(seed, config.buckets, config.prime, config.block_size))
         .collect::<Result<_>>()?;
     let mut exact_nnz = 0u128;
-    for batch_start in (start..stop).step_by(config.batch_size) {
-        let batch_stop = (batch_start + config.batch_size).min(stop);
+    let mut progress = Vec::new();
+    for batch_start in (0..limit).step_by(config.batch_size) {
+        let batch_stop = (batch_start + config.batch_size).min(limit);
         let columns = batch_stop - batch_start;
-        let indices: Vec<u64> = (batch_start as u64..batch_stop as u64).collect();
+        let indices: Vec<u64> = order[batch_start..batch_stop]
+            .iter()
+            .map(|&index| index as u64)
+            .collect();
         let mut matrices: Vec<Vec<u32>> = states
             .iter()
             .map(|state| vec![0u32; state.spec.buckets * columns])
             .collect();
         let generation_chunk = config.threads * 2;
-        for chunk_start in (batch_start..batch_stop).step_by(generation_chunk) {
-            let chunk_stop = (chunk_start + generation_chunk).min(batch_stop);
-            let generated: Vec<Result<(usize, SparseColumn)>> = universe.records
-                [chunk_start..chunk_stop]
+        for chunk_start in (0..columns).step_by(generation_chunk) {
+            let chunk_stop = (chunk_start + generation_chunk).min(columns);
+            let generated: Vec<Result<(usize, SparseColumn)>> = order
+                [batch_start + chunk_start..batch_start + chunk_stop]
                 .par_iter()
                 .enumerate()
-                .map(|(offset, record)| {
+                .map(|(offset, &record_index)| {
                     Ok((
-                        chunk_start + offset - batch_start,
-                        generate_column(record, config.n, config.branch_edges)?,
+                        chunk_start + offset,
+                        generate_column(
+                            &universe.records[record_index],
+                            config.n,
+                            config.branch_edges,
+                        )?,
                     ))
                 })
                 .collect();
@@ -624,9 +799,16 @@ fn command_universe(args: &Args) -> Result<()> {
         for (state, matrix) in states.iter_mut().zip(&mut matrices) {
             state.process_sketched(matrix, &indices)?;
         }
+        let elapsed = started.elapsed().as_secs_f64();
+        progress.push(ProgressPoint {
+            source_columns_processed: batch_stop,
+            ranks: states.iter().map(|state| state.basis.rank()).collect(),
+            elapsed_seconds: elapsed,
+            cumulative_seconds_per_column: elapsed / batch_stop as f64,
+        });
         eprintln!(
             "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3}",
-            batch_stop - start,
+            batch_stop,
             limit,
             states
                 .iter()
@@ -639,10 +821,13 @@ fn command_universe(args: &Args) -> Result<()> {
         args,
         config,
         SourceSummary {
-            subject: format!("colgen-universe-range:[{start},{stop})"),
+            subject,
             input_hash,
+            order_file,
+            order_file_sha256,
             source_columns: limit,
             exact_nnz,
+            progress,
             started,
         },
         states,
@@ -650,7 +835,7 @@ fn command_universe(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q --threads T --output REPORT.json [--start I --limit L and expected arguments]"
+    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64,U64 --batch-size B --gemm-block Q --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
 }
 
 fn main() -> Result<()> {
@@ -661,6 +846,7 @@ fn main() -> Result<()> {
     match args.command.as_str() {
         "run-saved" => command_saved(&args),
         "run-universe" => command_universe(&args),
+        "sample-order" => command_sample_order(&args),
         other => bail!("unknown command {other}\n{}", usage()),
     }
 }
