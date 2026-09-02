@@ -106,7 +106,7 @@ def verify_control(path: Path, backend: str, n: int, prime: int) -> list[str]:
     require(report.get("batch_size") == batch, "control batch size")
     require(report.get("gemm_block") == 1024, "control GEMM block")
     require(report.get("rank_panel") == 64, "control rank panel")
-    expected_threads = 6 if backend == "cpu" else 60
+    expected_threads = 6 if backend == "cpu" else 24
     require(report.get("threads") == expected_threads, "control thread count")
     require(report.get("input_sha256") == SYSTEM_SHA[n], "control input SHA")
     require(report.get("source_column_count") == columns, "control source columns")
@@ -217,7 +217,7 @@ def verify_arm(path: Path, prime: int, seed: int) -> dict[str, Any]:
         "--backend": "cuda", "--n": "12", "--branch-edges": "5",
         "--modulus": str(prime), "--buckets": str(BUCKETS),
         "--seeds": str(seed), "--batch-size": "1024",
-        "--gemm-block": "8192", "--rank-panel": "64", "--threads": "60",
+        "--gemm-block": "8192", "--rank-panel": "64", "--threads": "24",
         "--include-five-l": "true", "--abort-rank-above": str(RANK_ABORT),
         "--abort-rss-kib-above": str(RSS_ABORT_KIB),
     }

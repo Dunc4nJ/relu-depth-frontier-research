@@ -54,7 +54,7 @@ run_control() {
   local prime="$3"
   local output="$out_dir/${backend}-${system}-p${prime}.json"
   local input n filter buckets columns rank aug verdict batch threads
-  threads=60
+  threads=24
   if [[ "$backend" == cpu ]]; then
     threads=6
   fi
@@ -94,7 +94,7 @@ set +e
   --backend cuda --input "$n9" --n 9 --branch-edges 4 \
   --filter union-trees --modulus 1000003 --buckets 1080 \
   --seeds 2026090201 --batch-size 256 --gemm-block 1024 \
-  --rank-panel 64 --threads 60 --expected-columns 739 \
+  --rank-panel 64 --threads 24 --expected-columns 739 \
   --expected-rank 359 --expected-aug-rank 361 \
   --expected-verdict NON_MEMBER --output "$mutant" \
   >"$mutant.stdout.log" 2>"$mutant.stderr.log"

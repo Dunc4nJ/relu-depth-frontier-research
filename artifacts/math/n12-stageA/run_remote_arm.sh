@@ -58,7 +58,7 @@ printf 'timestamp_utc,gpu_used_mib,gpu_total_mib,gpu_util_percent,process_rss_ki
   --input "$universe" --order-file "$order" \
   --n 12 --branch-edges 5 \
   --modulus "$prime" --buckets 128000 --seeds "$seed" \
-  --batch-size 1024 --gemm-block 8192 --rank-panel 64 --threads 60 \
+  --batch-size 1024 --gemm-block 8192 --rank-panel 64 --threads 24 \
   --include-five-l true \
   --abort-rank-above 100000 --abort-rss-kib-above 230686720 \
   --output "$output" >"$stdout_log" 2>"$stderr_log" &
