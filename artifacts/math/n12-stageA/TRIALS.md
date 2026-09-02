@@ -139,6 +139,33 @@ arms (the 120-thread scheduling cap), and launches arms 3 and 4 only as a slot
 becomes free. The four primes/seeds, finite subjects, and verdict rule are
 unchanged; scheduling changes none of their epistemic meaning.
 
+## Scheduling amendment: split across two H100 boxes
+
+At 2026-09-02T23:30Z AmberBluff reassigned arms 3 and 4 to the H100 PCIe box
+at `ssh1.vast.ai:29562` after WildWillow's pass-1 PID 9,055 had exited. The
+NVL auto-launch watcher was stopped before it could create either p=1,000,033
+arm; NVL arms 1 and 2 were not signaled or otherwise changed.
+
+The registered n=12 universe and order file were copied to the PCIe checkout
+and rechecked as
+`f98352ea4d1517f0b88aba0b38d34be0edb0b845aac3eaa724f3bd1f8f83f640`
+and `691cb0368545f8834c98e891bbb771476e547ce9e140887c9791710a8786a7c1`.
+The exact already-gated binary was copied from the NVL box and rechecked as
+`cdf835b269d25a37f110d72f16865e6f511d5154b5caf7808dd2eb1d82bc85c3`
+(2,361,344 bytes). No WildWillow pass-1 output path was read or written.
+
+Arms 3 and 4 then launched under isolated `nohup` supervisors with 12
+column-generation threads each: wrapper/reducer PIDs 13,692/13,704 for seed
+2,026,090,201 and 13,798/13,810 for seed 2,026,090,202. All mathematical and
+reducer parameters remain frozen. Initial aggregate GPU use was
+34,243/81,559 MiB; the PCIe wrapper terminates its own arm at
+75,000/81,559 MiB. WildWillow pass-2 PID 13,920 auto-launched just after these
+starts and was reported to AmberBluff and WildWillow; NavyTiger did not signal
+it or touch its output paths. It was no longer present at the next process
+check. A read-only multibox watcher now verifies, copies, and mails each arm
+from its assigned box. This scheduling amendment changes neither the four-arm
+verdict rule nor the finite modular-sketch no-claim.
+
 ## No claim
 
 These trials validate the named machinery on two finite known-answer systems.

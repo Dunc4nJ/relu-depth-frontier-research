@@ -31,8 +31,10 @@ BUCKETS = 128_000
 RANK_ABORT = 100_000
 SATURATION_CEILING = 127_000
 RSS_ABORT_KIB = 230_686_720
-GPU_ABORT_MIB = 90_000
-GPU_TOTAL_MIB = 95_830
+GPU_PROFILE = {
+    1_000_003: (95_830, 90_000, 60),
+    1_000_033: (81_559, 75_000, 12),
+}
 BINARY_SHA = "cdf835b269d25a37f110d72f16865e6f511d5154b5caf7808dd2eb1d82bc85c3"
 
 
@@ -160,7 +162,7 @@ def verify_control_mutant(path: Path) -> None:
     verify_pivots(item, 360)
 
 
-def parse_telemetry(path: Path) -> tuple[int, int, int]:
+def parse_telemetry(path: Path, gpu_total_mib: int, gpu_abort_mib: int) -> tuple[int, int, int]:
     require(path.is_file(), f"missing telemetry: {path}")
     rows = 0
     max_gpu = 0
@@ -176,16 +178,17 @@ def parse_telemetry(path: Path) -> tuple[int, int, int]:
             gpu = int(row["gpu_used_mib"].strip())
             total = int(row["gpu_total_mib"].strip())
             rss = int(row["process_rss_kib"].strip())
-            require(total == GPU_TOTAL_MIB, "GPU total changed")
+            require(total == gpu_total_mib, "GPU total changed")
             max_gpu = max(max_gpu, gpu)
             max_rss = max(max_rss, rss)
     require(rows > 0, "empty telemetry")
-    require(max_gpu < GPU_ABORT_MIB, "external GPU gate should have aborted")
+    require(max_gpu < gpu_abort_mib, "external GPU gate should have aborted")
     require(max_rss < RSS_ABORT_KIB, "external RSS gate should have aborted")
     return rows, max_gpu, max_rss
 
 
 def verify_arm(path: Path, prime: int, seed: int) -> dict[str, Any]:
+    gpu_total_mib, gpu_abort_mib, expected_threads = GPU_PROFILE[prime]
     report = load_json(path)
     require(report.get("schema") == "max11-streamrank-pivots-v1", "arm schema")
     require(report.get("result") == "OBSERVATION", "arm is not an observation")
@@ -197,7 +200,7 @@ def verify_arm(path: Path, prime: int, seed: int) -> dict[str, Any]:
     require(report.get("batch_size") == 1024, "arm batch size")
     require(report.get("gemm_block") == 8192, "arm GEMM block")
     require(report.get("rank_panel") == 64, "arm rank panel")
-    require(report.get("threads") == 60, "arm threads")
+    require(report.get("threads") == expected_threads, "arm threads")
     require(report.get("input_sha256") == UNIVERSE_SHA, "arm universe SHA")
     require(report.get("order_file_sha256") == ORDER_SHA, "arm order SHA")
     require(report.get("source_column_count") == ARM_COLUMNS, "arm source columns")
@@ -218,7 +221,8 @@ def verify_arm(path: Path, prime: int, seed: int) -> dict[str, Any]:
         "--backend": "cuda", "--n": "12", "--branch-edges": "5",
         "--modulus": str(prime), "--buckets": str(BUCKETS),
         "--seeds": str(seed), "--batch-size": "1024",
-        "--gemm-block": "8192", "--rank-panel": "64", "--threads": "60",
+        "--gemm-block": "8192", "--rank-panel": "64",
+        "--threads": str(expected_threads),
         "--include-five-l": "true", "--abort-rank-above": str(RANK_ABORT),
         "--abort-rss-kib-above": str(RSS_ABORT_KIB),
     }
@@ -247,10 +251,12 @@ def verify_arm(path: Path, prime: int, seed: int) -> dict[str, Any]:
                 "NON_MEMBER separator denominator")
     computed = verify_pivots(item, rank_a)
     gpu_peak = item.get("reducer_metrics", {}).get("gpu_peak_allocated_bytes")
-    require(isinstance(gpu_peak, int) and gpu_peak < GPU_ABORT_MIB * 1024 * 1024,
+    require(isinstance(gpu_peak, int) and gpu_peak < gpu_abort_mib * 1024 * 1024,
             "reported GPU allocation exceeds gate")
     telemetry_path = path.with_suffix(".telemetry.csv")
-    telemetry_rows, telemetry_gpu, telemetry_rss = parse_telemetry(telemetry_path)
+    telemetry_rows, telemetry_gpu, telemetry_rss = parse_telemetry(
+        telemetry_path, gpu_total_mib, gpu_abort_mib
+    )
     require(not path.with_suffix(".external-gate.txt").exists(), "external gate fired")
     for suffix in (".stdout.log", ".stderr.log", ".supervisor.log"):
         require(path.with_suffix(suffix).is_file(), f"missing arm log {suffix}")
