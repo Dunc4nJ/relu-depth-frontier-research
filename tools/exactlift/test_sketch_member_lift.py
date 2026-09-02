@@ -4,6 +4,7 @@ import hashlib
 import json
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -188,6 +189,20 @@ class SketchMemberLiftTests(unittest.TestCase):
     def test_factorization_known_answers(self) -> None:
         self.assertEqual(sketch_member_lift.factorization(1), {})
         self.assertEqual(sketch_member_lift.factorization(304_819_200), {"2": 10, "3": 5, "5": 2, "7": 2})
+
+    def test_factorization_bounds_large_composite_cofactor(self) -> None:
+        left = 1000000000000000000000000000000000012397
+        right = 10000000000000000000000000000000000054399
+        self.assertTrue(sketch_member_lift.fmpz(left).is_prime())
+        self.assertTrue(sketch_member_lift.fmpz(right).is_prime())
+        value = left * right
+        started = time.monotonic()
+        result = sketch_member_lift.factorization(value)
+        elapsed = time.monotonic() - started
+        self.assertLess(elapsed, 1.0)
+        self.assertEqual(result["unfactored_composite_cofactor"], str(value))
+        self.assertEqual(result["cofactor_digits"], len(str(value)))
+        self.assertIs(result["cofactor_is_probable_prime"], False)
 
 
 if __name__ == "__main__":

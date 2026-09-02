@@ -12,6 +12,7 @@ and emits the standard finite-system witness consumed by
 from __future__ import annotations
 
 import argparse
+import functools
 import hashlib
 import json
 import math
@@ -51,10 +52,52 @@ def require_equal(actual: Any, expected: Any, label: str) -> None:
         raise ValueError(f"{label}: {actual!r} != {expected!r}")
 
 
-def factorization(value: int) -> dict[str, int]:
+TRIAL_DIVISION_LIMIT = 1 << 20
+UNFACTORED_COFACTOR_THRESHOLD = 10**30
+
+
+@functools.lru_cache(maxsize=1)
+def trial_primes() -> tuple[int, ...]:
+    sieve = bytearray(b"\x01") * (TRIAL_DIVISION_LIMIT + 1)
+    sieve[0:2] = b"\x00\x00"
+    for prime in range(2, math.isqrt(TRIAL_DIVISION_LIMIT) + 1):
+        if not sieve[prime]:
+            continue
+        start = prime * prime
+        sieve[start::prime] = b"\x00" * (
+            (TRIAL_DIVISION_LIMIT - start) // prime + 1
+        )
+    return tuple(index for index, is_prime in enumerate(sieve) if is_prime)
+
+
+def factorization(value: int) -> dict[str, int | str | bool]:
     if value <= 0:
         raise ValueError("denominator LCM must be positive")
-    return {str(prime): int(exponent) for prime, exponent in fmpz(value).factor()}
+    remaining = value
+    factors: dict[str, int | str | bool] = {}
+    for prime in trial_primes():
+        if prime * prime > remaining:
+            break
+        exponent = 0
+        while remaining % prime == 0:
+            remaining //= prime
+            exponent += 1
+        if exponent:
+            factors[str(prime)] = exponent
+    if remaining == 1:
+        return factors
+    cofactor = fmpz(remaining)
+    if cofactor.is_probable_prime():
+        factors[str(remaining)] = 1
+        return factors
+    if remaining > UNFACTORED_COFACTOR_THRESHOLD:
+        factors["unfactored_composite_cofactor"] = str(remaining)
+        factors["cofactor_digits"] = len(str(remaining))
+        factors["cofactor_is_probable_prime"] = False
+        return factors
+    for prime, exponent in cofactor.factor():
+        factors[str(prime)] = int(exponent)
+    return factors
 
 
 def write_new(path: Path, payload: dict[str, Any]) -> None:
