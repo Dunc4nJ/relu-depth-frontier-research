@@ -87,10 +87,11 @@ The authoritative path-qualified hashes are in
 At the preflight sample the A100 host reported
 2,083,739,856,896/2,151,664,680,960 bytes available host RAM and 0/81,920 MiB
 GPU memory used. The exact-lift runner defaults to 16/128 host threads. A
-proposal to cap this bead at 16 threads and 64 GiB host RAM was sent to
-AzureAspen in thread `relu-depth-frontier-research-hhs`; agreement is still
-pending. The full triggered lift will not start without reconciling concurrent
-use with bead `relu-depth-frontier-research-psu`.
+AzureAspen agreed in thread `relu-depth-frontier-research-hhs` to cap this bead
+at 16 threads and 64 GiB host RAM while retaining an 80 GiB floor for bead
+`relu-depth-frontier-research-psu`. The full triggered lift must not overlap
+AzureAspen's current 16-thread sketch builder; AzureAspen authorized overlap
+only after that workload transitions to its serial HiGHS phase.
 
 ## Trigger path
 
