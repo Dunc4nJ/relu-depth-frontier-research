@@ -17,8 +17,8 @@ labels=(
 )
 primes=(1000003 1000003 1000033 1000033)
 seeds=(2026090201 2026090202 2026090201 2026090202)
-ports=(15464 15464 29562 29562)
-boxes=(h100-nvl h100-nvl h100-pcie h100-pcie)
+ports=(15464 15464 15464 29562)
+boxes=(h100-nvl h100-nvl h100-nvl-restart h100-pcie)
 remote="root@ssh1.vast.ai"
 
 mkdir -p "$state_dir"
