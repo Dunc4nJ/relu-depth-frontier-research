@@ -249,3 +249,101 @@ The substantive yield is a new bounded obstruction: over p=1,000,003, each of
 two named 64,000-row sketches separates MAX_11 from the named 18,286-column
 loopless degree-4-plus-`4L` family by one rank. Promotion, broader interpretation,
 or bead closure remains with orchestrator AmberBluff.
+
+## Amendment 2026-09-03 — second-prime replay
+
+AmberBluff requested a second-prime replay to test the failure mode in which a
+rational solution exists but reduction modulo the first prime is obstructed by
+that prime dividing all usable rational denominators. The universe, source
+order, `4E`/`4L` carriers, binary, row count, seeds, batch size, and CUDA
+parameters were held fixed. Only the modulus changed from 1,000,003 to
+**1,000,033**.
+
+The second prime reproduced the same one-rank obstruction in both sketches:
+
+| prime | seed | rank(A) / rows | rank([A\|MAX_11]) / rows | verdict | separator dot MAX_11 mod p |
+|---:|---:|---:|---:|---|---:|
+| 1,000,033 | 2026090201 | 3,514 / 64,000 | 3,515 / 64,000 | NON_MEMBER | 461,920 |
+| 1,000,033 | 2026090202 | 3,514 / 64,000 | 3,515 / 64,000 | NON_MEMBER | 511,128 |
+
+Both sketches were unsaturated. Each verified separator has 3,515 nonzero
+entries and was checked against all 3,514 named basis columns. Their pivot
+column lists again have the identical SHA-256
+`f1c3705626e995648c8ac5427ab15858408ce9ca516d8648145fd7e7ed52687d`,
+which also matches the first-prime pivot hash.
+
+### Second-prime custody
+
+The same isolated CUDA binary was used:
+`73d1964bfca6f34c220c3ed6c4e8a228f8d855c63653bdf22780a9a264a5851b`.
+The input universe was unchanged:
+`72d0f4b53b8bd7584987eb9a4f11816db25e046e5a84b0fdb800e3beea3a400c`.
+
+| artifact | SHA-256 |
+|---|---|
+| seed 2026090201 JSON | `d0cdd89ffb903d3c1f8bc58a3940897df313072ed4258ee5c2af514b61158cf9` |
+| seed 2026090201 stderr | `d69fbf0d813b57fcbbe106b724a7b4955f40ac546e42a707d25fb5627e775f2f` |
+| seed 2026090202 JSON | `bb5bdc2314392953e96e1e50a212816d02e4c54b70b46f17d5dabe144c50caf0` |
+| seed 2026090202 stderr | `b95a26aebf26e5134c29be8170eab49e1d6a4b11d8cec746c01aa30e5c14b792` |
+| second-prime verification | `a85b219a3a5a7724ced0ad8a3290602dfaa2b1d1c3176e048865498d23cc3659` |
+| second-prime verifier | `071e8c0ef6c9b1a84ef3d47a37e772f5039913c8f6cbcec81f5e55e896a23efe` |
+
+The result verifier was fixed to p=1,000,033, m=64,000, the two named seeds,
+18,285 serialized records, 18,286 columns after `4L`, and the exact carrier
+descriptor before either n=11 second-prime verdict was inspected. It does not
+hardcode a rank or verdict. It requires cross-seed agreement; verifies each
+rank/verdict relation, pivot count, pivot hash, and stored separator/target dot
+product; and rejected both a planted rank/verdict inconsistency and a planted
+zero separator dot.
+
+### Second-prime n=10 known-answer control
+
+The requested p=1,000,033 control over the 12,248-column saved degree-4 system
+recovered the fixed expected answer in both seeds:
+
+| input / columns | rows | seed | rank(A) / rank(augmented) | verdict |
+|---|---:|---:|---:|---|
+| `loopless_system_n10.jsonl.gz` / 12,248 | 8,192 | 2026090201 | 2,166 / 2,166 | MEMBER |
+| `loopless_system_n10.jsonl.gz` / 12,248 | 8,192 | 2026090202 | 2,166 / 2,166 | MEMBER |
+
+Input SHA-256:
+`bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18`.
+Control report SHA-256:
+`b0021eb8510b74485b730bf686c7e0fd035b887acb882ba99f0a7a8b67775689`.
+The report is `CONTROL_PASS`; wall time was 93.455 seconds and peak RSS was
+479,640 KiB.
+
+This 2,166-rank control is explicitly the 12,248-column saved-system control,
+not the 17,775-record full multigraph universe. AmberBluff separately reported
+an orchestrator-side full-universe p=1,000,033 replay with rank 3,109 and
+`MEMBER`; that result is not promoted here because its report and hash are not
+part of this artifact set.
+
+### H100 gate and commands
+
+The initial H100 check saw 41,981 MiB aggregate use from the resident arm and
+ksi jobs. Ksi finished before seed 2026090201 launched, whose fail-closed check
+saw 25,125 MiB resident. During that sketch aggregate use was 35,979 MiB. Seed
+2026090202 launched after a new check saw 35,979 MiB; the maximum aggregate
+use observed during it was 46,832 MiB. All observations stayed below the 60
+GiB gate. The runs were sequential, used eight threads each, and did not signal
+or modify the resident jobs. The NVL fallback was therefore not used.
+
+The successful commands, also embedded verbatim in their JSON reports, were:
+
+```sh
+artifacts/math/n11-degree4/build-c958975/target/release/max11-streamrank run-universe --backend cuda --input artifacts/math/n11-degree4/loopless_signed_degree4_universe_n11_v1.json.gz --n 11 --branch-edges 4 --modulus 1000033 --buckets 64000 --seeds 2026090201 --batch-size 1024 --gemm-block 8192 --rank-panel 64 --threads 8 --include-linear-carrier true --output artifacts/math/n11-degree4/n11-degree4-m64000-p1000033-s2026090201-cuda.json
+
+artifacts/math/n11-degree4/build-c958975/target/release/max11-streamrank run-universe --backend cuda --input artifacts/math/n11-degree4/loopless_signed_degree4_universe_n11_v1.json.gz --n 11 --branch-edges 4 --modulus 1000033 --buckets 64000 --seeds 2026090202 --batch-size 1024 --gemm-block 8192 --rank-panel 64 --threads 8 --include-linear-carrier true --output artifacts/math/n11-degree4/n11-degree4-m64000-p1000033-s2026090202-cuda.json
+
+tools/streamrank/target/release/max11-streamrank run-saved --backend cpu --input handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz --n 10 --branch-edges 4 --filter all --modulus 1000033 --buckets 8192 --seeds 2026090201,2026090202 --batch-size 256 --gemm-block 2048 --rank-panel 64 --threads 4 --expected-columns 12248 --expected-rank 2166 --expected-aug-rank 2166 --expected-verdict MEMBER --output artifacts/math/n11-degree4/streamrank_control_n10_p1000033.json
+```
+
+### Amended no-claim
+
+This is now a **two-prime modular null** for the same named 18,286-column
+finite family, at p=1,000,003 and p=1,000,033, with two 64,000-row sketches per
+prime. It materially weakens the single-bad-prime explanation but does not
+exclude a rational solution whose usable denominators are divisible by both
+primes. It is not exact-Q nonmembership, not a characteristic-zero separator,
+and not an unrestricted neural-network depth lower bound.
