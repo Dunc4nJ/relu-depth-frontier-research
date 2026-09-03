@@ -89,9 +89,10 @@ At the preflight sample the A100 host reported
 GPU memory used. The exact-lift runner defaults to 16/128 host threads. A
 AzureAspen agreed in thread `relu-depth-frontier-research-hhs` to cap this bead
 at 16 threads and 64 GiB host RAM while retaining an 80 GiB floor for bead
-`relu-depth-frontier-research-psu`. The full triggered lift must not overlap
-AzureAspen's current 16-thread sketch builder; AzureAspen authorized overlap
-only after that workload transitions to its serial HiGHS phase.
+`relu-depth-frontier-research-psu`. At `2026-09-03T00:46:14Z`, AzureAspen
+reported that the 16-thread sketch builder had completed and authorized the
+HHS launch to overlap PSU's single-core parity/HiGHS phases under that split.
+The resource gate is therefore open; the MEMBER gate is not yet open.
 
 ## Trigger path
 
