@@ -305,6 +305,18 @@ struct WideState {
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 struct PackedState(u128);
 
+#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
+struct PackedDirection(u128);
+
+impl PackedDirection {
+    #[inline]
+    fn to_vec(self, n: usize) -> Vec<i16> {
+        (0..n)
+            .map(|index| i16::from(((self.0 >> (8 * index)) as u8) as i8))
+            .collect()
+    }
+}
+
 trait DpState: Copy + Eq + std::hash::Hash {
     fn zero() -> Self;
     fn mask(self) -> usize;
@@ -466,6 +478,36 @@ where
     T: Copy + Into<i64>,
     O: GenerationObserver,
 {
+    let Some((direction, contribution)) =
+        canonicalize_word_observed(&mut column.linear, word, count, observer)?
+    else {
+        return Ok(());
+    };
+    let hashing_started = observer.start();
+    match column.hinges.entry(direction.to_vec(word.len())) {
+        std::collections::hash_map::Entry::Occupied(mut entry) => {
+            observer.count(ProfileCount::HingeDedupHits, 1);
+            add_checked(entry.get_mut(), contribution, "hinge")?;
+        }
+        std::collections::hash_map::Entry::Vacant(entry) => {
+            observer.count(ProfileCount::HingeUniqueDirections, 1);
+            entry.insert(contribution);
+        }
+    }
+    observer.record(ProfileStage::HingeHashDedup, hashing_started);
+    Ok(())
+}
+
+fn canonicalize_word_observed<T, O>(
+    linear: &mut [i64],
+    word: &[T],
+    count: u64,
+    observer: &mut O,
+) -> Result<Option<(PackedDirection, i64)>>
+where
+    T: Copy + Into<i64>,
+    O: GenerationObserver,
+{
     let canonicalization_started = observer.start();
     let first = word
         .iter()
@@ -475,7 +517,7 @@ where
     let Some(first) = first else {
         observer.count(ProfileCount::ZeroWords, 1);
         observer.record(ProfileStage::Canonicalization, canonicalization_started);
-        return Ok(());
+        return Ok(None);
     };
     ensure!(
         word.iter().copied().map(Into::into).sum::<i64>() == 0,
@@ -484,11 +526,7 @@ where
     let count_i64 = i64::try_from(count)?;
     if first < 0 {
         observer.count(ProfileCount::NegativeFirstWords, 1);
-        for (coordinate, value) in column
-            .linear
-            .iter_mut()
-            .zip(word.iter().copied().map(Into::into))
-        {
+        for (coordinate, value) in linear.iter_mut().zip(word.iter().copied().map(Into::into)) {
             let correction = count_i64
                 .checked_mul(value)
                 .ok_or_else(|| anyhow::anyhow!("linear correction product overflow"))?;
@@ -499,41 +537,62 @@ where
     let divisor = word.iter().copied().map(Into::into).fold(0i64, gcd);
     ensure!(divisor > 0, "nonzero word has zero gcd");
     let orientation = if first > 0 { 1i64 } else { -1i64 };
-    let direction: Vec<i16> = word
-        .iter()
-        .copied()
-        .map(Into::into)
-        .map(|value| i16::try_from(orientation * value / divisor))
-        .collect::<std::result::Result<_, _>>()?;
-    ensure!(direction.iter().copied().find(|&value| value != 0).unwrap() > 0);
-
+    let mut direction = 0u128;
+    let mut first_direction = None;
     let mut prefix = 0i64;
     let mut active_on_ordered_cone = false;
-    for &value in &direction[..direction.len() - 1] {
-        prefix += value as i64;
-        active_on_ordered_cone |= prefix < 0;
+    for (index, value) in word.iter().copied().map(Into::into).enumerate() {
+        let value = i8::try_from(orientation * value / divisor)?;
+        first_direction = first_direction.or_else(|| (value != 0).then_some(value));
+        direction |= u128::from(value as u8) << (8 * index);
+        if index + 1 < word.len() {
+            prefix += i64::from(value);
+            active_on_ordered_cone |= prefix < 0;
+        }
     }
+    ensure!(first_direction.unwrap() > 0);
+
     if active_on_ordered_cone {
         observer.count(ProfileCount::ActiveHingeWords, 1);
         let contribution = count_i64
             .checked_mul(divisor)
             .ok_or_else(|| anyhow::anyhow!("hinge contribution overflow"))?;
         observer.record(ProfileStage::Canonicalization, canonicalization_started);
-        let hashing_started = observer.start();
-        match column.hinges.entry(direction) {
-            std::collections::hash_map::Entry::Occupied(mut entry) => {
-                observer.count(ProfileCount::HingeDedupHits, 1);
-                add_checked(entry.get_mut(), contribution, "hinge")?;
-            }
-            std::collections::hash_map::Entry::Vacant(entry) => {
-                observer.count(ProfileCount::HingeUniqueDirections, 1);
-                entry.insert(contribution);
-            }
-        }
-        observer.record(ProfileStage::HingeHashDedup, hashing_started);
+        Ok(Some((PackedDirection(direction), contribution)))
     } else {
         observer.record(ProfileStage::Canonicalization, canonicalization_started);
+        Ok(None)
     }
+}
+
+fn accumulate_packed_word_observed<T, O>(
+    linear: &mut [i64],
+    hinges: &mut HashMap<PackedDirection, i64>,
+    word: &[T],
+    count: u64,
+    observer: &mut O,
+) -> Result<()>
+where
+    T: Copy + Into<i64>,
+    O: GenerationObserver,
+{
+    let Some((direction, contribution)) =
+        canonicalize_word_observed(linear, word, count, observer)?
+    else {
+        return Ok(());
+    };
+    let hashing_started = observer.start();
+    match hinges.entry(direction) {
+        std::collections::hash_map::Entry::Occupied(mut entry) => {
+            observer.count(ProfileCount::HingeDedupHits, 1);
+            add_checked(entry.get_mut(), contribution, "hinge")?;
+        }
+        std::collections::hash_map::Entry::Vacant(entry) => {
+            observer.count(ProfileCount::HingeUniqueDirections, 1);
+            entry.insert(contribution);
+        }
+    }
+    observer.record(ProfileStage::HingeHashDedup, hashing_started);
     Ok(())
 }
 
@@ -685,11 +744,22 @@ where
     observer.record(ProfileStage::ColumnInitialization, initialization_started);
     observer.count(ProfileCount::TerminalWords, current.len());
     let hinge_started = observer.start();
+    let mut hinges = HashMap::with_capacity_and_hasher(current.len() / 2, Default::default());
     let mut word = [0i8; MAX_N];
     for (state, count) in current {
         state.copy_word(n, &mut word);
-        accumulate_word_observed(&mut column, &word[..n], count, observer)?;
+        accumulate_packed_word_observed(
+            &mut column.linear,
+            &mut hinges,
+            &word[..n],
+            count,
+            observer,
+        )?;
     }
+    column.hinges = hinges
+        .into_iter()
+        .map(|(direction, coefficient)| (direction.to_vec(n), coefficient))
+        .collect();
     observer.record(ProfileStage::HingeEnumeration, hinge_started);
     Ok(column)
 }
