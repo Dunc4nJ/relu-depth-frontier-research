@@ -66,6 +66,8 @@ def solve(
     simplex_strategy: int = 1,
     row_scaling: str = "none",
     target_row_scale_cap_exponent: int = 0,
+    simplex_iteration_limit: int | None = None,
+    accept_feasible_limit: bool = False,
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -117,6 +119,8 @@ def solve(
         raise ValueError("row_scaling must be none or power2-max")
     if target_row_scale_cap_exponent not in range(53):
         raise ValueError("target_row_scale_cap_exponent must be 0..52")
+    if simplex_iteration_limit is not None and simplex_iteration_limit <= 0:
+        raise ValueError("simplex_iteration_limit must be positive")
     # HiGHS requires float64 values. Keep one block resident. The split model
     # passes it again with negative sign; the epigraph model uses free c and
     # explicit -t <= c <= t rows, halving the dominant matrix block.
@@ -172,6 +176,11 @@ def solve(
     }
     for name, value in options.items():
         check(highs.setOptionValue(name, value), f"setOptionValue({name})")
+    if simplex_iteration_limit is not None:
+        check(
+            highs.setOptionValue("simplex_iteration_limit", simplex_iteration_limit),
+            "setOptionValue(simplex_iteration_limit)",
+        )
 
     empty_i32 = np.empty(0, dtype=np.int32)
     empty_f64 = np.empty(0, dtype=np.float64)
@@ -310,6 +319,7 @@ def solve(
             "negative_basis_columns_numerator": sum(sign < 0 for sign in basis_signs),
         }
     reports = []
+    terminated_after_feasible_limit = False
     weights = np.ones(columns, dtype=np.float64)
     if initial_reweight_from_witness:
         # Seed only by exact support membership. Using the witness's potentially
@@ -330,7 +340,14 @@ def solve(
             check(highs.changeColsCost(len(changed_columns), changed_columns, changed_cost), "changeColsCost")
         check(highs.run(), "run")
         status = highs.getModelStatus()
-        if status != highspy.HighsModelStatus.kOptimal:
+        info = highs.getInfo()
+        limited_feasible = (
+            accept_feasible_limit
+            and status == highspy.HighsModelStatus.kIterationLimit
+            and info.num_primal_infeasibilities == 0
+            and info.max_primal_infeasibility <= feasibility_tolerance
+        )
+        if status != highspy.HighsModelStatus.kOptimal and not limited_feasible:
             raise RuntimeError(f"round {round_number} model status {highs.modelStatusToString(status)}")
         solution = np.asarray(highs.getSolution().col_value, dtype=np.float64)
         signed = solution[:columns] - solution[columns:] if formulation == "split" else solution[:columns]
@@ -347,6 +364,7 @@ def solve(
                 ),
                 "seconds": time.monotonic() - phase,
                 "model_status": highs.modelStatusToString(status),
+                "optimal": status == highspy.HighsModelStatus.kOptimal,
                 "support_threshold_absolute": support_threshold,
                 "support_numerator": int(len(support_positions)),
                 "support_denominator": columns,
@@ -354,7 +372,7 @@ def solve(
                 "min_abs_retained_coefficient": (
                     float(np.min(np.abs(signed[support_positions]))) if len(support_positions) else None
                 ),
-                "highs_info": info_fields(highs.getInfo()),
+                "highs_info": info_fields(info),
                 "candidate": [
                     {"column_position": int(position), "source_index": int(source[position]), "coefficient": float(signed[position])}
                     for position in support_positions
@@ -394,10 +412,13 @@ def solve(
             f"seconds={reports[-1]['seconds']:.3f}",
             flush=True,
         )
+        if limited_feasible:
+            terminated_after_feasible_limit = True
+            break
 
     report = {
         "schema": "max11-sparse-l1-report-v1",
-        "verdict": "CANDIDATES",
+        "verdict": "CANDIDATES_NONOPTIMAL" if terminated_after_feasible_limit else "CANDIDATES",
         "exact": False,
         "matrix_report": str(meta_path),
         "matrix_report_sha256": sha256(meta_path),
@@ -415,6 +436,8 @@ def solve(
         "options": options,
         "reweighted_rounds_numerator": rounds,
         "reweighted_rounds_denominator": rounds,
+        "reweighted_rounds_completed_numerator": max(0, len(reports) - 1),
+        "terminated_after_feasible_iteration_limit": terminated_after_feasible_limit,
         "reweight_epsilon_absolute": reweight_epsilon,
         "reweight_cap": reweight_cap,
         "reweight_floor": reweight_floor,
@@ -454,6 +477,8 @@ def main() -> None:
     parser.add_argument("--simplex-strategy", type=int, choices=range(5), default=1)
     parser.add_argument("--row-scaling", choices=("none", "power2-max"), default="none")
     parser.add_argument("--target-row-scale-cap-exponent", type=int, default=0)
+    parser.add_argument("--simplex-iteration-limit", type=int)
+    parser.add_argument("--accept-feasible-limit", action="store_true")
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -476,6 +501,8 @@ def main() -> None:
         args.simplex_strategy,
         args.row_scaling,
         args.target_row_scale_cap_exponent,
+        args.simplex_iteration_limit,
+        args.accept_feasible_limit,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
