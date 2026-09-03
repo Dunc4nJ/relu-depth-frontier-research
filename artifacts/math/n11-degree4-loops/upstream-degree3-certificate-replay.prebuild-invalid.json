@@ -1,0 +1,58 @@
+{
+  "schema": "max11-colgen-loops-certificate-controls-v1",
+  "result": "PASS",
+  "command": [
+    "tools/colgen-loops/target/release/max11-colgen-loops",
+    "validate-certificates",
+    "--certificate-n5",
+    "literature/repos/max-relu-certificates/certificates/certificate_5_2.json",
+    "--certificate-n7",
+    "literature/repos/max-relu-certificates/certificates/certificate_7_3.json",
+    "--certificate-n8",
+    "literature/repos/max-relu-certificates/certificates/certificate_8_3.json",
+    "--output",
+    "artifacts/math/n11-degree4-loops/upstream-degree3-certificate-replay.json"
+  ],
+  "certificates_passed": 2,
+  "certificate_denominator": 2,
+  "templates_checked": 60,
+  "template_denominator": 60,
+  "loop_bearing_templates": 59,
+  "minimum_coordinate_hinge_templates": 46,
+  "minimum_coordinate_control_passed": 1,
+  "minimum_coordinate_control_denominator": 1,
+  "minimum_coordinate_control_d0_hinges": 7,
+  "exact_max_identities_passed": 2,
+  "exact_max_identity_denominator": 2,
+  "diagonal_sign_mutants_rejected": 2,
+  "diagonal_sign_mutant_denominator": 2,
+  "rows": [
+    {
+      "n": 5,
+      "branch_edge_occurrences": 2,
+      "terms_checked_denominator": 3,
+      "loop_bearing_terms": 2,
+      "minimum_coordinate_hinge_terms": 0,
+      "literal_permutations_per_term": 120,
+      "exact_dp_literal_matches": 3,
+      "exact_max_identity": true,
+      "diagonal_sign_mutant_rejected": true,
+      "input": "literature/repos/max-relu-certificates/certificates/certificate_5_2.json",
+      "input_sha256": "698f70d87ec6b2ef07cd1d0287447dd2361f4b6d0d98571cc7485182b194e694"
+    },
+    {
+      "n": 7,
+      "branch_edge_occurrences": 3,
+      "terms_checked_denominator": 57,
+      "loop_bearing_terms": 57,
+      "minimum_coordinate_hinge_terms": 46,
+      "literal_permutations_per_term": 5040,
+      "exact_dp_literal_matches": 57,
+      "exact_max_identity": true,
+      "diagonal_sign_mutant_rejected": true,
+      "input": "literature/repos/max-relu-certificates/certificates/certificate_7_3.json",
+      "input_sha256": "b79aaaf423187cf5aaa51c9272799bf36198759dd018a1a286716cce7b1b53be"
+    }
+  ],
+  "no_claim": "These are exact identities for the two pinned upstream certificates and exact column controls for their finite templates. They do not establish a MAX11 identity or completeness of the loop-inclusive enlargement."
+}
