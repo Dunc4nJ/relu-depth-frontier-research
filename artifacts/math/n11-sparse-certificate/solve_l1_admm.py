@@ -13,6 +13,7 @@ import hashlib
 import json
 import resource
 import time
+from fractions import Fraction
 from pathlib import Path
 
 import numpy as np
@@ -74,6 +75,8 @@ def solve(
     reweight_epsilon: float,
     reweight_cap: float,
     reweight_floor: float,
+    initial_witness: Path | None,
+    initial_reweight_from_witness: bool,
 ) -> dict:
     import scipy
     import scipy.linalg
@@ -124,7 +127,30 @@ def solve(
     x = np.zeros(columns, dtype=np.float64)
     z = np.zeros(columns, dtype=np.float64)
     u = np.zeros(columns, dtype=np.float64)
+    initial_witness_record = None
     weights = np.ones(columns, dtype=np.float64)
+    if initial_reweight_from_witness:
+        if initial_witness is None:
+            raise ValueError("initial_reweight_from_witness requires initial_witness")
+        document = json.loads(initial_witness.read_text())
+        position_of = {int(source_index): position for position, source_index in enumerate(source)}
+        seed_positions = []
+        for entry in document.get("coefficients", []):
+            if not Fraction(str(entry["coefficient"])):
+                continue
+            source_index = int(entry["column"])
+            if source_index not in position_of:
+                raise ValueError(f"initial witness source {source_index} is absent from the LP family")
+            seed_positions.append(position_of[source_index])
+        weights.fill(reweight_cap)
+        weights[np.asarray(seed_positions, dtype=np.int64)] = 1.0
+        initial_witness_record = {
+            "path": str(initial_witness),
+            "sha256": sha256(initial_witness),
+            "support_numerator": len(seed_positions),
+            "support_denominator": columns,
+            "use": "round-0 support-membership weights only; coefficients are not a primal start",
+        }
     reports = []
     for round_number in range(rounds + 1):
         round_started = time.monotonic()
@@ -176,7 +202,13 @@ def solve(
         reports.append(
             {
                 "round": round_number,
-                "kind": "base_l1_admm" if round_number == 0 else "reweighted_l1_admm",
+                "kind": (
+                    "witness_seeded_reweighted_l1_admm"
+                    if round_number == 0 and initial_reweight_from_witness
+                    else "base_l1_admm"
+                    if round_number == 0
+                    else "reweighted_l1_admm"
+                ),
                 "converged": converged,
                 "iterations_numerator": iteration,
                 "iterations_denominator": max_iterations,
@@ -254,6 +286,8 @@ def solve(
         "reweight_epsilon_absolute": reweight_epsilon,
         "reweight_cap": reweight_cap,
         "reweight_floor": reweight_floor,
+        "initial_witness": initial_witness_record,
+        "initial_reweight_from_witness": initial_reweight_from_witness,
         "rounds": reports,
         "total_seconds": time.monotonic() - started,
         "max_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
@@ -280,6 +314,8 @@ def main() -> None:
     parser.add_argument("--reweight-epsilon", type=float, default=1e-9)
     parser.add_argument("--reweight-cap", type=float, default=1e6)
     parser.add_argument("--reweight-floor", type=float, default=1e-6)
+    parser.add_argument("--initial-witness", type=Path)
+    parser.add_argument("--initial-reweight-from-witness", action="store_true")
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -295,6 +331,8 @@ def main() -> None:
         args.reweight_epsilon,
         args.reweight_cap,
         args.reweight_floor,
+        args.initial_witness,
+        args.initial_reweight_from_witness,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
