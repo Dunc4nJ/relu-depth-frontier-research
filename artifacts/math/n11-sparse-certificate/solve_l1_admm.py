@@ -119,6 +119,8 @@ def solve(
         f"ADMM_START rows={rows} columns={columns} nnz={meta['nonzeros_denominator']} "
         f"rounds={rounds + 1} max_iterations={max_iterations} rho={rho}"
     )
+    initial_rho = rho
+    current_rho = rho
     x = np.zeros(columns, dtype=np.float64)
     z = np.zeros(columns, dtype=np.float64)
     u = np.zeros(columns, dtype=np.float64)
@@ -135,28 +137,35 @@ def solve(
         for iteration in range(1, max_iterations + 1):
             x, projected_residual = affine_projection(z - u)
             old_z = z
-            z = soft_threshold(x + u, weights / rho)
+            z = soft_threshold(x + u, weights / current_rho)
             u += x - z
             if iteration == 1 or iteration % 25 == 0 or iteration == max_iterations:
                 r_norm = float(np.linalg.norm(x - z))
-                s_norm = float(rho * np.linalg.norm(z - old_z))
+                s_norm = float(current_rho * np.linalg.norm(z - old_z))
                 eps_primal = float(
                     np.sqrt(columns) * absolute_tolerance
                     + relative_tolerance * max(np.linalg.norm(x), np.linalg.norm(z))
                 )
                 eps_dual = float(
                     np.sqrt(columns) * absolute_tolerance
-                    + relative_tolerance * np.linalg.norm(rho * u)
+                    + relative_tolerance * np.linalg.norm(current_rho * u)
                 )
                 log(
                     f"ADMM_ITER round={round_number}/{rounds} iteration={iteration}/{max_iterations} "
                     f"objective={float(weights @ np.abs(z)):.17g} "
                     f"r={r_norm:.6g}/{eps_primal:.6g} s={s_norm:.6g}/{eps_dual:.6g} "
-                    f"projection_inf={projected_residual:.6g} support={int(np.count_nonzero(np.abs(z) > support_threshold))}/{columns}"
+                    f"projection_inf={projected_residual:.6g} rho={current_rho:.6g} "
+                    f"support={int(np.count_nonzero(np.abs(z) > support_threshold))}/{columns}"
                 )
                 if r_norm <= eps_primal and s_norm <= eps_dual:
                     converged = True
                     break
+                if r_norm > 10.0 * s_norm and current_rho < 1e16:
+                    current_rho *= 2.0
+                    u /= 2.0
+                elif s_norm > 10.0 * r_norm and current_rho > 1e-16:
+                    current_rho /= 2.0
+                    u *= 2.0
         magnitudes = np.abs(z)
         threshold_positions = np.flatnonzero(magnitudes > support_threshold)
         if len(threshold_positions) > candidate_cap:
@@ -178,6 +187,7 @@ def solve(
                 "dual_residual_l2": s_norm,
                 "dual_tolerance_l2": eps_dual,
                 "affine_projection_residual_infinity": projected_residual,
+                "rho_final": current_rho,
                 "support_threshold_absolute": support_threshold,
                 "threshold_support_numerator": len(threshold_positions),
                 "threshold_support_denominator": columns,
@@ -232,7 +242,9 @@ def solve(
         "scipy_version": scipy.__version__,
         "row_scaling": "divide each equality by its float64 L2 row norm (exact-equivalent search preconditioner)",
         "gram_cholesky_seconds": gram_seconds,
-        "rho": rho,
+        "rho_initial": initial_rho,
+        "rho_final": current_rho,
+        "rho_adaptation": "every 25 iterations: double when primal residual > 10x dual; halve when dual > 10x primal; preserve the unscaled dual",
         "absolute_tolerance": absolute_tolerance,
         "relative_tolerance": relative_tolerance,
         "support_threshold_absolute": support_threshold,
