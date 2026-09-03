@@ -132,6 +132,13 @@ or exact-column batches), runs the custody verifier, and sends the verified
 upstream path and SHA-256 to IndigoCarp. Its not-yet-launched control returned
 the expected refusal: 1/1.
 
+`monitor_first_member_trigger.sh` bridges the already-running EXP-0037 arm
+watcher to that launcher. It considers only arm receipts already accepted by
+the fail-closed stage-A verifier, atomically selects the first equal-rank
+`MEMBER`, launches once, starts the completion monitor, and mails the two PIDs.
+Before any receipt existed, its one-shot no-MEMBER control refused to launch:
+1/1.
+
 ## No claim
 
 This one-column structural preflight did not run `solve-big`, Dixon recovery,
