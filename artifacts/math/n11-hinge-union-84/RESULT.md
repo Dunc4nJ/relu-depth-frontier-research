@@ -27,7 +27,8 @@ Format/code references inspected at starting workspace commit `35e6b731bfe0c90b4
 - `tools/exactlift/lift_large_rs/src/problem.rs`: SHA-256 `4cca089c1af1aca9cecdde3f7c7b2291ba38ce76deff49b42cf58960fb9bb30e`.
 - `tools/exactlift/lift_large_rs/src/sketch_member.rs`: SHA-256 `017470796a3b60689ae41969681fee6cd9e8f860d2aec648b83a4f0b537b1510`.
 - `tools/exactlift/sketch_member_lift.py`: SHA-256 `e6627a1aa746a7e57dfb18583ab55330b46ab2cbc15a2b009b059fb8295c0a9a`.
-- Executed audit source (included verbatim below): SHA-256 `0e9bac5a89d28f1525973fb20eee379709b2d2678c04e777b721aec76b2daf0d`.
+- Original run7 execution source retained at commit `c1553de`: SHA-256 `0e9bac5a89d28f1525973fb20eee379709b2d2678c04e777b721aec76b2daf0d`.
+- Generalized F2/run7 execution source (included verbatim below): SHA-256 `623f5d4045f7c1191a11a23a5718c318c49b474ce7a4439da81603de6d9d82ef`.
 
 ## Method
 
@@ -407,6 +408,23 @@ EXPECTED_MAGIC = b"ELIFTQ02"
 EXPECTED_N = 11
 
 
+def structural_verdict(
+    all_count: int,
+    reported_union_count: int,
+    support_count: int,
+    difference_count: int,
+    support_touchers: int,
+) -> str:
+    """Adjudicate the union/support reconciliation without dataset constants."""
+    confirmed = (
+        all_count == reported_union_count
+        and 0 <= support_count <= all_count
+        and difference_count == all_count - support_count
+        and support_touchers == 0
+    )
+    return "CONFIRMED" if confirmed else "REFUTED"
+
+
 def accumulate(
     all_seen: np.ndarray,
     support_seen: np.ndarray,
@@ -448,9 +466,17 @@ def self_test() -> dict[str, str]:
         if source in {100, 200, 300}:
             bad_support_seen[hinges] = True
     assert np.flatnonzero(all_seen & ~bad_support_seen).tolist() == []
+
+    # The original run7 observation remains a fixed known-answer regression,
+    # but these constants do not participate in verdicts for other inputs.
+    assert structural_verdict(169250, 169250, 169166, 84, 0) == "CONFIRMED"
+    assert structural_verdict(169249, 169250, 169166, 83, 0) == "REFUTED"
+    assert structural_verdict(169250, 169250, 169166, 84, 1) == "REFUTED"
     return {
         "known_answer_positive": "PASS: all=3/4, support=2/4, difference=1/4, toucher=[200]",
         "support_mutation_negative": "PASS: adding source 200 to support changed difference 1/4 -> 0/4",
+        "run7_known_answer": "PASS: structural verdict accepts 169250/169166/84 with 0 support touchers",
+        "structural_negative_controls": "PASS: wrong reported union and one support toucher are each REFUTED",
     }
 
 
@@ -635,9 +661,6 @@ def main() -> None:
                 "witness_nonzero_touching_columns_denominator": len(sources),
             }
         )
-    if support_touchers:
-        raise ValueError(f"difference rows have {support_touchers} support-column touchers")
-
     all_count = int(all_seen.sum())
     support_count = int(support_seen.sum())
     observed = {
@@ -667,13 +690,12 @@ def main() -> None:
     expected_hinge_union = int(
         witness["exact_verification"]["union_hinge_rows_denominator"]
     )
-    verdict = (
-        "CONFIRMED"
-        if all_count == expected_hinge_union
-        and support_count == 169166
-        and len(difference) == 84
-        and support_touchers == 0
-        else "REFUTED"
+    verdict = structural_verdict(
+        all_count,
+        expected_hinge_union,
+        support_count,
+        len(difference),
+        support_touchers,
     )
     output = {
         "schema": "max11-g0016-hinge-union-audit-v1",
@@ -683,6 +705,13 @@ def main() -> None:
         "layout": layout,
         "witness_problem_custody": witness["problem_custody"],
         "observed": observed,
+        "structural_checks": {
+            "all_union_matches_reported_union": all_count == expected_hinge_union,
+            "difference_count_equals_all_minus_support": (
+                len(difference) == all_count - support_count
+            ),
+            "support_touchers_are_zero": support_touchers == 0,
+        },
         "difference_rows": difference_rows,
         "timing_seconds": {
             "pass1_rows_and_values": pass1_seconds,
@@ -692,7 +721,7 @@ def main() -> None:
         "threads_maximum": 1,
         "peak_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
         "no_claim": (
-            "This audit only reconciles the named run7 problem-row union with the "
+            "This audit only reconciles the named problem-row union with the "
             "named sparse witness support. It does not reverify the rational identity, "
             "the upstream translation, the realization lemma, or MAX_11 itself."
         ),
@@ -706,6 +735,53 @@ if __name__ == "__main__":
 
 </details>
 
+## F2 structural-generalization check
+
+The generalized verdict was run against the independent forest-pair F2 problem/witness on the same A100 host. It returned **CONFIRMED** under the structural predicate, without any F2-specific expected constants in the verdict path. All 3/3 reported structural checks were true: the streamed all-column union equaled the lift-reported union, the difference cardinality equaled all-minus-support, and the independent second pass found zero support touchers.
+
+### F2 input and output custody
+
+| Object | Bytes | SHA-256 |
+|---|---:|---|
+| `artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_sketch_problem.eliftq02` | 7,580,786,800/7,580,786,800 | `7920afbbdd537510946d46f09f7bd67765a8d53db65f0686ef36aeabf17dd7f7` |
+| `artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_exact_witness.json` | 3,869,128/3,869,128 | `d27dbc9596962719f74a721057b0817213828fc6acfce4fd0d6080c72d76676c` |
+| `/tmp/indigocarp-g0016-f2-audit-final.json` (transient audit output) | 619,610/619,610 | `0d742f98fd53072b9127c9ad1f843fd399e031dbcaf392f2110fe86babff2cf6` |
+| Generalized `audit_stream.py` | 14,767/14,767 | `623f5d4045f7c1191a11a23a5718c318c49b474ce7a4439da81603de6d9d82ef` |
+
+The F2 witness's embedded problem custody named the same 7,580,786,800-byte problem and SHA-256. The audit decoded 162,091/162,091 rows, 15,904/15,904 columns, and 631,597,663/631,597,663 CSC entries.
+
+### F2 counts
+
+| Quantity | Observed | Denominator / interpretation |
+|---|---:|---:|
+| Pivot columns processed | 15,904 | 15,904 |
+| Witness nonzero support columns | 11,320 | 15,904 |
+| Witness-zero pivot columns | 4,584 | 15,904 |
+| Distinct all-column hinge rows | 146,176 | 146,176 |
+| Distinct support-column hinge rows | 145,530 | 146,176 |
+| All-minus-support hinge rows | 646 | 146,176 |
+| Difference rows with a nonzero-witness toucher | 0 | 646 |
+| Distinct zero-coefficient columns touching the difference | 223 | 4,584 |
+| Raw hinge entries over all columns | 521,830,125 | 631,597,663 |
+| Raw hinge entries over support columns | 370,466,002 | 631,597,663 |
+| Raw entries incident to the 646-row difference | 12,187 | 521,830,125 |
+
+Thus F2 exhibits the same structural phenomenon with different dataset-specific counts: 646/146,176 all-only hinge rows are touched by 223/4,584 zero-coefficient pivots, with 0/646 support-row exceptions and 0/12,187 support incidences.
+
+### Generalized controls and timing
+
+The unchanged control block passed 4/4 checks: the synthetic positive; the synthetic support-mutation negative; the exact run7 known-answer tuple 169250/169166/84 with zero support touchers; and two structural negatives (wrong reported union and one planted support toucher), each returning `REFUTED`. The final generalized code was also re-executed on the actual run7 inputs: verdict `CONFIRMED`, all three structural checks true, counts unchanged at 169,250/169,166/84, and output SHA-256 `592ae41526a2102cf762baac346545b6247d10cb5f226ce8b3ea300c7626d07d` over 3,026,429/3,026,429 bytes (one transient run). Its `observed` object and full 84-row `difference_rows` mapping were exactly equal to the original retained output (2/2 compared objects).
+
+The final-source F2 invocation used 1/1 process and at most 1 thread. Peak RSS was 53,184 KiB / 16,777,216 KiB permitted. Internal timing was 25.401259627193213 seconds / one complete pass 1, 9.884956315159798 seconds / one complete pass 2, and 35.88783374149352 seconds / one complete invocation. External `time -p` reported 36.70 wall seconds / one run, 8.46 user seconds / one run, and 4.06 system seconds / one run. The F2 SHA-256 custody pass took 35.86 wall seconds / one run, 29.74 user seconds / one run, and 1.50 system seconds / one run.
+
+```bash
+scp -P 29562 -o BatchMode=yes artifacts/math/n11-hinge-union-84/audit_stream.py root@ssh5.vast.ai:/tmp/indigocarp-g0016-audit_stream.py
+ssh -p 29562 -o BatchMode=yes root@ssh5.vast.ai 'cd /workspace/relu && time -p sha256sum artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_sketch_problem.eliftq02 artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_exact_witness.json'
+ssh -p 29562 -o BatchMode=yes root@ssh5.vast.ai 'cd /workspace/relu && time -p python3 /tmp/indigocarp-g0016-audit_stream.py --problem artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_sketch_problem.eliftq02 --witness artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_exact_witness.json > /tmp/indigocarp-g0016-f2-audit-final.json && sha256sum /tmp/indigocarp-g0016-f2-audit-final.json && stat -c "%s bytes" /tmp/indigocarp-g0016-f2-audit-final.json'
+```
+
+**F2 no-claim:** This is a second finite structural reconciliation of lift-union rows against sparse witness support. It does not reverify either rational identity or establish a general theorem about all lift families or `MAX_11`.
+
 ## Workspace rail
 
 `./skill-runtime verify-quick` was run after writing this artifact and exited 1 with 22 pre-existing/campaign-ledger immutability findings (SE-10 entries in canonical ledger files outside this task). I did not edit those prohibited ledger paths and do not report the workspace rail as green. The audit-specific mapping/hash checks above passed independently.
@@ -715,4 +791,3 @@ if __name__ == "__main__":
 **G-0016 data verdict: CONFIRMED.** The 84-row discrepancy is exactly the set of hinge directions introduced only by pivot columns whose run7 witness coefficient is zero; there are no nonzero-support exceptions (0/84 rows, 0/96,478 incidences). This supplies the requested reconciliation for the orchestrator/referee to discharge G-0016.
 
 **No-claim:** This audit only reconciles the named run7 problem-row union with the named sparse witness support. It did not reverify the rational identity, the upstream translation, the depth-2 realization lemma, or `MAX_11` itself. It also did not reconstruct the original hinge direction vectors from the ELIFTQ02 row IDs; the exact audited object here is CSC row incidence keyed by the builder-assigned hinge IDs.
-

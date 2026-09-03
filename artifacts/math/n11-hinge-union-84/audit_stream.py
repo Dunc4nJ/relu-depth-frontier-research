@@ -21,6 +21,23 @@ EXPECTED_MAGIC = b"ELIFTQ02"
 EXPECTED_N = 11
 
 
+def structural_verdict(
+    all_count: int,
+    reported_union_count: int,
+    support_count: int,
+    difference_count: int,
+    support_touchers: int,
+) -> str:
+    """Adjudicate the union/support reconciliation without dataset constants."""
+    confirmed = (
+        all_count == reported_union_count
+        and 0 <= support_count <= all_count
+        and difference_count == all_count - support_count
+        and support_touchers == 0
+    )
+    return "CONFIRMED" if confirmed else "REFUTED"
+
+
 def accumulate(
     all_seen: np.ndarray,
     support_seen: np.ndarray,
@@ -62,9 +79,17 @@ def self_test() -> dict[str, str]:
         if source in {100, 200, 300}:
             bad_support_seen[hinges] = True
     assert np.flatnonzero(all_seen & ~bad_support_seen).tolist() == []
+
+    # The original run7 observation remains a fixed known-answer regression,
+    # but these constants do not participate in verdicts for other inputs.
+    assert structural_verdict(169250, 169250, 169166, 84, 0) == "CONFIRMED"
+    assert structural_verdict(169249, 169250, 169166, 83, 0) == "REFUTED"
+    assert structural_verdict(169250, 169250, 169166, 84, 1) == "REFUTED"
     return {
         "known_answer_positive": "PASS: all=3/4, support=2/4, difference=1/4, toucher=[200]",
         "support_mutation_negative": "PASS: adding source 200 to support changed difference 1/4 -> 0/4",
+        "run7_known_answer": "PASS: structural verdict accepts 169250/169166/84 with 0 support touchers",
+        "structural_negative_controls": "PASS: wrong reported union and one support toucher are each REFUTED",
     }
 
 
@@ -249,9 +274,6 @@ def main() -> None:
                 "witness_nonzero_touching_columns_denominator": len(sources),
             }
         )
-    if support_touchers:
-        raise ValueError(f"difference rows have {support_touchers} support-column touchers")
-
     all_count = int(all_seen.sum())
     support_count = int(support_seen.sum())
     observed = {
@@ -281,13 +303,12 @@ def main() -> None:
     expected_hinge_union = int(
         witness["exact_verification"]["union_hinge_rows_denominator"]
     )
-    verdict = (
-        "CONFIRMED"
-        if all_count == expected_hinge_union
-        and support_count == 169166
-        and len(difference) == 84
-        and support_touchers == 0
-        else "REFUTED"
+    verdict = structural_verdict(
+        all_count,
+        expected_hinge_union,
+        support_count,
+        len(difference),
+        support_touchers,
     )
     output = {
         "schema": "max11-g0016-hinge-union-audit-v1",
@@ -297,6 +318,13 @@ def main() -> None:
         "layout": layout,
         "witness_problem_custody": witness["problem_custody"],
         "observed": observed,
+        "structural_checks": {
+            "all_union_matches_reported_union": all_count == expected_hinge_union,
+            "difference_count_equals_all_minus_support": (
+                len(difference) == all_count - support_count
+            ),
+            "support_touchers_are_zero": support_touchers == 0,
+        },
         "difference_rows": difference_rows,
         "timing_seconds": {
             "pass1_rows_and_values": pass1_seconds,
@@ -306,7 +334,7 @@ def main() -> None:
         "threads_maximum": 1,
         "peak_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
         "no_claim": (
-            "This audit only reconciles the named run7 problem-row union with the "
+            "This audit only reconciles the named problem-row union with the "
             "named sparse witness support. It does not reverify the rational identity, "
             "the upstream translation, the realization lemma, or MAX_11 itself."
         ),
