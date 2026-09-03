@@ -65,6 +65,16 @@ the 11 / 11 linear coordinates.
   log SHA-256
   `eeb35f5bdd4478ac88669ecda1db6b0623a3655b0beb68546add776f408fff42`.
 
+A second-prime seed-1 arm at modulus 1,000,033 was started under the original
+bead trigger, then cancelled on AmberBluff's explicit order because the H100
+was being destroyed and the recursion route no longer required that rank
+cross-check.  Only that KSI process received `SIGTERM`; the A100 exact-lift
+pipeline was not touched.  At cancellation it had processed
+93,184 / 163,740 ordered lift records and reached rank 29,558 in 64,000
+buckets.  It wrote no JSON report and therefore has no verdict.  Its partial
+log SHA-256 is
+`06bc3fc66d56ced3d3fa7816aa328987e933451cb5bf4083b56554da245156e0`.
+
 ## Known-answer controls
 
 The same CUDA executable first passed controls in both directions at modulus
@@ -130,6 +140,12 @@ nohup tools/streamrank/target/release/max11-streamrank run-universe \
   --output artifacts/math/n11-lift-test/max10-lift-plus5L-m64000-p1000003-s1-cuda.json \
   > artifacts/math/n11-lift-test/max10-lift-plus5L-m64000-p1000003-s1-cuda.log 2>&1 < /dev/null &
 ```
+
+The later-cancelled second-prime arm used the same command with
+`--modulus 1000033`, seed 2,026,090,201, and basename
+`max10-lift-plus5L-m64000-p1000033-s1-cuda`.  After re-reading its `/proc`
+command line to match all three of streamrank, modulus 1,000,033, and that
+output basename, it was stopped with `kill -TERM 42070`.
 
 The n=9 -> n=10 control rank command was:
 

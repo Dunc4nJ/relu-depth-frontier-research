@@ -81,6 +81,15 @@ derived dictionary; they are not exact MAX11 decisions.
   `ea63faabeae00cf8414b90a4f4a655cd65169fa70569913a0676ed847fc3327f`;
   its JSON SHA-256 is
   `a9f6adc6e4f30dee0c5c75f93125540caad3f6baf800c4c31a8cd68f8755b08c`.
+- After both primary-prime sketches returned `MEMBER`, a second-prime seed-1
+  arm was launched at modulus 1,000,033 under the original bead trigger.  On
+  AmberBluff's explicit cancellation order (the H100 was to be destroyed and
+  this rank cross-check was no longer needed for the recursion route), only
+  that process was sent `SIGTERM`.  It had processed 93,184 / 163,740 ordered
+  lift records and reached rank 29,558 in 64,000 buckets.  It emitted no JSON
+  decision report, so it supplies no verdict.  The retained partial log
+  SHA-256 is
+  `06bc3fc66d56ced3d3fa7816aa328987e933451cb5bf4083b56554da245156e0`.
 
 No-claim: the subject and same-lift controls are finite modular membership
 results. They do not verify an exact rational identity, an unrestricted MAX11
