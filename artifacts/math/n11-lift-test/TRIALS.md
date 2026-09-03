@@ -46,6 +46,42 @@ derived dictionary; they are not exact MAX11 decisions.
   `265fdbb7115f0fa4efe009ca68898656d8715863a6c6381f40ade2ea2378c45c`.
   Before the one-sketch seed-1 relaunch, 38,835 MiB was again free; after its
   fixed allocation, 29,981 MiB remained free.
+- The sequential subject arms each processed 163,741 / 163,741 columns
+  (163,740 / 163,740 lifted signed-W orbits plus 5L) at modulus 1,000,003.
+  Seeds 2,026,090,201 and 2,026,090,202 both returned
+  rank(A) = rank([A|b]) = 30,200, MEMBER and unsaturated. Their independently
+  emitted pivot lists were byte-identical as packed little-endian u64 values,
+  SHA-256
+  `c5a54c0ceb5bb71c5693ae343d96c8d16d08c3128e6ff4c605d45148b9b1c646`.
+  The JSON SHA-256 values are respectively
+  `5f8741e180cc994052ae577da8614a8988fffa89cb9afa80d09980d2f46cb1db`
+  and
+  `79b5219ac3d6639dc4f21944d15c73cc51078a83cbd3b13c402bf21bdefc45b6`.
+- The first n=9 -> n=10 same-lift family-build attempt ran on the H100, where
+  the Python environment lacked `pynauty`; it failed before 0 / 667,260 raw
+  extensions and wrote no family artifacts. The 60-byte stderr log is retained
+  as `n9-lift-n10-build.failed-no-venv.log`.
+- The corrected n=9 -> n=10 construction ran locally with six workers. From
+  337 / 337 pinned MAX9 certificate terms it audited 667,260 / 667,260 raw
+  ordered edge-pair extensions (424,620 disjoint and 242,640 shared-distinct),
+  reduced them to 114,814 / 114,814 signed-W orbits including record zero,
+  mapped 337 / 337 source terms, and found 0 / 667,260 raw extensions and
+  0 / 114,814 orbits outside the constructed loopless family. Exact
+  construction time was 51.43911637738347 s with maximum RSS 286,516 KiB.
+  The family-universe, order, and map-report SHA-256 values are respectively
+  `c22d925e66ab83ae31eb873346ef3709a17753e3b0c36fc03e2d3b12d2123cb3`,
+  `1b099f8040665aa4895f3989b297aa7389e725241aceebde47411d09c0653498`,
+  and
+  `a8525ef549ac15a103935893797afa5e483c75069fe59aa62981a654545295cc`.
+- The n=9 -> n=10 same-lift rank control processed 114,815 / 114,815 columns
+  (114,814 lift orbits plus 5L) at modulus 1,000,003, sketch seed
+  2,026,090,201 and 64,000 buckets. It returned
+  rank(A) = rank([A|b]) = 17,127, MEMBER and unsaturated. Its pivot-list
+  little-endian-u64 SHA-256 is
+  `ea63faabeae00cf8414b90a4f4a655cd65169fa70569913a0676ed847fc3327f`;
+  its JSON SHA-256 is
+  `a9f6adc6e4f30dee0c5c75f93125540caad3f6baf800c4c31a8cd68f8755b08c`.
 
-No-claim: these failures and controls audit dictionary construction only. They
-do not establish modular or exact-rational target membership.
+No-claim: the subject and same-lift controls are finite modular membership
+results. They do not verify an exact rational identity, an unrestricted MAX11
+representation, or a general induction theorem.

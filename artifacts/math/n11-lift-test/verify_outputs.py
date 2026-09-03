@@ -26,6 +26,13 @@ CONTROL_PIVOT_SHA = {
     9: "3885bf4223184e19c9d6cfdc1632d24d33c47c7cbc4a859f4208257af0933cdd",
     10: "13ef82302f2e50e9f9555cd77eab1881bd3ef87f33677badd2b9fe079e39a87d",
 }
+N9_LIFT_SOURCE_SHA = "4eb96684d0ce02d324f2fa0f7f95adf5dbc8fb99d3e3e9362cb435b9b3c22d88"
+N9_LIFT_UNIVERSE_SHA = "c22d925e66ab83ae31eb873346ef3709a17753e3b0c36fc03e2d3b12d2123cb3"
+N9_LIFT_ORDER_SHA = "1b099f8040665aa4895f3989b297aa7389e725241aceebde47411d09c0653498"
+N9_LIFT_MAP_SHA = "a8525ef549ac15a103935893797afa5e483c75069fe59aa62981a654545295cc"
+N9_LIFT_PIVOT_SHA = "ea63faabeae00cf8414b90a4f4a655cd65169fa70569913a0676ed847fc3327f"
+N9_LIFT_ORBITS = 114_814
+N9_LIFT_COLUMNS = 114_815
 
 
 def require(condition: bool, message: str) -> None:
@@ -153,6 +160,108 @@ def verify_control(path: Path, n: int) -> dict[str, Any]:
     }
 
 
+def verify_n9_lift_control() -> dict[str, Any]:
+    """Verify construction custody and the same-lift n=9 -> n=10 rank arm."""
+    universe_path = BASE / "n9-lift-n10-family-universe.json.gz"
+    order_path = BASE / "n9-lift-n10-order.json"
+    map_path = BASE / "n9-lift-n10-map-report.json"
+    rank_path = BASE / "n9-lift-n10-plus5L-m64000-p1000003-s1-cuda.json"
+    require(sha256_path(universe_path) == N9_LIFT_UNIVERSE_SHA, "n9 lift universe SHA")
+    require(sha256_path(order_path) == N9_LIFT_ORDER_SHA, "n9 lift order SHA")
+    require(sha256_path(map_path) == N9_LIFT_MAP_SHA, "n9 lift map SHA")
+    order = load_json(order_path)
+    require(isinstance(order, list) and len(order) == N9_LIFT_ORBITS,
+            "n9 lift order denominator")
+    require(order[0] == 0 and len(set(order)) == N9_LIFT_ORBITS,
+            "n9 lift record-zero/uniqueness control")
+    require(all(isinstance(i, int) and 0 <= i < N9_LIFT_ORBITS for i in order),
+            "n9 lift order range")
+
+    mapping = load_json(map_path)
+    require(mapping.get("schema") == "max9-to-max10-lift-family-map-v1", "n9 lift map schema")
+    require(mapping.get("result") == "PASS", "n9 lift map result")
+    bindings = mapping.get("bindings", {})
+    require(bindings.get("source_certificate_sha256") == N9_LIFT_SOURCE_SHA,
+            "n9 lift source certificate SHA")
+    require(bindings.get("family_universe_sha256") == N9_LIFT_UNIVERSE_SHA,
+            "n9 lift embedded universe SHA")
+    require(bindings.get("order_file_sha256") == N9_LIFT_ORDER_SHA,
+            "n9 lift embedded order SHA")
+    counts = mapping.get("counts", {})
+    require(counts.get("source_terms_denominator") == 337, "n9 lift source denominator")
+    require(counts.get("raw_extensions_denominator") == 667_260,
+            "n9 lift raw denominator")
+    require(counts.get("raw_disjoint_numerator") == 424_620,
+            "n9 lift disjoint numerator")
+    require(counts.get("raw_shared_distinct_numerator") == 242_640,
+            "n9 lift shared numerator")
+    require(counts.get("signed_W_orbits_denominator") == N9_LIFT_ORBITS,
+            "n9 lift orbit denominator")
+    require(counts.get("mapped_signed_W_orbits_numerator") == N9_LIFT_ORBITS,
+            "n9 lift mapped numerator")
+    require(counts.get("raw_extensions_outside_loopless_family_numerator") == 0,
+            "n9 lift raw outside family")
+    require(counts.get("signed_W_orbits_outside_loopless_family_numerator") == 0,
+            "n9 lift orbits outside family")
+    source_mapping = mapping.get("source_term_mapping", {})
+    require(source_mapping.get("terms_denominator") == 337,
+            "n9 lift mapped-term denominator")
+    require(source_mapping.get("terms_with_at_least_one_orbit_numerator") == 337,
+            "n9 lift mapped-term numerator")
+    require(source_mapping.get("term_orbit_incidence_numerator") == 280_627,
+            "n9 lift term-orbit incidence numerator")
+
+    report = load_json(rank_path)
+    require(report.get("schema") == "max11-streamrank-pivots-v1", "n9 lift rank schema")
+    require(report.get("result") == "CONTROL_PASS", "n9 lift rank denominator control")
+    require(report.get("backend") == "cuda", "n9 lift rank backend")
+    require(report.get("n") == 10 and report.get("branch_edge_occurrences") == 5,
+            "n9 lift rank system shape")
+    require(report.get("modulus") == PRIMARY_PRIME, "n9 lift rank prime")
+    require(report.get("buckets") == BUCKETS and report.get("threads") == 8,
+            "n9 lift rank resources")
+    require(report.get("input_sha256") == N9_LIFT_UNIVERSE_SHA,
+            "n9 lift rank universe SHA")
+    require(report.get("order_file_sha256") == N9_LIFT_ORDER_SHA,
+            "n9 lift rank order SHA")
+    require(report.get("source_column_count") == N9_LIFT_COLUMNS,
+            "n9 lift rank source numerator")
+    require(report.get("source_columns_denominator") == N9_LIFT_COLUMNS,
+            "n9 lift rank source denominator")
+    require(report.get("five_l_carrier") == {
+        "label": "5L",
+        "source_index": N9_LIFT_ORBITS,
+        "exact_linear_coefficient_each_of_n_coordinates": 1_814_400,
+        "coordinate_count": 10,
+        "hinge_count": 0,
+    }, "n9 lift 5L carrier")
+    sketches = report.get("sketches")
+    require(isinstance(sketches, list) and len(sketches) == 1, "n9 lift sketch count")
+    sketch = sketches[0]
+    require(sketch.get("sketch", {}).get("seed") == SEEDS[0], "n9 lift seed")
+    require(sketch.get("rank_a") == 17_127, "n9 lift rank(A)")
+    require(sketch.get("rank_augmented") == 17_127, "n9 lift augmented rank")
+    require(sketch.get("verdict") == "MEMBER" and sketch.get("saturated") is False,
+            "n9 lift verdict/saturation")
+    require(sketch.get("left_separator") is None, "n9 lift MEMBER separator")
+    require(verify_pivots(sketch, 17_127) == N9_LIFT_PIVOT_SHA, "n9 lift pivot SHA")
+    return {
+        "definition": "337-term MAX9 certificate, fixed [9] in [10], ordered distinct nonloop edge per branch, S_10/global-sign quotient, plus 5L",
+        "source_terms_denominator": 337,
+        "raw_extensions_denominator": 667_260,
+        "lift_orbits_denominator": N9_LIFT_ORBITS,
+        "columns_denominator": N9_LIFT_COLUMNS,
+        "rank_a": 17_127,
+        "rank_augmented": 17_127,
+        "verdict": "MEMBER",
+        "prime": PRIMARY_PRIME,
+        "seed": SEEDS[0],
+        "map_report_sha256": N9_LIFT_MAP_SHA,
+        "rank_report_sha256": sha256_path(rank_path),
+        "pivot_columns_u64_le_sha256": N9_LIFT_PIVOT_SHA,
+    }
+
+
 def verify_subject(path: Path) -> dict[str, Any]:
     report = load_json(path)
     require(isinstance(report, dict), "subject top-level object")
@@ -258,6 +367,7 @@ def main() -> None:
             verify_control(BASE / "control-n10-m6498-p1000003-s1s2-cuda.json", 10),
             verify_control(BASE / "control-n9-trees-m1080-p1000003-s1s2-cuda.json", 9),
         ],
+        "same_lift_known_answer_control": verify_n9_lift_control(),
         "subjects": [verify_subject(path.resolve()) for path in args.subject],
         "no_claim": (
             "This verifies finite modular report custody and internal consistency only; "
