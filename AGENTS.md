@@ -44,3 +44,5 @@ Update canonical ledger TOML, regenerate views, append the round, dual-write nex
 - Honest-credit floor: real code plus real known-answer controls in the same bead; never weaken a control to go green; a negative on any finite family is a bounded null, never a theorem; never claim an identity without exact rational verification on every row; every reported number names its denominator; say what you did not verify. Only the orchestrator closes beads, citing evidence.
 - Commit your own paths as you go with the bead id in the message; never rewrite history; never push; never commit files over 50 MB (list them in RESULT.md with hashes instead).
 - Shared machine: 16 cores, 62 GB RAM. Do not start a job that needs more than 8 cores or 24 GB without telling AmberBluff first.
+
+- Commit only your own paths with `git commit --only <paths>` (or `git add <paths>` then `git commit` without `-a`); never use `git commit -a` or `git add -A` — the shared index carries other agents' staged files and a blanket commit steals their attribution (incident: commit a0fa767, 2026-09-03).
