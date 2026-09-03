@@ -1,0 +1,5 @@
+128
+               total        used        free      shared  buff/cache   available
+Mem:           2.0Ti        47Gi       594Gi       2.4Gi       1.3Ti       1.9Ti
+Swap:          8.0Gi        36Mi       8.0Gi
+NVIDIA A100-SXM4-80GB, 0, 81920

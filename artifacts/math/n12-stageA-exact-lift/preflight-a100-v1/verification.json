@@ -1,0 +1,16 @@
+{
+  "build_report_sha256": "771f3c83739d415de9225e82ef08f55b6d8b4cc519fe84ae733ab03277ad5243",
+  "colgen_n12_columns_denominator": 1,
+  "colgen_n12_columns_numerator": 1,
+  "colgen_replays_equal_denominator": 1,
+  "colgen_replays_equal_numerator": 1,
+  "dimension_mutants_rejected_denominator": 1,
+  "dimension_mutants_rejected_numerator": 1,
+  "lift_builder_n12_accepts_denominator": 1,
+  "lift_builder_n12_accepts_numerator": 1,
+  "mcolgen_sha256": "f046f105723f8dd40209dfbc13c68c9a17da6bd6f8a3d5db8072f037b382c28a",
+  "no_claim": "This interface preflight uses a structurally marked one-column fixture. It is not an n=12 membership result, exact identity, or successful rational lift.",
+  "problem_sha256": "5be39668392913dd047e65d1419e4360a9022e0a2bb6fc28857e8c390939bb4f",
+  "result": "PASS",
+  "schema": "exp0037-n12-exact-lift-preflight-v1"
+}

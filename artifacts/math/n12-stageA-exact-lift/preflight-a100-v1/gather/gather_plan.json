@@ -1,0 +1,25 @@
+{
+  "batch_count": 1,
+  "batch_size": 1,
+  "batches": [
+    {
+      "batch": 0,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/preflight-a100-v1/gather/orders/order-000.json",
+      "order_file_sha256": "c14196f132c1e9be0508ae80ab52fcb3e1d3fc05880415f3dc980971df207c9e",
+      "pivot_count": 1,
+      "pivot_offset": 0,
+      "real_count": 1
+    }
+  ],
+  "pivot_columns_u64_le_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+  "pivot_report": "artifacts/math/n12-stageA-exact-lift/preflight/tiny_member_fixture_n12.json",
+  "pivot_report_sha256": "92f225694803219cda59c24b27a5355e1c649d1e9a1fc165b279c278721ef1dd",
+  "rank_a": 1,
+  "rank_augmented": 1,
+  "schema": "max11-exact-pivot-gather-plan-v1",
+  "synthetic_five_l_index": 787523,
+  "synthetic_five_l_pivot_count": 0,
+  "universe_count": 787523,
+  "verdict": "MEMBER"
+}

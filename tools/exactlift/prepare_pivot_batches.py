@@ -51,7 +51,17 @@ def main() -> None:
     if packed_sha != sketch["pivot_columns_u64_le_sha256"]:
         raise SystemExit("pivot source-index SHA-256 mismatch")
 
-    universe_count = 754_017
+    carrier = report.get("five_l_carrier")
+    if isinstance(carrier, dict) and "source_index" in carrier:
+        universe_count = int(carrier["source_index"])
+    elif int(report.get("n", -1)) == 11:
+        # Backward compatibility for the earliest n=11 pivot fixture, written
+        # before streamrank recorded the synthetic carrier explicitly.
+        universe_count = 754_017
+    else:
+        raise SystemExit("pivot report does not identify the synthetic 5L source index")
+    if universe_count <= 0:
+        raise SystemExit("synthetic 5L source index must be positive")
     synthetic_index = universe_count
     unexpected = [value for value in pivots if not 0 <= value <= synthetic_index]
     if unexpected:

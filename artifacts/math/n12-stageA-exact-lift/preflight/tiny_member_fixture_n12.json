@@ -1,0 +1,37 @@
+{
+  "schema": "max11-streamrank-pivots-v1",
+  "result": "CONTROL_FIXTURE",
+  "subject": "n=12 interface-only one-column fixture; MEMBER is structural input, not an observed span verdict",
+  "input": "artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz",
+  "input_sha256": "f98352ea4d1517f0b88aba0b38d34be0edb0b845aac3eaa724f3bd1f8f83f640",
+  "n": 12,
+  "branch_edge_occurrences": 5,
+  "modulus": 1000003,
+  "source_column_count": 1,
+  "source_columns_denominator": 1,
+  "five_l_carrier": {
+    "source_index": 787523
+  },
+  "sketches": [
+    {
+      "rank_a": 1,
+      "rank_augmented": 1,
+      "verdict": "MEMBER",
+      "pivot_columns": [0],
+      "pivot_columns_u64_le_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "pivot_buckets": [3],
+      "target_sketch_nonzero": [
+        {
+          "bucket": 3,
+          "residue": 1
+        }
+      ],
+      "sketch": {
+        "algorithm": "splitmix64-chain-v1-one-bucket-random-sign",
+        "seed": 2026090201,
+        "buckets": 17
+      }
+    }
+  ],
+  "no_claim": "This fixture exercises n=12 interfaces only; it is not a computed membership result or an exact identity."
+}
