@@ -1,8 +1,8 @@
 # streamrank generation/sketch/reduce overlap
 
-Bead: `relu-depth-frontier-research-fhw`  
-Worker: `CobaltHare`  
-Status: in progress; the orchestrator alone decides closure.
+- Bead: `relu-depth-frontier-research-fhw`
+- Worker: `CobaltHare`
+- Status: in progress; the orchestrator alone decides closure.
 
 ## No-claim boundary
 
