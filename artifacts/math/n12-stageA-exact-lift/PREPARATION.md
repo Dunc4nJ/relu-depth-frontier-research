@@ -92,6 +92,29 @@ AzureAspen in thread `relu-depth-frontier-research-hhs`; agreement is still
 pending. The full triggered lift will not start without reconciling concurrent
 use with bead `relu-depth-frontier-research-psu`.
 
+## Trigger path
+
+`launch_a100_member_lift.sh` is fail-closed. It requires the explicit
+`RAM_AGREEMENT_CONFIRMED=1` guard, accepts only one of the four preregistered
+n=12 arm paths, reruns `verify_outputs.py --one-arm`, checks the universe and
+remote binary hashes, requires at least 68,719,476,736 bytes available RAM,
+and refuses to start beside another `run_remote_member_pivot.sh`. It then
+starts `run_a100_triggered_member.sh` under `nohup`; that wrapper invokes the
+existing runner unchanged with 16 threads, prime 65,521, at most 40,000 Dixon
+steps, reconstruction every 50 steps, and 1,024-column gather batches.
+
+Preparation controls for the trigger path:
+
+- missing RAM agreement rejected: 1/1.
+- planted n=10 pivot-report input rejected as not the n=12, k=5 experiment:
+  1/1.
+- remote colgen binary hash matched its pinned hash: 1/1.
+- remote exact-lift binary hash matched its pinned hash: 1/1.
+
+The trigger has no positive full-arm control yet because no n=12 arm report
+exists. Its first positive invocation will therefore be retained in full,
+including the wrapper PID, timestamps, exit code, and pipeline log.
+
 ## No claim
 
 This one-column structural preflight did not run `solve-big`, Dixon recovery,
