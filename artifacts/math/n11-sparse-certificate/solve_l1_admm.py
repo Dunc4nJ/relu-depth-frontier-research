@@ -80,14 +80,19 @@ def solve(
 
     started = time.monotonic()
     meta_path, meta, matrix, target, source = load_checked_dense(matrix_dir)
-    rows, columns = matrix.shape
+    input_rows, columns = matrix.shape
     if not 0 < candidate_cap <= columns:
         raise ValueError("candidate_cap must be in 1..columns")
     if rho <= 0 or max_iterations <= 0:
         raise ValueError("rho and max_iterations must be positive")
     row_norm = np.linalg.norm(matrix, axis=1)
-    if np.any(row_norm == 0):
-        raise ValueError("ADMM projection matrix has an empty row")
+    active_rows = row_norm != 0
+    if np.any(target[~active_rows] != 0):
+        raise ValueError("ADMM projection matrix has an empty row with a nonzero target")
+    matrix = matrix[active_rows, :]
+    target = target[active_rows]
+    row_norm = row_norm[active_rows]
+    rows = matrix.shape[0]
     matrix /= row_norm[:, None]
     target /= row_norm
     gram_started = time.monotonic()
@@ -201,7 +206,8 @@ def solve(
             "exact": False,
             "matrix_report": str(meta_path),
             "matrix_report_sha256": sha256(meta_path),
-            "rows_denominator": rows,
+            "rows_denominator": input_rows,
+            "projection_rows_numerator": rows,
             "columns_denominator": columns,
             "matrix_nonzeros_denominator": int(meta["nonzeros_denominator"]),
             "rounds_requested_denominator": rounds + 1,
@@ -217,7 +223,8 @@ def solve(
         "exact": False,
         "matrix_report": str(meta_path),
         "matrix_report_sha256": sha256(meta_path),
-        "rows_denominator": rows,
+        "rows_denominator": input_rows,
+        "projection_rows_numerator": rows,
         "columns_denominator": columns,
         "matrix_nonzeros_denominator": int(meta["nonzeros_denominator"]),
         "solver": "ADMM basis pursuit with reusable dense Cholesky affine projection",
