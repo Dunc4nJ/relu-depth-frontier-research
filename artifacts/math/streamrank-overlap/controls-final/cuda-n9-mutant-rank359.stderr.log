@@ -1,0 +1,4 @@
+STREAMRANK_PROGRESS columns=256 ranks=[222] seconds=2.159 generate_s=0.093987 sketch_s=0.025559 gemm_s=0.059543 host_reduce_s=0.004039 basis_update_s=0.034423 io_s=1.457456
+STREAMRANK_PROGRESS columns=512 ranks=[353] seconds=4.117 generate_s=0.128996 sketch_s=0.054595 gemm_s=0.000849 host_reduce_s=0.002133 basis_update_s=0.019541 io_s=1.525685
+STREAMRANK_PROGRESS columns=739 ranks=[360] seconds=4.645 generate_s=0.083484 sketch_s=0.030226 gemm_s=0.003016 host_reduce_s=0.001503 basis_update_s=0.002607 io_s=0.361572
+Error: known-answer control failed; report was preserved

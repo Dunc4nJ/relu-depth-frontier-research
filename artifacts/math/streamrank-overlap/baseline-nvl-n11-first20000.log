@@ -1,0 +1,21 @@
+STREAMRANK_PROGRESS columns=1024/20000 ranks=[951] seconds=82.551 generate_s=50.862434 sketch_s=12.484705 gemm_s=0.181924 host_reduce_s=1.227276 basis_update_s=4.340662 io_s=0.000000
+STREAMRANK_PROGRESS columns=2048/20000 ranks=[1852] seconds=163.914 generate_s=45.587587 sketch_s=13.823341 gemm_s=0.022738 host_reduce_s=2.554325 basis_update_s=4.256360 io_s=0.000000
+STREAMRANK_PROGRESS columns=3072/20000 ranks=[2446] seconds=241.080 generate_s=46.641662 sketch_s=12.497729 gemm_s=0.028394 host_reduce_s=2.165392 basis_update_s=2.546010 io_s=0.000000
+STREAMRANK_PROGRESS columns=4096/20000 ranks=[2770] seconds=314.500 generate_s=43.939570 sketch_s=12.567174 gemm_s=0.029333 host_reduce_s=2.105341 basis_update_s=1.368209 io_s=0.000000
+STREAMRANK_PROGRESS columns=5120/20000 ranks=[3036] seconds=381.703 generate_s=39.795443 sketch_s=10.387834 gemm_s=0.031623 host_reduce_s=4.163672 basis_update_s=1.510688 io_s=0.000000
+STREAMRANK_PROGRESS columns=6144/20000 ranks=[3612] seconds=453.281 generate_s=40.656655 sketch_s=11.405200 gemm_s=0.038582 host_reduce_s=4.391852 basis_update_s=2.830088 io_s=0.000000
+STREAMRANK_PROGRESS columns=7168/20000 ranks=[4352] seconds=525.666 generate_s=40.607264 sketch_s=12.482350 gemm_s=0.045320 host_reduce_s=3.818029 basis_update_s=2.704634 io_s=0.000000
+STREAMRANK_PROGRESS columns=8192/20000 ranks=[4828] seconds=595.531 generate_s=41.066775 sketch_s=10.951868 gemm_s=0.046985 host_reduce_s=4.293615 basis_update_s=2.377471 io_s=0.000000
+STREAMRANK_PROGRESS columns=9216/20000 ranks=[5191] seconds=674.015 generate_s=44.558137 sketch_s=12.295468 gemm_s=0.051063 host_reduce_s=6.113825 basis_update_s=2.463565 io_s=0.000000
+STREAMRANK_PROGRESS columns=10240/20000 ranks=[5418] seconds=744.521 generate_s=40.360773 sketch_s=10.890577 gemm_s=0.058684 host_reduce_s=6.223784 basis_update_s=1.140018 io_s=0.000000
+STREAMRANK_PROGRESS columns=11264/20000 ranks=[5804] seconds=808.193 generate_s=37.364849 sketch_s=9.921944 gemm_s=0.051885 host_reduce_s=5.045350 basis_update_s=1.296264 io_s=0.000000
+STREAMRANK_PROGRESS columns=12288/20000 ranks=[6325] seconds=891.328 generate_s=47.508908 sketch_s=14.017372 gemm_s=0.062700 host_reduce_s=4.915499 basis_update_s=1.564068 io_s=0.000000
+STREAMRANK_PROGRESS columns=13312/20000 ranks=[6662] seconds=938.096 generate_s=25.167028 sketch_s=9.041741 gemm_s=0.062941 host_reduce_s=3.159006 basis_update_s=0.796616 io_s=0.000000
+STREAMRANK_PROGRESS columns=14336/20000 ranks=[6847] seconds=989.871 generate_s=28.261759 sketch_s=10.712072 gemm_s=0.059313 host_reduce_s=2.666237 basis_update_s=0.486537 io_s=0.000000
+STREAMRANK_PROGRESS columns=15360/20000 ranks=[6848] seconds=1040.516 generate_s=28.522444 sketch_s=10.943703 gemm_s=0.024289 host_reduce_s=1.227077 basis_update_s=0.181065 io_s=0.000000
+STREAMRANK_PROGRESS columns=16384/20000 ranks=[6857] seconds=1092.203 generate_s=28.939336 sketch_s=11.664995 gemm_s=0.021823 host_reduce_s=0.660145 basis_update_s=0.068461 io_s=0.000000
+STREAMRANK_PROGRESS columns=17408/20000 ranks=[6878] seconds=1146.491 generate_s=29.686044 sketch_s=11.111739 gemm_s=0.045375 host_reduce_s=2.024855 basis_update_s=0.146910 io_s=0.000000
+STREAMRANK_PROGRESS columns=18432/20000 ranks=[6889] seconds=1196.187 generate_s=28.207713 sketch_s=9.573550 gemm_s=0.035965 host_reduce_s=2.622548 basis_update_s=0.177677 io_s=0.000000
+STREAMRANK_PROGRESS columns=19456/20000 ranks=[6902] seconds=1252.356 generate_s=30.654149 sketch_s=11.903694 gemm_s=0.033030 host_reduce_s=2.225530 basis_update_s=0.293493 io_s=0.000000
+STREAMRANK_PROGRESS columns=20000/20000 ranks=[7330] seconds=1276.316 generate_s=11.083334 sketch_s=3.790698 gemm_s=0.042778 host_reduce_s=3.620507 basis_update_s=2.015943 io_s=0.000000
+STREAMRANK_OBSERVATION columns=20000 ranks=[(7330, 7331)] seconds=1278.342

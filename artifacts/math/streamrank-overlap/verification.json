@@ -1,0 +1,64 @@
+{
+  "benchmark": {
+    "baseline_phase_totals_seconds": {
+      "basis_update_s": 32.564739560999996,
+      "gemm_s": 0.9747470400929448,
+      "generate_s": 729.471864828,
+      "host_reduce_s": 65.22386513090706,
+      "io_s": 0.0,
+      "sketch_s": 222.4677536960001
+    },
+    "baseline_wall_seconds": 1278.34167213,
+    "final_phase_totals_seconds": {
+      "basis_update_s": 167.14373511099996,
+      "gemm_s": 1.1427105308473091,
+      "generate_s": 557.112136951,
+      "host_reduce_s": 59.98686136115272,
+      "io_s": 0.0,
+      "sketch_s": 24.281616720000006,
+      "sparse_drop_s": 28.225022149
+    },
+    "final_wall_seconds": 615.351879507,
+    "per_batch_source_rank_trace_identical": true,
+    "pivot_columns_denominator": 7330,
+    "pivot_lists_byte_identical": true,
+    "source_columns_denominator": 20000,
+    "wall_speedup_ratio": 2.0774157270051177
+  },
+  "binaries_sha256": {
+    "baseline_instrumented": "23d1bac794f695375ea849efd469423d76e0da5ba6f79043b7a94aad9486a86a",
+    "final_overlap": "36c0e3ce8918164bd1d0a30e63399d1f446fef7b61df3bdeb16a2a6ed3a3fe5e"
+  },
+  "controls": {
+    "cpu_cuda_pivot_parity_n": [
+      9,
+      10
+    ],
+    "hostile_expected_rank_control": "CONTROL_FAIL_EXIT_1",
+    "passing_cases_denominator": 4,
+    "passing_cases_numerator": 4,
+    "pipeline_abort_control": "ABORTED_GATE_AFTER_64_OF_20000"
+  },
+  "no_claim": "Performance and modular pivot parity do not prove an identity or an unrestricted depth lower bound.",
+  "raw_artifacts_sha256": {
+    "baseline-nvl-n11-first20000-pivots.json": "71aca8c25e6b4ebfe500947078e7dfa4b70c1f6c52bd5f37a686bc460ce7767c",
+    "baseline-nvl-n11-first20000.json": "81bcc5c0989cef8fce5013f52705c3891b30c66ca597906cd511e028fed1606c",
+    "baseline-nvl-n11-first20000.log": "799cc157118a00d502226724f951d173cdc1a4213f2ae96fdc78539480825513",
+    "controls-final/cpu-n10.json": "39167f220ce43a986fea58f45ac37cb4d36278930787984aee03c62309d2a9c3",
+    "controls-final/cpu-n9.json": "f73c68f09c1a49571fd07f5670053ae13c16fdf8cbfb9228c05ed1e16fd07e7b",
+    "controls-final/cuda-n10.json": "15a138437c267830faa0a289ea2c16cb6c2f2d5044e9cdaa8bc0de00730780b3",
+    "controls-final/cuda-n9-mutant-rank359.exit-code": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "controls-final/cuda-n9-mutant-rank359.json": "b5fc5665371b1842f358add3e8ee3fcd1b80892217f4427bac62aabb5c95a843",
+    "controls-final/cuda-n9.json": "ccaeb49d55d636bc12659dfe6bd49248a4f42742f7f506744b87afddd68b8e17",
+    "controls-final/headroom-before.txt": "322fb377c696849bcfc705d0b3590d96e6a1ade0c01fc4bbcb820cc230b8a226",
+    "final-nvl-n11-first20000-pivots.json": "71aca8c25e6b4ebfe500947078e7dfa4b70c1f6c52bd5f37a686bc460ce7767c",
+    "final-nvl-n11-first20000.json": "2e6d3d57b2417944eb4d1deff5f279169546cc5adabab2311b445b85cfc5b5ca",
+    "final-nvl-n11-first20000.log": "ef3fd35080bf7dd0c5459243fb6bc5381d0466a0078eaee14f3facf511ac7249",
+    "local-abort-control.json": "5a2606628c7b21fa73b3dd5a10a80f36f7e8f9f724609e379b86e156984f67b7",
+    "overlap-v1-aborted-3072.log": "cbe6c5823d43038e393e3e2f4cf4f1d121ed642b1b7fd6179b11795e0ac25ddb",
+    "stageA-first20000-order.json": "29bf756acd53f7fed328d5a5f4b03f40c462e59d0e625fbd94395d696e4470ef",
+    "stageA-first20000-s1-expected-pivots.json": "71aca8c25e6b4ebfe500947078e7dfa4b70c1f6c52bd5f37a686bc460ce7767c"
+  },
+  "result": "PASS",
+  "schema": "streamrank-overlap-verification-v1"
+}

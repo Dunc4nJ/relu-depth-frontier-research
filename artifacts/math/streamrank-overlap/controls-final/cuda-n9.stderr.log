@@ -1,0 +1,4 @@
+STREAMRANK_PROGRESS columns=256 ranks=[222, 222] seconds=2.734 generate_s=0.122324 sketch_s=0.081945 gemm_s=0.081177 host_reduce_s=0.006532 basis_update_s=0.267631 io_s=1.689464
+STREAMRANK_PROGRESS columns=512 ranks=[353, 353] seconds=5.121 generate_s=0.197964 sketch_s=0.137230 gemm_s=0.002204 host_reduce_s=0.005078 basis_update_s=0.199721 io_s=1.553897
+STREAMRANK_PROGRESS columns=739 ranks=[360, 360] seconds=6.383 generate_s=0.218973 sketch_s=0.065244 gemm_s=0.003282 host_reduce_s=0.003287 basis_update_s=0.010741 io_s=0.898894
+STREAMRANK_CONTROL_PASS columns=739 ranks=[(360, 361), (360, 361)] seconds=6.391
