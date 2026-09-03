@@ -58,6 +58,7 @@ def solve(
     time_limit: float,
     cpu_threads: int,
     pdlp_mode: str,
+    formulation: str,
 ) -> dict:
     from cuopt import linear_programming as lp
     from cuopt.linear_programming.solver import solver_parameters as parameter
@@ -84,13 +85,45 @@ def solve(
         values[begin:end] = exact_values[begin:end]
     target = np.asarray(target_exact, dtype=np.float64)
     csc = scipy.sparse.csc_matrix((values, index, start), shape=(rows, columns), copy=False)
-    matrix = scipy.sparse.hstack((csc, -csc), format="csr")
-    if matrix.nnz != 2 * nnz or matrix.indices.dtype != np.int32 or matrix.indptr.dtype != np.int32:
-        raise RuntimeError("unexpected split CSR representation")
+    a_csr = csc.tocsr()
+    if formulation == "split":
+        matrix = scipy.sparse.hstack((a_csr, -a_csr), format="csr")
+        constraint_lower = target
+        constraint_upper = target
+        variable_lower = np.zeros(2 * columns, dtype=np.float64)
+        model_nnz = 2 * nnz
+    else:
+        zero = scipy.sparse.csr_matrix((rows, columns), dtype=np.float64)
+        top = scipy.sparse.hstack((a_csr, zero), format="csr")
+        positions = np.arange(columns, dtype=np.int32)
+        abs_row = np.repeat(np.arange(2 * columns, dtype=np.int32), 2)
+        abs_column = np.empty(4 * columns, dtype=np.int32)
+        abs_column[0::4] = positions
+        abs_column[1::4] = columns + positions
+        abs_column[2::4] = positions
+        abs_column[3::4] = columns + positions
+        abs_value = np.tile(np.asarray((1.0, -1.0, -1.0, -1.0)), columns)
+        absolute = scipy.sparse.coo_matrix(
+            (abs_value, (abs_row, abs_column)), shape=(2 * columns, 2 * columns)
+        ).tocsr()
+        matrix = scipy.sparse.vstack((top, absolute), format="csr")
+        constraint_lower = np.concatenate((target, np.full(2 * columns, -np.inf)))
+        constraint_upper = np.concatenate((target, np.zeros(2 * columns)))
+        variable_lower = np.concatenate((np.full(columns, -np.inf), np.zeros(columns)))
+        model_nnz = nnz + 4 * columns
+        del top, absolute, zero
+    if matrix.nnz != model_nnz or matrix.indices.dtype != np.int32 or matrix.indptr.dtype != np.int32:
+        raise RuntimeError(f"unexpected {formulation} CSR representation")
     del csc, values
 
-    initial, initial_report = split_initial_witness(initial_witness, source, columns)
-    initial_residual = np.asarray(matrix @ initial - target)
+    initial_split, initial_report = split_initial_witness(initial_witness, source, columns)
+    initial_signed = initial_split[:columns] - initial_split[columns:]
+    initial = (
+        initial_split
+        if formulation == "split"
+        else np.concatenate((initial_signed, np.abs(initial_signed)))
+    )
+    initial_residual = np.asarray(a_csr @ initial_signed - target)
     initial_report.update({
         "max_abs_floating_residual": float(np.max(np.abs(initial_residual))),
         "nonzero_floating_residual_numerator": int(np.count_nonzero(initial_residual)),
@@ -99,8 +132,10 @@ def solve(
 
     model = lp.DataModel()
     model.set_csr_constraint_matrix(matrix.data, matrix.indices, matrix.indptr)
-    model.set_constraint_bounds(target)
-    model.set_row_types(np.full(rows, "E", dtype="<U1"))
+    model.set_constraint_lower_bounds(constraint_lower)
+    model.set_constraint_upper_bounds(constraint_upper)
+    model.set_variable_lower_bounds(variable_lower)
+    model.set_variable_upper_bounds(np.full(2 * columns, np.inf))
     model.set_initial_primal_solution(initial)
 
     settings = lp.SolverSettings()
@@ -124,7 +159,11 @@ def solve(
     prior_solution = None
     for round_number in range(rounds + 1):
         phase = time.monotonic()
-        costs = np.concatenate((weights, weights))
+        costs = (
+            np.concatenate((weights, weights))
+            if formulation == "split"
+            else np.concatenate((np.zeros(columns), weights))
+        )
         model.set_objective_coefficients(costs)
         if prior_solution is not None:
             model.set_initial_primal_solution(prior_solution.get_primal_solution())
@@ -138,10 +177,9 @@ def solve(
                 f"{solution.get_termination_reason()} / {solution.get_error_message()}"
             )
         split = np.asarray(solution.get_primal_solution(), dtype=np.float64)
-        signed = split[:columns] - split[columns:]
+        signed = split[:columns] - split[columns:] if formulation == "split" else split[:columns]
         positions = np.flatnonzero(np.abs(signed) > support_threshold)
-        residual_vector = np.concatenate((signed, np.zeros(columns, dtype=np.float64)))
-        residual = np.asarray(matrix @ residual_vector - target)
+        residual = np.asarray(a_csr @ signed - target)
         stats = solution.get_lp_stats()
         report = {
             "round": round_number,
@@ -192,10 +230,10 @@ def solve(
         "rows_denominator": rows,
         "columns_denominator": columns,
         "matrix_nonzeros_denominator": nnz,
-        "lp_formulation": "split_primal_weighted_basis_pursuit",
-        "model_rows_denominator": rows,
+        "lp_formulation": f"{formulation}_primal_weighted_basis_pursuit",
+        "model_rows_denominator": rows if formulation == "split" else rows + 2 * columns,
         "model_columns_denominator": 2 * columns,
-        "model_nonzeros_denominator": 2 * nnz,
+        "model_nonzeros_denominator": model_nnz,
         "solver": f"NVIDIA cuOpt 26.2.0 PDLP {pdlp_mode}, no presolve/crossover",
         "options": {
             "optimality_tolerance": optimality_tolerance,
@@ -233,6 +271,7 @@ def main() -> None:
     parser.add_argument("--time-limit", type=float, default=3600.0)
     parser.add_argument("--cpu-threads", type=int, default=16)
     parser.add_argument("--pdlp-mode", choices=("stable3", "methodical1", "fast1"), default="stable3")
+    parser.add_argument("--formulation", choices=("split", "epigraph"), default="epigraph")
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -247,6 +286,7 @@ def main() -> None:
         args.time_limit,
         args.cpu_threads,
         args.pdlp_mode,
+        args.formulation,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
