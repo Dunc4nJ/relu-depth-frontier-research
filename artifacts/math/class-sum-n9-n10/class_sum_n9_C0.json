@@ -1,0 +1,52 @@
+{
+  "certificate": {
+    "denominator_lcm": "326592000",
+    "denominator_lcm_factorization": {
+      "2": 9,
+      "3": 6,
+      "5": 3,
+      "7": 1
+    },
+    "kind": "primal",
+    "source": "artifacts/math/exact-witness-n9-n10/recovered_n9_witness.json",
+    "source_sha256": "fa7f80281c9795e5a755cb490d5d9e4ae862ef43493c89ff1f7270b281053b13",
+    "support_size": 415,
+    "verification": {
+      "bound_bits": 39,
+      "check_modulus_bits": 60,
+      "check_prime_count": 3,
+      "check_prime_max": 905843,
+      "sufficient_modulus": true
+    },
+    "verified_on_all_rows": true
+  },
+  "classes": 10976,
+  "coarsening": "C0",
+  "description": "identity on stored records (control; one class per saved column)",
+  "exact_rank": {
+    "attempted": false,
+    "reason": "identity coarsening is too wide for exact kernel"
+  },
+  "modular": {
+    "1000003": {
+      "modular_member": true,
+      "rank_S": 1506,
+      "rank_S_augmented": 1506
+    },
+    "1000033": {
+      "modular_member": true,
+      "rank_S": 1506,
+      "rank_S_augmented": 1506
+    }
+  },
+  "n": 9,
+  "rank_primes": [
+    1000003,
+    1000033
+  ],
+  "rows": 6335,
+  "schema": "max11-class-sum-span-v1",
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+  "system_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+  "verdict": "MEMBER"
+}

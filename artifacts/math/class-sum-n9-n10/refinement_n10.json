@@ -1,0 +1,95 @@
+{
+  "classes": {
+    "C1": 379,
+    "C10": 5790,
+    "C11": 5363,
+    "C2": 86,
+    "C3": 1148,
+    "C4": 65,
+    "C5": 60,
+    "C6": 9,
+    "C7": 2,
+    "C8": 21,
+    "C9": 1706
+  },
+  "descriptions": {
+    "C1": "(unordered pair of isomorphism types of the positive and negative graphs, number of vertices shared by both)",
+    "C10": "C9 together with the isomorphism type of the unsigned union graph (the finest invariant built from the listed pieces, still below C0w)",
+    "C11": "C1 together with the isomorphism type of the unsigned union graph (C10 with the vertex-type multiset dropped)",
+    "C2": "unordered pair of isomorphism types of the positive and negative graphs",
+    "C3": "vertex-type multiset {(d_plus(v), d_minus(v)) : v active}, orientation-canonicalised",
+    "C4": "unordered pair of degree sequences (positive graph, negative graph)",
+    "C5": "(active vertices, components of the union graph, cycle rank of the union, unordered pair of cycle ranks of the positive and negative graphs)",
+    "C6": "active vertices only",
+    "C7": "total collapse to one class (planted negative)",
+    "C8": "(active vertices, number of uncancelled edges per side)",
+    "C9": "common refinement of C1 and C3 (both isomorphism types, shared vertices, and the vertex-type multiset)"
+  },
+  "n": 10,
+  "refines": {
+    "C1": [
+      "C2",
+      "C4",
+      "C8",
+      "C6",
+      "C7"
+    ],
+    "C10": [
+      "C11",
+      "C9",
+      "C3",
+      "C1",
+      "C2",
+      "C4",
+      "C5",
+      "C8",
+      "C6",
+      "C7"
+    ],
+    "C11": [
+      "C1",
+      "C2",
+      "C4",
+      "C5",
+      "C8",
+      "C6",
+      "C7"
+    ],
+    "C2": [
+      "C4",
+      "C7"
+    ],
+    "C3": [
+      "C4",
+      "C8",
+      "C6",
+      "C7"
+    ],
+    "C4": [
+      "C7"
+    ],
+    "C5": [
+      "C8",
+      "C6",
+      "C7"
+    ],
+    "C6": [
+      "C7"
+    ],
+    "C7": [],
+    "C8": [
+      "C6",
+      "C7"
+    ],
+    "C9": [
+      "C3",
+      "C1",
+      "C2",
+      "C4",
+      "C8",
+      "C6",
+      "C7"
+    ]
+  },
+  "schema": "max11-class-sum-span-v1-refinement"
+}

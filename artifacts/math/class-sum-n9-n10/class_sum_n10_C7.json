@@ -1,0 +1,76 @@
+{
+  "certificate": {
+    "exact": true,
+    "kind": "dual",
+    "rows": [
+      1,
+      2,
+      9
+    ],
+    "support_rows": 3,
+    "verification": {
+      "bound_bits": 65,
+      "check_modulus_bits": 78,
+      "check_prime_count": 3,
+      "check_prime_max": 54794149,
+      "sufficient_modulus": true
+    },
+    "y_denominator_lcm": "214518780",
+    "y_dot_b": "-1/1",
+    "y_max_numerator_bits": 33,
+    "y_transpose_S_is_zero_on_all_classes": true
+  },
+  "class_labels": [
+    "[\"C7\"]",
+    "[\"CARRIER\"]"
+  ],
+  "class_sizes": [
+    12237,
+    11
+  ],
+  "classes": 2,
+  "coarsening": "C7",
+  "description": "total collapse to one class (planted negative)",
+  "dual_certificate": {
+    "rows": [
+      1,
+      2,
+      9
+    ],
+    "y": [
+      "-3680708491/107259390",
+      "4646043001/214518780",
+      "-1/1"
+    ]
+  },
+  "exact_rank": {
+    "attempted": true,
+    "confirmed": true,
+    "exact_rank": 2,
+    "exact_rank_of_pivot_rows": 2,
+    "kernel_dimension": 0,
+    "kernel_verified_on_all_rows": true
+  },
+  "modular": {
+    "1000003": {
+      "modular_member": false,
+      "rank_S": 2,
+      "rank_S_augmented": 3
+    },
+    "1000033": {
+      "modular_member": false,
+      "rank_S": 2,
+      "rank_S_augmented": 3
+    }
+  },
+  "n": 10,
+  "rank_primes": [
+    1000003,
+    1000033
+  ],
+  "rows": 16719,
+  "schema": "max11-class-sum-span-v1",
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+  "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+  "verdict": "NON_MEMBER"
+}

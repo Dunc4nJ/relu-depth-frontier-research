@@ -1,0 +1,111 @@
+{
+  "certificate": {
+    "exact": true,
+    "kind": "dual",
+    "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "support_rows": 10,
+    "verification": {
+      "bound_bits": 142,
+      "check_modulus_bits": 150,
+      "check_prime_count": 6,
+      "check_prime_max": 30011983,
+      "sufficient_modulus": true
+    },
+    "y_denominator_lcm": "6712981580166572641154986282320",
+    "y_dot_b": "-2622044763322866689831288957741/6712981580166572641154986282320",
+    "y_max_numerator_bits": 108,
+    "y_transpose_S_is_zero_on_all_classes": true
+  },
+  "class_labels": [
+    "[\"C6\", 10]",
+    "[\"C6\", 3]",
+    "[\"C6\", 4]",
+    "[\"C6\", 5]",
+    "[\"C6\", 6]",
+    "[\"C6\", 7]",
+    "[\"C6\", 8]",
+    "[\"C6\", 9]",
+    "[\"CARRIER\"]"
+  ],
+  "class_sizes": [
+    1070,
+    56,
+    156,
+    592,
+    1746,
+    3072,
+    3295,
+    2250,
+    11
+  ],
+  "classes": 9,
+  "coarsening": "C6",
+  "description": "active vertices only",
+  "dual_certificate": {
+    "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "y": [
+      "3626790620678578200530548470353/839122697520821580144373285290",
+      "-67107591299139404097866798579171/6712981580166572641154986282320",
+      "152649996996534870111334886858629/6712981580166572641154986282320",
+      "-236775383754331375302337379693771/6712981580166572641154986282320",
+      "7338061461837877383673231620379/216547792908599117456612460720",
+      "-153283968800610261341539706890541/6712981580166572641154986282320",
+      "72065378419393682227715402774539/6712981580166572641154986282320",
+      "-13025319773311041042350601377861/6712981580166572641154986282320",
+      "-2622044763322866689831288957741/6712981580166572641154986282320",
+      "-1/1"
+    ]
+  },
+  "exact_rank": {
+    "attempted": true,
+    "confirmed": true,
+    "exact_rank": 9,
+    "exact_rank_of_pivot_rows": 9,
+    "kernel_dimension": 0,
+    "kernel_verified_on_all_rows": true
+  },
+  "modular": {
+    "1000003": {
+      "modular_member": false,
+      "rank_S": 9,
+      "rank_S_augmented": 10
+    },
+    "1000033": {
+      "modular_member": false,
+      "rank_S": 9,
+      "rank_S_augmented": 10
+    }
+  },
+  "n": 10,
+  "rank_primes": [
+    1000003,
+    1000033
+  ],
+  "rows": 16719,
+  "schema": "max11-class-sum-span-v1",
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+  "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+  "verdict": "NON_MEMBER"
+}

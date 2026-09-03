@@ -1,0 +1,106 @@
+{
+  "certificate": {
+    "exact": true,
+    "kind": "dual",
+    "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "support_rows": 9,
+    "verification": {
+      "bound_bits": 116,
+      "check_modulus_bits": 125,
+      "check_prime_count": 5,
+      "check_prime_max": 31635403,
+      "sufficient_modulus": true
+    },
+    "y_denominator_lcm": "5750771961861151453487952",
+    "y_dot_b": "-3140944568024247532803149/5750771961861151453487952",
+    "y_max_numerator_bits": 85,
+    "y_transpose_S_is_zero_on_all_classes": true
+  },
+  "class_labels": [
+    "[\"C6\", 3]",
+    "[\"C6\", 4]",
+    "[\"C6\", 5]",
+    "[\"C6\", 6]",
+    "[\"C6\", 7]",
+    "[\"C6\", 8]",
+    "[\"C6\", 9]",
+    "[\"CARRIER\"]"
+  ],
+  "class_sizes": [
+    56,
+    155,
+    592,
+    1741,
+    3064,
+    3229,
+    2128,
+    11
+  ],
+  "classes": 8,
+  "coarsening": "C6",
+  "description": "active vertices only",
+  "dual_certificate": {
+    "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "y": [
+      "2280310188575278395650413/821538851694450207641136",
+      "-11199651381231944497651511/5750771961861151453487952",
+      "2165845468773546961630657/5750771961861151453487952",
+      "4856855284567330218802195/5750771961861151453487952",
+      "-22895892003286000541286821/5750771961861151453487952",
+      "22630406723455541890741093/5750771961861151453487952",
+      "-2237607126037469987133983/5750771961861151453487952",
+      "-3140944568024247532803149/5750771961861151453487952",
+      "-1/1"
+    ]
+  },
+  "exact_rank": {
+    "attempted": true,
+    "confirmed": true,
+    "exact_rank": 8,
+    "exact_rank_of_pivot_rows": 8,
+    "kernel_dimension": 0,
+    "kernel_verified_on_all_rows": true
+  },
+  "modular": {
+    "1000003": {
+      "modular_member": false,
+      "rank_S": 8,
+      "rank_S_augmented": 9
+    },
+    "1000033": {
+      "modular_member": false,
+      "rank_S": 8,
+      "rank_S_augmented": 9
+    }
+  },
+  "n": 9,
+  "rank_primes": [
+    1000003,
+    1000033
+  ],
+  "rows": 6335,
+  "schema": "max11-class-sum-span-v1",
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n9.jsonl.gz",
+  "system_sha256": "729699ed4d6b6fb77c9d3d3709ca5ac65d8aa487888bbd6ec116698c90782991",
+  "verdict": "NON_MEMBER"
+}
