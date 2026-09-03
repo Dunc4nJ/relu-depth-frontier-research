@@ -75,8 +75,10 @@ target/release/max11-colgen validate-prices \
 reports every mean/extrapolation with its sample denominator. `scan-universe`
 computes the exact support union and total nonzero count for its stated range.
 `emit-universe` writes exact integers or residues modulo one named modulus in
-ordered batches, so memory is bounded by a small multiple of the largest
-column rather than the whole matrix.
+ordered batches. Exact output conversion, lexicographic hinge sorting, and
+sparse-column destruction run inside the same indexed Rayon batch as
+generation; indexed collection and serial batch writing preserve byte order.
+Memory remains bounded by one batch rather than the whole matrix.
 
 ```bash
 target/release/max11-colgen benchmark \

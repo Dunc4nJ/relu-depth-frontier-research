@@ -805,8 +805,9 @@ struct EmitProfileReport {
     order_decode_ns: u128,
     output_create_and_header_ns: u128,
     total_emit_wall_ns: u128,
-    batch_generation_wall_ns: u128,
+    batch_parallel_prepare_wall_ns: u128,
     output_conversion_and_sort_ns: u128,
+    sparse_column_drop_ns: u128,
     serialization_and_write_ns: u128,
     flush_ns: u128,
     profiled_column_total_ns_p50: u128,
@@ -815,6 +816,13 @@ struct EmitProfileReport {
     profiled_column_total_ns_max: u128,
     active_cpu_totals: GenerationProfile,
     no_claim: &'static str,
+}
+
+struct PreparedOutputColumn {
+    output: ColumnOutput,
+    generation_profile: Option<GenerationProfile>,
+    conversion_ns: u128,
+    sparse_drop_ns: u128,
 }
 
 fn quantile_u128(sorted: &[u128], numerator: usize, denominator: usize) -> u128 {
@@ -912,68 +920,81 @@ fn command_emit(args: &Args) -> Result<()> {
     let profiling_enabled = profile_output.is_some();
     let mut aggregate_profile = GenerationProfile::default();
     let mut profiled_column_total_ns = Vec::new();
-    let mut batch_generation_wall_ns = 0u128;
+    let mut batch_parallel_prepare_wall_ns = 0u128;
     let mut output_conversion_and_sort_ns = 0u128;
+    let mut sparse_column_drop_ns = 0u128;
     let mut serialization_and_write_ns = 0u128;
     for batch_start in (0..order.len()).step_by(batch_size) {
         let batch_stop = (batch_start + batch_size).min(order.len());
-        let generation_started = Instant::now();
-        let columns: Vec<Result<(usize, SparseColumn, Option<GenerationProfile>)>> = thread_pool
-            .install(|| {
-                order[batch_start..batch_stop]
-                    .par_iter()
-                    .enumerate()
-                    .map(|(offset, &index)| {
-                        let profile_this_column = profiling_enabled
-                            && (batch_start + offset).is_multiple_of(profile_sample_stride);
-                        if profile_this_column {
-                            let (column, profile) = generate_column_profiled(
+        let preparation_started = Instant::now();
+        let columns: Vec<Result<PreparedOutputColumn>> = thread_pool.install(|| {
+            order[batch_start..batch_stop]
+                .par_iter()
+                .enumerate()
+                .map(|(offset, &index)| {
+                    let profile_this_column = profiling_enabled
+                        && (batch_start + offset).is_multiple_of(profile_sample_stride);
+                    let (column, profile) = if profile_this_column {
+                        let (column, profile) = generate_column_profiled(
+                            &universe.records[index],
+                            universe.n,
+                            universe.branch_edge_occurrences,
+                        )
+                        .with_context(|| format!("profile emit record {index}"))?;
+                        (column, Some(profile))
+                    } else {
+                        (
+                            generate_column(
                                 &universe.records[index],
                                 universe.n,
                                 universe.branch_edge_occurrences,
                             )
-                            .with_context(|| format!("profile emit record {index}"))?;
-                            Ok((index, column, Some(profile)))
-                        } else {
-                            Ok((
-                                index,
-                                generate_column(
-                                    &universe.records[index],
-                                    universe.n,
-                                    universe.branch_edge_occurrences,
-                                )
-                                .with_context(|| format!("emit record {index}"))?,
-                                None,
-                            ))
-                        }
-                    })
-                    .collect()
-            });
-        batch_generation_wall_ns += generation_started.elapsed().as_nanos();
+                            .with_context(|| format!("emit record {index}"))?,
+                            None,
+                        )
+                    };
+                    if profiling_enabled {
+                        let conversion_started = Instant::now();
+                        let output_column = column.output(index, modulus)?;
+                        let conversion_ns = conversion_started.elapsed().as_nanos();
+                        let drop_started = Instant::now();
+                        drop(column);
+                        let drop_ns = drop_started.elapsed().as_nanos();
+                        Ok(PreparedOutputColumn {
+                            output: output_column,
+                            generation_profile: profile,
+                            conversion_ns,
+                            sparse_drop_ns: drop_ns,
+                        })
+                    } else {
+                        let output_column = column.output(index, modulus)?;
+                        Ok(PreparedOutputColumn {
+                            output: output_column,
+                            generation_profile: profile,
+                            conversion_ns: 0,
+                            sparse_drop_ns: 0,
+                        })
+                    }
+                })
+                .collect()
+        });
+        batch_parallel_prepare_wall_ns += preparation_started.elapsed().as_nanos();
         for result in columns {
-            let (index, column, profile) = result?;
-            if let Some(profile) = profile {
+            let prepared = result?;
+            if let Some(profile) = prepared.generation_profile {
                 profiled_column_total_ns.push(profile.total_ns);
                 aggregate_profile.merge(&profile);
             }
-            if profiling_enabled {
-                let conversion_started = Instant::now();
-                let output_column = column.output(index, modulus)?;
-                output_conversion_and_sort_ns += conversion_started.elapsed().as_nanos();
-                let serialization_started = Instant::now();
-                if format == "jsonl" {
-                    serde_json::to_writer(&mut writer, &output_column)?;
-                    writer.write_all(b"\n")?;
-                } else {
-                    write_binary_output(&mut writer, output_column)?;
-                }
-                serialization_and_write_ns += serialization_started.elapsed().as_nanos();
-            } else if format == "jsonl" {
-                serde_json::to_writer(&mut writer, &column.output(index, modulus)?)?;
+            output_conversion_and_sort_ns += prepared.conversion_ns;
+            sparse_column_drop_ns += prepared.sparse_drop_ns;
+            let serialization_started = Instant::now();
+            if format == "jsonl" {
+                serde_json::to_writer(&mut writer, &prepared.output)?;
                 writer.write_all(b"\n")?;
             } else {
-                write_binary_column(&mut writer, &column, index, modulus)?;
+                write_binary_output(&mut writer, prepared.output)?;
             }
+            serialization_and_write_ns += serialization_started.elapsed().as_nanos();
         }
     }
     if include_five_l {
@@ -1015,7 +1036,7 @@ fn command_emit(args: &Args) -> Result<()> {
             .transpose()?;
         let output_sha256 = sha256_path(&output)?;
         let report = EmitProfileReport {
-            schema: "max11-colgen-emit-profile-v1",
+            schema: "max11-colgen-emit-profile-v2",
             result: "PASS",
             command: args.invocation.clone(),
             profile_env: "MAX11_COLGEN_PROFILE_OUTPUT; optional MAX11_COLGEN_PROFILE_STRIDE",
@@ -1036,8 +1057,9 @@ fn command_emit(args: &Args) -> Result<()> {
             order_decode_ns,
             output_create_and_header_ns,
             total_emit_wall_ns,
-            batch_generation_wall_ns,
+            batch_parallel_prepare_wall_ns,
             output_conversion_and_sort_ns,
+            sparse_column_drop_ns,
             serialization_and_write_ns,
             flush_ns,
             profiled_column_total_ns_p50: quantile_u128(&profiled_column_total_ns, 50, 100),
