@@ -17,16 +17,15 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - open gaps: G-0003
 - next rung blocked by: CITED -> COMPUTED_BOUNDED: computation with domain_checked + detection_floor + repro + artifact
 
-### C-0002@1 — conjecture [mathematics]
+### C-0002@2 — construction [mathematics]
 
-> MAX_11 on R^11 is exactly representable by a finite feed-forward ReLU network with exactly two hidden ReLU layers, affine biases allowed, unrestricted finite widths, and arbitrary real weights.
+> MAX_11(x)=max{x_1,...,x_11} on R^11 is exactly representable by a finite feed-forward ReLU network with exactly two hidden ReLU layers, affine biases allowed, unrestricted finite widths, and arbitrary real weights; one explicit witness is the 15,896-term exact rational certificate with SHA-256 8bd2270a801f6af679ccbf00aa7357f4e89ebb069d1211671082f3f5f07d25c5.
 
-- disposition: **challenged** · trace:876f5bfb
-- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0002@1`
+- disposition: **supported** · facets: UNCHALLENGED · trace:0f564b37
+- evidence class: **REFEREED** · ceiling after dependencies: **REFEREED** · weakest link: `C-0002@2`
 - falsifier: An unconditional proof that no finite two-hidden-layer ReLU network over arbitrary real weights equals MAX_11 globally.
-- no-claim: A positive witness settles only n=11; failure of a rational, symmetric, pairwise-comparison, or bounded-width search does not refute this claim.
-- open gaps: G-0002, G-0005, G-0006, G-0008, G-0012, G-0014, G-0015
-- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+- no-claim: Settles n=11 only. It claims nothing for n>=12 or all n, does not claim minimal width or a sparse or uniform formula, is not human-refereed, and is not formalized in a proof assistant.
+- next rung blocked by: REFEREED -> FORMALIZED: closed local formalization attestation
 
 ### C-0003@1 — construction [mathematics]
 
@@ -543,12 +542,64 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - no-claim: Implementation and custody identity only. This is same-model-lineage T1 exact computation, not a T2 or human referee, a proof-assistant formalization, an old-primary classification, or a MAX11 conclusion.
 - next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
 
+### C-0054@1 — implementation-claim [mathematics]
+
+> The n=11 rung verification bundle is identified by the hash-checked exact-lift, upstream-translation, verify11, independent Python, lattice-falsifier, streamrank, degree-four, and class-sum sources listed in CODE_MANIFEST.sha256, the retained artifact set listed in DATA_MANIFEST.sha256, and the attributed execution environments recorded in ENVIRONMENT.md.
+
+- disposition: **open** · trace:d09745a3
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0054@1`
+- falsifier: —
+- no-claim: Identity and local byte custody only. The aggregate manifest does not authenticate remote hosts or model providers, inventory every transitive shared library, make the lattice test a proof, or enlarge any finite-family conclusion.
+- next rung blocked by: ASSERTED -> CITED: retrieved citation with locator+excerpt
+
+### C-0055@1 — boundary-claim [mathematics]
+
+> For the n=11 loopless degree-five forest-pair subfamily restricted to terms using all eleven active vertices, the named 64,000-row CountSketch with seed 2,026,090,201 over F_1,000,003 has rank 10,949, while adjoining the MAX_11 target raises the rank to 10,950.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:950a43b0
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0055@1`
+- falsifier: —
+- no-claim: This is one named finite-field sketch of one finite subfamily. It is not characteristic-zero nonmembership, does not exclude forest-pair certificates using fewer active vertices, and says nothing about unrestricted two-hidden-layer networks.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0056@1 — boundary-claim [mathematics]
+
+> For the n=11 loopless degree-five subfamily restricted to terms using all eleven active vertices, the named 64,000-row CountSketch with seed 2,026,090,201 over F_1,000,003 has rank 14,720, while adjoining the MAX_11 target raises the rank to 14,721.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:291126d5
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0056@1`
+- falsifier: —
+- no-claim: This is one named finite-field sketch of one finite subfamily. It is not characteristic-zero nonmembership and says nothing about terms using fewer active vertices, other ansatzes, or unrestricted two-hidden-layer networks.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0057@1 — boundary-claim [mathematics]
+
+> For the exhaustive 18,285-record loopless signed degree-four orbit dictionary at n=11 together with the external 4L carrier, each of the two named 64,000-row CountSketches over F_1,000,003 has rank 3,514, while adjoining MAX_11 raises the rank to 3,515.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:819c1d98
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0057@1`
+- falsifier: —
+- no-claim: This is a bounded one-prime modular null for exactly 18,286 named columns. It is not characteristic-zero nonmembership, not an unrestricted-network lower bound, and not a statement about degree five or arbitrary ansatzes.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
+### C-0058@1 — boundary-claim [mathematics]
+
+> At both n=9 and n=10, each tested class-sum coarsening C1 through C9 of the saved loopless degree-five systems is exactly NON_MEMBER: MAX_n is outside the corresponding rational class-sum span; membership returns only for tested coarsenings that also retain the unsigned-union-graph isomorphism type.
+
+- disposition: **supported** · facets: UNCHALLENGED · trace:2a8086fe
+- evidence class: **COMPUTED_BOUNDED** · ceiling after dependencies: **COMPUTED_BOUNDED** · weakest link: `C-0058@1`
+- falsifier: —
+- no-claim: This rules out only the named finite class-constant coefficient families at n=9 and n=10. It does not rule out orbit-level, recursive, or other uniform formulas, and it says nothing about unrestricted depth-two representability.
+- next rung blocked by: COMPUTED_BOUNDED -> INDEPENDENTLY_REPLAYED: clean-room replay CONSISTENT (replay-eligible: env pinned) (+1 more)
+
 ## Routes
 
 - `H-0001` [active] MAX_11 may lie in the exact rational span of the frozen pairwise-atom family.
 - `H-0002` [active] A registered lift, orbit law, or simplex subdivision may extend arity without added depth.
 - `H-0003` [active] A registered real-weight invariant may obstruct MAX_11 under two-layer composition.
 - `H-0004` [proposed] A normal-form theorem may reduce unrestricted MAX_n representations to finite certificates.
+- `H-0005` [active] An explicit exact rational combination of finite symmetrized pairwise-max atoms can compile to a fin
+- `H-0006` [active] Restricted subfamily and class-sum span tests can expose which structural simplifications fail aroun
 
 ## Dead ends
 
@@ -559,6 +610,10 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `D-0005` Interpret the G-0099 leaf-edge/opposite-colour-edge deletion incidence as a repr · scope: Exactly the raw zero-extension on the complete n=5 degree-tw · retry_when: `regime_boundary(leaf-operator-defined-on-complete-semantic-quotient)` · trace:7b8f7884
 - `D-0006` Seek MAX11 in the 22,265-column registered-plus-all-tree-plus-5E/5L dictionary w · scope: Exactly the frozen 8,427 semantic rows, 1,387 imposed incide · retry_when: `regime_boundary(incidence-constraint-proved-semantic)` · trace:72bd986a
 - `D-0007` Repair the G-0179 STAR restriction rank deficiency by appending either 480 froze · scope: Exactly the 5,769 retained common-apex STAR records, origina · retry_when: `regime_boundary(characteristic-zero-star-kernel-quotient)` · trace:bfbe9e5a
+- `D-0008` Seek MAX11 inside the loopless degree-five forest-pair subfamily whose terms use · scope: Exactly the F1 forest-pair, all-eleven-active-vertex subject · retry_when: `regime_boundary(forest-pair-full-active-subject-enlarged)` · trace:9690af22
+- `D-0009` Seek MAX11 inside the loopless degree-five subfamily whose terms use all eleven  · scope: Exactly the F3 all-eleven-active-vertex subject, prime 1,000 · retry_when: `regime_boundary(full-active-degree-five-subject-enlarged)` · trace:377a4221
+- `D-0010` Seek MAX11 inside the exhaustive loopless signed degree-four orbit dictionary at · scope: Exactly 18,285 loopless signed degree-four orbit representat · retry_when: `regime_boundary(degree-four-subject-enlarged-beyond-loopless-orbits)` · trace:651e4142
+- `D-0011` Force the n=9 and n=10 loopless degree-five certificate coefficients to be const · scope: Exactly the saved 10,976-column n=9 and 12,248-column n=10 s · retry_when: `regime_boundary(class-sum-family-enlarged-beyond-c1-c9)` · trace:07b091ab
 
 ## Experiments (multiplicity ledger)
 
@@ -597,3 +652,21 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 - `EXP-0033` [complete] family `max11-star-loop-exact-sparse-kernel-basis-v1` arm — prereg=False · trace:588eee71
 - `EXP-0034` [complete] family `max11-mass4-sparse-exact-zero-identities-v1` arm — prereg=True · trace:06c365dd
 - `EXP-0035` [complete] family `max11-mass-le4-filtration-exact-basis-v1` arm — prereg=True · trace:85641ae7
+- `EXP-0036` [complete] family `max11-loopless-k5-complete-target-aware-solve-v1` arm — prereg=True · trace:6535361b
+- `EXP-0037` [running] family `max12-loopless-k5-stagea-v1` arm — prereg=True · trace:a6e400d3
+- `EXP-0038` [complete] family `max11-loopless-degree4-two-sketch-v1` arm — prereg=True · trace:e8a34c12
+- `EXP-0039` [complete] family `max9-max10-class-sum-span-v1` arm — prereg=True · trace:09a0f3c7
+- `EXP-0040` [aborted] family `max11-stagea-exact-lift-attempts-v1` arm — prereg=False · trace:6208a6ce
+- `EXP-0041` [aborted] family `max11-stagea-exact-lift-attempts-v1` arm — prereg=False · trace:3a3891af
+- `EXP-0042` [aborted] family `max11-stagea-exact-lift-attempts-v1` arm — prereg=False · trace:0af074f5
+- `EXP-0043` [aborted] family `max11-stagea-exact-lift-attempts-v1` arm — prereg=False · trace:bd1b21c4
+- `EXP-0044` [aborted] family `max11-stagea-exact-lift-attempts-v1` arm — prereg=False · trace:c12553f5
+- `EXP-0045` [aborted] family `max11-stagea-exact-lift-attempts-v1` arm — prereg=False · trace:e51b50b1
+- `EXP-0046` [complete] family `max11-stagea-exact-lift-run7-v1` arm — prereg=True · trace:f230163b
+- `EXP-0047` [complete] family `max11-full-loopless-universe-rank-v1` arm — prereg=True · trace:4ff6fd18
+- `EXP-0048` [aborted] family `max11-full-loopless-universe-rank-v1` arm — prereg=True · trace:e92ae976
+- `EXP-0049` [complete] family `max11-stagea-certificate-shaped-descent-v1` arm — prereg=True · trace:0473457c
+- `EXP-0050` [complete] family `max11-stagea-certificate-shaped-descent-v1` arm — prereg=True · trace:31c72210
+- `EXP-0051` [complete] family `max11-stagea-certificate-shaped-descent-v1` arm — prereg=True · trace:4fcbcc07
+- `EXP-0052` [aborted] family `max11-loopless-degree4-two-sketch-v1` arm — prereg=True · trace:6bc14796
+- `EXP-0053` [aborted] family `max12-stagea-arm-attempts-v1` arm — prereg=True · trace:f82d35ea
