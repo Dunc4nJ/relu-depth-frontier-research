@@ -116,6 +116,15 @@ The trigger has no positive full-arm control yet because no n=12 arm report
 exists. Its first positive invocation will therefore be retained in full,
 including the wrapper PID, timestamps, exit code, and pipeline log.
 
+`verify_member_lift_outputs.py` is ready for the completed run. It rehashes the
+build, solver, witness, pivot, and upstream JSONs; requires every stored exact
+row numerator to equal its named denominator; recomputes the coefficient
+denominator LCM; and checks coefficient-for-coefficient agreement across the
+witness and upstream translation. Against the existing exact n=11 member it
+accepted 146,187/146,187 real rows, 162,091/162,091 combined rows, and 11,320
+nonzero terms out of 15,904 pivot columns. A planted decrement of the real-row
+verification numerator was rejected: 1/1 mutants.
+
 ## No claim
 
 This one-column structural preflight did not run `solve-big`, Dixon recovery,
