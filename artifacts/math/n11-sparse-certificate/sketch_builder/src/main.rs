@@ -265,7 +265,11 @@ fn main() -> Result<()> {
 
     let mut files = serde_json::Map::new();
     for (name, path) in [("start", &start_path), ("index", &index_path), ("value", &value_path), ("source", &source_path), ("target", &target_path)] {
-        files.insert(name.to_string(), json!({"path": path.file_name().unwrap(), "bytes": path.metadata()?.len(), "sha256": sha256_path(path)?}));
+        files.insert(name.to_string(), json!({
+            "path": path.file_name().unwrap().to_string_lossy().to_string(),
+            "bytes": path.metadata()?.len(),
+            "sha256": sha256_path(path)?,
+        }));
     }
     let report = json!({
         "schema": "max11-sparse-lp-csc-v1",
