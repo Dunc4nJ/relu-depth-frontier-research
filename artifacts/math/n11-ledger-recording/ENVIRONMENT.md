@@ -1,5 +1,9 @@
 # Recorded execution environments for the n=11 rung
 
+The code and data manifests were regenerated exclusively from committed blobs at
+Git tree anchor `392aeb609118b8218ee0fb8c9b9a0b739fba2f3a`; every listed digest was
+computed from `git show <anchor>:<path>`, never from the working tree.
+
 This file is a custody snapshot, not provider authentication. It records only
 environment facts present in the source artifacts and AmberBluff's dated bead
 records.
