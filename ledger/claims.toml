@@ -757,3 +757,84 @@ env_digest = "sha256:66444e9227568086143b3c49a694954ff03b69ebc929a97f000927188d1
 data_snapshot = "sha256:d57ec8abb9a843dc68327d88d0fe9c5843a055762cd3ae9f53ac45fb9eb50efd"
 author_path = "implementation-auditor/g0195"
 created = 2026-09-01T11:41:29Z
+
+[[claim]]
+id = "C-0054"
+version = 1
+statement = "The n=11 rung verification bundle is identified by the hash-checked exact-lift, upstream-translation, verify11, independent Python, lattice-falsifier, streamrank, degree-four, and class-sum sources listed in CODE_MANIFEST.sha256, the retained artifact set listed in DATA_MANIFEST.sha256, and the attributed execution environments recorded in ENVIRONMENT.md."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity and local byte custody only. The aggregate manifest does not authenticate remote hosts or model providers, inventory every transitive shared library, make the lattice test a proof, or enlarge any finite-family conclusion."
+origin_round = "R-0001"
+code_hash = "sha256:0be971a951549342da6cc275078d032cc977dc1d807c5640b398fb497e7d526b"
+env_digest = "sha256:b2d950753b7e2166120e0145fe3f3a99a07597cb0a9fa96def2cc41173b8a914"
+data_snapshot = "sha256:4a02a5bfdf880596a95b96eca530316d679ba0711e46d7c2bd5dfcf1274ec53c"
+author_path = "ledger-recorder/boldfrog"
+created = 2026-09-03T01:12:52Z
+
+[[claim]]
+id = "C-0002"
+version = 2
+statement = "MAX_11(x)=max{x_1,...,x_11} on R^11 is exactly representable by a finite feed-forward ReLU network with exactly two hidden ReLU layers, affine biases allowed, unrestricted finite widths, and arbitrary real weights; one explicit witness is the 15,896-term exact rational certificate with SHA-256 8bd2270a801f6af679ccbf00aa7357f4e89ebb069d1211671082f3f5f07d25c5."
+role = "construction"
+domain = "mathematics"
+depends_on = ["C-0054@1"]
+falsifier = "An unconditional proof that no finite two-hidden-layer ReLU network over arbitrary real weights equals MAX_11 globally."
+no_claim = "Settles n=11 only. It claims nothing for n>=12 or all n, does not claim minimal width or a sparse or uniform formula, is not human-refereed, and is not formalized in a proof assistant."
+not_equivalent_to = ["MAX_n in ReLU_2 for every n", "a human-refereed construction", "a formally verified construction", "minimal-width or minimal-support representation", "the unverified 11,320-term F2 certificate alone"]
+origin_round = "R-0001"
+supersedes = "C-0002@1"
+author_path = "certificate-author/azureaspen"
+created = 2026-09-02T23:46:15Z
+
+[[claim]]
+id = "C-0055"
+version = 1
+statement = "For the n=11 loopless degree-five forest-pair subfamily restricted to terms using all eleven active vertices, the named 64,000-row CountSketch with seed 2,026,090,201 over F_1,000,003 has rank 10,949, while adjoining the MAX_11 target raises the rank to 10,950."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0054@1"]
+no_claim = "This is one named finite-field sketch of one finite subfamily. It is not characteristic-zero nonmembership, does not exclude forest-pair certificates using fewer active vertices, and says nothing about unrestricted two-hidden-layer networks."
+not_equivalent_to = ["nonmembership in every forest-pair family", "a real-coefficient lower bound", "nonrepresentability of MAX_11"]
+origin_round = "R-0001"
+author_path = "modular-operator/wildwillow"
+created = 2026-09-02T23:02:36Z
+
+[[claim]]
+id = "C-0056"
+version = 1
+statement = "For the n=11 loopless degree-five subfamily restricted to terms using all eleven active vertices, the named 64,000-row CountSketch with seed 2,026,090,201 over F_1,000,003 has rank 14,720, while adjoining the MAX_11 target raises the rank to 14,721."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0054@1"]
+no_claim = "This is one named finite-field sketch of one finite subfamily. It is not characteristic-zero nonmembership and says nothing about terms using fewer active vertices, other ansatzes, or unrestricted two-hidden-layer networks."
+not_equivalent_to = ["nonmembership in the complete loopless degree-five family", "a real-coefficient lower bound", "nonrepresentability of MAX_11"]
+origin_round = "R-0001"
+author_path = "modular-operator/wildwillow"
+created = 2026-09-02T23:02:36Z
+
+[[claim]]
+id = "C-0057"
+version = 1
+statement = "For the exhaustive 18,285-record loopless signed degree-four orbit dictionary at n=11 together with the external 4L carrier, each of the two named 64,000-row CountSketches over F_1,000,003 has rank 3,514, while adjoining MAX_11 raises the rank to 3,515."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0054@1"]
+no_claim = "This is a bounded one-prime modular null for exactly 18,286 named columns. It is not characteristic-zero nonmembership, not an unrestricted-network lower bound, and not a statement about degree five or arbitrary ansatzes."
+not_equivalent_to = ["degree-five nonmembership", "a characteristic-zero obstruction", "a lower bound for unrestricted ReLU networks"]
+origin_round = "R-0001"
+author_path = "bounded-null-author/purplewolf"
+created = 2026-09-03T00:15:00Z
+
+[[claim]]
+id = "C-0058"
+version = 1
+statement = "At both n=9 and n=10, each tested class-sum coarsening C1 through C9 of the saved loopless degree-five systems is exactly NON_MEMBER: MAX_n is outside the corresponding rational class-sum span; membership returns only for tested coarsenings that also retain the unsigned-union-graph isomorphism type."
+role = "boundary-claim"
+domain = "mathematics"
+depends_on = ["C-0054@1"]
+no_claim = "This rules out only the named finite class-constant coefficient families at n=9 and n=10. It does not rule out orbit-level, recursive, or other uniform formulas, and it says nothing about unrestricted depth-two representability."
+not_equivalent_to = ["no uniform all-n formula exists", "class-sum nonmembership at n=11", "an unrestricted ReLU lower bound"]
+origin_round = "R-0001"
+author_path = "bounded-null-author/class-sum-2q7"
+created = 2026-09-03T00:15:00Z
