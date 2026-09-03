@@ -472,7 +472,13 @@ impl ExactInt {
             (Self::Big(target), Self::Big(value)) if factor == 1 => *target += value,
             (Self::Big(target), Self::Big(value)) if factor == -1 => *target -= value,
             (Self::Big(target), Self::Big(value)) => *target += value * factor,
-            (Self::Big(target), Self::Small(value)) => *target += value * i128::from(factor),
+            (Self::Big(target), Self::Small(value)) => {
+                if let Some(product) = value.checked_mul(i128::from(factor)) {
+                    *target += product;
+                } else {
+                    *target += BigInt::from(*value) * factor;
+                }
+            }
             (Self::Small(target), Self::Big(value)) => {
                 let mut sum = value * factor;
                 sum += *target;
@@ -1390,6 +1396,48 @@ mod tests {
         let analysis = analyze_certificate(&certificate, 1, true).unwrap();
         assert!(analysis.verified);
         assert_eq!(analysis.coefficient_common_denominator, "2");
+    }
+
+    #[test]
+    fn boundary_straddling_certificate_promotes_big_target_small_product() {
+        let boundary = BigInt::from(i128::MAX);
+        let left = [[1, 1], [1, 2], [1, 2], [3, 5]];
+        let right = [[2, 2], [1, 2], [2, 4], [4, 5]];
+        let certificate = Certificate {
+            n: 5,
+            terms: vec![
+                term(&(&boundary + 1u8).to_string(), &left, &right),
+                term(&boundary.to_string(), &left, &right),
+            ],
+        };
+        let mut scanner = DenominatorScanner::default();
+        for term in &certificate.terms {
+            scanner.observe(&term.coefficient).unwrap();
+        }
+        let plan = scanner.finish().unwrap();
+        let scaled = certificate
+            .terms
+            .iter()
+            .map(|term| plan.scale(&term.coefficient).unwrap())
+            .collect::<Vec<_>>();
+        assert!(matches!(&scaled[0], ExactInt::Big(_)));
+        assert!(matches!(&scaled[1], ExactInt::Small(value) if *value == i128::MAX));
+
+        let column = dynamic_column(&certificate.terms[0], certificate.n).unwrap();
+        let (direction, factor) = column
+            .hinges
+            .iter()
+            .find(|(_, factor)| factor.abs() > 1)
+            .expect("fixture must have a hinge multiplicity whose product crosses i128");
+        let mut accumulator = PartialAccumulator::new(certificate.n);
+        for coefficient in &scaled {
+            accumulator.add_column(&column, coefficient).unwrap();
+        }
+        let expected = (boundary * 2u8 + 1u8) * BigInt::from(*factor);
+        assert_eq!(
+            accumulator.hinges.get(direction).unwrap().to_bigint(),
+            expected
+        );
     }
 
     #[test]
