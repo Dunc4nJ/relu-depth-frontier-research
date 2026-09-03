@@ -61,6 +61,7 @@ def solve(
     presolve: str = "on",
     reweight_solver: str = "same",
     initial_reweight_from_witness: bool = False,
+    reweight_floor: float = 0.0,
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -104,6 +105,8 @@ def solve(
         raise ValueError("presolve must be on or off")
     if reweight_solver not in ("same", "simplex", "ipm"):
         raise ValueError("reweight_solver must be same, simplex, or ipm")
+    if not 0.0 <= reweight_floor <= reweight_cap:
+        raise ValueError("reweight_floor must be in [0, reweight_cap]")
     # HiGHS requires float64 values. Keep one block resident. The split model
     # passes it again with negative sign; the epigraph model uses free c and
     # explicit -t <= c <= t rows, halving the dominant matrix block.
@@ -218,10 +221,10 @@ def solve(
     reports = []
     weights = np.ones(columns, dtype=np.float64)
     if initial_reweight_from_witness:
-        raw_weights = 1.0 / (initial_magnitudes + reweight_epsilon)
-        positive = initial_magnitudes[initial_magnitudes > support_threshold]
-        normalizer = float(np.median(1.0 / (positive + reweight_epsilon)))
-        weights = np.minimum(raw_weights / normalizer, reweight_cap)
+        # Seed only by exact support membership. Using the witness's potentially
+        # enormous rational magnitudes here creates an ill-conditioned LP and
+        # has no intrinsic sparsity meaning.
+        weights = np.where(initial_magnitudes > support_threshold, 1.0, reweight_cap)
     for round_number in range(rounds + 1):
         phase = time.monotonic()
         if round_number or initial_reweight_from_witness:
@@ -271,7 +274,7 @@ def solve(
         raw_weights = 1.0 / (magnitudes + reweight_epsilon)
         positive = magnitudes[magnitudes > support_threshold]
         normalizer = float(np.median(1.0 / (positive + reweight_epsilon))) if len(positive) else 1.0
-        weights = np.minimum(raw_weights / normalizer, reweight_cap)
+        weights = np.clip(raw_weights / normalizer, reweight_floor, reweight_cap)
         partial = {
             "schema": "max11-sparse-l1-partial-report-v1",
             "verdict": "CANDIDATES_PARTIAL",
@@ -285,6 +288,7 @@ def solve(
             "initial_solver": solver,
             "reweight_solver": reweight_solver,
             "initial_reweight_from_witness": initial_reweight_from_witness,
+            "reweight_floor": reweight_floor,
             "rounds_requested_denominator": rounds + 1,
             "rounds_completed_numerator": round_number + 1,
             "rounds": reports,
@@ -320,6 +324,7 @@ def solve(
         "reweighted_rounds_denominator": rounds,
         "reweight_epsilon_absolute": reweight_epsilon,
         "reweight_cap": reweight_cap,
+        "reweight_floor": reweight_floor,
         "support_threshold_absolute": support_threshold,
         "initial_feasible_witness": initial,
         "rounds": reports,
@@ -349,6 +354,7 @@ def main() -> None:
     parser.add_argument("--presolve", choices=("on", "off"), default="on")
     parser.add_argument("--reweight-solver", choices=("same", "simplex", "ipm"), default="same")
     parser.add_argument("--initial-reweight-from-witness", action="store_true")
+    parser.add_argument("--reweight-floor", type=float, default=0.0)
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -366,6 +372,7 @@ def main() -> None:
         args.presolve,
         args.reweight_solver,
         args.initial_reweight_from_witness,
+        args.reweight_floor,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
