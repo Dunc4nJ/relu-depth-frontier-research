@@ -10,10 +10,19 @@ import build_saved_csc
 import prepare_initial_basis
 import select_exact_support
 import solve_l1
+import solve_l1_admm
 import solve_l1_cuopt_dual
 
 
 class SparseLpTests(unittest.TestCase):
+    def test_admm_soft_threshold_and_explicit_affine_projection(self):
+        values = solve_l1_admm.np.array([-2.0, -0.25, 0.25, 2.0])
+        thresholds = solve_l1_admm.np.ones(4) * 0.5
+        self.assertEqual(
+            solve_l1_admm.soft_threshold(values, thresholds).tolist(),
+            [-1.5, -0.0, 0.0, 1.5],
+        )
+
     def test_dual_candidate_requires_multiplier_and_active_bound(self):
         coefficients = solve_l1_cuopt_dual.np.array([0.5, 0.25, 1e-14, 0.75])
         activity = solve_l1_cuopt_dual.np.array([1.0, 0.8, -1.0, -1.0])
@@ -39,6 +48,28 @@ class SparseLpTests(unittest.TestCase):
             matrix = root / "matrix"
             built = build_saved_csc.build(system, matrix)
             self.assertEqual((built["rows_denominator"], built["columns_denominator"], built["nonzeros_denominator"]), (3, 3, 5))
+            try:
+                import scipy  # noqa: F401
+            except ImportError:
+                pass
+            else:
+                admm = solve_l1_admm.solve(
+                    matrix,
+                    root / "admm.json",
+                    root / "admm.log",
+                    rounds=1,
+                    max_iterations=1000,
+                    absolute_tolerance=1e-10,
+                    relative_tolerance=1e-8,
+                    support_threshold=1e-8,
+                    candidate_cap=3,
+                    rho=10.0,
+                    reweight_epsilon=1e-8,
+                    reweight_cap=1e3,
+                    reweight_floor=1e-3,
+                )
+                self.assertTrue(admm["rounds"][0]["converged"])
+                self.assertEqual(admm["rounds"][0]["support_numerator"], 2)
             initial = root / "initial.json"
             initial.write_text(json.dumps({"coefficients": [
                 {"column": 0, "coefficient": "1/2"},
