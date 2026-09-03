@@ -57,6 +57,7 @@ def solve(
     reweight_cap: float,
     initial_witness: Path | None = None,
     formulation: str = "split",
+    solver: str = "simplex",
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -94,6 +95,8 @@ def solve(
 
     if formulation not in ("split", "epigraph"):
         raise ValueError("formulation must be split or epigraph")
+    if solver not in ("simplex", "ipm"):
+        raise ValueError("solver must be simplex or ipm")
     # HiGHS requires float64 values. Keep one block resident. The split model
     # passes it again with negative sign; the epigraph model uses free c and
     # explicit -t <= c <= t rows, halving the dominant matrix block.
@@ -108,8 +111,9 @@ def solve(
     options = {
         "log_file": str(log),
         "output_flag": True,
-        "solver": "simplex",
+        "solver": solver,
         "simplex_strategy": 1,
+        "run_crossover": "on",
         "parallel": "off",
         "threads": threads,
         "presolve": "on",
@@ -264,7 +268,7 @@ def solve(
         "model_rows_denominator": model_rows,
         "model_columns_denominator": 2 * columns,
         "model_nonzeros_denominator": model_nnz,
-        "solver": "HiGHS serial dual simplex",
+        "solver": f"HiGHS {solver}" + (" serial dual" if solver == "simplex" else " with crossover"),
         "highs_version": highs.version(),
         "options": options,
         "reweighted_rounds_numerator": rounds,
@@ -296,6 +300,7 @@ def main() -> None:
     parser.add_argument("--reweight-cap", type=float, default=1e6)
     parser.add_argument("--initial-witness", type=Path)
     parser.add_argument("--formulation", choices=("split", "epigraph"), default="split")
+    parser.add_argument("--solver", choices=("simplex", "ipm"), default="simplex")
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -309,6 +314,7 @@ def main() -> None:
         args.reweight_cap,
         args.initial_witness,
         args.formulation,
+        args.solver,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
