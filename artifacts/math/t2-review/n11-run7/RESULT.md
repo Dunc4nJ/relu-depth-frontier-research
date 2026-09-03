@@ -777,6 +777,37 @@ evaluators agree with each other on the true count, but the lift reports'
 either certificate, and someone should establish where the extra rows come from
 before this is written up.
 
+**Update, later on 2026-09-03.** The campaign ran IndigoCarp's
+`artifacts/math/n11-hinge-union-84/audit_stream.py` against the F2 problem matrix
+and F2 witness on the A100 and reported: all 15,904 pivot columns touch 146,176
+rows, the 11,320 support columns touch 145,530, and the 646 difference rows have
+0 support incidences and 223 touching zero-coefficient pivots. That is the same
+mechanism as run7 and, if those are the script's own numbers, it closes this
+doubt.
+
+**It is not yet closed, for a reason worth recording.** The run was reported to me
+as printing `REFUTED`, explained as the script's verdict being "hard-coded to
+run7's numbers". I checked that explanation against the source and **it does not
+hold.** `structural_verdict` takes no dataset constants; it reads the expected
+union from the witness under test,
+`witness["exact_verification"]["union_hinge_rows_denominator"]`, which for the F2
+witness is 146,176, and returns CONFIRMED when `all_count == reported_union`,
+`difference == all_count - support`, and `support_touchers == 0`. The only
+hard-coded run7 values are the three known-answer assertions at lines 85-87, which
+are startup self-tests and cannot affect the verdict for another input; the source
+comment at line 84 says so. Fed the five numbers as reported above, the function
+returns **CONFIRMED**, which I confirmed by importing and calling it.
+
+So a printed `REFUTED` means at least one of the script's actual inputs differed
+from the summary I was given. The most likely candidate, and a substantive one, is
+`all_count`: if any hinge row in F2's declared 146,176-row universe is touched by
+no pivot column at all, then `all_count < 146,176`, the first conjunct fails, and
+the correct reading is that F2's problem matrix has untouched declared rows rather
+than that the tool misreported. Neither problem file is present locally, so I
+cannot settle this. **Until the F2 audit's own JSON output is inspected, treat the
+646 rows as explained-in-mechanism but not reconciled**, and do not let the
+"hard-coded verdict" explanation stand unexamined in whatever writes this up.
+
 ## 10.10 F2 output inventory
 
 Under `artifacts/math/t2-review/n11-F2/`: `verify11_t2_report.json`,
