@@ -1,0 +1,15 @@
+{
+ "schema": "max9-to-max10-lift-class-sums-v1",
+ "result": "PASS",
+ "records": 114814,
+ "hinge_rows": 87648,
+ "sketch_rows": 5410,
+ "t3_classes": 455,
+ "h2_classes": 6419,
+ "max_abs_column_coefficient": 5501952,
+ "h1_entry_bound": "929354717417472",
+ "h2_entry_bound": "1030309066321920",
+ "int64_headroom_bits": 62,
+ "row_key_sha256": "cb93d4de4930d5488677ecdb3f300900015f7bed5ef64de3ba7c1d1109575b41",
+ "wall_seconds": 2773.6162219885737
+}

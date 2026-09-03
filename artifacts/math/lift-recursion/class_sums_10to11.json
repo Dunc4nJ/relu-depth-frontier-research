@@ -1,0 +1,19 @@
+{
+ "schema": "max10-to-max11-lift-class-sums-v1",
+ "result": "PASS",
+ "mode": "exact-int64",
+ "moduli": [
+  0
+ ],
+ "records": 163740,
+ "n": 11,
+ "hinge_rows": 243111,
+ "sketch_rows": 30609,
+ "t3_classes": 455,
+ "h2_classes": 7874,
+ "max_abs_column_coefficient": 55108800,
+ "h1_entry_bound": "35833556492784000",
+ "h2_entry_bound": "39675841224624000",
+ "row_key_sha256": "16a7b33ce3c722cf5442877c20ca2766c20de8a59e511ddcba85fe8757b41a28",
+ "wall_seconds": 4931.1587091404945
+}

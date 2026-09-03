@@ -1,0 +1,32 @@
+{
+ "schema": "max9-to-max10-lift-class-sum-replay-control-v1",
+ "result": "PASS",
+ "checks": [
+  {
+   "t3_class": 337,
+   "orbits": 3,
+   "nonzero_hinge_rows": 5118,
+   "matches_streamed_accumulator": true,
+   "planted_mutant_rejected": true,
+   "max_abs_entry": "566507520"
+  },
+  {
+   "t3_class": 336,
+   "orbits": 3,
+   "nonzero_hinge_rows": 12239,
+   "matches_streamed_accumulator": true,
+   "planted_mutant_rejected": true,
+   "max_abs_entry": "229782528"
+  },
+  {
+   "t3_class": 68,
+   "orbits": 305,
+   "nonzero_hinge_rows": 12283,
+   "matches_streamed_accumulator": true,
+   "planted_mutant_rejected": true,
+   "max_abs_entry": "18962084096"
+  }
+ ],
+ "rows": 87648,
+ "wall_seconds": 5.299493024125695
+}
