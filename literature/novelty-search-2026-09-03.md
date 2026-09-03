@@ -234,3 +234,17 @@ re-read; that edit is left to whoever owns `literature/INDEX.md` and the source 
 
 Not added, still absent from the corpus, flagged for the owner: arXiv:2410.04907 (Decomposition
 Polyhedra of Piecewise Linear Functions, v 2026-06-04) and arXiv:2509.21286 (Maxout Polytopes).
+
+---
+
+## Commit provenance
+
+The two deliverables of this gate (`literature/novelty-search-2026-09-03.md` and the three new
+BibTeX entries in `literature/bibliography.bib`) were staged for a dedicated commit at
+2026-09-03T03:14Z. Before that commit ran, a concurrent agent working on
+`artifacts/math/n11-sparse-certificate/` staged everything in the tree and committed, sweeping both
+files into `5327b61` ("relu-depth-frontier-research-psu: expose fixed-rho ADMM control",
+2026-09-03T03:15:30Z). That commit's message does not describe this work.
+
+Shared history was not rewritten, since other agents are committing to `master` concurrently. This
+note carries the correct attribution instead; the commit that adds it holds the intended message.
