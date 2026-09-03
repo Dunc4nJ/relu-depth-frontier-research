@@ -10,7 +10,8 @@ created = 2026-08-29T05:08:00Z
 id = "G-0002"
 claim = "C-0002@1"
 obligation = "No exact MAX_11 witness or unconditional unrestricted refutation has been produced."
-status = "open"
+status = "discharged"
+discharged_by = "E-0056"
 author_path = "ledger-auditor/crimsonbirch"
 created = 2026-08-29T05:08:00Z
 
@@ -34,7 +35,7 @@ created = 2026-08-29T05:08:00Z
 id = "G-0005"
 claim = "C-0002@1"
 obligation = "No eligible different-family or human T2 reviewer is bound; same-family Codex review cannot promote the claim."
-status = "open"
+status = "superseded"
 author_path = "ledger-auditor/crimsonbirch"
 created = 2026-08-29T05:08:00Z
 
@@ -42,7 +43,7 @@ created = 2026-08-29T05:08:00Z
 id = "G-0006"
 claim = "C-0002@1"
 obligation = "No theorem shows the current symmetric pairwise-comparison atom family is complete for unrestricted two-hidden-layer real-weight MAX_11 representations."
-status = "open"
+status = "superseded"
 author_path = "ledger-auditor/crimsonbirch"
 created = 2026-08-29T05:08:00Z
 
@@ -58,7 +59,7 @@ created = 2026-08-29T11:49:31Z
 id = "G-0008"
 claim = "C-0002@1"
 obligation = "No complete degree-four hinge-span test has determined whether the 1,465 full-support signed-mass-four atoms can form a hinge-free nonzero-Lambda circuit with the 132,728 proper-support signed-mass-four atoms and the exact lower-mass basis."
-status = "open"
+status = "superseded"
 author_path = "ledger-auditor/crimsonbirch"
 created = 2026-08-29T19:53:55Z
 
@@ -90,7 +91,7 @@ created = 2026-08-30T12:44:16Z
 id = "G-0012"
 claim = "C-0002@1"
 obligation = "The eleven-face zonotope gluing problem now has an explicit candidate solution, but no theorem or exact construction cancels every additional dense-generator and primitive-block wall throughout all unique-maximum cones while retaining the MAX11 facet support heights. RANGE11 proves that projected face compatibility, even from one global network, is insufficient."
-status = "open"
+status = "superseded"
 author_path = "research-lead/beigeturtle"
 created = 2026-08-30T17:22:44Z
 
@@ -106,7 +107,7 @@ created = 2026-08-30T20:48:54Z
 id = "G-0014"
 claim = "C-0002@1"
 obligation = "No target-aware solve has priced or incorporated the complete certified 7,015,841-record loop-inclusive degree-five pairwise Rueß universe plus 5E and 5L against the new G-0081 obstruction; the 26,689-column separation therefore leaves most of the complete degree-five ansatz untested."
-status = "open"
+status = "superseded"
 author_path = "research-lead/lilacbridge"
 created = 2026-08-30T20:48:54Z
 
@@ -117,3 +118,27 @@ obligation = "G-0181 certifies over Q that the retained STAR restriction has lef
 status = "open"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T09:30:25Z
+
+[[gap]]
+id = "G-0016"
+claim = "C-0002@3"
+obligation = "The run7 exact-lift report counts 169,250 union hinge rows while the certificate verifier counts 169,166 distinct hinge directions, a discrepancy of 84 rows. Discharge requires AzureAspen's exact count over the certificate support columns and reconciliation recorded in Agent Mail thread .4."
+status = "open"
+author_path = "ledger-auditor/boldfrog"
+created = 2026-09-03T02:14:00Z
+
+[[gap]]
+id = "G-0017"
+claim = "C-0002@3"
+obligation = "The verify11 ExactInt::add_mul implementation contained an unchecked i128 multiplication on the Big-accumulator/Small-coefficient branch. Discharge requires the relu-depth-frontier-research-u0j fix commit plus a branch-straddling regression and unchanged pinned positive and hostile controls."
+status = "open"
+author_path = "ledger-auditor/boldfrog"
+created = 2026-09-03T02:14:00Z
+
+[[gap]]
+id = "G-0018"
+claim = "C-0002@3"
+obligation = "The depth-2 realization lemma has a substantive same-lineage review by a Claude Opus referee, but both the lemma author and referee are Anthropic Claude variants, so the campaign's different-lineage T2 requirement is unmet. Discharge requires an eligible different-family or human T2 review record holding on C-0059@1."
+status = "open"
+author_path = "ledger-auditor/boldfrog"
+created = 2026-09-03T02:14:00Z
