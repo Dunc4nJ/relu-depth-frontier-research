@@ -16,6 +16,15 @@ are explicitly identified; they are not decision evidence.
 | T5 | First remote n=10 launch wrapped the command in `/usr/bin/time -v`. | Failed before streamrank because this H100 image has no `/usr/bin/time`; no JSON was created. Its stderr was accidentally reused by the immediate corrected retry, so this narrative is the only retained record. | This log only. |
 | T6 | Complete n=10 loop-inclusive degree-4 universe plus 4L, CUDA, p=1,000,003, m=32,768, seed 2,026,090,201. | `CONTROL_PASS`: 136,037/136,037 columns, rank 7,867, augmented rank 7,867, MEMBER; wall 619.079 s, high-water RSS 1,621,052 KiB. | `n10-loop-degree4-m32768-p1000003-s1-cuda.{json,stderr,stdout}`. |
 
-The complete n=11 target attempts are appended after they terminate. A
-resource-gated abort remains an outcome and will not be hidden or retuned
-without first recording the failed gate.
+## Target and stopped trials
+
+| ID | Attempt | Outcome | Retained evidence |
+|---|---|---|---|
+| T7 | Complete n=11 loop-inclusive degree-4 universe plus 4L, CUDA, p=1,000,003, m=32,768, seed 2,026,090,201. | Completed 137,505/137,505 columns: rank 8,667, augmented rank 8,668, NON_MEMBER; separator dot target 176,191; wall 2,675.836 s; high-water RSS 1,791,228 KiB. This is a bounded one-prime modular null. | `n11-loop-degree4-m32768-p1000003-s1-cuda.{json,stderr,stdout}`. |
+| T8 | Same complete n=11 run at primary seed 2,026,090,202. | **CANCELLED by orchestrator** after the novelty gate failed: Rueß et al. v1 Corollary 4.3 already proves the degree floor. `SIGTERM` was sent only to the isolated sou process (remote PID 41,829) after 117,760/137,504 universe records; the latest partial rank was 4,209. No 4L was reached, no result JSON was written, and no verdict is assigned. The last observed aggregate H100 allocation was 59,826 MiB, below the 60,000 MiB gate. | Partial `n11-loop-degree4-m32768-p1000003-s2-cuda.stderr`, SHA-256 `96cd9d9d80c16e6e516bc75508780dc831f9d23ebd27a5c2a148202522d1b159`, and empty `.stdout`. |
+| T9 | Preregistered n=11 second-prime repeats, p=1,000,033, seeds 2,026,090,201 and 2,026,090,202. | **CANCELLED before launch by orchestrator.** No processes were started and no reports or logs exist. | This log and `RESULT.md`. |
+| T10 | Campaign `./skill-runtime verify-quick` at handoff. | Exited 1 with 24 findings in concurrently modified canonical ledger files, including pre-existing SE-10 history findings and E-0057 subject-binding drift. This bead did not edit those forbidden files. The bead-local hash/result assertions and `git diff --check` passed immediately before it. | Terminal result summarized here; canonical files were not changed. |
+
+The stopped suite therefore has one completed target sketch, one partial
+sketch with no verdict, and zero second-prime sketches. It does not satisfy
+the preregistered two-seed/two-prime decision gate.
