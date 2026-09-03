@@ -1,0 +1,70 @@
+{
+  "note": "Independent run of the PINNED upstream verifier, for semantic agreement with lattice_check.py. Upstream prints OK/Fail and exits 0/1.",
+  "runs": [
+    {
+      "certificate_path": "literature/repos/max-relu-certificates/certificates/certificate_5_2.json",
+      "certificate_sha256": "698f70d87ec6b2ef07cd1d0287447dd2361f4b6d0d98571cc7485182b194e694",
+      "upstream_exit_code": 0,
+      "upstream_verdict": "OK",
+      "wall_seconds": 0.193
+    },
+    {
+      "certificate_path": "literature/repos/max-relu-certificates/certificates/certificate_6_2.json",
+      "certificate_sha256": "026a74970c84dc8e4ff271b871a95e882358e5a7b4e98226508a55ed6af94a83",
+      "upstream_exit_code": 0,
+      "upstream_verdict": "OK",
+      "wall_seconds": 0.201
+    },
+    {
+      "certificate_path": "literature/repos/max-relu-certificates/certificates/certificate_7_3.json",
+      "certificate_sha256": "b79aaaf423187cf5aaa51c9272799bf36198759dd018a1a286716cce7b1b53be",
+      "upstream_exit_code": 0,
+      "upstream_verdict": "OK",
+      "wall_seconds": 1.781
+    },
+    {
+      "certificate_path": "literature/repos/max-relu-certificates/certificates/certificate_8_3.json",
+      "certificate_sha256": "68b2a2698ab13a85164a8a0c5635649a92c5c1059c6c058115ebe3af2f0171c3",
+      "upstream_exit_code": 0,
+      "upstream_verdict": "OK",
+      "wall_seconds": 16.07
+    },
+    {
+      "certificate_path": "artifacts/math/exact-witness-n9-n10/certificate_5_2_mutated_plus1.json",
+      "certificate_sha256": "e4b6f78ff0975136c2f4db9d1f88d9f94a424dd392ef8ca7a75e4f3659b498cb",
+      "upstream_exit_code": 1,
+      "upstream_verdict": "Fail",
+      "wall_seconds": 0.256
+    },
+    {
+      "certificate_path": "artifacts/math/t2-referee/controls-v1/certificate_6_2_mutated_edge_swap.json",
+      "certificate_sha256": "edcaace456b4d96e333f1b3a6c1e431bc4fbd93b6752ebb6703adb812b020453",
+      "upstream_exit_code": 1,
+      "upstream_verdict": "Fail",
+      "wall_seconds": 0.2
+    },
+    {
+      "certificate_path": "literature/repos/max-relu-certificates/certificates/certificate_9_4.json",
+      "certificate_sha256": "4eb96684d0ce02d324f2fa0f7f95adf5dbc8fb99d3e3e9362cb435b9b3c22d88",
+      "upstream_exit_code": 0,
+      "upstream_verdict": "OK",
+      "wall_seconds": 899.304
+    },
+    {
+      "certificate_path": "artifacts/math/t2-referee/controls-v1/certificate_9_4_mutated_edge_swap.json",
+      "certificate_sha256": "94b8f6d67b03504043fecd7b84f715516eb5cb8249abf0262ceb0eb49c0a039e",
+      "upstream_exit_code": 1,
+      "upstream_verdict": "Fail",
+      "wall_seconds": 850.768
+    },
+    {
+      "certificate_path": "artifacts/math/t2-referee/controls-v1/certificate_6_2_mutated_zero_one_blind.json",
+      "certificate_sha256": "53683cd8db216debabeb8e79248cc9f1060cce5bcb5e3e9bfe4c9570467695e6",
+      "upstream_exit_code": 1,
+      "upstream_verdict": "Fail",
+      "wall_seconds": 0.247
+    }
+  ],
+  "upstream_verifier": "literature/repos/max-relu-certificates/verify_certificate.py",
+  "upstream_verifier_sha256": "d6da3030b719735b10a197dc79d7e311ecc90f70314ed748de81087f94f039a7"
+}

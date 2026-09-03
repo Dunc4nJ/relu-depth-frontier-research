@@ -1,0 +1,44 @@
+{
+  "bases": [
+    2,
+    3
+  ],
+  "certificate_path": "literature/repos/max-relu-certificates/certificates/certificate_8_3.json",
+  "certificate_sha256": "68b2a2698ab13a85164a8a0c5635649a92c5c1059c6c058115ebe3af2f0171c3",
+  "lattice_points_covered": 6817,
+  "n": 8,
+  "no_claim": "Agreement on lattice points falsifies but does not prove the identity; this tool is a referee-side check, not a certificate verifier.",
+  "nonzero_terms": 69,
+  "per_base": {
+    "{0..1}^n": {
+      "base": 2,
+      "common_denominator_bits": 21,
+      "distinct_coefficient_denominators": 20,
+      "failing_profile_indices": [],
+      "failing_profiles": 0,
+      "first_failure": null,
+      "lattice_points_covered": 256,
+      "profiles_checked": 9,
+      "verdict": "PASS"
+    },
+    "{0..2}^n": {
+      "base": 3,
+      "common_denominator_bits": 21,
+      "distinct_coefficient_denominators": 20,
+      "failing_profile_indices": [],
+      "failing_profiles": 0,
+      "first_failure": null,
+      "lattice_points_covered": 6561,
+      "profiles_checked": 45,
+      "verdict": "PASS"
+    }
+  },
+  "processes": 4,
+  "profiles_checked": 54,
+  "terms": 69,
+  "tool": "t2-referee/lattice_check.py",
+  "tool_version": "1.0.0",
+  "unsorted_endpoint_pairs_normalised": false,
+  "verdict": "PASS",
+  "wall_seconds": 0.102
+}

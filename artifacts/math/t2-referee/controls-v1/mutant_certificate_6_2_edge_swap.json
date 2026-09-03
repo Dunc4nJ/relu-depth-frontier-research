@@ -1,0 +1,86 @@
+{
+  "bases": [
+    2,
+    3
+  ],
+  "certificate_path": "artifacts/math/t2-referee/controls-v1/certificate_6_2_mutated_edge_swap.json",
+  "certificate_sha256": "edcaace456b4d96e333f1b3a6c1e431bc4fbd93b6752ebb6703adb812b020453",
+  "lattice_points_covered": 793,
+  "n": 6,
+  "no_claim": "Agreement on lattice points falsifies but does not prove the identity; this tool is a referee-side check, not a certificate verifier.",
+  "nonzero_terms": 4,
+  "per_base": {
+    "{0..1}^n": {
+      "base": 2,
+      "common_denominator_bits": 11,
+      "distinct_coefficient_denominators": 3,
+      "failing_profile_indices": [
+        1,
+        2,
+        3
+      ],
+      "failing_profiles": 3,
+      "first_failure": {
+        "certificate_value": "5/6",
+        "difference": "-1/6",
+        "profile_index": 1,
+        "profile_multiplicities": [
+          5,
+          1
+        ],
+        "target_value": "1"
+      },
+      "lattice_points_covered": 64,
+      "profiles_checked": 7,
+      "verdict": "FAIL"
+    },
+    "{0..2}^n": {
+      "base": 3,
+      "common_denominator_bits": 11,
+      "distinct_coefficient_denominators": 3,
+      "failing_profile_indices": [
+        1,
+        2,
+        3,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "failing_profiles": 18,
+      "first_failure": {
+        "certificate_value": "5/6",
+        "difference": "-1/6",
+        "profile_index": 1,
+        "profile_multiplicities": [
+          5,
+          1,
+          0
+        ],
+        "target_value": "1"
+      },
+      "lattice_points_covered": 729,
+      "profiles_checked": 28,
+      "verdict": "FAIL"
+    }
+  },
+  "processes": 4,
+  "profiles_checked": 35,
+  "terms": 4,
+  "tool": "t2-referee/lattice_check.py",
+  "tool_version": "1.0.0",
+  "unsorted_endpoint_pairs_normalised": false,
+  "verdict": "FAIL",
+  "wall_seconds": 0.1
+}

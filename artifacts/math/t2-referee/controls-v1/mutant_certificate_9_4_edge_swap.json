@@ -1,0 +1,121 @@
+{
+  "bases": [
+    2,
+    3
+  ],
+  "certificate_path": "artifacts/math/t2-referee/controls-v1/certificate_9_4_mutated_edge_swap.json",
+  "certificate_sha256": "94b8f6d67b03504043fecd7b84f715516eb5cb8249abf0262ceb0eb49c0a039e",
+  "lattice_points_covered": 20195,
+  "n": 9,
+  "no_claim": "Agreement on lattice points falsifies but does not prove the identity; this tool is a referee-side check, not a certificate verifier.",
+  "nonzero_terms": 337,
+  "per_base": {
+    "{0..1}^n": {
+      "base": 2,
+      "common_denominator_bits": 25,
+      "distinct_coefficient_denominators": 48,
+      "failing_profile_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "failing_profiles": 7,
+      "first_failure": {
+        "certificate_value": "43/54",
+        "difference": "-11/54",
+        "profile_index": 1,
+        "profile_multiplicities": [
+          8,
+          1
+        ],
+        "target_value": "1"
+      },
+      "lattice_points_covered": 512,
+      "profiles_checked": 10,
+      "verdict": "FAIL"
+    },
+    "{0..2}^n": {
+      "base": 3,
+      "common_denominator_bits": 25,
+      "distinct_coefficient_denominators": 48,
+      "failing_profile_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "failing_profiles": 49,
+      "first_failure": {
+        "certificate_value": "43/54",
+        "difference": "-11/54",
+        "profile_index": 1,
+        "profile_multiplicities": [
+          8,
+          1,
+          0
+        ],
+        "target_value": "1"
+      },
+      "lattice_points_covered": 19683,
+      "profiles_checked": 55,
+      "verdict": "FAIL"
+    }
+  },
+  "processes": 4,
+  "profiles_checked": 65,
+  "terms": 337,
+  "tool": "t2-referee/lattice_check.py",
+  "tool_version": "1.0.0",
+  "unsorted_endpoint_pairs_normalised": false,
+  "verdict": "FAIL",
+  "wall_seconds": 1.093
+}
