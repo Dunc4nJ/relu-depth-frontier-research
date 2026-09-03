@@ -80,6 +80,14 @@ sparse-column destruction run inside the same indexed Rayon batch as
 generation; indexed collection and serial batch writing preserve byte order.
 Memory remains bounded by one batch rather than the whole matrix.
 
+The subset DP stores signed back-degree coordinates as checked `i8` values.
+For `n <= 14`, its 16-bit visited mask and coordinate bytes are packed
+losslessly into one `u128` hash key; `n=15,16` use the fixed-width fallback.
+Canonical primitive directions are likewise deduplicated as packed signed
+bytes and expanded to the public `Vec<i16>` representation only once per
+surviving direction. These representations do not change exact arithmetic or
+the sorted serialized order.
+
 ```bash
 target/release/max11-colgen benchmark \
   --universe ../../artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz \
