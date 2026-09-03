@@ -1,0 +1,8 @@
+Running HiGHS 1.15.1 (git hash: 04024d7): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+LP has 15904 rows; 150152 cols; 1042320358 nonzeros
+Coefficient ranges:
+  Matrix  [2e+00, 5e+07]
+  Cost    [1e+00, 1e+00]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e+00, 1e+00]

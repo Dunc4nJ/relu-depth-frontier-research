@@ -1,0 +1,131 @@
+{
+  "build_seconds": 900.984444818,
+  "columns_denominator": 75076,
+  "columns_numerator": 75076,
+  "exact_real_nonzeros_visited_denominator": 2493846718,
+  "exact_real_nonzeros_visited_numerator": 2493846718,
+  "files": {
+    "index": {
+      "bytes": 2084640716,
+      "path": {
+        "Unix": [
+          105,
+          110,
+          100,
+          101,
+          120,
+          46,
+          117,
+          51,
+          50,
+          108,
+          101
+        ]
+      },
+      "sha256": "6e180c8b707e8b7c433af8a4776221206f033a7f369ab777edf7d16c80d9122e"
+    },
+    "source": {
+      "bytes": 600608,
+      "path": {
+        "Unix": [
+          115,
+          111,
+          117,
+          114,
+          99,
+          101,
+          46,
+          117,
+          54,
+          52,
+          108,
+          101
+        ]
+      },
+      "sha256": "80e4db5419b7c15b3475c4523d71d24091fdeffb5a0d924c792ce148589b7998"
+    },
+    "start": {
+      "bytes": 600616,
+      "path": {
+        "Unix": [
+          115,
+          116,
+          97,
+          114,
+          116,
+          46,
+          117,
+          54,
+          52,
+          108,
+          101
+        ]
+      },
+      "sha256": "551cd5a4d340ed8e6f68e959118e137d37691bdf9d8c80e1102d4e0c8503e81b"
+    },
+    "target": {
+      "bytes": 127232,
+      "path": {
+        "Unix": [
+          116,
+          97,
+          114,
+          103,
+          101,
+          116,
+          46,
+          105,
+          54,
+          52,
+          108,
+          101
+        ]
+      },
+      "sha256": "6cda066fa660390192372c2bda76005ca7bc44a905db2ee07568cf3d8d6b23bf"
+    },
+    "value": {
+      "bytes": 4169281432,
+      "path": {
+        "Unix": [
+          118,
+          97,
+          108,
+          117,
+          101,
+          46,
+          105,
+          54,
+          52,
+          108,
+          101
+        ]
+      },
+      "sha256": "2e64bf4dff5af6f36824a5465fd506621f3e3b118848988c9b460cb996ffdef6"
+    }
+  },
+  "include_five_l": true,
+  "max_rss_kib": 3232440,
+  "method": "exact CountSketch restriction of every F2 forest-pair column to the F2 pivot buckets",
+  "n": 11,
+  "no_claim": "This exact row sketch is an LP search system. It is not an identity until a rational candidate is verified on every real support-union row.",
+  "nonzeros_denominator": 521160179,
+  "nonzeros_numerator": 521160179,
+  "order_file": "artifacts/math/stream-rank-engine/stageA-sub-F2-forestpair-order.json",
+  "order_file_sha256": "f5d65d71d321725682e8f8d25a9733811e9a7f63a4f8ae17a9dddd02f1eeba6d",
+  "pivot_buckets_denominator": 15904,
+  "pivot_buckets_numerator": 15904,
+  "pivot_report": "artifacts/math/n11-stageA/sub/F2-forestpair-m64000-p1000003-s1-cuda.json",
+  "pivot_report_sha256": "4c39620e3bbb7fae5af4c6fe96411831e5a87bab6563c6067212a3f2bd50e986",
+  "rows_denominator": 15904,
+  "rows_numerator": 15904,
+  "schema": "max11-sparse-lp-csc-v1",
+  "sketch_algorithm": "splitmix64-chain-v1-one-bucket-random-sign",
+  "sketch_buckets_denominator": 64000,
+  "sketch_entry_abs_max": 54754560,
+  "sketch_seed": 2026090201,
+  "target_bucket": 47568,
+  "target_sign": -1,
+  "universe": "artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz",
+  "universe_sha256": "8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8",
+  "verdict": "PASS"
+}

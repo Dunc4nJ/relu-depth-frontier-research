@@ -1,0 +1,30 @@
+Running HiGHS 1.15.1 (git hash: 04024d7): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+LP has 1024 rows; 150152 cols; 152221978 nonzeros
+Coefficient ranges:
+  Matrix  [1e-07, 2e+00]
+  Cost    [1e+00, 1e+00]
+  Bound   [0e+00, 0e+00]
+  RHS     [3e-08, 3e-08]
+WARNING: Problem has some excessively small row bounds
+WARNING:    Consider scaling the    bounds by 1e+4, or setting the user_bound_scale option to 12
+Solving LP with useful basis
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0     0.0000000000e+00 Pr: 1(2.98023e-08) 10.3s
+        101     4.3529251108e-07 Pr: 945(0.000272025) 15.3s
+        184     7.3603526672e-07 Pr: 892(0.000169589) 20.5s
+        343     9.7364185608e-07 Pr: 858(0.00031521) 32.3s
+        555     1.2342966076e-06 Pr: 799(0.000564821); Du: 0(5.77316e-15) 51.4s
+        646     1.3468823609e-06 Pr: 756(0.000442654); Du: 0(7.32747e-15) 61.0s
+        823     1.5291695160e-06 Pr: 731(0.000327495); Du: 0(9.76996e-15) 81.1s
+        967     1.6624337092e-06 Pr: 660(0.000107865) 100.1s
+       1072     1.7697902773e-06 Pr: 654(0.000132443); Du: 0(6.12843e-14) 114.6s
+       1195     1.8861790687e-06 Pr: 617(0.000103403); Du: 0(2.53131e-14) 136.2s
+       1301     1.9616944718e-06 Pr: 583(9.62142e-05); Du: 0(1.02141e-14) 158.0s
+       1398     2.0168537616e-06 Pr: 584(8.27391e-05); Du: 0(5.32907e-15) 181.1s
+       1522     2.0833557833e-06 Pr: 583(0.000118509) 211.0s
+       1626     2.1540878696e-06 Pr: 593(0.000164435) 234.9s
+       1707     2.2010465451e-06 Pr: 559(0.000104526) 252.7s
+       1805     2.2708997342e-06 Pr: 571(0.000272598); Du: 0(1.4122e-13) 278.0s
+       1900     2.3125677851e-06 Pr: 551(0.000109459) 302.6s

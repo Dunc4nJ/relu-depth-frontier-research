@@ -1,0 +1,49 @@
+{
+  "basis": "artifacts/math/exact-witness-n9-n10/n10_basis_p1000003.json",
+  "basis_sha256": "becd726a38b18155ca3cbd27bf3382b299d627c50ee239a0283e7db41228e7d6",
+  "build_seconds": 12.525970471091568,
+  "columns_denominator": 12248,
+  "columns_numerator": 12248,
+  "files": {
+    "index": {
+      "bytes": 38786720,
+      "path": "index.u32le",
+      "sha256": "e2b93189a044948beb941746614b65af5f40473d97ec2678caba0569b1b387de"
+    },
+    "source": {
+      "bytes": 97984,
+      "path": "source.u64le",
+      "sha256": "44b2389850c23903a80abf61d13bf64f07e8b609621f57fe21d191153f2c6091"
+    },
+    "start": {
+      "bytes": 97992,
+      "path": "start.u64le",
+      "sha256": "f95a98e76911eea7a7c8683286d60e557f4d79dd297731759973eab8b53f7be0"
+    },
+    "target": {
+      "bytes": 17328,
+      "path": "target.i64le",
+      "sha256": "f8b85ab6a49e4a93b4819c5ba07a7e0f08c4fe1cb317a0fae7eaf89c48eb7a8e"
+    },
+    "value": {
+      "bytes": 77573440,
+      "path": "value.i64le",
+      "sha256": "191dbb24b87c5ff5d7d09c8a74d1aeda7505971193108cc42f87eb03a618930f"
+    }
+  },
+  "method": "exact saved CSC restricted to named modular independent-row basis",
+  "n": 10,
+  "no_claim": "A modular row-basis restriction is a search system; exact all-row replay is required for any identity claim.",
+  "nonzeros_denominator": 9696680,
+  "nonzeros_numerator": 9696680,
+  "prime": 1000003,
+  "rows_denominator": 2166,
+  "rows_numerator": 2166,
+  "schema": "max11-sparse-lp-csc-v1",
+  "source_matrix_report": "artifacts/math/n11-sparse-certificate/n10-matrix/matrix.json",
+  "source_matrix_report_sha256": "7fbd776d1cb8b215a1370dddbc38b3b8fc61802e9a709eca3c6f929ca3d95ef9",
+  "source_rows_denominator": 16719,
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+  "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+  "verdict": "PASS"
+}

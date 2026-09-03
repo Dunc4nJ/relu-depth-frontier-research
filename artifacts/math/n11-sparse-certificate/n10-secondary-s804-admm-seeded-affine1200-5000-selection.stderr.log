@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/select_exact_support.py", line 223, in <module>
+    main()
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/select_exact_support.py", line 219, in main
+    print(json.dumps(select(args.matrix_dir, args.l1_report, args.output, args.report, args.prime, args.base_pivot_report), indent=2, sort_keys=True))
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/select_exact_support.py", line 129, in select
+    raise RuntimeError("no floating support contains the target modulo the named prime")
+RuntimeError: no floating support contains the target modulo the named prime

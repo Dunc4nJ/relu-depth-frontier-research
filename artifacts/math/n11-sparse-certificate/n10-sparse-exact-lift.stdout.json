@@ -1,0 +1,66 @@
+{
+  "coefficient_denominator_lcm": 304819200,
+  "complete_exact_verification": {
+    "coefficient_denominator_factorization": {
+      "2": 10,
+      "3": 5,
+      "5": 2,
+      "7": 2
+    },
+    "coefficient_denominator_lcm": 304819200,
+    "columns_in_system": 12248,
+    "exact": true,
+    "hinge_rows_checked": 16709,
+    "linear_rows_checked": 10,
+    "n": 10,
+    "nonzero_hinge_residual_count": 0,
+    "nonzero_hinge_residual_examples": [],
+    "nonzero_linear_residuals": [],
+    "rows_checked": 16719,
+    "support_size": 424,
+    "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+    "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+    "verdict": "PASS",
+    "witness": "artifacts/math/n11-sparse-certificate/n10-sparse-exact-witness.json",
+    "witness_sha256": "998bc650d6c85507841606b5e9b5b85799c6aab81ec62ac2e9d5f15cb2a03007"
+  },
+  "exact_batches": [],
+  "independent_real_rows_numerator": 424,
+  "max_rss_kib": 308512,
+  "n": 10,
+  "no_claim": "A positive n=10 control does not test or decide n=11 membership.",
+  "pivot_columns_numerator": 424,
+  "pivot_report": "artifacts/math/n11-sparse-certificate/n10-secondary-s804-split-support-seeded-l1-partial-pivots.json",
+  "pivot_report_sha256": "ab233176aeafcb0a64389ba7a3b06d0dbdc0c3d4077891c0c3a73445f1187a86",
+  "prime": 1000003,
+  "real_union_rows_denominator": 11875,
+  "selected_support_verification": {
+    "linear_rows": 10,
+    "nonzero_hinge_residual_count": 0,
+    "nonzero_hinge_residual_examples": [],
+    "nonzero_linear_residuals": [],
+    "union_hinge_rows": 11865,
+    "verdict": "PASS"
+  },
+  "sketch": {
+    "algorithm": "identity-real-rows",
+    "buckets": 2166,
+    "seed": 0
+  },
+  "sketch_index": 0,
+  "source_columns_denominator": 12248,
+  "support_union_proof": "The witness has zero coefficients outside the pivot support. Therefore every hinge row absent from the union of those exact support columns has identically zero left side; the MAX target has zero hinge coefficient on every row. All n linear rows are included separately. Checking the support union is therefore checking every possibly nonzero residual row. The subsequent full saved-system replay is an additional control.",
+  "timings_seconds": {
+    "build_exact_minor_seconds": 0.2391513241454959,
+    "build_real_row_transpose_seconds": 0.3711347980424762,
+    "exact_dixon_solve_seconds": 0.08550795074552298,
+    "select_independent_real_rows_seconds": 1.0679327193647623,
+    "total_seconds": 40.54201484564692
+  },
+  "upstream_output": "artifacts/math/n11-sparse-certificate/n10-sparse-upstream.json",
+  "upstream_output_sha256": "4bcb155a416188d479f20a2009f077003e828f1f09d65476117523a3bb6644e9",
+  "verdict": "PASS",
+  "witness": "artifacts/math/n11-sparse-certificate/n10-sparse-exact-witness.json",
+  "witness_sha256": "998bc650d6c85507841606b5e9b5b85799c6aab81ec62ac2e9d5f15cb2a03007",
+  "witness_support_numerator": 424
+}

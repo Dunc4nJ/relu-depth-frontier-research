@@ -1,0 +1,95 @@
+SAVED_CSC columns=256/12248 nnz=315903/33284775 seconds=13.136
+SAVED_CSC columns=512/12248 nnz=1151619/33284775 seconds=13.793
+SAVED_CSC columns=768/12248 nnz=1406071/33284775 seconds=13.990
+SAVED_CSC columns=1024/12248 nnz=1830148/33284775 seconds=14.318
+SAVED_CSC columns=1280/12248 nnz=2711499/33284775 seconds=14.991
+SAVED_CSC columns=1536/12248 nnz=3788676/33284775 seconds=15.816
+SAVED_CSC columns=1792/12248 nnz=4006221/33284775 seconds=15.978
+SAVED_CSC columns=2048/12248 nnz=4247028/33284775 seconds=16.158
+SAVED_CSC columns=2304/12248 nnz=4561496/33284775 seconds=16.392
+SAVED_CSC columns=2560/12248 nnz=4898228/33284775 seconds=16.643
+SAVED_CSC columns=2816/12248 nnz=5692915/33284775 seconds=17.246
+SAVED_CSC columns=3072/12248 nnz=6768983/33284775 seconds=18.075
+SAVED_CSC columns=3328/12248 nnz=7834674/33284775 seconds=18.893
+SAVED_CSC columns=3584/12248 nnz=9163973/33284775 seconds=19.912
+SAVED_CSC columns=3840/12248 nnz=10018346/33284775 seconds=20.566
+SAVED_CSC columns=4096/12248 nnz=11490121/33284775 seconds=21.706
+SAVED_CSC columns=4352/12248 nnz=12831672/33284775 seconds=22.744
+SAVED_CSC columns=4608/12248 nnz=13081951/33284775 seconds=22.932
+SAVED_CSC columns=4864/12248 nnz=13387913/33284775 seconds=23.163
+SAVED_CSC columns=5120/12248 nnz=13998406/33284775 seconds=23.626
+SAVED_CSC columns=5376/12248 nnz=14832539/33284775 seconds=24.266
+SAVED_CSC columns=5632/12248 nnz=15803722/33284775 seconds=25.019
+SAVED_CSC columns=5888/12248 nnz=16877588/33284775 seconds=25.854
+SAVED_CSC columns=6144/12248 nnz=17910332/33284775 seconds=26.659
+SAVED_CSC columns=6400/12248 nnz=18252035/33284775 seconds=26.919
+SAVED_CSC columns=6656/12248 nnz=19031083/33284775 seconds=27.527
+SAVED_CSC columns=6912/12248 nnz=19543995/33284775 seconds=27.918
+SAVED_CSC columns=7168/12248 nnz=19759955/33284775 seconds=28.080
+SAVED_CSC columns=7424/12248 nnz=20129985/33284775 seconds=28.357
+SAVED_CSC columns=7680/12248 nnz=20924330/33284775 seconds=28.958
+SAVED_CSC columns=7936/12248 nnz=21764511/33284775 seconds=29.599
+SAVED_CSC columns=8192/12248 nnz=22986570/33284775 seconds=30.549
+SAVED_CSC columns=8448/12248 nnz=23741827/33284775 seconds=31.132
+SAVED_CSC columns=8704/12248 nnz=24468511/33284775 seconds=31.702
+SAVED_CSC columns=8960/12248 nnz=24669704/33284775 seconds=31.854
+SAVED_CSC columns=9216/12248 nnz=24914801/33284775 seconds=32.037
+SAVED_CSC columns=9472/12248 nnz=25479552/33284775 seconds=32.466
+SAVED_CSC columns=9728/12248 nnz=26242473/33284775 seconds=33.051
+SAVED_CSC columns=9984/12248 nnz=27070525/33284775 seconds=33.685
+SAVED_CSC columns=10240/12248 nnz=28001964/33284775 seconds=34.406
+SAVED_CSC columns=10496/12248 nnz=29008247/33284775 seconds=35.193
+SAVED_CSC columns=10752/12248 nnz=30013341/33284775 seconds=35.976
+SAVED_CSC columns=11008/12248 nnz=30339102/33284775 seconds=36.223
+SAVED_CSC columns=11264/12248 nnz=30863903/33284775 seconds=36.623
+SAVED_CSC columns=11520/12248 nnz=31924665/33284775 seconds=37.446
+SAVED_CSC columns=11776/12248 nnz=32298853/33284775 seconds=37.737
+SAVED_CSC columns=12032/12248 nnz=32797614/33284775 seconds=38.117
+SAVED_CSC columns=12248/12248 nnz=33284775/33284775 seconds=38.489
+{
+  "build_seconds": 39.02487402781844,
+  "columns_denominator": 12248,
+  "columns_numerator": 12248,
+  "files": {
+    "index": {
+      "bytes": 133139100,
+      "path": "index.u32le",
+      "sha256": "d6601299dc28ecde8cfc054692bbc15fe76cf026907945841ac2d0c9e0a17e32"
+    },
+    "source": {
+      "bytes": 97984,
+      "path": "source.u64le",
+      "sha256": "44b2389850c23903a80abf61d13bf64f07e8b609621f57fe21d191153f2c6091"
+    },
+    "start": {
+      "bytes": 97992,
+      "path": "start.u64le",
+      "sha256": "31ccd67fdbb3b3d45c8bae30982a7851b34bbf32276dd84d61d65753468d2e32"
+    },
+    "target": {
+      "bytes": 133752,
+      "path": "target.i64le",
+      "sha256": "551c3b346fce0eb3f81c1d85d372d25eca93b8006213aa005b004e50194ede9d"
+    },
+    "value": {
+      "bytes": 266278200,
+      "path": "value.i64le",
+      "sha256": "dc85b25a6d016edea4d018782a9b1cb8020bd3a4fdeee0e0fa8e48aaf13c5771"
+    }
+  },
+  "hinge_rows_denominator": 16709,
+  "linear_rows_denominator": 10,
+  "max_rss_kib": 427552,
+  "method": "two-pass exact saved-system CSC construction",
+  "n": 10,
+  "no_claim": "This is an exact matrix construction, not a span identity or a MAX certificate.",
+  "nonzeros_denominator": 33284775,
+  "nonzeros_numerator": 33284775,
+  "rows_denominator": 16719,
+  "rows_numerator": 16719,
+  "schema": "max11-sparse-lp-csc-v1",
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+  "system_bytes": 133869427,
+  "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+  "verdict": "PASS"
+}

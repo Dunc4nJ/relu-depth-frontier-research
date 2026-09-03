@@ -1,0 +1,31 @@
+{
+  "base_pivot_report": null,
+  "base_pivot_report_sha256": null,
+  "chosen_independent_support_denominator": 12248,
+  "chosen_independent_support_numerator": 0,
+  "chosen_round": null,
+  "exact": "modular",
+  "l1_report": "artifacts/math/n11-sparse-certificate/n10-secondary-s804-admm-seeded-affine1200-5000-l1.json",
+  "l1_report_sha256": "038d00a98623ad61637679b9eee7b4b4327b34a95a30ab1c4facb55c7f082629",
+  "matrix_report": "artifacts/math/n11-sparse-certificate/n10-basis-matrix/matrix.json",
+  "matrix_report_sha256": "beffa57ff40b733b705d0909e088659bd12c59ee9c9ca0bf6ac4ab45edee83f3",
+  "no_claim": "These named floated supports fail one exact modular membership test. This is a bounded null for those supports, not a statement about the full family.",
+  "pivot_report": null,
+  "pivot_report_sha256": null,
+  "prime": 1000003,
+  "schema": "max11-sparse-support-selection-v1",
+  "seconds": 3.5334645034745336,
+  "trials": [
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 1200,
+      "independent_support_numerator": 1193,
+      "rank_a_mod_prime": 1193,
+      "rank_augmented_mod_prime": 1194,
+      "round": 0,
+      "seconds": 3.528973277658224,
+      "verdict": "NON_MEMBER"
+    }
+  ],
+  "verdict": "NON_MEMBER"
+}

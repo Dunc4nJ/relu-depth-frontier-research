@@ -1,0 +1,5209 @@
+{
+  "columns_denominator": 75076,
+  "exact": false,
+  "highs_version": "1.15.1",
+  "initial_basis": {
+    "basic_row_slacks_denominator": 1024,
+    "basic_row_slacks_numerator": 0,
+    "basis_columns_denominator": 1024,
+    "basis_columns_numerator": 1024,
+    "exact": "modular",
+    "negative_basis_columns_numerator": 507,
+    "path": "artifacts/math/n11-sparse-certificate/n11-secondary-s1024-qr-signed-initial-basis.json",
+    "prime": 1000003,
+    "sha256": "d36e36338f64332280a9ee8d9cdd1b2d4c0ef0d10392871ce372c28d3f037a6e"
+  },
+  "initial_feasible_witness": {
+    "model_values_set": 0,
+    "path": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_exact_witness.json",
+    "primal_start_omitted_for_exact_basis": true,
+    "sha256": "d27dbc9596962719f74a721057b0817213828fc6acfce4fd0d6080c72d76676c",
+    "support_denominator": 75076,
+    "support_numerator": 11320
+  },
+  "initial_reweight_from_witness": false,
+  "lp_formulation": "split",
+  "matrix_nonzeros_denominator": 76110989,
+  "matrix_report": "artifacts/math/n11-sparse-certificate/n11-secondary-s1024-seed2026090301/matrix.json",
+  "matrix_report_sha256": "8466b9b8e6f729646d9db72a54c37603e9bba84feb3124b88d86bba73e6a93a3",
+  "max_rss_kib": 7560936,
+  "model_columns_denominator": 150152,
+  "model_nonzeros_denominator": 152221978,
+  "model_rows_denominator": 1024,
+  "no_claim": "Floating LP output only proposes supports; no identity is claimed until an exact rational solve and all-row verification pass.",
+  "options": {
+    "dual_feasibility_tolerance": 1e-08,
+    "log_file": "artifacts/math/n11-sparse-certificate/n11-secondary-s1024-split-unscaled-feasible3500-highs.log",
+    "output_flag": true,
+    "parallel": "off",
+    "presolve": "off",
+    "primal_feasibility_tolerance": 1e-08,
+    "random_seed": 20260903,
+    "run_crossover": "on",
+    "simplex_strategy": 4,
+    "solver": "simplex",
+    "threads": 1
+  },
+  "reweight_cap": 1000000.0,
+  "reweight_epsilon_absolute": 1e-09,
+  "reweight_floor": 1e-06,
+  "reweight_solver": "simplex",
+  "reweighted_rounds_completed_numerator": 0,
+  "reweighted_rounds_denominator": 0,
+  "reweighted_rounds_numerator": 0,
+  "rounds": [
+    {
+      "candidate": [
+        {
+          "coefficient": -3.498915526464501e-10,
+          "column_position": 0,
+          "source_index": 0
+        },
+        {
+          "coefficient": 5.390463272890398e-08,
+          "column_position": 36,
+          "source_index": 588073
+        },
+        {
+          "coefficient": -4.618161550102988e-08,
+          "column_position": 134,
+          "source_index": 588203
+        },
+        {
+          "coefficient": -9.921719245922713e-09,
+          "column_position": 155,
+          "source_index": 588227
+        },
+        {
+          "coefficient": 2.6594092763475112e-08,
+          "column_position": 337,
+          "source_index": 588471
+        },
+        {
+          "coefficient": -7.379050849082736e-09,
+          "column_position": 399,
+          "source_index": 588549
+        },
+        {
+          "coefficient": -9.092569504810677e-08,
+          "column_position": 404,
+          "source_index": 588554
+        },
+        {
+          "coefficient": -1.06845717228924e-07,
+          "column_position": 456,
+          "source_index": 588613
+        },
+        {
+          "coefficient": 3.3979989576128025e-08,
+          "column_position": 599,
+          "source_index": 591106
+        },
+        {
+          "coefficient": 1.9386612682169226e-08,
+          "column_position": 630,
+          "source_index": 591147
+        },
+        {
+          "coefficient": -3.2583838178854346e-08,
+          "column_position": 645,
+          "source_index": 591163
+        },
+        {
+          "coefficient": 4.041970660293842e-08,
+          "column_position": 681,
+          "source_index": 591208
+        },
+        {
+          "coefficient": 2.056104485337026e-08,
+          "column_position": 780,
+          "source_index": 591396
+        },
+        {
+          "coefficient": -6.555218733967719e-08,
+          "column_position": 816,
+          "source_index": 591442
+        },
+        {
+          "coefficient": 4.3512040318018956e-08,
+          "column_position": 838,
+          "source_index": 591466
+        },
+        {
+          "coefficient": 8.379083892073659e-08,
+          "column_position": 873,
+          "source_index": 591512
+        },
+        {
+          "coefficient": 7.627624235943129e-08,
+          "column_position": 1005,
+          "source_index": 591669
+        },
+        {
+          "coefficient": 5.1110441442302194e-09,
+          "column_position": 1023,
+          "source_index": 591689
+        },
+        {
+          "coefficient": 1.3794108962980892e-07,
+          "column_position": 1060,
+          "source_index": 591737
+        },
+        {
+          "coefficient": -3.5548284312214104e-09,
+          "column_position": 1130,
+          "source_index": 591820
+        },
+        {
+          "coefficient": 1.3863144140422602e-07,
+          "column_position": 1137,
+          "source_index": 591827
+        },
+        {
+          "coefficient": -4.721228398908665e-08,
+          "column_position": 1157,
+          "source_index": 591854
+        },
+        {
+          "coefficient": 6.396747545579393e-08,
+          "column_position": 1267,
+          "source_index": 591990
+        },
+        {
+          "coefficient": 8.827707601370093e-08,
+          "column_position": 1492,
+          "source_index": 593139
+        },
+        {
+          "coefficient": -9.030694273372793e-10,
+          "column_position": 1533,
+          "source_index": 593191
+        },
+        {
+          "coefficient": -1.2993774205495147e-07,
+          "column_position": 1542,
+          "source_index": 593201
+        },
+        {
+          "coefficient": -1.514922401065809e-07,
+          "column_position": 1635,
+          "source_index": 593312
+        },
+        {
+          "coefficient": -1.4855185679528497e-08,
+          "column_position": 1689,
+          "source_index": 593379
+        },
+        {
+          "coefficient": -5.465633205904426e-08,
+          "column_position": 2032,
+          "source_index": 593961
+        },
+        {
+          "coefficient": 1.5045026361153804e-07,
+          "column_position": 2209,
+          "source_index": 594171
+        },
+        {
+          "coefficient": -9.676846205133243e-08,
+          "column_position": 2483,
+          "source_index": 595263
+        },
+        {
+          "coefficient": 8.440944976412122e-08,
+          "column_position": 2484,
+          "source_index": 595264
+        },
+        {
+          "coefficient": -1.594832194965448e-08,
+          "column_position": 2496,
+          "source_index": 595277
+        },
+        {
+          "coefficient": 1.1508388744477223e-10,
+          "column_position": 2664,
+          "source_index": 595485
+        },
+        {
+          "coefficient": 8.005544811155368e-08,
+          "column_position": 2762,
+          "source_index": 595602
+        },
+        {
+          "coefficient": 5.1235372817065313e-08,
+          "column_position": 2779,
+          "source_index": 595621
+        },
+        {
+          "coefficient": -2.700144914711466e-07,
+          "column_position": 2829,
+          "source_index": 595684
+        },
+        {
+          "coefficient": 5.998991887322411e-08,
+          "column_position": 3030,
+          "source_index": 595930
+        },
+        {
+          "coefficient": 1.1881552517824799e-07,
+          "column_position": 3100,
+          "source_index": 596015
+        },
+        {
+          "coefficient": 3.658506248190555e-08,
+          "column_position": 3103,
+          "source_index": 596018
+        },
+        {
+          "coefficient": 1.2224163761246276e-07,
+          "column_position": 3110,
+          "source_index": 596026
+        },
+        {
+          "coefficient": -2.1253972186119485e-07,
+          "column_position": 3170,
+          "source_index": 596094
+        },
+        {
+          "coefficient": -1.1621707024736833e-07,
+          "column_position": 3328,
+          "source_index": 596289
+        },
+        {
+          "coefficient": -3.053147194540559e-08,
+          "column_position": 3387,
+          "source_index": 596359
+        },
+        {
+          "coefficient": 9.535843744920189e-09,
+          "column_position": 3397,
+          "source_index": 596372
+        },
+        {
+          "coefficient": 6.364115481106798e-08,
+          "column_position": 3584,
+          "source_index": 596603
+        },
+        {
+          "coefficient": -1.8192799126003e-09,
+          "column_position": 3682,
+          "source_index": 596720
+        },
+        {
+          "coefficient": 1.1129782844732883e-07,
+          "column_position": 3684,
+          "source_index": 596722
+        },
+        {
+          "coefficient": 3.321679992809654e-08,
+          "column_position": 3782,
+          "source_index": 596842
+        },
+        {
+          "coefficient": -2.0540228393135311e-07,
+          "column_position": 4012,
+          "source_index": 597125
+        },
+        {
+          "coefficient": -9.018782677671531e-08,
+          "column_position": 4042,
+          "source_index": 597159
+        },
+        {
+          "coefficient": -9.070935567025047e-09,
+          "column_position": 4046,
+          "source_index": 597163
+        },
+        {
+          "coefficient": -5.505899711035569e-08,
+          "column_position": 4056,
+          "source_index": 597177
+        },
+        {
+          "coefficient": 1.4450771198371097e-07,
+          "column_position": 4098,
+          "source_index": 597223
+        },
+        {
+          "coefficient": 4.961397225823327e-08,
+          "column_position": 4102,
+          "source_index": 597227
+        },
+        {
+          "coefficient": -1.2677745631997996e-08,
+          "column_position": 4134,
+          "source_index": 597269
+        },
+        {
+          "coefficient": -6.989973986616966e-08,
+          "column_position": 4137,
+          "source_index": 597272
+        },
+        {
+          "coefficient": 1.0317188179768214e-08,
+          "column_position": 4394,
+          "source_index": 599650
+        },
+        {
+          "coefficient": -8.688499525191868e-08,
+          "column_position": 4402,
+          "source_index": 599659
+        },
+        {
+          "coefficient": -2.6735411649651655e-08,
+          "column_position": 4470,
+          "source_index": 599743
+        },
+        {
+          "coefficient": -7.96765834113219e-08,
+          "column_position": 4481,
+          "source_index": 599754
+        },
+        {
+          "coefficient": -4.537173552520025e-08,
+          "column_position": 4502,
+          "source_index": 599784
+        },
+        {
+          "coefficient": -4.653525351386788e-08,
+          "column_position": 4558,
+          "source_index": 599847
+        },
+        {
+          "coefficient": 5.5284759812557907e-08,
+          "column_position": 4593,
+          "source_index": 599891
+        },
+        {
+          "coefficient": -5.675259218672487e-08,
+          "column_position": 4604,
+          "source_index": 599906
+        },
+        {
+          "coefficient": 7.165638168971267e-08,
+          "column_position": 4634,
+          "source_index": 599943
+        },
+        {
+          "coefficient": -1.8254000553139097e-07,
+          "column_position": 4728,
+          "source_index": 600057
+        },
+        {
+          "coefficient": 1.1158256057824689e-07,
+          "column_position": 4826,
+          "source_index": 600176
+        },
+        {
+          "coefficient": -4.100010484964887e-08,
+          "column_position": 4851,
+          "source_index": 600203
+        },
+        {
+          "coefficient": 9.094782491944844e-08,
+          "column_position": 4985,
+          "source_index": 600362
+        },
+        {
+          "coefficient": 2.1203665470833794e-08,
+          "column_position": 4990,
+          "source_index": 600373
+        },
+        {
+          "coefficient": -2.089298384603662e-08,
+          "column_position": 5041,
+          "source_index": 600433
+        },
+        {
+          "coefficient": 8.114208961732069e-08,
+          "column_position": 5309,
+          "source_index": 604131
+        },
+        {
+          "coefficient": -6.835850041849526e-08,
+          "column_position": 5353,
+          "source_index": 604193
+        },
+        {
+          "coefficient": 2.3956290773164815e-08,
+          "column_position": 5375,
+          "source_index": 604218
+        },
+        {
+          "coefficient": -3.061353441258552e-08,
+          "column_position": 5504,
+          "source_index": 604363
+        },
+        {
+          "coefficient": -2.2714737797206637e-07,
+          "column_position": 5529,
+          "source_index": 604388
+        },
+        {
+          "coefficient": 9.274001387056497e-09,
+          "column_position": 5661,
+          "source_index": 604765
+        },
+        {
+          "coefficient": -8.002711394007566e-08,
+          "column_position": 5891,
+          "source_index": 605945
+        },
+        {
+          "coefficient": 5.5281857503856115e-08,
+          "column_position": 5981,
+          "source_index": 606092
+        },
+        {
+          "coefficient": -1.1883807021559859e-07,
+          "column_position": 6197,
+          "source_index": 606310
+        },
+        {
+          "coefficient": -7.501430537295292e-08,
+          "column_position": 6206,
+          "source_index": 606319
+        },
+        {
+          "coefficient": -5.162848327435181e-08,
+          "column_position": 6323,
+          "source_index": 606437
+        },
+        {
+          "coefficient": 4.793821188886004e-09,
+          "column_position": 6370,
+          "source_index": 606545
+        },
+        {
+          "coefficient": -2.690418928206339e-09,
+          "column_position": 6474,
+          "source_index": 606649
+        },
+        {
+          "coefficient": 1.2950984863680906e-07,
+          "column_position": 6509,
+          "source_index": 606684
+        },
+        {
+          "coefficient": 9.260912122465465e-08,
+          "column_position": 6537,
+          "source_index": 606712
+        },
+        {
+          "coefficient": -8.143524654655486e-08,
+          "column_position": 6541,
+          "source_index": 606716
+        },
+        {
+          "coefficient": -3.89096159170328e-08,
+          "column_position": 6570,
+          "source_index": 606745
+        },
+        {
+          "coefficient": 3.977986810912172e-08,
+          "column_position": 6908,
+          "source_index": 607106
+        },
+        {
+          "coefficient": -1.7142220238559105e-07,
+          "column_position": 7130,
+          "source_index": 607350
+        },
+        {
+          "coefficient": -2.774469598206186e-08,
+          "column_position": 7133,
+          "source_index": 607353
+        },
+        {
+          "coefficient": -6.015915071107965e-08,
+          "column_position": 7326,
+          "source_index": 607852
+        },
+        {
+          "coefficient": 9.424504961757273e-08,
+          "column_position": 7396,
+          "source_index": 609530
+        },
+        {
+          "coefficient": -5.434645390943283e-08,
+          "column_position": 7400,
+          "source_index": 609534
+        },
+        {
+          "coefficient": 1.4617800089840076e-07,
+          "column_position": 7469,
+          "source_index": 609628
+        },
+        {
+          "coefficient": -7.929660545338959e-09,
+          "column_position": 7645,
+          "source_index": 611787
+        },
+        {
+          "coefficient": 7.6688669800699e-08,
+          "column_position": 7719,
+          "source_index": 611870
+        },
+        {
+          "coefficient": -8.334918421183937e-08,
+          "column_position": 7754,
+          "source_index": 611907
+        },
+        {
+          "coefficient": -7.404918849526016e-09,
+          "column_position": 7833,
+          "source_index": 611994
+        },
+        {
+          "coefficient": -9.508086980651386e-08,
+          "column_position": 7900,
+          "source_index": 612067
+        },
+        {
+          "coefficient": -5.43856554792682e-08,
+          "column_position": 7922,
+          "source_index": 612090
+        },
+        {
+          "coefficient": 8.821192810268463e-08,
+          "column_position": 7945,
+          "source_index": 612116
+        },
+        {
+          "coefficient": 7.627479440334366e-08,
+          "column_position": 8020,
+          "source_index": 612197
+        },
+        {
+          "coefficient": 7.835775196327933e-09,
+          "column_position": 8051,
+          "source_index": 612652
+        },
+        {
+          "coefficient": -8.371365782726868e-09,
+          "column_position": 8144,
+          "source_index": 612753
+        },
+        {
+          "coefficient": 7.297053335553897e-09,
+          "column_position": 8247,
+          "source_index": 612866
+        },
+        {
+          "coefficient": -1.9071310794530502e-08,
+          "column_position": 8262,
+          "source_index": 612882
+        },
+        {
+          "coefficient": 7.566092868073727e-08,
+          "column_position": 8319,
+          "source_index": 612940
+        },
+        {
+          "coefficient": 4.717872407354877e-08,
+          "column_position": 8478,
+          "source_index": 613109
+        },
+        {
+          "coefficient": 2.630317814481502e-08,
+          "column_position": 8522,
+          "source_index": 613156
+        },
+        {
+          "coefficient": -2.4614311996438165e-08,
+          "column_position": 8533,
+          "source_index": 613170
+        },
+        {
+          "coefficient": 1.386300282354748e-07,
+          "column_position": 8595,
+          "source_index": 613235
+        },
+        {
+          "coefficient": -2.7079111887153218e-08,
+          "column_position": 8634,
+          "source_index": 613277
+        },
+        {
+          "coefficient": -6.961654241257671e-09,
+          "column_position": 8647,
+          "source_index": 613290
+        },
+        {
+          "coefficient": 3.3013575906356316e-08,
+          "column_position": 8649,
+          "source_index": 613292
+        },
+        {
+          "coefficient": 7.071936984523753e-08,
+          "column_position": 8749,
+          "source_index": 613399
+        },
+        {
+          "coefficient": -8.008837389932402e-08,
+          "column_position": 8981,
+          "source_index": 613645
+        },
+        {
+          "coefficient": 3.858221826312006e-09,
+          "column_position": 9063,
+          "source_index": 613732
+        },
+        {
+          "coefficient": 7.78634235899272e-08,
+          "column_position": 9114,
+          "source_index": 613787
+        },
+        {
+          "coefficient": -4.202169705223446e-08,
+          "column_position": 9144,
+          "source_index": 613820
+        },
+        {
+          "coefficient": 4.115216794493711e-08,
+          "column_position": 9183,
+          "source_index": 613860
+        },
+        {
+          "coefficient": 7.075638578070812e-08,
+          "column_position": 9218,
+          "source_index": 613898
+        },
+        {
+          "coefficient": -2.273581167905197e-08,
+          "column_position": 9332,
+          "source_index": 614019
+        },
+        {
+          "coefficient": -1.8836716347923677e-08,
+          "column_position": 9368,
+          "source_index": 614059
+        },
+        {
+          "coefficient": -6.388508026791201e-08,
+          "column_position": 9404,
+          "source_index": 614096
+        },
+        {
+          "coefficient": -1.3222377832442518e-07,
+          "column_position": 9495,
+          "source_index": 614195
+        },
+        {
+          "coefficient": -1.0543769046893469e-07,
+          "column_position": 9635,
+          "source_index": 614346
+        },
+        {
+          "coefficient": 9.270989070296042e-10,
+          "column_position": 9648,
+          "source_index": 614359
+        },
+        {
+          "coefficient": -6.045777558343336e-08,
+          "column_position": 9685,
+          "source_index": 614397
+        },
+        {
+          "coefficient": -9.023938993271067e-09,
+          "column_position": 9707,
+          "source_index": 614419
+        },
+        {
+          "coefficient": -1.4414667101380558e-07,
+          "column_position": 9709,
+          "source_index": 614421
+        },
+        {
+          "coefficient": -5.694704571669866e-08,
+          "column_position": 9739,
+          "source_index": 614455
+        },
+        {
+          "coefficient": 1.435974705543158e-07,
+          "column_position": 9772,
+          "source_index": 614489
+        },
+        {
+          "coefficient": 1.0321070604358747e-07,
+          "column_position": 9836,
+          "source_index": 614554
+        },
+        {
+          "coefficient": -8.034690038965038e-08,
+          "column_position": 9891,
+          "source_index": 614614
+        },
+        {
+          "coefficient": -1.0539054436141576e-07,
+          "column_position": 9892,
+          "source_index": 614615
+        },
+        {
+          "coefficient": -3.046051721842583e-08,
+          "column_position": 9893,
+          "source_index": 614616
+        },
+        {
+          "coefficient": 4.875802835083578e-08,
+          "column_position": 9920,
+          "source_index": 614644
+        },
+        {
+          "coefficient": 3.021278538462699e-08,
+          "column_position": 10001,
+          "source_index": 614729
+        },
+        {
+          "coefficient": 2.7934580547255328e-08,
+          "column_position": 10137,
+          "source_index": 614875
+        },
+        {
+          "coefficient": 6.61434561566868e-08,
+          "column_position": 10141,
+          "source_index": 614879
+        },
+        {
+          "coefficient": 3.672943287655932e-08,
+          "column_position": 10144,
+          "source_index": 614882
+        },
+        {
+          "coefficient": -2.214131115111577e-07,
+          "column_position": 10178,
+          "source_index": 614917
+        },
+        {
+          "coefficient": -3.860107268354158e-08,
+          "column_position": 10234,
+          "source_index": 614976
+        },
+        {
+          "coefficient": -6.300716297361758e-08,
+          "column_position": 10269,
+          "source_index": 615012
+        },
+        {
+          "coefficient": -7.92070973442523e-08,
+          "column_position": 10319,
+          "source_index": 615066
+        },
+        {
+          "coefficient": 5.925082867859965e-09,
+          "column_position": 10503,
+          "source_index": 615260
+        },
+        {
+          "coefficient": -1.4034573840192009e-08,
+          "column_position": 10591,
+          "source_index": 615350
+        },
+        {
+          "coefficient": -4.3296198828266897e-10,
+          "column_position": 10651,
+          "source_index": 615414
+        },
+        {
+          "coefficient": 1.3210090675283757e-07,
+          "column_position": 10750,
+          "source_index": 615521
+        },
+        {
+          "coefficient": -4.451886368092823e-08,
+          "column_position": 10757,
+          "source_index": 615528
+        },
+        {
+          "coefficient": 3.278505857262787e-08,
+          "column_position": 10806,
+          "source_index": 615580
+        },
+        {
+          "coefficient": 1.2341724630222582e-07,
+          "column_position": 10847,
+          "source_index": 615623
+        },
+        {
+          "coefficient": 4.76707018593071e-09,
+          "column_position": 10980,
+          "source_index": 615765
+        },
+        {
+          "coefficient": -1.329047299994253e-07,
+          "column_position": 11009,
+          "source_index": 615795
+        },
+        {
+          "coefficient": 2.917352321973697e-08,
+          "column_position": 11034,
+          "source_index": 615820
+        },
+        {
+          "coefficient": 9.50431749127871e-08,
+          "column_position": 11035,
+          "source_index": 615821
+        },
+        {
+          "coefficient": 2.373133455208829e-08,
+          "column_position": 11388,
+          "source_index": 616796
+        },
+        {
+          "coefficient": 2.4036921156480705e-08,
+          "column_position": 11438,
+          "source_index": 616850
+        },
+        {
+          "coefficient": -3.974037317803199e-08,
+          "column_position": 11482,
+          "source_index": 616898
+        },
+        {
+          "coefficient": -4.246802484468886e-08,
+          "column_position": 11491,
+          "source_index": 616908
+        },
+        {
+          "coefficient": -1.0692356082651187e-07,
+          "column_position": 11545,
+          "source_index": 616963
+        },
+        {
+          "coefficient": 8.367256778491135e-08,
+          "column_position": 11575,
+          "source_index": 616997
+        },
+        {
+          "coefficient": 2.604079045110686e-07,
+          "column_position": 11672,
+          "source_index": 617099
+        },
+        {
+          "coefficient": -9.575019127621153e-08,
+          "column_position": 11677,
+          "source_index": 617104
+        },
+        {
+          "coefficient": 5.567703409197397e-08,
+          "column_position": 11941,
+          "source_index": 617427
+        },
+        {
+          "coefficient": -1.1827628932781178e-07,
+          "column_position": 11943,
+          "source_index": 617429
+        },
+        {
+          "coefficient": -4.346011145961653e-08,
+          "column_position": 12095,
+          "source_index": 617591
+        },
+        {
+          "coefficient": -1.1609516904519233e-07,
+          "column_position": 12110,
+          "source_index": 617606
+        },
+        {
+          "coefficient": 5.5580995761579236e-08,
+          "column_position": 12233,
+          "source_index": 617737
+        },
+        {
+          "coefficient": -8.236940060590782e-08,
+          "column_position": 12314,
+          "source_index": 617823
+        },
+        {
+          "coefficient": -2.168784423822255e-07,
+          "column_position": 12355,
+          "source_index": 617864
+        },
+        {
+          "coefficient": 3.180855777623848e-08,
+          "column_position": 12523,
+          "source_index": 618042
+        },
+        {
+          "coefficient": -7.506987584632955e-09,
+          "column_position": 12559,
+          "source_index": 618079
+        },
+        {
+          "coefficient": -9.952565707765533e-08,
+          "column_position": 12588,
+          "source_index": 618112
+        },
+        {
+          "coefficient": -1.020593145866897e-08,
+          "column_position": 12602,
+          "source_index": 618126
+        },
+        {
+          "coefficient": -6.915562215222027e-08,
+          "column_position": 12655,
+          "source_index": 618181
+        },
+        {
+          "coefficient": 1.3809118233403943e-08,
+          "column_position": 12741,
+          "source_index": 618272
+        },
+        {
+          "coefficient": -7.20844772247157e-08,
+          "column_position": 12798,
+          "source_index": 618331
+        },
+        {
+          "coefficient": 4.49771355765441e-08,
+          "column_position": 12850,
+          "source_index": 618387
+        },
+        {
+          "coefficient": -5.4734551720783645e-08,
+          "column_position": 13003,
+          "source_index": 618547
+        },
+        {
+          "coefficient": -2.3852855716930955e-08,
+          "column_position": 13021,
+          "source_index": 618565
+        },
+        {
+          "coefficient": -1.6977812895042968e-08,
+          "column_position": 13111,
+          "source_index": 619050
+        },
+        {
+          "coefficient": 1.4465860744557019e-08,
+          "column_position": 13599,
+          "source_index": 619584
+        },
+        {
+          "coefficient": 2.819844361285205e-08,
+          "column_position": 13621,
+          "source_index": 619611
+        },
+        {
+          "coefficient": 8.392998811804935e-09,
+          "column_position": 13640,
+          "source_index": 619631
+        },
+        {
+          "coefficient": 6.693336356557899e-08,
+          "column_position": 13661,
+          "source_index": 619655
+        },
+        {
+          "coefficient": -1.4364489081189507e-07,
+          "column_position": 13737,
+          "source_index": 619738
+        },
+        {
+          "coefficient": -7.342085989729262e-08,
+          "column_position": 13779,
+          "source_index": 619784
+        },
+        {
+          "coefficient": -1.1854705988301136e-08,
+          "column_position": 13826,
+          "source_index": 619833
+        },
+        {
+          "coefficient": 1.0098540223051365e-07,
+          "column_position": 13889,
+          "source_index": 619904
+        },
+        {
+          "coefficient": -1.1959141836679325e-07,
+          "column_position": 13937,
+          "source_index": 619957
+        },
+        {
+          "coefficient": -1.082165953585095e-08,
+          "column_position": 13970,
+          "source_index": 619993
+        },
+        {
+          "coefficient": 3.397813384764388e-08,
+          "column_position": 14010,
+          "source_index": 620035
+        },
+        {
+          "coefficient": 1.9739940129257586e-08,
+          "column_position": 14061,
+          "source_index": 620548
+        },
+        {
+          "coefficient": 2.8184724489441225e-08,
+          "column_position": 14100,
+          "source_index": 620592
+        },
+        {
+          "coefficient": 3.597971677725863e-08,
+          "column_position": 14152,
+          "source_index": 620648
+        },
+        {
+          "coefficient": 8.19888797610377e-08,
+          "column_position": 14165,
+          "source_index": 620662
+        },
+        {
+          "coefficient": 4.2673343815399074e-08,
+          "column_position": 14326,
+          "source_index": 620839
+        },
+        {
+          "coefficient": 3.9189021978178525e-09,
+          "column_position": 14330,
+          "source_index": 620843
+        },
+        {
+          "coefficient": -6.08913924704537e-08,
+          "column_position": 14377,
+          "source_index": 620895
+        },
+        {
+          "coefficient": 2.4483605646403224e-08,
+          "column_position": 14444,
+          "source_index": 620968
+        },
+        {
+          "coefficient": 6.376119971919034e-08,
+          "column_position": 14471,
+          "source_index": 620995
+        },
+        {
+          "coefficient": 1.629042847587581e-08,
+          "column_position": 14517,
+          "source_index": 621047
+        },
+        {
+          "coefficient": 2.1532868683735807e-08,
+          "column_position": 14547,
+          "source_index": 621077
+        },
+        {
+          "coefficient": -3.58977834337834e-08,
+          "column_position": 14813,
+          "source_index": 621368
+        },
+        {
+          "coefficient": -1.535932786845829e-07,
+          "column_position": 14999,
+          "source_index": 621573
+        },
+        {
+          "coefficient": -3.0572831846122517e-09,
+          "column_position": 15184,
+          "source_index": 621844
+        },
+        {
+          "coefficient": 1.369592710393705e-07,
+          "column_position": 15327,
+          "source_index": 622003
+        },
+        {
+          "coefficient": 7.461984331680037e-08,
+          "column_position": 15349,
+          "source_index": 622025
+        },
+        {
+          "coefficient": -6.152721031738061e-08,
+          "column_position": 15451,
+          "source_index": 622628
+        },
+        {
+          "coefficient": 5.412114785718954e-08,
+          "column_position": 15531,
+          "source_index": 622732
+        },
+        {
+          "coefficient": 1.1628275292532114e-07,
+          "column_position": 15555,
+          "source_index": 622760
+        },
+        {
+          "coefficient": -3.246040795824398e-08,
+          "column_position": 15579,
+          "source_index": 622790
+        },
+        {
+          "coefficient": -2.3685239912781544e-08,
+          "column_position": 15866,
+          "source_index": 623152
+        },
+        {
+          "coefficient": 1.7944918388318863e-08,
+          "column_position": 16074,
+          "source_index": 623405
+        },
+        {
+          "coefficient": 3.049038118529534e-08,
+          "column_position": 16232,
+          "source_index": 623597
+        },
+        {
+          "coefficient": -2.2533291941277768e-08,
+          "column_position": 16345,
+          "source_index": 623735
+        },
+        {
+          "coefficient": 2.4889577134129226e-07,
+          "column_position": 16347,
+          "source_index": 623737
+        },
+        {
+          "coefficient": 8.320280173769793e-08,
+          "column_position": 16442,
+          "source_index": 623852
+        },
+        {
+          "coefficient": 1.7767128540992165e-08,
+          "column_position": 16461,
+          "source_index": 623877
+        },
+        {
+          "coefficient": 3.655787533800064e-08,
+          "column_position": 16481,
+          "source_index": 623900
+        },
+        {
+          "coefficient": -5.788338438527271e-08,
+          "column_position": 16493,
+          "source_index": 623914
+        },
+        {
+          "coefficient": 1.4820101463765645e-08,
+          "column_position": 16554,
+          "source_index": 623990
+        },
+        {
+          "coefficient": -4.56866247531753e-08,
+          "column_position": 16580,
+          "source_index": 624027
+        },
+        {
+          "coefficient": 3.746711947888238e-09,
+          "column_position": 16657,
+          "source_index": 624129
+        },
+        {
+          "coefficient": -1.4392918008311567e-07,
+          "column_position": 16673,
+          "source_index": 624149
+        },
+        {
+          "coefficient": 2.410430492825087e-07,
+          "column_position": 16714,
+          "source_index": 624205
+        },
+        {
+          "coefficient": -3.078674976474828e-08,
+          "column_position": 16739,
+          "source_index": 624235
+        },
+        {
+          "coefficient": -6.547018327574491e-08,
+          "column_position": 16747,
+          "source_index": 624246
+        },
+        {
+          "coefficient": 8.488274610572446e-09,
+          "column_position": 16779,
+          "source_index": 624287
+        },
+        {
+          "coefficient": 9.737539984572555e-09,
+          "column_position": 16780,
+          "source_index": 624288
+        },
+        {
+          "coefficient": -2.9530262315181693e-07,
+          "column_position": 17006,
+          "source_index": 624849
+        },
+        {
+          "coefficient": -5.134282912723864e-08,
+          "column_position": 17175,
+          "source_index": 625060
+        },
+        {
+          "coefficient": -1.6371235433837084e-08,
+          "column_position": 17186,
+          "source_index": 625072
+        },
+        {
+          "coefficient": 6.638119153155884e-08,
+          "column_position": 17200,
+          "source_index": 625090
+        },
+        {
+          "coefficient": -8.222221600036478e-08,
+          "column_position": 17207,
+          "source_index": 625098
+        },
+        {
+          "coefficient": 3.713021208367943e-07,
+          "column_position": 17322,
+          "source_index": 625238
+        },
+        {
+          "coefficient": -8.564965387976875e-08,
+          "column_position": 17446,
+          "source_index": 625392
+        },
+        {
+          "coefficient": 9.357680274025668e-08,
+          "column_position": 17529,
+          "source_index": 625497
+        },
+        {
+          "coefficient": 8.254738379636806e-08,
+          "column_position": 17534,
+          "source_index": 625502
+        },
+        {
+          "coefficient": -7.153114079905251e-08,
+          "column_position": 17548,
+          "source_index": 625518
+        },
+        {
+          "coefficient": 1.7129323155627145e-08,
+          "column_position": 17572,
+          "source_index": 625550
+        },
+        {
+          "coefficient": -1.1977333627462118e-07,
+          "column_position": 17600,
+          "source_index": 625587
+        },
+        {
+          "coefficient": -1.5242601649472552e-07,
+          "column_position": 17671,
+          "source_index": 625669
+        },
+        {
+          "coefficient": 5.6031626592015714e-08,
+          "column_position": 17938,
+          "source_index": 625992
+        },
+        {
+          "coefficient": 7.789321672889173e-09,
+          "column_position": 17972,
+          "source_index": 626034
+        },
+        {
+          "coefficient": 2.0111479477968878e-07,
+          "column_position": 18067,
+          "source_index": 626149
+        },
+        {
+          "coefficient": -2.7021239847161628e-08,
+          "column_position": 18161,
+          "source_index": 626263
+        },
+        {
+          "coefficient": -3.2042298043510824e-08,
+          "column_position": 18182,
+          "source_index": 626288
+        },
+        {
+          "coefficient": 1.830332921118883e-07,
+          "column_position": 18407,
+          "source_index": 626564
+        },
+        {
+          "coefficient": 5.315830421007821e-08,
+          "column_position": 18417,
+          "source_index": 626578
+        },
+        {
+          "coefficient": -6.502460601117345e-08,
+          "column_position": 18494,
+          "source_index": 626669
+        },
+        {
+          "coefficient": -5.87480545563919e-09,
+          "column_position": 18765,
+          "source_index": 627146
+        },
+        {
+          "coefficient": 2.506577219099933e-08,
+          "column_position": 18811,
+          "source_index": 627940
+        },
+        {
+          "coefficient": 1.6764417470329881e-09,
+          "column_position": 18813,
+          "source_index": 627942
+        },
+        {
+          "coefficient": -1.3777769069669476e-08,
+          "column_position": 18816,
+          "source_index": 627946
+        },
+        {
+          "coefficient": -1.4720506045770287e-08,
+          "column_position": 18901,
+          "source_index": 628043
+        },
+        {
+          "coefficient": 9.053047734216689e-08,
+          "column_position": 19010,
+          "source_index": 628946
+        },
+        {
+          "coefficient": 1.3113594426714844e-08,
+          "column_position": 19026,
+          "source_index": 628969
+        },
+        {
+          "coefficient": 6.455205125087039e-08,
+          "column_position": 19263,
+          "source_index": 631231
+        },
+        {
+          "coefficient": -9.651445771973697e-08,
+          "column_position": 19314,
+          "source_index": 631299
+        },
+        {
+          "coefficient": -8.119073358711382e-09,
+          "column_position": 19392,
+          "source_index": 631409
+        },
+        {
+          "coefficient": -2.3319568800931815e-09,
+          "column_position": 19520,
+          "source_index": 632238
+        },
+        {
+          "coefficient": 1.1450357910273525e-08,
+          "column_position": 19538,
+          "source_index": 632261
+        },
+        {
+          "coefficient": -2.512020504469629e-08,
+          "column_position": 19579,
+          "source_index": 632335
+        },
+        {
+          "coefficient": 3.3702772811964093e-10,
+          "column_position": 19713,
+          "source_index": 632535
+        },
+        {
+          "coefficient": 3.3495177233683946e-08,
+          "column_position": 19776,
+          "source_index": 632603
+        },
+        {
+          "coefficient": 1.0016486789698342e-07,
+          "column_position": 19955,
+          "source_index": 632792
+        },
+        {
+          "coefficient": 1.0020449781494378e-07,
+          "column_position": 20022,
+          "source_index": 632863
+        },
+        {
+          "coefficient": -1.1093314272901977e-07,
+          "column_position": 20130,
+          "source_index": 632977
+        },
+        {
+          "coefficient": -8.127551379068387e-08,
+          "column_position": 20140,
+          "source_index": 632987
+        },
+        {
+          "coefficient": -2.958197925720926e-08,
+          "column_position": 20188,
+          "source_index": 633041
+        },
+        {
+          "coefficient": 3.553484226227533e-08,
+          "column_position": 20218,
+          "source_index": 633076
+        },
+        {
+          "coefficient": -3.9402685873140343e-08,
+          "column_position": 20287,
+          "source_index": 633151
+        },
+        {
+          "coefficient": 4.337453095947477e-08,
+          "column_position": 20329,
+          "source_index": 633196
+        },
+        {
+          "coefficient": -2.2626780834818644e-08,
+          "column_position": 20453,
+          "source_index": 633333
+        },
+        {
+          "coefficient": -1.5805182787245927e-08,
+          "column_position": 20457,
+          "source_index": 633337
+        },
+        {
+          "coefficient": 7.255381606226188e-08,
+          "column_position": 20537,
+          "source_index": 633424
+        },
+        {
+          "coefficient": -6.52093474724509e-08,
+          "column_position": 20595,
+          "source_index": 633488
+        },
+        {
+          "coefficient": 3.0205840190030996e-08,
+          "column_position": 20731,
+          "source_index": 633633
+        },
+        {
+          "coefficient": 3.671422300853993e-08,
+          "column_position": 20767,
+          "source_index": 633671
+        },
+        {
+          "coefficient": 2.2629611198084635e-07,
+          "column_position": 20942,
+          "source_index": 633869
+        },
+        {
+          "coefficient": -8.424708505498683e-08,
+          "column_position": 21122,
+          "source_index": 634066
+        },
+        {
+          "coefficient": -2.15763451225174e-08,
+          "column_position": 21137,
+          "source_index": 634082
+        },
+        {
+          "coefficient": -2.2790094569199666e-08,
+          "column_position": 21160,
+          "source_index": 634105
+        },
+        {
+          "coefficient": -2.1053055849446704e-08,
+          "column_position": 21167,
+          "source_index": 634115
+        },
+        {
+          "coefficient": 6.692785894824051e-08,
+          "column_position": 21183,
+          "source_index": 634133
+        },
+        {
+          "coefficient": -3.6854513912053276e-08,
+          "column_position": 21313,
+          "source_index": 634278
+        },
+        {
+          "coefficient": 2.884739181863237e-08,
+          "column_position": 21335,
+          "source_index": 634304
+        },
+        {
+          "coefficient": 4.468776493488768e-09,
+          "column_position": 21395,
+          "source_index": 634380
+        },
+        {
+          "coefficient": 4.9672426440556785e-08,
+          "column_position": 21397,
+          "source_index": 634382
+        },
+        {
+          "coefficient": -4.313306120834189e-08,
+          "column_position": 21422,
+          "source_index": 634417
+        },
+        {
+          "coefficient": -6.913325566633048e-08,
+          "column_position": 21482,
+          "source_index": 634487
+        },
+        {
+          "coefficient": -4.111257540911944e-09,
+          "column_position": 21541,
+          "source_index": 634559
+        },
+        {
+          "coefficient": 1.5888434839441685e-08,
+          "column_position": 21591,
+          "source_index": 634620
+        },
+        {
+          "coefficient": 1.2044335487457764e-07,
+          "column_position": 21633,
+          "source_index": 634670
+        },
+        {
+          "coefficient": 2.1341497126148384e-08,
+          "column_position": 21680,
+          "source_index": 634730
+        },
+        {
+          "coefficient": 1.0465325578531072e-07,
+          "column_position": 21704,
+          "source_index": 634760
+        },
+        {
+          "coefficient": 1.6645672346605234e-07,
+          "column_position": 21892,
+          "source_index": 634990
+        },
+        {
+          "coefficient": 1.223484975174315e-07,
+          "column_position": 21902,
+          "source_index": 635003
+        },
+        {
+          "coefficient": 2.3050768700142196e-09,
+          "column_position": 21907,
+          "source_index": 635009
+        },
+        {
+          "coefficient": -1.2185573203301563e-08,
+          "column_position": 21947,
+          "source_index": 635055
+        },
+        {
+          "coefficient": -2.2096142555910877e-08,
+          "column_position": 21957,
+          "source_index": 635068
+        },
+        {
+          "coefficient": -6.370044255154647e-09,
+          "column_position": 22004,
+          "source_index": 635126
+        },
+        {
+          "coefficient": -1.5458752296894353e-07,
+          "column_position": 22056,
+          "source_index": 635190
+        },
+        {
+          "coefficient": -9.911628612730818e-08,
+          "column_position": 22057,
+          "source_index": 635191
+        },
+        {
+          "coefficient": 1.3960070430730656e-07,
+          "column_position": 22237,
+          "source_index": 635406
+        },
+        {
+          "coefficient": -1.2597392659771746e-07,
+          "column_position": 22266,
+          "source_index": 635443
+        },
+        {
+          "coefficient": 5.179222437515402e-08,
+          "column_position": 22531,
+          "source_index": 635771
+        },
+        {
+          "coefficient": 1.1405423671947808e-07,
+          "column_position": 22612,
+          "source_index": 635872
+        },
+        {
+          "coefficient": -7.152241728300792e-08,
+          "column_position": 22729,
+          "source_index": 636037
+        },
+        {
+          "coefficient": 7.357130216342224e-08,
+          "column_position": 22755,
+          "source_index": 636064
+        },
+        {
+          "coefficient": 2.9016662981055554e-09,
+          "column_position": 22958,
+          "source_index": 636268
+        },
+        {
+          "coefficient": 4.412802420752828e-10,
+          "column_position": 23210,
+          "source_index": 636522
+        },
+        {
+          "coefficient": 1.9078968002345647e-08,
+          "column_position": 23313,
+          "source_index": 636626
+        },
+        {
+          "coefficient": 5.660439825582082e-09,
+          "column_position": 23367,
+          "source_index": 636681
+        },
+        {
+          "coefficient": 2.2936758785607137e-07,
+          "column_position": 23372,
+          "source_index": 636686
+        },
+        {
+          "coefficient": -4.102868314626029e-08,
+          "column_position": 23397,
+          "source_index": 636711
+        },
+        {
+          "coefficient": 3.435028541238485e-08,
+          "column_position": 23438,
+          "source_index": 636752
+        },
+        {
+          "coefficient": 9.120666943189733e-08,
+          "column_position": 23454,
+          "source_index": 636768
+        },
+        {
+          "coefficient": 1.1847386332560476e-07,
+          "column_position": 23508,
+          "source_index": 636823
+        },
+        {
+          "coefficient": -2.2745497286505638e-07,
+          "column_position": 23543,
+          "source_index": 636859
+        },
+        {
+          "coefficient": 2.1257574286904562e-08,
+          "column_position": 23580,
+          "source_index": 636896
+        },
+        {
+          "coefficient": 1.757429348154854e-08,
+          "column_position": 23585,
+          "source_index": 636901
+        },
+        {
+          "coefficient": -1.895652917275253e-08,
+          "column_position": 23596,
+          "source_index": 636912
+        },
+        {
+          "coefficient": 5.985586050872812e-08,
+          "column_position": 23615,
+          "source_index": 636931
+        },
+        {
+          "coefficient": -7.517425346926411e-08,
+          "column_position": 23620,
+          "source_index": 636937
+        },
+        {
+          "coefficient": 9.228360787519417e-08,
+          "column_position": 23650,
+          "source_index": 636967
+        },
+        {
+          "coefficient": -7.798123408729323e-08,
+          "column_position": 23725,
+          "source_index": 637042
+        },
+        {
+          "coefficient": 1.1688785595288783e-07,
+          "column_position": 23727,
+          "source_index": 637044
+        },
+        {
+          "coefficient": -4.3260146614536484e-08,
+          "column_position": 23745,
+          "source_index": 637189
+        },
+        {
+          "coefficient": 5.426400137903495e-08,
+          "column_position": 23825,
+          "source_index": 637270
+        },
+        {
+          "coefficient": 1.507013252613226e-08,
+          "column_position": 23970,
+          "source_index": 637417
+        },
+        {
+          "coefficient": -1.6171995667919739e-07,
+          "column_position": 24019,
+          "source_index": 637466
+        },
+        {
+          "coefficient": -1.8670673167017764e-07,
+          "column_position": 24355,
+          "source_index": 637806
+        },
+        {
+          "coefficient": 5.843107809730022e-08,
+          "column_position": 24366,
+          "source_index": 637817
+        },
+        {
+          "coefficient": 1.6061026930320985e-07,
+          "column_position": 24393,
+          "source_index": 637845
+        },
+        {
+          "coefficient": 1.3677881651484114e-07,
+          "column_position": 24405,
+          "source_index": 637857
+        },
+        {
+          "coefficient": 1.1267957483951023e-07,
+          "column_position": 24532,
+          "source_index": 637985
+        },
+        {
+          "coefficient": 5.340295334195419e-08,
+          "column_position": 24597,
+          "source_index": 638051
+        },
+        {
+          "coefficient": 1.9542278547458052e-07,
+          "column_position": 24632,
+          "source_index": 638087
+        },
+        {
+          "coefficient": 3.0956289821606604e-07,
+          "column_position": 24687,
+          "source_index": 638142
+        },
+        {
+          "coefficient": 2.283730588632682e-09,
+          "column_position": 24787,
+          "source_index": 638243
+        },
+        {
+          "coefficient": -5.615639325557645e-08,
+          "column_position": 24813,
+          "source_index": 638269
+        },
+        {
+          "coefficient": -1.3531646352145186e-08,
+          "column_position": 24875,
+          "source_index": 638332
+        },
+        {
+          "coefficient": 5.6361788950966346e-09,
+          "column_position": 24974,
+          "source_index": 638432
+        },
+        {
+          "coefficient": 2.3267566133075827e-07,
+          "column_position": 25008,
+          "source_index": 638466
+        },
+        {
+          "coefficient": 3.2183680031936454e-08,
+          "column_position": 25034,
+          "source_index": 638492
+        },
+        {
+          "coefficient": -1.7264311658250262e-08,
+          "column_position": 25095,
+          "source_index": 638554
+        },
+        {
+          "coefficient": -8.028055857094016e-09,
+          "column_position": 25140,
+          "source_index": 638619
+        },
+        {
+          "coefficient": -1.629232748059236e-07,
+          "column_position": 25187,
+          "source_index": 638666
+        },
+        {
+          "coefficient": 1.6327253993964028e-09,
+          "column_position": 25256,
+          "source_index": 638747
+        },
+        {
+          "coefficient": -7.249955159655428e-09,
+          "column_position": 25281,
+          "source_index": 638779
+        },
+        {
+          "coefficient": 5.1675549289168714e-08,
+          "column_position": 25323,
+          "source_index": 638831
+        },
+        {
+          "coefficient": 1.4192476263031782e-08,
+          "column_position": 25406,
+          "source_index": 638927
+        },
+        {
+          "coefficient": 3.2484331100788445e-09,
+          "column_position": 25413,
+          "source_index": 638936
+        },
+        {
+          "coefficient": 5.008790861778819e-08,
+          "column_position": 25420,
+          "source_index": 638945
+        },
+        {
+          "coefficient": -4.580843408849773e-09,
+          "column_position": 25441,
+          "source_index": 638972
+        },
+        {
+          "coefficient": -3.833176096032417e-08,
+          "column_position": 25498,
+          "source_index": 639044
+        },
+        {
+          "coefficient": -3.672591956937413e-08,
+          "column_position": 25837,
+          "source_index": 639885
+        },
+        {
+          "coefficient": 1.306982318967331e-08,
+          "column_position": 25870,
+          "source_index": 639918
+        },
+        {
+          "coefficient": -4.434815269664504e-08,
+          "column_position": 25985,
+          "source_index": 640054
+        },
+        {
+          "coefficient": 4.180268041730898e-08,
+          "column_position": 26004,
+          "source_index": 640073
+        },
+        {
+          "coefficient": -1.2918869468905252e-07,
+          "column_position": 26010,
+          "source_index": 640079
+        },
+        {
+          "coefficient": 2.7976670046075056e-08,
+          "column_position": 26089,
+          "source_index": 640233
+        },
+        {
+          "coefficient": 2.976339440768933e-08,
+          "column_position": 26096,
+          "source_index": 640240
+        },
+        {
+          "coefficient": 6.73648513939602e-08,
+          "column_position": 26413,
+          "source_index": 640654
+        },
+        {
+          "coefficient": -5.495883664066449e-08,
+          "column_position": 26423,
+          "source_index": 640664
+        },
+        {
+          "coefficient": -5.836711753305503e-08,
+          "column_position": 26517,
+          "source_index": 640773
+        },
+        {
+          "coefficient": 1.7287515542985458e-08,
+          "column_position": 26531,
+          "source_index": 640789
+        },
+        {
+          "coefficient": -6.290690774052417e-08,
+          "column_position": 26622,
+          "source_index": 640881
+        },
+        {
+          "coefficient": -2.768410643084311e-09,
+          "column_position": 26660,
+          "source_index": 640929
+        },
+        {
+          "coefficient": 4.9977365441561034e-08,
+          "column_position": 26715,
+          "source_index": 640988
+        },
+        {
+          "coefficient": -9.938413009347944e-09,
+          "column_position": 26892,
+          "source_index": 641201
+        },
+        {
+          "coefficient": 8.970283748833961e-08,
+          "column_position": 26971,
+          "source_index": 641311
+        },
+        {
+          "coefficient": 1.570943714714752e-07,
+          "column_position": 27001,
+          "source_index": 641345
+        },
+        {
+          "coefficient": -9.247926111816552e-09,
+          "column_position": 27006,
+          "source_index": 641350
+        },
+        {
+          "coefficient": -1.266853257303869e-07,
+          "column_position": 27010,
+          "source_index": 641355
+        },
+        {
+          "coefficient": 2.782380617371253e-08,
+          "column_position": 27040,
+          "source_index": 641385
+        },
+        {
+          "coefficient": 3.929244473765905e-09,
+          "column_position": 27113,
+          "source_index": 641459
+        },
+        {
+          "coefficient": -1.2950908366194229e-08,
+          "column_position": 27167,
+          "source_index": 641522
+        },
+        {
+          "coefficient": -5.5743836537317845e-08,
+          "column_position": 27252,
+          "source_index": 641615
+        },
+        {
+          "coefficient": 8.133143066885536e-08,
+          "column_position": 27318,
+          "source_index": 641716
+        },
+        {
+          "coefficient": -1.1447899442818745e-08,
+          "column_position": 27368,
+          "source_index": 641773
+        },
+        {
+          "coefficient": -3.4454563623207306e-08,
+          "column_position": 27530,
+          "source_index": 641972
+        },
+        {
+          "coefficient": -2.5119413896249986e-08,
+          "column_position": 27590,
+          "source_index": 642040
+        },
+        {
+          "coefficient": 4.1669259996836005e-08,
+          "column_position": 27595,
+          "source_index": 642045
+        },
+        {
+          "coefficient": -3.791801935684644e-08,
+          "column_position": 27646,
+          "source_index": 642101
+        },
+        {
+          "coefficient": 3.599777239890679e-08,
+          "column_position": 27790,
+          "source_index": 642267
+        },
+        {
+          "coefficient": -3.057474548285501e-07,
+          "column_position": 27903,
+          "source_index": 642401
+        },
+        {
+          "coefficient": -1.2190695009479028e-07,
+          "column_position": 28108,
+          "source_index": 642625
+        },
+        {
+          "coefficient": 1.387408338478866e-07,
+          "column_position": 28132,
+          "source_index": 642652
+        },
+        {
+          "coefficient": 3.198883929787424e-09,
+          "column_position": 28182,
+          "source_index": 642702
+        },
+        {
+          "coefficient": 4.460773360485012e-08,
+          "column_position": 28255,
+          "source_index": 642788
+        },
+        {
+          "coefficient": 1.9007688744929367e-07,
+          "column_position": 28261,
+          "source_index": 642794
+        },
+        {
+          "coefficient": 2.802766610937704e-08,
+          "column_position": 28289,
+          "source_index": 642823
+        },
+        {
+          "coefficient": -8.951921428031137e-08,
+          "column_position": 28349,
+          "source_index": 644744
+        },
+        {
+          "coefficient": -2.2655633383298383e-08,
+          "column_position": 28492,
+          "source_index": 644924
+        },
+        {
+          "coefficient": 2.085282042483668e-07,
+          "column_position": 28534,
+          "source_index": 644967
+        },
+        {
+          "coefficient": 8.753088671964766e-08,
+          "column_position": 28540,
+          "source_index": 644973
+        },
+        {
+          "coefficient": -3.637546237394031e-08,
+          "column_position": 28624,
+          "source_index": 645061
+        },
+        {
+          "coefficient": 1.6661322125187985e-07,
+          "column_position": 28671,
+          "source_index": 645108
+        },
+        {
+          "coefficient": 8.648775150702509e-08,
+          "column_position": 28811,
+          "source_index": 645396
+        },
+        {
+          "coefficient": 1.2396936391425844e-07,
+          "column_position": 28920,
+          "source_index": 645506
+        },
+        {
+          "coefficient": -5.995706933391365e-09,
+          "column_position": 29155,
+          "source_index": 645742
+        },
+        {
+          "coefficient": -3.78231092407613e-08,
+          "column_position": 29276,
+          "source_index": 645895
+        },
+        {
+          "coefficient": 3.665656067644426e-08,
+          "column_position": 29413,
+          "source_index": 646085
+        },
+        {
+          "coefficient": -1.189725145408577e-08,
+          "column_position": 29434,
+          "source_index": 646128
+        },
+        {
+          "coefficient": 8.352607178892365e-08,
+          "column_position": 29466,
+          "source_index": 646171
+        },
+        {
+          "coefficient": 3.4114653364712723e-08,
+          "column_position": 29485,
+          "source_index": 646196
+        },
+        {
+          "coefficient": 1.4424589657831823e-08,
+          "column_position": 29552,
+          "source_index": 646281
+        },
+        {
+          "coefficient": 6.63810462636724e-08,
+          "column_position": 29560,
+          "source_index": 646289
+        },
+        {
+          "coefficient": -5.880506836071623e-09,
+          "column_position": 29582,
+          "source_index": 646312
+        },
+        {
+          "coefficient": -3.889336165800446e-08,
+          "column_position": 29640,
+          "source_index": 646374
+        },
+        {
+          "coefficient": -8.058929968698029e-10,
+          "column_position": 29713,
+          "source_index": 646462
+        },
+        {
+          "coefficient": 7.049886594319659e-08,
+          "column_position": 29718,
+          "source_index": 646468
+        },
+        {
+          "coefficient": 4.075341050907992e-08,
+          "column_position": 29814,
+          "source_index": 646982
+        },
+        {
+          "coefficient": 8.02539633507209e-08,
+          "column_position": 29927,
+          "source_index": 647111
+        },
+        {
+          "coefficient": 1.4537173605641256e-07,
+          "column_position": 29979,
+          "source_index": 647163
+        },
+        {
+          "coefficient": 5.197885321036994e-08,
+          "column_position": 30173,
+          "source_index": 647474
+        },
+        {
+          "coefficient": -3.4179608500861222e-09,
+          "column_position": 30246,
+          "source_index": 647563
+        },
+        {
+          "coefficient": -1.1679173305379001e-07,
+          "column_position": 30312,
+          "source_index": 647643
+        },
+        {
+          "coefficient": -4.8216096607687804e-09,
+          "column_position": 30508,
+          "source_index": 647865
+        },
+        {
+          "coefficient": -1.838176733375216e-08,
+          "column_position": 30677,
+          "source_index": 648034
+        },
+        {
+          "coefficient": 8.065637699167444e-08,
+          "column_position": 30817,
+          "source_index": 648174
+        },
+        {
+          "coefficient": -3.7251554793881397e-08,
+          "column_position": 30840,
+          "source_index": 648197
+        },
+        {
+          "coefficient": 5.990216435578953e-08,
+          "column_position": 30897,
+          "source_index": 648254
+        },
+        {
+          "coefficient": -4.73273795434624e-10,
+          "column_position": 31190,
+          "source_index": 648547
+        },
+        {
+          "coefficient": -1.1643937995051887e-08,
+          "column_position": 31211,
+          "source_index": 648568
+        },
+        {
+          "coefficient": 2.0457841766534234e-07,
+          "column_position": 31228,
+          "source_index": 648585
+        },
+        {
+          "coefficient": 6.753651909428703e-09,
+          "column_position": 31328,
+          "source_index": 648685
+        },
+        {
+          "coefficient": -2.370081198123261e-08,
+          "column_position": 31356,
+          "source_index": 648713
+        },
+        {
+          "coefficient": -2.678227094557815e-08,
+          "column_position": 31413,
+          "source_index": 648770
+        },
+        {
+          "coefficient": -2.0613622339530596e-07,
+          "column_position": 31462,
+          "source_index": 648819
+        },
+        {
+          "coefficient": 1.4059369615314059e-08,
+          "column_position": 31700,
+          "source_index": 649057
+        },
+        {
+          "coefficient": 9.172402235039812e-08,
+          "column_position": 31820,
+          "source_index": 649177
+        },
+        {
+          "coefficient": -2.144767657518843e-08,
+          "column_position": 31922,
+          "source_index": 649279
+        },
+        {
+          "coefficient": -1.2624633033944195e-07,
+          "column_position": 31924,
+          "source_index": 649281
+        },
+        {
+          "coefficient": -1.4747144113357566e-07,
+          "column_position": 31978,
+          "source_index": 649335
+        },
+        {
+          "coefficient": -6.84941844555654e-08,
+          "column_position": 32046,
+          "source_index": 649403
+        },
+        {
+          "coefficient": 5.086768875482217e-08,
+          "column_position": 32105,
+          "source_index": 649462
+        },
+        {
+          "coefficient": 8.397324340927534e-08,
+          "column_position": 32192,
+          "source_index": 649549
+        },
+        {
+          "coefficient": -6.816171765198776e-08,
+          "column_position": 32196,
+          "source_index": 649553
+        },
+        {
+          "coefficient": -3.1063543290898423e-07,
+          "column_position": 32232,
+          "source_index": 649589
+        },
+        {
+          "coefficient": -6.180771441193625e-08,
+          "column_position": 32244,
+          "source_index": 649601
+        },
+        {
+          "coefficient": 2.3004698128600023e-07,
+          "column_position": 32374,
+          "source_index": 649731
+        },
+        {
+          "coefficient": -2.1054278334595786e-08,
+          "column_position": 32452,
+          "source_index": 649809
+        },
+        {
+          "coefficient": -2.3175515902534092e-08,
+          "column_position": 32467,
+          "source_index": 649824
+        },
+        {
+          "coefficient": 6.986861699926324e-08,
+          "column_position": 32476,
+          "source_index": 649833
+        },
+        {
+          "coefficient": -1.5955158854343052e-07,
+          "column_position": 32482,
+          "source_index": 649839
+        },
+        {
+          "coefficient": -8.568907176112941e-08,
+          "column_position": 32533,
+          "source_index": 649890
+        },
+        {
+          "coefficient": -3.766041163734799e-08,
+          "column_position": 32565,
+          "source_index": 649922
+        },
+        {
+          "coefficient": 7.28021385809034e-09,
+          "column_position": 32658,
+          "source_index": 650015
+        },
+        {
+          "coefficient": -1.3626249736470193e-07,
+          "column_position": 32660,
+          "source_index": 650017
+        },
+        {
+          "coefficient": 2.1470589967194758e-07,
+          "column_position": 32718,
+          "source_index": 650075
+        },
+        {
+          "coefficient": 1.41604674836881e-09,
+          "column_position": 32794,
+          "source_index": 650151
+        },
+        {
+          "coefficient": 3.4253018696237784e-08,
+          "column_position": 32813,
+          "source_index": 650170
+        },
+        {
+          "coefficient": -1.0481511456407558e-07,
+          "column_position": 32965,
+          "source_index": 650332
+        },
+        {
+          "coefficient": -1.8411272363972103e-07,
+          "column_position": 33101,
+          "source_index": 650485
+        },
+        {
+          "coefficient": -1.0826234269326614e-09,
+          "column_position": 33129,
+          "source_index": 650513
+        },
+        {
+          "coefficient": 1.9164313541783968e-08,
+          "column_position": 33264,
+          "source_index": 650648
+        },
+        {
+          "coefficient": -2.3368129064764962e-08,
+          "column_position": 33340,
+          "source_index": 652469
+        },
+        {
+          "coefficient": -2.1582324372200754e-07,
+          "column_position": 33358,
+          "source_index": 652487
+        },
+        {
+          "coefficient": 2.7200767346564273e-08,
+          "column_position": 33413,
+          "source_index": 652543
+        },
+        {
+          "coefficient": 6.929820110849444e-08,
+          "column_position": 33459,
+          "source_index": 652589
+        },
+        {
+          "coefficient": -1.3169997496276325e-07,
+          "column_position": 33533,
+          "source_index": 652664
+        },
+        {
+          "coefficient": 5.897851339100655e-08,
+          "column_position": 33566,
+          "source_index": 652753
+        },
+        {
+          "coefficient": 2.9037526761164336e-08,
+          "column_position": 33625,
+          "source_index": 652812
+        },
+        {
+          "coefficient": -6.088677602687924e-08,
+          "column_position": 33632,
+          "source_index": 652819
+        },
+        {
+          "coefficient": 6.810156234299897e-08,
+          "column_position": 33678,
+          "source_index": 652865
+        },
+        {
+          "coefficient": -1.225309224582699e-07,
+          "column_position": 33703,
+          "source_index": 652953
+        },
+        {
+          "coefficient": 8.428404177189131e-08,
+          "column_position": 33730,
+          "source_index": 652980
+        },
+        {
+          "coefficient": -9.777644917868647e-09,
+          "column_position": 33893,
+          "source_index": 653490
+        },
+        {
+          "coefficient": 1.5135031517046563e-08,
+          "column_position": 33962,
+          "source_index": 653796
+        },
+        {
+          "coefficient": -3.6330927247769375e-08,
+          "column_position": 33976,
+          "source_index": 653812
+        },
+        {
+          "coefficient": 1.207932877074613e-07,
+          "column_position": 34088,
+          "source_index": 654173
+        },
+        {
+          "coefficient": -5.9223418167126654e-09,
+          "column_position": 34157,
+          "source_index": 654273
+        },
+        {
+          "coefficient": -1.51946097388032e-07,
+          "column_position": 34307,
+          "source_index": 654481
+        },
+        {
+          "coefficient": -7.554878639358379e-08,
+          "column_position": 34486,
+          "source_index": 655621
+        },
+        {
+          "coefficient": -5.494170460184542e-09,
+          "column_position": 34606,
+          "source_index": 655754
+        },
+        {
+          "coefficient": 1.813344930675558e-07,
+          "column_position": 34645,
+          "source_index": 655805
+        },
+        {
+          "coefficient": 9.032220755764866e-08,
+          "column_position": 34662,
+          "source_index": 655833
+        },
+        {
+          "coefficient": -1.1537248742974368e-08,
+          "column_position": 34725,
+          "source_index": 655899
+        },
+        {
+          "coefficient": -4.203593655954945e-08,
+          "column_position": 34763,
+          "source_index": 655938
+        },
+        {
+          "coefficient": 1.1001991315234281e-07,
+          "column_position": 34859,
+          "source_index": 656038
+        },
+        {
+          "coefficient": 1.0929214251900297e-07,
+          "column_position": 34978,
+          "source_index": 656344
+        },
+        {
+          "coefficient": -8.757916712940303e-08,
+          "column_position": 35008,
+          "source_index": 656379
+        },
+        {
+          "coefficient": 3.335956831859957e-08,
+          "column_position": 35059,
+          "source_index": 656434
+        },
+        {
+          "coefficient": -2.7947157845569134e-08,
+          "column_position": 35081,
+          "source_index": 656838
+        },
+        {
+          "coefficient": -7.290643341673903e-08,
+          "column_position": 35084,
+          "source_index": 656841
+        },
+        {
+          "coefficient": -6.464593861395731e-08,
+          "column_position": 35090,
+          "source_index": 656848
+        },
+        {
+          "coefficient": 4.6418394432299814e-08,
+          "column_position": 35138,
+          "source_index": 656911
+        },
+        {
+          "coefficient": 2.903743091554568e-09,
+          "column_position": 35154,
+          "source_index": 656931
+        },
+        {
+          "coefficient": -6.610462368537911e-08,
+          "column_position": 35314,
+          "source_index": 657842
+        },
+        {
+          "coefficient": 1.2506128106830764e-09,
+          "column_position": 35331,
+          "source_index": 657863
+        },
+        {
+          "coefficient": 3.611844182477207e-08,
+          "column_position": 35352,
+          "source_index": 657884
+        },
+        {
+          "coefficient": 2.384096238928806e-08,
+          "column_position": 35374,
+          "source_index": 657907
+        },
+        {
+          "coefficient": 7.837995524044939e-08,
+          "column_position": 35433,
+          "source_index": 658085
+        },
+        {
+          "coefficient": -8.470000730169006e-08,
+          "column_position": 35506,
+          "source_index": 658361
+        },
+        {
+          "coefficient": 3.370251891722094e-08,
+          "column_position": 35544,
+          "source_index": 658406
+        },
+        {
+          "coefficient": -1.7380504856804436e-07,
+          "column_position": 35594,
+          "source_index": 658677
+        },
+        {
+          "coefficient": 6.705905954315521e-09,
+          "column_position": 35605,
+          "source_index": 658690
+        },
+        {
+          "coefficient": -5.583197600088443e-09,
+          "column_position": 35640,
+          "source_index": 658739
+        },
+        {
+          "coefficient": -4.987796943729095e-08,
+          "column_position": 35723,
+          "source_index": 660128
+        },
+        {
+          "coefficient": -8.44952658370612e-08,
+          "column_position": 35767,
+          "source_index": 660190
+        },
+        {
+          "coefficient": 2.3414962909520916e-08,
+          "column_position": 35800,
+          "source_index": 660225
+        },
+        {
+          "coefficient": 1.1314771507896649e-07,
+          "column_position": 35814,
+          "source_index": 660239
+        },
+        {
+          "coefficient": -1.1214989119468317e-07,
+          "column_position": 35815,
+          "source_index": 660240
+        },
+        {
+          "coefficient": 2.2738843509819425e-08,
+          "column_position": 35922,
+          "source_index": 660347
+        },
+        {
+          "coefficient": -1.5771601667594782e-07,
+          "column_position": 35942,
+          "source_index": 660367
+        },
+        {
+          "coefficient": 6.9468308803037e-08,
+          "column_position": 36002,
+          "source_index": 660427
+        },
+        {
+          "coefficient": -1.3470813478366999e-07,
+          "column_position": 36021,
+          "source_index": 660447
+        },
+        {
+          "coefficient": 1.3073162852168376e-07,
+          "column_position": 36095,
+          "source_index": 660526
+        },
+        {
+          "coefficient": -2.3579654206602836e-08,
+          "column_position": 36102,
+          "source_index": 660533
+        },
+        {
+          "coefficient": -4.150692896374083e-08,
+          "column_position": 36192,
+          "source_index": 661049
+        },
+        {
+          "coefficient": 4.6379006780563046e-08,
+          "column_position": 36235,
+          "source_index": 661096
+        },
+        {
+          "coefficient": -1.5303598415267972e-07,
+          "column_position": 36240,
+          "source_index": 661101
+        },
+        {
+          "coefficient": -1.4953554456015968e-07,
+          "column_position": 36297,
+          "source_index": 661158
+        },
+        {
+          "coefficient": 4.048786581891958e-08,
+          "column_position": 36308,
+          "source_index": 661169
+        },
+        {
+          "coefficient": -6.228157362757326e-08,
+          "column_position": 36316,
+          "source_index": 661178
+        },
+        {
+          "coefficient": -7.062951619353832e-08,
+          "column_position": 36357,
+          "source_index": 661228
+        },
+        {
+          "coefficient": -6.608301935689204e-08,
+          "column_position": 36404,
+          "source_index": 661283
+        },
+        {
+          "coefficient": -7.55272049136858e-09,
+          "column_position": 36434,
+          "source_index": 661313
+        },
+        {
+          "coefficient": -1.466144831685101e-08,
+          "column_position": 36580,
+          "source_index": 661627
+        },
+        {
+          "coefficient": -1.214363566291993e-07,
+          "column_position": 36728,
+          "source_index": 662713
+        },
+        {
+          "coefficient": 8.152493585073775e-08,
+          "column_position": 36732,
+          "source_index": 662718
+        },
+        {
+          "coefficient": -5.047286175515183e-08,
+          "column_position": 36777,
+          "source_index": 662767
+        },
+        {
+          "coefficient": -1.0225060757629706e-07,
+          "column_position": 36984,
+          "source_index": 663594
+        },
+        {
+          "coefficient": 2.373957400408018e-08,
+          "column_position": 37035,
+          "source_index": 663694
+        },
+        {
+          "coefficient": -1.451623287044733e-07,
+          "column_position": 37038,
+          "source_index": 665303
+        },
+        {
+          "coefficient": 1.5466472252730325e-07,
+          "column_position": 37098,
+          "source_index": 665543
+        },
+        {
+          "coefficient": -3.786103130045686e-09,
+          "column_position": 37142,
+          "source_index": 665587
+        },
+        {
+          "coefficient": 5.6976596430262485e-09,
+          "column_position": 37210,
+          "source_index": 665662
+        },
+        {
+          "coefficient": -1.9169748121383114e-07,
+          "column_position": 37302,
+          "source_index": 665777
+        },
+        {
+          "coefficient": 1.5442591406020538e-08,
+          "column_position": 37323,
+          "source_index": 665801
+        },
+        {
+          "coefficient": -5.4706475677173205e-08,
+          "column_position": 37407,
+          "source_index": 665889
+        },
+        {
+          "coefficient": -7.217742568534481e-09,
+          "column_position": 37445,
+          "source_index": 665928
+        },
+        {
+          "coefficient": -3.54579485858559e-08,
+          "column_position": 37489,
+          "source_index": 665973
+        },
+        {
+          "coefficient": -1.2952324789726164e-07,
+          "column_position": 37526,
+          "source_index": 666010
+        },
+        {
+          "coefficient": -5.918056516738473e-08,
+          "column_position": 37666,
+          "source_index": 666166
+        },
+        {
+          "coefficient": -3.27639659554776e-08,
+          "column_position": 37775,
+          "source_index": 666434
+        },
+        {
+          "coefficient": -7.357870430343801e-08,
+          "column_position": 37804,
+          "source_index": 666745
+        },
+        {
+          "coefficient": -4.425892625648561e-08,
+          "column_position": 38003,
+          "source_index": 666973
+        },
+        {
+          "coefficient": 3.3583171582049716e-08,
+          "column_position": 38168,
+          "source_index": 667669
+        },
+        {
+          "coefficient": 1.4038074948852105e-08,
+          "column_position": 38171,
+          "source_index": 667674
+        },
+        {
+          "coefficient": 7.236758174952421e-09,
+          "column_position": 38434,
+          "source_index": 669760
+        },
+        {
+          "coefficient": -2.1257159619493137e-08,
+          "column_position": 38446,
+          "source_index": 669772
+        },
+        {
+          "coefficient": 8.975955012847376e-08,
+          "column_position": 38453,
+          "source_index": 669779
+        },
+        {
+          "coefficient": -6.43964537896323e-08,
+          "column_position": 38512,
+          "source_index": 669851
+        },
+        {
+          "coefficient": -2.4652124122414946e-09,
+          "column_position": 38532,
+          "source_index": 669871
+        },
+        {
+          "coefficient": 1.0516247666964011e-07,
+          "column_position": 38746,
+          "source_index": 670100
+        },
+        {
+          "coefficient": 2.3771372199351323e-08,
+          "column_position": 38830,
+          "source_index": 670184
+        },
+        {
+          "coefficient": 2.0068511468936297e-07,
+          "column_position": 38894,
+          "source_index": 670248
+        },
+        {
+          "coefficient": -9.344639307296253e-08,
+          "column_position": 38951,
+          "source_index": 670306
+        },
+        {
+          "coefficient": -1.7504738080374565e-08,
+          "column_position": 39016,
+          "source_index": 670377
+        },
+        {
+          "coefficient": 2.544365690481892e-08,
+          "column_position": 39038,
+          "source_index": 670404
+        },
+        {
+          "coefficient": 1.2780545284556895e-07,
+          "column_position": 39055,
+          "source_index": 670424
+        },
+        {
+          "coefficient": -3.490055513280086e-08,
+          "column_position": 39106,
+          "source_index": 702879
+        },
+        {
+          "coefficient": 4.3393084733550197e-08,
+          "column_position": 39143,
+          "source_index": 702927
+        },
+        {
+          "coefficient": -7.595442513992573e-08,
+          "column_position": 39152,
+          "source_index": 702937
+        },
+        {
+          "coefficient": 1.6028472978490714e-07,
+          "column_position": 39172,
+          "source_index": 702961
+        },
+        {
+          "coefficient": 3.607500902676858e-10,
+          "column_position": 39262,
+          "source_index": 703072
+        },
+        {
+          "coefficient": 3.851511629801964e-08,
+          "column_position": 39502,
+          "source_index": 703381
+        },
+        {
+          "coefficient": 1.1101172656662757e-07,
+          "column_position": 39593,
+          "source_index": 703496
+        },
+        {
+          "coefficient": -1.5141095036711487e-08,
+          "column_position": 39719,
+          "source_index": 703667
+        },
+        {
+          "coefficient": -5.607246670803923e-08,
+          "column_position": 39889,
+          "source_index": 703889
+        },
+        {
+          "coefficient": 1.0701134496449461e-07,
+          "column_position": 39918,
+          "source_index": 703931
+        },
+        {
+          "coefficient": -5.789038343708784e-09,
+          "column_position": 40037,
+          "source_index": 704100
+        },
+        {
+          "coefficient": -3.6622638415957565e-08,
+          "column_position": 40063,
+          "source_index": 704144
+        },
+        {
+          "coefficient": -2.0253315709437693e-08,
+          "column_position": 40084,
+          "source_index": 704175
+        },
+        {
+          "coefficient": -2.5701120156733056e-08,
+          "column_position": 40168,
+          "source_index": 704374
+        },
+        {
+          "coefficient": 3.808728413711408e-09,
+          "column_position": 40185,
+          "source_index": 704405
+        },
+        {
+          "coefficient": 2.483306002530182e-08,
+          "column_position": 40291,
+          "source_index": 704577
+        },
+        {
+          "coefficient": 2.1885957609776376e-08,
+          "column_position": 40336,
+          "source_index": 704650
+        },
+        {
+          "coefficient": 7.710045284288998e-09,
+          "column_position": 40356,
+          "source_index": 704683
+        },
+        {
+          "coefficient": 4.196398724986384e-10,
+          "column_position": 40361,
+          "source_index": 705216
+        },
+        {
+          "coefficient": -6.736858158712449e-08,
+          "column_position": 40411,
+          "source_index": 705284
+        },
+        {
+          "coefficient": -4.702352744020264e-08,
+          "column_position": 40435,
+          "source_index": 705318
+        },
+        {
+          "coefficient": 6.969775605446917e-10,
+          "column_position": 40447,
+          "source_index": 705332
+        },
+        {
+          "coefficient": 2.5213909735355757e-08,
+          "column_position": 40612,
+          "source_index": 705543
+        },
+        {
+          "coefficient": 1.6527077867748668e-08,
+          "column_position": 40684,
+          "source_index": 705637
+        },
+        {
+          "coefficient": 5.50095663157459e-08,
+          "column_position": 40776,
+          "source_index": 706285
+        },
+        {
+          "coefficient": 8.219582334578022e-09,
+          "column_position": 40818,
+          "source_index": 706339
+        },
+        {
+          "coefficient": -5.3542416592759444e-08,
+          "column_position": 40914,
+          "source_index": 706455
+        },
+        {
+          "coefficient": -4.102895217957534e-08,
+          "column_position": 40955,
+          "source_index": 706578
+        },
+        {
+          "coefficient": -7.950178047782414e-08,
+          "column_position": 40994,
+          "source_index": 706625
+        },
+        {
+          "coefficient": -2.3693800683511605e-08,
+          "column_position": 40998,
+          "source_index": 706629
+        },
+        {
+          "coefficient": 5.1266708713648874e-08,
+          "column_position": 41014,
+          "source_index": 706652
+        },
+        {
+          "coefficient": 1.0307565034351203e-07,
+          "column_position": 41050,
+          "source_index": 706692
+        },
+        {
+          "coefficient": 2.8776856243132797e-09,
+          "column_position": 41097,
+          "source_index": 706752
+        },
+        {
+          "coefficient": 1.9425633801103895e-07,
+          "column_position": 41114,
+          "source_index": 706773
+        },
+        {
+          "coefficient": -1.698322988093834e-07,
+          "column_position": 41521,
+          "source_index": 707266
+        },
+        {
+          "coefficient": -8.301671518010829e-08,
+          "column_position": 41638,
+          "source_index": 707404
+        },
+        {
+          "coefficient": -1.604548950881451e-08,
+          "column_position": 41693,
+          "source_index": 707474
+        },
+        {
+          "coefficient": -3.236456198482124e-08,
+          "column_position": 41730,
+          "source_index": 707517
+        },
+        {
+          "coefficient": -4.575210512052638e-08,
+          "column_position": 41771,
+          "source_index": 707567
+        },
+        {
+          "coefficient": 1.0304852370205116e-08,
+          "column_position": 41803,
+          "source_index": 707608
+        },
+        {
+          "coefficient": 1.048466580037213e-09,
+          "column_position": 41807,
+          "source_index": 707612
+        },
+        {
+          "coefficient": -4.102905325723017e-09,
+          "column_position": 41878,
+          "source_index": 707699
+        },
+        {
+          "coefficient": -2.5113651591857536e-08,
+          "column_position": 41898,
+          "source_index": 707724
+        },
+        {
+          "coefficient": 8.642917711051679e-08,
+          "column_position": 42265,
+          "source_index": 708173
+        },
+        {
+          "coefficient": 1.531910491501841e-07,
+          "column_position": 42400,
+          "source_index": 708340
+        },
+        {
+          "coefficient": -1.4033432048054274e-07,
+          "column_position": 42401,
+          "source_index": 708341
+        },
+        {
+          "coefficient": -1.656398747988653e-08,
+          "column_position": 42419,
+          "source_index": 708361
+        },
+        {
+          "coefficient": -1.1092594757378518e-07,
+          "column_position": 42682,
+          "source_index": 709307
+        },
+        {
+          "coefficient": -3.441488980682975e-08,
+          "column_position": 42710,
+          "source_index": 709344
+        },
+        {
+          "coefficient": 5.3816183337554505e-09,
+          "column_position": 42774,
+          "source_index": 709422
+        },
+        {
+          "coefficient": -5.3612803477608856e-08,
+          "column_position": 42842,
+          "source_index": 709505
+        },
+        {
+          "coefficient": 1.6951955881631375e-07,
+          "column_position": 42866,
+          "source_index": 709533
+        },
+        {
+          "coefficient": 6.561321900379575e-08,
+          "column_position": 42881,
+          "source_index": 709549
+        },
+        {
+          "coefficient": -5.5717824943096734e-08,
+          "column_position": 42961,
+          "source_index": 709645
+        },
+        {
+          "coefficient": -4.542655921930783e-08,
+          "column_position": 42999,
+          "source_index": 709694
+        },
+        {
+          "coefficient": -4.350862990703013e-08,
+          "column_position": 43078,
+          "source_index": 709785
+        },
+        {
+          "coefficient": 5.8243656680949495e-09,
+          "column_position": 43130,
+          "source_index": 709849
+        },
+        {
+          "coefficient": -2.677337100560915e-08,
+          "column_position": 43159,
+          "source_index": 709882
+        },
+        {
+          "coefficient": -3.6712320567600527e-09,
+          "column_position": 43245,
+          "source_index": 709986
+        },
+        {
+          "coefficient": -1.1816373373941414e-07,
+          "column_position": 43360,
+          "source_index": 710133
+        },
+        {
+          "coefficient": 7.0749643596747e-08,
+          "column_position": 43520,
+          "source_index": 710328
+        },
+        {
+          "coefficient": 6.114320989939285e-09,
+          "column_position": 43698,
+          "source_index": 710815
+        },
+        {
+          "coefficient": 1.6737074449204599e-09,
+          "column_position": 43704,
+          "source_index": 710821
+        },
+        {
+          "coefficient": 4.759330382594204e-09,
+          "column_position": 43714,
+          "source_index": 710831
+        },
+        {
+          "coefficient": 3.110872944505751e-08,
+          "column_position": 43757,
+          "source_index": 710916
+        },
+        {
+          "coefficient": 3.070110054717212e-08,
+          "column_position": 43780,
+          "source_index": 710946
+        },
+        {
+          "coefficient": 1.64961021745411e-09,
+          "column_position": 43822,
+          "source_index": 711261
+        },
+        {
+          "coefficient": 3.417626812230601e-08,
+          "column_position": 43834,
+          "source_index": 711273
+        },
+        {
+          "coefficient": -1.811952696124077e-08,
+          "column_position": 43870,
+          "source_index": 711313
+        },
+        {
+          "coefficient": 7.726333736403938e-08,
+          "column_position": 43889,
+          "source_index": 711335
+        },
+        {
+          "coefficient": -3.7719091390402536e-08,
+          "column_position": 43891,
+          "source_index": 711337
+        },
+        {
+          "coefficient": -1.0153322407923845e-08,
+          "column_position": 43932,
+          "source_index": 711382
+        },
+        {
+          "coefficient": -1.9115149653588867e-07,
+          "column_position": 44087,
+          "source_index": 711558
+        },
+        {
+          "coefficient": -9.918368118217642e-09,
+          "column_position": 44189,
+          "source_index": 711671
+        },
+        {
+          "coefficient": -7.453405575229113e-08,
+          "column_position": 44383,
+          "source_index": 711900
+        },
+        {
+          "coefficient": 1.0002400712950462e-07,
+          "column_position": 44427,
+          "source_index": 711951
+        },
+        {
+          "coefficient": 6.617536297391566e-08,
+          "column_position": 44583,
+          "source_index": 712612
+        },
+        {
+          "coefficient": -6.450690307848139e-08,
+          "column_position": 44592,
+          "source_index": 712622
+        },
+        {
+          "coefficient": -3.3806254153286494e-08,
+          "column_position": 44655,
+          "source_index": 712693
+        },
+        {
+          "coefficient": -2.0533037940693253e-08,
+          "column_position": 44666,
+          "source_index": 712704
+        },
+        {
+          "coefficient": -3.3013063107958854e-09,
+          "column_position": 44683,
+          "source_index": 712722
+        },
+        {
+          "coefficient": 8.255195090704129e-09,
+          "column_position": 44747,
+          "source_index": 712792
+        },
+        {
+          "coefficient": 3.3901516128449985e-08,
+          "column_position": 44880,
+          "source_index": 712939
+        },
+        {
+          "coefficient": 8.461932576624795e-08,
+          "column_position": 44957,
+          "source_index": 713144
+        },
+        {
+          "coefficient": 1.3478280446304404e-08,
+          "column_position": 45017,
+          "source_index": 713210
+        },
+        {
+          "coefficient": -9.284793444802293e-08,
+          "column_position": 45025,
+          "source_index": 713218
+        },
+        {
+          "coefficient": -3.957646917877614e-09,
+          "column_position": 45028,
+          "source_index": 713222
+        },
+        {
+          "coefficient": -2.39456721018555e-09,
+          "column_position": 45096,
+          "source_index": 713294
+        },
+        {
+          "coefficient": -3.305160458057337e-08,
+          "column_position": 45202,
+          "source_index": 713406
+        },
+        {
+          "coefficient": -3.0748473213129276e-09,
+          "column_position": 45265,
+          "source_index": 713474
+        },
+        {
+          "coefficient": -5.243420876950108e-09,
+          "column_position": 45341,
+          "source_index": 713557
+        },
+        {
+          "coefficient": 9.094197969227583e-09,
+          "column_position": 45446,
+          "source_index": 713667
+        },
+        {
+          "coefficient": 1.23400133486974e-07,
+          "column_position": 45459,
+          "source_index": 713680
+        },
+        {
+          "coefficient": 1.7812621551086012e-08,
+          "column_position": 45608,
+          "source_index": 713838
+        },
+        {
+          "coefficient": 1.455346507298851e-07,
+          "column_position": 45863,
+          "source_index": 714109
+        },
+        {
+          "coefficient": 3.32562363104125e-08,
+          "column_position": 45911,
+          "source_index": 714158
+        },
+        {
+          "coefficient": 1.5654902248277995e-08,
+          "column_position": 45958,
+          "source_index": 714205
+        },
+        {
+          "coefficient": -3.691525565288248e-08,
+          "column_position": 46054,
+          "source_index": 714311
+        },
+        {
+          "coefficient": -1.6436707791623754e-07,
+          "column_position": 46204,
+          "source_index": 714471
+        },
+        {
+          "coefficient": 1.5320078952921043e-07,
+          "column_position": 46247,
+          "source_index": 714518
+        },
+        {
+          "coefficient": -3.348398073066611e-08,
+          "column_position": 46408,
+          "source_index": 714686
+        },
+        {
+          "coefficient": -7.300949349300107e-09,
+          "column_position": 46488,
+          "source_index": 714774
+        },
+        {
+          "coefficient": 2.6698002452079727e-08,
+          "column_position": 46604,
+          "source_index": 714899
+        },
+        {
+          "coefficient": 2.9952322681226935e-08,
+          "column_position": 46725,
+          "source_index": 715026
+        },
+        {
+          "coefficient": 8.806120306755947e-08,
+          "column_position": 46749,
+          "source_index": 715051
+        },
+        {
+          "coefficient": -3.185130861867554e-08,
+          "column_position": 46768,
+          "source_index": 715070
+        },
+        {
+          "coefficient": -3.8288638212062404e-08,
+          "column_position": 46831,
+          "source_index": 715139
+        },
+        {
+          "coefficient": 3.908219195288647e-08,
+          "column_position": 47010,
+          "source_index": 715324
+        },
+        {
+          "coefficient": -4.1064020649773886e-08,
+          "column_position": 47063,
+          "source_index": 715382
+        },
+        {
+          "coefficient": -4.9341576833355036e-08,
+          "column_position": 47067,
+          "source_index": 715386
+        },
+        {
+          "coefficient": 9.675509836714799e-08,
+          "column_position": 47104,
+          "source_index": 715424
+        },
+        {
+          "coefficient": -1.9556151975453566e-08,
+          "column_position": 47141,
+          "source_index": 715465
+        },
+        {
+          "coefficient": -4.4207796671418105e-08,
+          "column_position": 47225,
+          "source_index": 715553
+        },
+        {
+          "coefficient": 1.0471190156236221e-07,
+          "column_position": 47248,
+          "source_index": 715577
+        },
+        {
+          "coefficient": 2.577306305249792e-09,
+          "column_position": 47359,
+          "source_index": 715759
+        },
+        {
+          "coefficient": -1.2693255554992235e-08,
+          "column_position": 47386,
+          "source_index": 715789
+        },
+        {
+          "coefficient": 3.001438025384011e-08,
+          "column_position": 47400,
+          "source_index": 715807
+        },
+        {
+          "coefficient": -4.1410306473787115e-08,
+          "column_position": 47736,
+          "source_index": 716174
+        },
+        {
+          "coefficient": 1.848872140817711e-08,
+          "column_position": 47784,
+          "source_index": 716229
+        },
+        {
+          "coefficient": -1.675460509074791e-08,
+          "column_position": 47802,
+          "source_index": 716248
+        },
+        {
+          "coefficient": 3.328406188134865e-08,
+          "column_position": 47867,
+          "source_index": 716319
+        },
+        {
+          "coefficient": -1.4765070503820533e-07,
+          "column_position": 48071,
+          "source_index": 716543
+        },
+        {
+          "coefficient": 3.4715580914891896e-08,
+          "column_position": 48090,
+          "source_index": 716564
+        },
+        {
+          "coefficient": 4.37662546066072e-08,
+          "column_position": 48174,
+          "source_index": 716656
+        },
+        {
+          "coefficient": -3.4842764483504004e-09,
+          "column_position": 48203,
+          "source_index": 716689
+        },
+        {
+          "coefficient": -1.8032154818465913e-07,
+          "column_position": 48273,
+          "source_index": 716766
+        },
+        {
+          "coefficient": -5.985726605947147e-08,
+          "column_position": 48423,
+          "source_index": 716930
+        },
+        {
+          "coefficient": 7.561629119901909e-09,
+          "column_position": 48427,
+          "source_index": 716935
+        },
+        {
+          "coefficient": -8.006200139509339e-09,
+          "column_position": 48470,
+          "source_index": 716980
+        },
+        {
+          "coefficient": 3.3671367498445635e-09,
+          "column_position": 48481,
+          "source_index": 716994
+        },
+        {
+          "coefficient": 9.218215063119384e-09,
+          "column_position": 48540,
+          "source_index": 717055
+        },
+        {
+          "coefficient": -2.3221849581479402e-09,
+          "column_position": 48589,
+          "source_index": 717113
+        },
+        {
+          "coefficient": 2.8299222340670453e-08,
+          "column_position": 48652,
+          "source_index": 717180
+        },
+        {
+          "coefficient": 3.790987182655361e-08,
+          "column_position": 48745,
+          "source_index": 717283
+        },
+        {
+          "coefficient": 6.471277097935469e-08,
+          "column_position": 48788,
+          "source_index": 717451
+        },
+        {
+          "coefficient": 1.9433233250662024e-08,
+          "column_position": 48905,
+          "source_index": 717592
+        },
+        {
+          "coefficient": 1.5989725207892737e-08,
+          "column_position": 48933,
+          "source_index": 717628
+        },
+        {
+          "coefficient": -5.5375938530097e-08,
+          "column_position": 49032,
+          "source_index": 717756
+        },
+        {
+          "coefficient": 6.233118710180286e-08,
+          "column_position": 49045,
+          "source_index": 717772
+        },
+        {
+          "coefficient": -3.755785077115709e-08,
+          "column_position": 49055,
+          "source_index": 717785
+        },
+        {
+          "coefficient": -1.077046346347049e-07,
+          "column_position": 49117,
+          "source_index": 717867
+        },
+        {
+          "coefficient": -1.9176566782955862e-08,
+          "column_position": 49118,
+          "source_index": 717868
+        },
+        {
+          "coefficient": -1.6055513789990882e-08,
+          "column_position": 49179,
+          "source_index": 717945
+        },
+        {
+          "coefficient": -1.0289826817669988e-07,
+          "column_position": 49227,
+          "source_index": 718005
+        },
+        {
+          "coefficient": 2.997298699055024e-08,
+          "column_position": 49239,
+          "source_index": 718021
+        },
+        {
+          "coefficient": 1.7186829408796353e-08,
+          "column_position": 49407,
+          "source_index": 718231
+        },
+        {
+          "coefficient": -1.3266168611592827e-08,
+          "column_position": 49459,
+          "source_index": 718295
+        },
+        {
+          "coefficient": 1.0703857131086951e-08,
+          "column_position": 49552,
+          "source_index": 718402
+        },
+        {
+          "coefficient": 3.6152034907847335e-08,
+          "column_position": 49664,
+          "source_index": 718538
+        },
+        {
+          "coefficient": 2.667068781497837e-08,
+          "column_position": 49759,
+          "source_index": 718658
+        },
+        {
+          "coefficient": 1.1824215653244858e-07,
+          "column_position": 49867,
+          "source_index": 718792
+        },
+        {
+          "coefficient": 1.8986602984750693e-08,
+          "column_position": 49934,
+          "source_index": 718871
+        },
+        {
+          "coefficient": 5.079530411175366e-08,
+          "column_position": 50133,
+          "source_index": 719111
+        },
+        {
+          "coefficient": 2.0266022792186576e-08,
+          "column_position": 50151,
+          "source_index": 719129
+        },
+        {
+          "coefficient": -6.559196857347553e-08,
+          "column_position": 50159,
+          "source_index": 719137
+        },
+        {
+          "coefficient": 4.060885115879508e-08,
+          "column_position": 50291,
+          "source_index": 719270
+        },
+        {
+          "coefficient": 5.864215756722737e-08,
+          "column_position": 50322,
+          "source_index": 719308
+        },
+        {
+          "coefficient": 5.5418443353767646e-09,
+          "column_position": 50355,
+          "source_index": 719346
+        },
+        {
+          "coefficient": -7.246203640926937e-09,
+          "column_position": 50410,
+          "source_index": 719404
+        },
+        {
+          "coefficient": 5.088026140777546e-09,
+          "column_position": 50556,
+          "source_index": 719572
+        },
+        {
+          "coefficient": 3.833646087384294e-09,
+          "column_position": 50564,
+          "source_index": 719580
+        },
+        {
+          "coefficient": 8.472247151760619e-08,
+          "column_position": 50648,
+          "source_index": 719664
+        },
+        {
+          "coefficient": 5.123825335990813e-09,
+          "column_position": 50697,
+          "source_index": 719713
+        },
+        {
+          "coefficient": -2.1065132785667765e-08,
+          "column_position": 50734,
+          "source_index": 719750
+        },
+        {
+          "coefficient": 5.049703449556209e-08,
+          "column_position": 50756,
+          "source_index": 719772
+        },
+        {
+          "coefficient": -9.313022494372775e-08,
+          "column_position": 50759,
+          "source_index": 719775
+        },
+        {
+          "coefficient": 5.800876349886689e-08,
+          "column_position": 50787,
+          "source_index": 719803
+        },
+        {
+          "coefficient": -3.338852301301956e-08,
+          "column_position": 50847,
+          "source_index": 719863
+        },
+        {
+          "coefficient": -4.586841795745226e-09,
+          "column_position": 50863,
+          "source_index": 719879
+        },
+        {
+          "coefficient": 6.772054339649763e-08,
+          "column_position": 50954,
+          "source_index": 720131
+        },
+        {
+          "coefficient": -1.0503848118819462e-07,
+          "column_position": 51135,
+          "source_index": 720385
+        },
+        {
+          "coefficient": 1.4043677630852464e-07,
+          "column_position": 51182,
+          "source_index": 720432
+        },
+        {
+          "coefficient": -4.249558369930792e-08,
+          "column_position": 51284,
+          "source_index": 720534
+        },
+        {
+          "coefficient": 1.5076752689061938e-07,
+          "column_position": 51584,
+          "source_index": 720834
+        },
+        {
+          "coefficient": 8.205342279072228e-09,
+          "column_position": 51654,
+          "source_index": 720904
+        },
+        {
+          "coefficient": 1.1233752853571782e-07,
+          "column_position": 51744,
+          "source_index": 720994
+        },
+        {
+          "coefficient": -6.748543067794149e-08,
+          "column_position": 51751,
+          "source_index": 721001
+        },
+        {
+          "coefficient": -8.03747094654146e-08,
+          "column_position": 51803,
+          "source_index": 721053
+        },
+        {
+          "coefficient": 3.7349656590329835e-08,
+          "column_position": 51911,
+          "source_index": 721161
+        },
+        {
+          "coefficient": -5.0010686961774395e-08,
+          "column_position": 51943,
+          "source_index": 721568
+        },
+        {
+          "coefficient": -6.454660018438209e-08,
+          "column_position": 52120,
+          "source_index": 721791
+        },
+        {
+          "coefficient": -7.216755027526241e-08,
+          "column_position": 52260,
+          "source_index": 722488
+        },
+        {
+          "coefficient": 6.320533845042533e-08,
+          "column_position": 52363,
+          "source_index": 722611
+        },
+        {
+          "coefficient": -2.5970851704119726e-08,
+          "column_position": 52386,
+          "source_index": 722634
+        },
+        {
+          "coefficient": 6.7706229600903e-08,
+          "column_position": 52816,
+          "source_index": 723207
+        },
+        {
+          "coefficient": 3.39245218368223e-08,
+          "column_position": 52987,
+          "source_index": 723394
+        },
+        {
+          "coefficient": 1.0800143589082204e-07,
+          "column_position": 53078,
+          "source_index": 723491
+        },
+        {
+          "coefficient": -1.432998449709635e-07,
+          "column_position": 53361,
+          "source_index": 724080
+        },
+        {
+          "coefficient": 2.4211316786583457e-08,
+          "column_position": 53367,
+          "source_index": 724089
+        },
+        {
+          "coefficient": -2.3657908084605194e-08,
+          "column_position": 53390,
+          "source_index": 724118
+        },
+        {
+          "coefficient": -9.251999062599045e-08,
+          "column_position": 53392,
+          "source_index": 724120
+        },
+        {
+          "coefficient": -3.5459783432095245e-08,
+          "column_position": 53668,
+          "source_index": 724457
+        },
+        {
+          "coefficient": -4.874992646404359e-08,
+          "column_position": 53753,
+          "source_index": 724561
+        },
+        {
+          "coefficient": 2.592087486173208e-08,
+          "column_position": 53891,
+          "source_index": 724720
+        },
+        {
+          "coefficient": 1.0475923816781513e-07,
+          "column_position": 54008,
+          "source_index": 724838
+        },
+        {
+          "coefficient": 6.485645750477523e-08,
+          "column_position": 54034,
+          "source_index": 724864
+        },
+        {
+          "coefficient": -9.551484029013217e-09,
+          "column_position": 54089,
+          "source_index": 724920
+        },
+        {
+          "coefficient": -7.681954741626309e-08,
+          "column_position": 54154,
+          "source_index": 724986
+        },
+        {
+          "coefficient": -1.9793332414043407e-08,
+          "column_position": 54181,
+          "source_index": 725013
+        },
+        {
+          "coefficient": -1.2909556563104944e-08,
+          "column_position": 54220,
+          "source_index": 725053
+        },
+        {
+          "coefficient": -1.974904305233198e-08,
+          "column_position": 54286,
+          "source_index": 725119
+        },
+        {
+          "coefficient": 2.9293348414090788e-08,
+          "column_position": 54307,
+          "source_index": 725140
+        },
+        {
+          "coefficient": -3.836322803926688e-08,
+          "column_position": 54408,
+          "source_index": 725243
+        },
+        {
+          "coefficient": -8.308903126030425e-08,
+          "column_position": 54422,
+          "source_index": 725257
+        },
+        {
+          "coefficient": 2.55728090507497e-08,
+          "column_position": 54531,
+          "source_index": 725367
+        },
+        {
+          "coefficient": 2.3201988730845816e-08,
+          "column_position": 54532,
+          "source_index": 725368
+        },
+        {
+          "coefficient": 7.159584240097801e-08,
+          "column_position": 54718,
+          "source_index": 725557
+        },
+        {
+          "coefficient": -1.7572173111939318e-07,
+          "column_position": 54829,
+          "source_index": 725682
+        },
+        {
+          "coefficient": 1.4556361880058726e-08,
+          "column_position": 54855,
+          "source_index": 725708
+        },
+        {
+          "coefficient": 1.4785032020285506e-08,
+          "column_position": 54858,
+          "source_index": 725711
+        },
+        {
+          "coefficient": 4.584053583119189e-08,
+          "column_position": 54951,
+          "source_index": 725804
+        },
+        {
+          "coefficient": -1.1027316774690353e-08,
+          "column_position": 54981,
+          "source_index": 725834
+        },
+        {
+          "coefficient": 7.22216475431297e-08,
+          "column_position": 54986,
+          "source_index": 725839
+        },
+        {
+          "coefficient": 1.1220711491553018e-07,
+          "column_position": 55040,
+          "source_index": 725893
+        },
+        {
+          "coefficient": -1.613624825359365e-08,
+          "column_position": 55217,
+          "source_index": 726070
+        },
+        {
+          "coefficient": -1.0321783183684344e-09,
+          "column_position": 55243,
+          "source_index": 726096
+        },
+        {
+          "coefficient": 1.6926675411795532e-08,
+          "column_position": 55315,
+          "source_index": 726168
+        },
+        {
+          "coefficient": 1.872439190685596e-08,
+          "column_position": 55335,
+          "source_index": 726188
+        },
+        {
+          "coefficient": 6.990010636828169e-09,
+          "column_position": 55614,
+          "source_index": 726467
+        },
+        {
+          "coefficient": -6.242952730365736e-08,
+          "column_position": 55642,
+          "source_index": 726495
+        },
+        {
+          "coefficient": -3.463728729902744e-08,
+          "column_position": 55738,
+          "source_index": 726604
+        },
+        {
+          "coefficient": 1.4232565071411611e-07,
+          "column_position": 55838,
+          "source_index": 726714
+        },
+        {
+          "coefficient": 3.956954916659982e-09,
+          "column_position": 55919,
+          "source_index": 726795
+        },
+        {
+          "coefficient": 4.781070313807757e-09,
+          "column_position": 55957,
+          "source_index": 726833
+        },
+        {
+          "coefficient": 7.180697365888997e-08,
+          "column_position": 56024,
+          "source_index": 726900
+        },
+        {
+          "coefficient": 2.3232694399071324e-09,
+          "column_position": 56053,
+          "source_index": 726929
+        },
+        {
+          "coefficient": 6.26118930387953e-10,
+          "column_position": 56081,
+          "source_index": 726957
+        },
+        {
+          "coefficient": 3.361886895052415e-07,
+          "column_position": 56221,
+          "source_index": 727097
+        },
+        {
+          "coefficient": -4.3941270188797466e-08,
+          "column_position": 56270,
+          "source_index": 727146
+        },
+        {
+          "coefficient": -1.5346400253375367e-08,
+          "column_position": 56294,
+          "source_index": 727170
+        },
+        {
+          "coefficient": -1.1325917203904842e-08,
+          "column_position": 56312,
+          "source_index": 727188
+        },
+        {
+          "coefficient": 7.97549291594801e-08,
+          "column_position": 56360,
+          "source_index": 727236
+        },
+        {
+          "coefficient": 2.3748992733978785e-08,
+          "column_position": 56443,
+          "source_index": 727319
+        },
+        {
+          "coefficient": -7.071011436670343e-08,
+          "column_position": 56602,
+          "source_index": 727506
+        },
+        {
+          "coefficient": 2.2644434415079225e-08,
+          "column_position": 56648,
+          "source_index": 727563
+        },
+        {
+          "coefficient": -7.2690553949135174e-09,
+          "column_position": 56762,
+          "source_index": 727702
+        },
+        {
+          "coefficient": -5.170403481959937e-08,
+          "column_position": 56935,
+          "source_index": 727875
+        },
+        {
+          "coefficient": -2.769546530838985e-09,
+          "column_position": 56945,
+          "source_index": 727885
+        },
+        {
+          "coefficient": 1.3953313812166173e-07,
+          "column_position": 57126,
+          "source_index": 728066
+        },
+        {
+          "coefficient": 1.4251234970004499e-07,
+          "column_position": 57150,
+          "source_index": 728090
+        },
+        {
+          "coefficient": 4.0164598789008166e-08,
+          "column_position": 57226,
+          "source_index": 728166
+        },
+        {
+          "coefficient": 1.5917560595702462e-08,
+          "column_position": 57376,
+          "source_index": 728316
+        },
+        {
+          "coefficient": -3.369358775658975e-08,
+          "column_position": 57494,
+          "source_index": 728434
+        },
+        {
+          "coefficient": -1.0179737799482998e-07,
+          "column_position": 57507,
+          "source_index": 728447
+        },
+        {
+          "coefficient": -1.0024020075184798e-07,
+          "column_position": 57574,
+          "source_index": 728514
+        },
+        {
+          "coefficient": 8.306199496837088e-08,
+          "column_position": 57610,
+          "source_index": 728550
+        },
+        {
+          "coefficient": -2.896934420802884e-07,
+          "column_position": 57614,
+          "source_index": 728554
+        },
+        {
+          "coefficient": -2.2735194364059807e-08,
+          "column_position": 57651,
+          "source_index": 728591
+        },
+        {
+          "coefficient": -2.0832934431611693e-09,
+          "column_position": 57732,
+          "source_index": 728672
+        },
+        {
+          "coefficient": 2.1050483835554355e-08,
+          "column_position": 57830,
+          "source_index": 728770
+        },
+        {
+          "coefficient": -6.190831605881929e-08,
+          "column_position": 57926,
+          "source_index": 728866
+        },
+        {
+          "coefficient": 7.26176437470699e-08,
+          "column_position": 57976,
+          "source_index": 728916
+        },
+        {
+          "coefficient": -3.403099212214553e-08,
+          "column_position": 58162,
+          "source_index": 729102
+        },
+        {
+          "coefficient": -3.6154292807922243e-09,
+          "column_position": 58219,
+          "source_index": 729159
+        },
+        {
+          "coefficient": 1.0193351426311734e-07,
+          "column_position": 58320,
+          "source_index": 729277
+        },
+        {
+          "coefficient": 1.897673216273851e-08,
+          "column_position": 58376,
+          "source_index": 729345
+        },
+        {
+          "coefficient": 3.5986826170169e-08,
+          "column_position": 58394,
+          "source_index": 729367
+        },
+        {
+          "coefficient": 1.0173043112719843e-07,
+          "column_position": 58398,
+          "source_index": 729371
+        },
+        {
+          "coefficient": -5.471598937610527e-08,
+          "column_position": 58791,
+          "source_index": 729817
+        },
+        {
+          "coefficient": 6.866735133910403e-08,
+          "column_position": 58851,
+          "source_index": 729892
+        },
+        {
+          "coefficient": -8.688362746887122e-08,
+          "column_position": 58917,
+          "source_index": 729959
+        },
+        {
+          "coefficient": 5.8726966993527695e-08,
+          "column_position": 59019,
+          "source_index": 730061
+        },
+        {
+          "coefficient": -3.7049311504238816e-09,
+          "column_position": 59134,
+          "source_index": 730176
+        },
+        {
+          "coefficient": 1.1522456884743522e-07,
+          "column_position": 59188,
+          "source_index": 730230
+        },
+        {
+          "coefficient": 1.3919230984840985e-08,
+          "column_position": 59251,
+          "source_index": 730293
+        },
+        {
+          "coefficient": 2.952666200177065e-08,
+          "column_position": 59252,
+          "source_index": 730294
+        },
+        {
+          "coefficient": 1.6989787740510577e-07,
+          "column_position": 59343,
+          "source_index": 730385
+        },
+        {
+          "coefficient": -1.3791291371746304e-08,
+          "column_position": 59353,
+          "source_index": 730395
+        },
+        {
+          "coefficient": 2.8543945335371373e-08,
+          "column_position": 59476,
+          "source_index": 730518
+        },
+        {
+          "coefficient": 6.10548644393998e-08,
+          "column_position": 59623,
+          "source_index": 730665
+        },
+        {
+          "coefficient": -4.3313348997790595e-08,
+          "column_position": 59694,
+          "source_index": 730736
+        },
+        {
+          "coefficient": -5.035195739717416e-09,
+          "column_position": 59704,
+          "source_index": 730746
+        },
+        {
+          "coefficient": -3.0656283568759593e-09,
+          "column_position": 59792,
+          "source_index": 730834
+        },
+        {
+          "coefficient": 1.793629879747536e-08,
+          "column_position": 59862,
+          "source_index": 730904
+        },
+        {
+          "coefficient": 4.709485522319441e-08,
+          "column_position": 59876,
+          "source_index": 730918
+        },
+        {
+          "coefficient": -9.619487098795735e-08,
+          "column_position": 59888,
+          "source_index": 730930
+        },
+        {
+          "coefficient": -5.168486445057897e-09,
+          "column_position": 59971,
+          "source_index": 731013
+        },
+        {
+          "coefficient": -5.677571454668636e-08,
+          "column_position": 60125,
+          "source_index": 731167
+        },
+        {
+          "coefficient": 5.6160923648198753e-08,
+          "column_position": 60211,
+          "source_index": 731253
+        },
+        {
+          "coefficient": 2.3839914835236524e-08,
+          "column_position": 60283,
+          "source_index": 731325
+        },
+        {
+          "coefficient": -1.3471101165464956e-08,
+          "column_position": 60353,
+          "source_index": 731395
+        },
+        {
+          "coefficient": 2.3019188593963388e-08,
+          "column_position": 60501,
+          "source_index": 731543
+        },
+        {
+          "coefficient": -2.209261921131526e-08,
+          "column_position": 60576,
+          "source_index": 731618
+        },
+        {
+          "coefficient": 3.5935968877666504e-08,
+          "column_position": 60582,
+          "source_index": 731624
+        },
+        {
+          "coefficient": -1.3794026441991786e-07,
+          "column_position": 60781,
+          "source_index": 731823
+        },
+        {
+          "coefficient": 9.651660613310614e-08,
+          "column_position": 60799,
+          "source_index": 731841
+        },
+        {
+          "coefficient": 2.7258373507029913e-08,
+          "column_position": 60859,
+          "source_index": 731901
+        },
+        {
+          "coefficient": 3.106629326204975e-08,
+          "column_position": 60954,
+          "source_index": 731996
+        },
+        {
+          "coefficient": 6.350599965209266e-08,
+          "column_position": 61017,
+          "source_index": 732059
+        },
+        {
+          "coefficient": 7.327936614620376e-08,
+          "column_position": 61056,
+          "source_index": 732098
+        },
+        {
+          "coefficient": 4.6442040598696135e-08,
+          "column_position": 61100,
+          "source_index": 732143
+        },
+        {
+          "coefficient": -9.373905252090527e-09,
+          "column_position": 61248,
+          "source_index": 732291
+        },
+        {
+          "coefficient": 3.046821066405694e-08,
+          "column_position": 61295,
+          "source_index": 732338
+        },
+        {
+          "coefficient": -1.0354795835860003e-07,
+          "column_position": 61320,
+          "source_index": 732363
+        },
+        {
+          "coefficient": -4.499578339505227e-09,
+          "column_position": 61386,
+          "source_index": 732429
+        },
+        {
+          "coefficient": -7.029867821615662e-09,
+          "column_position": 61406,
+          "source_index": 732449
+        },
+        {
+          "coefficient": -1.7280201422712115e-07,
+          "column_position": 61420,
+          "source_index": 732463
+        },
+        {
+          "coefficient": -5.087609123767901e-10,
+          "column_position": 61550,
+          "source_index": 732609
+        },
+        {
+          "coefficient": 1.119407561136369e-09,
+          "column_position": 61562,
+          "source_index": 732624
+        },
+        {
+          "coefficient": -6.858952254508667e-08,
+          "column_position": 61615,
+          "source_index": 732677
+        },
+        {
+          "coefficient": 6.453504983857901e-08,
+          "column_position": 61654,
+          "source_index": 732716
+        },
+        {
+          "coefficient": -4.985442866032089e-09,
+          "column_position": 61751,
+          "source_index": 732813
+        },
+        {
+          "coefficient": -7.271022537005132e-08,
+          "column_position": 62039,
+          "source_index": 733101
+        },
+        {
+          "coefficient": -2.1245401498202126e-08,
+          "column_position": 62040,
+          "source_index": 733102
+        },
+        {
+          "coefficient": -1.4411352686126137e-07,
+          "column_position": 62054,
+          "source_index": 733116
+        },
+        {
+          "coefficient": 5.492082185549869e-08,
+          "column_position": 62096,
+          "source_index": 733158
+        },
+        {
+          "coefficient": -1.2176758128839664e-07,
+          "column_position": 62316,
+          "source_index": 733378
+        },
+        {
+          "coefficient": 1.0055845626068068e-07,
+          "column_position": 62403,
+          "source_index": 733465
+        },
+        {
+          "coefficient": 6.487883064597337e-08,
+          "column_position": 62463,
+          "source_index": 733525
+        },
+        {
+          "coefficient": -1.4964667065451237e-07,
+          "column_position": 62482,
+          "source_index": 733544
+        },
+        {
+          "coefficient": -1.3992526680994605e-08,
+          "column_position": 62489,
+          "source_index": 733551
+        },
+        {
+          "coefficient": -1.2041606289825832e-08,
+          "column_position": 62495,
+          "source_index": 733557
+        },
+        {
+          "coefficient": 1.4869570356540444e-08,
+          "column_position": 62592,
+          "source_index": 733654
+        },
+        {
+          "coefficient": -4.279787578890181e-08,
+          "column_position": 62724,
+          "source_index": 733786
+        },
+        {
+          "coefficient": -1.2978396800276604e-08,
+          "column_position": 62793,
+          "source_index": 733855
+        },
+        {
+          "coefficient": 5.680535806195617e-08,
+          "column_position": 62797,
+          "source_index": 733859
+        },
+        {
+          "coefficient": -3.2755341633402255e-08,
+          "column_position": 62865,
+          "source_index": 733973
+        },
+        {
+          "coefficient": -3.77324355376124e-08,
+          "column_position": 62991,
+          "source_index": 734118
+        },
+        {
+          "coefficient": -4.7857388910669064e-08,
+          "column_position": 63031,
+          "source_index": 734173
+        },
+        {
+          "coefficient": -8.74133204480606e-09,
+          "column_position": 63241,
+          "source_index": 734437
+        },
+        {
+          "coefficient": 1.0886552224302272e-07,
+          "column_position": 63633,
+          "source_index": 734829
+        },
+        {
+          "coefficient": -5.54647631315322e-09,
+          "column_position": 63646,
+          "source_index": 734842
+        },
+        {
+          "coefficient": 6.512793384393782e-08,
+          "column_position": 63747,
+          "source_index": 734943
+        },
+        {
+          "coefficient": -3.78605974330396e-08,
+          "column_position": 63783,
+          "source_index": 734979
+        },
+        {
+          "coefficient": -1.0580485130873467e-07,
+          "column_position": 63822,
+          "source_index": 735018
+        },
+        {
+          "coefficient": 3.3970348009782296e-07,
+          "column_position": 63854,
+          "source_index": 735050
+        },
+        {
+          "coefficient": 4.090840169911553e-09,
+          "column_position": 63978,
+          "source_index": 735174
+        },
+        {
+          "coefficient": -1.7983304962861535e-07,
+          "column_position": 64067,
+          "source_index": 735263
+        },
+        {
+          "coefficient": -4.646535988589003e-08,
+          "column_position": 64072,
+          "source_index": 735268
+        },
+        {
+          "coefficient": 4.815108354042436e-08,
+          "column_position": 64163,
+          "source_index": 735359
+        },
+        {
+          "coefficient": -5.301561015539064e-08,
+          "column_position": 64563,
+          "source_index": 735759
+        },
+        {
+          "coefficient": 7.061223822679166e-08,
+          "column_position": 64571,
+          "source_index": 735767
+        },
+        {
+          "coefficient": 1.1636062617717776e-09,
+          "column_position": 64639,
+          "source_index": 735835
+        },
+        {
+          "coefficient": -3.8158614391322386e-08,
+          "column_position": 64788,
+          "source_index": 735984
+        },
+        {
+          "coefficient": -8.31271036553584e-08,
+          "column_position": 64810,
+          "source_index": 736006
+        },
+        {
+          "coefficient": 1.3636432577294355e-08,
+          "column_position": 64935,
+          "source_index": 736131
+        },
+        {
+          "coefficient": -1.668702439480812e-08,
+          "column_position": 65054,
+          "source_index": 736250
+        },
+        {
+          "coefficient": -5.239394948425359e-08,
+          "column_position": 65339,
+          "source_index": 736535
+        },
+        {
+          "coefficient": -6.621013934620296e-08,
+          "column_position": 65349,
+          "source_index": 736545
+        },
+        {
+          "coefficient": -4.043434086324748e-08,
+          "column_position": 65435,
+          "source_index": 736631
+        },
+        {
+          "coefficient": -2.3754711247158576e-08,
+          "column_position": 65484,
+          "source_index": 736680
+        },
+        {
+          "coefficient": -6.324485041792388e-08,
+          "column_position": 65531,
+          "source_index": 736727
+        },
+        {
+          "coefficient": 7.100382509685689e-08,
+          "column_position": 65673,
+          "source_index": 736869
+        },
+        {
+          "coefficient": -8.926926924494603e-08,
+          "column_position": 65716,
+          "source_index": 736912
+        },
+        {
+          "coefficient": -1.801214903622695e-07,
+          "column_position": 65771,
+          "source_index": 736967
+        },
+        {
+          "coefficient": -1.2111177126999469e-07,
+          "column_position": 66134,
+          "source_index": 737330
+        },
+        {
+          "coefficient": 8.077553143884342e-08,
+          "column_position": 66137,
+          "source_index": 737333
+        },
+        {
+          "coefficient": -7.994921999968928e-09,
+          "column_position": 66487,
+          "source_index": 737683
+        },
+        {
+          "coefficient": 3.7952355843963755e-08,
+          "column_position": 66494,
+          "source_index": 737690
+        },
+        {
+          "coefficient": 1.7377994103402964e-07,
+          "column_position": 66538,
+          "source_index": 737734
+        },
+        {
+          "coefficient": 3.510249112300126e-08,
+          "column_position": 66648,
+          "source_index": 737844
+        },
+        {
+          "coefficient": 1.0233767571809531e-07,
+          "column_position": 66651,
+          "source_index": 737847
+        },
+        {
+          "coefficient": 1.0327400968933932e-07,
+          "column_position": 66917,
+          "source_index": 738113
+        },
+        {
+          "coefficient": 6.331901168484202e-08,
+          "column_position": 66933,
+          "source_index": 738129
+        },
+        {
+          "coefficient": 5.130462165532442e-08,
+          "column_position": 67022,
+          "source_index": 738218
+        },
+        {
+          "coefficient": 1.4663763254155269e-08,
+          "column_position": 67033,
+          "source_index": 738229
+        },
+        {
+          "coefficient": -4.528890333859998e-08,
+          "column_position": 67096,
+          "source_index": 738292
+        },
+        {
+          "coefficient": 5.223377373895143e-08,
+          "column_position": 67369,
+          "source_index": 738565
+        },
+        {
+          "coefficient": -4.188565358362608e-08,
+          "column_position": 67394,
+          "source_index": 738590
+        },
+        {
+          "coefficient": -1.0758358622344852e-07,
+          "column_position": 67414,
+          "source_index": 738610
+        },
+        {
+          "coefficient": -1.215502075792544e-07,
+          "column_position": 67512,
+          "source_index": 738708
+        },
+        {
+          "coefficient": -4.979461857495208e-08,
+          "column_position": 67560,
+          "source_index": 738756
+        },
+        {
+          "coefficient": 4.498911964064232e-08,
+          "column_position": 67663,
+          "source_index": 738859
+        },
+        {
+          "coefficient": -1.5053192016329463e-08,
+          "column_position": 67826,
+          "source_index": 739022
+        },
+        {
+          "coefficient": -6.935293129877694e-08,
+          "column_position": 67833,
+          "source_index": 739029
+        },
+        {
+          "coefficient": 5.042899735964703e-08,
+          "column_position": 67872,
+          "source_index": 739068
+        },
+        {
+          "coefficient": 1.4329053116738816e-08,
+          "column_position": 67874,
+          "source_index": 739070
+        },
+        {
+          "coefficient": -2.8374700048487228e-08,
+          "column_position": 67898,
+          "source_index": 739094
+        },
+        {
+          "coefficient": 2.2705471829340624e-08,
+          "column_position": 67919,
+          "source_index": 739115
+        },
+        {
+          "coefficient": 6.236098703625012e-08,
+          "column_position": 67938,
+          "source_index": 739134
+        },
+        {
+          "coefficient": -3.234850306694964e-08,
+          "column_position": 68062,
+          "source_index": 739258
+        },
+        {
+          "coefficient": -7.456222028586502e-08,
+          "column_position": 68093,
+          "source_index": 739289
+        },
+        {
+          "coefficient": -1.6881621371515745e-08,
+          "column_position": 68166,
+          "source_index": 739362
+        },
+        {
+          "coefficient": -1.1882835660695794e-07,
+          "column_position": 68185,
+          "source_index": 739381
+        },
+        {
+          "coefficient": 9.52474945240618e-08,
+          "column_position": 68381,
+          "source_index": 739797
+        },
+        {
+          "coefficient": 7.102828460474627e-08,
+          "column_position": 68416,
+          "source_index": 739832
+        },
+        {
+          "coefficient": 5.3692576478784904e-08,
+          "column_position": 68436,
+          "source_index": 739852
+        },
+        {
+          "coefficient": 2.5822791745019146e-08,
+          "column_position": 68520,
+          "source_index": 739942
+        },
+        {
+          "coefficient": -1.6820710042548023e-09,
+          "column_position": 68656,
+          "source_index": 740741
+        },
+        {
+          "coefficient": -2.1662725727532158e-08,
+          "column_position": 68875,
+          "source_index": 741354
+        },
+        {
+          "coefficient": 3.70691489669808e-08,
+          "column_position": 68914,
+          "source_index": 741393
+        },
+        {
+          "coefficient": -3.719926871474748e-08,
+          "column_position": 68929,
+          "source_index": 741408
+        },
+        {
+          "coefficient": -2.4869087865967615e-08,
+          "column_position": 68967,
+          "source_index": 741446
+        },
+        {
+          "coefficient": -1.0870447155627404e-08,
+          "column_position": 69195,
+          "source_index": 741914
+        },
+        {
+          "coefficient": 2.2713339599145456e-07,
+          "column_position": 69197,
+          "source_index": 741916
+        },
+        {
+          "coefficient": -1.517724437945145e-08,
+          "column_position": 69202,
+          "source_index": 741921
+        },
+        {
+          "coefficient": 1.8564647916405496e-08,
+          "column_position": 69270,
+          "source_index": 741989
+        },
+        {
+          "coefficient": -8.826055781932666e-08,
+          "column_position": 69282,
+          "source_index": 742001
+        },
+        {
+          "coefficient": 2.561611074781921e-09,
+          "column_position": 69362,
+          "source_index": 742081
+        },
+        {
+          "coefficient": -2.019667210072212e-08,
+          "column_position": 69547,
+          "source_index": 742304
+        },
+        {
+          "coefficient": -3.2816805411137082e-09,
+          "column_position": 69687,
+          "source_index": 742596
+        },
+        {
+          "coefficient": -2.935384598169222e-08,
+          "column_position": 69844,
+          "source_index": 742788
+        },
+        {
+          "coefficient": 1.258977860935772e-08,
+          "column_position": 69865,
+          "source_index": 742809
+        },
+        {
+          "coefficient": 1.4352302528161187e-07,
+          "column_position": 69874,
+          "source_index": 742818
+        },
+        {
+          "coefficient": -1.1975195862113832e-07,
+          "column_position": 69900,
+          "source_index": 743038
+        },
+        {
+          "coefficient": -4.7510256964695474e-08,
+          "column_position": 70062,
+          "source_index": 743479
+        },
+        {
+          "coefficient": 1.3049539571239516e-08,
+          "column_position": 70095,
+          "source_index": 743552
+        },
+        {
+          "coefficient": -7.037639216325189e-08,
+          "column_position": 70150,
+          "source_index": 743622
+        },
+        {
+          "coefficient": 6.089994069340341e-08,
+          "column_position": 70174,
+          "source_index": 743656
+        },
+        {
+          "coefficient": -2.7755594359121568e-08,
+          "column_position": 70256,
+          "source_index": 743760
+        },
+        {
+          "coefficient": -1.037931899273959e-07,
+          "column_position": 70315,
+          "source_index": 743829
+        },
+        {
+          "coefficient": -9.053552536393191e-08,
+          "column_position": 70409,
+          "source_index": 743933
+        },
+        {
+          "coefficient": 2.5498331865294356e-08,
+          "column_position": 70487,
+          "source_index": 744387
+        },
+        {
+          "coefficient": 3.88974758857593e-09,
+          "column_position": 70532,
+          "source_index": 744432
+        },
+        {
+          "coefficient": 2.518814283236404e-08,
+          "column_position": 70557,
+          "source_index": 744703
+        },
+        {
+          "coefficient": -6.60786405494951e-08,
+          "column_position": 70573,
+          "source_index": 744719
+        },
+        {
+          "coefficient": 3.1788376447626524e-09,
+          "column_position": 70659,
+          "source_index": 744806
+        },
+        {
+          "coefficient": 5.232240692148659e-08,
+          "column_position": 70714,
+          "source_index": 744862
+        },
+        {
+          "coefficient": 9.225716631871123e-09,
+          "column_position": 70725,
+          "source_index": 744874
+        },
+        {
+          "coefficient": 8.346868541333262e-08,
+          "column_position": 70762,
+          "source_index": 744922
+        },
+        {
+          "coefficient": -6.411608286054184e-08,
+          "column_position": 70770,
+          "source_index": 744930
+        },
+        {
+          "coefficient": 6.334774193864673e-08,
+          "column_position": 70809,
+          "source_index": 745051
+        },
+        {
+          "coefficient": 1.7299306794475972e-08,
+          "column_position": 70926,
+          "source_index": 745187
+        },
+        {
+          "coefficient": 4.491150822925454e-08,
+          "column_position": 71108,
+          "source_index": 745593
+        },
+        {
+          "coefficient": 9.795744821004315e-09,
+          "column_position": 71247,
+          "source_index": 745788
+        },
+        {
+          "coefficient": 4.771745472988397e-09,
+          "column_position": 71261,
+          "source_index": 745872
+        },
+        {
+          "coefficient": -4.29307008062167e-08,
+          "column_position": 71265,
+          "source_index": 745877
+        },
+        {
+          "coefficient": 2.193480631268941e-08,
+          "column_position": 71381,
+          "source_index": 746109
+        },
+        {
+          "coefficient": 4.7844656343014964e-08,
+          "column_position": 71396,
+          "source_index": 746166
+        },
+        {
+          "coefficient": 1.2142104912291218e-08,
+          "column_position": 71437,
+          "source_index": 746220
+        },
+        {
+          "coefficient": -3.0620017402128985e-08,
+          "column_position": 71544,
+          "source_index": 746362
+        },
+        {
+          "coefficient": -6.255190218350349e-09,
+          "column_position": 71572,
+          "source_index": 746398
+        },
+        {
+          "coefficient": 2.451436198937031e-09,
+          "column_position": 71606,
+          "source_index": 746442
+        },
+        {
+          "coefficient": -8.137184802361959e-08,
+          "column_position": 71746,
+          "source_index": 746705
+        },
+        {
+          "coefficient": -1.8746528581572667e-08,
+          "column_position": 71869,
+          "source_index": 746857
+        },
+        {
+          "coefficient": -7.501031532494427e-08,
+          "column_position": 71920,
+          "source_index": 747023
+        },
+        {
+          "coefficient": -4.771122789806341e-08,
+          "column_position": 71923,
+          "source_index": 747026
+        },
+        {
+          "coefficient": 6.260125518636707e-08,
+          "column_position": 71937,
+          "source_index": 747051
+        },
+        {
+          "coefficient": -2.643115691212217e-09,
+          "column_position": 71965,
+          "source_index": 747087
+        },
+        {
+          "coefficient": -4.7249091507550415e-08,
+          "column_position": 71995,
+          "source_index": 747149
+        },
+        {
+          "coefficient": 3.9361145773695935e-08,
+          "column_position": 72007,
+          "source_index": 747162
+        },
+        {
+          "coefficient": -6.824085893036346e-09,
+          "column_position": 72040,
+          "source_index": 747225
+        },
+        {
+          "coefficient": -3.265311865168476e-08,
+          "column_position": 72255,
+          "source_index": 747900
+        },
+        {
+          "coefficient": -4.196643497789236e-08,
+          "column_position": 72334,
+          "source_index": 748004
+        },
+        {
+          "coefficient": -5.7333024672424724e-08,
+          "column_position": 72502,
+          "source_index": 748357
+        },
+        {
+          "coefficient": 5.929541024405151e-09,
+          "column_position": 72527,
+          "source_index": 748385
+        },
+        {
+          "coefficient": -1.1210194669535069e-08,
+          "column_position": 72801,
+          "source_index": 748692
+        },
+        {
+          "coefficient": -3.8614738351715815e-08,
+          "column_position": 72825,
+          "source_index": 748716
+        },
+        {
+          "coefficient": 4.5587264996036996e-08,
+          "column_position": 73035,
+          "source_index": 749057
+        },
+        {
+          "coefficient": 1.7046008260057594e-07,
+          "column_position": 73119,
+          "source_index": 749157
+        },
+        {
+          "coefficient": 7.243642664669209e-08,
+          "column_position": 73185,
+          "source_index": 749250
+        },
+        {
+          "coefficient": -1.4740413984938914e-07,
+          "column_position": 73194,
+          "source_index": 749262
+        },
+        {
+          "coefficient": -6.601962552080557e-08,
+          "column_position": 73257,
+          "source_index": 749342
+        },
+        {
+          "coefficient": 3.90429627032749e-08,
+          "column_position": 73350,
+          "source_index": 749443
+        },
+        {
+          "coefficient": 3.3865049685089246e-08,
+          "column_position": 73355,
+          "source_index": 749448
+        },
+        {
+          "coefficient": -1.0684419466524423e-07,
+          "column_position": 73683,
+          "source_index": 749998
+        },
+        {
+          "coefficient": -4.5264378246231825e-08,
+          "column_position": 73708,
+          "source_index": 750026
+        },
+        {
+          "coefficient": -5.959624903122891e-09,
+          "column_position": 73772,
+          "source_index": 750300
+        },
+        {
+          "coefficient": 2.6092293192368538e-08,
+          "column_position": 73852,
+          "source_index": 750392
+        },
+        {
+          "coefficient": 2.998910008725908e-08,
+          "column_position": 73900,
+          "source_index": 750441
+        },
+        {
+          "coefficient": -3.015997118828418e-08,
+          "column_position": 73963,
+          "source_index": 750943
+        },
+        {
+          "coefficient": -7.531026475179025e-09,
+          "column_position": 74021,
+          "source_index": 751007
+        },
+        {
+          "coefficient": 5.956406972090584e-08,
+          "column_position": 74073,
+          "source_index": 752636
+        },
+        {
+          "coefficient": 2.8245563426075423e-08,
+          "column_position": 74130,
+          "source_index": 752693
+        },
+        {
+          "coefficient": -2.437592862893863e-08,
+          "column_position": 74269,
+          "source_index": 752858
+        },
+        {
+          "coefficient": 1.4055817588273102e-08,
+          "column_position": 74310,
+          "source_index": 752910
+        },
+        {
+          "coefficient": -6.985088492828752e-08,
+          "column_position": 74388,
+          "source_index": 752993
+        },
+        {
+          "coefficient": -6.152796623305009e-08,
+          "column_position": 74397,
+          "source_index": 753002
+        },
+        {
+          "coefficient": -1.1944255089782705e-07,
+          "column_position": 74528,
+          "source_index": 753134
+        },
+        {
+          "coefficient": -8.280191979953305e-09,
+          "column_position": 74768,
+          "source_index": 753401
+        },
+        {
+          "coefficient": -1.2051717866422715e-07,
+          "column_position": 74931,
+          "source_index": 753782
+        },
+        {
+          "coefficient": -5.3703942507941886e-08,
+          "column_position": 74960,
+          "source_index": 753818
+        },
+        {
+          "coefficient": 1.1848098369337174e-08,
+          "column_position": 74961,
+          "source_index": 753819
+        },
+        {
+          "coefficient": -9.132006803649753e-09,
+          "column_position": 75066,
+          "source_index": 754008
+        }
+      ],
+      "explicit_max_row_residual": 0.0,
+      "explicit_min_split_variable": -9.132006803649753e-09,
+      "highs_info": {
+        "crossover_iteration_count": 0,
+        "ipm_iteration_count": 0,
+        "max_dual_infeasibility": 20151.219104681888,
+        "max_primal_infeasibility": 9.132006803649753e-09,
+        "num_dual_infeasibilities": 73891,
+        "num_primal_infeasibilities": 0,
+        "objective_function_value": 6.055200897288038e-05,
+        "simplex_iteration_count": 3500,
+        "sum_dual_infeasibilities": 25993910.63959263,
+        "sum_primal_infeasibilities": 7.791982911218875e-08
+      },
+      "kind": "base_l1",
+      "max_abs_coefficient": 3.713021208367943e-07,
+      "min_abs_retained_coefficient": 1.1508388744477223e-10,
+      "model_status": "Iteration limit reached",
+      "optimal": false,
+      "round": 0,
+      "seconds": 1430.4256306570023,
+      "support_denominator": 75076,
+      "support_numerator": 1023,
+      "support_threshold_absolute": 1e-10
+    }
+  ],
+  "row_scaling": {
+    "method": "none"
+  },
+  "rows_denominator": 1024,
+  "schema": "max11-sparse-l1-report-v1",
+  "solver": "HiGHS simplex serial dual",
+  "support_threshold_absolute": 1e-10,
+  "terminated_after_feasible_iteration_limit": true,
+  "total_seconds": 1495.5369773088023,
+  "verdict": "CANDIDATES_NONOPTIMAL"
+}

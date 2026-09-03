@@ -1,0 +1,50 @@
+{
+  "build_seconds": 0.31886664,
+  "columns_denominator": 12248,
+  "columns_numerator": 12248,
+  "files": {
+    "index": {
+      "bytes": 17908476,
+      "path": "index.u32le",
+      "sha256": "25429d08943c3d2a566ad5c1a030aefb4c096476b2a187ad5b3fb221dea0723d"
+    },
+    "source": {
+      "bytes": 97984,
+      "path": "source.u64le",
+      "sha256": "44b2389850c23903a80abf61d13bf64f07e8b609621f57fe21d191153f2c6091"
+    },
+    "start": {
+      "bytes": 97992,
+      "path": "start.u64le",
+      "sha256": "0bcb0b50200e1ea5ae15cfae2d9e6e0769a557186a5b03c9fa80ee327b5be759"
+    },
+    "target": {
+      "bytes": 4096,
+      "path": "target.i64le",
+      "sha256": "058a14524df2a1e06f7fb6bfdfcfbf61aa485cd88dbf95606302c6b6e6df1371"
+    },
+    "value": {
+      "bytes": 35816952,
+      "path": "value.i64le",
+      "sha256": "b1ddb315fb0f46d0c9b1d822eab63ed0f1e7fecc9fbafe56e62cf5d155115351"
+    }
+  },
+  "input_matrix_report": "artifacts/math/n11-sparse-certificate/n10-basis-matrix/matrix.json",
+  "input_matrix_report_sha256": "beffa57ff40b733b705d0909e088659bd12c59ee9c9ca0bf6ac4ab45edee83f3",
+  "input_nonzeros_visited_denominator": 9696680,
+  "input_nonzeros_visited_numerator": 9696680,
+  "max_rss_kib": 139948,
+  "method": "exact secondary CountSketch of every row in the checked input CSC",
+  "n": 10,
+  "no_claim": "This exact secondary sketch is an LP search system. Any candidate must pass the full primary sketch, exact rational lift, and every-real-row verification.",
+  "nonzeros_denominator": 4477119,
+  "nonzeros_numerator": 4477119,
+  "rows_denominator": 512,
+  "rows_numerator": 512,
+  "schema": "max11-sparse-lp-csc-v1",
+  "secondary_sketch_algorithm": "splitmix64-index-v1-one-bucket-random-sign",
+  "secondary_sketch_seed": 2026090301,
+  "system": "handoff/2026-09-02-amberbluff/systems/loopless_system_n10.jsonl.gz",
+  "system_sha256": "bda8eddae71365fa6f1cfaa0ef26b7a78a829ce8b8fd5902cd6155ea97e17e18",
+  "verdict": "PASS"
+}

@@ -1,0 +1,19 @@
+Setting parameter method to 1
+Setting parameter pdlp_solver_mode to 4
+Setting parameter presolve to 0
+Setting parameter crossover to false
+Setting parameter log_file to artifacts/math/n11-sparse-certificate/n10-cuopt-primal-base.log
+Setting parameter log_to_console to true
+Setting parameter num_cpu_threads to 16
+Setting parameter time_limit to 9.000000e+02
+Setting parameter absolute_dual_tolerance to 1.000000e-08
+Setting parameter relative_dual_tolerance to 1.000000e-08
+Setting parameter absolute_primal_tolerance to 1.000000e-08
+Setting parameter relative_primal_tolerance to 1.000000e-08
+Setting parameter absolute_gap_tolerance to 1.000000e-08
+Setting parameter relative_gap_tolerance to 1.000000e-08
+cuOpt version: 26.2.0, git hash: f73da24d, host arch: x86_64, device archs: 70-real,75-real,80-real,86-real,90a-real,100f-real,120a-real,120
+CPU: AMD EPYC 7713 64-Core Processor, threads (physical/logical): 128/128, RAM: 535.29 GiB
+CUDA 12.9, device: NVIDIA A100-SXM4-80GB (ID 0), VRAM: 79.25 GiB
+CUDA device UUID: ffffffc42cffffffa82e-ffffffbe0a-7c7a
+

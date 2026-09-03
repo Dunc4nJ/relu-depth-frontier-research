@@ -1,0 +1,71 @@
+{
+  "base_pivot_report": null,
+  "base_pivot_report_sha256": null,
+  "chosen_independent_support_denominator": 12248,
+  "chosen_independent_support_numerator": 0,
+  "chosen_round": null,
+  "exact": "modular",
+  "l1_report": "artifacts/math/n11-sparse-certificate/n10-secondary-s804-admm-l1.json",
+  "l1_report_sha256": "c82dc38611e2dd78883add79309830c051f5b2758652d3deda09d656d50dab0a",
+  "matrix_report": "artifacts/math/n11-sparse-certificate/n10-basis-matrix/matrix.json",
+  "matrix_report_sha256": "beffa57ff40b733b705d0909e088659bd12c59ee9c9ca0bf6ac4ab45edee83f3",
+  "no_claim": "These named floated supports fail one exact modular membership test. This is a bounded null for those supports, not a statement about the full family.",
+  "pivot_report": null,
+  "pivot_report_sha256": null,
+  "prime": 1000003,
+  "schema": "max11-sparse-support-selection-v1",
+  "seconds": 4.529513004235923,
+  "trials": [
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 804,
+      "independent_support_numerator": 571,
+      "rank_a_mod_prime": 571,
+      "rank_augmented_mod_prime": 572,
+      "round": 0,
+      "seconds": 0.8220889642834663,
+      "verdict": "NON_MEMBER"
+    },
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 804,
+      "independent_support_numerator": 566,
+      "rank_a_mod_prime": 566,
+      "rank_augmented_mod_prime": 567,
+      "round": 1,
+      "seconds": 0.8069129474461079,
+      "verdict": "NON_MEMBER"
+    },
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 804,
+      "independent_support_numerator": 563,
+      "rank_a_mod_prime": 563,
+      "rank_augmented_mod_prime": 564,
+      "round": 2,
+      "seconds": 1.0242094527930021,
+      "verdict": "NON_MEMBER"
+    },
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 804,
+      "independent_support_numerator": 561,
+      "rank_a_mod_prime": 561,
+      "rank_augmented_mod_prime": 562,
+      "round": 3,
+      "seconds": 1.0746195139363408,
+      "verdict": "NON_MEMBER"
+    },
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 804,
+      "independent_support_numerator": 554,
+      "rank_a_mod_prime": 554,
+      "rank_augmented_mod_prime": 555,
+      "round": 4,
+      "seconds": 0.7927464004606009,
+      "verdict": "NON_MEMBER"
+    }
+  ],
+  "verdict": "NON_MEMBER"
+}

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/solve_l1.py", line 269, in <module>
+    main()
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/solve_l1.py", line 253, in main
+    report = solve(
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/solve_l1.py", line 171, in solve
+    check(highs.run(), "run")
+ValueError: vector::reserve

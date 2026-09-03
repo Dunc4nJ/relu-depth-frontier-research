@@ -1,0 +1,38 @@
+Running HiGHS 1.15.1 (git hash: 04024d7): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+LP has 1024 rows; 150152 cols; 152221978 nonzeros
+Coefficient ranges:
+  Matrix  [2e+00, 5e+07]
+  Cost    [1e+00, 1e+00]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e+00, 1e+00]
+Not presolved: solving the LP
+IPX model has 1024 rows, 150152 columns and 152221978 nonzeros
+Input
+    Number of variables:                                150152
+    Number of free variables:                           0
+    Number of constraints:                              1024
+    Number of equality constraints:                     1024
+    Number of matrix entries:                           152221978
+    Matrix range:                                       [2e+00, 5e+07]
+    RHS range:                                          [1e+00, 1e+00]
+    Objective range:                                    [1e+00, 1e+00]
+    Bounds range:                                       [0e+00, 0e+00]
+Preprocessing
+    Dualized model:                                     no
+    Number of dense columns:                            0
+    Range of scaling factors:                           [2.44e-04, 1.00e+00]
+    Scaled cost norm:                                   0.000488281
+    Scaled bounds norm:                                 0.000244141
+IPX version 1.0
+Interior point solve
+ Iter       primal obj         dual obj       pinf       dinf       gap      time
+Summary
+    Runtime:                                            296.04s
+    Status interior point solve:                        failed
+    Status crossover:                                   not run
+WARNING: Ipx: Stopped
+ERROR:   Ipx: IPM       failed
+WARNING: Ipx: Crossover not run
+Model status        : Solve error
+HiGHS run time      :        296.49

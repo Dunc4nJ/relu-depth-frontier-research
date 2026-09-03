@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/prepare_initial_basis.py", line 142, in <module>
+    main()
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/prepare_initial_basis.py", line 135, in main
+    prepare(args.matrix_dir, args.pivot_report, args.output, args.prime, args.selection),
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/prepare_initial_basis.py", line 56, in prepare
+    raise RuntimeError("candidate matrix has an all-zero row")
+RuntimeError: candidate matrix has an all-zero row

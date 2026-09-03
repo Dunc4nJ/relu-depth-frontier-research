@@ -1,0 +1,29 @@
+Running HiGHS 1.15.1 (git hash: 04024d7): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+LP has 152652 rows; 150152 cols; 170298326 nonzeros
+Coefficient ranges:
+  Matrix  [1e+00, 5e+07]
+  Cost    [1e+00, 1e+03]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e+00, 1e+00]
+Not presolved: solving the LP
+IPX model has 152652 rows, 150152 columns and 170298326 nonzeros
+Input
+    Number of variables:                                150152
+    Number of free variables:                           75076
+    Number of constraints:                              152652
+    Number of equality constraints:                     2500
+    Number of matrix entries:                           170298326
+    Matrix range:                                       [1e+00, 5e+07]
+    RHS range:                                          [1e+00, 1e+00]
+    Objective range:                                    [1e+00, 1e+03]
+    Bounds range:                                       [0e+00, 0e+00]
+Preprocessing
+    Dualized model:                                     no
+    Number of dense columns:                            0
+    Range of scaling factors:                           [2.44e-04, 6.40e+01]
+    Scaled cost norm:                                   1000
+    Scaled bounds norm:                                 0.000244141
+IPX version 1.0
+Interior point solve
+ Iter       primal obj         dual obj       pinf       dinf       gap      time

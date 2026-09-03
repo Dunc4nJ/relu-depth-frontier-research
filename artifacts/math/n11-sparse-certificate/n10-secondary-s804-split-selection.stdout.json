@@ -1,0 +1,5 @@
+SUPPORT_TRIAL round=0 verdict=NON_MEMBER rank=740/741 support=740/12248 seconds=0.857
+SUPPORT_TRIAL round=1 verdict=NON_MEMBER rank=721/722 support=721/12248 seconds=0.808
+SUPPORT_TRIAL round=2 verdict=NON_MEMBER rank=722/723 support=722/12248 seconds=0.809
+SUPPORT_TRIAL round=3 verdict=NON_MEMBER rank=717/718 support=717/12248 seconds=0.804
+SUPPORT_TRIAL round=4 verdict=NON_MEMBER rank=714/715 support=714/12248 seconds=0.799

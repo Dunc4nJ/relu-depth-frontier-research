@@ -1,0 +1,26 @@
+Running HiGHS 1.15.1 (git hash: 04024d7): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+LP has 1024 rows; 150152 cols; 152221978 nonzeros
+Coefficient ranges:
+  Matrix  [1e-07, 5e+01]
+  Cost    [1e+00, 1e+00]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e-06, 1e-06]
+WARNING: Problem has some excessively small row bounds
+WARNING:    Consider scaling the    bounds by 1e+3, or setting the user_bound_scale option to 7
+Solving LP with useful basis
+Using primal simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0     0.0000000000e+00 Pr: 0(0) 6.8s
+        165     9.6156281125e-08 Pr: 948(0.000214992) 13.3s
+        269     3.1058941803e-07 Pr: 908(0.000199032) 19.5s
+        442     5.3636584555e-07 Pr: 851(0.000141719) 33.2s
+        666     8.3561435785e-07 Pr: 757(8.32183e-05) 58.0s
+        815     1.0392769965e-06 Pr: 711(8.39126e-05) 78.2s
+        903     1.1450738027e-06 Pr: 706(7.55558e-05) 91.1s
+       1013     1.2941993987e-06 Pr: 661(0.000169585) 106.1s
+       1100     1.3647045945e-06 Pr: 656(6.76002e-05) 118.7s
+       1232     1.5038480221e-06 Pr: 610(0.000179977) 142.0s
+       1348     1.5910281670e-06 Pr: 617(4.57938e-05) 169.7s
+       1448     1.6682861994e-06 Pr: 579(5.25226e-05) 194.1s
+       1508     1.7018439871e-06 Pr: 585(0.000102721) 209.9s

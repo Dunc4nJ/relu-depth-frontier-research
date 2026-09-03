@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/solve_l1_admm.py", line 284, in <module>
+    main()
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/solve_l1_admm.py", line 265, in main
+    report = solve(
+  File "/workspace/relu/artifacts/math/n11-sparse-certificate/solve_l1_admm.py", line 90, in solve
+    raise ValueError("ADMM projection matrix has an empty row")
+ValueError: ADMM projection matrix has an empty row

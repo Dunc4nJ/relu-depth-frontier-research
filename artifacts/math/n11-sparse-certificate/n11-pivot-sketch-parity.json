@@ -1,0 +1,23 @@
+{
+  "exact": true,
+  "matrix_report": "artifacts/math/n11-sparse-certificate/n11-f2-sketch-matrix/matrix.json",
+  "matrix_report_sha256": "c3ab280bed26aea11c4d2eba0486bc59c75550cc168c6c908a140545b362a080",
+  "negative_control": {
+    "mutation": "+1/1 on one prior exact sketch entry",
+    "rejected_denominator": 1,
+    "rejected_numerator": 1
+  },
+  "no_claim": "Parity with the prior exact pivot sketch validates construction but does not verify any floating LP candidate or rational identity.",
+  "pivot_columns_verified_denominator": 15904,
+  "pivot_columns_verified_numerator": 15904,
+  "prior_problem": "artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_sketch_problem.eliftq02",
+  "prior_problem_bytes": 7580786800,
+  "prior_problem_sha256": "7920afbbdd537510946d46f09f7bd67765a8d53db65f0686ef36aeabf17dd7f7",
+  "schema": "max11-sparse-sketch-pivot-parity-v1",
+  "seconds": 7.264012211933732,
+  "sketch_entries_verified_denominator": 109624399,
+  "sketch_entries_verified_numerator": 109624399,
+  "target_rows_verified_denominator": 15904,
+  "target_rows_verified_numerator": 15904,
+  "verdict": "PASS"
+}

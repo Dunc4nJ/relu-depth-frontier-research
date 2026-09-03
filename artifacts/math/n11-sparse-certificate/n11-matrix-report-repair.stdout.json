@@ -1,0 +1,42 @@
+{
+  "no_claim": "Repairing report path strings is not an LP result or an exact identity.",
+  "original_matrix_report_sha256": "378a6e9797df2257305ce44d2ddc1d81639acfae98c6b0bfc6128f6d2b552639",
+  "raw_files": [
+    {
+      "bytes": 2084640716,
+      "label": "index",
+      "path": "index.u32le",
+      "sha256": "6e180c8b707e8b7c433af8a4776221206f033a7f369ab777edf7d16c80d9122e"
+    },
+    {
+      "bytes": 600608,
+      "label": "source",
+      "path": "source.u64le",
+      "sha256": "80e4db5419b7c15b3475c4523d71d24091fdeffb5a0d924c792ce148589b7998"
+    },
+    {
+      "bytes": 600616,
+      "label": "start",
+      "path": "start.u64le",
+      "sha256": "551cd5a4d340ed8e6f68e959118e137d37691bdf9d8c80e1102d4e0c8503e81b"
+    },
+    {
+      "bytes": 127232,
+      "label": "target",
+      "path": "target.i64le",
+      "sha256": "6cda066fa660390192372c2bda76005ca7bc44a905db2ee07568cf3d8d6b23bf"
+    },
+    {
+      "bytes": 4169281432,
+      "label": "value",
+      "path": "value.i64le",
+      "sha256": "2e64bf4dff5af6f36824a5465fd506621f3e3b118848988c9b460cb996ffdef6"
+    }
+  ],
+  "raw_files_verified_denominator": 5,
+  "raw_files_verified_numerator": 5,
+  "repaired_matrix_report_sha256": "c3ab280bed26aea11c4d2eba0486bc59c75550cc168c6c908a140545b362a080",
+  "schema": "max11-sparse-matrix-report-repair-v1",
+  "scope": "report-only Unix filename serialization; no matrix bytes changed",
+  "verdict": "PASS"
+}
