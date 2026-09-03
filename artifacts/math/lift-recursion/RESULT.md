@@ -38,7 +38,7 @@ other row, the convention of `tools/exactlift/exactlift.py`) lies in
 
 **Every hypothesis tested fails.**  `H1` is `NON_MEMBER` at all eight
 taxonomies at 9 → 10 and again, with numerically identical ranks, at 10 → 11.
-`H2` is `NON_MEMBER` at the base taxonomy at 9 → 10.  Every verdict is exact
+`H2` is `NON_MEMBER` at the base taxonomy at both rungs.  Every verdict is exact
 over `Q`, carried by an exact rational dual; nothing here is modular-only.
 
 The failures are not near misses in the rank sense — `rank [S | b] = rank S + 1`
@@ -176,13 +176,14 @@ the sketch is not what limits it, and its exact dual extends by zero to the full
 row space: **`H2/T1` is an exact `NON_MEMBER` for the complete row space, not a
 sketch artifact.**
 
-`H2/T2b` (6,419 unknowns) was started and then abandoned: with 6,419 classes
-against 5,420 sketch rows the matrix has more columns than rows, its rank
-saturated the sketch, and the resulting `MEMBER`-on-sketch verdict carries no
-information about the full row space while its exact certificate was still
-running after an hour.  It is not reported.  Nothing follows from its absence:
-`H2/T2b` refines `H2/T1`, so it is a strictly weaker hypothesis and its verdict
-is not implied by the `H2/T1` failure.
+`H2/T2b` (6,419 unknowns) was started and abandoned after an hour without a
+verdict, and is not reported.  The design was wrong for this rung rather than
+merely slow: 6,419 classes against only 5,420 sketch rows leaves the rank
+row-limited, so the test could not have distinguished a real `MEMBER` from the
+sketch simply running out of rows.  Nothing follows from its absence — `H2/T2b`
+refines `H2/T1`, so it is a strictly weaker hypothesis whose verdict is *not*
+implied by the `H2/T1` failure.  The same design flaw does not affect 10 → 11,
+where the sketch has 30,620 rows against at most 7,874 classes.
 
 ## Results — 10 → 11
 
@@ -206,16 +207,19 @@ the same kind of object as at 9 → 10.
 | H1/Tv | 9 | 243,122 | 9 | 10 | 9 | 10 | NON_MEMBER | dual on 10 rows |
 | H1/Tn | 5 | 243,122 | 5 | 6 | 5 | 6 | NON_MEMBER | dual on 6 rows |
 | H1/T0 | 1 | 243,122 | 1 | 2 | 1 | 2 | NON_MEMBER | dual on 2 rows |
+| H2/T1 (sketch rows) | 3,614 | 30,620 | 3,530 | 3,531 | 3,530 | 3,531 | NON_MEMBER | dual on 3531 rows |
 
-**The 10 → 11 numbers are identical to 9 → 10 at every level**: the same class
+**The `H1` numbers are identical to 9 → 10 at every level**: the same class
 counts, the same ranks, the same `rank [S | b] = rank S + 1`, and the same four
-linear dependencies among the 455 `T3` class sums.  Whatever the obstruction is,
-it is not an accident of one arity.
+linear dependencies among the 455 `T3` class sums, even though the row space is
+2.8 times larger and the parents are a different certificate.  Whatever the
+obstruction is, it is not an accident of one arity.
 
-`H2` at 10 → 11 (one free unknown per realized (parent term, attachment type)
-pair, decided on the 30,620-row sketch) was still running when this file was
-written and is not reported here; the `H1` verdicts above stand on their own and
-do not depend on it.
+`H2` at 10 → 11 puts one free unknown on each of the 3,614 realized (parent
+term, attachment type) pairs and is decided on the 30,620-row sketch.  Its rank
+is 3,530, far below the sketch height, so the sketch does not limit it and its
+exact dual extends by zero to the full 243,122-row space: this too is an exact
+`NON_MEMBER` for the complete row space.
 
 ## Controls
 
@@ -230,16 +234,16 @@ do not depend on it.
 
 ## Interpretation
 
-Inheriting the parent coefficient and paying only an attachment-type price does
-not produce `MAX_10`: at every one of eight taxonomies, from a single class up
-to 455 classes distinguishing thirteen incidence features, the target sits
-exactly one dimension outside the span, and letting the price also depend freely
-on the parent term does not help.  The obstruction is not a shortage of columns,
+Inheriting the parent coefficient and paying only an attachment-type price
+produces neither `MAX_10` nor `MAX_11`: at every one of eight taxonomies, from a
+single class up to 455 classes distinguishing thirteen incidence features, the
+target sits exactly one dimension outside the span at both rungs, and letting
+the price also depend freely on the parent term does not help.  The obstruction is not a shortage of columns,
 because bead ksi's rank-17,127 result says this same family spans the target
 when its 114,814 columns are free, and the dual control confirms that the
 separating functionals still pair nontrivially with individual family columns.
-It is also not merely a shortage of classes: the `H2` failure at 9 → 10 uses
-2,890 free unknowns, within a factor of two of the `C11` coarsening that *did*
+It is also not merely a shortage of classes: the `H2` failures use 2,890 and
+3,614 free unknowns, within a factor of two of the `C11` coarsening that *did*
 pass in `artifacts/math/class-sum-n9-n10`, which suggests the missing
 information is qualitative — that earlier work found membership returns only for
 class functions that see the isomorphism type of the unsigned union graph, and
