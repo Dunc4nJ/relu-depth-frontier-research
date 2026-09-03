@@ -63,6 +63,7 @@ def solve(
     initial_reweight_from_witness: bool = False,
     reweight_floor: float = 0.0,
     initial_basis: Path | None = None,
+    simplex_strategy: int = 1,
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -108,6 +109,8 @@ def solve(
         raise ValueError("reweight_solver must be same, simplex, or ipm")
     if not 0.0 <= reweight_floor <= reweight_cap:
         raise ValueError("reweight_floor must be in [0, reweight_cap]")
+    if simplex_strategy not in range(5):
+        raise ValueError("simplex_strategy must be 0..4")
     # HiGHS requires float64 values. Keep one block resident. The split model
     # passes it again with negative sign; the epigraph model uses free c and
     # explicit -t <= c <= t rows, halving the dominant matrix block.
@@ -123,7 +126,7 @@ def solve(
         "log_file": str(log),
         "output_flag": True,
         "solver": solver,
-        "simplex_strategy": 1,
+        "simplex_strategy": simplex_strategy,
         "run_crossover": "on",
         "parallel": "off",
         "threads": threads,
@@ -409,6 +412,7 @@ def main() -> None:
     parser.add_argument("--initial-reweight-from-witness", action="store_true")
     parser.add_argument("--reweight-floor", type=float, default=0.0)
     parser.add_argument("--initial-basis", type=Path)
+    parser.add_argument("--simplex-strategy", type=int, choices=range(5), default=1)
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -428,6 +432,7 @@ def main() -> None:
         args.initial_reweight_from_witness,
         args.reweight_floor,
         args.initial_basis,
+        args.simplex_strategy,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
