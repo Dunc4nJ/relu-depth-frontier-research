@@ -39,7 +39,8 @@ nohup bash artifacts/math/n12-stageA/run_remote_arm.sh \
 
 - NVL wrapper PID: 35070.
 - NVL streamrank PID: 35079.
-- replacement multibox watcher PID: 724506.
+- replacement multibox watcher PID: 727714, held by tmux session
+  `navy-n12-arm-watch`.
 - streamrank binary SHA-256:
   `cdf835b269d25a37f110d72f16865e6f511d5154b5caf7808dd2eb1d82bc85c3`.
 - universe SHA-256:
