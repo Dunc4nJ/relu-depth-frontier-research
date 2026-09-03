@@ -1,0 +1,16 @@
+[package]
+name = "max11-sparse-sketch-builder"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0"
+flate2 = "1.1"
+max11-colgen = { path = "../../../../tools/colgen" }
+rayon = "1.11"
+serde_json = "1.0"
+sha2 = "0.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
