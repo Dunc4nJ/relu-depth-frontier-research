@@ -47,6 +47,27 @@ pub struct SparseColumn {
     pub hinges: HashMap<Vec<i16>, i64>,
 }
 
+/// Fully symmetrized carrier for `branch_edges` common loops.
+///
+/// Each coordinate occurs in `(n-1)!` permutations, so this is the all-ones
+/// linear direction scaled by `branch_edges * (n-1)!` and has no hinge part.
+pub fn common_loop_carrier_column(n: usize, branch_edges: usize) -> Result<SparseColumn> {
+    validate_dimensions(n, branch_edges)?;
+    ensure!(
+        branch_edges > 0,
+        "common-loop carrier requires a positive branch size"
+    );
+    let factorial = checked_factorial(n - 1)?;
+    let coefficient = u64::try_from(branch_edges)?
+        .checked_mul(factorial)
+        .ok_or_else(|| anyhow::anyhow!("common-loop carrier coefficient overflow"))?;
+    let coefficient = i64::try_from(coefficient)?;
+    Ok(SparseColumn {
+        linear: vec![coefficient; n],
+        hinges: HashMap::default(),
+    })
+}
+
 #[derive(Clone, Debug, Serialize)]
 pub struct HingeEntry {
     pub direction: Vec<i16>,
@@ -620,5 +641,15 @@ mod tests {
         assert_eq!(record.signed_mass, 1);
         assert_eq!(record.negative_edges, vec![[0, 2]]);
         assert_eq!(record.positive_edges, vec![[1, 2]]);
+    }
+
+    #[test]
+    fn common_loop_carriers_scale_with_branch_size() {
+        let four_l = common_loop_carrier_column(11, 4).unwrap();
+        let five_l = common_loop_carrier_column(11, 5).unwrap();
+        assert_eq!(four_l.linear, vec![14_515_200; 11]);
+        assert_eq!(five_l.linear, vec![18_144_000; 11]);
+        assert!(four_l.hinges.is_empty());
+        assert!(five_l.hinges.is_empty());
     }
 }

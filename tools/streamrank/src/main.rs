@@ -1,6 +1,9 @@
 use anyhow::{Context, Result, bail, ensure};
 use flate2::read::GzDecoder;
-use max11_colgen::{SavedTemplate, SparseColumn, Universe, generate_column, saved_column};
+use max11_colgen::{
+    SavedTemplate, SparseColumn, Universe, common_loop_carrier_column, generate_column,
+    saved_column,
+};
 use max11_streamrank::{Echelon, ReducerMetrics, SketchSpec, set_blas_threads};
 use rayon::prelude::*;
 use serde::Serialize;
@@ -281,6 +284,7 @@ struct Config {
     backend: String,
     seeds: Vec<u64>,
     include_five_l: bool,
+    include_linear_carrier: bool,
     abort_rank_above: Option<usize>,
     abort_rss_kib_above: Option<usize>,
     expected_columns: Option<usize>,
@@ -325,6 +329,7 @@ impl Config {
             backend,
             seeds: args.seeds()?,
             include_five_l: args.bool_or("--include-five-l", false)?,
+            include_linear_carrier: args.bool_or("--include-linear-carrier", false)?,
             abort_rank_above: args.optional_usize("--abort-rank-above")?,
             abort_rss_kib_above: args.optional_usize("--abort-rss-kib-above")?,
             expected_columns: args.optional_usize("--expected-columns")?,
@@ -351,24 +356,26 @@ struct BucketResidue {
 }
 
 #[derive(Clone, Serialize)]
-struct FiveLCarrierReport {
-    label: &'static str,
+struct LinearCarrierReport {
+    label: String,
+    branch_edge_occurrences: usize,
     source_index: u64,
     exact_linear_coefficient_each_of_n_coordinates: i64,
     coordinate_count: usize,
     hinge_count: usize,
 }
 
-fn five_l_column(n: usize, source_index: u64) -> Result<(FiveLCarrierReport, SparseColumn)> {
-    let factorial = (1..n).try_fold(1i64, |value, factor| {
-        value
-            .checked_mul(i64::try_from(factor)?)
-            .context("(n-1)! overflow")
-    })?;
-    let coefficient = factorial.checked_mul(5).context("5*(n-1)! overflow")?;
+fn linear_carrier(
+    n: usize,
+    branch_edges: usize,
+    source_index: u64,
+) -> Result<(LinearCarrierReport, SparseColumn)> {
+    let column = common_loop_carrier_column(n, branch_edges)?;
+    let coefficient = column.linear[0];
     Ok((
-        FiveLCarrierReport {
-            label: "5L",
+        LinearCarrierReport {
+            label: format!("{branch_edges}L"),
+            branch_edge_occurrences: branch_edges,
             source_index,
             exact_linear_coefficient_each_of_n_coordinates: coefficient,
             coordinate_count: n,
@@ -420,7 +427,8 @@ struct Report {
     input_sha256: String,
     order_file: Option<String>,
     order_file_sha256: Option<String>,
-    five_l_carrier: Option<FiveLCarrierReport>,
+    five_l_carrier: Option<LinearCarrierReport>,
+    linear_loop_carrier: Option<LinearCarrierReport>,
     subject: String,
     n: usize,
     branch_edge_occurrences: usize,
@@ -477,7 +485,8 @@ struct AbortReport {
     input_sha256: String,
     order_file: Option<String>,
     order_file_sha256: Option<String>,
-    five_l_carrier: Option<FiveLCarrierReport>,
+    five_l_carrier: Option<LinearCarrierReport>,
+    linear_loop_carrier: Option<LinearCarrierReport>,
     subject: String,
     n: usize,
     branch_edge_occurrences: usize,
@@ -548,7 +557,8 @@ fn finish_abort(
     input_hash: &str,
     order_file: Option<&str>,
     order_file_sha256: Option<&str>,
-    five_l_carrier: Option<FiveLCarrierReport>,
+    five_l_carrier: Option<LinearCarrierReport>,
+    linear_loop_carrier: Option<LinearCarrierReport>,
     subject: &str,
     requested_source_columns: usize,
     source_columns: usize,
@@ -594,6 +604,7 @@ fn finish_abort(
         order_file: order_file.map(str::to_owned),
         order_file_sha256: order_file_sha256.map(str::to_owned),
         five_l_carrier,
+        linear_loop_carrier,
         subject: subject.to_owned(),
         n: config.n,
         branch_edge_occurrences: config.branch_edges,
@@ -634,7 +645,8 @@ struct SourceSummary {
     input_hash: String,
     order_file: Option<String>,
     order_file_sha256: Option<String>,
-    five_l_carrier: Option<FiveLCarrierReport>,
+    five_l_carrier: Option<LinearCarrierReport>,
+    linear_loop_carrier: Option<LinearCarrierReport>,
     source_columns: usize,
     exact_nnz: u128,
     column_generation_seconds: f64,
@@ -654,6 +666,7 @@ fn finish_run(
         order_file,
         order_file_sha256,
         five_l_carrier,
+        linear_loop_carrier,
         source_columns,
         exact_nnz,
         column_generation_seconds,
@@ -782,6 +795,7 @@ fn finish_run(
         order_file,
         order_file_sha256,
         five_l_carrier,
+        linear_loop_carrier,
         subject,
         n: config.n,
         branch_edge_occurrences: config.branch_edges,
@@ -864,6 +878,7 @@ fn command_saved(args: &Args) -> Result<()> {
     let config = Config::from_args(args)?;
     ensure!(
         !config.include_five_l
+            && !config.include_linear_carrier
             && config.abort_rank_above.is_none()
             && config.abort_rss_kib_above.is_none(),
         "carrier and resource-abort options are supported only by run-universe"
@@ -956,6 +971,7 @@ fn command_saved(args: &Args) -> Result<()> {
             order_file: None,
             order_file_sha256: None,
             five_l_carrier: None,
+            linear_loop_carrier: None,
             source_columns: selected,
             exact_nnz,
             column_generation_seconds,
@@ -968,6 +984,16 @@ fn command_saved(args: &Args) -> Result<()> {
 
 fn command_universe(args: &Args) -> Result<()> {
     let config = Config::from_args(args)?;
+    ensure!(
+        !(config.include_five_l && config.include_linear_carrier),
+        "--include-five-l and --include-linear-carrier are mutually exclusive"
+    );
+    if config.include_five_l {
+        ensure!(
+            config.branch_edges == 5,
+            "--include-five-l requires branch size 5"
+        );
+    }
     set_blas_threads(config.threads)?;
     let input_hash = sha256_path(&config.input)?;
     let universe: Universe = serde_json::from_reader(open_reader(&config.input)?)?;
@@ -1016,7 +1042,8 @@ fn command_universe(args: &Args) -> Result<()> {
             )
         };
     let limit = order.len();
-    let requested_source_columns = limit + usize::from(config.include_five_l);
+    let requested_source_columns =
+        limit + usize::from(config.include_five_l || config.include_linear_carrier);
     let started = Instant::now();
     let mut states: Vec<State> = config
         .seeds
@@ -1120,6 +1147,7 @@ fn command_universe(args: &Args) -> Result<()> {
                 order_file.as_deref(),
                 order_file_sha256.as_deref(),
                 None,
+                None,
                 &subject,
                 requested_source_columns,
                 batch_stop,
@@ -1133,10 +1161,12 @@ fn command_universe(args: &Args) -> Result<()> {
         }
     }
     let mut five_l_carrier = None;
+    let mut linear_loop_carrier = None;
     let mut source_columns = limit;
     if config.include_five_l {
         let generated_at = Instant::now();
-        let (descriptor, column) = five_l_column(config.n, universe.records.len() as u64)?;
+        let (descriptor, column) =
+            linear_carrier(config.n, config.branch_edges, universe.records.len() as u64)?;
         column_generation_seconds += generated_at.elapsed().as_secs_f64();
         exact_nnz += column.linear.iter().filter(|&&value| value != 0).count() as u128;
         process_batch(
@@ -1172,6 +1202,58 @@ fn command_universe(args: &Args) -> Result<()> {
                 order_file.as_deref(),
                 order_file_sha256.as_deref(),
                 five_l_carrier,
+                linear_loop_carrier,
+                &subject,
+                requested_source_columns,
+                source_columns,
+                exact_nnz,
+                column_generation_seconds,
+                progress,
+                started,
+                &states,
+                reason,
+            );
+        }
+    } else if config.include_linear_carrier {
+        let generated_at = Instant::now();
+        let (descriptor, column) =
+            linear_carrier(config.n, config.branch_edges, universe.records.len() as u64)?;
+        column_generation_seconds += generated_at.elapsed().as_secs_f64();
+        exact_nnz += column.linear.iter().filter(|&&value| value != 0).count() as u128;
+        process_batch(
+            &mut states,
+            &[(descriptor.source_index, column)],
+            config.prime,
+        )?;
+        subject.push_str(&format!("+{}", descriptor.label));
+        linear_loop_carrier = Some(descriptor);
+        source_columns += 1;
+        let elapsed = started.elapsed().as_secs_f64();
+        progress.push(ProgressPoint {
+            source_columns_processed: source_columns,
+            ranks: states.iter().map(|state| state.basis.rank()).collect(),
+            elapsed_seconds: elapsed,
+            cumulative_seconds_per_column: elapsed / source_columns as f64,
+        });
+        eprintln!(
+            "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3}",
+            source_columns,
+            requested_source_columns,
+            states
+                .iter()
+                .map(|state| state.basis.rank())
+                .collect::<Vec<_>>(),
+            started.elapsed().as_secs_f64()
+        );
+        if let Some(reason) = abort_reason(&config, &states) {
+            return finish_abort(
+                args,
+                &config,
+                &input_hash,
+                order_file.as_deref(),
+                order_file_sha256.as_deref(),
+                five_l_carrier,
+                linear_loop_carrier,
                 &subject,
                 requested_source_columns,
                 source_columns,
@@ -1193,6 +1275,7 @@ fn command_universe(args: &Args) -> Result<()> {
             order_file,
             order_file_sha256,
             five_l_carrier,
+            linear_loop_carrier,
             source_columns,
             exact_nnz,
             column_generation_seconds,
@@ -1204,7 +1287,7 @@ fn command_universe(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [--include-five-l true] [--abort-rank-above R] [--abort-rss-kib-above KIB] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
+    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [--include-five-l true | --include-linear-carrier true] [--abort-rank-above R] [--abort-rss-kib-above KIB] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
 }
 
 fn main() -> Result<()> {
@@ -1225,14 +1308,24 @@ mod tests {
     use super::*;
 
     #[test]
-    fn five_l_is_exact_all_ones_carrier() {
-        let (descriptor, column) = five_l_column(11, 754_017).unwrap();
+    fn common_loop_carriers_are_exact_all_ones_columns() {
+        let (descriptor, column) = linear_carrier(11, 5, 754_017).unwrap();
         assert_eq!(descriptor.source_index, 754_017);
+        assert_eq!(descriptor.label, "5L");
         assert_eq!(
             descriptor.exact_linear_coefficient_each_of_n_coordinates,
             18_144_000
         );
         assert_eq!(column.linear, vec![18_144_000; 11]);
+        assert!(column.hinges.is_empty());
+
+        let (descriptor, column) = linear_carrier(11, 4, 18_000).unwrap();
+        assert_eq!(descriptor.label, "4L");
+        assert_eq!(
+            descriptor.exact_linear_coefficient_each_of_n_coordinates,
+            14_515_200
+        );
+        assert_eq!(column.linear, vec![14_515_200; 11]);
         assert!(column.hinges.is_empty());
     }
 }

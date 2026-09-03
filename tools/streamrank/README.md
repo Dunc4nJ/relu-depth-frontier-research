@@ -45,7 +45,10 @@ for NON_MEMBER outcomes.
 One or two distinct values are accepted by `--seeds`. Stage runs may append
 the exact `5L` carrier with `--include-five-l true`; for `n=11` it has eleven
 linear coefficients equal to `5*10! = 18,144,000`, no hinges, and source index
-`universe.records.len()` (754,017 for G-0027). Resource gates use
+`universe.records.len()` (754,017 for G-0027). The generic
+`--include-linear-carrier true` form appends `kL` for the universe's branch
+size with coefficient `k*(n-1)!` on every coordinate (14,515,200 for 4L at
+n=11). The two carrier flags are mutually exclusive. Resource gates use
 `--abort-rank-above R` and `--abort-rss-kib-above KIB`; the memory gate uses
 high-water RSS so transient GEMM storage is counted. A triggered gate writes
 a create-new `max11-streamrank-abort-v1` partial report, including the processed

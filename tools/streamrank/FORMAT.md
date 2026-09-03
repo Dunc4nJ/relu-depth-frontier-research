@@ -40,6 +40,12 @@ on all `n` linear coordinates and its zero hinge count. For G-0027 this sentinel
 is 754,017 and the exact coefficient is `5*10! = 18,144,000`. Exact gatherers
 must synthesize this declared column; it is not a serialized universe record.
 
+If `linear_loop_carrier` is non-null, it is the generic `kL` analogue. Its
+source index is likewise one past the largest universe record index, its exact
+coefficient on each of the `n` linear coordinates is `k*(n-1)!`, and its hinge
+count is zero. Exactly one of `five_l_carrier` and `linear_loop_carrier` may be
+non-null.
+
 A resource-gated partial run uses schema `max11-streamrank-abort-v1` and result
 `ABORTED_GATE`. It records requested and processed column counts, exact real-nnz
 numerator over the processed denominator, progress, current/high-water RSS,

@@ -2,7 +2,8 @@ use anyhow::{Context, Result, bail, ensure};
 use flate2::read::GzDecoder;
 use max11_colgen::{
     CompiledDual, DualFile, SavedTemplate, SparseColumn, Universe, brute_force_column,
-    generate_column, mutate_one_sign, record_from_branches, saved_column,
+    common_loop_carrier_column, generate_column, mutate_one_sign, record_from_branches,
+    saved_column,
 };
 use rayon::prelude::*;
 use rustc_hash::FxHashSet;
@@ -779,18 +780,7 @@ fn write_binary_column(
 
 fn five_l_column(n: usize, branch_edges: usize) -> Result<SparseColumn> {
     ensure!(branch_edges == 5, "--include-five-l requires branch size 5");
-    let factorial = (1..n).try_fold(1i64, |product, value| {
-        product
-            .checked_mul(i64::try_from(value)?)
-            .context("5L factorial overflow")
-    })?;
-    let coefficient = 5i64
-        .checked_mul(factorial)
-        .context("5L coefficient overflow")?;
-    Ok(SparseColumn {
-        linear: vec![coefficient; n],
-        hinges: Default::default(),
-    })
+    common_loop_carrier_column(n, branch_edges)
 }
 
 fn command_emit(args: &Args) -> Result<()> {
@@ -812,6 +802,11 @@ fn command_emit(args: &Args) -> Result<()> {
         .map(|value| value.parse())
         .transpose()?;
     let include_five_l = args.bool_or("--include-five-l", false)?;
+    let include_linear_carrier = args.bool_or("--include-linear-carrier", false)?;
+    ensure!(
+        !(include_five_l && include_linear_carrier),
+        "--include-five-l and --include-linear-carrier are mutually exclusive"
+    );
     let universe: Universe = load_json(&input)?;
     validate_universe(&universe)?;
     let order: Vec<usize> = if let Some(path) = args.values.get("--order-file").map(PathBuf::from) {
@@ -842,7 +837,7 @@ fn command_emit(args: &Args) -> Result<()> {
         );
         (start..stop).collect()
     };
-    let output_count = order.len() + usize::from(include_five_l);
+    let output_count = order.len() + usize::from(include_five_l || include_linear_carrier);
     let mut writer = create_output(&output)?;
     if format == "binary" {
         writer.write_all(b"MCOLGEN1")?;
@@ -891,6 +886,15 @@ fn command_emit(args: &Args) -> Result<()> {
         } else {
             write_binary_column(&mut writer, &column, source_index, modulus)?;
         }
+    } else if include_linear_carrier {
+        let source_index = universe.records.len();
+        let column = common_loop_carrier_column(universe.n, universe.branch_edge_occurrences)?;
+        if format == "jsonl" {
+            serde_json::to_writer(&mut writer, &column.output(source_index, modulus)?)?;
+            writer.write_all(b"\n")?;
+        } else {
+            write_binary_column(&mut writer, &column, source_index, modulus)?;
+        }
     }
     writer.flush()?;
     eprintln!(
@@ -902,7 +906,7 @@ fn command_emit(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-colgen validate-templates --input FILE.jsonl[.gz] --n N --branch-edges K --threads N --output REPORT.json [--bruteforce] [--mutate-one-sign]\n  max11-colgen validate-prices --universe FILE.json.gz --dual FILE.json --expected-report FILE.json --threads N --output REPORT.json\n  max11-colgen benchmark --universe FILE.json.gz --sample-size 1000 --seed N --threads N --output REPORT.json\n  max11-colgen scan-universe --universe FILE.json.gz --threads N --output REPORT.json [--start N --limit N]\n  max11-colgen emit-universe --universe FILE.json.gz --threads N --output FILE --format jsonl|binary [--modulus P] [--order-file INDICES.json | --start N --limit N] [--include-five-l true]"
+    "usage:\n  max11-colgen validate-templates --input FILE.jsonl[.gz] --n N --branch-edges K --threads N --output REPORT.json [--bruteforce] [--mutate-one-sign]\n  max11-colgen validate-prices --universe FILE.json.gz --dual FILE.json --expected-report FILE.json --threads N --output REPORT.json\n  max11-colgen benchmark --universe FILE.json.gz --sample-size 1000 --seed N --threads N --output REPORT.json\n  max11-colgen scan-universe --universe FILE.json.gz --threads N --output REPORT.json [--start N --limit N]\n  max11-colgen emit-universe --universe FILE.json.gz --threads N --output FILE --format jsonl|binary [--modulus P] [--order-file INDICES.json | --start N --limit N] [--include-five-l true | --include-linear-carrier true]"
 }
 
 fn main() -> Result<()> {
