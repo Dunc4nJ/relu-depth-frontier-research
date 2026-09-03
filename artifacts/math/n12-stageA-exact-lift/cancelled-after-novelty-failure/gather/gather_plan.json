@@ -1,0 +1,313 @@
+{
+  "batch_count": 33,
+  "batch_size": 1024,
+  "batches": [
+    {
+      "batch": 0,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-000.json",
+      "order_file_sha256": "16943d5bace0e493365d3dc456599e651c5d5c06fec5fd0a97ea9f0ae17b5467",
+      "pivot_count": 1024,
+      "pivot_offset": 0,
+      "real_count": 1024
+    },
+    {
+      "batch": 1,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-001.json",
+      "order_file_sha256": "71b29a81f9c456d18bc442f8277e4235fd669f9669ffbee0cce523048a2c3c19",
+      "pivot_count": 1024,
+      "pivot_offset": 1024,
+      "real_count": 1024
+    },
+    {
+      "batch": 2,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-002.json",
+      "order_file_sha256": "0959b7840e0c1ecd8f50b4aef831b22515a1e1fa87803e51c5264346ea85452c",
+      "pivot_count": 1024,
+      "pivot_offset": 2048,
+      "real_count": 1024
+    },
+    {
+      "batch": 3,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-003.json",
+      "order_file_sha256": "6e8b639e9cc99dd758583239d5cef98aecb6360cf37407ed570ddca20cc9d2dd",
+      "pivot_count": 1024,
+      "pivot_offset": 3072,
+      "real_count": 1024
+    },
+    {
+      "batch": 4,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-004.json",
+      "order_file_sha256": "27e7a0c6ff37b285f4a01e2ae69daad0eb5bee71211883d4ab557aab94386534",
+      "pivot_count": 1024,
+      "pivot_offset": 4096,
+      "real_count": 1024
+    },
+    {
+      "batch": 5,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-005.json",
+      "order_file_sha256": "1d8546c8cde64d85084f4bc6b77278ab9cd2ec69d7f6205b06f341e6979a806f",
+      "pivot_count": 1024,
+      "pivot_offset": 5120,
+      "real_count": 1024
+    },
+    {
+      "batch": 6,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-006.json",
+      "order_file_sha256": "6f8a5b7222c0db61071ca15b50df481714364274de1359f2611001398d8aabd0",
+      "pivot_count": 1024,
+      "pivot_offset": 6144,
+      "real_count": 1024
+    },
+    {
+      "batch": 7,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-007.json",
+      "order_file_sha256": "236402ff6818da19c65ba293f8fc944393dbb2fe8273e3215d1a70befe01f487",
+      "pivot_count": 1024,
+      "pivot_offset": 7168,
+      "real_count": 1024
+    },
+    {
+      "batch": 8,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-008.json",
+      "order_file_sha256": "47b1ab74cd8918ab4f5e170b3bb463a12899ffaf8b19fec06bdbb32be6d481e9",
+      "pivot_count": 1024,
+      "pivot_offset": 8192,
+      "real_count": 1024
+    },
+    {
+      "batch": 9,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-009.json",
+      "order_file_sha256": "9965f9a376cda00f4b531dbd1114999c6bd166f0e89b63e61b142a2b3b722015",
+      "pivot_count": 1024,
+      "pivot_offset": 9216,
+      "real_count": 1024
+    },
+    {
+      "batch": 10,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-010.json",
+      "order_file_sha256": "ce69f89205b06fe1f2a7f9859ccb8b185c382f520f50c1f8f9591da81e00b769",
+      "pivot_count": 1024,
+      "pivot_offset": 10240,
+      "real_count": 1024
+    },
+    {
+      "batch": 11,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-011.json",
+      "order_file_sha256": "a5ceac34a6dd15eb2ad3c70aac250ff8bf6be2bf3d0dac9f9d00b6f66adf75a7",
+      "pivot_count": 1024,
+      "pivot_offset": 11264,
+      "real_count": 1024
+    },
+    {
+      "batch": 12,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-012.json",
+      "order_file_sha256": "1745d6194b154458e67b50508e66c57e46dc8f513fb47c1702e1e80da6f64bcf",
+      "pivot_count": 1024,
+      "pivot_offset": 12288,
+      "real_count": 1024
+    },
+    {
+      "batch": 13,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-013.json",
+      "order_file_sha256": "8902080c3fb943c84fee34ee7a984452e2434ea384f9a5641b4105e221d80f34",
+      "pivot_count": 1024,
+      "pivot_offset": 13312,
+      "real_count": 1024
+    },
+    {
+      "batch": 14,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-014.json",
+      "order_file_sha256": "42104f459155fb75fc9e5a808de1e4b87b525a9bdefd3f9d9a211e4ad41b947e",
+      "pivot_count": 1024,
+      "pivot_offset": 14336,
+      "real_count": 1024
+    },
+    {
+      "batch": 15,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-015.json",
+      "order_file_sha256": "74f98a1339f90aeba9a3e47c58fcaf07bd58cef326f94fbad3ddfeb5dc25f4b9",
+      "pivot_count": 1024,
+      "pivot_offset": 15360,
+      "real_count": 1024
+    },
+    {
+      "batch": 16,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-016.json",
+      "order_file_sha256": "779e8c28c1165e77563a84b0ac49b17afea5cb47d18021c52cff07f4174a411d",
+      "pivot_count": 1024,
+      "pivot_offset": 16384,
+      "real_count": 1024
+    },
+    {
+      "batch": 17,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-017.json",
+      "order_file_sha256": "ff2ef379c3c93441a7cd4f3a0c7412ef978abffe4b1e1e6ad5c177b536618e3c",
+      "pivot_count": 1024,
+      "pivot_offset": 17408,
+      "real_count": 1024
+    },
+    {
+      "batch": 18,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-018.json",
+      "order_file_sha256": "8d852e6530bd01df7e1ef1dc605f11c3ffa8b76c3b91e672a79be8e4fc073a76",
+      "pivot_count": 1024,
+      "pivot_offset": 18432,
+      "real_count": 1024
+    },
+    {
+      "batch": 19,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-019.json",
+      "order_file_sha256": "8379fc57179db10c69b4705b812a4a70e1a1109627890215d143cf6fe22257d7",
+      "pivot_count": 1024,
+      "pivot_offset": 19456,
+      "real_count": 1024
+    },
+    {
+      "batch": 20,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-020.json",
+      "order_file_sha256": "b2a37a9f38b7206c10072addeeec5fd871f276b98cec917e18e1594bb684b8ae",
+      "pivot_count": 1024,
+      "pivot_offset": 20480,
+      "real_count": 1024
+    },
+    {
+      "batch": 21,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-021.json",
+      "order_file_sha256": "a6f6077074c319c1f4266793f35abf2e4e47659aaafd59a146a11cb9c2fd30e8",
+      "pivot_count": 1024,
+      "pivot_offset": 21504,
+      "real_count": 1024
+    },
+    {
+      "batch": 22,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-022.json",
+      "order_file_sha256": "de20a1c48029a54b2b4397389f8f566ae99a42674c51e937fb1ea3e5c23bd924",
+      "pivot_count": 1024,
+      "pivot_offset": 22528,
+      "real_count": 1024
+    },
+    {
+      "batch": 23,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-023.json",
+      "order_file_sha256": "577e853d050d0754edf825f05cd86c3c0fe000d9fbee97e29c5f7e9e733ed50a",
+      "pivot_count": 1024,
+      "pivot_offset": 23552,
+      "real_count": 1024
+    },
+    {
+      "batch": 24,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-024.json",
+      "order_file_sha256": "d8f5a170872537cd00a01ff9b8cde8cb21de3bbba75c0ceec5cfd1eaefb38e56",
+      "pivot_count": 1024,
+      "pivot_offset": 24576,
+      "real_count": 1024
+    },
+    {
+      "batch": 25,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-025.json",
+      "order_file_sha256": "1cf0ad4afcf6638da752dce2d149e4a1cec5ac8cea8e1a1424939ae3c1eacb00",
+      "pivot_count": 1024,
+      "pivot_offset": 25600,
+      "real_count": 1024
+    },
+    {
+      "batch": 26,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-026.json",
+      "order_file_sha256": "563e8ff1a45076be37c16bf1e12a753a280076499dbc020d8ff92e6b4ca36c04",
+      "pivot_count": 1024,
+      "pivot_offset": 26624,
+      "real_count": 1024
+    },
+    {
+      "batch": 27,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-027.json",
+      "order_file_sha256": "6dfac6342fe360434a2500857caa48e82fae7154032d6e5a0757f41e8c3445d9",
+      "pivot_count": 1024,
+      "pivot_offset": 27648,
+      "real_count": 1024
+    },
+    {
+      "batch": 28,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-028.json",
+      "order_file_sha256": "ba893a0dd56ab5deebbca9f632ea49773c30a5b419b3b9691f13207e6c7d1d09",
+      "pivot_count": 1024,
+      "pivot_offset": 28672,
+      "real_count": 1024
+    },
+    {
+      "batch": 29,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-029.json",
+      "order_file_sha256": "57c84b5a30dea151ed987051cd2b6379f91164e19e697d1ef61292c32e076b51",
+      "pivot_count": 1024,
+      "pivot_offset": 29696,
+      "real_count": 1024
+    },
+    {
+      "batch": 30,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-030.json",
+      "order_file_sha256": "1f9310a36a9326ad528b06ebd07aa58af9cfa5da99b1f7bef86f1fb39047b25e",
+      "pivot_count": 1024,
+      "pivot_offset": 30720,
+      "real_count": 1024
+    },
+    {
+      "batch": 31,
+      "include_five_l": false,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-031.json",
+      "order_file_sha256": "ef82a8908d07a5c16cdcbfc7f11081bf3cbe9059ee5e26d8c46e838e82623344",
+      "pivot_count": 1024,
+      "pivot_offset": 31744,
+      "real_count": 1024
+    },
+    {
+      "batch": 32,
+      "include_five_l": true,
+      "order_file": "artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/gather/orders/order-032.json",
+      "order_file_sha256": "b7c30a9eafd643ffbd301a1d2696a79d08397c0410b64c7939c628109f862bd5",
+      "pivot_count": 686,
+      "pivot_offset": 32768,
+      "real_count": 685
+    }
+  ],
+  "pivot_columns_u64_le_sha256": "42a27b85f70a063d8cdcab2db25f61b07c4a6dfa872f31edee9707c42ed91e47",
+  "pivot_report": "artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.json",
+  "pivot_report_sha256": "dd105648e6dffbc80b6bf54d65e6901073cef0a77ea81d32eaa4051336111718",
+  "rank_a": 33454,
+  "rank_augmented": 33454,
+  "schema": "max11-exact-pivot-gather-plan-v1",
+  "synthetic_five_l_index": 787523,
+  "synthetic_five_l_pivot_count": 1,
+  "universe_count": 787523,
+  "verdict": "MEMBER"
+}

@@ -1,0 +1,56 @@
+PIPELINE_START 2026-09-03T02:10:22Z
+pivot_report=artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.json
+run_dir=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda
+threads=16
+prime=65521
+max_steps=40000
+reconstruct_every=50
+dd105648e6dffbc80b6bf54d65e6901073cef0a77ea81d32eaa4051336111718  artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.json
+f98352ea4d1517f0b88aba0b38d34be0edb0b845aac3eaa724f3bd1f8f83f640  artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz
+1b1982a266617ccd419d4874abc596f917bf0396acbafac4d7aa67d3054bb2b1  tools/colgen/target/release/max11-colgen
+a50338c305b8855a4540a8f55c4d21b1b388428223b0f4e3b7c80280c30f0429  artifacts/math/n11-stageA-exact-lift/max11-lift-large-a50338c3
+PIPELINE_PHASE gather-plan
+PIPELINE_PHASE gather-exact-columns
+COLGEN_EMIT_PASS records=1024 seconds=194.617 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-000.mcolgen1
+5282bb0f0774b1a085d15396abdda78ac25de8387688110d749cad30b209f502  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-000.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=193.290 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-001.mcolgen1
+2c16cb6f581b3a459db9f97a72f22ac7ba4168070fb1ecef267192938139cf17  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-001.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=191.393 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-002.mcolgen1
+7e85efa80ca6aa1391b33fa078e484a4f5b69f825ad1e08fb3924ae215c8214b  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-002.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=195.134 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-003.mcolgen1
+15121c5b53f278ca3030fe3cacea46bc613d90602d0b9cf4333ee7558a1bc038  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-003.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=217.161 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-004.mcolgen1
+bf27fba2c807e3e17921d70d6002e654ba7b1e6d109d5b5a6beca4842138aa20  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-004.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=203.375 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-005.mcolgen1
+fa3c35638172e6ea30ae0568bfb7d1ad222fd5ec4625e07073266bd93195de35  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-005.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=170.525 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-006.mcolgen1
+df20b098cf890056133b49c351aca7e5a3763e367a0e98f26a19e736de7bf663  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-006.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=148.570 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-007.mcolgen1
+fcb602620eb7cbaf6433aaa2faa25f55eb67c1aadc3d48b606e3781e5a0ec430  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-007.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=171.681 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-008.mcolgen1
+e69e738c0c608c8e5a51d056bd2677062ba6de04d94ff7f47fa919301c7c6b6f  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-008.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=173.231 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-009.mcolgen1
+033f3ceb94a5e2f72be49e37d6afc41959c2cc82446972e262f6d3b963f3bf46  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-009.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=189.935 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-010.mcolgen1
+d035fddf831c6f00f631b8ad9c7912f0447274d104a7ccabc6d55d8feff50fd4  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-010.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=180.375 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-011.mcolgen1
+15481f2bc9ebd024158f55aae8818b7859df863acd3eae3ebc0989c70470ca45  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-011.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=195.879 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-012.mcolgen1
+2927c46b4f28b8625534149f4d6d8ff21bf3cad2bd6b4debdbff7d31bd4b8453  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-012.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=166.178 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-013.mcolgen1
+750c92069337304dbdc9e416d813d546a6e863f6d2f1afc9ecdb87b6363d65ef  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-013.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=171.944 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-014.mcolgen1
+3cf2a17c2a419e8892cc0cea91d2971eb9f7b43a7323d70215389dc6f6ea602f  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-014.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=181.784 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-015.mcolgen1
+5117b3201415ed888456e5e72e100450c6077522767b1beabe3d68ec899c8720  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-015.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=154.538 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-016.mcolgen1
+5a429eba7d9d823132879480eaab2c4377ad4cf9fe01ead83cbbb9e627887cbc  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-016.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=116.584 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-017.mcolgen1
+ae95edbfa1f7ecaa78cf4a4db75aee30fd4bda6ce6c5edceef8d57f175395411  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-017.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=154.538 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-018.mcolgen1
+05da87ac216dc4b12575e602459ac398e740e7118b4ef6620cdec8f97dc4128e  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-018.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=146.764 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-019.mcolgen1
+13a59b4d30ff497da979f07f64735bbba555b20c0f61ecc84d7c518afffd0554  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-019.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=218.803 output=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-020.mcolgen1
+11439ba715e5a3910abf12e7d03f39b35c3e40b4638af4f1a8af7b4d09d62f3d  artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda/batches/batch-020.mcolgen1
+Terminated

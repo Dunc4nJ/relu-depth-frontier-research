@@ -1,0 +1,11 @@
+tools/colgen/target/release/max11-colgen: OK
+artifacts/math/n11-stageA-exact-lift/max11-lift-large-a50338c3: OK
+HHS_LIFT_LAUNCHED
+pivot_report=artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.json
+pivot_report_sha256=dd105648e6dffbc80b6bf54d65e6901073cef0a77ea81d32eaa4051336111718
+rank=33454/33454
+verdict=MEMBER
+pivot_sha256=42a27b85f70a063d8cdcab2db25f61b07c4a6dfa872f31edee9707c42ed91e47
+available_bytes=2023902916608
+LIFT_PID=25462
+run_dir=artifacts/math/n12-stageA-exact-lift/member-n12-stageA-m128000-p1000003-s2026090201-cuda

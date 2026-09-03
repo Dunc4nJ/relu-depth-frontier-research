@@ -1,0 +1,16 @@
+artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz: OK
+artifacts/math/n12-universe/stage_a_order_n12_v1.json: OK
+tools/streamrank/target/release/max11-streamrank: OK
+2026-09-02T22:02:03Z
+OPENBLAS_CORETYPE=HASWELL OPENBLAS_VERBOSE=2
+cdf835b269d25a37f110d72f16865e6f511d5154b5caf7808dd2eb1d82bc85c3  tools/streamrank/target/release/max11-streamrank
+f98352ea4d1517f0b88aba0b38d34be0edb0b845aac3eaa724f3bd1f8f83f640  artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz
+691cb0368545f8834c98e891bbb771476e547ce9e140887c9791710a8786a7c1  artifacts/math/n12-universe/stage_a_order_n12_v1.json
+STREAMRANK_PID=10917
+2026-09-03T02:09:11Z
+STREAMRANK_EXIT=0 EXTERNAL_ABORT=0
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.stdout.log
+2ba0ac6ab0da1a218576832f2f9c80457d80f364db1eadc587ff0a3ad9571ecb  artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.stderr.log
+5f5b91dcc96165efff17b3e43099b027badb156f77ce97e75e6601e6cd0d7615  artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.telemetry.csv
+dd105648e6dffbc80b6bf54d65e6901073cef0a77ea81d32eaa4051336111718  artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090201-cuda.json
+{"progress_final": {"cumulative_seconds_per_column": 0.0997055145133453, "elapsed_seconds": 14819.130916604, "ranks": [33454], "source_columns_processed": 148629}, "result": "OBSERVATION", "schema": "max11-streamrank-pivots-v1", "sketches": [{"pivot_sha256": "42a27b85f70a063d8cdcab2db25f61b07c4a6dfa872f31edee9707c42ed91e47", "rank_a": 33454, "rank_augmented": 33454, "saturated": false, "seed": 2026090201, "verdict": "MEMBER"}], "source_column_count": 148629, "source_columns_denominator": 148629}
