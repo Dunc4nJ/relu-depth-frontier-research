@@ -96,6 +96,23 @@ class SparseLpTests(unittest.TestCase):
             self.assertEqual(basis_run["initial_basis"]["basis_columns_numerator"], 3)
             self.assertEqual(basis_run["row_scaling"]["nonzero_rows_numerator"], 3)
             self.assertEqual(basis_run["row_scaling"]["target_row_scale_cap"], 4.0)
+            feasible, residual, minimum = solve_l1.explicit_split_feasible(
+                solve_l1.np.array([1.0, -2.0]),
+                solve_l1.np.array([1.0, -2.0]),
+                solve_l1.np.array([0.0, -5e-10]),
+                1e-9,
+            )
+            self.assertTrue(feasible)
+            self.assertEqual(residual, 0.0)
+            self.assertEqual(minimum, -5e-10)
+            self.assertFalse(
+                solve_l1.explicit_split_feasible(
+                    solve_l1.np.array([1.0, -2.0 + 2e-9]),
+                    solve_l1.np.array([1.0, -2.0]),
+                    solve_l1.np.array([0.0, 0.0]),
+                    1e-9,
+                )[0]
+            )
             selected = select_exact_support.select(
                 matrix,
                 root / "l1.json",

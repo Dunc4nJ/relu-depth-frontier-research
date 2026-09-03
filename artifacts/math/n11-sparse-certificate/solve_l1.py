@@ -45,6 +45,21 @@ def info_fields(info) -> dict:
     return {name: getattr(info, name) for name in names if hasattr(info, name)}
 
 
+def explicit_split_feasible(
+    row_values: np.ndarray,
+    target: np.ndarray,
+    col_values: np.ndarray,
+    tolerance: float,
+) -> tuple[bool, float, float]:
+    max_row_residual = float(np.max(np.abs(row_values - target)))
+    min_split_variable = float(np.min(col_values))
+    return (
+        max_row_residual <= tolerance and min_split_variable >= -tolerance,
+        max_row_residual,
+        min_split_variable,
+    )
+
+
 def solve(
     matrix_dir: Path,
     output: Path,
@@ -338,18 +353,39 @@ def solve(
                 changed_cost = weights
                 changed_columns = np.arange(columns, 2 * columns, dtype=np.int32)
             check(highs.changeColsCost(len(changed_columns), changed_columns, changed_cost), "changeColsCost")
-        check(highs.run(), "run")
+        run_status = highs.run()
         status = highs.getModelStatus()
         info = highs.getInfo()
+        highs_solution = highs.getSolution()
+        candidate_col_values = np.asarray(highs_solution.col_value, dtype=np.float64)
+        candidate_row_values = np.asarray(highs_solution.row_value, dtype=np.float64)
+        if formulation == "split":
+            explicit_feasible, explicit_max_row_residual, explicit_min_split_variable = (
+                explicit_split_feasible(
+                    candidate_row_values[:rows], target, candidate_col_values, feasibility_tolerance
+                )
+            )
+        else:
+            explicit_feasible = False
+            explicit_max_row_residual = float(np.max(np.abs(candidate_row_values[:rows] - target)))
+            explicit_min_split_variable = None
         limited_feasible = (
             accept_feasible_limit
             and status == highspy.HighsModelStatus.kIterationLimit
-            and info.num_primal_infeasibilities == 0
-            and info.max_primal_infeasibility <= feasibility_tolerance
+            and formulation == "split"
+            and explicit_feasible
         )
+        if run_status != highspy.HighsStatus.kOk and not (
+            run_status == highspy.HighsStatus.kWarning and limited_feasible
+        ):
+            raise RuntimeError(
+                f"HiGHS run failed: {run_status}; model_status={highs.modelStatusToString(status)}; "
+                f"explicit_max_row_residual={explicit_max_row_residual}; "
+                f"explicit_min_split_variable={explicit_min_split_variable}"
+            )
         if status != highspy.HighsModelStatus.kOptimal and not limited_feasible:
             raise RuntimeError(f"round {round_number} model status {highs.modelStatusToString(status)}")
-        solution = np.asarray(highs.getSolution().col_value, dtype=np.float64)
+        solution = candidate_col_values
         signed = solution[:columns] - solution[columns:] if formulation == "split" else solution[:columns]
         support_positions = np.flatnonzero(np.abs(signed) > support_threshold)
         reports.append(
@@ -365,6 +401,8 @@ def solve(
                 "seconds": time.monotonic() - phase,
                 "model_status": highs.modelStatusToString(status),
                 "optimal": status == highspy.HighsModelStatus.kOptimal,
+                "explicit_max_row_residual": explicit_max_row_residual,
+                "explicit_min_split_variable": explicit_min_split_variable,
                 "support_threshold_absolute": support_threshold,
                 "support_numerator": int(len(support_positions)),
                 "support_denominator": columns,
