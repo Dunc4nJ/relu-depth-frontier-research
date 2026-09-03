@@ -1,0 +1,2 @@
+COLGEN_EMIT_PASS records=4096 seconds=330.316 output=results/n11-first4096-exact.mcolgen1
+wall_seconds=341.628

@@ -1,0 +1,9 @@
+0, NVIDIA H100 NVL, 95830, 50383, 44938, 0
+    PID NLWP %CPU %MEM     ELAPSED COMMAND
+  16355  126 1608  5.8    03:06:21 tools/streamrank/target/release/max11-streamrank run-universe --backend cuda --input artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz --order-file artifacts/math/n12-universe/stage_a_order_n12_v1.json --n 12 --branch-edges 5 --modulus 1000003 --buckets 128000 --seeds 2026090202 --batch-size 1024 --gemm-block 8192 --rank-panel 64 --threads 60 --include-five-l true --abort-rank-above 100000 --abort-rss-kib-above 230686720 --output artifacts/math/n12-stageA/n12-stageA-m128000-p1000003-s2026090202-cuda.json
+  35079  126 1543  3.4    01:15:40 tools/streamrank/target/release/max11-streamrank run-universe --backend cuda --input artifacts/math/n12-universe/loopless_signed_degree5_universe_n12_v1.json.gz --order-file artifacts/math/n12-universe/stage_a_order_n12_v1.json --n 12 --branch-edges 5 --modulus 1000033 --buckets 128000 --seeds 2026090201 --batch-size 1024 --gemm-block 8192 --rank-panel 64 --threads 60 --include-five-l true --abort-rank-above 100000 --abort-rss-kib-above 230686720 --output artifacts/math/n12-stageA/n12-stageA-m128000-p1000033-s2026090201-cuda.json
+  60114    1  1.5  0.0       00:02 sshd: root@notty
+    415    1  0.4  0.0    05:15:36 ssh -i /etc/forward_key -R *:15464:localhost:22 -R *:15465:localhost:8080 -N -o TCPKeepAlive=yes -o ServerAliveInterval=10 -o ServerAliveCountMax=2 ubuntu@ssh1.vast.ai -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -o RequestTTY=no -o ExitOnForwardFailure=yes
+      1    1  0.0  0.0    05:16:20 /bin/sh -c while [ ! -e /.launch ]; do sleep 1; done; bash /.launch
+     50    1  0.0  0.0    05:16:19 bash /.launch
+    409    1  0.0  0.0    05:15:36 sshd: /usr/sbin/sshd -E /proc/1/fd/1 [listener] 0 of 10-100 startups

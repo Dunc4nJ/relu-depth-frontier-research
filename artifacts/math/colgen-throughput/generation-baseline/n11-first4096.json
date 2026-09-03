@@ -1,0 +1,15 @@
+{
+  "schema": "max11-colgen-generation-benchmark-v1",
+  "result": "PASS",
+  "universe": "/workspace/relu/artifacts/math/G-0027/loopless_signed_degree5_universe_v1.json.gz",
+  "universe_sha256": "8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8",
+  "order_file": "stageA-first4096-order.json",
+  "order_file_sha256": "0023b80943d454cf502403b045a6d5ea5bc6bf638ec314e81f21382957d4a984",
+  "threads": 16,
+  "columns_denominator": 4096,
+  "total_linear_entries": 45056,
+  "total_hinge_entries": 220355892,
+  "wall_seconds": 78.561831852,
+  "columns_per_second": 52.13727714135176,
+  "no_claim": "This is a throughput measurement over the named finite input prefix. It is not a MAX11 verdict, identity, completeness statement, or depth lower bound."
+}

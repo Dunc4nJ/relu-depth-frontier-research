@@ -1,0 +1,2 @@
+COLGEN_EMIT_PASS records=512 seconds=35.923 output=results/n11-first512-profiled.mcolgen1
+wall_seconds=39.080

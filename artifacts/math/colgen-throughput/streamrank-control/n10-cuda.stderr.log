@@ -1,0 +1,14 @@
+STREAMRANK_PROGRESS columns=1024 ranks=[439, 439] seconds=2.983 generate_s=0.648422 sketch_s=0.505291 gemm_s=0.075775 host_reduce_s=0.106239 basis_update_s=0.590725 io_s=0.610272
+STREAMRANK_PROGRESS columns=2048 ranks=[759, 759] seconds=6.311 generate_s=0.791949 sketch_s=0.759574 gemm_s=0.006005 host_reduce_s=0.133512 basis_update_s=0.402331 io_s=0.820824
+STREAMRANK_PROGRESS columns=3072 ranks=[913, 913] seconds=9.475 generate_s=0.841018 sketch_s=0.781090 gemm_s=0.004047 host_reduce_s=0.077833 basis_update_s=0.189609 io_s=0.843919
+STREAMRANK_PROGRESS columns=4096 ranks=[1200, 1200] seconds=15.961 generate_s=1.714956 sketch_s=1.484550 gemm_s=0.008548 host_reduce_s=0.195504 basis_update_s=0.407683 io_s=1.788133
+STREAMRANK_PROGRESS columns=5120 ranks=[1335, 1335] seconds=18.949 generate_s=0.881906 sketch_s=0.630125 gemm_s=0.004138 host_reduce_s=0.062448 basis_update_s=0.137707 io_s=0.887222
+STREAMRANK_PROGRESS columns=6144 ranks=[1670, 1670] seconds=24.474 generate_s=1.431010 sketch_s=1.230985 gemm_s=0.008173 host_reduce_s=0.113537 basis_update_s=0.547091 io_s=1.465694
+STREAMRANK_PROGRESS columns=7168 ranks=[1810, 1810] seconds=26.666 generate_s=0.603551 sketch_s=0.443914 gemm_s=0.004361 host_reduce_s=0.078934 basis_update_s=0.148897 io_s=0.631839
+STREAMRANK_PROGRESS columns=8192 ranks=[1842, 1842] seconds=30.589 generate_s=1.185336 sketch_s=1.033148 gemm_s=0.003467 host_reduce_s=0.069660 basis_update_s=0.063778 io_s=1.123758
+STREAMRANK_PROGRESS columns=9216 ranks=[1887, 1887] seconds=33.262 generate_s=0.898382 sketch_s=0.421058 gemm_s=0.003571 host_reduce_s=0.068060 basis_update_s=0.090827 io_s=0.923311
+STREAMRANK_PROGRESS columns=10240 ranks=[1957, 1957] seconds=37.065 generate_s=1.200951 sketch_s=0.838768 gemm_s=0.004866 host_reduce_s=0.088564 basis_update_s=0.082720 io_s=1.169397
+STREAMRANK_PROGRESS columns=11264 ranks=[2070, 2070] seconds=41.252 generate_s=1.132697 sketch_s=1.091211 gemm_s=0.005763 host_reduce_s=0.178331 basis_update_s=0.193445 io_s=1.112367
+STREAMRANK_PROGRESS columns=12248 ranks=[2166, 2166] seconds=43.812 generate_s=0.791519 sketch_s=0.682529 gemm_s=0.005401 host_reduce_s=0.046449 basis_update_s=0.095870 io_s=0.820773
+STREAMRANK_CONTROL_PASS columns=12248 ranks=[(2166, 2166), (2166, 2166)] seconds=43.834
+wall_seconds=44.448
