@@ -132,14 +132,19 @@ def solve(
         nonzero_rows = row_max > 0
         scales = np.ones(rows, dtype=np.float64)
         scales[nonzero_rows] = np.exp2(np.floor(np.log2(row_max[nonzero_rows])))
+        # Keep nonzero target equations at their natural RHS scale so the
+        # requested absolute feasibility tolerance remains meaningful.
+        target_rows = target != 0
+        scales[target_rows] = 1.0
         for begin in range(0, nnz, chunk):
             end = min(begin + chunk, nnz)
             values[begin:end] /= scales[index[begin:end]]
         target = target / scales
         row_scaling_record = {
-            "method": "divide each equality by the largest power of two not exceeding its row maximum",
+            "method": "divide zero-target equalities by the largest power of two not exceeding their row maximum; leave nonzero-target rows unscaled",
             "nonzero_rows_numerator": int(np.count_nonzero(nonzero_rows)),
             "rows_denominator": rows,
+            "unscaled_nonzero_target_rows_numerator": int(np.count_nonzero(target_rows)),
             "minimum_nontrivial_scale": float(np.min(scales[nonzero_rows])) if np.any(nonzero_rows) else None,
             "maximum_scale": float(np.max(scales)),
         }
