@@ -244,6 +244,22 @@ data_snapshot = "sha256:4d49f977bd26ac8d433e567196c2e2405883e6fbc6f86f3e87ac79f3
 created = 2026-09-03T02:18:00Z
 
 [[review]]
+id = "V-0015"
+target = "C-0059@1"
+reviewer = "referee/indigocarp-depth2-lemma"
+tier = "T2"
+model_family = "openai-gpt"
+basis = ["edge-and-degenerate-cases", "every-nontrivial-inference", "hidden-assumptions", "quantifier-scope", "statement-match", "symbol-stability"]
+capable_of_failure = "Any failed scalar identity, coefficient-accumulation error, hidden skip or extra nonlinear layer, incorrect width or rationality statement, invalid full-group symmetry extension, mismatch to the verifier-certified identity, failed exact construction control, or surviving hostile mutant would have produced refuted, narrowed, or cannot-verify rather than holds."
+verdict = "holds"
+findings = "A fresh OpenAI GPT-lineage referee audited 16/16 numbered obligations with 0/16 issues and independently implemented the construction in exact Fraction arithmetic on the pinned n=6 certificate: widths 42/42 and 11,520/11,520, network equals direct certificate equals max on 30/30 seeded rational points, 450/450 F1 checks, 180/180 F2 checks, 43,200/43,200 loop/repeat side reconstructions, and a +1 output-weight mutant failed on 14/30 points. The verdict was frozen before opening the same-lineage Opus report."
+residual_doubts = "The model-family, fresh-context, and review-order facts are locally attested rather than provider-authenticated. This does not reverify either n=11 certificate, establish minimal width, address n>=12, prove a lower bound, supply human review, or formalize the lemma in a proof assistant."
+expected_break = "The pre-named break surface was coefficient accumulation, signed pass-through without a skip, or a mismatch between sorted-cone verifier semantics and the global symmetrized identity; the exact audit and control found none."
+transcript_artifact = "reviews/referee/V-0015.transcript.toml"
+transcript_sha256 = "sha256:9c17362d474bc90a8f6eef87436ffadcf5f0469cb4ef6d588d4cc0ad305814e0"
+created = 2026-09-03T02:23:32.391312Z
+
+[[review]]
 id = "V-0006"
 target = "C-0040@1"
 reviewer = "referee/facet-gluing-lemma-adversary"

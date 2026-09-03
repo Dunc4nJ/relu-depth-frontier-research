@@ -1,0 +1,25 @@
+schema = "review-transcript-v1"
+review = "V-0015"
+target = "C-0059@1"
+target_record_sha256 = "sha256:d9cbd78f4170de5ba0777229db7758555daaf745b8dda1acb44c9932ab07472e"
+review_record_sha256 = "sha256:8261296a0ed61bfc6f120b67a0a6e87dd08694821c6bec7b18e47a579d65b677"
+target_author_path = "orchestrator/amberbluff"
+author_model_family = "anthropic-claude"
+reviewer = "referee/indigocarp-depth2-lemma"
+reviewer_model_family = "openai-gpt"
+tier = "T2"
+fresh_context = true
+dispatched_at = 2026-09-03T02:15:05.335829Z
+returned_at = 2026-09-03T02:23:32.391312Z
+request_artifact = "reviews/referee/V-0015.request.md"
+request_sha256 = "sha256:ca694ca97a915eec689c17252f8832cefaceac918ebf3511fbddbe4e2efca949"
+response_artifact = "reviews/referee/V-0015.response.md"
+response_sha256 = "sha256:93ec296d6ed65eca0331c357e026df65478d60c6ece40252ac62b61c45591843"
+
+[[input]]
+path = "artifacts/math/n11-ledger-recording/DEPTH2_REALIZATION_LEMMA.md"
+sha256 = "sha256:dedd94b2e85cd282e6da6eed64200ae354a4cbf290c1d92dd2979d97609b6007"
+
+[[input]]
+path = "artifacts/math/t2-review/depth2-lemma-gpt/RESULT.md"
+sha256 = "sha256:dfb409e824bfcdb17b9a5e5a6badd28645d566cc8a1807eaf5ad96a0413c5f70"
