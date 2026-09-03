@@ -9,9 +9,20 @@ from pathlib import Path
 import build_saved_csc
 import select_exact_support
 import solve_l1
+import solve_l1_cuopt_dual
 
 
 class SparseLpTests(unittest.TestCase):
+    def test_dual_candidate_requires_multiplier_and_active_bound(self):
+        coefficients = solve_l1_cuopt_dual.np.array([0.5, 0.25, 1e-14, 0.75])
+        activity = solve_l1_cuopt_dual.np.array([1.0, 0.8, -1.0, -1.0])
+        scaled_bounds = solve_l1_cuopt_dual.np.ones(4)
+        positions, slack = solve_l1_cuopt_dual.candidate_positions(
+            coefficients, activity, scaled_bounds, 1e-12, 1e-9, 0.0
+        )
+        self.assertEqual(positions.tolist(), [0, 3])
+        self.assertEqual(slack.tolist(), [0.0, 0.19999999999999996, 0.0, 0.0])
+
     def test_tiny_member_and_negative_target_control(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
