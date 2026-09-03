@@ -40,6 +40,7 @@ def prepare(
         raise ValueError(f"{len(missing)} pivot sources are absent from the LP matrix")
     candidate_positions = [position_of[source_index] for source_index in candidate_sources]
     numerical_record = None
+    basis_signs = None
     if selection == "modular-rref":
         exact_candidates = candidate_positions
     elif selection == "qr-exact":
@@ -63,12 +64,23 @@ def prepare(
         )
         diagonal = np.abs(np.diag(triangular))
         exact_candidates = [candidate_positions[int(local)] for local in pivots[:rows]]
+        basic_solution = scipy.linalg.solve(
+            dense[:, pivots[:rows]],
+            np.asarray(target, dtype=np.float64) / row_scale,
+            assume_a="gen",
+            check_finite=False,
+        )
+        basis_signs = [1 if coefficient >= 0 else -1 for coefficient in basic_solution]
+        residual = dense[:, pivots[:rows]] @ basic_solution - np.asarray(target, dtype=np.float64) / row_scale
         numerical_record = {
             "selector": "scipy.linalg.qr with column pivoting on row-scaled float64 matrix",
             "scipy_version": scipy.__version__,
             "largest_abs_r_diagonal": float(np.max(diagonal)),
             "smallest_abs_r_diagonal": float(np.min(diagonal)),
             "diagonal_ratio": float(np.max(diagonal) / np.min(diagonal)),
+            "basic_solution_min_abs_coefficient": float(np.min(np.abs(basic_solution))),
+            "basic_solution_max_abs_coefficient": float(np.max(np.abs(basic_solution))),
+            "basic_solution_scaled_residual_infinity_norm": float(np.max(np.abs(residual))),
         }
         del dense, _q, triangular
     else:
@@ -101,6 +113,7 @@ def prepare(
         "basis_columns_denominator": rows,
         "column_positions": selected_positions,
         "source_indices": selected_sources,
+        "basis_signs": basis_signs,
         "seconds": time.monotonic() - started,
         "no_claim": "This is an exact modular LP starting basis, not a rational identity or sparse certificate.",
     }

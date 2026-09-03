@@ -230,17 +230,23 @@ def solve(
             raise ValueError("initial basis matrix SHA mismatch")
         basis_positions = [int(position) for position in basis_report["column_positions"]]
         basis_sources = [int(source_index) for source_index in basis_report["source_indices"]]
+        basis_signs = basis_report.get("basis_signs")
+        if basis_signs is None:
+            basis_signs = [1] * len(basis_positions)
+        basis_signs = [int(sign) for sign in basis_signs]
         if len(basis_positions) != rows or len(set(basis_positions)) != rows:
             raise ValueError(f"initial basis has {len(basis_positions)}/{rows} distinct columns")
         if any(position < 0 or position >= columns for position in basis_positions):
             raise ValueError("initial basis column position is out of range")
         if basis_sources != [int(source[position]) for position in basis_positions]:
             raise ValueError("initial basis source/position mismatch")
+        if len(basis_signs) != rows or any(sign not in (-1, 1) for sign in basis_signs):
+            raise ValueError("initial basis signs must contain one +/-1 entry per row")
         basis = highspy.HighsBasis()
         basis.valid = True
         basis.col_status = [highspy.HighsBasisStatus.kLower] * (2 * columns)
-        for position in basis_positions:
-            basis.col_status[position] = highspy.HighsBasisStatus.kBasic
+        for position, sign in zip(basis_positions, basis_signs, strict=True):
+            basis.col_status[position if sign > 0 else columns + position] = highspy.HighsBasisStatus.kBasic
         basis.row_status = [highspy.HighsBasisStatus.kNonbasic] * rows
         check(highs.setBasis(basis), "setBasis(exact modular initial basis)")
         initial_basis_record = {
@@ -250,6 +256,7 @@ def solve(
             "prime": int(basis_report["prime"]),
             "basis_columns_numerator": len(basis_positions),
             "basis_columns_denominator": rows,
+            "negative_basis_columns_numerator": sum(sign < 0 for sign in basis_signs),
         }
     reports = []
     weights = np.ones(columns, dtype=np.float64)
