@@ -198,12 +198,16 @@ def solve(
                     current_rho = max(rho_min, current_rho / 2.0)
                     u *= old_rho / current_rho
         magnitudes = np.abs(z)
+        affine_magnitudes = np.abs(x)
         threshold_positions = np.flatnonzero(magnitudes > support_threshold)
-        if len(threshold_positions) > candidate_cap:
-            selected = np.argpartition(magnitudes, -candidate_cap)[-candidate_cap:]
-            positions = selected[np.argsort(magnitudes[selected])[::-1]]
+        affine_threshold_positions = np.flatnonzero(affine_magnitudes > support_threshold)
+        if len(affine_threshold_positions) > candidate_cap:
+            selected = np.argpartition(affine_magnitudes, -candidate_cap)[-candidate_cap:]
+            positions = selected[np.argsort(affine_magnitudes[selected])[::-1]]
         else:
-            positions = threshold_positions[np.argsort(magnitudes[threshold_positions])[::-1]]
+            positions = affine_threshold_positions[
+                np.argsort(affine_magnitudes[affine_threshold_positions])[::-1]
+            ]
         reports.append(
             {
                 "round": round_number,
@@ -228,14 +232,17 @@ def solve(
                 "support_threshold_absolute": support_threshold,
                 "threshold_support_numerator": len(threshold_positions),
                 "threshold_support_denominator": columns,
+                "affine_threshold_support_numerator": len(affine_threshold_positions),
+                "affine_threshold_support_denominator": columns,
                 "candidate_cap": candidate_cap,
+                "candidate_selection": "largest absolute entries of the affine-feasible x iterate",
                 "support_numerator": len(positions),
                 "support_denominator": columns,
                 "candidate": [
                     {
                         "column_position": int(position),
                         "source_index": int(source[position]),
-                        "coefficient": float(z[position]),
+                        "coefficient": float(x[position]),
                     }
                     for position in positions
                 ],
