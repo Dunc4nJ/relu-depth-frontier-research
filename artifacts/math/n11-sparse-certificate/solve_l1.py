@@ -204,20 +204,22 @@ def solve(
             else:
                 initial_indices.extend((position, columns + position))
                 initial_values.extend((float(coefficient), float(abs(coefficient))))
-        check(
-            highs.setSolution(
-                len(initial_indices),
-                np.asarray(initial_indices, dtype=np.int32),
-                np.asarray(initial_values, dtype=np.float64),
-            ),
-            "setSolution(initial witness)",
-        )
+        if initial_basis is None:
+            check(
+                highs.setSolution(
+                    len(initial_indices),
+                    np.asarray(initial_indices, dtype=np.int32),
+                    np.asarray(initial_values, dtype=np.float64),
+                ),
+                "setSolution(initial witness)",
+            )
         initial = {
             "path": str(initial_witness),
             "sha256": sha256(initial_witness),
             "support_numerator": initial_witness_support,
             "support_denominator": columns,
-            "model_values_set": len(initial_indices),
+            "model_values_set": len(initial_indices) if initial_basis is None else 0,
+            "primal_start_omitted_for_exact_basis": initial_basis is not None,
         }
 
     if initial_reweight_from_witness and initial_witness is None:
