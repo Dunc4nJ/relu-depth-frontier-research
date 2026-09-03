@@ -457,6 +457,18 @@ struct ProgressPoint {
     ranks: Vec<usize>,
     elapsed_seconds: f64,
     cumulative_seconds_per_column: f64,
+    #[serde(flatten)]
+    phases: BatchPhaseTimes,
+}
+
+#[derive(Clone, Copy, Default, Serialize)]
+struct BatchPhaseTimes {
+    generate_s: f64,
+    sketch_s: f64,
+    gemm_s: f64,
+    host_reduce_s: f64,
+    basis_update_s: f64,
+    io_s: f64,
 }
 
 #[derive(Serialize)]
@@ -849,6 +861,46 @@ fn process_batch(states: &mut [State], batch: &[(u64, SparseColumn)], prime: u32
     Ok(())
 }
 
+#[derive(Clone, Copy, Default)]
+struct PhaseSnapshot {
+    sketch_s: f64,
+    reducer_s: f64,
+    gemm_s: f64,
+    basis_update_s: f64,
+}
+
+fn phase_snapshot(states: &[State]) -> PhaseSnapshot {
+    states
+        .iter()
+        .fold(PhaseSnapshot::default(), |mut total, state| {
+            total.sketch_s += state.matrix_allocation_seconds + state.sketch_seconds;
+            total.reducer_s += state.reducer_seconds;
+            total.gemm_s += state.basis.metrics().gemm_seconds;
+            total.basis_update_s += state.basis.metrics().basis_update_seconds;
+            total
+        })
+}
+
+fn batch_phases(
+    before: PhaseSnapshot,
+    after: PhaseSnapshot,
+    generate_s: f64,
+    io_s: f64,
+) -> BatchPhaseTimes {
+    let sketch_s = after.sketch_s - before.sketch_s;
+    let reducer_s = after.reducer_s - before.reducer_s;
+    let gemm_s = after.gemm_s - before.gemm_s;
+    let basis_update_s = after.basis_update_s - before.basis_update_s;
+    BatchPhaseTimes {
+        generate_s,
+        sketch_s,
+        gemm_s,
+        host_reduce_s: (reducer_s - gemm_s - basis_update_s).max(0.0),
+        basis_update_s,
+        io_s,
+    }
+}
+
 fn next_splitmix64(state: &mut u64) -> u64 {
     *state = state.wrapping_add(0x9e37_79b9_7f4a_7c15);
     let mut value = *state;
@@ -914,24 +966,37 @@ fn command_saved(args: &Args) -> Result<()> {
     let mut column_generation_seconds = 0.0;
     let mut progress = Vec::new();
     let mut batch = Vec::with_capacity(config.batch_size);
+    let mut batch_generate_s = 0.0;
+    let mut batch_io_s = 0.0;
     loop {
         line.clear();
+        let io_at = Instant::now();
         if reader.read_line(&mut line)? == 0 {
             break;
         }
         let template: SavedTemplate = serde_json::from_str(&line)
             .with_context(|| format!("decoding source record {source_index}"))?;
+        batch_io_s += io_at.elapsed().as_secs_f64();
         let include = filter == "all" || is_union_spanning_tree(&template, config.n);
         if include {
             let generated_at = Instant::now();
             let column = saved_column(&template, config.n)?;
-            column_generation_seconds += generated_at.elapsed().as_secs_f64();
+            let generated_s = generated_at.elapsed().as_secs_f64();
+            column_generation_seconds += generated_s;
+            batch_generate_s += generated_s;
             exact_nnz += (column.linear.iter().filter(|&&value| value != 0).count()
                 + column.hinges.len()) as u128;
             batch.push((source_index, column));
             selected += 1;
             if batch.len() == config.batch_size {
+                let phase_before = phase_snapshot(&states);
                 process_batch(&mut states, &batch, config.prime)?;
+                let phases = batch_phases(
+                    phase_before,
+                    phase_snapshot(&states),
+                    batch_generate_s,
+                    batch_io_s,
+                );
                 batch.clear();
                 let elapsed = started.elapsed().as_secs_f64();
                 progress.push(ProgressPoint {
@@ -939,28 +1004,59 @@ fn command_saved(args: &Args) -> Result<()> {
                     ranks: states.iter().map(|state| state.basis.rank()).collect(),
                     elapsed_seconds: elapsed,
                     cumulative_seconds_per_column: elapsed / selected as f64,
+                    phases,
                 });
                 eprintln!(
-                    "STREAMRANK_PROGRESS columns={selected} ranks={:?} seconds={:.3}",
+                    "STREAMRANK_PROGRESS columns={selected} ranks={:?} seconds={:.3} generate_s={:.6} sketch_s={:.6} gemm_s={:.6} host_reduce_s={:.6} basis_update_s={:.6} io_s={:.6}",
                     states
                         .iter()
                         .map(|state| state.basis.rank())
                         .collect::<Vec<_>>(),
-                    started.elapsed().as_secs_f64()
+                    started.elapsed().as_secs_f64(),
+                    phases.generate_s,
+                    phases.sketch_s,
+                    phases.gemm_s,
+                    phases.host_reduce_s,
+                    phases.basis_update_s,
+                    phases.io_s,
                 );
+                batch_generate_s = 0.0;
+                batch_io_s = 0.0;
             }
         }
         source_index += 1;
     }
     if !batch.is_empty() {
+        let phase_before = phase_snapshot(&states);
         process_batch(&mut states, &batch, config.prime)?;
+        let phases = batch_phases(
+            phase_before,
+            phase_snapshot(&states),
+            batch_generate_s,
+            batch_io_s,
+        );
         let elapsed = started.elapsed().as_secs_f64();
         progress.push(ProgressPoint {
             source_columns_processed: selected,
             ranks: states.iter().map(|state| state.basis.rank()).collect(),
             elapsed_seconds: elapsed,
             cumulative_seconds_per_column: elapsed / selected as f64,
+            phases,
         });
+        eprintln!(
+            "STREAMRANK_PROGRESS columns={selected} ranks={:?} seconds={:.3} generate_s={:.6} sketch_s={:.6} gemm_s={:.6} host_reduce_s={:.6} basis_update_s={:.6} io_s={:.6}",
+            states
+                .iter()
+                .map(|state| state.basis.rank())
+                .collect::<Vec<_>>(),
+            started.elapsed().as_secs_f64(),
+            phases.generate_s,
+            phases.sketch_s,
+            phases.gemm_s,
+            phases.host_reduce_s,
+            phases.basis_update_s,
+            phases.io_s,
+        );
     }
     finish_run(
         args,
@@ -1066,6 +1162,8 @@ fn command_universe(args: &Args) -> Result<()> {
     for batch_start in (0..limit).step_by(config.batch_size) {
         let batch_stop = (batch_start + config.batch_size).min(limit);
         let columns = batch_stop - batch_start;
+        let phase_before = phase_snapshot(&states);
+        let mut batch_generate_s = 0.0;
         let indices: Vec<u64> = order[batch_start..batch_stop]
             .iter()
             .map(|&index| index as u64)
@@ -1097,7 +1195,9 @@ fn command_universe(args: &Args) -> Result<()> {
                 .collect();
             let generated: Vec<(usize, SparseColumn)> =
                 generated.into_iter().collect::<Result<_>>()?;
-            column_generation_seconds += generated_at.elapsed().as_secs_f64();
+            let generated_s = generated_at.elapsed().as_secs_f64();
+            column_generation_seconds += generated_s;
+            batch_generate_s += generated_s;
             let visited = generated
                 .iter()
                 .map(|(_, column)| {
@@ -1122,22 +1222,30 @@ fn command_universe(args: &Args) -> Result<()> {
         for (state, matrix) in states.iter_mut().zip(&mut matrices) {
             state.process_sketched(matrix, &indices)?;
         }
+        let phases = batch_phases(phase_before, phase_snapshot(&states), batch_generate_s, 0.0);
         let elapsed = started.elapsed().as_secs_f64();
         progress.push(ProgressPoint {
             source_columns_processed: batch_stop,
             ranks: states.iter().map(|state| state.basis.rank()).collect(),
             elapsed_seconds: elapsed,
             cumulative_seconds_per_column: elapsed / batch_stop as f64,
+            phases,
         });
         eprintln!(
-            "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3}",
+            "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3} generate_s={:.6} sketch_s={:.6} gemm_s={:.6} host_reduce_s={:.6} basis_update_s={:.6} io_s={:.6}",
             batch_stop,
             limit,
             states
                 .iter()
                 .map(|state| state.basis.rank())
                 .collect::<Vec<_>>(),
-            started.elapsed().as_secs_f64()
+            started.elapsed().as_secs_f64(),
+            phases.generate_s,
+            phases.sketch_s,
+            phases.gemm_s,
+            phases.host_reduce_s,
+            phases.basis_update_s,
+            phases.io_s,
         );
         if let Some(reason) = abort_reason(&config, &states) {
             return finish_abort(
@@ -1164,16 +1272,19 @@ fn command_universe(args: &Args) -> Result<()> {
     let mut linear_loop_carrier = None;
     let mut source_columns = limit;
     if config.include_five_l {
+        let phase_before = phase_snapshot(&states);
         let generated_at = Instant::now();
         let (descriptor, column) =
             linear_carrier(config.n, config.branch_edges, universe.records.len() as u64)?;
-        column_generation_seconds += generated_at.elapsed().as_secs_f64();
+        let generated_s = generated_at.elapsed().as_secs_f64();
+        column_generation_seconds += generated_s;
         exact_nnz += column.linear.iter().filter(|&&value| value != 0).count() as u128;
         process_batch(
             &mut states,
             &[(descriptor.source_index, column)],
             config.prime,
         )?;
+        let phases = batch_phases(phase_before, phase_snapshot(&states), generated_s, 0.0);
         five_l_carrier = Some(descriptor);
         source_columns += 1;
         subject.push_str("+5L");
@@ -1183,16 +1294,23 @@ fn command_universe(args: &Args) -> Result<()> {
             ranks: states.iter().map(|state| state.basis.rank()).collect(),
             elapsed_seconds: elapsed,
             cumulative_seconds_per_column: elapsed / source_columns as f64,
+            phases,
         });
         eprintln!(
-            "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3}",
+            "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3} generate_s={:.6} sketch_s={:.6} gemm_s={:.6} host_reduce_s={:.6} basis_update_s={:.6} io_s={:.6}",
             source_columns,
             requested_source_columns,
             states
                 .iter()
                 .map(|state| state.basis.rank())
                 .collect::<Vec<_>>(),
-            started.elapsed().as_secs_f64()
+            started.elapsed().as_secs_f64(),
+            phases.generate_s,
+            phases.sketch_s,
+            phases.gemm_s,
+            phases.host_reduce_s,
+            phases.basis_update_s,
+            phases.io_s,
         );
         if let Some(reason) = abort_reason(&config, &states) {
             return finish_abort(
@@ -1215,16 +1333,19 @@ fn command_universe(args: &Args) -> Result<()> {
             );
         }
     } else if config.include_linear_carrier {
+        let phase_before = phase_snapshot(&states);
         let generated_at = Instant::now();
         let (descriptor, column) =
             linear_carrier(config.n, config.branch_edges, universe.records.len() as u64)?;
-        column_generation_seconds += generated_at.elapsed().as_secs_f64();
+        let generated_s = generated_at.elapsed().as_secs_f64();
+        column_generation_seconds += generated_s;
         exact_nnz += column.linear.iter().filter(|&&value| value != 0).count() as u128;
         process_batch(
             &mut states,
             &[(descriptor.source_index, column)],
             config.prime,
         )?;
+        let phases = batch_phases(phase_before, phase_snapshot(&states), generated_s, 0.0);
         subject.push_str(&format!("+{}", descriptor.label));
         linear_loop_carrier = Some(descriptor);
         source_columns += 1;
@@ -1234,16 +1355,23 @@ fn command_universe(args: &Args) -> Result<()> {
             ranks: states.iter().map(|state| state.basis.rank()).collect(),
             elapsed_seconds: elapsed,
             cumulative_seconds_per_column: elapsed / source_columns as f64,
+            phases,
         });
         eprintln!(
-            "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3}",
+            "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3} generate_s={:.6} sketch_s={:.6} gemm_s={:.6} host_reduce_s={:.6} basis_update_s={:.6} io_s={:.6}",
             source_columns,
             requested_source_columns,
             states
                 .iter()
                 .map(|state| state.basis.rank())
                 .collect::<Vec<_>>(),
-            started.elapsed().as_secs_f64()
+            started.elapsed().as_secs_f64(),
+            phases.generate_s,
+            phases.sketch_s,
+            phases.gemm_s,
+            phases.host_reduce_s,
+            phases.basis_update_s,
+            phases.io_s,
         );
         if let Some(reason) = abort_reason(&config, &states) {
             return finish_abort(
@@ -1306,6 +1434,29 @@ fn main() -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn batch_phase_subtraction_is_explicit_and_nonnegative() {
+        let before = PhaseSnapshot {
+            sketch_s: 2.0,
+            reducer_s: 3.0,
+            gemm_s: 0.25,
+            basis_update_s: 0.5,
+        };
+        let after = PhaseSnapshot {
+            sketch_s: 7.0,
+            reducer_s: 13.0,
+            gemm_s: 2.25,
+            basis_update_s: 3.5,
+        };
+        let phases = batch_phases(before, after, 11.0, 0.75);
+        assert_eq!(phases.generate_s, 11.0);
+        assert_eq!(phases.sketch_s, 5.0);
+        assert_eq!(phases.gemm_s, 2.0);
+        assert_eq!(phases.basis_update_s, 3.0);
+        assert_eq!(phases.host_reduce_s, 5.0);
+        assert_eq!(phases.io_s, 0.75);
+    }
 
     #[test]
     fn common_loop_carriers_are_exact_all_ones_columns() {

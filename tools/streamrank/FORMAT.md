@@ -5,6 +5,12 @@ It names the source path and SHA-256, `n`, branch size, subject/filter, prime,
 bucket count, batch size, GEMM block, rank-panel width, source-column
 denominator, reducer `backend` (`cpu` or `cuda`),
 generation/allocation/sketch/reducer timings, and target.
+Each progress entry also carries per-batch active durations `generate_s`,
+`sketch_s`, `gemm_s`, `host_reduce_s`, `basis_update_s`, and `io_s`.
+`sketch_s` includes dense-matrix allocation. `host_reduce_s` is reducer wall
+time after subtracting measured GEMM and scalar pivot/basis-update time. The
+durations can overlap in pipelined runs and therefore need not sum to elapsed
+wall time.
 Each entry in `sketches` freezes the hash algorithm and seed, ranks of `A` and
 `[A|b]`, saturation/verdict, and parallel arrays `pivot_columns` (source
 record indices, discovery order) and `pivot_buckets` (`u32`, same length).

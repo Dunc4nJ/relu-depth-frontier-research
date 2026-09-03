@@ -3,6 +3,7 @@ use anyhow::{Context as _, Result, ensure};
 use rayon::prelude::*;
 use std::ffi::{CStr, c_char, c_void};
 use std::ptr::NonNull;
+use std::time::Instant;
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug, Default)]
@@ -270,6 +271,7 @@ impl CudaDenseEchelon {
         for panel_start in (0..columns).step_by(self.panel_size) {
             let panel_stop = (panel_start + self.panel_size).min(columns);
             let rank_before_panel = self.rank();
+            let basis_update_at = Instant::now();
             for column in panel_start..panel_stop {
                 let range = column * self.rows..(column + 1) * self.rows;
                 for &pivot in &self.pivot_rows {
@@ -323,6 +325,7 @@ impl CudaDenseEchelon {
                         self.rows as u128 * (panel_stop - column - 1) as u128;
                 }
             }
+            self.metrics.basis_update_seconds += basis_update_at.elapsed().as_secs_f64();
 
             let rank_after_panel = self.rank();
             if rank_after_panel > rank_before_panel {

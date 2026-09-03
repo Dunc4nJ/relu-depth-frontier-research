@@ -196,6 +196,7 @@ pub struct ReducerMetrics {
     pub gemm_seconds: f64,
     pub pack_seconds: f64,
     pub modular_reduce_seconds: f64,
+    pub basis_update_seconds: f64,
     pub basis_maintenance_scalar_products_numerator: u128,
     pub old_basis_gemm_calls: u64,
     pub old_basis_gemm_scalar_products_numerator: u128,
@@ -569,6 +570,7 @@ impl DenseEchelon {
         for panel_start in (0..columns).step_by(self.panel_size) {
             let panel_stop = (panel_start + self.panel_size).min(columns);
             let rank_before_panel = self.rank();
+            let basis_update_at = Instant::now();
             for column in panel_start..panel_stop {
                 let range = column * self.rows..(column + 1) * self.rows;
                 for &pivot in &self.pivot_rows {
@@ -622,6 +624,7 @@ impl DenseEchelon {
                         self.rows as u128 * (panel_stop - column - 1) as u128;
                 }
             }
+            self.metrics.basis_update_seconds += basis_update_at.elapsed().as_secs_f64();
 
             let rank_after_panel = self.rank();
             if rank_after_panel > rank_before_panel {

@@ -15,6 +15,13 @@ cuBLAS `dgemm`. The CUDA report adds transfer byte numerators, transfer time,
 and peak allocated VRAM to `reducer_metrics`. Use one sketch per CUDA process
 when the two resident bases would exceed device memory.
 
+Every `STREAMRANK_PROGRESS` line and serialized progress point reports the
+just-finished batch's `generate_s`, `sketch_s`, `gemm_s`, `host_reduce_s`,
+`basis_update_s`, and `io_s`. Sketch time includes dense-matrix allocation;
+host-reduce time is reducer wall time excluding measured GEMM and scalar
+pivot/basis-update work. Pipelined phase durations are active work clocks and
+can overlap, so their sum is not a wall-time identity.
+
 The safety check requires `max(block_size,panel_size)*(p-1)^2+p < 2^53`, so every integer
 product and partial sum passed through binary64 is exact. Primes must be below
 `2^20`. This is modular/sketched evidence, not exact rational verification.
