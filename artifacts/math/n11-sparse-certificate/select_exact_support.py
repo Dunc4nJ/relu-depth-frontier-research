@@ -104,6 +104,28 @@ def select(matrix_dir: Path, l1_report: Path, output: Path, report_path: Path, p
         if rank_a == rank_augmented:
             feasible.append((len(selected_positions), int(record["round"]), selected_positions))
     if not feasible:
+        report = {
+            "schema": "max11-sparse-support-selection-v1",
+            "verdict": "NON_MEMBER",
+            "exact": "modular",
+            "prime": prime,
+            "matrix_report": str(meta_path),
+            "matrix_report_sha256": sha256(meta_path),
+            "l1_report": str(l1_report),
+            "l1_report_sha256": sha256(l1_report),
+            "base_pivot_report": str(base_pivot) if base_pivot else None,
+            "base_pivot_report_sha256": sha256(base_pivot) if base_pivot else None,
+            "trials": trials,
+            "chosen_round": None,
+            "chosen_independent_support_numerator": 0,
+            "chosen_independent_support_denominator": columns,
+            "pivot_report": None,
+            "pivot_report_sha256": None,
+            "seconds": time.monotonic() - started,
+            "no_claim": "These named floated supports fail one exact modular membership test. This is a bounded null for those supports, not a statement about the full family.",
+        }
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
         raise RuntimeError("no floating support contains the target modulo the named prime")
     _, chosen_round, selected_positions = min(feasible)
     selected_sources = [int(source[position]) for position in selected_positions]

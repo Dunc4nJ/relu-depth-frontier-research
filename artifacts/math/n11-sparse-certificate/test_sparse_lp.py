@@ -77,6 +77,21 @@ class SparseLpTests(unittest.TestCase):
                 None,
             )
             self.assertEqual(selected["chosen_independent_support_numerator"], 2)
+            failed_lp = json.loads((root / "l1.json").read_text())
+            failed_lp["rounds"] = [{"round": 0, "candidate": []}]
+            (root / "failed-l1.json").write_text(json.dumps(failed_lp))
+            with self.assertRaises(RuntimeError):
+                select_exact_support.select(
+                    matrix,
+                    root / "failed-l1.json",
+                    root / "should-not-exist-pivots.json",
+                    root / "failed-selection.json",
+                    1_000_003,
+                    None,
+                )
+            failed_selection = json.loads((root / "failed-selection.json").read_text())
+            self.assertEqual(failed_selection["verdict"], "NON_MEMBER")
+            self.assertEqual(failed_selection["trials"][0]["candidate_support_numerator"], 0)
             target = matrix / "target.i64le"
             data = bytearray(target.read_bytes())
             data[-8:] = (2).to_bytes(8, "little", signed=True)
