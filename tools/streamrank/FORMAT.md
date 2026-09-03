@@ -10,7 +10,9 @@ Each progress entry also carries per-batch active durations `generate_s`,
 `sketch_s` includes dense-matrix allocation. `host_reduce_s` is reducer wall
 time after subtracting measured GEMM and scalar pivot/basis-update time. The
 durations can overlap in pipelined runs and therefore need not sum to elapsed
-wall time.
+wall time. Pipelined universe progress entries additionally record
+`sparse_drop_s`, the active time spent reclaiming transient generated columns;
+this is not one of the six stable progress-line phases.
 Each entry in `sketches` freezes the hash algorithm and seed, ranks of `A` and
 `[A|b]`, saturation/verdict, and parallel arrays `pivot_columns` (source
 record indices, discovery order) and `pivot_buckets` (`u32`, same length).
@@ -28,6 +30,9 @@ peak allocated device bytes. These are zero on the CPU backend.
 
 `run-universe --order-file INDICES.json` accepts an arbitrary duplicate-free
 JSON array of zero-based universe record indices and preserves that order.
+Its capacity-one preparation channel may execute generation/sketch of the next
+batch concurrently with reduction of the current batch, but receipt and pivot
+processing remain FIFO in the exact caller order.
 The result records the order-file path and SHA-256; pivot indices always refer
 to the original universe, not positions within this list.
 

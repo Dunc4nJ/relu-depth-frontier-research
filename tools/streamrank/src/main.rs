@@ -13,6 +13,8 @@ use std::env;
 use std::fs::{self, File, OpenOptions};
 use std::io::{BufRead, BufReader, BufWriter, Read, Write};
 use std::path::{Path, PathBuf};
+use std::sync::mpsc::sync_channel;
+use std::thread;
 use std::time::Instant;
 
 #[derive(Debug)]
@@ -469,6 +471,7 @@ struct BatchPhaseTimes {
     host_reduce_s: f64,
     basis_update_s: f64,
     io_s: f64,
+    sparse_drop_s: f64,
 }
 
 #[derive(Serialize)]
@@ -886,6 +889,7 @@ fn batch_phases(
     after: PhaseSnapshot,
     generate_s: f64,
     io_s: f64,
+    sparse_drop_s: f64,
 ) -> BatchPhaseTimes {
     let sketch_s = after.sketch_s - before.sketch_s;
     let reducer_s = after.reducer_s - before.reducer_s;
@@ -898,6 +902,7 @@ fn batch_phases(
         host_reduce_s: (reducer_s - gemm_s - basis_update_s).max(0.0),
         basis_update_s,
         io_s,
+        sparse_drop_s,
     }
 }
 
@@ -996,6 +1001,7 @@ fn command_saved(args: &Args) -> Result<()> {
                     phase_snapshot(&states),
                     batch_generate_s,
                     batch_io_s,
+                    0.0,
                 );
                 batch.clear();
                 let elapsed = started.elapsed().as_secs_f64();
@@ -1034,6 +1040,7 @@ fn command_saved(args: &Args) -> Result<()> {
             phase_snapshot(&states),
             batch_generate_s,
             batch_io_s,
+            0.0,
         );
         let elapsed = started.elapsed().as_secs_f64();
         progress.push(ProgressPoint {
@@ -1076,6 +1083,101 @@ fn command_saved(args: &Args) -> Result<()> {
         },
         states,
     )
+}
+
+struct PreparedUniverseBatch {
+    stop: usize,
+    indices: Vec<u64>,
+    matrices: Vec<Vec<u32>>,
+    matrix_allocation_s: Vec<f64>,
+    sketch_s: Vec<f64>,
+    generate_s: f64,
+    sparse_drop_s: f64,
+    exact_nnz: u128,
+}
+
+fn sketch_columns_parallel(
+    spec: &SketchSpec,
+    columns: &[SparseColumn],
+    prime: u32,
+    matrix: &mut [u32],
+) {
+    debug_assert_eq!(matrix.len(), spec.buckets * columns.len());
+    matrix
+        .par_chunks_mut(spec.buckets)
+        .zip(columns.par_iter())
+        .for_each(|(output, column)| spec.sketch_column(column, prime, output));
+}
+
+#[allow(clippy::too_many_arguments)]
+fn prepare_universe_batch(
+    universe: &Universe,
+    order: &[usize],
+    specs: &[SketchSpec],
+    prime: u32,
+    n: usize,
+    branch_edges: usize,
+    generation_chunk: usize,
+    batch_start: usize,
+    batch_stop: usize,
+) -> Result<PreparedUniverseBatch> {
+    let columns = batch_stop - batch_start;
+    let indices = order[batch_start..batch_stop]
+        .iter()
+        .map(|&index| index as u64)
+        .collect();
+    let mut matrices = Vec::with_capacity(specs.len());
+    let mut matrix_allocation_s = Vec::with_capacity(specs.len());
+    for spec in specs {
+        let allocated_at = Instant::now();
+        matrices.push(vec![0u32; spec.buckets * columns]);
+        matrix_allocation_s.push(allocated_at.elapsed().as_secs_f64());
+    }
+    let mut sketch_s = vec![0.0; specs.len()];
+    let mut generate_s = 0.0;
+    let mut sparse_drop_s = 0.0;
+    let mut exact_nnz = 0u128;
+    for chunk_start in (0..columns).step_by(generation_chunk) {
+        let chunk_stop = (chunk_start + generation_chunk).min(columns);
+        let generated_at = Instant::now();
+        let generated: Vec<Result<SparseColumn>> = order
+            [batch_start + chunk_start..batch_start + chunk_stop]
+            .par_iter()
+            .map(|&record_index| generate_column(&universe.records[record_index], n, branch_edges))
+            .collect();
+        let generated: Vec<SparseColumn> = generated.into_iter().collect::<Result<_>>()?;
+        generate_s += generated_at.elapsed().as_secs_f64();
+        exact_nnz += generated
+            .iter()
+            .map(|column| {
+                column.linear.iter().filter(|&&value| value != 0).count() + column.hinges.len()
+            })
+            .sum::<usize>() as u128;
+        for (state_index, spec) in specs.iter().enumerate() {
+            let sketched_at = Instant::now();
+            let buckets = spec.buckets;
+            sketch_columns_parallel(
+                spec,
+                &generated,
+                prime,
+                &mut matrices[state_index][chunk_start * buckets..chunk_stop * buckets],
+            );
+            sketch_s[state_index] += sketched_at.elapsed().as_secs_f64();
+        }
+        let dropped_at = Instant::now();
+        generated.into_par_iter().for_each(drop);
+        sparse_drop_s += dropped_at.elapsed().as_secs_f64();
+    }
+    Ok(PreparedUniverseBatch {
+        stop: batch_stop,
+        indices,
+        matrices,
+        matrix_allocation_s,
+        sketch_s,
+        generate_s,
+        sparse_drop_s,
+        exact_nnz,
+    })
 }
 
 fn command_universe(args: &Args) -> Result<()> {
@@ -1159,114 +1261,123 @@ fn command_universe(args: &Args) -> Result<()> {
     let mut exact_nnz = 0u128;
     let mut column_generation_seconds = 0.0;
     let mut progress = Vec::new();
-    for batch_start in (0..limit).step_by(config.batch_size) {
-        let batch_stop = (batch_start + config.batch_size).min(limit);
-        let columns = batch_stop - batch_start;
-        let phase_before = phase_snapshot(&states);
-        let mut batch_generate_s = 0.0;
-        let indices: Vec<u64> = order[batch_start..batch_stop]
-            .iter()
-            .map(|&index| index as u64)
-            .collect();
-        let mut matrices = Vec::with_capacity(states.len());
-        for state in &mut states {
-            let allocated_at = Instant::now();
-            matrices.push(vec![0u32; state.spec.buckets * columns]);
-            state.matrix_allocation_seconds += allocated_at.elapsed().as_secs_f64();
-        }
-        let generation_chunk = config.threads * 2;
-        for chunk_start in (0..columns).step_by(generation_chunk) {
-            let chunk_stop = (chunk_start + generation_chunk).min(columns);
-            let generated_at = Instant::now();
-            let generated: Vec<Result<(usize, SparseColumn)>> = order
-                [batch_start + chunk_start..batch_start + chunk_stop]
-                .par_iter()
-                .enumerate()
-                .map(|(offset, &record_index)| {
-                    Ok((
-                        chunk_start + offset,
-                        generate_column(
-                            &universe.records[record_index],
-                            config.n,
-                            config.branch_edges,
-                        )?,
-                    ))
-                })
-                .collect();
-            let generated: Vec<(usize, SparseColumn)> =
-                generated.into_iter().collect::<Result<_>>()?;
-            let generated_s = generated_at.elapsed().as_secs_f64();
-            column_generation_seconds += generated_s;
-            batch_generate_s += generated_s;
-            let visited = generated
-                .iter()
-                .map(|(_, column)| {
-                    column.linear.iter().filter(|&&value| value != 0).count() + column.hinges.len()
-                })
-                .sum::<usize>() as u128;
-            exact_nnz += visited;
-            for (state_index, state) in states.iter_mut().enumerate() {
-                let sketched_at = Instant::now();
-                for (position, column) in &generated {
-                    let row_start = position * state.spec.buckets;
-                    state.spec.sketch_column(
-                        column,
-                        config.prime,
-                        &mut matrices[state_index][row_start..row_start + state.spec.buckets],
-                    );
+    let specs = states
+        .iter()
+        .map(|state| state.spec.clone())
+        .collect::<Vec<_>>();
+    let generation_chunk = config.threads * 2;
+    let abort = thread::scope(|scope| -> Result<Option<String>> {
+        let (sender, receiver) = sync_channel::<Result<PreparedUniverseBatch>>(1);
+        let producer_universe = &universe;
+        let producer_order = &order;
+        let producer_specs = &specs;
+        let batch_size = config.batch_size;
+        let prime = config.prime;
+        let n = config.n;
+        let branch_edges = config.branch_edges;
+        scope.spawn(move || {
+            for batch_start in (0..limit).step_by(batch_size) {
+                let batch_stop = (batch_start + batch_size).min(limit);
+                let prepared = prepare_universe_batch(
+                    producer_universe,
+                    producer_order,
+                    producer_specs,
+                    prime,
+                    n,
+                    branch_edges,
+                    generation_chunk,
+                    batch_start,
+                    batch_stop,
+                );
+                let failed = prepared.is_err();
+                if sender.send(prepared).is_err() || failed {
+                    break;
                 }
-                state.sketch_seconds += sketched_at.elapsed().as_secs_f64();
-                state.real_entry_visits_numerator += visited;
+            }
+        });
+
+        let mut abort = None;
+        for prepared in &receiver {
+            let mut prepared = match prepared {
+                Ok(value) => value,
+                Err(error) => {
+                    drop(receiver);
+                    return Err(error);
+                }
+            };
+            let phase_before = phase_snapshot(&states);
+            column_generation_seconds += prepared.generate_s;
+            exact_nnz += prepared.exact_nnz;
+            for (state_index, (state, matrix)) in
+                states.iter_mut().zip(&mut prepared.matrices).enumerate()
+            {
+                state.matrix_allocation_seconds += prepared.matrix_allocation_s[state_index];
+                state.sketch_seconds += prepared.sketch_s[state_index];
+                state.real_entry_visits_numerator += prepared.exact_nnz;
+                state.process_sketched(matrix, &prepared.indices)?;
+            }
+            let phases = batch_phases(
+                phase_before,
+                phase_snapshot(&states),
+                prepared.generate_s,
+                0.0,
+                prepared.sparse_drop_s,
+            );
+            let elapsed = started.elapsed().as_secs_f64();
+            progress.push(ProgressPoint {
+                source_columns_processed: prepared.stop,
+                ranks: states.iter().map(|state| state.basis.rank()).collect(),
+                elapsed_seconds: elapsed,
+                cumulative_seconds_per_column: elapsed / prepared.stop as f64,
+                phases,
+            });
+            eprintln!(
+                "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3} generate_s={:.6} sketch_s={:.6} gemm_s={:.6} host_reduce_s={:.6} basis_update_s={:.6} io_s={:.6}",
+                prepared.stop,
+                limit,
+                states
+                    .iter()
+                    .map(|state| state.basis.rank())
+                    .collect::<Vec<_>>(),
+                started.elapsed().as_secs_f64(),
+                phases.generate_s,
+                phases.sketch_s,
+                phases.gemm_s,
+                phases.host_reduce_s,
+                phases.basis_update_s,
+                phases.io_s,
+            );
+            if let Some(reason) = abort_reason(&config, &states) {
+                abort = Some(reason);
+                break;
             }
         }
-        for (state, matrix) in states.iter_mut().zip(&mut matrices) {
-            state.process_sketched(matrix, &indices)?;
-        }
-        let phases = batch_phases(phase_before, phase_snapshot(&states), batch_generate_s, 0.0);
-        let elapsed = started.elapsed().as_secs_f64();
-        progress.push(ProgressPoint {
-            source_columns_processed: batch_stop,
-            ranks: states.iter().map(|state| state.basis.rank()).collect(),
-            elapsed_seconds: elapsed,
-            cumulative_seconds_per_column: elapsed / batch_stop as f64,
-            phases,
-        });
-        eprintln!(
-            "STREAMRANK_PROGRESS columns={}/{} ranks={:?} seconds={:.3} generate_s={:.6} sketch_s={:.6} gemm_s={:.6} host_reduce_s={:.6} basis_update_s={:.6} io_s={:.6}",
-            batch_stop,
-            limit,
-            states
-                .iter()
-                .map(|state| state.basis.rank())
-                .collect::<Vec<_>>(),
-            started.elapsed().as_secs_f64(),
-            phases.generate_s,
-            phases.sketch_s,
-            phases.gemm_s,
-            phases.host_reduce_s,
-            phases.basis_update_s,
-            phases.io_s,
+        drop(receiver);
+        Ok(abort)
+    })?;
+    if let Some(reason) = abort {
+        let source_columns = progress
+            .last()
+            .map(|point| point.source_columns_processed)
+            .unwrap_or(0);
+        return finish_abort(
+            args,
+            &config,
+            &input_hash,
+            order_file.as_deref(),
+            order_file_sha256.as_deref(),
+            None,
+            None,
+            &subject,
+            requested_source_columns,
+            source_columns,
+            exact_nnz,
+            column_generation_seconds,
+            progress,
+            started,
+            &states,
+            reason,
         );
-        if let Some(reason) = abort_reason(&config, &states) {
-            return finish_abort(
-                args,
-                &config,
-                &input_hash,
-                order_file.as_deref(),
-                order_file_sha256.as_deref(),
-                None,
-                None,
-                &subject,
-                requested_source_columns,
-                batch_stop,
-                exact_nnz,
-                column_generation_seconds,
-                progress,
-                started,
-                &states,
-                reason,
-            );
-        }
     }
     let mut five_l_carrier = None;
     let mut linear_loop_carrier = None;
@@ -1284,7 +1395,7 @@ fn command_universe(args: &Args) -> Result<()> {
             &[(descriptor.source_index, column)],
             config.prime,
         )?;
-        let phases = batch_phases(phase_before, phase_snapshot(&states), generated_s, 0.0);
+        let phases = batch_phases(phase_before, phase_snapshot(&states), generated_s, 0.0, 0.0);
         five_l_carrier = Some(descriptor);
         source_columns += 1;
         subject.push_str("+5L");
@@ -1345,7 +1456,7 @@ fn command_universe(args: &Args) -> Result<()> {
             &[(descriptor.source_index, column)],
             config.prime,
         )?;
-        let phases = batch_phases(phase_before, phase_snapshot(&states), generated_s, 0.0);
+        let phases = batch_phases(phase_before, phase_snapshot(&states), generated_s, 0.0, 0.0);
         subject.push_str(&format!("+{}", descriptor.label));
         linear_loop_carrier = Some(descriptor);
         source_columns += 1;
@@ -1449,13 +1560,40 @@ mod tests {
             gemm_s: 2.25,
             basis_update_s: 3.5,
         };
-        let phases = batch_phases(before, after, 11.0, 0.75);
+        let phases = batch_phases(before, after, 11.0, 0.75, 0.125);
         assert_eq!(phases.generate_s, 11.0);
         assert_eq!(phases.sketch_s, 5.0);
         assert_eq!(phases.gemm_s, 2.0);
         assert_eq!(phases.basis_update_s, 3.0);
         assert_eq!(phases.host_reduce_s, 5.0);
         assert_eq!(phases.io_s, 0.75);
+        assert_eq!(phases.sparse_drop_s, 0.125);
+    }
+
+    #[test]
+    fn parallel_sketch_preserves_serial_column_order() {
+        let spec = SketchSpec::new(2026090201, 31).unwrap();
+        let columns = vec![
+            SparseColumn {
+                linear: vec![1, 0, -2],
+                hinges: Default::default(),
+            },
+            SparseColumn {
+                linear: vec![0, 3, 1],
+                hinges: Default::default(),
+            },
+            SparseColumn {
+                linear: vec![-4, 2, 0],
+                hinges: Default::default(),
+            },
+        ];
+        let mut serial = vec![0u32; spec.buckets * columns.len()];
+        for (output, column) in serial.chunks_mut(spec.buckets).zip(&columns) {
+            spec.sketch_column(column, 1_000_003, output);
+        }
+        let mut parallel = vec![0u32; serial.len()];
+        sketch_columns_parallel(&spec, &columns, 1_000_003, &mut parallel);
+        assert_eq!(parallel, serial);
     }
 
     #[test]

@@ -22,6 +22,13 @@ host-reduce time is reducer wall time excluding measured GEMM and scalar
 pivot/basis-update work. Pipelined phase durations are active work clocks and
 can overlap, so their sum is not a wall-time identity.
 
+`run-universe` prepares generated-and-sketched batches on a scoped producer
+and sends them through a capacity-one channel to the reducer. This bounded
+pipeline overlaps batch `k+1` preparation with batch `k` reduction and limits
+the prepared-batch queue to one entry. Sketching is parallel only across
+columns; each column retains the original sequential bucket-accumulation order,
+and indexed collection plus FIFO receipt preserve source order exactly.
+
 The safety check requires `max(block_size,panel_size)*(p-1)^2+p < 2^53`, so every integer
 product and partial sum passed through binary64 is exact. Primes must be below
 `2^20`. This is modular/sketched evidence, not exact rational verification.
