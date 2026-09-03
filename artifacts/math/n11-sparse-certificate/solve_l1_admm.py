@@ -77,6 +77,7 @@ def solve(
     reweight_floor: float,
     initial_witness: Path | None,
     initial_reweight_from_witness: bool,
+    adaptive_rho: bool,
 ) -> dict:
     import scipy
     import scipy.linalg
@@ -186,10 +187,10 @@ def solve(
                 if r_norm <= eps_primal and s_norm <= eps_dual:
                     converged = True
                     break
-                if r_norm > 10.0 * s_norm and current_rho < 1e16:
+                if adaptive_rho and r_norm > 10.0 * s_norm and current_rho < 1e16:
                     current_rho *= 2.0
                     u /= 2.0
-                elif s_norm > 10.0 * r_norm and current_rho > 1e-16:
+                elif adaptive_rho and s_norm > 10.0 * r_norm and current_rho > 1e-16:
                     current_rho /= 2.0
                     u *= 2.0
         magnitudes = np.abs(z)
@@ -276,7 +277,11 @@ def solve(
         "gram_cholesky_seconds": gram_seconds,
         "rho_initial": initial_rho,
         "rho_final": current_rho,
-        "rho_adaptation": "every 25 iterations: double when primal residual > 10x dual; halve when dual > 10x primal; preserve the unscaled dual",
+        "rho_adaptation": (
+            "every 25 iterations: double when primal residual > 10x dual; halve when dual > 10x primal; preserve the unscaled dual"
+            if adaptive_rho
+            else "disabled"
+        ),
         "absolute_tolerance": absolute_tolerance,
         "relative_tolerance": relative_tolerance,
         "support_threshold_absolute": support_threshold,
@@ -316,6 +321,7 @@ def main() -> None:
     parser.add_argument("--reweight-floor", type=float, default=1e-6)
     parser.add_argument("--initial-witness", type=Path)
     parser.add_argument("--initial-reweight-from-witness", action="store_true")
+    parser.add_argument("--adaptive-rho", action="store_true")
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -333,6 +339,7 @@ def main() -> None:
         args.reweight_floor,
         args.initial_witness,
         args.initial_reweight_from_witness,
+        args.adaptive_rho,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 

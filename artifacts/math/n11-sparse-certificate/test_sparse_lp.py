@@ -69,6 +69,7 @@ class SparseLpTests(unittest.TestCase):
                     reweight_floor=1e-3,
                     initial_witness=None,
                     initial_reweight_from_witness=False,
+                    adaptive_rho=False,
                 )
                 self.assertTrue(admm["rounds"][0]["converged"])
                 self.assertEqual(admm["rounds"][0]["support_numerator"], 2)
