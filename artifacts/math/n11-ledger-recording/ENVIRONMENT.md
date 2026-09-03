@@ -1,0 +1,31 @@
+# Recorded execution environments for the n=11 rung
+
+This file is a custody snapshot, not provider authentication. It records only
+environment facts present in the source artifacts and AmberBluff's dated bead
+records.
+
+- Stage-A modular arms: rented H100 CUDA environment; `m=64,000`; primes
+  `1,000,003` and `1,000,033`; seeds `2,026,090,201` and `2,026,090,202`;
+  the four JSON reports record CUDA backend and 24 requested threads. The CPU
+  cross-check report records the CPU backend and 24 requested threads.
+- Exact lift run7: rented A100 environment; binary attribution
+  `max11-lift-large-a50338c3`; prime `65,521`; 16 OpenBLAS threads. The solver
+  report records 1,319 seconds and 15.4 GB peak RSS. The source record says the
+  report bytes were identical after transfer to the campaign host.
+- T1: campaign shared host; `max11-verify11` release build; four Rayon threads.
+  The verifier used exact integer/rational arithmetic and no modular primes.
+- T2 independent verifier: fresh scratch build attributed to a Claude Opus
+  referee subagent; four threads. The report records 2,832.516966189 seconds.
+- T2 lattice falsifier: campaign shared AMD EPYC host, 16 cores, Linux
+  6.17.0-14-generic; `.venv/bin/python`, CPython 3.13.7, NumPy 2.5.2; four
+  processes. Both retained runs used the same code and certificate.
+- Degree-4 modular runs: rented H100 CUDA environment, eight threads, prime
+  `1,000,003`, `m=64,000`, with seeds `2,026,090,201` and `2,026,090,202`
+  run sequentially after the combined process hit the recorded CUDA allocation
+  abort.
+- Class-sum runs: campaign `.venv`; exact integer/rational verification plus
+  primes `1,000,003` and `1,000,033`; `OMP_NUM_THREADS=2`,
+  `OPENBLAS_NUM_THREADS=2`, and `MKL_NUM_THREADS=2` in the retained commands.
+
+No line here establishes provider identity, pristine-host isolation, or a
+complete transitive shared-library inventory.
