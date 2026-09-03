@@ -9,6 +9,7 @@ import json
 import math
 import resource
 import time
+from fractions import Fraction
 from pathlib import Path
 
 import highspy
@@ -54,6 +55,7 @@ def solve(
     support_threshold: float,
     reweight_epsilon: float,
     reweight_cap: float,
+    initial_witness: Path | None = None,
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -127,6 +129,37 @@ def solve(
     check(highs.addCols(columns, costs, lower, upper, nnz, start, index, values), "addCols(-)")
     del values
 
+    initial = None
+    if initial_witness is not None:
+        witness = json.loads(initial_witness.read_text())
+        position_of = {int(source_index): position for position, source_index in enumerate(source)}
+        initial_indices = []
+        initial_values = []
+        for entry in witness.get("coefficients", []):
+            coefficient = Fraction(str(entry["coefficient"]))
+            if not coefficient:
+                continue
+            source_index = int(entry["column"])
+            if source_index not in position_of:
+                raise ValueError(f"initial witness source {source_index} is absent from the LP family")
+            position = position_of[source_index]
+            initial_indices.append(position if coefficient > 0 else columns + position)
+            initial_values.append(float(abs(coefficient)))
+        check(
+            highs.setSolution(
+                len(initial_indices),
+                np.asarray(initial_indices, dtype=np.int32),
+                np.asarray(initial_values, dtype=np.float64),
+            ),
+            "setSolution(initial witness)",
+        )
+        initial = {
+            "path": str(initial_witness),
+            "sha256": sha256(initial_witness),
+            "support_numerator": len(initial_indices),
+            "support_denominator": columns,
+        }
+
     all_columns = np.arange(2 * columns, dtype=np.int32)
     reports = []
     weights = np.ones(columns, dtype=np.float64)
@@ -193,6 +226,7 @@ def solve(
         "reweight_epsilon_absolute": reweight_epsilon,
         "reweight_cap": reweight_cap,
         "support_threshold_absolute": support_threshold,
+        "initial_feasible_witness": initial,
         "rounds": reports,
         "total_seconds": time.monotonic() - started,
         "max_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
@@ -214,6 +248,7 @@ def main() -> None:
     parser.add_argument("--support-threshold", type=float, default=1e-12)
     parser.add_argument("--reweight-epsilon", type=float, default=1e-9)
     parser.add_argument("--reweight-cap", type=float, default=1e6)
+    parser.add_argument("--initial-witness", type=Path)
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -225,6 +260,7 @@ def main() -> None:
         args.support_threshold,
         args.reweight_epsilon,
         args.reweight_cap,
+        args.initial_witness,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 

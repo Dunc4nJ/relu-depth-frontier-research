@@ -27,8 +27,14 @@ class SparseLpTests(unittest.TestCase):
             matrix = root / "matrix"
             built = build_saved_csc.build(system, matrix)
             self.assertEqual((built["rows_denominator"], built["columns_denominator"], built["nonzeros_denominator"]), (3, 3, 5))
-            report = solve_l1.solve(matrix, root / "l1.json", root / "highs.log", 1, 1, 1e-9, 1e-10, 1e-8, 1e6)
+            initial = root / "initial.json"
+            initial.write_text(json.dumps({"coefficients": [
+                {"column": 0, "coefficient": "1/2"},
+                {"column": 1, "coefficient": "1/2"},
+            ]}))
+            report = solve_l1.solve(matrix, root / "l1.json", root / "highs.log", 1, 1, 1e-9, 1e-10, 1e-8, 1e6, initial)
             self.assertEqual(report["rounds"][0]["support_numerator"], 2)
+            self.assertEqual(report["initial_feasible_witness"]["support_numerator"], 2)
             selected = select_exact_support.select(
                 matrix,
                 root / "l1.json",
