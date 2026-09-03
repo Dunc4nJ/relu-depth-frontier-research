@@ -1,0 +1,56 @@
+{
+  "certificate": "artifacts/math/exact-witness-n9-n10/certificate_10_4_mutated_plus1.json",
+  "certificate_sha256": "c27f54bb8d94b069f6f31eb9dd30b9c76150f3cc0a3bd3c3fb221a73d5068734",
+  "child_max_rss_kib": 26448,
+  "exact": true,
+  "method": "parallel outer loop over unchanged pinned upstream read_pair/symmetrized_pair",
+  "n": 10,
+  "nonzero_hinge_residual_count": 0,
+  "nonzero_hinge_residual_examples": [],
+  "nonzero_linear_residuals": [
+    {
+      "row": 1,
+      "value": "322560"
+    },
+    {
+      "row": 2,
+      "value": "645120"
+    },
+    {
+      "row": 3,
+      "value": "967680"
+    },
+    {
+      "row": 4,
+      "value": "1290240"
+    },
+    {
+      "row": 5,
+      "value": "1612800"
+    },
+    {
+      "row": 6,
+      "value": "1935360"
+    },
+    {
+      "row": 7,
+      "value": "2257920"
+    },
+    {
+      "row": 8,
+      "value": "2580480"
+    },
+    {
+      "row": 9,
+      "value": "2903040"
+    }
+  ],
+  "nonzero_terms": 402,
+  "parent_max_rss_kib": 144724,
+  "seconds": 491.6766019426286,
+  "terms": 402,
+  "verdict": "FAIL",
+  "verifier": "literature/repos/max-relu-certificates/verify_certificate.py",
+  "verifier_sha256": "d6da3030b719735b10a197dc79d7e311ecc90f70314ed748de81087f94f039a7",
+  "workers": 60
+}
