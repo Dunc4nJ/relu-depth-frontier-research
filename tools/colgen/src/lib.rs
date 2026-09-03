@@ -293,9 +293,77 @@ impl SparseColumn {
 }
 
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
-struct State {
+struct WideState {
     mask: u16,
     word: [i8; MAX_N],
+}
+
+/// For n <= 14, the 16-bit visited mask and all n signed-byte word
+/// coordinates fit without loss in one u128.  Hashing this key performs two
+/// native-word mixes instead of hashing a separately stored mask and byte
+/// array on every DP child probe.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
+struct PackedState(u128);
+
+trait DpState: Copy + Eq + std::hash::Hash {
+    fn zero() -> Self;
+    fn mask(self) -> usize;
+    fn child(self, vertex: usize, depth: usize, increment: i8) -> Result<Self>;
+    fn copy_word(self, n: usize, target: &mut [i8; MAX_N]);
+}
+
+impl DpState for WideState {
+    #[inline(always)]
+    fn zero() -> Self {
+        Self {
+            mask: 0,
+            word: [0; MAX_N],
+        }
+    }
+
+    #[inline(always)]
+    fn mask(self) -> usize {
+        self.mask as usize
+    }
+
+    #[inline(always)]
+    fn child(mut self, vertex: usize, depth: usize, increment: i8) -> Result<Self> {
+        self.mask |= 1u16 << vertex;
+        self.word[depth] = increment;
+        Ok(self)
+    }
+
+    #[inline(always)]
+    fn copy_word(self, _n: usize, target: &mut [i8; MAX_N]) {
+        *target = self.word;
+    }
+}
+
+impl DpState for PackedState {
+    #[inline(always)]
+    fn zero() -> Self {
+        Self(0)
+    }
+
+    #[inline(always)]
+    fn mask(self) -> usize {
+        (self.0 as u16) as usize
+    }
+
+    #[inline(always)]
+    fn child(self, vertex: usize, depth: usize, increment: i8) -> Result<Self> {
+        debug_assert!(depth < 14);
+        let mask = 1u128 << vertex;
+        let coordinate = u128::from(increment as u8) << (16 + 8 * depth);
+        Ok(Self(self.0 | mask | coordinate))
+    }
+
+    #[inline(always)]
+    fn copy_word(self, n: usize, target: &mut [i8; MAX_N]) {
+        for (depth, value) in target.iter_mut().enumerate().take(n) {
+            *value = ((self.0 >> (16 + 8 * depth)) as u8) as i8;
+        }
+    }
 }
 
 fn checked_factorial(n: usize) -> Result<u64> {
@@ -526,14 +594,28 @@ fn generate_column_observed<O: GenerationObserver>(
     let stage_started = observer.start();
     let increments = increments(&matrix, n)?;
     observer.record(ProfileStage::IncrementTable, stage_started);
-    let mut current: HashMap<State, u64> = HashMap::default();
-    current.insert(
-        State {
-            mask: 0,
-            word: [0; MAX_N],
-        },
-        1u64,
-    );
+    let column = if n <= 14 {
+        let current = run_subset_dp::<PackedState, _>(&increments, n, observer)?;
+        finish_column(current, n, branch_edges, observer)?
+    } else {
+        let current = run_subset_dp::<WideState, _>(&increments, n, observer)?;
+        finish_column(current, n, branch_edges, observer)?
+    };
+    observer.record(ProfileStage::Total, total_started);
+    Ok(column)
+}
+
+fn run_subset_dp<S, O>(
+    increments: &[Vec<i8>],
+    n: usize,
+    observer: &mut O,
+) -> Result<HashMap<S, u64>>
+where
+    S: DpState,
+    O: GenerationObserver,
+{
+    let mut current: HashMap<S, u64> = HashMap::default();
+    current.insert(S::zero(), 1u64);
     let dp_started = observer.start();
     for depth in 0..n {
         observer.count(ProfileCount::DpLayers, 1);
@@ -541,20 +623,18 @@ fn generate_column_observed<O: GenerationObserver>(
         let capacity = current.len().saturating_mul((n - depth).min(4));
         observer.count(ProfileCount::DpRequestedCapacity, capacity);
         let allocation_started = observer.start();
-        let mut next: HashMap<State, u64> =
+        let mut next: HashMap<S, u64> =
             HashMap::with_capacity_and_hasher(capacity, Default::default());
         observer.record(ProfileStage::DpMapAllocation, allocation_started);
         for (state, count) in current {
-            let mask = state.mask as usize;
+            let mask = state.mask();
             for (vertex, vertex_increments) in increments.iter().enumerate().take(n) {
                 let bit = 1usize << vertex;
                 if mask & bit != 0 {
                     continue;
                 }
                 observer.count(ProfileCount::DpChildCandidates, 1);
-                let mut child = state;
-                child.mask = u16::try_from(mask | bit)?;
-                child.word[depth] = vertex_increments[mask];
+                let child = state.child(vertex, depth, vertex_increments[mask])?;
                 let hashing_started = observer.start();
                 match next.entry(child) {
                     std::collections::hash_map::Entry::Occupied(mut entry) => {
@@ -576,7 +656,19 @@ fn generate_column_observed<O: GenerationObserver>(
         current = next;
     }
     observer.record(ProfileStage::DpTotal, dp_started);
+    Ok(current)
+}
 
+fn finish_column<S, O>(
+    current: HashMap<S, u64>,
+    n: usize,
+    branch_edges: usize,
+    observer: &mut O,
+) -> Result<SparseColumn>
+where
+    S: DpState,
+    O: GenerationObserver,
+{
     let census_started = observer.start();
     let expected = checked_factorial(n)?;
     let observed = current.values().try_fold(0u64, |acc, &value| {
@@ -593,11 +685,12 @@ fn generate_column_observed<O: GenerationObserver>(
     observer.record(ProfileStage::ColumnInitialization, initialization_started);
     observer.count(ProfileCount::TerminalWords, current.len());
     let hinge_started = observer.start();
+    let mut word = [0i8; MAX_N];
     for (state, count) in current {
-        accumulate_word_observed(&mut column, &state.word[..n], count, observer)?;
+        state.copy_word(n, &mut word);
+        accumulate_word_observed(&mut column, &word[..n], count, observer)?;
     }
     observer.record(ProfileStage::HingeEnumeration, hinge_started);
-    observer.record(ProfileStage::Total, total_started);
     Ok(column)
 }
 
@@ -888,7 +981,17 @@ mod tests {
 
     #[test]
     fn compact_state_covers_signed_mass_endpoint() {
-        assert_eq!(std::mem::size_of::<State>(), 18);
+        assert_eq!(std::mem::size_of::<PackedState>(), 16);
+        assert_eq!(std::mem::size_of::<WideState>(), 18);
+        let mut packed = PackedState::zero();
+        let expected = [-128, -127, -1, 0, 1, 42, 126, 127, -9, 17, -33, 88, -64, 63];
+        for (depth, &increment) in expected.iter().enumerate() {
+            packed = packed.child(depth, depth, increment).unwrap();
+        }
+        let mut decoded = [0i8; MAX_N];
+        packed.copy_word(expected.len(), &mut decoded);
+        assert_eq!(&decoded[..expected.len()], &expected);
+        assert_eq!(packed.mask(), (1usize << expected.len()) - 1);
         let record = SignedRecord {
             sequence: None,
             active_vertices: 3,
