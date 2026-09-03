@@ -277,3 +277,135 @@ bridge from the certified identity to "MAX_11 is in ReLU_2". After E1 and E2 the
 note is fit to be recorded as PROVED_HERE for that step. E1 is not optional: as
 written, the note contains a false sentence about 15,894 of the 15,896 terms of
 the certificate it exists to support.
+
+---
+
+## 7. Revision 2 re-review (2026-09-03)
+
+**Bottom line for revision 2: T2 PASS WITH EDITS — one clause remains false.**
+Both required edits are applied and their mathematical content is correct. The
+replacement weight sentence, however, introduced one new false clause of exactly
+the class it was written to remove: it accumulates coefficients correctly over
+vertices but not over edges. Nothing load-bearing depends on it. After the
+one-line fix E1b below, the note is fit to be recorded as PROVED_HERE.
+
+- **Object:** `artifacts/math/n11-ledger-recording/DEPTH2_REALIZATION_LEMMA.md`
+  - commit `fcc53e7`, SHA-256 `ab1145cfb52f7e0ba3346cd78ea4f69ab3e4086a22f194cdd5732dd2f04dceed`
+  - Working-tree copy byte-identical to the committed blob (checked).
+- **Diff reviewed:** `git diff bbdb991 fcc53e7` on that path — three hunks, no
+  change to the Lemma statement itself, nothing else touched.
+
+### 7.1 E2 (symmetry of the left-hand side) — **RESOLVED, correct.**
+
+The inserted argument reads: with `(σx)_i = x_{σ(i)}`, for `τ ∈ S_n` we get
+`(σ(τx))_i = (τx)_{σ(i)} = x_{τ(σ(i))}`, hence `σ(τx) = (τ∘σ)x`, and `τ∘σ` runs
+over `S_n` as `σ` does.
+
+Checked directly: `((τ∘σ)x)_i = x_{(τ∘σ)(i)} = x_{τ(σ(i))}`, which is the same
+expression, so the composition identity is right, and left translation by `τ` is
+a bijection of `S_n`. The conclusion `Sym_t(τx) = Sym_t(x)` follows. This is
+exactly the argument requested in E2 and it is stated in the note's own
+convention. It also correctly closes the only gap that mattered: the step fails
+for a proper subgroup or a deduplicated orbit, and the note now shows the sum is
+over the full group.
+
+### 7.2 E1 (weight claim) — **substantially resolved; one clause still false.**
+
+Correct in the new sentence, each item checked:
+
+| new claim | verdict |
+| --- | --- |
+| layer-1 weights in `{0, ±1}` | OK |
+| layer-2 weights are half-integers | OK |
+| coefficient of `ReLU(x_k)` in `L_{E,σ}` is `deg_E(σ^{-1}(k))/2` | OK |
+| a loop counts 2 toward the degree | OK — a loop at `v` contributes coefficient `1 = 2/2`, matching the note's own line 25 treatment |
+| every layer-2 weight has magnitude at most `|A_t| + |B_t|` | OK |
+| equality only when one vertex carries every edge of both branches as loops | OK — needs `deg_A(v) = 2|A_t|` and `deg_B(v) = 2|B_t|` simultaneously |
+| n = 11 certificate has no loops, five edges per branch, largest magnitude 5 | OK — reconfirmed on all 15,896 terms; the maximum 5 is attained at term index 6763 on a pass-through unit |
+| output weights `±c_t/2` | OK |
+
+**ISSUE (new, introduced by the fix).** The clause
+
+> and the coefficient of each difference unit is +-1/2
+
+is false whenever an edge repeats. The coefficient of the layer-1 unit
+`ReLU(x_a - x_b)` in `L_{E,σ}` is `m/2`, where `m` is the multiplicity of
+`{σ^{-1}(a), σ^{-1}(b)}` in the multiset `E`. The sentence accumulates over
+vertices (the degree rule, correctly) but silently declines to accumulate over
+edges, which is the same slip as the original `{0, ±1, ±1/2}` claim.
+
+Counterexample from term index 0 of the certificate under review:
+
+```
+B = [[1,2], [1,2], [3,4], [1,3], [2,5]]
+```
+
+The edge `{1,2}` has multiplicity 2, so the coefficient of
+`ReLU(x_{σ(1)} - x_{σ(2)})` in `L_{B,σ}` is `1`, not `±1/2`.
+
+| quantity | value |
+| --- | --- |
+| terms with a difference-unit coefficient in some `L_E` outside `{0, ±1/2}` | 14,361 of 15,896 |
+| largest difference-unit coefficient magnitude, in `L_E` and in `L_A ± L_B` | 1 |
+
+**Severity: cosmetic, no propagation.** Difference-unit coefficients are `m/2`
+with `m ≤ |E|`, so they are half-integers bounded by `|E|/2`, and the sentence's
+own bound `|A_t| + |B_t|` and its "largest magnitude 5" figure both survive
+unchanged (the maximum 5 comes from a pass-through unit, and difference units
+top out at 1 on this certificate). The half-integer claim, the rationality
+claim, the depth claim and the no-skip claim are all unaffected.
+
+**Secondary omission, same sentence.** The rule is given for `ReLU(x_k)` but not
+for `ReLU(-x_k)`, whose coefficient is `-deg_E(σ^{-1}(k))/2`. The magnitude
+bound covers it, so this is incompleteness rather than error; folding it into
+E1b costs nothing.
+
+### 7.3 Optional edits E3 and E4 — applied, with one nit
+
+**E4 (no loops) — OK.** Reconfirmed: zero loop edges across all 15,896 terms of
+`member_upstream.json`, and every branch has exactly 5 edges. One scoping nit:
+the note says "the n = 11 certificates" in the plural; I verified only the run7
+certificate under review here.
+
+**E3 (width comparison) — correct in substance, loose in one figure.** The
+one-sided identity `max(u,v) = u + ReLU(v - u)` is correct and is indeed what
+the upstream paper's counts (`C(n,2) + 2n` and `3Q`, §4.3) correspond to. The
+layer-2 factor `4/3` is exact. The layer-1 factor is not exactly 2: the note's
+`n(n-1) + 2n` over the paper's `C(n,2) + 2n` is `2(n+1)/(n+3)`, i.e. `132/77`
+(about 1.71) at `n = 11`, approaching 2 only as `n` grows. My own §3 used the
+same loose phrasing, so this is a shared nit, not a regression. It sits in a
+remark explicitly flagged "not part of the claim" and needs no fix; if the
+author wants precision, say "by a factor 2 on the pairwise-difference block and
+4/3 in layer 2".
+
+**Revision provenance line — OK.** It cites this review at the correct path and
+commit `53da770` and describes the two changes accurately.
+
+### 7.4 Remaining edit
+
+**E1b (required).** In the weight sentence, replace
+
+> and the coefficient of each difference unit is +-1/2
+
+with
+
+> the coefficient of ReLU(-x_k) is -deg_E(sigma^{-1}(k))/2, and the coefficient
+> of the difference unit ReLU(x_a - x_b) is m/2, where m is the multiplicity of
+> {sigma^{-1}(a), sigma^{-1}(b)} in E (at most |E|/2; on the n = 11 certificate
+> the largest such coefficient is 1, from a doubled edge)
+
+Everything else in revision 2 stands as written.
+
+### 7.5 Final bottom line
+
+**T2 PASS WITH EDITS**, the edit being E1b of §7.4 and nothing else.
+
+The lemma, its proof, and every claim the ledger consumes are correct as of
+revision 2: the construction is valid, the depth, no-skip, width, half-integer
+and rationality claims all hold, the hypothesis is the certified identity
+verbatim, and the extension from the sorted cone to `R^n` is now fully argued.
+The single remaining defect is one descriptive clause about a per-unit
+coefficient, false on 14,361 of 15,896 terms, carrying no mathematical weight.
+Fix E1b and this step is ready to be recorded as PROVED_HERE; no further review
+round is needed on my account, since E1b is a substitution I have already
+checked against the certificate.
