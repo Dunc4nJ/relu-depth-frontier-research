@@ -1,5 +1,5 @@
 {
-  "elapsed_seconds": 18.503,
+  "elapsed_seconds": 26.03,
   "method": "all permutations for every saved template; no subset-DP calls",
   "results": [
     {
@@ -56,5 +56,5 @@
     }
   ],
   "schema": "max11-span-structure-independent-replay-v1",
-  "workers": 6
+  "workers": 4
 }
