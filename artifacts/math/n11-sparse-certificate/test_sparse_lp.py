@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 import build_saved_csc
+import select_exact_support
 import solve_l1
 
 
@@ -28,6 +29,15 @@ class SparseLpTests(unittest.TestCase):
             self.assertEqual((built["rows_denominator"], built["columns_denominator"], built["nonzeros_denominator"]), (3, 3, 5))
             report = solve_l1.solve(matrix, root / "l1.json", root / "highs.log", 1, 1, 1e-9, 1e-10, 1e-8, 1e6)
             self.assertEqual(report["rounds"][0]["support_numerator"], 2)
+            selected = select_exact_support.select(
+                matrix,
+                root / "l1.json",
+                root / "pivots.json",
+                root / "selection.json",
+                1_000_003,
+                None,
+            )
+            self.assertEqual(selected["chosen_independent_support_numerator"], 2)
             target = matrix / "target.i64le"
             data = bytearray(target.read_bytes())
             data[-8:] = (2).to_bytes(8, "little", signed=True)
