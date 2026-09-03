@@ -1,0 +1,27 @@
+certificate: artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_upstream.json
+seed=20260904  sampled witness/term positions (0-based): [134, 943, 1952, 2163, 3261, 3669, 4035, 4065, 4354, 4434, 4506, 4603, 5982, 6510, 7792, 8004, 8241, 8475, 8707, 11053]
+
+   pos  column mass act_v  verdict  detail
+----------------------------------------------------------------------------------
+   134  588206    5    10       OK  neg=[(0, 2), (0, 3), (1, 2), (6, 7), (7, 9)] pos=[(0, 1), (0, 4), (0, 5), (3, 6), (4, 8)] carrier=Nonex0 forest_pair=True coef_digits=445
+   943  591644    5    10       OK  neg=[(1, 2), (1, 4), (0, 6), (7, 8), (4, 9)] pos=[(0, 1), (0, 2), (0, 3), (0, 5), (3, 7)] carrier=Nonex0 forest_pair=True coef_digits=441
+  1952  593996    5    10       OK  neg=[(0, 1), (1, 4), (0, 5), (7, 8), (4, 9)] pos=[(0, 2), (0, 3), (1, 2), (3, 6), (6, 7)] carrier=Nonex0 forest_pair=True coef_digits=450
+  2163  595015    5    10       OK  neg=[(0, 1), (1, 4), (4, 6), (2, 7), (3, 9)] pos=[(0, 2), (0, 3), (1, 2), (0, 5), (1, 8)] carrier=Nonex0 forest_pair=True coef_digits=450
+  3261  596883    5    10       OK  neg=[(0, 1), (0, 2), (4, 6), (4, 7), (8, 9)] pos=[(0, 3), (1, 2), (1, 4), (0, 5), (6, 8)] carrier=Nonex0 forest_pair=True coef_digits=438
+  3669  599869    5    10       OK  neg=[(1, 2), (1, 4), (2, 6), (5, 8), (6, 9)] pos=[(0, 1), (0, 2), (0, 3), (3, 5), (4, 7)] carrier=Nonex0 forest_pair=True coef_digits=216
+  4035  604397    5    10       OK  neg=[(0, 1), (4, 5), (1, 4), (5, 8), (2, 7)] pos=[(0, 2), (0, 3), (6, 7), (8, 9), (1, 6)] carrier=Nonex0 forest_pair=True coef_digits=440
+  4065  604431    5    10       OK  neg=[(0, 2), (4, 5), (1, 4), (1, 6), (2, 7)] pos=[(0, 1), (0, 3), (6, 7), (8, 9), (5, 8)] carrier=Nonex0 forest_pair=True coef_digits=441
+  4354  606110    5    10       OK  neg=[(4, 5), (6, 7), (4, 6), (1, 8), (2, 9)] pos=[(0, 1), (0, 2), (0, 3), (8, 9), (1, 4)] carrier=Nonex0 forest_pair=True coef_digits=431
+  4434  606205    5    10       OK  neg=[(0, 1), (0, 2), (6, 7), (1, 4), (2, 9)] pos=[(0, 3), (4, 5), (8, 9), (4, 6), (1, 8)] carrier=Nonex0 forest_pair=True coef_digits=215
+  4506  606285    5    10       OK  neg=[(0, 1), (4, 5), (6, 7), (4, 6), (6, 9)] pos=[(0, 2), (0, 3), (8, 9), (1, 4), (1, 8)] carrier=Nonex0 forest_pair=True coef_digits=214
+  4603  606394    5    10       OK  neg=[(0, 1), (0, 3), (4, 5), (1, 4), (7, 9)] pos=[(0, 2), (6, 7), (8, 9), (4, 6), (1, 8)] carrier=Nonex0 forest_pair=True coef_digits=437
+  5982  705515    5    11       OK  neg=[(0, 1), (0, 3), (0, 4), (3, 5), (1, 10)] pos=[(0, 2), (1, 2), (5, 6), (7, 8), (7, 9)] carrier=Nonex0 forest_pair=True coef_digits=193
+  6510  706906    5    11       OK  neg=[(0, 2), (0, 3), (1, 4), (3, 6), (4, 10)] pos=[(0, 1), (1, 2), (0, 5), (6, 7), (8, 9)] carrier=Nonex0 forest_pair=True coef_digits=204
+  7792  709859    5    11       OK  neg=[(0, 3), (1, 2), (6, 7), (6, 8), (4, 10)] pos=[(0, 1), (0, 2), (1, 4), (3, 5), (5, 9)] carrier=Nonex0 forest_pair=True coef_digits=194
+  8004  710838    5    11       OK  neg=[(0, 2), (0, 4), (5, 6), (2, 7), (6, 8)] pos=[(0, 1), (0, 3), (7, 8), (9, 10), (1, 5)] carrier=Nonex0 forest_pair=True coef_digits=193
+  8241  712611    5    11       OK  neg=[(0, 2), (0, 6), (4, 7), (8, 9), (7, 10)] pos=[(0, 1), (1, 3), (0, 4), (2, 3), (0, 5)] carrier=Nonex0 forest_pair=True coef_digits=187
+  8475  713299    5    11       OK  neg=[(0, 1), (0, 2), (0, 4), (8, 9), (4, 10)] pos=[(1, 3), (2, 3), (1, 5), (0, 6), (2, 7)] carrier=Nonex0 forest_pair=True coef_digits=199
+  8707  714237    5    11       OK  neg=[(1, 3), (0, 4), (0, 6), (7, 9), (0, 10)] pos=[(0, 1), (0, 2), (2, 3), (1, 5), (7, 8)] carrier=Nonex0 forest_pair=True coef_digits=190
+ 11053  727995    5    11       OK  neg=[(0, 2), (0, 4), (1, 7), (5, 8), (2, 10)] pos=[(0, 1), (1, 3), (3, 5), (1, 6), (2, 9)] carrier=Nonex0 forest_pair=True coef_digits=187
+
+ALL 20 SPOT CHECKS OK: True

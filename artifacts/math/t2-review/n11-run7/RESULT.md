@@ -1,4 +1,22 @@
-# T2 referee review — n = 11 run7 certificate
+# T2 referee review — n = 11 certificates
+
+This document covers two separately reviewed certificates. **Part I** (sections 1
+to 9) is the run7 dense-insurance certificate. **Part II** (section 10) is the F2
+forest-pair certificate, reviewed afterwards under the same protocol. Each has its
+own bottom line.
+
+| certificate | terms | verdict |
+| --- | --- | --- |
+| run7 dense-insurance (`8bd2270a…`) | 15,896 | **T2 PASS** |
+| F2 forest-pair (`767f9e66…`) | 11,320 | **T2 PASS** |
+
+The semantics audit in §1 is shared: both certificates use the same format, the
+same pinned upstream verifier, the same `tools/verify11` build, and the same
+G-0027 universe, so §1 is not repeated in Part II.
+
+---
+
+# Part I — run7 dense-insurance certificate
 
 **Bottom line: T2 PASS.** An independently built binary and a separately written
 independent implementation both confirm, in exact rational arithmetic, that the
@@ -531,7 +549,7 @@ in `OUTPUT_SHA256.txt`.
 
 ---
 
-## 9. Bottom line
+## 9. Bottom line (run7)
 
 **T2 PASS** — the certificate satisfies the pinned upstream verifier's exact
 identity for `n = 11`, confirmed by an independently built binary (`OK`, exit 0)
@@ -539,3 +557,243 @@ and by a separately written independent implementation validated against the
 pinned Python reference (`OK`, matching row counts), with a method-disjoint
 lattice check agreeing and a planted `1e-35` coefficient perturbation correctly
 rejected with a residual matching independent prediction.
+
+---
+
+# Part II — F2 forest-pair certificate
+
+**Bottom line: T2 PASS.** The 11,320-term certificate at
+`artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_upstream.json`
+satisfies the same identity, confirmed by the same two independent routes.
+
+Reviewed 2026-09-03 by the same reviewer (Claude, Opus 5) with the same binary,
+the same independent implementation, and the same protocol. Outputs live under
+`artifacts/math/t2-review/n11-F2/`.
+
+**No-claim line.** As in Part I, this certifies the finite algebraic identity in
+the certificate format only, and nothing beyond the upstream verifier's semantics.
+
+## 10.1 Identity checked
+
+Byte-identical in form to Part I. §1 applies unchanged: same certificate schema,
+same pinned upstream verifier (`d6da3030…`), same `tools/verify11` sources and
+the same reproducible binary `bab4ab22…`. Nothing in the semantics audit is
+certificate-specific except the reachability argument for the unchecked `i128`
+multiply, which I re-ran for this input: **the smallest scaled coefficient here
+has 212 decimal digits**, so all 11,320 are `BigInt` and the hazardous branch is
+again never taken.
+
+## 10.2 Input hashes (all as expected)
+
+```
+767f9e66fd3dcb7b5c43e5ffdbbfa50967684d7b263c41cbd7c35e2db7938670  member_upstream.json           (expected, MATCHES)
+d27dbc9596962719f74a721057b0817213828fc6acfce4fd0d6080c72d76676c  member_exact_witness.json      (expected, MATCHES)
+aed5464f771d223bc03ca2b03935f6116bfad622ffece506a8c7b70a8d9e8e22  member_exact_lift_report.json
+8cbb6a9fdccfc7ee4ba82484bf9a6d15bf39aabb33dc85ffacd27aad50edeae8  G-0027 universe (same as run7)
+```
+
+Committed in `7fdfbeea2996278eb2f180bce3f30f253d911c9b`. The witness is
+hash-bound to the same G-0027 universe as run7 (`system_sha256` field checked).
+
+## 10.3 Translation (step 2)
+
+**Full reconstruction, 11,320 / 11,320.** Same independent script as Part I,
+pointed at the F2 witness:
+
+```
+independent reconstruction sha256: 767f9e66fd3dcb7b5c43e5ffdbbfa50967684d7b263c41cbd7c35e2db7938670
+pinned certificate        sha256: 767f9e66fd3dcb7b5c43e5ffdbbfa50967684d7b263c41cbd7c35e2db7938670
+```
+
+Byte-for-byte identical, so the translation is reproduced, not merely sampled.
+
+**Seeded 20-term spot check, seed `20260904`** (positions
+`[134, 943, 1952, 2163, 3261, 3669, 4035, 4065, 4354, 4434, 4506, 4603, 5982,
+6510, 7792, 8004, 8241, 8475, 8707, 11053]`, full table in
+`translation_spotcheck_seed20260904.txt`). Same seven checks as Part I §2.
+**Result: 20 / 20 OK, 0 MISMATCH.**
+
+**Structure.** Witness columns `588028 .. 736105`, strictly increasing and
+unique. All 11,320 used columns have `signed_mass = 5`, so as with run7 there is
+no carrier padding on any term and the carrier-invariance argument is not
+load-bearing. Column `0` (the 5E carrier) and column `754017` (the synthetic 5L
+all-ones linear column) are both unused. Every branch has exactly five edges and
+there are no loops anywhere. Coefficients: 1,408 distinct denominators (so the
+single-denominator fast path is again not exercised), numerator digits 1 to 229,
+denominator digits 6 to 220, common denominator 220 digits, equal to the lift
+report's stated LCM.
+
+**Family label checked, not assumed.** The directory name advertises a
+"forest-pair" sub-family. I tested it: for **all 11,320 terms**, both branches
+are acyclic as five-edge graphs (union-find over each branch). The label is
+accurate.
+
+## 10.4 Independent execution of `verify11 verify` (step 3)
+
+Memory precheck before starting: `free -g` showed 21 GB free / 25 GB available,
+with T1's F2 `analyze` at about 288 MB RSS. Far more than 16 GB would remain, so
+no wait was needed. My run7 verify had already completed, so nothing of mine was
+competing.
+
+```
+/usr/bin/time -v <scratch>/target/release/max11-verify11 verify \
+  --certificate artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_upstream.json \
+  --threads 4 \
+  --output artifacts/math/t2-review/n11-F2/verify11_t2_report.json
+```
+
+| | |
+| --- | --- |
+| stderr verdict | `VERIFY11_OK terms=11320/11320 literal=0/0 seconds=1607.254449` |
+| exit code | `0` |
+| wall clock | `26:47.38` |
+| user / system CPU | `3792.39 s` / `147.13 s` |
+| max RSS | `387,896 kB` (379 MB) |
+
+Report: `result OK`, `input_sha256` matching, `n 11`, `terms_total 11320`,
+`terms_nonzero 11320`, `dp_columns_checked 11320`, `linear_rows 11`,
+`bad_linear_rows 0`, `hinge_rows_union 145530`, `bad_hinge_rows 0`,
+`emitted_hinge_entries 370,466,002`, `repeated_coefficient_denominator false`.
+
+**Agreement with T1.** T1's `artifacts/math/verify11/n11-F2/full_dp_report.json`
+matches on every substantive field, including `hinge_rows_union 145530` and
+`emitted_hinge_entries 370466002`. Same-binary reproducibility, not independence.
+
+**Wall-time caveat.** T1's F2 run and my Python recomputation overlapped part of
+this run. Treat the time as an upper bound.
+
+## 10.5 Literal cross-check (step 4)
+
+```
+max11-verify11 sample  --terms 20 --seed 20260904 --output .../sample20_seed20260904.json
+max11-verify11 analyze --threads 4 --literal-check --output .../sample20_literal_dp_report.json
+```
+
+```
+VERIFY11_FAIL terms=20/20 literal=20/20 seconds=90.512478
+permutations_per_literal_term: 39,916,800     (798,336,000 permutations total)
+```
+
+**Agreement: 20 / 20**, comparing entire linear vectors and entire hinge maps.
+The `FAIL` is expected for a 20-term subset. My sample file is byte-identical to
+T1's (`378d172e…`), as it must be for the same seed.
+
+My independent implementation reproduced that sample residual on every reported
+field: `bad_linear_rows 9`, `hinge_rows_union 109907`, `bad_hinge_rows 109907`,
+`first_bad_linear` rank 3 with an identical exact rational, `first_bad_hinge`
+direction `[0,0,0,0,0,0,0,0,1,-3,2]` with an identical exact rational.
+
+## 10.6 Full independent recomputation
+
+Same validated implementation as Part I §4.2 (the one checked column-for-column
+against the pinned `symmetrized_pair` on 373 columns at n = 5 to 8), run over all
+11,320 F2 terms in exact integer arithmetic, 4 processes, 1,506 s:
+
+```
+verdict            : OK
+bad_linear_rows    : 0
+bad_hinge_rows     : 0
+hinge_rows_union   : 145530      (identical to verify11's count)
+```
+
+Recorded at `independent_python_recheck.json`. This is the load-bearing
+independent confirmation for F2.
+
+## 10.7 Planted negative (step 5)
+
+Copy made outside the repository, `+1` on the numerator of exactly one
+coefficient.
+
+- mutated term: **index 5660** (zero-based, the midpoint of 11,320)
+- numerator `-3638145918214526438171883825594666990702729763621530727462488950504121997756468467948843333203`
+  becomes `...202`
+- denominator unchanged, **98 decimal digits**, so the perturbation is exactly
+  `+1/denominator`, on the order of `1e-98`
+- exactly one term differs (verified by diff)
+- mutant SHA-256 `0ed2ee6a08c5621d3309d3fd424fb84c7f5cae9524a46597eee2d54c2d1a4895`
+
+```
+VERIFY11_FAIL terms=11320/11320 seconds=1444.765684
+VERIFY11_ERROR: certificate verification failed (report written)
+Exit status: 1        wall 24:04.95        max RSS 362,108 kB
+```
+
+**Result: FAIL with nonzero exit, as required.** As in Part I I predicted the
+residual independently, before seeing the report, as `(1/denominator) * column_5660`
+(prediction preserved in `planted_negative_independent_prediction.txt`):
+
+| | predicted | reported |
+| --- | --- | --- |
+| bad linear rows | 9 | 9 |
+| first bad linear rank | 3 | 3 |
+| first bad linear value | `1/8213826555291982573122702461464824827107608430034558596622041439475367307348597246130507456` | identical |
+| bad hinge rows | 22,350 | 22,350 |
+| first bad hinge direction | `[0,0,0,0,0,0,0,0,1,-2,1]` | identical |
+| first bad hinge value | `1/1026728319411497821640337807683103103388451053754319824577755179934420913418574655766313432000` | identical |
+
+A perturbation of order `1e-98` in one of 11,320 coefficients is detected and the
+residual is exactly the predicted one. The mutant copy was deleted and never
+added to the repository.
+
+## 10.8 Lattice falsifier (step 6)
+
+`tools/t2-referee/lattice_check.py`, version
+`e8175f87cc131ce032a185afa7a387ab532608cee606dd21afec15a5ee3ae89b` (the same
+version as the Part I re-run; the file did not change between the two F2 hash
+checks).
+
+```
+profiles checked: 90     lattice points: 179,195     ({0,1}^11 and {0,1,2}^11)
+{0..1}^n PASS (0 failing profiles)   {0..2}^n PASS (0 failing profiles)
+VERDICT: PASS      exit 0      wall 124.17 s
+```
+
+Corroboration only: lattice agreement falsifies but does not prove a piecewise
+linear identity, and the tool remains uncommitted.
+
+## 10.9 What was and was not verified for F2
+
+**Verified:** certificate and witness hashes as expected; translation reproduced
+byte-for-byte for all 11,320 terms plus a 20/20 seeded spot check; the
+forest-pair family label confirmed on every term; the `i128` hazard again
+unreachable; the identity confirmed twice (my build of the campaign binary, `OK`
+exit 0; and my independent implementation, `OK` with matching row count); DP
+versus literal `S_11` agreement 20/20 over 798 million permutations; lattice
+corroboration on 179,195 points; a `1e-98` planted perturbation rejected with an
+exactly predicted residual.
+
+**Not verified:** everything listed in §7 applies unchanged. In particular the F2
+exact lift was **not** re-run, the G-0027 universe was **not** audited, and the
+depth-2 network realization remains the standard reduction rather than something
+the verifier checks.
+
+**The same row-count discrepancy appears, and it is larger.** The F2 lift report
+claims `union_hinge_rows 146,176`; both `verify11` and my independent
+implementation find the certificate emits **145,530** distinct hinge directions.
+That is a gap of **646 rows**, against 84 for run7. The direction is harmless
+(the lift verified rows the certificate does not need), and the two independent
+evaluators agree with each other on the true count, but the lift reports'
+`union_hinge_rows` figures should not be quoted as certificate row counts for
+either certificate, and someone should establish where the extra rows come from
+before this is written up.
+
+## 10.10 F2 output inventory
+
+Under `artifacts/math/t2-review/n11-F2/`: `verify11_t2_report.json`,
+`verify11_t2_time.log`, `verify11_t2_stdout.log` (empty by design),
+`sample20_seed20260904.json`, `sample20_literal_dp_report.json`,
+`sample20_literal_time.log`, `translation_spotcheck_seed20260904.txt`,
+`lattice_check_t2_report.json`, `independent_python_recheck.json`,
+`planted_negative_report.json`, `planted_negative_time.log`,
+`planted_negative_independent_prediction.txt`, `scripts/t2_fullcheck_F2.py`.
+Hashes in `OUTPUT_SHA256.txt` in that directory. The shared reproduction scripts
+live in `../n11-run7/scripts/`.
+
+## 10.11 Bottom line (F2)
+
+**T2 PASS** — the F2 forest-pair certificate satisfies the pinned upstream
+verifier's exact identity for `n = 11`, confirmed by an independently built
+binary (`OK`, exit 0, 11,320/11,320 terms, zero bad rows) and by a separately
+written independent implementation (`OK`, matching 145,530 hinge rows), with a
+method-disjoint lattice check agreeing and a planted `1e-98` coefficient
+perturbation correctly rejected with a residual matching independent prediction.

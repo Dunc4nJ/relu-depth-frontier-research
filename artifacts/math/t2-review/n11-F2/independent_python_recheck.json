@@ -1,0 +1,14 @@
+{
+  "reviewer": "T2 independent Python recomputation (not tools/verify11)",
+  "certificate": "/data/projects/relu-depth-frontier-research/artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_upstream.json",
+  "n": 11,
+  "terms": 11320,
+  "common_denominator_digits": 220,
+  "hinge_rows_union": 145530,
+  "bad_linear_rows": 0,
+  "bad_hinge_rows": 0,
+  "first_bad_linear": null,
+  "first_bad_hinge": null,
+  "verdict": "OK",
+  "wall_seconds": 1506.2045583724976
+}

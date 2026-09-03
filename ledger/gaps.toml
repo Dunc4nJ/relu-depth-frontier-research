@@ -131,7 +131,8 @@ created = 2026-09-03T02:14:00Z
 id = "G-0017"
 claim = "C-0002@3"
 obligation = "The verify11 ExactInt::add_mul implementation contained an unchecked i128 multiplication on the Big-accumulator/Small-coefficient branch. Discharge requires the relu-depth-frontier-research-u0j fix commit plus a branch-straddling regression and unchanged pinned positive and hostile controls."
-status = "open"
+status = "discharged"
+discharged_by = "V-0014"
 author_path = "ledger-auditor/boldfrog"
 created = 2026-09-03T02:14:00Z
 

@@ -1,0 +1,24 @@
+VERIFY11_FAIL terms=20/20 literal=20/20 seconds=90.512478 output=artifacts/math/t2-review/n11-F2/sample20_literal_dp_report.json
+	Command being timed: "/home/ubuntu/.cache/tmp/claude-1000/-data-projects-relu-depth-frontier-research/e3c7772e-be35-41c0-9f1a-451dc7cbd45b/scratchpad/t2build1/tools/verify11/target/release/max11-verify11 analyze --certificate artifacts/math/t2-review/n11-F2/sample20_seed20260904.json --threads 4 --literal-check --output artifacts/math/t2-review/n11-F2/sample20_literal_dp_report.json"
+	User time (seconds): 338.97
+	System time (seconds): 1.40
+	Percent of CPU this job got: 375%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:30.67
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 264728
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 177657
+	Voluntary context switches: 79
+	Involuntary context switches: 30056
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 16
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
