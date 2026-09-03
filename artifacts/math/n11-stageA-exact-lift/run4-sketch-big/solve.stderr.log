@@ -1,0 +1,82 @@
+BIG_DIXON_LU_DONE seconds=321.886272 rows=21222 columns=21222
+BIG_DIXON_STEP iteration=1/64 solve_seconds=0.636789 matvec_seconds=0.565484
+BIG_DIXON_STEP iteration=2/64 solve_seconds=0.147132 matvec_seconds=0.242286
+BIG_DIXON_STEP iteration=3/64 solve_seconds=0.140820 matvec_seconds=0.246959
+BIG_DIXON_STEP iteration=4/64 solve_seconds=0.140236 matvec_seconds=0.409704
+BIG_DIXON_RECONSTRUCTION iteration=4 modulus_bits=64 coordinates=15110/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=5/64 solve_seconds=0.211513 matvec_seconds=0.256149
+BIG_DIXON_STEP iteration=6/64 solve_seconds=0.222641 matvec_seconds=0.257650
+BIG_DIXON_STEP iteration=7/64 solve_seconds=0.223931 matvec_seconds=0.248437
+BIG_DIXON_STEP iteration=8/64 solve_seconds=0.214757 matvec_seconds=0.257131
+BIG_DIXON_RECONSTRUCTION iteration=8 modulus_bits=128 coordinates=15174/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=9/64 solve_seconds=0.215643 matvec_seconds=0.322460
+BIG_DIXON_STEP iteration=10/64 solve_seconds=0.213196 matvec_seconds=0.246617
+BIG_DIXON_STEP iteration=11/64 solve_seconds=0.194026 matvec_seconds=0.222446
+BIG_DIXON_STEP iteration=12/64 solve_seconds=0.155196 matvec_seconds=0.266026
+BIG_DIXON_RECONSTRUCTION iteration=12 modulus_bits=192 coordinates=14873/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=13/64 solve_seconds=0.139118 matvec_seconds=0.257670
+BIG_DIXON_STEP iteration=14/64 solve_seconds=0.147909 matvec_seconds=0.225574
+BIG_DIXON_STEP iteration=15/64 solve_seconds=0.142175 matvec_seconds=0.218341
+BIG_DIXON_STEP iteration=16/64 solve_seconds=0.148860 matvec_seconds=0.234674
+BIG_DIXON_RECONSTRUCTION iteration=16 modulus_bits=256 coordinates=18421/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=17/64 solve_seconds=0.146034 matvec_seconds=0.216176
+BIG_DIXON_STEP iteration=18/64 solve_seconds=0.143874 matvec_seconds=0.225786
+BIG_DIXON_STEP iteration=19/64 solve_seconds=0.139834 matvec_seconds=0.287548
+BIG_DIXON_STEP iteration=20/64 solve_seconds=0.147572 matvec_seconds=0.228323
+BIG_DIXON_RECONSTRUCTION iteration=20 modulus_bits=320 coordinates=18286/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=21/64 solve_seconds=0.142636 matvec_seconds=0.243404
+BIG_DIXON_STEP iteration=22/64 solve_seconds=0.142322 matvec_seconds=0.238234
+BIG_DIXON_STEP iteration=23/64 solve_seconds=0.144980 matvec_seconds=0.277382
+BIG_DIXON_STEP iteration=24/64 solve_seconds=0.146542 matvec_seconds=0.235848
+BIG_DIXON_RECONSTRUCTION iteration=24 modulus_bits=384 coordinates=18431/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=25/64 solve_seconds=0.150893 matvec_seconds=0.264500
+BIG_DIXON_STEP iteration=26/64 solve_seconds=0.146254 matvec_seconds=0.232181
+BIG_DIXON_STEP iteration=27/64 solve_seconds=0.144115 matvec_seconds=0.274114
+BIG_DIXON_STEP iteration=28/64 solve_seconds=0.151270 matvec_seconds=0.269529
+BIG_DIXON_RECONSTRUCTION iteration=28 modulus_bits=448 coordinates=18354/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=29/64 solve_seconds=0.146553 matvec_seconds=0.239635
+BIG_DIXON_STEP iteration=30/64 solve_seconds=0.142159 matvec_seconds=0.208345
+BIG_DIXON_STEP iteration=31/64 solve_seconds=0.141247 matvec_seconds=0.196638
+BIG_DIXON_STEP iteration=32/64 solve_seconds=0.143030 matvec_seconds=0.222235
+BIG_DIXON_RECONSTRUCTION iteration=32 modulus_bits=512 coordinates=18387/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=33/64 solve_seconds=0.145579 matvec_seconds=0.233626
+BIG_DIXON_STEP iteration=34/64 solve_seconds=0.146985 matvec_seconds=0.242043
+BIG_DIXON_STEP iteration=35/64 solve_seconds=0.143101 matvec_seconds=0.270338
+BIG_DIXON_STEP iteration=36/64 solve_seconds=0.144098 matvec_seconds=0.257163
+BIG_DIXON_RECONSTRUCTION iteration=36 modulus_bits=576 coordinates=18330/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=37/64 solve_seconds=0.137541 matvec_seconds=0.273761
+BIG_DIXON_STEP iteration=38/64 solve_seconds=0.143911 matvec_seconds=0.258366
+BIG_DIXON_STEP iteration=39/64 solve_seconds=0.140447 matvec_seconds=0.254902
+BIG_DIXON_STEP iteration=40/64 solve_seconds=0.142365 matvec_seconds=0.261685
+BIG_DIXON_RECONSTRUCTION iteration=40 modulus_bits=640 coordinates=18362/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=41/64 solve_seconds=0.139516 matvec_seconds=0.262255
+BIG_DIXON_STEP iteration=42/64 solve_seconds=0.141391 matvec_seconds=0.269731
+BIG_DIXON_STEP iteration=43/64 solve_seconds=0.149376 matvec_seconds=0.255554
+BIG_DIXON_STEP iteration=44/64 solve_seconds=0.141624 matvec_seconds=0.235096
+BIG_DIXON_RECONSTRUCTION iteration=44 modulus_bits=704 coordinates=18397/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=45/64 solve_seconds=0.141439 matvec_seconds=0.236480
+BIG_DIXON_STEP iteration=46/64 solve_seconds=0.140822 matvec_seconds=0.228422
+BIG_DIXON_STEP iteration=47/64 solve_seconds=0.145303 matvec_seconds=0.273434
+BIG_DIXON_STEP iteration=48/64 solve_seconds=0.139430 matvec_seconds=0.234373
+BIG_DIXON_RECONSTRUCTION iteration=48 modulus_bits=768 coordinates=18342/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=49/64 solve_seconds=0.143219 matvec_seconds=0.233065
+BIG_DIXON_STEP iteration=50/64 solve_seconds=0.138265 matvec_seconds=0.214358
+BIG_DIXON_STEP iteration=51/64 solve_seconds=0.144909 matvec_seconds=0.204221
+BIG_DIXON_STEP iteration=52/64 solve_seconds=0.138948 matvec_seconds=0.205844
+BIG_DIXON_RECONSTRUCTION iteration=52 modulus_bits=832 coordinates=18351/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=53/64 solve_seconds=0.143438 matvec_seconds=0.237264
+BIG_DIXON_STEP iteration=54/64 solve_seconds=0.139485 matvec_seconds=0.221012
+BIG_DIXON_STEP iteration=55/64 solve_seconds=0.140765 matvec_seconds=0.215949
+BIG_DIXON_STEP iteration=56/64 solve_seconds=0.138597 matvec_seconds=0.226375
+BIG_DIXON_RECONSTRUCTION iteration=56 modulus_bits=896 coordinates=18379/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=57/64 solve_seconds=0.136394 matvec_seconds=0.218105
+BIG_DIXON_STEP iteration=58/64 solve_seconds=0.137391 matvec_seconds=0.204898
+BIG_DIXON_STEP iteration=59/64 solve_seconds=0.138292 matvec_seconds=0.194257
+BIG_DIXON_STEP iteration=60/64 solve_seconds=0.139724 matvec_seconds=0.183222
+BIG_DIXON_RECONSTRUCTION iteration=60 modulus_bits=960 coordinates=18385/21222 exact_check_pass=false
+BIG_DIXON_STEP iteration=61/64 solve_seconds=0.136878 matvec_seconds=0.235426
+BIG_DIXON_STEP iteration=62/64 solve_seconds=0.137307 matvec_seconds=0.242264
+BIG_DIXON_STEP iteration=63/64 solve_seconds=0.137079 matvec_seconds=0.204865
+BIG_DIXON_STEP iteration=64/64 solve_seconds=0.137717 matvec_seconds=0.203641
+BIG_DIXON_RECONSTRUCTION iteration=64 modulus_bits=1024 coordinates=18348/21222 exact_check_pass=false
+ERROR: big rational reconstruction did not verify

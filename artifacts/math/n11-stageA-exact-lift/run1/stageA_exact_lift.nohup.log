@@ -1,0 +1,48 @@
+2026-09-02T19:42:35+00:00
+GATHER_START rank=21222 batches=21 threads=16
+COLGEN_EMIT_PASS records=1024 seconds=42.338 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-000.mcolgen1
+ddfa2ed89aa6c21235e8944bea8d093116745dfdbe842ff8ee8dc1a098d7f4ff  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-000.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=42.299 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-001.mcolgen1
+b836c8c6ec1d9856e833a6ee3053e65277f9dcb09b0b4b3a1dd7c59138840e3b  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-001.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=39.276 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-002.mcolgen1
+974ae9009afb79fbd4d2e0ee384c8e8c640159ab13f2b7c7995ce256503fb06b  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-002.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=43.338 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-003.mcolgen1
+ef41d1af3e623491d65f013352c80fa3959716f56474598f4c2b5a292ebc441d  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-003.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=43.529 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-004.mcolgen1
+ed063f5f0d533b8f3aeed0481d451f03e443cc3125ca3a4019ad776e3dbdc630  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-004.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=43.272 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-005.mcolgen1
+1260121eb77d5a0a413c430ac7a36b0164738bf87f66cdcab6d27c6332113163  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-005.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=38.870 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-006.mcolgen1
+293c027885989d24e474927199a22650884e527f46b911346e5fe7798a6b2cd0  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-006.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=31.622 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-007.mcolgen1
+95564c4cd6d7d027d6f93d192eab48a1bdf793b7ca439520b5b9e21ebd126d4b  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-007.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=30.555 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-008.mcolgen1
+df3be6a81e572147209e5839a6971f49d1893db987e52ae756cdfb690004f9c1  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-008.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=29.242 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-009.mcolgen1
+8601f2106f41f4a1108a585a807ce10aabcededfeaef76174d62788f44fa79d9  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-009.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=30.660 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-010.mcolgen1
+6a78f323395919548fde9552f4ce82bf54574bcddf08fa41da8ac8f2028d849b  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-010.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=29.486 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-011.mcolgen1
+7693152ff23767be9e97db5c0032d0bfec3650b8f66995a34752d290e51a7e96  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-011.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=30.680 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-012.mcolgen1
+e1a8883ecd58bdde7f8fd646e128f9fd68d534964de033d97869a4544156dd59  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-012.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=26.834 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-013.mcolgen1
+4f0dfdd2e0c77dbbc313307859fb8c6f49560344ff49063521fd27f5bdbb5be2  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-013.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=29.715 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-014.mcolgen1
+35e04c538dffcd6c4525777a31be723c9caec0347a81b8996121b54308273a9f  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-014.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=31.563 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-015.mcolgen1
+d8a55b131762181a7cd64445a93b1e2a14b1b1e2abca049dbb6c6ab8769e10e5  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-015.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=26.873 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-016.mcolgen1
+78efbda5a130caa10fed314a583f47c8a852da068d9a6c05ebc497244b2c9aa7  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-016.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=20.866 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-017.mcolgen1
+c698d3448275122a5e3acb4958e1e02e5fcccc79f0bb4d5db41405d1662825a1  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-017.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=23.036 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-018.mcolgen1
+35dbbcd03d78c845edeefdc523b94ffe9910ce2869567fa5ba4aabe14c26c35c  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-018.mcolgen1
+COLGEN_EMIT_PASS records=1024 seconds=24.489 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-019.mcolgen1
+38fc393b52e6f6f3950b8634f51c621fca801225209d32ad0786b9ab2aee9775  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-019.mcolgen1
+COLGEN_EMIT_PASS records=742 seconds=17.554 output=artifacts/math/n11-stageA-exact-lift/run1/batches/batch-020.mcolgen1
+ce544aaa8c0e32b7973df284c2e8b6082a459df60fb2b46ab26304def3cd9430  artifacts/math/n11-stageA-exact-lift/run1/batches/batch-020.mcolgen1
+2026-09-02T19:58:18+00:00
+GATHER_DONE
+LIFT_START rank=21222 threads=16
+Terminated
