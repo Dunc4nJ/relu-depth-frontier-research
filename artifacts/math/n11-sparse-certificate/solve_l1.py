@@ -64,6 +64,7 @@ def solve(
     reweight_floor: float = 0.0,
     initial_basis: Path | None = None,
     simplex_strategy: int = 1,
+    row_scaling: str = "none",
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -111,6 +112,8 @@ def solve(
         raise ValueError("reweight_floor must be in [0, reweight_cap]")
     if simplex_strategy not in range(5):
         raise ValueError("simplex_strategy must be 0..4")
+    if row_scaling not in ("none", "power2-max"):
+        raise ValueError("row_scaling must be none or power2-max")
     # HiGHS requires float64 values. Keep one block resident. The split model
     # passes it again with negative sign; the epigraph model uses free c and
     # explicit -t <= c <= t rows, halving the dominant matrix block.
@@ -120,6 +123,26 @@ def solve(
         end = min(begin + chunk, nnz)
         values[begin:end] = exact_values[begin:end]
     target = np.asarray(target_exact, dtype=np.float64)
+    row_scaling_record = {"method": "none"}
+    if row_scaling == "power2-max":
+        row_max = np.zeros(rows, dtype=np.float64)
+        for begin in range(0, nnz, chunk):
+            end = min(begin + chunk, nnz)
+            np.maximum.at(row_max, index[begin:end], np.abs(values[begin:end]))
+        nonzero_rows = row_max > 0
+        scales = np.ones(rows, dtype=np.float64)
+        scales[nonzero_rows] = np.exp2(np.floor(np.log2(row_max[nonzero_rows])))
+        for begin in range(0, nnz, chunk):
+            end = min(begin + chunk, nnz)
+            values[begin:end] /= scales[index[begin:end]]
+        target = target / scales
+        row_scaling_record = {
+            "method": "divide each equality by the largest power of two not exceeding its row maximum",
+            "nonzero_rows_numerator": int(np.count_nonzero(nonzero_rows)),
+            "rows_denominator": rows,
+            "minimum_nontrivial_scale": float(np.min(scales[nonzero_rows])) if np.any(nonzero_rows) else None,
+            "maximum_scale": float(np.max(scales)),
+        }
 
     highs = highspy.Highs()
     options = {
@@ -346,6 +369,7 @@ def solve(
             "initial_reweight_from_witness": initial_reweight_from_witness,
             "reweight_floor": reweight_floor,
             "initial_basis": initial_basis_record,
+            "row_scaling": row_scaling_record,
             "rounds_requested_denominator": rounds + 1,
             "rounds_completed_numerator": round_number + 1,
             "rounds": reports,
@@ -385,6 +409,7 @@ def solve(
         "support_threshold_absolute": support_threshold,
         "initial_feasible_witness": initial,
         "initial_basis": initial_basis_record,
+        "row_scaling": row_scaling_record,
         "rounds": reports,
         "total_seconds": time.monotonic() - started,
         "max_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
@@ -415,6 +440,7 @@ def main() -> None:
     parser.add_argument("--reweight-floor", type=float, default=0.0)
     parser.add_argument("--initial-basis", type=Path)
     parser.add_argument("--simplex-strategy", type=int, choices=range(5), default=1)
+    parser.add_argument("--row-scaling", choices=("none", "power2-max"), default="none")
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -435,6 +461,7 @@ def main() -> None:
         args.reweight_floor,
         args.initial_basis,
         args.simplex_strategy,
+        args.row_scaling,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 

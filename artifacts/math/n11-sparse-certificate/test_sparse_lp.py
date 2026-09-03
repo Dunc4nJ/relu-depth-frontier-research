@@ -90,8 +90,10 @@ class SparseLpTests(unittest.TestCase):
                 formulation="split",
                 solver="simplex",
                 initial_basis=basis_path,
+                row_scaling="power2-max",
             )
             self.assertEqual(basis_run["initial_basis"]["basis_columns_numerator"], 3)
+            self.assertEqual(basis_run["row_scaling"]["nonzero_rows_numerator"], 3)
             selected = select_exact_support.select(
                 matrix,
                 root / "l1.json",
