@@ -409,3 +409,9 @@ coefficient, false on 14,361 of 15,896 terms, carrying no mathematical weight.
 Fix E1b and this step is ready to be recorded as PROVED_HERE; no further review
 round is needed on my account, since E1b is a substitution I have already
 checked against the certificate.
+
+## 8. Revision 2b confirmation (2026-09-03)
+
+Revision 2b (commit `a1a70ba`, SHA-256 `dedd94b2e85cd282e6da6eed64200ae354a4cbf290c1d92dd2979d97609b6007`, working tree byte-identical) applies E1b: the difference-unit coefficient now reads `mult_E(sigma^{-1}{a,b})/2`, which I confirm is the correct rule, and the added figure "a doubled edge gives a difference-unit coefficient of 1" matches my measurement over all 15,896 terms; the run7 scoping, the "roughly 2 / exactly 4/3" width wording, and the loopless-universe attribution are all now accurate, and the diff `fcc53e7..a1a70ba` touches nothing else.
+
+**Final bottom line: T2 PASS.** Every claim in the note is correct and the lemma is exactly the bridge from the certified identity to "MAX_11 is in ReLU_2"; the one surviving nit is that the coefficient of `ReLU(-x_k)`, namely `-deg_E(sigma^{-1}(k))/2`, is left implicit rather than stated, which the magnitude bound already covers and which blocks nothing. Fit to record as PROVED_HERE.
