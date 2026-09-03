@@ -65,6 +65,7 @@ def solve(
     initial_basis: Path | None = None,
     simplex_strategy: int = 1,
     row_scaling: str = "none",
+    target_row_scale_cap_exponent: int = 0,
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -114,6 +115,8 @@ def solve(
         raise ValueError("simplex_strategy must be 0..4")
     if row_scaling not in ("none", "power2-max"):
         raise ValueError("row_scaling must be none or power2-max")
+    if target_row_scale_cap_exponent not in range(53):
+        raise ValueError("target_row_scale_cap_exponent must be 0..52")
     # HiGHS requires float64 values. Keep one block resident. The split model
     # passes it again with negative sign; the epigraph model uses free c and
     # explicit -t <= c <= t rows, halving the dominant matrix block.
@@ -132,19 +135,23 @@ def solve(
         nonzero_rows = row_max > 0
         scales = np.ones(rows, dtype=np.float64)
         scales[nonzero_rows] = np.exp2(np.floor(np.log2(row_max[nonzero_rows])))
-        # Keep nonzero target equations at their natural RHS scale so the
-        # requested absolute feasibility tolerance remains meaningful.
+        # Cap scaling of nonzero target equations so their RHS stays safely
+        # above the requested absolute feasibility tolerance.  Exponent zero
+        # preserves the natural RHS scale.
         target_rows = target != 0
-        scales[target_rows] = 1.0
+        target_scale_cap = float(2**target_row_scale_cap_exponent)
+        scales[target_rows] = np.minimum(scales[target_rows], target_scale_cap)
         for begin in range(0, nnz, chunk):
             end = min(begin + chunk, nnz)
             values[begin:end] /= scales[index[begin:end]]
         target = target / scales
         row_scaling_record = {
-            "method": "divide zero-target equalities by the largest power of two not exceeding their row maximum; leave nonzero-target rows unscaled",
+            "method": "divide each equality by the largest power of two not exceeding its row maximum, with a separate power-of-two cap for nonzero-target rows",
             "nonzero_rows_numerator": int(np.count_nonzero(nonzero_rows)),
             "rows_denominator": rows,
-            "unscaled_nonzero_target_rows_numerator": int(np.count_nonzero(target_rows)),
+            "nonzero_target_rows_numerator": int(np.count_nonzero(target_rows)),
+            "target_row_scale_cap_exponent": target_row_scale_cap_exponent,
+            "target_row_scale_cap": target_scale_cap,
             "minimum_nontrivial_scale": float(np.min(scales[nonzero_rows])) if np.any(nonzero_rows) else None,
             "maximum_scale": float(np.max(scales)),
         }
@@ -446,6 +453,7 @@ def main() -> None:
     parser.add_argument("--initial-basis", type=Path)
     parser.add_argument("--simplex-strategy", type=int, choices=range(5), default=1)
     parser.add_argument("--row-scaling", choices=("none", "power2-max"), default="none")
+    parser.add_argument("--target-row-scale-cap-exponent", type=int, default=0)
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -467,6 +475,7 @@ def main() -> None:
         args.initial_basis,
         args.simplex_strategy,
         args.row_scaling,
+        args.target_row_scale_cap_exponent,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
