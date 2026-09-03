@@ -632,3 +632,16 @@ claims = ["C-0001@1"]
 status = "aborted"
 author_path = "cuda-operator/navytiger"
 created = 2026-09-03T00:56:48Z
+
+[[experiment]]
+id = "EXP-0054"
+route = "H-0005"
+design = "Retrospectively record bead u0j's verifier-hardening trial: reproduce the unchecked ExactInt::add_mul multiplication overflow under the old release code, require the identical regression to pass after checked promotion to BigInt, run the locked release test/clippy/build suite, and rerun pinned n=5 through n=10 positives plus two n=8 hostile mutants without weakening any acceptance check."
+family = "max11-verify11-add-mul-overflow-remediation-v1"
+prereg = false
+result_summary = "The old release branch wrapped and failed the boundary-straddling regression; commit 392aeb609118b8218ee0fb8c9b9a0b739fba2f3a promoted the multiplication safely. The fixed build passed 6/6 release unit tests, 872/872 pinned positive terms, 133/133 literal-DP term matches across 3,072,600/3,072,600 permutations, and both pinned n=8 hostile mutants remained FAIL."
+evidence = ["E-0055"]
+claims = ["C-0002@3"]
+status = "complete"
+author_path = "verifier/indigocarp"
+created = 2026-09-03T02:07:49Z
