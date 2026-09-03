@@ -298,3 +298,9 @@ Priors: unchanged on membership (≈0.45-0.50 loopless). Schedule: stage A is no
 
 - F2 `member_upstream.json` (SHA `767f9e66…`): exact lift all-row PASS (162,091/162,091); T1 verify11 OK (0 bad rows, 1,445 s); T2 referee independent build, `verify` mode: OK, 0 bad rows of 11 linear + 145,530 hinge, exit 0, 26:47 (report SHA `77465f54…`); lattice falsifier PASS. Every term is a pair of forests (cycle rank 0 on both sides), the same shape as the upstream n = 9 and n = 10 certificates, and F1 shows such a certificate must use terms with fewer than 11 active vertices.
 - Standing: as run7 (computed-bounded, independently replayed, T2 by lineage and method); the ledger will carry it once the 84-row, verify11-multiply, and depth-2-lemma gaps are discharged.
+
+### §11 addendum, 2026-09-03 02:15 UTC — n = 12 stage A: first arm MEMBER (rank 33,454); exact lift launched
+
+- EXP-0037 arm 1 (p = 1,000,003, seed 2026090201, m = 128,000, 148,629 columns, NVL box): rank(A) = rank([A|b]) = 33,454, MEMBER, unsaturated, 4.1 h (JSON SHA `dd105648…`, pivot SHA `42a27b85…`). Arms 2–4 in progress. The preregistered trigger launched the exact rational lift on the A100 (rank 33,454; 16 threads / 64 GiB). No-claim: one-prime, one-sketch modular result; nothing exact yet at n = 12.
+- Verification bookkeeping: both T1 planted mutants (run7, F2) FAIL with exit 1 (IndigoCarp, 9e9235d); the verify11 unchecked-multiply hazard is fixed with a wrapping regression test (392aeb6). Sparse-certificate control at n = 10 (AzureAspen): reweighted L1 selected 424 columns and the exact lift verified all 16,719 rows with lcm 304,819,200, the upstream certificate's own denominator; the n = 11 LPs are running.
+- Lineage correction: the depth-2 lemma was authored by the orchestrator (Claude), so the Opus review counts as T1 for that lemma; a GPT-lineage referee (IndigoCarp) is assigned to supply T2. The MAX_11 claim stays at INDEPENDENTLY_REPLAYED until the three recorded gaps close.
