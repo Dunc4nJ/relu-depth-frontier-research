@@ -797,3 +797,95 @@ binary (`OK`, exit 0, 11,320/11,320 terms, zero bad rows) and by a separately
 written independent implementation (`OK`, matching 145,530 hinge rows), with a
 method-disjoint lattice check agreeing and a planted `1e-98` coefficient
 perturbation correctly rejected with a residual matching independent prediction.
+
+---
+
+# Part III — addendum: `verify11` was patched during this review
+
+Written after Parts I and II. It changes neither verdict.
+
+## 11.1 What happened
+
+The unchecked `i128` multiply I reported in §1.2 item 5 was fixed by the campaign
+while this review was in progress, in commit
+`392aeb609118b8218ee0fb8c9b9a0b739fba2f3a` (*"check add_mul overflow promotion"*),
+and the corresponding ledger gap `G-0017` was marked discharged in
+`a0fa767e51ed1edd8b3a98bd8625acb1160f632b`.
+
+Consequently `tools/verify11/src/lib.rs` at HEAD is
+`5d700da8b96f2bc1cfd227ab2261e906663f72e3eae2c860c5c1d564048a1764`, while **every
+verification run reported in Parts I and II used the pre-fix source
+`5bc9a14f1df11fd027ff9f0e4bf3ac005e7f0d16364bd1f2c83cd1663a1667c5`** and the
+binary `bab4ab22…`. Parts I and II record the source they actually used; this
+section reconciles them with HEAD.
+
+## 11.2 The fix, reviewed
+
+The change replaces
+
+```rust
+(Self::Big(target), Self::Small(value)) => *target += value * i128::from(factor),
+```
+
+with a `checked_mul` that promotes to `BigInt` on overflow, and adds a
+`boundary_straddling_certificate_promotes_big_target_small_product` regression
+test that constructs a certificate with one coefficient just above `i128::MAX`
+and one exactly at it. I read the diff: the new code is arithmetically identical
+to the old whenever the product does not overflow, and correct where the old code
+would have wrapped. It is the right fix.
+
+## 11.3 Re-verification against the fixed source
+
+I did not want to leave two PASS verdicts resting on a superseded binary, so I
+rebuilt and re-ran everything material.
+
+Fresh clean build from HEAD (`git archive`, separate target directory,
+`cargo build --release --locked`): binary
+`85af29b2ca8deddf5ab03ea55e3ca0853e90f1be9aa517d27932202e6574e33e`.
+`cargo test --release --locked`: **6 passed, 0 failed** (5 pre-existing plus the
+new boundary-straddling test).
+
+| check with the fixed binary | result |
+| --- | --- |
+| six pinned upstream certificates, n = 5 to 10 | all `OK`, exit 0 |
+| run7 20-term sample, `--literal-check` | `literal 20/20`; all 32 compared report fields identical to the pre-fix run |
+| F2 20-term sample, `--literal-check` | `literal 20/20`; all 32 compared report fields identical to the pre-fix run |
+| **run7 full `verify`, 15,896 terms** | **`OK`, exit 0**, 41:26.77 wall, 441,756 kB max RSS; all 32 compared report fields identical to the pre-fix run |
+| **F2 full `verify`, 11,320 terms** | **`OK`, exit 0**, 25:42.71 wall, 378,172 kB max RSS; all 32 compared report fields identical to the pre-fix run |
+
+Comparison excluded only timing fields and the recorded command line. Everything
+substantive — `result`, `bad_linear_rows`, `bad_hinge_rows`, `hinge_rows_union`,
+`emitted_hinge_entries`, the common denominator, the coefficient digit statistics
+— is byte-equal between the pre-fix and fixed-source runs for both certificates.
+
+Reports: `n11-run7/verify11_t2_report_fixed_source.json` and
+`n11-F2/verify11_t2_report_fixed_source.json`, with timing logs alongside.
+
+This was the expected outcome and the reason is worth stating: the patched branch
+is only reachable when a scaled coefficient fits in `i128`, and in both
+certificates the smallest scaled coefficient has 207 and 212 decimal digits
+respectively, so the branch is never taken by either input. The re-run confirms
+that empirically rather than leaving it as an argument.
+
+## 11.4 A provenance note on the commits
+
+Two housekeeping facts a later reader should know, neither affecting any result.
+
+1. `artifacts/math/t2-review/n11-F2/lattice_check_t2_report.json` was committed by
+   another agent in `0b98e7ced9c37d56d23ce5aab7b9c8d8004ac078` before this review
+   committed it. I checked its content against what my run produced: byte-identical
+   (`de7cf4ff…`).
+2. The remaining F2 outputs and the Part II text were swept into another agent's
+   commit `a0fa767e51ed1edd8b3a98bd8625acb1160f632b` rather than landing in a
+   commit of this review's own. I verified all fifteen F2 files and the updated
+   `n11-run7/RESULT.md` are present in that commit and byte-identical to what this
+   review produced. Concurrent agents commit with `-a` or `-A` in this repository,
+   so staged-but-uncommitted work can be absorbed; that is a workflow hazard worth
+   knowing about, not a correctness problem here.
+
+## 11.5 Bottom line (addendum)
+
+Both verdicts stand, now on the current source as well as the reviewed one:
+**run7 T2 PASS** and **F2 T2 PASS**, each re-confirmed end-to-end by a fresh
+clean build of `tools/verify11` at HEAD with results identical field-for-field to
+the original runs.
