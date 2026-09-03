@@ -1,0 +1,38 @@
+{
+  "buckets": 64000,
+  "cross_seed_rank_and_verdict_agreement": true,
+  "no_claim": "This verifies report structure, hashes, denominators, pivot hashes, and the stored bucket-separator/target dot products. It does not independently regenerate columns or prove characteristic-zero or unrestricted-network nonmembership.",
+  "prime": 1000003,
+  "rank_gain_mutant_rejected": true,
+  "report_sha256": {
+    "artifacts/math/n11-degree4/n11-degree4-m64000-p1000003-s2026090201-cuda.json": "5181da9acf2105ca825fe3534b827faa675a611740caee0443039dcda6b1b563",
+    "artifacts/math/n11-degree4/n11-degree4-m64000-p1000003-s2026090202-cuda.json": "90764bbf7fa56a8ff2c926395b34b852d926232ccf5ee2dc96c0a58d4b222309"
+  },
+  "result": "PASS",
+  "schema": "max11-kwa-streamrank-verification-v1",
+  "serialized_universe_records": 18285,
+  "sketches": [
+    {
+      "pivot_columns": 3514,
+      "rank_a": 3514,
+      "rank_augmented": 3515,
+      "seed": 2026090201,
+      "separator_dot_target_mod_prime": 176191,
+      "separator_nonzero_entries": 3515,
+      "verdict": "NON_MEMBER"
+    },
+    {
+      "pivot_columns": 3514,
+      "rank_a": 3514,
+      "rank_augmented": 3515,
+      "seed": 2026090202,
+      "separator_dot_target_mod_prime": 844447,
+      "separator_nonzero_entries": 3515,
+      "verdict": "NON_MEMBER"
+    }
+  ],
+  "source_columns_including_4l": 18286,
+  "universe": "artifacts/math/n11-degree4/loopless_signed_degree4_universe_n11_v1.json.gz",
+  "universe_sha256": "72d0f4b53b8bd7584987eb9a4f11816db25e046e5a84b0fdb800e3beea3a400c",
+  "verifier_sha256": "c5ed687efa34f5d91c55ebb2c92921a73a4bfc3574b1f90cef3ebeabe38f7162"
+}
