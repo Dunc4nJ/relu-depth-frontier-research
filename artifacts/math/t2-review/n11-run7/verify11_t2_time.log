@@ -1,0 +1,25 @@
+VERIFY11_OK terms=15896/15896 literal=0/0 seconds=2832.516966 output=artifacts/math/t2-review/n11-run7/verify11_t2_report.json
+	Command being timed: "/home/ubuntu/.cache/tmp/claude-1000/-data-projects-relu-depth-frontier-research/e3c7772e-be35-41c0-9f1a-451dc7cbd45b/scratchpad/t2build1/tools/verify11/target/release/max11-verify11 verify --certificate artifacts/math/n11-stageA-exact-lift/run7-dense-insurance/member_upstream.json --threads 4 --output artifacts/math/t2-review/n11-run7/verify11_t2_report.json"
+	User time (seconds): 6371.18
+	System time (seconds): 317.82
+	Percent of CPU this job got: 236%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 47:12.68
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 448028
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 3
+	Minor (reclaiming a frame) page faults: 72998628
+	Voluntary context switches: 48877
+	Involuntary context switches: 1293532
+	Swaps: 0
+	File system inputs: 600
+	File system outputs: 16
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+EXITCODE=0
