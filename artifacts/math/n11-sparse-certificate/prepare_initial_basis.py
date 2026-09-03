@@ -9,6 +9,7 @@ import json
 import time
 from pathlib import Path
 
+import numpy as np
 import select_exact_support
 
 
@@ -20,7 +21,13 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def prepare(matrix_dir: Path, pivot_report: Path, output: Path, prime: int) -> dict:
+def prepare(
+    matrix_dir: Path,
+    pivot_report: Path,
+    output: Path,
+    prime: int,
+    selection: str = "modular-rref",
+) -> dict:
     started = time.monotonic()
     meta_path, _meta, rows, columns, start, index, value, source, target = (
         select_exact_support.load_matrix(matrix_dir)
@@ -32,18 +39,46 @@ def prepare(matrix_dir: Path, pivot_report: Path, output: Path, prime: int) -> d
     if missing:
         raise ValueError(f"{len(missing)} pivot sources are absent from the LP matrix")
     candidate_positions = [position_of[source_index] for source_index in candidate_sources]
+    numerical_record = None
+    if selection == "modular-rref":
+        exact_candidates = candidate_positions
+    elif selection == "qr-exact":
+        import scipy
+        import scipy.linalg
+
+        dense = np.zeros((rows, len(candidate_positions)), dtype=np.float64)
+        for local_column, position in enumerate(candidate_positions):
+            begin, end = int(start[position]), int(start[position + 1])
+            dense[index[begin:end], local_column] = value[begin:end]
+        row_scale = np.max(np.abs(dense), axis=1)
+        if np.any(row_scale == 0):
+            raise RuntimeError("candidate matrix has an all-zero row")
+        dense /= row_scale[:, None]
+        _q, triangular, pivots = scipy.linalg.qr(
+            dense,
+            mode="economic",
+            pivoting=True,
+            overwrite_a=True,
+            check_finite=False,
+        )
+        diagonal = np.abs(np.diag(triangular))
+        exact_candidates = [candidate_positions[int(local)] for local in pivots[:rows]]
+        numerical_record = {
+            "selector": "scipy.linalg.qr with column pivoting on row-scaled float64 matrix",
+            "scipy_version": scipy.__version__,
+            "largest_abs_r_diagonal": float(np.max(diagonal)),
+            "smallest_abs_r_diagonal": float(np.min(diagonal)),
+            "diagonal_ratio": float(np.max(diagonal) / np.min(diagonal)),
+        }
+        del dense, _q, triangular
+    else:
+        raise ValueError("selection must be modular-rref or qr-exact")
     rank_a, rank_augmented, selected_local = select_exact_support.analyze_candidate(
-        rows,
-        candidate_positions,
-        start,
-        index,
-        value,
-        target,
-        prime,
+        rows, exact_candidates, start, index, value, target, prime
     )
     if rank_a != rows or rank_augmented != rows:
         raise RuntimeError(f"candidate basis rank is {rank_a}/{rank_augmented}, expected {rows}/{rows}")
-    selected_positions = [candidate_positions[local] for local in selected_local]
+    selected_positions = [exact_candidates[local] for local in selected_local]
     selected_sources = [int(source[position]) for position in selected_positions]
     if len(selected_positions) != rows:
         raise RuntimeError(f"selected {len(selected_positions)}/{rows} basis columns")
@@ -58,6 +93,8 @@ def prepare(matrix_dir: Path, pivot_report: Path, output: Path, prime: int) -> d
         "candidate_pivot_report_sha256": sha256(pivot_report),
         "candidate_columns_numerator": len(candidate_positions),
         "candidate_columns_denominator": columns,
+        "selection": selection,
+        "numerical_selection": numerical_record,
         "rank_a_mod_prime": rank_a,
         "rank_augmented_mod_prime": rank_augmented,
         "basis_columns_numerator": len(selected_positions),
@@ -78,8 +115,14 @@ def main() -> None:
     parser.add_argument("--pivot-report", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--prime", type=int, required=True)
+    parser.add_argument("--selection", choices=("modular-rref", "qr-exact"), default="modular-rref")
     args = parser.parse_args()
-    print(json.dumps(prepare(args.matrix_dir, args.pivot_report, args.output, args.prime), indent=2))
+    print(
+        json.dumps(
+            prepare(args.matrix_dir, args.pivot_report, args.output, args.prime, args.selection),
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":
