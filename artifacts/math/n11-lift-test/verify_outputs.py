@@ -157,7 +157,16 @@ def verify_subject(path: Path) -> dict[str, Any]:
     report = load_json(path)
     require(isinstance(report, dict), "subject top-level object")
     require(report.get("schema") == "max11-streamrank-pivots-v1", "subject schema")
-    require(report.get("result") == "OBSERVATION", "subject result")
+    # The preregistered denominator check makes streamrank label this
+    # CONTROL_PASS even though no rank or verdict was supplied in advance.
+    require(report.get("result") == "CONTROL_PASS", "subject denominator control")
+    require(report.get("expected") == {
+        "source_columns": SUBJECT_COLUMNS,
+        "rank_a": None,
+        "rank_augmented": None,
+        "verdict": None,
+        "exact_match": True,
+    }, "subject expected-column record")
     require(report.get("backend") == "cuda", "subject backend")
     require(report.get("n") == 11 and report.get("branch_edge_occurrences") == 5,
             "subject system shape")
@@ -174,6 +183,13 @@ def verify_subject(path: Path) -> dict[str, Any]:
     require(report.get("source_columns_denominator") == SUBJECT_COLUMNS, "subject denominator")
     require(report.get("progress", [])[-1].get("source_columns_processed") == SUBJECT_COLUMNS,
             "subject incomplete progress denominator")
+    require(report.get("five_l_carrier") == {
+        "label": "5L",
+        "source_index": 754_017,
+        "exact_linear_coefficient_each_of_n_coordinates": 18_144_000,
+        "coordinate_count": 11,
+        "hinge_count": 0,
+    }, "subject 5L carrier")
     flags = command_flags(report, "run-universe")
     frozen = {
         "--backend": "cuda",
