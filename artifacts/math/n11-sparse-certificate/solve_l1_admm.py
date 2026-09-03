@@ -78,6 +78,8 @@ def solve(
     initial_witness: Path | None,
     initial_reweight_from_witness: bool,
     adaptive_rho: bool,
+    rho_min: float,
+    rho_max: float,
 ) -> dict:
     import scipy
     import scipy.linalg
@@ -187,12 +189,14 @@ def solve(
                 if r_norm <= eps_primal and s_norm <= eps_dual:
                     converged = True
                     break
-                if adaptive_rho and r_norm > 10.0 * s_norm and current_rho < 1e16:
-                    current_rho *= 2.0
-                    u /= 2.0
-                elif adaptive_rho and s_norm > 10.0 * r_norm and current_rho > 1e-16:
-                    current_rho /= 2.0
-                    u *= 2.0
+                if adaptive_rho and r_norm > 10.0 * s_norm and current_rho < rho_max:
+                    old_rho = current_rho
+                    current_rho = min(rho_max, current_rho * 2.0)
+                    u *= old_rho / current_rho
+                elif adaptive_rho and s_norm > 10.0 * r_norm and current_rho > rho_min:
+                    old_rho = current_rho
+                    current_rho = max(rho_min, current_rho / 2.0)
+                    u *= old_rho / current_rho
         magnitudes = np.abs(z)
         threshold_positions = np.flatnonzero(magnitudes > support_threshold)
         if len(threshold_positions) > candidate_cap:
@@ -277,6 +281,8 @@ def solve(
         "gram_cholesky_seconds": gram_seconds,
         "rho_initial": initial_rho,
         "rho_final": current_rho,
+        "rho_min": rho_min,
+        "rho_max": rho_max,
         "rho_adaptation": (
             "every 25 iterations: double when primal residual > 10x dual; halve when dual > 10x primal; preserve the unscaled dual"
             if adaptive_rho
@@ -322,6 +328,8 @@ def main() -> None:
     parser.add_argument("--initial-witness", type=Path)
     parser.add_argument("--initial-reweight-from-witness", action="store_true")
     parser.add_argument("--adaptive-rho", action="store_true")
+    parser.add_argument("--rho-min", type=float, default=1e-16)
+    parser.add_argument("--rho-max", type=float, default=1e16)
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -340,6 +348,8 @@ def main() -> None:
         args.initial_witness,
         args.initial_reweight_from_witness,
         args.adaptive_rho,
+        args.rho_min,
+        args.rho_max,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
