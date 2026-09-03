@@ -1,9 +1,9 @@
 use anyhow::{Context, Result, bail, ensure};
 use flate2::read::GzDecoder;
 use max11_colgen::{
-    CompiledDual, DualFile, SavedTemplate, SparseColumn, Universe, brute_force_column,
-    common_loop_carrier_column, generate_column, mutate_one_sign, record_from_branches,
-    saved_column,
+    ColumnOutput, CompiledDual, DualFile, GenerationProfile, SavedTemplate, SparseColumn, Universe,
+    brute_force_column, common_loop_carrier_column, generate_column, generate_column_profiled,
+    mutate_one_sign, record_from_branches, saved_column,
 };
 use rayon::prelude::*;
 use rustc_hash::FxHashSet;
@@ -764,7 +764,11 @@ fn write_binary_column(
     modulus: Option<u64>,
 ) -> Result<()> {
     let output = column.output(record_index, modulus)?;
-    writer.write_all(&(record_index as u64).to_le_bytes())?;
+    write_binary_output(writer, output)
+}
+
+fn write_binary_output(writer: &mut impl Write, output: ColumnOutput) -> Result<()> {
+    writer.write_all(&(output.record_index as u64).to_le_bytes())?;
     for value in output.linear {
         writer.write_all(&value.to_le_bytes())?;
     }
@@ -778,6 +782,45 @@ fn write_binary_column(
     Ok(())
 }
 
+#[derive(Serialize)]
+struct EmitProfileReport {
+    schema: &'static str,
+    result: &'static str,
+    command: Vec<String>,
+    profile_env: &'static str,
+    profile_sample_stride: usize,
+    input: String,
+    input_sha256: String,
+    order_file: Option<String>,
+    order_file_sha256: Option<String>,
+    output: String,
+    output_sha256: String,
+    format: String,
+    n: usize,
+    branch_edge_occurrences: usize,
+    threads: usize,
+    source_columns_denominator: usize,
+    profiled_columns_denominator: usize,
+    input_decode_ns: u128,
+    order_decode_ns: u128,
+    output_create_and_header_ns: u128,
+    total_emit_wall_ns: u128,
+    batch_generation_wall_ns: u128,
+    output_conversion_and_sort_ns: u128,
+    serialization_and_write_ns: u128,
+    flush_ns: u128,
+    profiled_column_total_ns_p50: u128,
+    profiled_column_total_ns_p95: u128,
+    profiled_column_total_ns_p99: u128,
+    profiled_column_total_ns_max: u128,
+    active_cpu_totals: GenerationProfile,
+    no_claim: &'static str,
+}
+
+fn quantile_u128(sorted: &[u128], numerator: usize, denominator: usize) -> u128 {
+    sorted[(sorted.len() - 1) * numerator / denominator]
+}
+
 fn five_l_column(n: usize, branch_edges: usize) -> Result<SparseColumn> {
     ensure!(branch_edges == 5, "--include-five-l requires branch size 5");
     common_loop_carrier_column(n, branch_edges)
@@ -786,6 +829,17 @@ fn five_l_column(n: usize, branch_edges: usize) -> Result<SparseColumn> {
 fn command_emit(args: &Args) -> Result<()> {
     let input = args.required_path("--universe")?;
     let output = args.required_path("--output")?;
+    let profile_output = env::var_os("MAX11_COLGEN_PROFILE_OUTPUT").map(PathBuf::from);
+    let profile_sample_stride = env::var("MAX11_COLGEN_PROFILE_STRIDE")
+        .ok()
+        .map(|value| value.parse::<usize>())
+        .transpose()
+        .context("MAX11_COLGEN_PROFILE_STRIDE must be a positive integer")?
+        .unwrap_or(1);
+    ensure!(
+        profile_sample_stride > 0,
+        "MAX11_COLGEN_PROFILE_STRIDE must be positive"
+    );
     let format = args
         .values
         .get("--format")
@@ -807,8 +861,11 @@ fn command_emit(args: &Args) -> Result<()> {
         !(include_five_l && include_linear_carrier),
         "--include-five-l and --include-linear-carrier are mutually exclusive"
     );
+    let input_decode_started = Instant::now();
     let universe: Universe = load_json(&input)?;
     validate_universe(&universe)?;
+    let input_decode_ns = input_decode_started.elapsed().as_nanos();
+    let order_decode_started = Instant::now();
     let order: Vec<usize> = if let Some(path) = args.values.get("--order-file").map(PathBuf::from) {
         ensure!(
             !args.values.contains_key("--start") && !args.values.contains_key("--limit"),
@@ -837,7 +894,9 @@ fn command_emit(args: &Args) -> Result<()> {
         );
         (start..stop).collect()
     };
+    let order_decode_ns = order_decode_started.elapsed().as_nanos();
     let output_count = order.len() + usize::from(include_five_l || include_linear_carrier);
+    let output_create_started = Instant::now();
     let mut writer = create_output(&output)?;
     if format == "binary" {
         writer.write_all(b"MCOLGEN1")?;
@@ -846,30 +905,70 @@ fn command_emit(args: &Args) -> Result<()> {
         writer.write_all(&modulus.unwrap_or(0).to_le_bytes())?;
         writer.write_all(&(output_count as u64).to_le_bytes())?;
     }
+    let output_create_and_header_ns = output_create_started.elapsed().as_nanos();
     let thread_pool = pool(threads)?;
     let started = Instant::now();
     let batch_size = threads * 2;
+    let profiling_enabled = profile_output.is_some();
+    let mut aggregate_profile = GenerationProfile::default();
+    let mut profiled_column_total_ns = Vec::new();
+    let mut batch_generation_wall_ns = 0u128;
+    let mut output_conversion_and_sort_ns = 0u128;
+    let mut serialization_and_write_ns = 0u128;
     for batch_start in (0..order.len()).step_by(batch_size) {
         let batch_stop = (batch_start + batch_size).min(order.len());
-        let columns: Vec<Result<(usize, SparseColumn)>> = thread_pool.install(|| {
-            order[batch_start..batch_stop]
-                .par_iter()
-                .map(|&index| {
-                    Ok((
-                        index,
-                        generate_column(
-                            &universe.records[index],
-                            universe.n,
-                            universe.branch_edge_occurrences,
-                        )
-                        .with_context(|| format!("emit record {index}"))?,
-                    ))
-                })
-                .collect()
-        });
+        let generation_started = Instant::now();
+        let columns: Vec<Result<(usize, SparseColumn, Option<GenerationProfile>)>> = thread_pool
+            .install(|| {
+                order[batch_start..batch_stop]
+                    .par_iter()
+                    .enumerate()
+                    .map(|(offset, &index)| {
+                        let profile_this_column = profiling_enabled
+                            && (batch_start + offset).is_multiple_of(profile_sample_stride);
+                        if profile_this_column {
+                            let (column, profile) = generate_column_profiled(
+                                &universe.records[index],
+                                universe.n,
+                                universe.branch_edge_occurrences,
+                            )
+                            .with_context(|| format!("profile emit record {index}"))?;
+                            Ok((index, column, Some(profile)))
+                        } else {
+                            Ok((
+                                index,
+                                generate_column(
+                                    &universe.records[index],
+                                    universe.n,
+                                    universe.branch_edge_occurrences,
+                                )
+                                .with_context(|| format!("emit record {index}"))?,
+                                None,
+                            ))
+                        }
+                    })
+                    .collect()
+            });
+        batch_generation_wall_ns += generation_started.elapsed().as_nanos();
         for result in columns {
-            let (index, column) = result?;
-            if format == "jsonl" {
+            let (index, column, profile) = result?;
+            if let Some(profile) = profile {
+                profiled_column_total_ns.push(profile.total_ns);
+                aggregate_profile.merge(&profile);
+            }
+            if profiling_enabled {
+                let conversion_started = Instant::now();
+                let output_column = column.output(index, modulus)?;
+                output_conversion_and_sort_ns += conversion_started.elapsed().as_nanos();
+                let serialization_started = Instant::now();
+                if format == "jsonl" {
+                    serde_json::to_writer(&mut writer, &output_column)?;
+                    writer.write_all(b"\n")?;
+                } else {
+                    write_binary_output(&mut writer, output_column)?;
+                }
+                serialization_and_write_ns += serialization_started.elapsed().as_nanos();
+            } else if format == "jsonl" {
                 serde_json::to_writer(&mut writer, &column.output(index, modulus)?)?;
                 writer.write_all(b"\n")?;
             } else {
@@ -896,10 +995,63 @@ fn command_emit(args: &Args) -> Result<()> {
             write_binary_column(&mut writer, &column, source_index, modulus)?;
         }
     }
+    let flush_started = Instant::now();
     writer.flush()?;
+    let flush_ns = flush_started.elapsed().as_nanos();
+    let total_emit_wall_ns = started.elapsed().as_nanos();
+    drop(writer);
+    if let Some(profile_output) = profile_output {
+        ensure!(
+            !profiled_column_total_ns.is_empty(),
+            "profiling selected no columns"
+        );
+        profiled_column_total_ns.sort_unstable();
+        let input_sha256 = sha256_path(&input)?;
+        let order_file = args.values.get("--order-file").cloned();
+        let order_file_sha256 = order_file
+            .as_deref()
+            .map(Path::new)
+            .map(sha256_path)
+            .transpose()?;
+        let output_sha256 = sha256_path(&output)?;
+        let report = EmitProfileReport {
+            schema: "max11-colgen-emit-profile-v1",
+            result: "PASS",
+            command: args.invocation.clone(),
+            profile_env: "MAX11_COLGEN_PROFILE_OUTPUT; optional MAX11_COLGEN_PROFILE_STRIDE",
+            profile_sample_stride,
+            input: input.display().to_string(),
+            input_sha256,
+            order_file,
+            order_file_sha256,
+            output: output.display().to_string(),
+            output_sha256,
+            format: format.to_string(),
+            n: universe.n,
+            branch_edge_occurrences: universe.branch_edge_occurrences,
+            threads,
+            source_columns_denominator: order.len(),
+            profiled_columns_denominator: profiled_column_total_ns.len(),
+            input_decode_ns,
+            order_decode_ns,
+            output_create_and_header_ns,
+            total_emit_wall_ns,
+            batch_generation_wall_ns,
+            output_conversion_and_sort_ns,
+            serialization_and_write_ns,
+            flush_ns,
+            profiled_column_total_ns_p50: quantile_u128(&profiled_column_total_ns, 50, 100),
+            profiled_column_total_ns_p95: quantile_u128(&profiled_column_total_ns, 95, 100),
+            profiled_column_total_ns_p99: quantile_u128(&profiled_column_total_ns, 99, 100),
+            profiled_column_total_ns_max: *profiled_column_total_ns.last().unwrap(),
+            active_cpu_totals: aggregate_profile,
+            no_claim: "Profiling clocks are perturbed active CPU measurements on a deterministic subset of the named finite run; they are not a mathematical claim.",
+        };
+        write_json(&profile_output, &report)?;
+    }
     eprintln!(
         "COLGEN_EMIT_PASS records={output_count} seconds={:.3} output={}",
-        started.elapsed().as_secs_f64(),
+        total_emit_wall_ns as f64 / 1e9,
         output.display()
     );
     Ok(())

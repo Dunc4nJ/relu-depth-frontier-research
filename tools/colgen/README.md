@@ -103,6 +103,15 @@ coefficient `k*(n-1)!` on every linear coordinate and no hinges (for example,
 The CLI accepts up to 16 threads for the authorized remote compute path;
 shared host runs remain operationally capped by the campaign instructions.
 
+For profiling only, set `MAX11_COLGEN_PROFILE_OUTPUT=report.json` while running
+`emit-universe`. `MAX11_COLGEN_PROFILE_STRIDE=N` profiles every Nth source
+position (default 1) while all other columns use the normal generation path.
+The report separates active CPU clocks and operation counts for matrix and
+increment preparation, subset-DP map allocation and hash/dedup, terminal-word
+canonicalization and hinge hash/dedup, plus output sorting/serialization and
+I/O. Clock reads inside profiled hash operations deliberately perturb those
+sampled columns; do not use a profiled run as the throughput baseline.
+
 JSONL has one object per record with `record_index`, optional `modulus`, the
 linear vector, and sorted `{direction, coefficient}` hinge entries.  Compact
 binary is little-endian:

@@ -2,6 +2,7 @@ use anyhow::{Result, ensure};
 use rustc_hash::FxHashMap as HashMap;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
+use std::time::Instant;
 
 pub const MAX_N: usize = 16;
 
@@ -45,6 +46,180 @@ pub struct SavedTemplate {
 pub struct SparseColumn {
     pub linear: Vec<i64>,
     pub hinges: HashMap<Vec<i16>, i64>,
+}
+
+/// Profiling-only active CPU clocks and operation counts for one or more
+/// exact column generations. Nanosecond clocks sum across profiled columns and
+/// may therefore exceed wall time when callers use Rayon.
+#[derive(Clone, Debug, Default, Serialize)]
+pub struct GenerationProfile {
+    pub total_ns: u128,
+    pub signed_matrix_ns: u128,
+    pub increment_table_ns: u128,
+    pub dp_total_ns: u128,
+    pub dp_map_allocation_ns: u128,
+    pub dp_hash_dedup_ns: u128,
+    pub census_ns: u128,
+    pub column_initialization_ns: u128,
+    pub hinge_enumeration_ns: u128,
+    pub canonicalization_ns: u128,
+    pub hinge_hash_dedup_ns: u128,
+    pub dp_layers: u128,
+    pub dp_input_states: u128,
+    pub dp_child_candidates: u128,
+    pub dp_unique_states: u128,
+    pub dp_dedup_hits: u128,
+    pub dp_requested_capacity: u128,
+    pub terminal_words: u128,
+    pub zero_words: u128,
+    pub negative_first_words: u128,
+    pub active_hinge_words: u128,
+    pub hinge_unique_directions: u128,
+    pub hinge_dedup_hits: u128,
+}
+
+impl GenerationProfile {
+    pub fn merge(&mut self, other: &Self) {
+        macro_rules! add_fields {
+            ($($field:ident),+ $(,)?) => {
+                $(self.$field += other.$field;)+
+            };
+        }
+        add_fields!(
+            total_ns,
+            signed_matrix_ns,
+            increment_table_ns,
+            dp_total_ns,
+            dp_map_allocation_ns,
+            dp_hash_dedup_ns,
+            census_ns,
+            column_initialization_ns,
+            hinge_enumeration_ns,
+            canonicalization_ns,
+            hinge_hash_dedup_ns,
+            dp_layers,
+            dp_input_states,
+            dp_child_candidates,
+            dp_unique_states,
+            dp_dedup_hits,
+            dp_requested_capacity,
+            terminal_words,
+            zero_words,
+            negative_first_words,
+            active_hinge_words,
+            hinge_unique_directions,
+            hinge_dedup_hits,
+        );
+    }
+}
+
+#[derive(Clone, Copy)]
+enum ProfileStage {
+    Total,
+    SignedMatrix,
+    IncrementTable,
+    DpTotal,
+    DpMapAllocation,
+    DpHashDedup,
+    Census,
+    ColumnInitialization,
+    HingeEnumeration,
+    Canonicalization,
+    HingeHashDedup,
+}
+
+#[derive(Clone, Copy)]
+enum ProfileCount {
+    DpLayers,
+    DpInputStates,
+    DpChildCandidates,
+    DpUniqueStates,
+    DpDedupHits,
+    DpRequestedCapacity,
+    TerminalWords,
+    ZeroWords,
+    NegativeFirstWords,
+    ActiveHingeWords,
+    HingeUniqueDirections,
+    HingeDedupHits,
+}
+
+trait GenerationObserver {
+    type Timestamp;
+
+    fn start(&self) -> Self::Timestamp;
+    fn record(&mut self, stage: ProfileStage, started: Self::Timestamp);
+    fn count(&mut self, counter: ProfileCount, value: usize);
+}
+
+struct NoProfile;
+
+impl GenerationObserver for NoProfile {
+    type Timestamp = ();
+
+    #[inline(always)]
+    fn start(&self) {}
+
+    #[inline(always)]
+    fn record(&mut self, _stage: ProfileStage, _started: ()) {}
+
+    #[inline(always)]
+    fn count(&mut self, _counter: ProfileCount, _value: usize) {}
+}
+
+#[derive(Default)]
+struct TimedProfile {
+    metrics: GenerationProfile,
+}
+
+impl GenerationObserver for TimedProfile {
+    type Timestamp = Instant;
+
+    #[inline(always)]
+    fn start(&self) -> Instant {
+        Instant::now()
+    }
+
+    #[inline(always)]
+    fn record(&mut self, stage: ProfileStage, started: Instant) {
+        let elapsed = started.elapsed().as_nanos();
+        match stage {
+            ProfileStage::Total => self.metrics.total_ns += elapsed,
+            ProfileStage::SignedMatrix => self.metrics.signed_matrix_ns += elapsed,
+            ProfileStage::IncrementTable => self.metrics.increment_table_ns += elapsed,
+            ProfileStage::DpTotal => self.metrics.dp_total_ns += elapsed,
+            ProfileStage::DpMapAllocation => self.metrics.dp_map_allocation_ns += elapsed,
+            ProfileStage::DpHashDedup => self.metrics.dp_hash_dedup_ns += elapsed,
+            ProfileStage::Census => self.metrics.census_ns += elapsed,
+            ProfileStage::ColumnInitialization => {
+                self.metrics.column_initialization_ns += elapsed;
+            }
+            ProfileStage::HingeEnumeration => self.metrics.hinge_enumeration_ns += elapsed,
+            ProfileStage::Canonicalization => self.metrics.canonicalization_ns += elapsed,
+            ProfileStage::HingeHashDedup => self.metrics.hinge_hash_dedup_ns += elapsed,
+        }
+    }
+
+    #[inline(always)]
+    fn count(&mut self, counter: ProfileCount, value: usize) {
+        let value = value as u128;
+        match counter {
+            ProfileCount::DpLayers => self.metrics.dp_layers += value,
+            ProfileCount::DpInputStates => self.metrics.dp_input_states += value,
+            ProfileCount::DpChildCandidates => self.metrics.dp_child_candidates += value,
+            ProfileCount::DpUniqueStates => self.metrics.dp_unique_states += value,
+            ProfileCount::DpDedupHits => self.metrics.dp_dedup_hits += value,
+            ProfileCount::DpRequestedCapacity => self.metrics.dp_requested_capacity += value,
+            ProfileCount::TerminalWords => self.metrics.terminal_words += value,
+            ProfileCount::ZeroWords => self.metrics.zero_words += value,
+            ProfileCount::NegativeFirstWords => self.metrics.negative_first_words += value,
+            ProfileCount::ActiveHingeWords => self.metrics.active_hinge_words += value,
+            ProfileCount::HingeUniqueDirections => {
+                self.metrics.hinge_unique_directions += value;
+            }
+            ProfileCount::HingeDedupHits => self.metrics.hinge_dedup_hits += value,
+        }
+    }
 }
 
 /// Fully symmetrized carrier for `branch_edges` common loops.
@@ -207,8 +382,21 @@ fn add_checked(target: &mut i64, summand: i64, label: &str) -> Result<()> {
 }
 
 fn accumulate_word(column: &mut SparseColumn, word: &[i16], count: u64) -> Result<()> {
+    let mut observer = NoProfile;
+    accumulate_word_observed(column, word, count, &mut observer)
+}
+
+fn accumulate_word_observed<O: GenerationObserver>(
+    column: &mut SparseColumn,
+    word: &[i16],
+    count: u64,
+    observer: &mut O,
+) -> Result<()> {
+    let canonicalization_started = observer.start();
     let first = word.iter().copied().find(|&value| value != 0);
     let Some(first) = first else {
+        observer.count(ProfileCount::ZeroWords, 1);
+        observer.record(ProfileStage::Canonicalization, canonicalization_started);
         return Ok(());
     };
     ensure!(
@@ -217,6 +405,7 @@ fn accumulate_word(column: &mut SparseColumn, word: &[i16], count: u64) -> Resul
     );
     let count_i64 = i64::try_from(count)?;
     if first < 0 {
+        observer.count(ProfileCount::NegativeFirstWords, 1);
         for (coordinate, &value) in column.linear.iter_mut().zip(word) {
             let correction = count_i64
                 .checked_mul(value as i64)
@@ -243,11 +432,25 @@ fn accumulate_word(column: &mut SparseColumn, word: &[i16], count: u64) -> Resul
         active_on_ordered_cone |= prefix < 0;
     }
     if active_on_ordered_cone {
+        observer.count(ProfileCount::ActiveHingeWords, 1);
         let contribution = count_i64
             .checked_mul(divisor)
             .ok_or_else(|| anyhow::anyhow!("hinge contribution overflow"))?;
-        let entry = column.hinges.entry(direction).or_default();
-        add_checked(entry, contribution, "hinge")?;
+        observer.record(ProfileStage::Canonicalization, canonicalization_started);
+        let hashing_started = observer.start();
+        match column.hinges.entry(direction) {
+            std::collections::hash_map::Entry::Occupied(mut entry) => {
+                observer.count(ProfileCount::HingeDedupHits, 1);
+                add_checked(entry.get_mut(), contribution, "hinge")?;
+            }
+            std::collections::hash_map::Entry::Vacant(entry) => {
+                observer.count(ProfileCount::HingeUniqueDirections, 1);
+                entry.insert(contribution);
+            }
+        }
+        observer.record(ProfileStage::HingeHashDedup, hashing_started);
+    } else {
+        observer.record(ProfileStage::Canonicalization, canonicalization_started);
     }
     Ok(())
 }
@@ -278,8 +481,37 @@ pub fn generate_column(
     n: usize,
     branch_edges: usize,
 ) -> Result<SparseColumn> {
+    let mut observer = NoProfile;
+    generate_column_observed(record, n, branch_edges, &mut observer)
+}
+
+/// Generate an exact column while collecting profiling-only active clocks.
+/// The returned column is required to be byte-for-byte equivalent after the
+/// normal sorted output conversion; callers should sample because the clock
+/// reads inside hash-table operations deliberately perturb throughput.
+pub fn generate_column_profiled(
+    record: &SignedRecord,
+    n: usize,
+    branch_edges: usize,
+) -> Result<(SparseColumn, GenerationProfile)> {
+    let mut observer = TimedProfile::default();
+    let column = generate_column_observed(record, n, branch_edges, &mut observer)?;
+    Ok((column, observer.metrics))
+}
+
+fn generate_column_observed<O: GenerationObserver>(
+    record: &SignedRecord,
+    n: usize,
+    branch_edges: usize,
+    observer: &mut O,
+) -> Result<SparseColumn> {
+    let total_started = observer.start();
+    let stage_started = observer.start();
     let matrix = signed_matrix(record, n, branch_edges)?;
+    observer.record(ProfileStage::SignedMatrix, stage_started);
+    let stage_started = observer.start();
     let increments = increments(&matrix, n)?;
+    observer.record(ProfileStage::IncrementTable, stage_started);
     let mut current: HashMap<State, u64> = HashMap::default();
     current.insert(
         State {
@@ -288,10 +520,16 @@ pub fn generate_column(
         },
         1u64,
     );
+    let dp_started = observer.start();
     for depth in 0..n {
+        observer.count(ProfileCount::DpLayers, 1);
+        observer.count(ProfileCount::DpInputStates, current.len());
         let capacity = current.len().saturating_mul((n - depth).min(4));
+        observer.count(ProfileCount::DpRequestedCapacity, capacity);
+        let allocation_started = observer.start();
         let mut next: HashMap<State, u64> =
             HashMap::with_capacity_and_hasher(capacity, Default::default());
+        observer.record(ProfileStage::DpMapAllocation, allocation_started);
         for (state, count) in current {
             let mask = state.mask as usize;
             for (vertex, vertex_increments) in increments.iter().enumerate().take(n) {
@@ -299,11 +537,14 @@ pub fn generate_column(
                 if mask & bit != 0 {
                     continue;
                 }
+                observer.count(ProfileCount::DpChildCandidates, 1);
                 let mut child = state;
                 child.mask = u16::try_from(mask | bit)?;
                 child.word[depth] = vertex_increments[mask];
+                let hashing_started = observer.start();
                 match next.entry(child) {
                     std::collections::hash_map::Entry::Occupied(mut entry) => {
+                        observer.count(ProfileCount::DpDedupHits, 1);
                         let value = entry
                             .get()
                             .checked_add(count)
@@ -311,14 +552,18 @@ pub fn generate_column(
                         *entry.get_mut() = value;
                     }
                     std::collections::hash_map::Entry::Vacant(entry) => {
+                        observer.count(ProfileCount::DpUniqueStates, 1);
                         entry.insert(count);
                     }
                 }
+                observer.record(ProfileStage::DpHashDedup, hashing_started);
             }
         }
         current = next;
     }
+    observer.record(ProfileStage::DpTotal, dp_started);
 
+    let census_started = observer.start();
     let expected = checked_factorial(n)?;
     let observed = current.values().try_fold(0u64, |acc, &value| {
         acc.checked_add(value)
@@ -328,10 +573,17 @@ pub fn generate_column(
         observed == expected,
         "permutation census mismatch: {observed}/{expected}"
     );
+    observer.record(ProfileStage::Census, census_started);
+    let initialization_started = observer.start();
     let mut column = initialized_column(n, branch_edges)?;
+    observer.record(ProfileStage::ColumnInitialization, initialization_started);
+    observer.count(ProfileCount::TerminalWords, current.len());
+    let hinge_started = observer.start();
     for (state, count) in current {
-        accumulate_word(&mut column, &state.word[..n], count)?;
+        accumulate_word_observed(&mut column, &state.word[..n], count, observer)?;
     }
+    observer.record(ProfileStage::HingeEnumeration, hinge_started);
+    observer.record(ProfileStage::Total, total_started);
     Ok(column)
 }
 
@@ -598,6 +850,26 @@ mod tests {
         let dynamic = generate_column(&record, 5, 2).unwrap();
         let literal = brute_force_column(&record, 5, 2).unwrap();
         assert_eq!(dynamic, literal);
+    }
+
+    #[test]
+    fn profiling_path_preserves_exact_column() {
+        let record = sample_record();
+        let expected = generate_column(&record, 5, 2).unwrap();
+        let (profiled, profile) = generate_column_profiled(&record, 5, 2).unwrap();
+        assert_eq!(profiled, expected);
+        assert_eq!(profile.dp_layers, 5);
+        assert!(profile.dp_child_candidates > 0);
+        assert!(profile.total_ns > 0);
+        assert_eq!(
+            profile.dp_child_candidates,
+            profile.dp_unique_states + profile.dp_dedup_hits
+        );
+        assert_eq!(profile.terminal_words, 17);
+        assert_eq!(
+            profile.active_hinge_words,
+            profile.hinge_unique_directions + profile.hinge_dedup_hits
+        );
     }
 
     #[test]
