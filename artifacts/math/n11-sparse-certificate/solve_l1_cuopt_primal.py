@@ -84,6 +84,17 @@ def solve(
         end = min(begin + chunk, nnz)
         values[begin:end] = exact_values[begin:end]
     target = np.asarray(target_exact, dtype=np.float64)
+    # Exact-equivalent column preconditioning: B_j=A_j/s_j and z_j=s_j*c_j.
+    # The weighted objective becomes sum (w_j/s_j)|z_j|.  A global positive
+    # objective scale (the median s_j) keeps the costs near one without changing
+    # the minimizer.  The reported/candidate coefficients are converted back to c.
+    column_scale = np.empty(columns, dtype=np.float64)
+    for column in range(columns):
+        begin, end = int(start[column]), int(start[column + 1])
+        scale = float(np.max(np.abs(values[begin:end]))) if end > begin else 1.0
+        column_scale[column] = max(scale, 1.0)
+        values[begin:end] /= column_scale[column]
+    objective_scale = float(np.median(column_scale))
     csc = scipy.sparse.csc_matrix((values, index, start), shape=(rows, columns), copy=False)
     a_csr = csc.tocsr()
     if formulation == "split":
@@ -118,12 +129,13 @@ def solve(
 
     initial_split, initial_report = split_initial_witness(initial_witness, source, columns)
     initial_signed = initial_split[:columns] - initial_split[columns:]
+    initial_z = initial_signed * column_scale
     initial = (
-        initial_split
+        np.concatenate((np.maximum(initial_z, 0.0), np.maximum(-initial_z, 0.0)))
         if formulation == "split"
-        else np.concatenate((initial_signed, np.abs(initial_signed)))
+        else np.concatenate((initial_z, np.abs(initial_z)))
     )
-    initial_residual = np.asarray(a_csr @ initial_signed - target)
+    initial_residual = np.asarray(a_csr @ initial_z - target)
     initial_report.update({
         "max_abs_floating_residual": float(np.max(np.abs(initial_residual))),
         "nonzero_floating_residual_numerator": int(np.count_nonzero(initial_residual)),
@@ -159,10 +171,11 @@ def solve(
     prior_solution = None
     for round_number in range(rounds + 1):
         phase = time.monotonic()
+        scaled_costs = weights * objective_scale / column_scale
         costs = (
-            np.concatenate((weights, weights))
+            np.concatenate((scaled_costs, scaled_costs))
             if formulation == "split"
-            else np.concatenate((np.zeros(columns), weights))
+            else np.concatenate((np.zeros(columns), scaled_costs))
         )
         model.set_objective_coefficients(costs)
         if prior_solution is not None:
@@ -177,9 +190,10 @@ def solve(
                 f"{solution.get_termination_reason()} / {solution.get_error_message()}"
             )
         split = np.asarray(solution.get_primal_solution(), dtype=np.float64)
-        signed = split[:columns] - split[columns:] if formulation == "split" else split[:columns]
+        z = split[:columns] - split[columns:] if formulation == "split" else split[:columns]
+        signed = z / column_scale
         positions = np.flatnonzero(np.abs(signed) > support_threshold)
-        residual = np.asarray(a_csr @ signed - target)
+        residual = np.asarray(a_csr @ z - target)
         stats = solution.get_lp_stats()
         report = {
             "round": round_number,
@@ -197,6 +211,7 @@ def solve(
             "floating_residual_denominator": rows,
             "primal_objective": float(solution.get_primal_objective()),
             "dual_objective": float(solution.get_dual_objective()),
+            "objective_global_scale": objective_scale,
             "lp_stats": {key: float(value) if isinstance(value, float) else int(value) for key, value in stats.items()},
             "candidate": [
                 {
@@ -234,6 +249,8 @@ def solve(
         "model_rows_denominator": rows if formulation == "split" else rows + 2 * columns,
         "model_columns_denominator": 2 * columns,
         "model_nonzeros_denominator": model_nnz,
+        "column_preconditioning": "B_j=A_j/s_j, z_j=s_j*c_j, s_j=max(1,max_abs(A_j)); objective multiplied by median(s_j)",
+        "objective_global_scale": objective_scale,
         "solver": f"NVIDIA cuOpt 26.2.0 PDLP {pdlp_mode}, no presolve/crossover",
         "options": {
             "optimality_tolerance": optimality_tolerance,
