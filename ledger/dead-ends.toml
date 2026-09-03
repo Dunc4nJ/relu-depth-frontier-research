@@ -88,3 +88,47 @@ does_not_show = "Finite-field non-full-rank does not upper-bound rational rank, 
 retry_when = "regime_boundary(characteristic-zero-star-kernel-quotient)"
 author_path = "research-lead/rainygorge"
 created = 2026-09-01T09:30:25Z
+
+[[dead_end]]
+id = "D-0008"
+approach = "Seek MAX11 inside the loopless degree-five forest-pair subfamily whose terms use all eleven active vertices, using the named 64,000-row CountSketch over F_1,000,003."
+observed = "Across exactly 35,987 named columns, the sketch matrix has rank 10,949 and adjoining the target raises the rank to 10,950."
+scope = "Exactly the F1 forest-pair, all-eleven-active-vertex subject, prime 1,000,003, seed 2,026,090,201, and CountSketch recorded by E-0045."
+does_not_show = "This does not establish characteristic-zero nonmembership, exclude forest-pair terms with fewer active vertices, exclude other degree-five families, or prove an unrestricted two-hidden-layer lower bound."
+evidence = ["E-0045"]
+retry_when = "regime_boundary(forest-pair-full-active-subject-enlarged)"
+author_path = "modular-operator/wildwillow"
+created = 2026-09-02T23:02:36Z
+
+[[dead_end]]
+id = "D-0009"
+approach = "Seek MAX11 inside the loopless degree-five subfamily whose terms use all eleven active vertices, using the named 64,000-row CountSketch over F_1,000,003."
+observed = "Across exactly 56,692 named columns, the sketch matrix has rank 14,720 and adjoining the target raises the rank to 14,721."
+scope = "Exactly the F3 all-eleven-active-vertex subject, prime 1,000,003, seed 2,026,090,201, and CountSketch recorded by E-0046."
+does_not_show = "This does not establish characteristic-zero nonmembership, cover terms with fewer active vertices, cover looped or other ansatz families, or prove an unrestricted network lower bound."
+evidence = ["E-0046"]
+retry_when = "regime_boundary(full-active-degree-five-subject-enlarged)"
+author_path = "modular-operator/wildwillow"
+created = 2026-09-02T23:02:36Z
+
+[[dead_end]]
+id = "D-0010"
+approach = "Seek MAX11 inside the exhaustive loopless signed degree-four orbit dictionary at n=11 together with the external 4L carrier."
+observed = "Both sequential 64,000-row sketches over F_1,000,003 have rank 3,514, while adjoining the target raises the rank to 3,515 across exactly 18,286 named columns; the preceding concurrent two-sketch attempt aborted at cudaMalloc before any verdict."
+scope = "Exactly 18,285 loopless signed degree-four orbit representatives plus 4L, prime 1,000,003, seeds 2,026,090,201 and 2,026,090,202, and the verified artifact recorded by E-0047."
+does_not_show = "This one-prime modular bounded null is not characteristic-zero nonmembership, does not cover loop-inclusive degree-four terms or degree five, and is not an unrestricted ReLU-network lower bound."
+evidence = ["E-0047"]
+retry_when = "regime_boundary(degree-four-subject-enlarged-beyond-loopless-orbits)"
+author_path = "bounded-null-author/purplewolf"
+created = 2026-09-03T00:15:00Z
+
+[[dead_end]]
+id = "D-0011"
+approach = "Force the n=9 and n=10 loopless degree-five certificate coefficients to be constant on each of the tested class-sum coarsenings C1 through C9."
+observed = "Every tested C1-through-C9 coarsening is exactly NON_MEMBER at both arities: each failure carries an exact rational dual checked on every class-sum column, while membership returns for C10 and C11 only after retaining unsigned-union-graph isomorphism data."
+scope = "Exactly the saved 10,976-column n=9 and 12,248-column n=10 systems and the C1-through-C11 refinement poset recorded by E-0048; denominators and all-row checks are exact while reported ranks name their modular primes."
+does_not_show = "This does not rule out orbit-level, recursive, union-graph-aware, or other uniform formulas; it says nothing at n=11 and nothing about unrestricted two-hidden-layer representability."
+evidence = ["E-0048"]
+retry_when = "regime_boundary(class-sum-family-enlarged-beyond-c1-c9)"
+author_path = "bounded-null-author/class-sum-2q7"
+created = 2026-09-03T00:15:00Z
