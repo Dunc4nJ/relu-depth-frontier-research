@@ -152,7 +152,7 @@ code_hash = "sha256:0be971a951549342da6cc275078d032cc977dc1d807c5640b398fb497e7d
 env_digest = "sha256:b2d950753b7e2166120e0145fe3f3a99a07597cb0a9fa96def2cc41173b8a914"
 data_snapshot = "sha256:4a02a5bfdf880596a95b96eca530316d679ba0711e46d7c2bd5dfcf1274ec53c"
 transcript_artifact = "reviews/referee/V-0008.transcript.toml"
-transcript_sha256 = "sha256:ded09b54da3e53c77215f15e6bfc7566c1a233570c0f5525731b3ed6e73ed70c"
+transcript_sha256 = "sha256:ee800ef08619b3f77c270966689f52fd8dda45c81b573b6294b7174719ff127a"
 created = 2026-09-03T00:56:08Z
 
 [[review]]
@@ -210,6 +210,38 @@ findings = "The stopped factorization affects only a report annotation: all coef
 residual_doubts = "The large composite factor remains unfactored; this approval establishes only that factorization is not required for the exact arithmetic or claimed n=11 identity."
 expected_break = "The expected break was an implicit primality or reduced-factor assumption in verification; none is used by the exact replay."
 created = 2026-09-02T23:27:19Z
+
+[[review]]
+id = "V-0013"
+target = "C-0059@1"
+reviewer = "referee/opus-depth2-lemma"
+tier = "T1"
+model_family = "anthropic-claude"
+basis = ["coefficient-accumulation", "full-group-symmetry", "no-skip-compilation", "rational-parameter-preservation", "statement-match", "width-and-depth-accounting"]
+capable_of_failure = "A false elementary ReLU identity, an incorrect layer coefficient, one required skip connection or extra nonlinear layer, a failed full-group symmetry extension, a statement weaker than the bridge consumed by C-0002@3, or failure of the exact lower-arity execution would have produced refuted, narrowed, or cannot-verify rather than holds."
+verdict = "holds"
+findings = "The referee checked the two elementary ReLU identities, layer-by-layer no-skip compilation, full S_n reindexing, rationality, and coefficient accumulation; found and caused correction of two non-load-bearing coefficient descriptions; executed the construction in exact arithmetic on the upstream n=6 certificate; and confirmed revision 2b at commit a1a70ba, artifact SHA-256 dedd94b2e85cd282e6da6eed64200ae354a4cbf290c1d92dd2979d97609b6007, is exactly the bridge from the certified identity to a two-hidden-layer network."
+residual_doubts = "This is substantive fresh-context review but only T1 because the author is Claude Fable 5.1 and the referee is Claude Opus, both in the Anthropic Claude training lineage. It is not different-family T2, human review, proof-assistant formalization, a re-verification of the n=11 certificate, a width-minimality result, an n>=12 construction, or a lower bound."
+expected_break = "The predicted break was incorrect coefficient accumulation or a hidden architecture mismatch; the referee found two descriptive coefficient errors, both corrected in revision 2b, and found no load-bearing failure."
+created = 2026-09-03T02:04:35Z
+
+[[review]]
+id = "V-0014"
+target = "C-0002@3"
+reviewer = "ledger-auditor/boldfrog"
+tier = "T0"
+model_family = "openai-gpt"
+basis = ["exact-arithmetic-branch", "known-answer-controls", "mutation-controls", "statement-match"]
+capable_of_failure = "Failure to reproduce the old release-mode overflow, acceptance of the wrapped value, failure of the corrected boundary regression, any nonzero residual in a pinned positive, acceptance of either hostile mutant, or any weakening of the verifier's checks would have kept G-0017 open."
+verdict = "holds"
+findings = "Commit 392aeb609118b8218ee0fb8c9b9a0b739fba2f3a replaces the unchecked i128 product with checked multiplication and BigInt promotion. The old release branch failed the boundary-straddling regression; the fix passed it, 6/6 release unit tests, 872/872 pinned n=5 through n=10 positive terms, 133/133 literal-DP term comparisons over 3,072,600/3,072,600 permutations, and both n=8 hostile mutants remained FAIL."
+residual_doubts = "T0 ledger audit only. The long n=11 candidates were not rerun after the fix because their cleared coefficients use the all-BigInt branch; this review establishes the specific arithmetic remediation and controls, not a new n=11 identity, T2 review, or proof-assistant result."
+expected_break = "The likely break was release-mode wraparound in the Big-target/Small-coefficient branch or a control regression after promotion; the targeted old-code failure and fixed-code controls found the former and rejected the latter."
+implementation_claim = "C-0054@2"
+code_hash = "sha256:464acf99ed8dc120579ed79010275a4b42c7fd522a1a8c5b523d6468492c3e76"
+env_digest = "sha256:7402228c57e1f9e24a2baacaa751824c305c6cfeed88aa4642902d3605cadc9b"
+data_snapshot = "sha256:4d49f977bd26ac8d433e567196c2e2405883e6fbc6f86f3e87ac79f366d50e13"
+created = 2026-09-03T02:18:00Z
 
 [[review]]
 id = "V-0006"

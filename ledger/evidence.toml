@@ -1149,3 +1149,18 @@ detection_floor = "The old release code failed the boundary regression with a wr
 experiment = "EXP-0054"
 author_path = "verifier/indigocarp"
 created = 2026-09-03T02:07:49Z
+
+[[evidence]]
+id = "E-0056"
+bears_on = "C-0002@1"
+direction = "supports"
+kind = "construction"
+method = "exact rational MAX_11 witness with complete sorted-cone normal-form replay"
+source = "generated"
+mode = "confirmatory"
+artifact = "artifacts/math/n11-stageA-exact-lift/run7-dense-insurance/member_exact_lift_report.json"
+repro = "python tools/exactlift/sketch_member_lift.py --build-report stageA_sketch_build_report.json --solver-report stageA_sketch_big_solver_report.json --pivot-report stageA-s5-beta-le1-plus5L-m64000-p1000003-s1-cuda.json --witness member_exact_witness.json --report member_exact_lift_report.json"
+domain_checked = "An explicit exact rational n=11 witness: 21,222/21,222 selected pivot columns, 21,222/21,222 sketch rows, 11/11 linear rows, 169,250/169,250 lift-union hinge rows, and 190,483/190,483 combined rows; support 15,896/21,222."
+detection_floor = "Exact integer/rational equality on every possibly nonzero row of the finite support; a +1 coefficient mutation produced 29,917/190,483 nonzero rows. The lift-union/certificate-verifier 84-row discrepancy remains separately open on C-0002@3."
+author_path = "exact-lift-operator/azureaspen"
+created = 2026-09-03T02:18:00Z

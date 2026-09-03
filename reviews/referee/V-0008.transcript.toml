@@ -17,7 +17,7 @@ response_artifact = "reviews/referee/V-0008.response.md"
 response_sha256 = "sha256:e02b41997e56c41c29a49481005fc9bde6b7003e50658474af479e7fac9ea2e0"
 
 [[input]]
-path = "artifacts/math/n11-ledger-recording/DATA_MANIFEST.sha256"
+path = "artifacts/math/n11-ledger-recording/DATA_MANIFEST.v1.sha256"
 sha256 = "sha256:4a02a5bfdf880596a95b96eca530316d679ba0711e46d7c2bd5dfcf1274ec53c"
 
 [[input]]
