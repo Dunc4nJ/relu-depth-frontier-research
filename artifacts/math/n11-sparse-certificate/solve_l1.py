@@ -59,6 +59,7 @@ def solve(
     formulation: str = "split",
     solver: str = "simplex",
     presolve: str = "on",
+    reweight_solver: str = "same",
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -100,6 +101,8 @@ def solve(
         raise ValueError("solver must be simplex or ipm")
     if presolve not in ("on", "off"):
         raise ValueError("presolve must be on or off")
+    if reweight_solver not in ("same", "simplex", "ipm"):
+        raise ValueError("reweight_solver must be same, simplex, or ipm")
     # HiGHS requires float64 values. Keep one block resident. The split model
     # passes it again with negative sign; the epigraph model uses free c and
     # explicit -t <= c <= t rows, halving the dominant matrix block.
@@ -212,6 +215,8 @@ def solve(
     for round_number in range(rounds + 1):
         phase = time.monotonic()
         if round_number:
+            if round_number == 1 and reweight_solver != "same":
+                check(highs.setOptionValue("solver", reweight_solver), "setOptionValue(reweight solver)")
             if formulation == "split":
                 changed_cost = np.concatenate((weights, weights))
                 changed_columns = np.arange(2 * columns, dtype=np.int32)
@@ -251,6 +256,24 @@ def solve(
         positive = magnitudes[magnitudes > support_threshold]
         normalizer = float(np.median(1.0 / (positive + reweight_epsilon))) if len(positive) else 1.0
         weights = np.minimum(raw_weights / normalizer, reweight_cap)
+        partial = {
+            "schema": "max11-sparse-l1-partial-report-v1",
+            "verdict": "CANDIDATES_PARTIAL",
+            "exact": False,
+            "matrix_report": str(meta_path),
+            "matrix_report_sha256": sha256(meta_path),
+            "rows_denominator": rows,
+            "columns_denominator": columns,
+            "matrix_nonzeros_denominator": nnz,
+            "lp_formulation": formulation,
+            "initial_solver": solver,
+            "reweight_solver": reweight_solver,
+            "rounds_requested_denominator": rounds + 1,
+            "rounds_completed_numerator": round_number + 1,
+            "rounds": reports,
+            "no_claim": "Incomplete floating LP output only proposes supports; exact modular selection and all-row verification remain required.",
+        }
+        Path(str(output) + ".partial.json").write_text(json.dumps(partial, indent=2, sort_keys=True) + "\n")
         print(
             f"L1_ROUND round={round_number}/{rounds} support={len(support_positions)}/{columns} "
             f"objective={reports[-1]['highs_info'].get('objective_function_value')} "
@@ -272,6 +295,7 @@ def solve(
         "model_columns_denominator": 2 * columns,
         "model_nonzeros_denominator": model_nnz,
         "solver": f"HiGHS {solver}" + (" serial dual" if solver == "simplex" else " with crossover"),
+        "reweight_solver": reweight_solver,
         "highs_version": highs.version(),
         "options": options,
         "reweighted_rounds_numerator": rounds,
@@ -305,6 +329,7 @@ def main() -> None:
     parser.add_argument("--formulation", choices=("split", "epigraph"), default="split")
     parser.add_argument("--solver", choices=("simplex", "ipm"), default="simplex")
     parser.add_argument("--presolve", choices=("on", "off"), default="on")
+    parser.add_argument("--reweight-solver", choices=("same", "simplex", "ipm"), default="same")
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -320,6 +345,7 @@ def main() -> None:
         args.formulation,
         args.solver,
         args.presolve,
+        args.reweight_solver,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
