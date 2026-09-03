@@ -838,3 +838,46 @@ not_equivalent_to = ["no uniform all-n formula exists", "class-sum nonmembership
 origin_round = "R-0001"
 author_path = "bounded-null-author/class-sum-2q7"
 created = 2026-09-03T00:15:00Z
+
+[[claim]]
+id = "C-0054"
+version = 2
+statement = "The n=11 rung verification bundle is identified by the hash-checked exact-lift, upstream-translation, verify11, independent Python, lattice-falsifier, streamrank, degree-four, class-sum, aborted-run custody, depth-2 proof, and overflow-control sources listed in CODE_MANIFEST.sha256 and DATA_MANIFEST.sha256, regenerated from committed blobs at Git tree anchor 392aeb609118b8218ee0fb8c9b9a0b739fba2f3a, together with the attributed execution environments recorded in ENVIRONMENT.md."
+role = "implementation-claim"
+domain = "mathematics"
+no_claim = "Identity and local byte custody only. The aggregate manifest does not authenticate remote hosts or model providers, inventory every transitive shared library, make the lattice test a proof, establish different-lineage review of the depth-2 lemma, or enlarge any finite-family conclusion."
+origin_round = "R-0001"
+code_hash = "sha256:464acf99ed8dc120579ed79010275a4b42c7fd522a1a8c5b523d6468492c3e76"
+env_digest = "sha256:7402228c57e1f9e24a2baacaa751824c305c6cfeed88aa4642902d3605cadc9b"
+data_snapshot = "sha256:4d49f977bd26ac8d433e567196c2e2405883e6fbc6f86f3e87ac79f366d50e13"
+supersedes = "C-0054@1"
+author_path = "ledger-recorder/boldfrog"
+created = 2026-09-03T02:12:00Z
+
+[[claim]]
+id = "C-0059"
+version = 1
+statement = "Fix n >= 2. For a finite multiset E of unordered pairs (i, j) of indices in [n] (repeats and loops i = j allowed), write f_E(x) = sum over (i,j) in E of max(x_i, x_j). For two such multisets A, B define the atom Phi_{A,B}(x) = max(f_A(x), f_B(x)). For a permutation sigma of [n] write (sigma x)_i = x_{sigma(i)}. Let T be a finite list of triples (c_t, A_t, B_t) with real coefficients c_t, and suppose the identity sum over t of c_t * sum over sigma in S_n of Phi_{A_t,B_t}(sigma x) = max(x_1, ..., x_n) for all x in R^n holds. Then the function x -> max(x_1, ..., x_n) is computed exactly by a feed-forward network with exactly two hidden layers of ReLU units, affine (biased) pre-activations, an affine output unit, no skip connections, and finite widths. If all c_t are rational, all weights and biases can be taken rational."
+role = "lemma"
+domain = "mathematics"
+falsifier = "A counterexample to either elementary ReLU identity used in the construction, a term whose branch function cannot be compiled from the stated first layer, a failure of the full-group symmetry extension, or a hidden skip connection or third nonlinear layer in the displayed compilation."
+no_claim = "This realization lemma is conditional on the displayed global identity. It proves no such identity, support minimality, width minimality, n>=12 construction, all-n formula, or lower bound."
+not_equivalent_to = ["the n=11 certificate identity itself", "a sparse network construction", "MAX_n in ReLU_2 for every n", "an unrestricted lower bound"]
+origin_round = "R-0001"
+author_path = "orchestrator/amberbluff"
+created = 2026-09-03T02:03:50Z
+
+[[claim]]
+id = "C-0002"
+version = 3
+statement = "MAX_11(x)=max{x_1,...,x_11} on R^11 is exactly representable by a finite feed-forward ReLU network with exactly two hidden ReLU layers, affine biases allowed, unrestricted finite widths, and arbitrary real weights; one explicit witness is the 15,896-term exact rational certificate with SHA-256 8bd2270a801f6af679ccbf00aa7357f4e89ebb069d1211671082f3f5f07d25c5."
+role = "construction"
+domain = "mathematics"
+depends_on = ["C-0054@2", "C-0059@1"]
+falsifier = "An unconditional proof that no finite two-hidden-layer ReLU network over arbitrary real weights equals MAX_11 globally."
+no_claim = "Settles n=11 only. It claims nothing for n>=12 or all n, does not claim minimal width or a sparse or uniform formula, is not human-refereed, and is not formalized in a proof assistant. The step from the certified identity to a two-hidden-layer network is the depth-2 realization lemma recorded separately; the verifier checks the identity only. The unresolved completeness of restricted ansatzes, degree-four circuits, zonotope wall cancellation, and pricing of broader degree-five universes bears on attempted null directions only and does not cap this positive witness."
+not_equivalent_to = ["MAX_n in ReLU_2 for every n", "a human-refereed construction", "a formally verified construction", "minimal-width or minimal-support representation", "the unverified 11,320-term F2 certificate alone"]
+origin_round = "R-0001"
+supersedes = "C-0002@2"
+author_path = "certificate-author/azureaspen"
+created = 2026-09-03T02:12:00Z
