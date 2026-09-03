@@ -62,6 +62,7 @@ def solve(
     reweight_solver: str = "same",
     initial_reweight_from_witness: bool = False,
     reweight_floor: float = 0.0,
+    initial_basis: Path | None = None,
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -218,6 +219,38 @@ def solve(
 
     if initial_reweight_from_witness and initial_witness is None:
         raise ValueError("initial_reweight_from_witness requires initial_witness")
+    initial_basis_record = None
+    if initial_basis is not None:
+        if formulation != "split":
+            raise ValueError("initial_basis is supported only for the split formulation")
+        basis_report = json.loads(initial_basis.read_text())
+        if basis_report.get("verdict") != "PASS" or basis_report.get("exact") != "modular":
+            raise ValueError("initial basis report is not an exact modular PASS")
+        if basis_report.get("matrix_report_sha256") != sha256(meta_path):
+            raise ValueError("initial basis matrix SHA mismatch")
+        basis_positions = [int(position) for position in basis_report["column_positions"]]
+        basis_sources = [int(source_index) for source_index in basis_report["source_indices"]]
+        if len(basis_positions) != rows or len(set(basis_positions)) != rows:
+            raise ValueError(f"initial basis has {len(basis_positions)}/{rows} distinct columns")
+        if any(position < 0 or position >= columns for position in basis_positions):
+            raise ValueError("initial basis column position is out of range")
+        if basis_sources != [int(source[position]) for position in basis_positions]:
+            raise ValueError("initial basis source/position mismatch")
+        basis = highspy.HighsBasis()
+        basis.valid = True
+        basis.col_status = [highspy.HighsBasisStatus.kLower] * (2 * columns)
+        for position in basis_positions:
+            basis.col_status[position] = highspy.HighsBasisStatus.kBasic
+        basis.row_status = [highspy.HighsBasisStatus.kNonbasic] * rows
+        check(highs.setBasis(basis), "setBasis(exact modular initial basis)")
+        initial_basis_record = {
+            "path": str(initial_basis),
+            "sha256": sha256(initial_basis),
+            "exact": "modular",
+            "prime": int(basis_report["prime"]),
+            "basis_columns_numerator": len(basis_positions),
+            "basis_columns_denominator": rows,
+        }
     reports = []
     weights = np.ones(columns, dtype=np.float64)
     if initial_reweight_from_witness:
@@ -289,6 +322,7 @@ def solve(
             "reweight_solver": reweight_solver,
             "initial_reweight_from_witness": initial_reweight_from_witness,
             "reweight_floor": reweight_floor,
+            "initial_basis": initial_basis_record,
             "rounds_requested_denominator": rounds + 1,
             "rounds_completed_numerator": round_number + 1,
             "rounds": reports,
@@ -327,6 +361,7 @@ def solve(
         "reweight_floor": reweight_floor,
         "support_threshold_absolute": support_threshold,
         "initial_feasible_witness": initial,
+        "initial_basis": initial_basis_record,
         "rounds": reports,
         "total_seconds": time.monotonic() - started,
         "max_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
@@ -355,6 +390,7 @@ def main() -> None:
     parser.add_argument("--reweight-solver", choices=("same", "simplex", "ipm"), default="same")
     parser.add_argument("--initial-reweight-from-witness", action="store_true")
     parser.add_argument("--reweight-floor", type=float, default=0.0)
+    parser.add_argument("--initial-basis", type=Path)
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -373,6 +409,7 @@ def main() -> None:
         args.reweight_solver,
         args.initial_reweight_from_witness,
         args.reweight_floor,
+        args.initial_basis,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 

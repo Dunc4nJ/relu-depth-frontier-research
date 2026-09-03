@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 import build_saved_csc
+import prepare_initial_basis
 import select_exact_support
 import solve_l1
 import solve_l1_cuopt_dual
@@ -68,6 +69,29 @@ class SparseLpTests(unittest.TestCase):
                 json.loads((root / "l1.json.partial.json").read_text())["rounds_completed_numerator"],
                 2,
             )
+            candidate_pivot = root / "candidate-pivot.json"
+            candidate_pivot.write_text(
+                json.dumps({"sketches": [{"pivot_columns": [0, 1, 2]}]})
+            )
+            basis_path = root / "initial-basis.json"
+            basis = prepare_initial_basis.prepare(matrix, candidate_pivot, basis_path, 1_000_003)
+            self.assertEqual(basis["basis_columns_numerator"], 3)
+            basis_run = solve_l1.solve(
+                matrix,
+                root / "basis-l1.json",
+                root / "basis-highs.log",
+                1,
+                0,
+                1e-9,
+                1e-10,
+                1e-8,
+                1e6,
+                initial_witness=initial,
+                formulation="split",
+                solver="simplex",
+                initial_basis=basis_path,
+            )
+            self.assertEqual(basis_run["initial_basis"]["basis_columns_numerator"], 3)
             selected = select_exact_support.select(
                 matrix,
                 root / "l1.json",
