@@ -68,8 +68,8 @@ def fraction_text(value: Fraction) -> str:
 def parallel_verify(
     verifier: Path, certificate: Path, workers: int, output: Path
 ) -> dict[str, Any]:
-    if not 1 <= workers <= 6:
-        raise ValueError("workers must be between 1 and the bead ceiling of 6")
+    if not 1 <= workers <= 60:
+        raise ValueError("workers must be between 1 and the bead ceiling of 60")
     payload = json.loads(certificate.read_text(encoding="utf-8"))
     n = int(payload["n"])
     terms = payload["terms"]
