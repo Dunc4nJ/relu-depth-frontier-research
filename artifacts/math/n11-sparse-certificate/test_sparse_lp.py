@@ -56,11 +56,14 @@ class SparseLpTests(unittest.TestCase):
                 initial,
                 "epigraph",
                 reweight_solver="simplex",
+                initial_reweight_from_witness=True,
             )
             self.assertEqual(report["rounds"][0]["support_numerator"], 2)
             self.assertEqual(report["initial_feasible_witness"]["support_numerator"], 2)
             self.assertEqual(report["lp_formulation"], "epigraph")
             self.assertEqual(report["reweight_solver"], "simplex")
+            self.assertTrue(report["initial_reweight_from_witness"])
+            self.assertEqual(report["rounds"][0]["kind"], "witness_seeded_reweighted_l1")
             self.assertEqual(
                 json.loads((root / "l1.json.partial.json").read_text())["rounds_completed_numerator"],
                 2,

@@ -60,6 +60,7 @@ def solve(
     solver: str = "simplex",
     presolve: str = "on",
     reweight_solver: str = "same",
+    initial_reweight_from_witness: bool = False,
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -173,6 +174,7 @@ def solve(
     del values
 
     initial = None
+    initial_magnitudes = np.zeros(columns, dtype=np.float64)
     if initial_witness is not None:
         witness = json.loads(initial_witness.read_text())
         position_of = {int(source_index): position for position, source_index in enumerate(source)}
@@ -188,6 +190,7 @@ def solve(
             if source_index not in position_of:
                 raise ValueError(f"initial witness source {source_index} is absent from the LP family")
             position = position_of[source_index]
+            initial_magnitudes[position] = float(abs(coefficient))
             if formulation == "split":
                 initial_indices.append(position if coefficient > 0 else columns + position)
                 initial_values.append(float(abs(coefficient)))
@@ -210,11 +213,18 @@ def solve(
             "model_values_set": len(initial_indices),
         }
 
+    if initial_reweight_from_witness and initial_witness is None:
+        raise ValueError("initial_reweight_from_witness requires initial_witness")
     reports = []
     weights = np.ones(columns, dtype=np.float64)
+    if initial_reweight_from_witness:
+        raw_weights = 1.0 / (initial_magnitudes + reweight_epsilon)
+        positive = initial_magnitudes[initial_magnitudes > support_threshold]
+        normalizer = float(np.median(1.0 / (positive + reweight_epsilon)))
+        weights = np.minimum(raw_weights / normalizer, reweight_cap)
     for round_number in range(rounds + 1):
         phase = time.monotonic()
-        if round_number:
+        if round_number or initial_reweight_from_witness:
             if round_number == 1 and reweight_solver != "same":
                 check(highs.setOptionValue("solver", reweight_solver), "setOptionValue(reweight solver)")
             if formulation == "split":
@@ -234,7 +244,13 @@ def solve(
         reports.append(
             {
                 "round": round_number,
-                "kind": "base_l1" if round_number == 0 else "reweighted_l1",
+                "kind": (
+                    "witness_seeded_reweighted_l1"
+                    if round_number == 0 and initial_reweight_from_witness
+                    else "base_l1"
+                    if round_number == 0
+                    else "reweighted_l1"
+                ),
                 "seconds": time.monotonic() - phase,
                 "model_status": highs.modelStatusToString(status),
                 "support_threshold_absolute": support_threshold,
@@ -268,6 +284,7 @@ def solve(
             "lp_formulation": formulation,
             "initial_solver": solver,
             "reweight_solver": reweight_solver,
+            "initial_reweight_from_witness": initial_reweight_from_witness,
             "rounds_requested_denominator": rounds + 1,
             "rounds_completed_numerator": round_number + 1,
             "rounds": reports,
@@ -296,6 +313,7 @@ def solve(
         "model_nonzeros_denominator": model_nnz,
         "solver": f"HiGHS {solver}" + (" serial dual" if solver == "simplex" else " with crossover"),
         "reweight_solver": reweight_solver,
+        "initial_reweight_from_witness": initial_reweight_from_witness,
         "highs_version": highs.version(),
         "options": options,
         "reweighted_rounds_numerator": rounds,
@@ -330,6 +348,7 @@ def main() -> None:
     parser.add_argument("--solver", choices=("simplex", "ipm"), default="simplex")
     parser.add_argument("--presolve", choices=("on", "off"), default="on")
     parser.add_argument("--reweight-solver", choices=("same", "simplex", "ipm"), default="same")
+    parser.add_argument("--initial-reweight-from-witness", action="store_true")
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -346,6 +365,7 @@ def main() -> None:
         args.solver,
         args.presolve,
         args.reweight_solver,
+        args.initial_reweight_from_witness,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 
