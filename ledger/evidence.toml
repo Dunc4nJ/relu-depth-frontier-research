@@ -1164,3 +1164,23 @@ domain_checked = "An explicit exact rational n=11 witness: 21,222/21,222 selecte
 detection_floor = "Exact integer/rational equality on every possibly nonzero row of the finite support; a +1 coefficient mutation produced 29,917/190,483 nonzero rows. The lift-union/certificate-verifier 84-row discrepancy remains separately open on C-0002@3."
 author_path = "exact-lift-operator/azureaspen"
 created = 2026-09-03T02:18:00Z
+
+[[evidence]]
+id = "E-0057"
+bears_on = "C-0002@3"
+direction = "qualifies"
+kind = "construction"
+method = "streamed ELIFTQ02 union count and exact support-union reconciliation, committed at 9565024"
+source = "generated"
+mode = "confirmatory"
+artifact = "artifacts/math/n11-hinge-union-84/RESULT.md"
+implementation_claim = "C-0054@2"
+code_hash = "sha256:464acf99ed8dc120579ed79010275a4b42c7fd522a1a8c5b523d6468492c3e76"
+env_digest = "sha256:7402228c57e1f9e24a2baacaa751824c305c6cfeed88aa4642902d3605cadc9b"
+data_snapshot = "sha256:4d49f977bd26ac8d433e567196c2e2405883e6fbc6f86f3e87ac79f366d50e13"
+artifact_digest = "sha256:281786841d0e76e5187f533a280a8ed54ff3bc9887c677a8176147c6fd0c42d5"
+repro = "git show 9565024:artifacts/math/n11-hinge-union-84/RESULT.md | sha256sum; sed -n '1,180p' artifacts/math/n11-hinge-union-84/RESULT.md"
+domain_checked = "All 21,222/21,222 pivot columns and 1,072,596,018/1,072,596,018 stored ELIFTQ02 incidences: the all-pivot union has 169,250/169,250 hinge rows, while the 15,896/21,222 nonzero-support columns have 169,166/169,250, leaving exactly 84/169,250 rows."
+detection_floor = "A second streamed pass found 0/84 difference rows and 0/96,478 difference-row incidences touched by any nonzero-support column; 1,214/5,326 zero-coefficient pivots account for the difference. This only reconciles the named run7 row unions; it does not reverify the rational identity, translation, realization lemma, or MAX_11."
+author_path = "hinge-union-auditor/indigocarp"
+created = 2026-09-03T02:47:10Z

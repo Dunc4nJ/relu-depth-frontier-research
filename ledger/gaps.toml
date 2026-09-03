@@ -123,7 +123,8 @@ created = 2026-09-01T09:30:25Z
 id = "G-0016"
 claim = "C-0002@3"
 obligation = "The run7 exact-lift report counts 169,250 union hinge rows while the certificate verifier counts 169,166 distinct hinge directions, a discrepancy of 84 rows. Discharge requires AzureAspen's exact count over the certificate support columns and reconciliation recorded in Agent Mail thread .4."
-status = "open"
+status = "discharged"
+discharged_by = "E-0057"
 author_path = "ledger-auditor/boldfrog"
 created = 2026-09-03T02:14:00Z
 

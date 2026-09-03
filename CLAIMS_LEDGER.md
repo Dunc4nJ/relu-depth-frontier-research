@@ -22,11 +22,11 @@ this view and canon is a defect in the VIEW (schema error SE-15), and the fix is
 > MAX_11(x)=max{x_1,...,x_11} on R^11 is exactly representable by a finite feed-forward ReLU network with exactly two hidden ReLU layers, affine biases allowed, unrestricted finite widths, and arbitrary real weights; one explicit witness is the 15,896-term exact rational certificate with SHA-256 8bd2270a801f6af679ccbf00aa7357f4e89ebb069d1211671082f3f5f07d25c5.
 
 - disposition: **challenged** · trace:dee7cb26
-- evidence class: **INDEPENDENTLY_REPLAYED** · ceiling after dependencies: **INDEPENDENTLY_REPLAYED** · weakest link: `C-0002@3`
+- evidence class: **ASSERTED** · ceiling after dependencies: **ASSERTED** · weakest link: `C-0002@3`
 - falsifier: An unconditional proof that no finite two-hidden-layer ReLU network over arbitrary real weights equals MAX_11 globally.
 - no-claim: Settles n=11 only. It claims nothing for n>=12 or all n, does not claim minimal width or a sparse or uniform formula, is not human-refereed, and is not formalized in a proof assistant. The step from the certified identity to a two-hidden-layer network is the depth-2 realization lemma recorded separately; the verifier checks the identity only. The unresolved completeness of restricted ansatzes, degree-four circuits, zonotope wall cancellation, and pricing of broader degree-five universes bears on attempted null directions only and does not cap this positive witness.
-- open gaps: G-0016
-- next rung blocked by: INDEPENDENTLY_REPLAYED -> REFEREED: fresh-context referee verdict holds at tier T2+
+- open deviations: X-0005
+- next rung blocked by: ASSERTED -> CITED: unresolved deviation(s) X-0005 freeze C-0002@3 until an eligible independent review accepts the substitution
 
 ### C-0003@1 — construction [mathematics]
 
