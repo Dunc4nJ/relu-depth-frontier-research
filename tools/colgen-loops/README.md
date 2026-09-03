@@ -64,6 +64,11 @@ target/release/max11-colgen-loops emit-base-atoms \
 `--n` and `--branch-edges`. Both emitters support exact integer output (omit
 `--modulus`) or residues modulo the named modulus.
 
+`validate-certificates` always replays the pinned n=5 and n=7 upstream
+certificates. Supplying `--certificate-n8 FILE` additionally replays n=8;
+every term is checked by exact loop-DP/literal-permutation equality before the
+exact rational MAX identity and the planted diagonal-sign mutant are tested.
+
 ## Output formats
 
 JSONL uses `max11_colgen::ColumnOutput`: record index, optional modulus, `n`
@@ -86,7 +91,8 @@ for each column:
 
 The bead artifacts in `artifacts/math/colgen-loops/` cover:
 
-- exact reconstruction of upstream MAX identities at n=5 and n=7;
+- exact reconstruction of upstream MAX identities at n=5 and n=7, with an
+  optional n=8 replay;
 - literal S_n versus loop-DP equality on all 60 certificate templates;
 - 2,000/2,000 exact columns versus the prior Python DP at n=9 and n=10;
 - 1,000/1,000 loopless columns versus `tools/colgen` at n=11;

@@ -323,7 +323,7 @@ fn factorial(n: usize) -> u64 {
 
 fn validate_certificate(path: &Path) -> Result<CertificateRow> {
     let certificate: Certificate = serde_json::from_reader(File::open(path)?)?;
-    ensure!(certificate.n <= 7, "certificate brute-force cap exceeded");
+    ensure!(certificate.n <= 8, "certificate brute-force cap exceeded");
     ensure!(!certificate.terms.is_empty(), "certificate has no terms");
     let mut linear = vec![Rational::ZERO; certificate.n];
     let mut hinges: HashMap<Vec<i16>, Rational> = HashMap::default();
@@ -448,11 +448,20 @@ fn command_validate_certificates(args: &Args) -> Result<()> {
     let first = args.required_path("--certificate-n5")?;
     let second = args.required_path("--certificate-n7")?;
     let output = args.required_path("--output")?;
-    let rows = vec![
+    let mut rows = vec![
         validate_certificate(&first)?,
         validate_certificate(&second)?,
     ];
-    ensure!(rows.iter().map(|row| row.n).collect::<Vec<_>>() == [5, 7]);
+    let expected_dimensions = if let Some(path) = args.values.get("--certificate-n8") {
+        rows.push(validate_certificate(Path::new(path))?);
+        vec![5, 7, 8]
+    } else {
+        vec![5, 7]
+    };
+    ensure!(
+        rows.iter().map(|row| row.n).collect::<Vec<_>>() == expected_dimensions,
+        "certificate dimensions do not match their flags"
+    );
     let templates: usize = rows.iter().map(|row| row.terms_checked_denominator).sum();
     let loop_bearing: usize = rows.iter().map(|row| row.loop_bearing_terms).sum();
     let minimum_hinge_templates: usize = rows
@@ -482,7 +491,7 @@ fn command_validate_certificates(args: &Args) -> Result<()> {
         result: "PASS",
         command: args.invocation.clone(),
         certificates_passed: rows.len(),
-        certificate_denominator: 2,
+        certificate_denominator: rows.len(),
         templates_checked: templates,
         template_denominator: templates,
         loop_bearing_templates: loop_bearing,
@@ -491,18 +500,19 @@ fn command_validate_certificates(args: &Args) -> Result<()> {
         minimum_coordinate_control_denominator: 1,
         minimum_coordinate_control_d0_hinges: minimum_d0_hinges,
         exact_max_identities_passed: rows.iter().filter(|row| row.exact_max_identity).count(),
-        exact_max_identity_denominator: 2,
+        exact_max_identity_denominator: rows.len(),
         diagonal_sign_mutants_rejected: rows
             .iter()
             .filter(|row| row.diagonal_sign_mutant_rejected)
             .count(),
-        diagonal_sign_mutant_denominator: 2,
+        diagonal_sign_mutant_denominator: rows.len(),
         rows,
-        no_claim: "These are exact identities for the two pinned upstream certificates and exact column controls for their finite templates. They do not establish a MAX11 identity or completeness of the loop-inclusive enlargement.",
+        no_claim: "These are exact identities for the named pinned upstream certificates and exact column controls for their finite templates. They do not establish a MAX11 identity or completeness of the loop-inclusive enlargement.",
     };
     write_json(&output, &report)?;
     eprintln!(
-        "COLGEN_LOOPS_CERTIFICATES_PASS identities=2/2 templates={templates}/{templates} mutants=2/2"
+        "COLGEN_LOOPS_CERTIFICATES_PASS identities={0}/{0} templates={templates}/{templates} mutants={0}/{0}",
+        report.certificate_denominator,
     );
     Ok(())
 }
@@ -1093,7 +1103,7 @@ fn command_benchmark(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-colgen-loops validate-certificates --certificate-n5 FILE --certificate-n7 FILE --output REPORT\n  max11-colgen-loops validate-loopless --input RECORDS.jsonl --n N --branch-edges K --threads T --output REPORT\n  max11-colgen-loops emit-records --input RECORDS.jsonl --n N --branch-edges K --threads T --format jsonl|binary [--modulus P] --output FILE\n  max11-colgen-loops emit-universe --input G-0038.jsonl.gz --threads T --format jsonl|binary [--modulus P] [--start I] [--limit L] --output FILE\n  max11-colgen-loops emit-base-atoms --n N --branch-edges K --format jsonl|binary [--modulus P] --output FILE\n  max11-colgen-loops benchmark --input SAMPLE.jsonl --n N --branch-edges K --universe-records U --expected-sample-size S --seed N --threads T --output REPORT"
+    "usage:\n  max11-colgen-loops validate-certificates --certificate-n5 FILE --certificate-n7 FILE [--certificate-n8 FILE] --output REPORT\n  max11-colgen-loops validate-loopless --input RECORDS.jsonl --n N --branch-edges K --threads T --output REPORT\n  max11-colgen-loops emit-records --input RECORDS.jsonl --n N --branch-edges K --threads T --format jsonl|binary [--modulus P] --output FILE\n  max11-colgen-loops emit-universe --input G-0038.jsonl.gz --threads T --format jsonl|binary [--modulus P] [--start I] [--limit L] --output FILE\n  max11-colgen-loops emit-base-atoms --n N --branch-edges K --format jsonl|binary [--modulus P] --output FILE\n  max11-colgen-loops benchmark --input SAMPLE.jsonl --n N --branch-edges K --universe-records U --expected-sample-size S --seed N --threads T --output REPORT"
 }
 
 fn main() -> Result<()> {
