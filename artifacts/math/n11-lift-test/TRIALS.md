@@ -90,6 +90,16 @@ derived dictionary; they are not exact MAX11 decisions.
   decision report, so it supplies no verdict.  The retained partial log
   SHA-256 is
   `06bc3fc66d56ced3d3fa7816aa328987e933451cb5bf4083b56554da245156e0`.
+- The A100 exact-lift follow-on gathered 30,200 / 30,200 pivot columns in
+  30 / 30 batches and completed its exact-sketch problem build: 243,111 hinge
+  rows and 1,428,344,693 nonzeros.  The problem and build-report SHA-256 values
+  were respectively
+  `ff7ee9cb610db598616cd174e5d1eda542969497af35385683da10adefcb25b5`
+  and
+  `6f3d94a9058e24a1119bcebfff1d094435b8d8f38e29b7ccfab6efe85bbc6523`.
+  The solve at internal prime 65,521 entered dense LU but was terminated on the
+  2026-09-03 03:35 UTC human pause order.  It wrote no solver JSON and no
+  `PIPELINE_DONE`; therefore it produced no exact certificate or verdict.
 
 No-claim: the subject and same-lift controls are finite modular membership
 results. They do not verify an exact rational identity, an unrestricted MAX11

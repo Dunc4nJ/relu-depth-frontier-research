@@ -171,6 +171,15 @@ MAX11_THREADS=8 nohup \
   > artifacts/math/n11-stageA-exact-lift/member-lift.launch.log 2>&1 < /dev/null &
 ```
 
+The follow-on gathered 30,200 / 30,200 pivot columns in 30 / 30 batches and
+completed the exact-sketch problem build with 243,111 hinge rows and
+1,428,344,693 nonzeros.  The problem and build-report SHA-256 values were
+`ff7ee9cb610db598616cd174e5d1eda542969497af35385683da10adefcb25b5`
+and `6f3d94a9058e24a1119bcebfff1d094435b8d8f38e29b7ccfab6efe85bbc6523`.
+It entered dense LU at internal prime 65,521, but the solver was terminated on
+the 2026-09-03 03:35 UTC human pause order.  There is no solver JSON, no
+`PIPELINE_DONE`, no exact witness, and no exact verdict.
+
 ## Recorded failures
 
 - A balanced-mutant mistake in the mapper self-test was rejected before
@@ -189,6 +198,10 @@ MAX11_THREADS=8 nohup \
   because the H100 lacked `pynauty`.  The same code and controls then completed
   locally with six workers; the 60-byte failure log SHA-256 is
   `95d108782192535c6e725def51fd16bd73e769de7c68b95975e285e014b5e19d`.
+- The A100 exact solve was cancelled by the campaign-wide human pause after
+  30,200 / 30,200 exact columns had been gathered and the exact-sketch problem
+  built, but before 0 / 1 solver reports and 0 / 1 exact witnesses were
+  emitted.
 
 ## No claim
 
