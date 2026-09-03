@@ -36,6 +36,16 @@ derived dictionary; they are not exact MAX11 decisions.
 - Immediately before the subject launch, `nvidia-smi` reported 81,559 MiB
   total, 42,247 MiB used, and 38,835 MiB free. NavyTiger's two n=12 processes
   were left untouched. The subject was launched with eight host threads.
+- The first subject launch placed both requested sketches in one process. At
+  10,240 / 163,740 ordered lift records both ranks were 10,240, but aggregate
+  GPU use had risen to 67,494 MiB, leaving only 13,587 MiB before the next
+  rank-capacity growth step. To protect the two pre-existing n=12 jobs, only
+  this subject process was terminated and the same two sketches were
+  rescheduled sequentially with unchanged family, prime, buckets, and seed
+  values. No JSON decision report was written. The preserved log SHA-256 is
+  `265fdbb7115f0fa4efe009ca68898656d8715863a6c6381f40ade2ea2378c45c`.
+  Before the one-sketch seed-1 relaunch, 38,835 MiB was again free; after its
+  fixed allocation, 29,981 MiB remained free.
 
 No-claim: these failures and controls audit dictionary construction only. They
 do not establish modular or exact-rational target membership.
