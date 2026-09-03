@@ -777,36 +777,61 @@ evaluators agree with each other on the true count, but the lift reports'
 either certificate, and someone should establish where the extra rows come from
 before this is written up.
 
-**Update, later on 2026-09-03.** The campaign ran IndigoCarp's
-`artifacts/math/n11-hinge-union-84/audit_stream.py` against the F2 problem matrix
-and F2 witness on the A100 and reported: all 15,904 pivot columns touch 146,176
-rows, the 11,320 support columns touch 145,530, and the 646 difference rows have
-0 support incidences and 223 touching zero-coefficient pivots. That is the same
-mechanism as run7 and, if those are the script's own numbers, it closes this
-doubt.
+**Update, later on 2026-09-03: RECONCILED.** The campaign ran IndigoCarp's
+hinge-union audit against the F2 problem matrix and F2 witness on the A100. From
+that run's own JSON: `verdict` **CONFIRMED**, `all_column_hinge_union`
+**146,176/146,176**, `support_column_hinge_union` **145,530/146,176**,
+`difference_hinge_rows` **646**, `support_touching_difference_rows` **0/646**,
+with 223 touching zero-coefficient pivots. The audit JSON will be committed by
+IndigoCarp alongside an F2 section of
+`artifacts/math/n11-hinge-union-84/RESULT.md`.
 
-**It is not yet closed, for a reason worth recording.** The run was reported to me
-as printing `REFUTED`, explained as the script's verdict being "hard-coded to
-run7's numbers". I checked that explanation against the source and **it does not
-hold.** `structural_verdict` takes no dataset constants; it reads the expected
-union from the witness under test,
-`witness["exact_verification"]["union_hinge_rows_denominator"]`, which for the F2
-witness is 146,176, and returns CONFIRMED when `all_count == reported_union`,
-`difference == all_count - support`, and `support_touchers == 0`. The only
-hard-coded run7 values are the three known-answer assertions at lines 85-87, which
-are startup self-tests and cannot affect the verdict for another input; the source
-comment at line 84 says so. Fed the five numbers as reported above, the function
-returns **CONFIRMED**, which I confirmed by importing and calling it.
+This is the same mechanism established for run7 in §4 of that document: the lift
+counts hinge rows over all pivot columns, the certificate counts over the nonzero
+support, and no difference row is touched by any support column. **The 646-row gap
+is explained and the two numbers were never in conflict.** My independent count of
+145,530 stands as the certificate's true row total.
 
-So a printed `REFUTED` means at least one of the script's actual inputs differed
-from the summary I was given. The most likely candidate, and a substantive one, is
-`all_count`: if any hinge row in F2's declared 146,176-row universe is touched by
-no pivot column at all, then `all_count < 146,176`, the first conjunct fails, and
-the correct reading is that F2's problem matrix has untouched declared rows rather
-than that the tool misreported. Neither problem file is present locally, so I
-cannot settle this. **Until the F2 audit's own JSON output is inspected, treat the
-646 rows as explained-in-mechanism but not reconciled**, and do not let the
-"hard-coded verdict" explanation stand unexamined in whatever writes this up.
+Note in particular `all_column_hinge_union = 146,176/146,176`: every row in F2's
+declared universe is touched by some pivot column, which was the substantive
+failure mode I was worried about below. It is ruled out.
+
+**Why this took two passes, recorded because the audit trail matters.** The first
+F2 run printed `REFUTED`, explained to me as the verdict being "hard-coded to
+run7's numbers". I read the source and objected, because the
+`structural_verdict` I found takes no dataset constants: it reads the expected
+union from the witness under test, which for F2 is 146,176, and the only
+hard-coded run7 values are startup self-tests that cannot affect another input's
+verdict. Fed the reported numbers, that function returns CONFIRMED, which I
+verified by importing and calling it. I flagged that a printed REFUTED must
+therefore mean an input differed from the summary, with untouched declared rows as
+the worrying candidate.
+
+We were reading different files. There are two versions, both now in history:
+
+| version | SHA-256 | verdict logic |
+| --- | --- | --- |
+| committed at `c1553de` | `0e9bac5a89d28f1525973fb20eee379709b2d2678c04e777b721aec76b2daf0d` | inline, with `support_count == 169166 and len(difference) == 84` literally hard-coded |
+| committed at `0d30e01` | `623f5d4045f7c1191a11a23a5718c318c49b474ce7a4439da81603de6d9d82ef` | generalized `structural_verdict`, expected union read from the witness |
+
+I hashed both to confirm. The `REFUTED` came from the `0e9bac5a` version, which
+fails on F2 for the trivial reason that F2's numbers are not run7's; my objection
+was correct against `623f5d40`, which is the file present in the working tree and
+at HEAD and which I had read. Re-running the generalized version settled it.
+
+One fairness note on the run7 result: G-0016's RESULT.md names `0e9bac5a` as its
+executed audit source, so the run7 `CONFIRMED` came from the hard-coded verdict
+line. That is sound for run7 — CONFIRMED there still implies the stream actually
+produced 169,166 and 84 — but it was a run7-specific assertion rather than a
+general adjudicator, which is exactly why the F2 re-run needed the generalized
+version.
+
+**Campaign context I did not verify.** I am told the campaign's novelty gate
+failed against Rueß et al. v2 of 2026-09-01, which covers n <= 12 with public
+certificates, and that the write-up will therefore present both certificates as an
+independent replication rather than a first construction. Nothing in either
+review depended on novelty: I adjudicated whether these certificates verify, not
+whether they are first. My verdicts are unchanged.
 
 ## 10.10 F2 output inventory
 
