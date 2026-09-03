@@ -413,7 +413,7 @@ route = "H-0005"
 design = "Preregister all 754,017 loopless degree-five signed-W orbits plus 5E/5L, every touched primitive hinge row plus eleven linear rows, two 64,000-row sketches, seeds 2,026,090,201 and 2,026,090,202, primes 1,000,003 and 1,000,033, an unsaturated rank decision, and an exact rational lift or separator. Amendments X-0001 through X-0004 preserve the exact-verification gate while staging the subject, lowering sketch memory, adding dense-insurance and F1/F2/F3 descent arms, and bounding report-only denominator factorization."
 family = "max11-loopless-k5-complete-target-aware-solve-v1"
 prereg = true
-result_summary = "All four stage-A CUDA arms and the CPU replica were unsaturated MEMBER at rank 21,222 with one ordered pivot-list hash. Exact run7 passed 190,483/190,483 combined rows and translated to a 15,896-term certificate; F2 separately passed 162,091/162,091 rows with 11,320 terms; F1 and F3 were bounded one-prime NON_MEMBER arms."
+result_summary = "All four stage-A CUDA arms and the CPU replica were unsaturated MEMBER at rank 21,222 with one ordered pivot-list hash. Order-file SHA-256 42cbef6ff5ef2652995b5d3b434c4672f71e622738649613808726b0ccf36c5f starts with universe record 0, the 5E carrier; --include-five-l appended 5L, and the T2 referee confirmed neither carrier is used by the 15,896-term certificate. Exact run7 passed 190,483/190,483 combined rows; F2 separately passed 162,091/162,091 rows with 11,320 terms; F1 and F3 were bounded one-prime NON_MEMBER arms."
 evidence = ["E-0034", "E-0035", "E-0036", "E-0037", "E-0038", "E-0039", "E-0040", "E-0041", "E-0042", "E-0043", "E-0044", "E-0045", "E-0046"]
 claims = ["C-0002@2", "C-0055@1", "C-0056@1"]
 status = "complete"
@@ -448,7 +448,7 @@ created = 2026-09-03T00:15:00Z
 [[experiment]]
 id = "EXP-0039"
 route = "H-0006"
-design = "Replace each saved n=9 and n=10 loopless degree-five column family by registered class sums C0 through C11, compute modular ranks, and require every MEMBER witness or NON_MEMBER dual to replay exactly on every row."
+design = "Replace each saved n=9 and n=10 loopless degree-five column family by registered class sums C0, C0w, and C1 through C11, compute modular ranks, and require every MEMBER witness or NON_MEMBER dual to replay exactly on every row."
 family = "max9-max10-class-sum-span-v1"
 prereg = true
 result_summary = "Every tested C1-through-C9 coarsening was exactly NON_MEMBER at n=9 and n=10; C0, C0w, C10, and C11 were MEMBER under the recorded refinement structure. The null concerns only class-constant coefficient families."
@@ -512,7 +512,7 @@ route = "H-0005"
 design = "Exact-lift trial run5: continue the dense sketched-minor rational-reconstruction sequence before the preregistered insurance arm."
 family = "max11-stagea-exact-lift-attempts-v1"
 prereg = false
-result_summary = "Aborted without a retained local outcome artifact; only the campaign handoff and bead-330 multiplicity instruction preserve this attempt, so it contributes no mathematical evidence."
+result_summary = "Aborted without a verified witness or final JSON report. The retained A100 artifact artifacts/math/n11-stageA-exact-lift/run5-sketch-big-long/solve.stderr.log (SHA-256 08215b9904c4d4829165eddb927a1502a1a0130a3da4a45fc927ba3b36c410b1) ends after Dixon iteration 100/20,000; solve.stdout.json exists but is empty. This incomplete trace contributes no mathematical verdict."
 claims = ["C-0002@2"]
 status = "aborted"
 author_path = "exact-lift-operator/azureaspen"
@@ -524,7 +524,7 @@ route = "H-0005"
 design = "Exact-lift trial run6: final dense sketched-minor rational-reconstruction attempt before the amended run7 insurance arm."
 family = "max11-stagea-exact-lift-attempts-v1"
 prereg = false
-result_summary = "Aborted without a retained local outcome artifact; only the campaign handoff and bead-330 multiplicity instruction preserve this attempt, so it contributes no mathematical evidence."
+result_summary = "Aborted without a verified witness or final JSON report. The retained A100 artifact artifacts/math/n11-stageA-exact-lift/run6-sketch-big-support/modular_support_p65521.json (SHA-256 db92b90dfc0dcd695292afd9294b389967858222e60e481454f5ee31478f12e2) records 15,895/21,222 nonzero coordinates modulo 65,521; solve.stderr.log (SHA-256 50c4867bdeafe5e4519c99697249bbab3161cabdf8b471068f27e48ec4a03ffc) ends after iteration 41/20,000, and solve.stdout.json is empty. This incomplete trace contributes no mathematical verdict."
 claims = ["C-0002@2"]
 status = "aborted"
 author_path = "exact-lift-operator/azureaspen"
@@ -546,10 +546,10 @@ created = 2026-09-02T22:21:04Z
 [[experiment]]
 id = "EXP-0047"
 route = "H-0005"
-design = "Full loopless-universe pass 1: run all 754,017 records plus the 5L carrier in one 128,000-row sketch over prime 1,000,003 with seed 2,026,090,201."
+design = "Full loopless-universe pass 1: run all 754,017 records, including G-0027 record 0 as the 5E carrier, then append synthetic 5L at zero-based index 754,017, yielding 754,018 total columns in one 128,000-row sketch over prime 1,000,003 with seed 2,026,090,201."
 family = "max11-full-loopless-universe-rank-v1"
 prereg = true
-result_summary = "Unsaturated one-arm MEMBER with rank equal to augmented rank 41,856 over 754,018 columns; this modular sketch is not exact consistency and is not load-bearing for the certificate."
+result_summary = "Unsaturated one-arm MEMBER with rank equal to augmented rank 41,856 over all 754,017 universe records plus appended 5L, 754,018 columns total. Default source order included record 0 (5E); the run7 T2 referee independently found that neither 5E nor 5L appears in the certificate. This modular sketch is not exact consistency and is not load-bearing for the certificate."
 evidence = ["E-0049"]
 claims = ["C-0002@2"]
 status = "complete"
@@ -562,7 +562,7 @@ route = "H-0005"
 design = "Full loopless-universe pass 2: run the second preregistered sketch arm before completing the remaining prime and seed combinations."
 family = "max11-full-loopless-universe-rank-v1"
 prereg = true
-result_summary = "Aborted after 6,144/754,018 columns when the H100 was reallocated to n=12 arms; no rank verdict was produced."
+result_summary = "Aborted after 6,144/754,017 universe records when the H100 was reallocated to n=12 arms; synthetic 5L would have been appended only after those records, making 754,018 total columns for a completed arm. No rank verdict was produced."
 claims = ["C-0002@2"]
 status = "aborted"
 author_path = "cuda-operator/wildwillow"
@@ -587,7 +587,7 @@ route = "H-0005"
 design = "Amendment-3 descent F2: test all degree-five forest-pair terms with the named modular sketch, then lift the MEMBER pivot support and require exact all-row verification."
 family = "max11-stagea-certificate-shaped-descent-v1"
 prereg = true
-result_summary = "Modular MEMBER at rank 15,904; the exact pipeline passed 162,091/162,091 combined rows with support 11,320/15,904 and translated to upstream JSON SHA-256 767f9e66fd3dcb7b5c43e5ffdbbfa50967684d7b263c41cbd7c35e2db7938670. T1/T2 verification of this second certificate was not completed."
+result_summary = "Modular MEMBER at rank 15,904; the exact pipeline passed 162,091/162,091 combined rows with support 11,320/15,904 and translated to upstream JSON SHA-256 767f9e66fd3dcb7b5c43e5ffdbbfa50967684d7b263c41cbd7c35e2db7938670. T1 verify11 completed OK on 11,320/11,320 terms with 0 bad rows in 1,444.807 seconds; the T2 lattice falsifier passed 179,195/179,195 points. Referee verification remains pending."
 evidence = ["E-0044"]
 claims = ["C-0002@2"]
 status = "complete"

@@ -17,7 +17,7 @@
 id = "X-0001"
 planned = "Run the complete 754,017-column loopless degree-five universe plus the 5E/5L carrier family as the initial two-seed, two-prime modular subject."
 substitute = "Stage the registered computation: first test the 120,947-column beta-at-most-one stage-A subject plus 5L, then retain the complete universe as a separate continuation arm."
-reason = "The full 128,000-row universe calculation required rented accelerator memory and much longer wall time; stage A supplied an early candidate-support decision without changing the exact-verification gate."
+reason = "The full 128,000-row universe calculation required rented accelerator memory and much longer wall time; stage A supplied an early candidate-support decision without changing the exact-verification gate. Carrier bookkeeping is not a deviation: 5E is G-0027 universe record 0 and the first index of stageA-order-s5-beta-le1.json and every F1/F2/F3 order file; --include-five-l appends synthetic 5L at index 754017. The full-universe pass processed all 754,017 records, including record 0, before appending 5L. The T2 referee confirmed that neither carrier is used by the 15,896-term certificate."
 affects = ["C-0002@2", "H-0005"]
 status = "reviewed"
 review = "V-0009"
