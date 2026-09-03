@@ -1,0 +1,25 @@
+schema = "review-transcript-v1"
+review = "V-0008"
+target = "C-0002@2"
+target_record_sha256 = "sha256:0f564b377bd9cb40273b6b810159aecce2690604c53e0ef0b65a04059e27ebea"
+review_record_sha256 = "sha256:ee056afcd8f698e5849d76fdbd314e071ca0cbb0cbc87df7f924d1596abb884d"
+target_author_path = "certificate-author/azureaspen"
+author_model_family = "openai-gpt"
+reviewer = "referee/opus-n11-run7"
+reviewer_model_family = "anthropic-claude-opus"
+tier = "T2"
+fresh_context = true
+dispatched_at = 2026-09-02T23:47:00Z
+returned_at = 2026-09-03T00:56:08Z
+request_artifact = "reviews/referee/V-0008.request.md"
+request_sha256 = "sha256:66d1c46b187900ccefe712cc7c42972ccc13f5c469a31de1921029e514ea4b72"
+response_artifact = "reviews/referee/V-0008.response.md"
+response_sha256 = "sha256:e02b41997e56c41c29a49481005fc9bde6b7003e50658474af479e7fac9ea2e0"
+
+[[input]]
+path = "artifacts/math/n11-ledger-recording/DATA_MANIFEST.sha256"
+sha256 = "sha256:4a02a5bfdf880596a95b96eca530316d679ba0711e46d7c2bd5dfcf1274ec53c"
+
+[[input]]
+path = "artifacts/math/t2-referee/controls-v1/RESULT.md"
+sha256 = "sha256:8bb5d01671be530dd643862502f8d278b87498165373b1f940aad8152b61490c"

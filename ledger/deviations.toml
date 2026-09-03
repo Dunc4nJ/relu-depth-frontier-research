@@ -12,3 +12,47 @@
 # status    = "open"
 # author_path = "route-author/b"
 # created   = 2026-08-23T00:00:00Z
+
+[[deviation]]
+id = "X-0001"
+planned = "Run the complete 754,017-column loopless degree-five universe plus the 5E/5L carrier family as the initial two-seed, two-prime modular subject."
+substitute = "Stage the registered computation: first test the 120,947-column beta-at-most-one stage-A subject plus 5L, then retain the complete universe as a separate continuation arm."
+reason = "The full 128,000-row universe calculation required rented accelerator memory and much longer wall time; stage A supplied an early candidate-support decision without changing the exact-verification gate."
+affects = ["C-0002@2", "H-0005"]
+status = "reviewed"
+review = "V-0009"
+author_path = "cuda-operator/wildwillow"
+created = 2026-09-02T15:37:21Z
+
+[[deviation]]
+id = "X-0002"
+planned = "Use two 96,000-row CountSketch images concurrently for each registered prime and seed arm."
+substitute = "Use 64,000-row sketches sequentially with the same two seeds, two primes, subject, hash construction, and unsaturated rank decision."
+reason = "The 96,000-row concurrent layout exceeded the available accelerator memory; sequential 64,000-row arms fit while retaining a predeclared 63,000 saturation gate and the mandatory exact leg."
+affects = ["C-0002@2", "H-0005"]
+status = "reviewed"
+review = "V-0010"
+author_path = "cuda-operator/wildwillow"
+created = 2026-09-02T16:56:50Z
+
+[[deviation]]
+id = "X-0003"
+planned = "Recover an exact witness or separator directly from the original stage-A modular decision."
+substitute = "Add the dense-insurance exact-lift run7 and certificate-shaped F1/F2/F3 descent arms, while retaining complete exact all-row verification as the only identity acceptance gate."
+reason = "Exact-lift runs 1 through 6 did not yield a retained verified witness within their resource budgets; run7 increased rational-reconstruction depth and the descent arms tested smaller named subjects without changing the target."
+affects = ["C-0002@2", "C-0055@1", "C-0056@1", "H-0005", "H-0006"]
+status = "reviewed"
+review = "V-0011"
+author_path = "exact-lift-operator/azureaspen"
+created = 2026-09-02T22:21:04Z
+
+[[deviation]]
+id = "X-0004"
+planned = "Completely factor every prime-power component of the recovered certificate denominator for the final lift report."
+substitute = "Record the exact 215-digit denominator and its proved partial factorization, leaving the residual 183-digit composite cofactor unfactored."
+reason = "Complete factorization is report-only and unnecessary for exact rational parsing, denominator clearing, all-row identity verification, or the planted mutation control."
+affects = ["C-0002@2", "H-0005"]
+status = "reviewed"
+review = "V-0012"
+author_path = "exact-lift-operator/azureaspen"
+created = 2026-09-02T23:27:19Z
