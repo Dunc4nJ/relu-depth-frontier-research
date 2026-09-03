@@ -12,7 +12,7 @@ Fix n >= 2. For a finite multiset E of unordered pairs (i, j) of indices in [n] 
 
 holds. Then the function x -> max(x_1, ..., x_n) is computed exactly by a feed-forward network with exactly two hidden layers of ReLU units, affine (biased) pre-activations, an affine output unit, no skip connections, and finite widths. If all c_t are rational, all weights and biases can be taken rational.
 
-The verifier-certified content of the n = 11 certificate is precisely the displayed identity (the pinned upstream verifier checks it on the sorted cone in a normal form; both sides are symmetric functions, and a symmetric function is determined by its values on the sorted cone, so the identity holds on all of R^n). This lemma is the only step between that identity and the sentence "MAX_11 is in ReLU_2".
+The verifier-certified content of the n = 11 certificate is precisely the displayed identity. The pinned upstream verifier checks it on the sorted cone in a normal form; both sides are symmetric functions, and a symmetric function is determined by its values on the sorted cone, so the identity holds on all of R^n. The right-hand side max(x) is obviously symmetric. The left-hand side is symmetric by reindexing: with the convention (sigma x)_i = x_{sigma(i)}, for any tau in S_n one has (sigma(tau x))_i = (tau x)_{sigma(i)} = x_{tau(sigma(i))}, so sigma(tau x) = (tau o sigma) x, and as sigma runs over S_n so does tau o sigma; hence sum over sigma of Phi(sigma(tau x)) = sum over sigma of Phi(sigma x). This lemma is the only step between that identity and the sentence "MAX_11 is in ReLU_2".
 
 ## Proof
 
@@ -44,10 +44,12 @@ which is a linear combination of layer-2 outputs.
 
 **Output.** The output unit computes sum over t of c_t * sum over sigma of Phi_{A_t,B_t}(sigma x) as the corresponding linear combination of layer-2 outputs, with zero bias. By hypothesis this equals max(x_1, ..., x_n) for all x.
 
-The network has exactly two hidden ReLU layers, widths n(n-1) + 2n and 4 * |T| * n!, all weights in {0, +-1, +-1/2} except the output weights c_t/2 and -c_t/2, and no skip connections. If the c_t are rational so are all parameters. QED.
+The network has exactly two hidden ReLU layers, widths n(n-1) + 2n and 4 * |T| * n!, and no skip connections. Layer-1 weights lie in {0, +-1}. Layer-2 weights are half-integers: in L_{E,sigma} the coefficient of ReLU(x_k) is deg_E(sigma^{-1}(k))/2 (a loop counts 2 toward the degree) and the coefficient of each difference unit is +-1/2, so every layer-2 weight has magnitude at most |A_t| + |B_t| (attained only when one vertex carries every edge of both branches as loops; on the n = 11 certificate, which has no loops and five edges per branch, the largest magnitude that occurs is 5). Output weights are +-c_t/2. If the c_t are rational so are all parameters. QED.
 
 ## Remarks (not part of the claim)
 
 - Widths are not minimal and are not claimed to be; the certificate at n = 11 has |T| = 15,896 terms and the construction above would use 4 * 15,896 * 11! layer-2 units. Symmetry can reduce this enormously (one may symmetrize over the stabilizer of each term's active vertex set instead of all of S_n), but no such reduction is claimed here.
-- The reduction is the standard one used by the upstream authors for n <= 10 (Rueß et al., arXiv:2607.21651) and is textbook; it is written out because the campaign's ledger requires that every step between a verified artifact and a stated claim be recorded and reviewed.
+- The reduction is the standard one used by the upstream authors for n <= 10 (Rueß et al., arXiv:2607.21651) and is textbook; it is written out because the campaign's ledger requires that every step between a verified artifact and a stated claim be recorded and reviewed. The widths here exceed the paper's by factors 2 and 4/3 because the symmetric hinge identity (F1) is used instead of the one-sided form max(u, v) = u + ReLU(v - u); nothing depends on this.
+- The n = 11 certificates contain no loop edges, so the loop case in the proof is generality, not something the consumer exercises.
+- Revision 2 (2026-09-03): after T2 review (artifacts/math/t2-review/depth2-lemma/RESULT.md, commit 53da770), the false claim that all non-output weights lie in {0, +-1, +-1/2} was replaced by the half-integer bound above, and the reindexing argument for the symmetry of the left-hand side was added.
 - Nothing here bears on n >= 12 or on any lower bound.
