@@ -125,6 +125,12 @@ accepted 146,187/146,187 real rows, 162,091/162,091 combined rows, and 11,320
 nonzero terms out of 15,904 pivot columns. A planted decrement of the real-row
 verification numerator was rejected: 1/1 mutants.
 
+After launch, `monitor_a100_member_lift.sh` watches the wrapper receipt, copies
+only the small custody/JSON/log outputs (not the multi-gigabyte ELIFTQ02 problem
+or exact-column batches), runs the custody verifier, and sends the verified
+upstream path and SHA-256 to IndigoCarp. Its not-yet-launched control returned
+the expected refusal: 1/1.
+
 ## No claim
 
 This one-column structural preflight did not run `solve-big`, Dixon recovery,
