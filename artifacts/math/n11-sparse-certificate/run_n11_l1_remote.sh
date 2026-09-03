@@ -15,6 +15,7 @@ python3 "$root/solve_l1.py" \
   --reweight-epsilon 1e-9 \
   --reweight-cap 1e6 \
   --initial-witness artifacts/math/n11-stageA-exact-lift/member-F2-forestpair-m64000-p1000003-s1-cuda/member_exact_witness.json \
+  --formulation epigraph \
   > "$root/n11-solve.stdout.json"
 
 sha256sum \

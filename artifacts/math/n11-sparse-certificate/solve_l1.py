@@ -56,6 +56,7 @@ def solve(
     reweight_epsilon: float,
     reweight_cap: float,
     initial_witness: Path | None = None,
+    formulation: str = "split",
 ) -> dict:
     started = time.monotonic()
     meta_path = matrix_dir / "matrix.json"
@@ -91,9 +92,11 @@ def solve(
     if len(source) != columns:
         raise ValueError("invalid source-index array")
 
-    # HiGHS requires float64 values. Keep one block resident, pass it once with
-    # positive sign, negate it in place, then pass the negative block. HiGHS
-    # copies each block internally, avoiding a second Python-side nnz array.
+    if formulation not in ("split", "epigraph"):
+        raise ValueError("formulation must be split or epigraph")
+    # HiGHS requires float64 values. Keep one block resident. The split model
+    # passes it again with negative sign; the epigraph model uses free c and
+    # explicit -t <= c <= t rows, halving the dominant matrix block.
     values = np.empty(nnz, dtype=np.float64)
     chunk = 16_000_000
     for begin in range(0, nnz, chunk):
@@ -121,12 +124,42 @@ def solve(
     empty_f64 = np.empty(0, dtype=np.float64)
     zero_start = np.zeros(rows + 1, dtype=np.int32)
     check(highs.addRows(rows, target, target, 0, zero_start, empty_i32, empty_f64), "addRows")
-    costs = np.ones(columns, dtype=np.float64)
-    lower = np.zeros(columns, dtype=np.float64)
-    upper = np.full(columns, highspy.kHighsInf, dtype=np.float64)
-    check(highs.addCols(columns, costs, lower, upper, nnz, start, index, values), "addCols(+)")
-    values *= -1.0
-    check(highs.addCols(columns, costs, lower, upper, nnz, start, index, values), "addCols(-)")
+    if formulation == "split":
+        costs = np.ones(columns, dtype=np.float64)
+        lower = np.zeros(columns, dtype=np.float64)
+        upper = np.full(columns, highspy.kHighsInf, dtype=np.float64)
+        check(highs.addCols(columns, costs, lower, upper, nnz, start, index, values), "addCols(+)")
+        values *= -1.0
+        check(highs.addCols(columns, costs, lower, upper, nnz, start, index, values), "addCols(-)")
+        model_rows = rows
+        model_nnz = 2 * nnz
+    else:
+        zero_cost = np.zeros(columns, dtype=np.float64)
+        free_lower = np.full(columns, -highspy.kHighsInf, dtype=np.float64)
+        free_upper = np.full(columns, highspy.kHighsInf, dtype=np.float64)
+        check(highs.addCols(columns, zero_cost, free_lower, free_upper, nnz, start, index, values), "addCols(c)")
+        t_cost = np.ones(columns, dtype=np.float64)
+        t_lower = np.zeros(columns, dtype=np.float64)
+        t_upper = np.full(columns, highspy.kHighsInf, dtype=np.float64)
+        zero_col_start = np.zeros(columns + 1, dtype=np.int32)
+        check(highs.addCols(columns, t_cost, t_lower, t_upper, 0, zero_col_start, empty_i32, empty_f64), "addCols(t)")
+        abs_lower = np.full(2 * columns, -highspy.kHighsInf, dtype=np.float64)
+        abs_upper = np.zeros(2 * columns, dtype=np.float64)
+        abs_start = np.arange(0, 4 * columns + 1, 2, dtype=np.int32)
+        abs_index = np.empty(4 * columns, dtype=np.int32)
+        abs_value = np.empty(4 * columns, dtype=np.float64)
+        positions = np.arange(columns, dtype=np.int32)
+        abs_index[0::4] = positions
+        abs_index[1::4] = columns + positions
+        abs_index[2::4] = positions
+        abs_index[3::4] = columns + positions
+        abs_value[0::4] = 1.0
+        abs_value[1::4] = -1.0
+        abs_value[2::4] = -1.0
+        abs_value[3::4] = -1.0
+        check(highs.addRows(2 * columns, abs_lower, abs_upper, 4 * columns, abs_start, abs_index, abs_value), "addRows(abs epigraph)")
+        model_rows = rows + 2 * columns
+        model_nnz = nnz + 4 * columns
     del values
 
     initial = None
@@ -135,16 +168,22 @@ def solve(
         position_of = {int(source_index): position for position, source_index in enumerate(source)}
         initial_indices = []
         initial_values = []
+        initial_witness_support = 0
         for entry in witness.get("coefficients", []):
             coefficient = Fraction(str(entry["coefficient"]))
             if not coefficient:
                 continue
+            initial_witness_support += 1
             source_index = int(entry["column"])
             if source_index not in position_of:
                 raise ValueError(f"initial witness source {source_index} is absent from the LP family")
             position = position_of[source_index]
-            initial_indices.append(position if coefficient > 0 else columns + position)
-            initial_values.append(float(abs(coefficient)))
+            if formulation == "split":
+                initial_indices.append(position if coefficient > 0 else columns + position)
+                initial_values.append(float(abs(coefficient)))
+            else:
+                initial_indices.extend((position, columns + position))
+                initial_values.extend((float(coefficient), float(abs(coefficient))))
         check(
             highs.setSolution(
                 len(initial_indices),
@@ -156,24 +195,29 @@ def solve(
         initial = {
             "path": str(initial_witness),
             "sha256": sha256(initial_witness),
-            "support_numerator": len(initial_indices),
+            "support_numerator": initial_witness_support,
             "support_denominator": columns,
+            "model_values_set": len(initial_indices),
         }
 
-    all_columns = np.arange(2 * columns, dtype=np.int32)
     reports = []
     weights = np.ones(columns, dtype=np.float64)
     for round_number in range(rounds + 1):
         phase = time.monotonic()
         if round_number:
-            doubled = np.concatenate((weights, weights))
-            check(highs.changeColsCost(2 * columns, all_columns, doubled), "changeColsCost")
+            if formulation == "split":
+                changed_cost = np.concatenate((weights, weights))
+                changed_columns = np.arange(2 * columns, dtype=np.int32)
+            else:
+                changed_cost = weights
+                changed_columns = np.arange(columns, 2 * columns, dtype=np.int32)
+            check(highs.changeColsCost(len(changed_columns), changed_columns, changed_cost), "changeColsCost")
         check(highs.run(), "run")
         status = highs.getModelStatus()
         if status != highspy.HighsModelStatus.kOptimal:
             raise RuntimeError(f"round {round_number} model status {highs.modelStatusToString(status)}")
         solution = np.asarray(highs.getSolution().col_value, dtype=np.float64)
-        signed = solution[:columns] - solution[columns:]
+        signed = solution[:columns] - solution[columns:] if formulation == "split" else solution[:columns]
         support_positions = np.flatnonzero(np.abs(signed) > support_threshold)
         reports.append(
             {
@@ -216,8 +260,10 @@ def solve(
         "rows_denominator": rows,
         "columns_denominator": columns,
         "matrix_nonzeros_denominator": nnz,
-        "signed_variable_columns_denominator": 2 * columns,
-        "signed_matrix_nonzeros_denominator": 2 * nnz,
+        "lp_formulation": formulation,
+        "model_rows_denominator": model_rows,
+        "model_columns_denominator": 2 * columns,
+        "model_nonzeros_denominator": model_nnz,
         "solver": "HiGHS serial dual simplex",
         "highs_version": highs.version(),
         "options": options,
@@ -249,6 +295,7 @@ def main() -> None:
     parser.add_argument("--reweight-epsilon", type=float, default=1e-9)
     parser.add_argument("--reweight-cap", type=float, default=1e6)
     parser.add_argument("--initial-witness", type=Path)
+    parser.add_argument("--formulation", choices=("split", "epigraph"), default="split")
     args = parser.parse_args()
     report = solve(
         args.matrix_dir,
@@ -261,6 +308,7 @@ def main() -> None:
         args.reweight_epsilon,
         args.reweight_cap,
         args.initial_witness,
+        args.formulation,
     )
     print(json.dumps({key: report[key] for key in ("schema", "verdict", "total_seconds", "max_rss_kib")}, indent=2))
 

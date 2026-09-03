@@ -32,9 +32,10 @@ class SparseLpTests(unittest.TestCase):
                 {"column": 0, "coefficient": "1/2"},
                 {"column": 1, "coefficient": "1/2"},
             ]}))
-            report = solve_l1.solve(matrix, root / "l1.json", root / "highs.log", 1, 1, 1e-9, 1e-10, 1e-8, 1e6, initial)
+            report = solve_l1.solve(matrix, root / "l1.json", root / "highs.log", 1, 1, 1e-9, 1e-10, 1e-8, 1e6, initial, "epigraph")
             self.assertEqual(report["rounds"][0]["support_numerator"], 2)
             self.assertEqual(report["initial_feasible_witness"]["support_numerator"], 2)
+            self.assertEqual(report["lp_formulation"], "epigraph")
             selected = select_exact_support.select(
                 matrix,
                 root / "l1.json",
