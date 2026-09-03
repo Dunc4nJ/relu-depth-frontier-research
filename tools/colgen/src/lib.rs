@@ -295,7 +295,7 @@ impl SparseColumn {
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 struct State {
     mask: u16,
-    word: [i16; MAX_N],
+    word: [i8; MAX_N],
 }
 
 fn checked_factorial(n: usize) -> Result<u64> {
@@ -359,16 +359,18 @@ fn signed_matrix(record: &SignedRecord, n: usize, branch_edges: usize) -> Result
     Ok(matrix)
 }
 
-fn increments(matrix: &[Vec<i16>], n: usize) -> Result<Vec<Vec<i16>>> {
+fn increments(matrix: &[Vec<i16>], n: usize) -> Result<Vec<Vec<i8>>> {
     let width = 1usize << n;
-    let mut result = vec![vec![0i16; width]; n];
+    let mut result = vec![vec![0i8; width]; n];
     for vertex in 0..n {
         for mask in 1usize..width {
             let bit = mask & mask.wrapping_neg();
             let other = bit.trailing_zeros() as usize;
-            result[vertex][mask] = result[vertex][mask ^ bit]
+            let increment = i16::from(result[vertex][mask ^ bit])
                 .checked_add(matrix[vertex][other])
                 .ok_or_else(|| anyhow::anyhow!("back-degree increment overflow"))?;
+            result[vertex][mask] = i8::try_from(increment)
+                .map_err(|_| anyhow::anyhow!("back-degree increment exceeds compact i8 range"))?;
         }
     }
     Ok(result)
@@ -386,42 +388,54 @@ fn accumulate_word(column: &mut SparseColumn, word: &[i16], count: u64) -> Resul
     accumulate_word_observed(column, word, count, &mut observer)
 }
 
-fn accumulate_word_observed<O: GenerationObserver>(
+fn accumulate_word_observed<T, O>(
     column: &mut SparseColumn,
-    word: &[i16],
+    word: &[T],
     count: u64,
     observer: &mut O,
-) -> Result<()> {
+) -> Result<()>
+where
+    T: Copy + Into<i64>,
+    O: GenerationObserver,
+{
     let canonicalization_started = observer.start();
-    let first = word.iter().copied().find(|&value| value != 0);
+    let first = word
+        .iter()
+        .copied()
+        .map(Into::into)
+        .find(|&value| value != 0);
     let Some(first) = first else {
         observer.count(ProfileCount::ZeroWords, 1);
         observer.record(ProfileStage::Canonicalization, canonicalization_started);
         return Ok(());
     };
     ensure!(
-        word.iter().map(|&value| value as i64).sum::<i64>() == 0,
+        word.iter().copied().map(Into::into).sum::<i64>() == 0,
         "raw word is not zero-sum"
     );
     let count_i64 = i64::try_from(count)?;
     if first < 0 {
         observer.count(ProfileCount::NegativeFirstWords, 1);
-        for (coordinate, &value) in column.linear.iter_mut().zip(word) {
+        for (coordinate, value) in column
+            .linear
+            .iter_mut()
+            .zip(word.iter().copied().map(Into::into))
+        {
             let correction = count_i64
-                .checked_mul(value as i64)
+                .checked_mul(value)
                 .ok_or_else(|| anyhow::anyhow!("linear correction product overflow"))?;
             add_checked(coordinate, correction, "linear")?;
         }
     }
 
-    let divisor = word
-        .iter()
-        .fold(0i64, |current, &value| gcd(current, value as i64));
+    let divisor = word.iter().copied().map(Into::into).fold(0i64, gcd);
     ensure!(divisor > 0, "nonzero word has zero gcd");
     let orientation = if first > 0 { 1i64 } else { -1i64 };
     let direction: Vec<i16> = word
         .iter()
-        .map(|&value| i16::try_from(orientation * value as i64 / divisor))
+        .copied()
+        .map(Into::into)
+        .map(|value| i16::try_from(orientation * value / divisor))
         .collect::<std::result::Result<_, _>>()?;
     ensure!(direction.iter().copied().find(|&value| value != 0).unwrap() > 0);
 
@@ -869,6 +883,24 @@ mod tests {
         assert_eq!(
             profile.active_hinge_words,
             profile.hinge_unique_directions + profile.hinge_dedup_hits
+        );
+    }
+
+    #[test]
+    fn compact_state_covers_signed_mass_endpoint() {
+        assert_eq!(std::mem::size_of::<State>(), 18);
+        let record = SignedRecord {
+            sequence: None,
+            active_vertices: 3,
+            signed_mass: 127,
+            negative_edges: vec![[0, 1]; 127],
+            positive_edges: vec![[0, 2]; 127],
+            abs_components: None,
+            abs_beta: None,
+        };
+        assert_eq!(
+            generate_column(&record, 3, 127).unwrap(),
+            brute_force_column(&record, 3, 127).unwrap()
         );
     }
 
