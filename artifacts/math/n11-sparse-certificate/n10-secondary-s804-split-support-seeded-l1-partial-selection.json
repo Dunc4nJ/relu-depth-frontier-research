@@ -1,0 +1,31 @@
+{
+  "base_pivot_report": null,
+  "base_pivot_report_sha256": null,
+  "chosen_independent_support_denominator": 12248,
+  "chosen_independent_support_numerator": 424,
+  "chosen_round": 0,
+  "exact": "modular",
+  "l1_report": "artifacts/math/n11-sparse-certificate/n10-secondary-s804-split-support-seeded-l1.json.partial.json",
+  "l1_report_sha256": "2d2375780898de73ad49fadcb3d562bdd6f4024ce3da9feb3b9819b34f197544",
+  "matrix_report": "artifacts/math/n11-sparse-certificate/n10-basis-matrix/matrix.json",
+  "matrix_report_sha256": "beffa57ff40b733b705d0909e088659bd12c59ee9c9ca0bf6ac4ab45edee83f3",
+  "no_claim": "Modular consistency of a floated support is not an exact rational identity; the emitted pivot report is only an input to exact lifting and all-row verification.",
+  "pivot_report": "artifacts/math/n11-sparse-certificate/n10-secondary-s804-split-support-seeded-l1-partial-pivots.json",
+  "pivot_report_sha256": "ab233176aeafcb0a64389ba7a3b06d0dbdc0c3d4077891c0c3a73445f1187a86",
+  "prime": 1000003,
+  "schema": "max11-sparse-support-selection-v1",
+  "seconds": 0.38132781255990267,
+  "trials": [
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 424,
+      "independent_support_numerator": 424,
+      "rank_a_mod_prime": 424,
+      "rank_augmented_mod_prime": 424,
+      "round": 0,
+      "seconds": 0.3780544316396117,
+      "verdict": "MEMBER"
+    }
+  ],
+  "verdict": "PASS"
+}

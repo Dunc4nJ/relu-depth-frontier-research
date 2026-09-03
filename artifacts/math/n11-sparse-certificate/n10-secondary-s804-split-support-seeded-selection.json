@@ -1,0 +1,71 @@
+{
+  "base_pivot_report": null,
+  "base_pivot_report_sha256": null,
+  "chosen_independent_support_denominator": 12248,
+  "chosen_independent_support_numerator": 424,
+  "chosen_round": 0,
+  "exact": "modular",
+  "l1_report": "artifacts/math/n11-sparse-certificate/n10-secondary-s804-split-support-seeded-l1.json",
+  "l1_report_sha256": "f909cc54781cc09b41fb7c2dee0995b6b3cbad56af46df3453a62711f9420584",
+  "matrix_report": "artifacts/math/n11-sparse-certificate/n10-basis-matrix/matrix.json",
+  "matrix_report_sha256": "beffa57ff40b733b705d0909e088659bd12c59ee9c9ca0bf6ac4ab45edee83f3",
+  "no_claim": "Modular consistency of a floated support is not an exact rational identity; the emitted pivot report is only an input to exact lifting and all-row verification.",
+  "pivot_report": "artifacts/math/n11-sparse-certificate/n10-secondary-s804-split-support-seeded-pivots.json",
+  "pivot_report_sha256": "ab233176aeafcb0a64389ba7a3b06d0dbdc0c3d4077891c0c3a73445f1187a86",
+  "prime": 1000003,
+  "schema": "max11-sparse-support-selection-v1",
+  "seconds": 2.3694023238494992,
+  "trials": [
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 424,
+      "independent_support_numerator": 424,
+      "rank_a_mod_prime": 424,
+      "rank_augmented_mod_prime": 424,
+      "round": 0,
+      "seconds": 0.49739447608590126,
+      "verdict": "MEMBER"
+    },
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 435,
+      "independent_support_numerator": 435,
+      "rank_a_mod_prime": 435,
+      "rank_augmented_mod_prime": 436,
+      "round": 1,
+      "seconds": 0.5142323458567262,
+      "verdict": "NON_MEMBER"
+    },
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 444,
+      "independent_support_numerator": 444,
+      "rank_a_mod_prime": 444,
+      "rank_augmented_mod_prime": 445,
+      "round": 2,
+      "seconds": 0.4723893515765667,
+      "verdict": "NON_MEMBER"
+    },
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 461,
+      "independent_support_numerator": 461,
+      "rank_a_mod_prime": 461,
+      "rank_augmented_mod_prime": 462,
+      "round": 3,
+      "seconds": 0.4365640487521887,
+      "verdict": "NON_MEMBER"
+    },
+    {
+      "candidate_support_denominator": 12248,
+      "candidate_support_numerator": 469,
+      "independent_support_numerator": 469,
+      "rank_a_mod_prime": 469,
+      "rank_augmented_mod_prime": 470,
+      "round": 4,
+      "seconds": 0.4421957219019532,
+      "verdict": "NON_MEMBER"
+    }
+  ],
+  "verdict": "PASS"
+}

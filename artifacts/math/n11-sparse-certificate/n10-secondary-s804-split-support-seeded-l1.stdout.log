@@ -1,0 +1,236 @@
+Running HiGHS 1.15.1 (git hash: 04024d7): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+LP has 804 rows; 24496 cols; 11211740 nonzeros
+Coefficient ranges:
+  Matrix  [2e+00, 4e+06]
+  Cost    [1e+00, 1e+06]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e+00, 1e+00]
+Not presolved: solving the LP
+IPX model has 804 rows, 24496 columns and 11211740 nonzeros
+Input
+    Number of variables:                                24496
+    Number of free variables:                           0
+    Number of constraints:                              804
+    Number of equality constraints:                     804
+    Number of matrix entries:                           11211740
+    Matrix range:                                       [2e+00, 4e+06]
+    RHS range:                                          [1e+00, 1e+00]
+    Objective range:                                    [1e+00, 1e+06]
+    Bounds range:                                       [0e+00, 0e+00]
+Preprocessing
+    Dualized model:                                     no
+    Number of dense columns:                            0
+    Range of scaling factors:                           [9.77e-04, 3.20e+01]
+    Scaled cost norm:                                   976.562
+    Scaled bounds norm:                                 0.000976562
+IPX version 1.0
+Interior point solve
+ Iter       primal obj         dual obj       pinf       dinf       gap      time
+   0    3.28621678e-16   0.00000000e+00   1.50e+00   4.54e-01  3.29e-16      12.1
+   1    3.59787671e+06   0.00000000e+00   3.16e-02   4.54e-07  2.00e+00      12.3
+   2    2.37069783e+05   0.00000000e+00   2.08e-03   4.54e-13  2.00e+00      12.4
+ Constructing starting basis...
+ Iter       primal obj         dual obj       pinf       dinf       gap      time
+   3    2.47311853e+04   0.00000000e+00   2.17e-04   4.54e-19  2.00e+00      19.2
+   4    4.43691774e+00   0.00000000e+00   2.17e-10   0.00e+00  1.38e+00      20.0
+   5    3.95527524e-01   0.00000000e+00   1.93e-11   0.00e+00  3.30e-01      20.4
+   6    5.22750659e-02   1.99373484e-04   4.83e-13   3.35e-16  5.07e-02      23.1
+   7    1.28778196e-02   6.32091132e-04   9.71e-14   5.56e-14  1.22e-02      28.2
+   8    3.17822507e-03   7.92490096e-04   2.57e-14   1.03e-13  2.38e-03      34.5
+   9    1.21506194e-03   7.83117523e-04   1.98e-14   2.86e-14  4.32e-04      36.2
+  10    8.46036293e-04   7.79642541e-04   1.33e-14   6.27e-15  6.63e-05      37.2
+  11    7.79263679e-04   7.78959991e-04   1.75e-14   8.05e-16  3.03e-07      38.0
+  12*   7.78964660e-04   7.78964660e-04   1.06e-14   9.81e-16  8.72e-14      38.5
+Running crossover as requested
+    Primal residual before push phase:                  2.20e-13
+    Dual residual before push phase:                    9.59e-13
+    Number of dual pushes required:                     319
+    Number of primal pushes required:                   0
+Summary
+    Runtime:                                            43.08s
+    Status interior point solve:                        optimal
+    Status crossover:                                   optimal
+    objective value:                                    7.78963399e-04
+    interior solution primal residual (abs/rel):        2.21e-10 / 1.10e-10
+    interior solution dual residual (abs/rel):          9.31e-10 / 9.31e-16
+    interior solution objective gap (abs/rel):          2.54e-13 / 2.53e-13
+    basic solution primal infeasibility:                8.58e-17
+    basic solution dual infeasibility:                  0.00e+00
+Ipx: IPM       optimal
+Ipx: Crossover optimal
+
+Model status        : Optimal
+IPM       iterations: 12
+Crossover iterations: 315
+Objective value     :  7.7896339714e-04
+P-D objective error :  2.0340452538e-12
+HiGHS run time      :         43.23
+L1_ROUND round=0/4 support=424/12248 objective=0.0007789633971438496 seconds=43.247
+LP has 804 rows; 24496 cols; 11211740 nonzeros
+Coefficient ranges:
+  Matrix  [2e+00, 4e+06]
+  Cost    [6e-02, 9e+02]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e+00, 1e+00]
+Solving LP with useful basis
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -7.6668645974e+05 Ph1: 743(1.38033e+08); Du: 8324(766686) 44.7s
+        244    -6.5733355410e+02 Ph1: 736(68944.1); Du: 444(657.334) 51.1s
+        440    -3.5000521492e+02 Ph1: 740(39438.6); Du: 323(350.005) 56.5s
+        676    -2.3058651782e+02 Ph1: 674(3339.71); Du: 267(230.587) 62.4s
+        914    -1.4297208229e+02 Ph1: 721(12288.7); Du: 198(142.972) 68.4s
+       1124    -9.6432531942e+01 Ph1: 703(7691.14); Du: 172(96.4325) 74.0s
+       1354    -5.8504377651e+01 Ph1: 598(1230.12); Du: 135(58.5044) 80.1s
+       1628    -2.9922813393e+01 Ph1: 605(1079.37); Du: 98(29.9228) 86.5s
+       1830    -2.0245585339e+01 Ph1: 654(2470.69); Du: 85(20.2456) 91.9s
+       2117    -1.0146846791e+01 Ph1: 590(1248.41); Du: 59(10.1468) 98.6s
+       2381    -3.9697742227e+00 Ph1: 515(621.311); Du: 35(3.96977) 104.8s
+       2664    -9.7634309919e-01 Ph1: 583(1279.83); Du: 17(0.976343) 111.7s
+       2941    -1.2994091120e-02 Ph1: 390(61.8816); Du: 1(0.0129941) 118.0s
+       3139     5.6135111314e-05 Pr: 346(0.0455003) 123.3s
+       3389     1.6691290118e-04 Pr: 320(0.0141338) 129.9s
+       3694     2.7784753592e-04 Pr: 305(0.00793997) 136.7s
+       4041     3.3816389266e-04 Pr: 198(0.000892394) 144.0s
+       4281     3.4953768115e-04 Pr: 178(0.000143048) 149.2s
+       4622     3.5496388019e-04 Pr: 149(4.8072e-05) 156.6s
+       4975     3.5796029529e-04 Pr: 140(2.75528e-05) 164.1s
+       5272     3.5930133963e-04 Pr: 153(0.000157103) 170.0s
+       5601     3.6029056702e-04 Pr: 102(6.25428e-06) 177.1s
+       5925     3.6066843721e-04 Pr: 103(7.54049e-06) 184.3s
+       6168     3.6080979567e-04 Pr: 119(9.09599e-06) 189.3s
+       6185     3.5989688427e-04 Pr: 0(0) 189.6s
+       6185     3.5989688427e-04 Pr: 0(0) 189.6s
+
+Model status        : Optimal
+Simplex   iterations: 6185
+Objective value     :  3.5989688427e-04
+P-D objective error :  3.6133218189e-15
+HiGHS run time      :        189.73
+L1_ROUND round=1/4 support=435/12248 objective=0.0003598968842716759 seconds=146.511
+LP has 804 rows; 24496 cols; 11211740 nonzeros
+Coefficient ranges:
+  Matrix  [2e+00, 4e+06]
+  Cost    [6e-02, 8e+02]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e+00, 1e+00]
+Solving LP with useful basis
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -8.1463354235e+05 Ph1: 742(3.08813e+07); Du: 8401(814634) 190.0s
+        214    -2.7290124180e+03 Ph1: 742(492409); Du: 964(2729.01) 196.3s
+        417    -1.3423962584e+03 Ph1: 732(33062.4); Du: 689(1342.4) 201.9s
+        720    -8.1913323654e+02 Ph1: 731(30575.9); Du: 529(819.133) 208.9s
+        927    -6.1991501009e+02 Ph1: 703(6431.17); Du: 452(619.915) 214.4s
+       1183    -4.3007638949e+02 Ph1: 718(9665.89); Du: 399(430.076) 220.7s
+       1456    -3.0366831394e+02 Ph1: 709(5677.16); Du: 315(303.668) 227.1s
+       1676    -2.1271679673e+02 Ph1: 675(3106.85); Du: 267(212.717) 232.8s
+       1933    -1.4381392877e+02 Ph1: 718(9585.96); Du: 218(143.814) 239.1s
+       2145    -9.2635218792e+01 Ph1: 652(2349.85); Du: 197(92.6352) 244.6s
+       2371    -6.5226001452e+01 Ph1: 672(2858.69); Du: 148(65.226) 250.5s
+       2593    -3.4243873329e+01 Ph1: 734(18597.3); Du: 115(34.2439) 256.2s
+       2827    -1.9893604481e+01 Ph1: 627(1650.13); Du: 84(19.8936) 262.3s
+       3062    -1.3477274486e+01 Ph1: 552(1111.19); Du: 65(13.4773) 268.1s
+       3296    -7.0506694561e+00 Ph1: 439(293.585); Du: 51(7.05067) 273.9s
+       3525    -3.3225264884e+00 Ph1: 652(2822.83); Du: 35(3.32253) 279.7s
+       3749    -1.2712290346e+00 Ph1: 543(911.033); Du: 21(1.27123) 285.4s
+       4013    -9.8356196750e-02 Ph1: 382(100.035); Du: 3(0.0983562) 291.5s
+       4244     2.0619424085e-04 Pr: 270(0.0275818) 297.3s
+       4504     2.9149141195e-04 Pr: 323(0.033526) 303.4s
+       4755     3.2945841613e-04 Pr: 257(0.0126553) 309.3s
+       5062     3.4412895142e-04 Pr: 169(3.67475e-05) 316.0s
+       5386     3.4679689470e-04 Pr: 196(0.00198895) 323.1s
+       5743     3.4797870063e-04 Pr: 137(7.50823e-06) 330.5s
+       6075     3.4857911069e-04 Pr: 127(3.3104e-05) 337.5s
+       6369     3.4879123800e-04 Pr: 105(6.27233e-06) 343.3s
+       6403     3.4792469112e-04 Pr: 0(0) 343.9s
+       6403     3.4792469112e-04 Pr: 0(0) 343.9s
+
+Model status        : Optimal
+Simplex   iterations: 6403
+Objective value     :  3.4792469112e-04
+P-D objective error :  1.3341040096e-15
+HiGHS run time      :        343.97
+L1_ROUND round=2/4 support=444/12248 objective=0.0003479246911169587 seconds=154.251
+LP has 804 rows; 24496 cols; 11211740 nonzeros
+Coefficient ranges:
+  Matrix  [2e+00, 4e+06]
+  Cost    [5e-02, 7e+02]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e+00, 1e+00]
+Solving LP with useful basis
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -5.5095208069e+04 Ph1: 742(1.18892e+07); Du: 4917(55095.2) 344.3s
+        190    -1.6004817434e+02 Ph1: 713(11435.4); Du: 235(160.048) 349.4s
+        411    -6.7624750689e+01 Ph1: 742(216518); Du: 165(67.6248) 354.9s
+        661    -3.6647698492e+01 Ph1: 697(5560.36); Du: 132(36.6477) 361.0s
+        944    -2.0346132732e+01 Ph1: 544(683.438); Du: 95(20.3461) 367.7s
+       1235    -7.3593035603e+00 Ph1: 433(280.154); Du: 64(7.3593) 374.2s
+       1527    -1.8752819389e+00 Ph1: 358(133.592); Du: 33(1.87528) 380.7s
+       1760    -3.8738124208e-01 Ph1: 487(511.476); Du: 15(0.387381) 386.4s
+       2013     2.2048411217e-04 Pr: 319(0.0145583) 392.2s
+       2246     2.7590883044e-04 Pr: 237(0.00408726) 397.7s
+       2566     3.0606305183e-04 Pr: 165(0.000128807) 404.4s
+       2845     3.1370615459e-04 Pr: 174(7.37542e-05) 409.9s
+       3131     3.1522790008e-04 Pr: 154(2.33684e-05) 415.4s
+       3509     3.1594452058e-04 Pr: 155(3.18308e-05) 423.1s
+       3829     3.1634731902e-04 Pr: 183(0.000354785) 429.9s
+       4084     3.1654532443e-04 Pr: 116(5.18586e-06) 435.1s
+       4337     3.1675579873e-04 Pr: 78(2.25433e-06) 440.2s
+       4637     3.1686571188e-04 Pr: 100(3.68236e-06) 446.8s
+       4847     3.1614146703e-04 Pr: 0(0) 450.6s
+       4847     3.1614146703e-04 Pr: 0(0) 450.6s
+
+Model status        : Optimal
+Simplex   iterations: 4847
+Objective value     :  3.1614146703e-04
+P-D objective error :  1.7245366247e-14
+HiGHS run time      :        450.68
+L1_ROUND round=3/4 support=461/12248 objective=0.0003161414670314139 seconds=106.724
+LP has 804 rows; 24496 cols; 11211740 nonzeros
+Coefficient ranges:
+  Matrix  [2e+00, 4e+06]
+  Cost    [5e-02, 6e+02]
+  Bound   [0e+00, 0e+00]
+  RHS     [1e+00, 1e+00]
+Solving LP with useful basis
+Using dual simplex solver
+  Iteration        Objective     Infeasibilities num(sum)
+          0    -6.0461147206e+04 Ph1: 743(5.56429e+06); Du: 5539(60461.1) 451.0s
+        220    -2.8018672351e+02 Ph1: 740(430454); Du: 356(280.187) 457.8s
+        429    -1.6142381802e+02 Ph1: 684(4263.96); Du: 271(161.424) 463.3s
+        663    -9.9259420497e+01 Ph1: 701(7283.23); Du: 217(99.2594) 469.0s
+        951    -5.6403498329e+01 Ph1: 681(3154.56); Du: 149(56.4035) 475.6s
+       1239    -2.9001419120e+01 Ph1: 658(2241.47); Du: 108(29.0014) 482.3s
+       1473    -1.8056446856e+01 Ph1: 683(3694.43); Du: 65(18.0564) 488.2s
+       1733    -1.0769821970e+01 Ph1: 595(1216.33); Du: 54(10.7698) 494.4s
+       2018    -5.5835282272e+00 Ph1: 626(1698.83); Du: 53(5.58353) 501.2s
+       2277    -2.6428605334e+00 Ph1: 449(407.518); Du: 31(2.64286) 507.4s
+       2523    -7.8027526536e-01 Ph1: 538(959.511); Du: 15(0.780275) 513.3s
+       2803    -8.3834586478e-02 Ph1: 416(118.569); Du: 3(0.0838346) 519.7s
+       3092     2.2755454643e-04 Pr: 275(0.0093101) 526.2s
+       3315     2.5926265456e-04 Pr: 196(0.00221256) 531.9s
+       3569     2.7102280377e-04 Pr: 143(1.72316e-05) 537.2s
+       3879     2.7259327611e-04 Pr: 170(3.94179e-05) 544.0s
+       4125     2.7312502670e-04 Pr: 152(3.21232e-05) 549.2s
+       4435     2.7368973003e-04 Pr: 135(1.15664e-05) 556.1s
+       4692     2.7412318381e-04 Pr: 92(2.63261e-06) 561.4s
+       4994     2.7438292929e-04 Pr: 80(2.24687e-06) 567.3s
+       5232     2.7452051211e-04 Pr: 99(3.75424e-06) 572.4s
+       5507     2.7463048853e-04 Pr: 53(1.34301e-06) 578.4s
+       5599     2.7399142238e-04 Pr: 0(0) 580.4s
+
+Model status        : Optimal
+Simplex   iterations: 5599
+Objective value     :  2.7399142238e-04
+P-D objective error :  2.3297580034e-17
+HiGHS run time      :        580.55
+L1_ROUND round=4/4 support=469/12248 objective=0.0002739914223764567 seconds=129.879
+{
+  "schema": "max11-sparse-l1-report-v1",
+  "verdict": "CANDIDATES",
+  "total_seconds": 581.5094863465056,
+  "max_rss_kib": 924532
+}
