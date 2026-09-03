@@ -52,8 +52,9 @@ def prepare(
             begin, end = int(start[position]), int(start[position + 1])
             dense[index[begin:end], local_column] = value[begin:end]
         row_scale = np.max(np.abs(dense), axis=1)
-        if np.any(row_scale == 0):
-            raise RuntimeError("candidate matrix has an all-zero row")
+        active_rows = np.flatnonzero(row_scale != 0)
+        dense = dense[active_rows, :]
+        row_scale = row_scale[active_rows]
         dense /= row_scale[:, None]
         _q, triangular, pivots = scipy.linalg.qr(
             dense,
@@ -63,15 +64,19 @@ def prepare(
             check_finite=False,
         )
         diagonal = np.abs(np.diag(triangular))
-        exact_candidates = [candidate_positions[int(local)] for local in pivots[:rows]]
+        numerical_rank_bound = len(active_rows)
+        exact_candidates = [candidate_positions[int(local)] for local in pivots[:numerical_rank_bound]]
         basic_solution = scipy.linalg.solve(
-            dense[:, pivots[:rows]],
-            np.asarray(target, dtype=np.float64) / row_scale,
+            dense[:, pivots[:numerical_rank_bound]],
+            np.asarray(target, dtype=np.float64)[active_rows] / row_scale,
             assume_a="gen",
             check_finite=False,
         )
         basis_signs = [1 if coefficient >= 0 else -1 for coefficient in basic_solution]
-        residual = dense[:, pivots[:rows]] @ basic_solution - np.asarray(target, dtype=np.float64) / row_scale
+        residual = (
+            dense[:, pivots[:numerical_rank_bound]] @ basic_solution
+            - np.asarray(target, dtype=np.float64)[active_rows] / row_scale
+        )
         numerical_record = {
             "selector": "scipy.linalg.qr with column pivoting on row-scaled float64 matrix",
             "scipy_version": scipy.__version__,
@@ -81,6 +86,8 @@ def prepare(
             "basic_solution_min_abs_coefficient": float(np.min(np.abs(basic_solution))),
             "basic_solution_max_abs_coefficient": float(np.max(np.abs(basic_solution))),
             "basic_solution_scaled_residual_infinity_norm": float(np.max(np.abs(residual))),
+            "nonzero_rows_numerator": len(active_rows),
+            "rows_denominator": rows,
         }
         del dense, _q, triangular
     else:
@@ -88,12 +95,27 @@ def prepare(
     rank_a, rank_augmented, selected_local = select_exact_support.analyze_candidate(
         rows, exact_candidates, start, index, value, target, prime
     )
-    if rank_a != rows or rank_augmented != rows:
-        raise RuntimeError(f"candidate basis rank is {rank_a}/{rank_augmented}, expected {rows}/{rows}")
+    if rank_a != rank_augmented:
+        raise RuntimeError(f"candidate columns omit the target: rank {rank_a}/{rank_augmented}")
     selected_positions = [exact_candidates[local] for local in selected_local]
     selected_sources = [int(source[position]) for position in selected_positions]
-    if len(selected_positions) != rows:
-        raise RuntimeError(f"selected {len(selected_positions)}/{rows} basis columns")
+    if len(selected_positions) != rank_a:
+        raise RuntimeError(f"selected {len(selected_positions)}/{rank_a} independent columns")
+    if basis_signs is not None:
+        basis_signs = [basis_signs[local] for local in selected_local]
+
+    transposed = select_exact_support.flint.nmod_mat(rank_a, rows, prime)
+    for local_column, position in enumerate(selected_positions):
+        begin, end = int(start[position]), int(start[position + 1])
+        for cursor in range(begin, end):
+            transposed[local_column, int(index[cursor])] = int(value[cursor]) % prime
+    reduced, row_rank = transposed.rref(inplace=True)
+    if row_rank != rank_a:
+        raise RuntimeError(f"selected-column row rank is {row_rank}/{rank_a}")
+    independent_rows = set(select_exact_support.pivot_columns(reduced, row_rank))
+    basic_row_positions = [row for row in range(rows) if row not in independent_rows]
+    if len(selected_positions) + len(basic_row_positions) != rows:
+        raise RuntimeError("column/row-slack basis does not have exactly one entry per row")
     report = {
         "schema": "max11-highs-initial-basis-v1",
         "verdict": "PASS",
@@ -111,9 +133,12 @@ def prepare(
         "rank_augmented_mod_prime": rank_augmented,
         "basis_columns_numerator": len(selected_positions),
         "basis_columns_denominator": rows,
+        "basic_row_slacks_numerator": len(basic_row_positions),
+        "basic_row_slacks_denominator": rows,
         "column_positions": selected_positions,
         "source_indices": selected_sources,
         "basis_signs": basis_signs,
+        "basic_row_positions": basic_row_positions,
         "seconds": time.monotonic() - started,
         "no_claim": "This is an exact modular LP starting basis, not a rational identity or sparse certificate.",
     }
