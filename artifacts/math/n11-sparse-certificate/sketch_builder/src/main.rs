@@ -14,8 +14,13 @@ use std::time::Instant;
 const ALGORITHM: &str = "splitmix64-chain-v1-one-bucket-random-sign";
 
 fn arg(args: &[String], name: &str) -> Result<String> {
-    let position = args.iter().position(|item| item == name).with_context(|| format!("missing {name}"))?;
-    args.get(position + 1).cloned().with_context(|| format!("missing value for {name}"))
+    let position = args
+        .iter()
+        .position(|item| item == name)
+        .with_context(|| format!("missing {name}"))?;
+    args.get(position + 1)
+        .cloned()
+        .with_context(|| format!("missing value for {name}"))
 }
 
 fn splitmix64(mut value: u64) -> u64 {
@@ -28,18 +33,27 @@ fn splitmix64(mut value: u64) -> u64 {
 fn finish(state: u64, buckets: usize) -> (usize, i64) {
     let bucket_hash = splitmix64(state ^ 0xa076_1d64_78bd_642f);
     let sign_hash = splitmix64(state ^ 0xe703_7ed1_a0b4_28db);
-    ((bucket_hash % buckets as u64) as usize, if sign_hash & 1 == 0 { 1 } else { -1 })
+    (
+        (bucket_hash % buckets as u64) as usize,
+        if sign_hash & 1 == 0 { 1 } else { -1 },
+    )
 }
 
 fn linear_bucket(seed: u64, buckets: usize, n: usize, rank: usize) -> (usize, i64) {
-    let state = splitmix64(seed ^ 0x6c69_6e65_6172_0001 ^ (n as u64).wrapping_mul(0x9e37_79b9) ^ rank as u64);
+    let state = splitmix64(
+        seed ^ 0x6c69_6e65_6172_0001 ^ (n as u64).wrapping_mul(0x9e37_79b9) ^ rank as u64,
+    );
     finish(state, buckets)
 }
 
 fn hinge_bucket(seed: u64, buckets: usize, direction: &[i16]) -> (usize, i64) {
-    let mut state = splitmix64(seed ^ 0x6869_6e67_6500_0001 ^ (direction.len() as u64).wrapping_mul(0x9e37_79b9));
+    let mut state = splitmix64(
+        seed ^ 0x6869_6e67_6500_0001 ^ (direction.len() as u64).wrapping_mul(0x9e37_79b9),
+    );
     for (index, &coordinate) in direction.iter().enumerate() {
-        state = splitmix64(state ^ coordinate as u16 as u64 ^ (index as u64).wrapping_mul(0xd6e8_feb8_6659_fd93));
+        state = splitmix64(
+            state ^ coordinate as u16 as u64 ^ (index as u64).wrapping_mul(0xd6e8_feb8_6659_fd93),
+        );
     }
     finish(state, buckets)
 }
@@ -50,7 +64,9 @@ fn sha256_path(path: &Path) -> Result<String> {
     let mut buffer = vec![0u8; 8 << 20];
     loop {
         let count = reader.read(&mut buffer)?;
-        if count == 0 { break; }
+        if count == 0 {
+            break;
+        }
         digest.update(&buffer[..count]);
     }
     Ok(format!("{:x}", digest.finalize()))
@@ -90,9 +106,16 @@ fn write_i64(writer: &mut impl Write, value: i64) -> Result<()> {
 }
 
 fn max_rss_kib() -> Option<u64> {
-    fs::read_to_string("/proc/self/status").ok()?.lines().find_map(|line| {
-        line.strip_prefix("VmHWM:")?.split_whitespace().next()?.parse().ok()
-    })
+    fs::read_to_string("/proc/self/status")
+        .ok()?
+        .lines()
+        .find_map(|line| {
+            line.strip_prefix("VmHWM:")?
+                .split_whitespace()
+                .next()?
+                .parse()
+                .ok()
+        })
 }
 
 struct Sketched {
@@ -114,17 +137,25 @@ fn sketch_column(
     let mut touched = Vec::new();
     let mut real_nnz = 0u64;
     let mut add = |bucket: usize, sign: i64, coefficient: i64| -> Result<()> {
-        if coefficient == 0 { return Ok(()); }
+        if coefficient == 0 {
+            return Ok(());
+        }
         real_nnz += 1;
         let position = positions[bucket];
-        if position < 0 { return Ok(()); }
+        if position < 0 {
+            return Ok(());
+        }
         let position = position as usize;
         if !seen[position] {
             seen[position] = true;
             touched.push(position);
         }
         values[position] = values[position]
-            .checked_add(coefficient.checked_mul(sign).context("sketch product overflow")?)
+            .checked_add(
+                coefficient
+                    .checked_mul(sign)
+                    .context("sketch product overflow")?,
+            )
             .context("sketch sum overflow")?;
         Ok(())
     };
@@ -137,11 +168,18 @@ fn sketch_column(
         add(bucket, sign, coefficient)?;
     }
     touched.sort_unstable();
-    let entries = touched.into_iter().filter_map(|position| {
-        let value = values[position];
-        (value != 0).then_some((position as u32, value))
-    }).collect();
-    Ok(Sketched { source: source as u64, entries, real_nnz })
+    let entries = touched
+        .into_iter()
+        .filter_map(|position| {
+            let value = values[position];
+            (value != 0).then_some((position as u32, value))
+        })
+        .collect();
+    Ok(Sketched {
+        source: source as u64,
+        entries,
+        real_nnz,
+    })
 }
 
 fn main() -> Result<()> {
@@ -153,32 +191,66 @@ fn main() -> Result<()> {
     let threads: usize = arg(&args, "--threads")?.parse()?;
     let include_five_l = arg(&args, "--include-five-l")?.parse::<bool>()?;
     ensure!(threads > 0 && threads <= 16, "threads must be 1..=16");
-    ensure!(!output.exists(), "refusing to overwrite {}", output.display());
+    ensure!(
+        !output.exists(),
+        "refusing to overwrite {}",
+        output.display()
+    );
     fs::create_dir_all(&output)?;
     let started = Instant::now();
 
     let universe = load_universe(&universe_path)?;
     let order: Vec<usize> = serde_json::from_value(load_json(&order_path)?)?;
     ensure!(!order.is_empty(), "empty order");
-    ensure!(order.iter().all(|&i| i < universe.records.len()), "order index out of range");
-    ensure!(order.iter().copied().collect::<HashSet<_>>().len() == order.len(), "duplicate order index");
+    ensure!(
+        order.iter().all(|&i| i < universe.records.len()),
+        "order index out of range"
+    );
+    ensure!(
+        order.iter().copied().collect::<HashSet<_>>().len() == order.len(),
+        "duplicate order index"
+    );
     let pivot = load_json(&pivot_path)?;
-    ensure!(pivot["schema"] == "max11-streamrank-pivots-v1", "bad pivot schema");
-    ensure!(pivot["input_sha256"].as_str() == Some(&sha256_path(&universe_path)?), "universe SHA mismatch");
-    ensure!(pivot["order_file_sha256"].as_str() == Some(&sha256_path(&order_path)?), "order SHA mismatch");
+    ensure!(
+        pivot["schema"] == "max11-streamrank-pivots-v1",
+        "bad pivot schema"
+    );
+    ensure!(
+        pivot["input_sha256"].as_str() == Some(&sha256_path(&universe_path)?),
+        "universe SHA mismatch"
+    );
+    ensure!(
+        pivot["order_file_sha256"].as_str() == Some(&sha256_path(&order_path)?),
+        "order SHA mismatch"
+    );
     ensure!(pivot["n"].as_u64() == Some(universe.n as u64), "n mismatch");
-    ensure!(pivot["branch_edge_occurrences"].as_u64() == Some(universe.branch_edge_occurrences as u64), "branch size mismatch");
+    ensure!(
+        pivot["branch_edge_occurrences"].as_u64() == Some(universe.branch_edge_occurrences as u64),
+        "branch size mismatch"
+    );
     let sketch = &pivot["sketches"][0];
     ensure!(sketch["verdict"] == "MEMBER", "pivot sketch is not MEMBER");
-    ensure!(sketch["rank_a"] == sketch["rank_augmented"], "pivot ranks differ");
+    ensure!(
+        sketch["rank_a"] == sketch["rank_augmented"],
+        "pivot ranks differ"
+    );
     let spec = &sketch["sketch"];
-    ensure!(spec["algorithm"] == ALGORITHM, "unsupported sketch algorithm");
+    ensure!(
+        spec["algorithm"] == ALGORITHM,
+        "unsupported sketch algorithm"
+    );
     let seed = spec["seed"].as_u64().context("missing seed")?;
     let buckets = spec["buckets"].as_u64().context("missing buckets")? as usize;
     let pivot_buckets: Vec<u32> = serde_json::from_value(sketch["pivot_buckets"].clone())?;
     let rows = pivot_buckets.len();
-    ensure!(rows == sketch["rank_a"].as_u64().context("missing rank")? as usize, "pivot bucket/rank mismatch");
-    ensure!(pivot_buckets.iter().copied().collect::<HashSet<_>>().len() == rows, "duplicate pivot buckets");
+    ensure!(
+        rows == sketch["rank_a"].as_u64().context("missing rank")? as usize,
+        "pivot bucket/rank mismatch"
+    );
+    ensure!(
+        pivot_buckets.iter().copied().collect::<HashSet<_>>().len() == rows,
+        "duplicate pivot buckets"
+    );
     let mut positions = vec![-1i32; buckets];
     for (position, &bucket) in pivot_buckets.iter().enumerate() {
         ensure!((bucket as usize) < buckets, "pivot bucket out of range");
@@ -187,11 +259,23 @@ fn main() -> Result<()> {
     let (target_bucket, target_sign) = linear_bucket(seed, buckets, universe.n, universe.n - 1);
     let target_position = positions[target_bucket];
     ensure!(target_position >= 0, "pivot buckets omit target bucket");
-    let expected_target = sketch["target_sketch_nonzero"].as_array().context("missing target")?;
+    let expected_target = sketch["target_sketch_nonzero"]
+        .as_array()
+        .context("missing target")?;
     let report_prime = pivot["modulus"].as_u64().context("missing modulus")?;
-    ensure!(expected_target.len() == 1, "target sketch is not one-sparse");
-    ensure!(expected_target[0]["bucket"].as_u64() == Some(target_bucket as u64), "target bucket mismatch");
-    ensure!(expected_target[0]["residue"].as_u64() == Some(target_sign.rem_euclid(report_prime as i64) as u64), "target residue mismatch");
+    ensure!(
+        expected_target.len() == 1,
+        "target sketch is not one-sparse"
+    );
+    ensure!(
+        expected_target[0]["bucket"].as_u64() == Some(target_bucket as u64),
+        "target bucket mismatch"
+    );
+    ensure!(
+        expected_target[0]["residue"].as_u64()
+            == Some(target_sign.rem_euclid(report_prime as i64) as u64),
+        "target residue mismatch"
+    );
 
     let index_path = output.join("index.u32le");
     let value_path = output.join("value.i64le");
@@ -200,17 +284,28 @@ fn main() -> Result<()> {
     let mut starts = Vec::with_capacity(order.len() + usize::from(include_five_l) + 1);
     let mut sources = Vec::with_capacity(order.len() + usize::from(include_five_l));
     starts.push(0u64);
-    let pool = rayon::ThreadPoolBuilder::new().num_threads(threads).build()?;
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(threads)
+        .build()?;
     let batch_size = threads * 2;
     let mut real_nnz = 0u64;
     let mut sketch_abs_max = 0u64;
     for begin in (0..order.len()).step_by(batch_size) {
         let end = (begin + batch_size).min(order.len());
-        let batch: Vec<Result<Sketched>> = pool.install(|| order[begin..end].par_iter().map(|&source| {
-            let column = generate_column(&universe.records[source], universe.n, universe.branch_edge_occurrences)
-                .with_context(|| format!("generate source {source}"))?;
-            sketch_column(source, column, seed, buckets, &positions)
-        }).collect());
+        let batch: Vec<Result<Sketched>> = pool.install(|| {
+            order[begin..end]
+                .par_iter()
+                .map(|&source| {
+                    let column = generate_column(
+                        &universe.records[source],
+                        universe.n,
+                        universe.branch_edge_occurrences,
+                    )
+                    .with_context(|| format!("generate source {source}"))?;
+                    sketch_column(source, column, seed, buckets, &positions)
+                })
+                .collect()
+        });
         for result in batch {
             let column = result?;
             for (row, value) in &column.entries {
@@ -223,13 +318,26 @@ fn main() -> Result<()> {
             starts.push(starts.last().copied().unwrap() + column.entries.len() as u64);
         }
         if end % 1024 < batch_size || end == order.len() {
-            eprintln!("SPARSE_SKETCH columns={}/{} nnz={} real_nnz={} seconds={:.3}", end, order.len() + usize::from(include_five_l), starts.last().unwrap(), real_nnz, started.elapsed().as_secs_f64());
+            eprintln!(
+                "SPARSE_SKETCH columns={}/{} nnz={} real_nnz={} seconds={:.3}",
+                end,
+                order.len() + usize::from(include_five_l),
+                starts.last().unwrap(),
+                real_nnz,
+                started.elapsed().as_secs_f64()
+            );
         }
     }
     if include_five_l {
-        ensure!(universe.branch_edge_occurrences == 5, "5L requires branch size five");
+        ensure!(
+            universe.branch_edge_occurrences == 5,
+            "5L requires branch size five"
+        );
         let coefficient = 5i64 * (1..universe.n as i64).product::<i64>();
-        let column = SparseColumn { linear: vec![coefficient; universe.n], hinges: Default::default() };
+        let column = SparseColumn {
+            linear: vec![coefficient; universe.n],
+            hinges: Default::default(),
+        };
         let sketched = sketch_column(universe.records.len(), column, seed, buckets, &positions)?;
         for (row, value) in &sketched.entries {
             write_u32(&mut index_writer, *row)?;
@@ -245,31 +353,63 @@ fn main() -> Result<()> {
     drop(index_writer);
     drop(value_writer);
     let columns = sources.len();
-    let expected_columns = pivot["source_columns_denominator"].as_u64().context("missing source denominator")? as usize;
-    ensure!(columns == expected_columns, "built {columns}/{expected_columns} columns");
-    let expected_real_nnz = pivot["exact_real_nnz_numerator"].as_u64().context("missing exact nnz")?;
-    ensure!(real_nnz == expected_real_nnz, "real nnz {real_nnz}/{expected_real_nnz}");
+    let expected_columns = pivot["source_columns_denominator"]
+        .as_u64()
+        .context("missing source denominator")? as usize;
+    ensure!(
+        columns == expected_columns,
+        "built {columns}/{expected_columns} columns"
+    );
+    let expected_real_nnz = pivot["exact_real_nnz_numerator"]
+        .as_u64()
+        .context("missing exact nnz")?;
+    ensure!(
+        real_nnz == expected_real_nnz,
+        "real nnz {real_nnz}/{expected_real_nnz}"
+    );
 
     let start_path = output.join("start.u64le");
     let source_path = output.join("source.u64le");
     let target_path = output.join("target.i64le");
     let mut writer = BufWriter::new(create_new(&start_path)?);
-    for value in &starts { write_u64(&mut writer, *value)?; }
+    for value in &starts {
+        write_u64(&mut writer, *value)?;
+    }
     writer.flush()?;
     let mut writer = BufWriter::new(create_new(&source_path)?);
-    for value in &sources { write_u64(&mut writer, *value)?; }
+    for value in &sources {
+        write_u64(&mut writer, *value)?;
+    }
     writer.flush()?;
     let mut writer = BufWriter::new(create_new(&target_path)?);
-    for row in 0..rows { write_i64(&mut writer, if row == target_position as usize { target_sign } else { 0 })?; }
+    for row in 0..rows {
+        write_i64(
+            &mut writer,
+            if row == target_position as usize {
+                target_sign
+            } else {
+                0
+            },
+        )?;
+    }
     writer.flush()?;
 
     let mut files = serde_json::Map::new();
-    for (name, path) in [("start", &start_path), ("index", &index_path), ("value", &value_path), ("source", &source_path), ("target", &target_path)] {
-        files.insert(name.to_string(), json!({
-            "path": path.file_name().unwrap().to_string_lossy().to_string(),
-            "bytes": path.metadata()?.len(),
-            "sha256": sha256_path(path)?,
-        }));
+    for (name, path) in [
+        ("start", &start_path),
+        ("index", &index_path),
+        ("value", &value_path),
+        ("source", &source_path),
+        ("target", &target_path),
+    ] {
+        files.insert(
+            name.to_string(),
+            json!({
+                "path": path.file_name().unwrap().to_string_lossy().to_string(),
+                "bytes": path.metadata()?.len(),
+                "sha256": sha256_path(path)?,
+            }),
+        );
     }
     let report = json!({
         "schema": "max11-sparse-lp-csc-v1",
@@ -304,7 +444,10 @@ fn main() -> Result<()> {
         "max_rss_kib": max_rss_kib(),
         "no_claim": "This exact row sketch is an LP search system. It is not an identity until a rational candidate is verified on every real support-union row."
     });
-    fs::write(output.join("matrix.json"), serde_json::to_string_pretty(&report)? + "\n")?;
+    fs::write(
+        output.join("matrix.json"),
+        serde_json::to_string_pretty(&report)? + "\n",
+    )?;
     println!("{}", serde_json::to_string_pretty(&report)?);
     Ok(())
 }
