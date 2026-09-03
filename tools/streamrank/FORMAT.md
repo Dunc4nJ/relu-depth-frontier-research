@@ -5,6 +5,10 @@ It names the source path and SHA-256, `n`, branch size, subject/filter, prime,
 bucket count, batch size, GEMM block, rank-panel width, source-column
 denominator, reducer `backend` (`cpu` or `cuda`),
 generation/allocation/sketch/reducer timings, and target.
+`loop_inclusive_generation` records which exact column generator handled the
+universe: false is `tools/colgen`; true is `tools/colgen-loops` with zero
+common-loop padding. `run-universe` rejects disagreement between this explicit
+mode and the input universe's `loopless` metadata.
 Each progress entry also carries per-batch active durations `generate_s`,
 `sketch_s`, `gemm_s`, `host_reduce_s`, `basis_update_s`, and `io_s`.
 `sketch_s` includes dense-matrix allocation. `host_reduce_s` is reducer wall

@@ -287,6 +287,7 @@ struct Config {
     seeds: Vec<u64>,
     include_five_l: bool,
     include_linear_carrier: bool,
+    loop_inclusive: bool,
     abort_rank_above: Option<usize>,
     abort_rss_kib_above: Option<usize>,
     expected_columns: Option<usize>,
@@ -332,6 +333,7 @@ impl Config {
             seeds: args.seeds()?,
             include_five_l: args.bool_or("--include-five-l", false)?,
             include_linear_carrier: args.bool_or("--include-linear-carrier", false)?,
+            loop_inclusive: args.bool_or("--loop-inclusive", false)?,
             abort_rank_above: args.optional_usize("--abort-rank-above")?,
             abort_rss_kib_above: args.optional_usize("--abort-rss-kib-above")?,
             expected_columns: args.optional_usize("--expected-columns")?,
@@ -434,6 +436,7 @@ struct Report {
     subject: String,
     n: usize,
     branch_edge_occurrences: usize,
+    loop_inclusive_generation: bool,
     modulus: u32,
     buckets: usize,
     batch_size: usize,
@@ -505,6 +508,7 @@ struct AbortReport {
     subject: String,
     n: usize,
     branch_edge_occurrences: usize,
+    loop_inclusive_generation: bool,
     modulus: u32,
     buckets: usize,
     batch_size: usize,
@@ -623,6 +627,7 @@ fn finish_abort(
         subject: subject.to_owned(),
         n: config.n,
         branch_edge_occurrences: config.branch_edges,
+        loop_inclusive_generation: config.loop_inclusive,
         modulus: config.prime,
         buckets: config.buckets,
         batch_size: config.batch_size,
@@ -814,6 +819,7 @@ fn finish_run(
         subject,
         n: config.n,
         branch_edge_occurrences: config.branch_edges,
+        loop_inclusive_generation: config.loop_inclusive,
         modulus: config.prime,
         buckets: config.buckets,
         batch_size: config.batch_size,
@@ -936,9 +942,10 @@ fn command_saved(args: &Args) -> Result<()> {
     ensure!(
         !config.include_five_l
             && !config.include_linear_carrier
+            && !config.loop_inclusive
             && config.abort_rank_above.is_none()
             && config.abort_rss_kib_above.is_none(),
-        "carrier and resource-abort options are supported only by run-universe"
+        "carrier, loop-inclusive, and resource-abort options are supported only by run-universe"
     );
     let filter = args.required("--filter")?;
     ensure!(
@@ -1109,6 +1116,19 @@ fn sketch_columns_parallel(
         .for_each(|(output, column)| spec.sketch_column(column, prime, output));
 }
 
+fn generate_universe_column(
+    record: &max11_colgen::SignedRecord,
+    n: usize,
+    branch_edges: usize,
+    loop_inclusive: bool,
+) -> Result<SparseColumn> {
+    if loop_inclusive {
+        max11_colgen_loops::generate_column(record, n, branch_edges, 0)
+    } else {
+        generate_column(record, n, branch_edges)
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
 fn prepare_universe_batch(
     universe: &Universe,
@@ -1117,6 +1137,7 @@ fn prepare_universe_batch(
     prime: u32,
     n: usize,
     branch_edges: usize,
+    loop_inclusive: bool,
     generation_chunk: usize,
     batch_start: usize,
     batch_stop: usize,
@@ -1143,7 +1164,14 @@ fn prepare_universe_batch(
         let generated: Vec<Result<SparseColumn>> = order
             [batch_start + chunk_start..batch_start + chunk_stop]
             .par_iter()
-            .map(|&record_index| generate_column(&universe.records[record_index], n, branch_edges))
+            .map(|&record_index| {
+                generate_universe_column(
+                    &universe.records[record_index],
+                    n,
+                    branch_edges,
+                    loop_inclusive,
+                )
+            })
             .collect();
         let generated: Vec<SparseColumn> = generated.into_iter().collect::<Result<_>>()?;
         generate_s += generated_at.elapsed().as_secs_f64();
@@ -1199,7 +1227,10 @@ fn command_universe(args: &Args) -> Result<()> {
         universe.n == config.n && universe.branch_edge_occurrences == config.branch_edges,
         "universe/config dimensions differ"
     );
-    ensure!(universe.loopless, "only loopless universes are supported");
+    ensure!(
+        universe.loopless != config.loop_inclusive,
+        "universe loop metadata does not match --loop-inclusive"
+    );
     let (order, mut subject, order_file, order_file_sha256) =
         if let Some(path) = args.values.get("--order-file").map(PathBuf::from) {
             ensure!(
@@ -1220,7 +1251,15 @@ fn command_universe(args: &Args) -> Result<()> {
             );
             (
                 order,
-                format!("colgen-universe-order:{}", path.display()),
+                format!(
+                    "{}-universe-order:{}",
+                    if config.loop_inclusive {
+                        "colgen-loops"
+                    } else {
+                        "colgen"
+                    },
+                    path.display()
+                ),
                 Some(path.display().to_string()),
                 Some(hash),
             )
@@ -1234,7 +1273,14 @@ fn command_universe(args: &Args) -> Result<()> {
             );
             (
                 (start..stop).collect(),
-                format!("colgen-universe-range:[{start},{stop})"),
+                format!(
+                    "{}-universe-range:[{start},{stop})",
+                    if config.loop_inclusive {
+                        "colgen-loops"
+                    } else {
+                        "colgen"
+                    }
+                ),
                 None,
                 None,
             )
@@ -1275,6 +1321,7 @@ fn command_universe(args: &Args) -> Result<()> {
         let prime = config.prime;
         let n = config.n;
         let branch_edges = config.branch_edges;
+        let loop_inclusive = config.loop_inclusive;
         scope.spawn(move || {
             for batch_start in (0..limit).step_by(batch_size) {
                 let batch_stop = (batch_start + batch_size).min(limit);
@@ -1285,6 +1332,7 @@ fn command_universe(args: &Args) -> Result<()> {
                     prime,
                     n,
                     branch_edges,
+                    loop_inclusive,
                     generation_chunk,
                     batch_start,
                     batch_stop,
@@ -1526,7 +1574,7 @@ fn command_universe(args: &Args) -> Result<()> {
 }
 
 fn usage() -> &'static str {
-    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--order-file INDICES.json | --start I --limit L] [--include-five-l true | --include-linear-carrier true] [--abort-rank-above R] [--abort-rss-kib-above KIB] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
+    "usage:\n  max11-streamrank run-saved --input FILE.jsonl[.gz] --n N --branch-edges K --filter all|union-trees --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--expected-columns C --expected-rank R --expected-aug-rank R2 --expected-verdict MEMBER|NON_MEMBER|SATURATED]\n  max11-streamrank run-universe --input UNIVERSE.json[.gz] --n N --branch-edges K --modulus P --buckets M --seeds U64[,U64] --batch-size B --gemm-block Q [--rank-panel W] [--backend cpu|cuda] --threads T --output REPORT.json [--loop-inclusive true] [--order-file INDICES.json | --start I --limit L] [--include-five-l true | --include-linear-carrier true] [--abort-rank-above R] [--abort-rss-kib-above KIB] [expected arguments]\n  max11-streamrank sample-order --population N --sample-size S --seed U64 --threads 1 --output INDICES.json"
 }
 
 fn main() -> Result<()> {
@@ -1616,5 +1664,36 @@ mod tests {
         );
         assert_eq!(column.linear, vec![14_515_200; 11]);
         assert!(column.hinges.is_empty());
+    }
+
+    #[test]
+    fn loop_inclusive_dispatch_is_explicit_and_preserves_loopless_parity() {
+        let loop_record = max11_colgen::SignedRecord {
+            sequence: Some(0),
+            active_vertices: 2,
+            signed_mass: 1,
+            negative_edges: vec![[0, 0]],
+            positive_edges: vec![[1, 1]],
+            abs_components: Some(2),
+            abs_beta: Some(2),
+        };
+        let dispatched = generate_universe_column(&loop_record, 2, 1, true).unwrap();
+        let direct = max11_colgen_loops::generate_column(&loop_record, 2, 1, 0).unwrap();
+        assert_eq!(dispatched, direct);
+        assert!(generate_universe_column(&loop_record, 2, 1, false).is_err());
+
+        let loopless_record = max11_colgen::SignedRecord {
+            sequence: Some(1),
+            active_vertices: 3,
+            signed_mass: 1,
+            negative_edges: vec![[0, 1]],
+            positive_edges: vec![[0, 2]],
+            abs_components: Some(1),
+            abs_beta: Some(0),
+        };
+        assert_eq!(
+            generate_universe_column(&loopless_record, 3, 1, false).unwrap(),
+            generate_universe_column(&loopless_record, 3, 1, true).unwrap()
+        );
     }
 }

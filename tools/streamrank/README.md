@@ -56,6 +56,12 @@ arguments. Outputs are create-new JSON artifacts and include pivot source
 indices, ordered-pivot hashes, target sketches, and modular bucket separators
 for NON_MEMBER outcomes.
 
+For a universe whose `loopless` field is false, pass `--loop-inclusive true`.
+That explicit mode dispatches generation to `tools/colgen-loops` with zero
+common-loop padding. A mismatch between the flag and universe metadata is
+rejected. The report records `loop_inclusive_generation`; the default remains
+the loopless `tools/colgen` path.
+
 One or two distinct values are accepted by `--seeds`. Stage runs may append
 the exact `5L` carrier with `--include-five-l true`; for `n=11` it has eleven
 linear coefficients equal to `5*10! = 18,144,000`, no hinges, and source index

@@ -161,6 +161,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "max11-colgen-loops"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "flate2",
+ "max11-colgen",
+ "rayon",
+ "rustc-hash",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "max11-streamrank"
 version = "0.1.0"
 dependencies = [
@@ -168,6 +182,7 @@ dependencies = [
  "cc",
  "flate2",
  "max11-colgen",
+ "max11-colgen-loops",
  "rayon",
  "serde",
  "serde_json",
